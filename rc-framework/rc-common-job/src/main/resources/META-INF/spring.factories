@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.rc.cloud.common.job.config.YudaoQuartzAutoConfiguration, \
+  com.rc.cloud.common.job.config.YudaoAsyncAutoConfiguration

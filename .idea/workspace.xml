@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Tag Library Descriptor" />
+        <option value="spring-beans.schema" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\maven_repository" />
+        <option name="mavenHome" value="D:/soft/maven/apache-maven-3.3.9" />
+        <option name="useMavenConfig" value="true" />
+        <option name="userSettingsFile" value="D:\soft\maven\apache-maven-3.3.9\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="delegateBuildToMaven" value="true" />
+    <option name="skipTests" value="true" />
+  </component>
+  <component name="ProjectId" id="2Qa2JD06uk8yLEm8jvbcV96NdmJ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "1.8 (3)",
+    "last_opened_file_path": "E:/project_code/rouchuan/projects/rc-cloud/rc-framework/rc-common-mybatis/src/main/java/com/rc/cloud/common/mybatis/datasource/core",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing",
+    "spring.configuration.checksum": "5ee1c07b63e3639e9310f1ae8ba4e3e4",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-framework\rc-common-mybatis\src\main\java\com\rc\cloud\common\mybatis\datasource\core" />
+      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-framework\rc-common-mybatis\src\main\java\com\rc\cloud\common\mybatis\core" />
+      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-framework\rc-common-test\src\main\java\com\rc\cloud\common\test" />
+      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-application\rc-app-system-biz\src\test\java\com\rc\cloud\app\system\biz" />
+      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-application\rc-app-system-biz\src\test\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-framework\rc-common-security\src\main\resources\META-INF" />
+      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-framework\rc-common-core\src\main\resources" />
+      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-application\rc-app-system\src\main\resources\db" />
+      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-application\rc-app-system\src\main\java" />
+      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-application\rc-system" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.rc.clould.app.system.controller" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.rc.cloud.app.system.biz.service.dept" />
+      <recent name="com.rc.cloud.common.mybatis.datasource.config" />
+      <recent name="com.rc.cloud.common.mybatis.core.util" />
+      <recent name="com.rc.cloud.common.mybatis.config" />
+      <recent name="com.rc.cloud.app.system.biz.api.tenant" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.DeptServiceImplTest">
+    <configuration name="SystemApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.rc.clould.app.system.SystemApplication" />
+      <module name="rc-app-system-biz" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.clould.app.system.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DeptServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rc-app-system-biz" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.app.system.biz.service.dept.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.service.dept" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.biz.service.dept.DeptServiceImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PostServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rc-app-system-biz" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.app.system.biz.service.dept.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.service.dept" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.biz.service.dept.PostServiceImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="rc-auth-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.ops.auth.AuthServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="rc-gateway-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.ops.gateway.GatewayServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MonitorServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="rc-monitor-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.ops.monitor.MonitorServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ResourceServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="rc-resource-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.resource.ResourceServerApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SystemApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="rc-app-system-biz" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.app.system.biz.SystemApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.app.system.biz.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.SystemApplication" />
+      <item itemvalue="JUnit.DeptServiceImplTest" />
+      <item itemvalue="JUnit.PostServiceImplTest" />
+      <item itemvalue="Spring Boot.AuthServerApplication" />
+      <item itemvalue="Spring Boot.GatewayServerApplication" />
+      <item itemvalue="Spring Boot.MonitorServerApplication" />
+      <item itemvalue="Spring Boot.ResourceServerApplication" />
+      <item itemvalue="Spring Boot.SystemApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.DeptServiceImplTest" />
+        <item itemvalue="Spring Boot.SystemApplication" />
+        <item itemvalue="JUnit.PostServiceImplTest" />
+        <item itemvalue="Application.SystemApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="" />
+      <created>1685577298707</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1685577298707</updated>
+      <workItem from="1685577299802" duration="15707000" />
+      <workItem from="1685601652552" duration="1949000" />
+      <workItem from="1685604992266" duration="280000" />
+      <workItem from="1685606035306" duration="2767000" />
+      <workItem from="1685608945303" duration="130000" />
+      <workItem from="1685609338489" duration="2455000" />
+      <workItem from="1685663827195" duration="1172000" />
+      <workItem from="1685666470293" duration="11000" />
+      <workItem from="1685667580154" duration="68000" />
+      <workItem from="1685667980277" duration="114000" />
+      <workItem from="1685668104729" duration="2590000" />
+      <workItem from="1685670990079" duration="2017000" />
+      <workItem from="1685673194195" duration="18361000" />
+      <workItem from="1685698108838" duration="101000" />
+      <workItem from="1685749463398" duration="11782000" />
+      <workItem from="1685923539261" duration="28594000" />
+      <workItem from="1686010046505" duration="9527000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="java:org.springframework.security:spring-security-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-core" />
+    <option featureType="dependencySupport" implementationName="java:com.google.protobuf:protobuf-java" />
+    <option featureType="dependencySupport" implementationName="java:io.projectreactor:reactor-core" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.data:spring-data-commons" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.cloud:spring-cloud-context" />
+    <option featureType="dependencySupport" implementationName="java:org.hibernate.validator:hibernate-validator" />
+    <option featureType="dependencySupport" implementationName="java:javax.validation:validation-api" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-webmvc" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-websocket" />
+    <option featureType="dependencySupport" implementationName="java:io.reactivex.rxjava3:rxjava" />
+    <option featureType="dependencySupport" implementationName="java:org.thymeleaf:thymeleaf" />
+    <option featureType="dependencySupport" implementationName="java:io.minio:minio" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework:spring-messaging" />
+    <option featureType="dependencySupport" implementationName="java:org.springframework.boot:spring-boot" />
+    <option featureType="com.intellij.facetType" implementationName="JRebel" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/service/dept/PostServiceImplTest.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

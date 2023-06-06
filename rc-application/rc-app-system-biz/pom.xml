@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.rc.cloud</groupId>
+        <artifactId>rc-application</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>rc-app-system-biz</artifactId>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-log</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-swagger</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-mybatis</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-excel</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-app-system-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
+        </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-tenant</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.rc.cloud</groupId>-->
+<!--            <artifactId>rc-common-security</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-captcha</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- Test 测试相关 -->
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-test</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>

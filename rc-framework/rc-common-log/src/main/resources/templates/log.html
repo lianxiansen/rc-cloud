@@ -1,0 +1,290 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="content-type" content="txt/html; charset=utf-8"/>
+
+<head>
+    <title>实时日志显示台</title>
+    <script type="text/javascript" th:inline="javascript">
+        var ws;
+        var connectFlag = true;
+        var value = 'ALL';
+        var isInit = true;
+        var host = "${window.origin.replace('http://', 'ws://').replace('https://', 'ws://')}";
+        var ws_host = [[${wsHost}]];
+        var service = [[${service}]];
+        var restart_url = window.origin+ [[${service}]] + 'actuator/restart';
+        var download_url = window.origin+ [[${service}]] + 'log/download';
+
+        function init(val) {
+            value = val;
+            ws = new WebSocket(`${window.origin.replace('http://', 'ws://').replace('https://', 'ws://')}/logWebSocket?level=${value}`);
+            //ws = new WebSocket(`${window.origin.replace('http://', 'ws://').replace('https://', 'ws://')}${service}/logWebSocket?level=${value}`);
+            ws.onopen = function () {
+                var closeBtn = document.getElementById('close_btn');
+                var openBtn = document.getElementById('open_btn');
+                openBtn.style.opacity = 0.5;
+                closeBtn.style.opacity = 1;
+                connectFlag = true;
+            };
+
+            ws.onmessage = function (e) {
+                showData(e.data);
+            };
+
+            ws.onclose = function () {
+                var closeBtn = document.getElementById('close_btn');
+                var openBtn = document.getElementById('open_btn');
+                openBtn.style.opacity = 1;
+                closeBtn.style.opacity = 0.5;
+                connectFlag = false;
+            };
+
+            ws.onerror = function (e) {
+                var closeBtn = document.getElementById('close_btn');
+                var openBtn = document.getElementById('open_btn');
+                openBtn.style.opacity = 1;
+                closeBtn.style.opacity = 0.5;
+                connectFlag = false;
+            };
+        }
+
+        function showData(data) {
+            var tbCont = document.getElementById("messageContainer");
+            const isBottom = isScrollBottom(tbCont);
+            var tb = document.getElementById("diaryList");
+            var row = tb.insertRow(tb.FetchRowCount);
+            row.insertCell(0).innerHTML = "<div style='word-break:break-all;'>" + data + "</div>";
+            if (isInit) {
+                tbCont.scrollTop = tb.scrollHeight - tbCont.clientHeight;
+                isInit = false;
+            }
+            if (isBottom) {
+                tbCont.scrollTop = tb.scrollHeight - tbCont.clientHeight;
+            }
+        }
+
+        function isScrollBottom(obj) {
+            if (obj.scrollHeight - (obj.scrollTop + obj.clientHeight) <= 10) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function chooseSelect(value) {
+            clearAll();
+            ws && ws.close();
+            isInit = true;
+            init(value);
+        }
+
+        function closeDiary() {
+            if (!connectFlag) return;
+            ws && ws.close();
+        }
+
+        function openDiary() {
+            if (connectFlag) return;
+            clearAll();
+            isInit = true;
+            init(value);
+        }
+
+        function clearAll() {
+            var tb = document.getElementById("diaryList");
+            while (tb.rows.length > 0) {
+                tb.deleteRow(tb.rows.length - 1);
+            }
+        }
+
+        /** 重启 Spring Boot 应用 */
+        function restart() {
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", `${restart_url}`);
+            xhr.onload = function () {
+                closeDiary();
+                setTimeout(openDiary, 3000);
+            };
+            xhr.send();
+        }
+
+        /** 日志下载 **/
+        function download(type) {
+            let xhr = new XMLHttpRequest();
+            if (type === "0") {
+                xhr.open("GET", `${download_url}` + "?level=" + value);
+            } else {
+                xhr.open("GET", `${download_url}`);
+            }
+            xhr.timeout = 1000 * 100;
+            xhr.responseType = "arraybuffer";
+            xhr.onload = function (e) {
+                if (this.status == 200) {
+                    let blob =[this.response];
+                    let a = document.createElement('a');
+                    let url = URL.createObjectURL(new Blob(blob, { type: "application/x-zip-compressed" }));
+                    a.href = url;
+                    //获取后端文件名称
+                    let fileName = decodeURI(xhr.getResponseHeader('content-disposition'));
+                    console.log(fileName)//attachment;filename=日志文件20201211092152.zip
+                    //截取=字符串后面的内容
+                    let str = fileName.match(/=(\S*)/)[1];
+                    console.log(str)
+
+                    a.download = str;
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                }
+            };
+            xhr.send();
+        }
+    </script>
+    <style>
+        .container {
+            padding: 10px 0;
+        }
+
+        .topContainer {
+            background-color: black;
+            height: 5%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .topWidth {
+            display: flex;
+            width: 33%;
+        }
+
+        .center {
+            justify-content: center;
+        }
+
+        .control_flex {
+            width: 150px;
+            height: 30px;
+        }
+
+        .shortselect {
+            background: #fafdfe;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+        }
+
+        .shortselect option {
+            border: 1px #000;
+            font-size: 14px;
+            padding: 5px 0;
+            background-color: #f80;
+            color: #FFF;
+        }
+
+        .ml_20 {
+            margin-left: 20px;
+        }
+
+        .mr_10 {
+            margin-right: 10px;
+        }
+
+        .br_5 {
+            border-radius: 5px;
+        }
+
+        .padding_5 {
+            margin: 5px 2px;
+        }
+
+        .color_fff {
+            color: #FFF
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .open_btn {
+            background-color: #1890ff;
+        }
+
+        .close_btn {
+            background-color: #ff4d4f;
+        }
+
+        .clear_btn {
+            background-color: #52c41a;
+        }
+
+        .restart_btn {
+            background-color: orange;
+        }
+
+        .noBorder {
+            border: 0
+        }
+
+        .noShow {
+            display: none;
+        }
+
+        .messageContainer {
+            margin-top: 10px;
+            width: 100%;
+            height: 90%;
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body onload="init('INFO')">
+<div class="container">
+    <div class="topContainer">
+        <div class="topWidth">
+            <select class="control_flex ml_20 noBorder shortselect"
+                    onchange="chooseSelect(this.options[this.options.selectedIndex].value)">
+<!--                <option value="ALL">ALL</option>-->
+<!--                <option value="DEBUG">DEBUG</option>-->
+                <option value="INFO">INFO</option>
+                <option value="WARN">WARN</option>
+                <option value="ERROR">ERROR</option>
+            </select>
+        </div>
+        <div class="topWidth center"><span class="color_fff title">实时日志显示台</span></div>
+        <div class="topWidth center">
+            <button id="open_btn" class="control_flex mr_10 br_5 color_fff open_btn noBorder"
+                    onclick="openDiary()">开启日志
+            </button>
+            <button id="close_btn" class="control_flex mr_10 br_5 color_fff close_btn noBorder"
+                    onclick="closeDiary()">关闭日志
+            </button>
+            <button class="control_flex mr_10 br_5 color_fff clear_btn noBorder"
+                    onclick="clearAll()">清屏
+            </button>
+            <button class="control_flex br_5 color_fff restart_btn noBorder"
+                    title="重启应用，通常适用于修改 NACOS 后需要重新应用的场景。"
+                    onclick="restart()">重启
+            </button>
+            <label>
+                <select class="control_flex ml_20 noBorder shortselect"
+                        onchange="download(this.options[this.options.selectedIndex].value)">
+                    <option value="none" selected disabled hidden>请选择类型下载</option>
+                    <option value="0">下载该日志文件</option>
+                    <option value="1">下载应用日志包</option>
+                </select>
+            </label>
+        </div>
+    </div>
+    <div class="messageContainer" id='messageContainer'>
+        <table id="diaryList">
+            <!-- <tr class="noShow">
+                <th>消息</th>
+            </tr> -->
+        </table>
+    </div>
+</div>
+</body>
+
+</html>

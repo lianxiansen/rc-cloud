@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.rc.cloud.common.config.SysLogAspect,\
+    com.rc.cloud.common.config.LogWebSocketConfigurer

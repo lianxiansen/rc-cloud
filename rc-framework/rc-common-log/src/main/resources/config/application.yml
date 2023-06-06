@@ -1,0 +1,11 @@
+# -----------------------全局配置-------------------
+spring:
+  profiles:
+    group:
+      "dev": base-log-dev
+      "prod": base-log-prod #只有prod环境，日志才会落盘
+#    include: swagger
+knife4j:
+  swagger:
+    title: 我的标题
+

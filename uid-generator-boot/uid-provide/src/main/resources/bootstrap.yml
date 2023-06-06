@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: rc-id-generator-server
+  cloud:
+    nacos:
+      config:
+        server-addr: 125.124.110.195:30848
+        file-extension: yaml
+        enabled: true
+  boot:
+    admin:
+      client:
+        url: http://localhost:5001
+        username: admin
+        password: admin
+        instance:
+          prefer-ip: true
+
+management:
+  health:
+    redis:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"

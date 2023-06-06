@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: rc-auth-server
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: 125.124.110.195:30848
+        username: nacos
+        password: nacos
+        file-extension: yaml
+        enabled: true
+        namespace: 1a0be13a-6c82-491a-8d73-3d55a01f7d41
+  boot:
+    admin:
+      client:
+        url: http://localhost:5001
+        username: admin
+        password: admin
+        instance:
+          prefer-ip: true
+management:
+  health:
+    redis:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+feign:
+  client:
+    httpclient:
+      # 开启 Http Client
+      enabled: true
+    config:
+      ##设置的全局超时时间，指定服务名称可以设置单个服务的超时时间
+      default:
+        #指的是建立链接后从服务器读取可用资源所用的时间
+        connectTimeout: 5000
+        #值的是建立链接所用的时间，适用于网络状况正常的情况下，两端链接所用的时间
+        readTimeout: 5000
+logging:
+  level:
+    com.rc.cloud.sys.service: debug

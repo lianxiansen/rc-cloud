@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+logging:
+  config: classpath:LOG-CONF/logback-prod.xml
+  file:
+    path: /data/cloud/logs/${spring.application.name}/
+    # 用于admin的日志监控
+    name: ${logging.file.path}log_all.log

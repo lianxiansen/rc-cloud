@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.rc.cloud</groupId>
+    <artifactId>rc-cloud</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
+    <modules>
+        <module>rc-dependencies-parent</module>
+        <module>rc-framework</module>
+        <module>rc-ops</module>
+        <module>uid-generator-boot</module>
+        <module>rc-application</module>
+    </modules>
+
+    <name>rc-cloud</name>
+    <description>rc-cloud是一款基于DDD的微服务开发框架</description>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.rc.cloud</groupId>
+                <artifactId>rc-dependencies-parent</artifactId>
+                <version>1.0.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

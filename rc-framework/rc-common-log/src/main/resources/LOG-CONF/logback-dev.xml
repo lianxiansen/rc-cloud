@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+    <!-- 属性文件:application.yml文件中找到对应的配置项   -->
+    <!-- 保存路径 -->
+    <springProperty scope="context" name="logger.path" source="logging.file.path"/>
+    <!-- 应用输出级别  -->
+    <springProperty scope="context" name="logger.level" source="logging.level.root"/>
+    <!-- 控制台输出级别  -->
+    <springProperty scope="context" name="logger.level.console" source="logging.level.console"/>
+    <!-- 应用发布版次  -->
+    <springProperty scope="context" name="app.version" source="info.version"/>
+    <!-- 应用名 -->
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="n"/>
+    <!-- 应用IP -->
+    <springProperty scope="context" name="appIp" source="spring.cloud.client.ip-address" defaultValue="i"/>
+    <!-- 应用端口 -->
+    <springProperty scope="context" name="appPort" source="server.port" defaultValue="p"/>
+    <!-- 应用日志名称  -->
+    <!--    <contextName>logback</contextName>-->
+    <!-- 彩色日志 -->
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr([${appName}@${appIp}:${appPort}] [%clr(DEV-${app.version:-v}){blue}] %d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr([${LOG_LEVEL_PATTERN:-%5p}]) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} [%-5line] [requestId-%clr(%X{requestId}){yellow}] [requestOrder-%clr(%X{requestOrder}){yellow}] [moduleName-%clr(%X{moduleName}){yellow}] %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+    <!-- 文件输出日志格式 -->
+    <property name="FILE_LOG_PATTERN"
+              value="[${appName}@${appIp}:${appPort}] [${app.version:-dev}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] ${PID:- } --- [%15.15thread]  %-40.40logger{50} [%-5line] [requestId-%X{requestId}] [requestOrder-%X{requestOrder}] [moduleName-%X{moduleName}]: %msg%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </layout>
+        <filter class="com.rc.cloud.common.log.ConsoleLogFilter">
+            <level>${logger.level.console:-info}</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!--
+        root节点是必选节点，用来指定最基础的日志输出级别，只有一个level属性
+        level:用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和 OFF，
+        不能设置为INHERITED或者同义词NULL。默认是DEBUG
+        可以包含零个或多个元素，标识这个appender将会添加到这个logger。
+    -->
+    <!-- 指定appender,否则appender将不会生效 -->
+    <root level="${logger.level:-info}">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>

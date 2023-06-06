@@ -1,0 +1,15 @@
+{
+  "properties": [
+    {
+      "name": "sup.log.web.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启前端日志推送",
+      "defaultValue": true
+    },
+    {
+      "name": "info.version",
+      "type": "java.lang.String",
+      "description": "发布版本信息"
+    }
+  ]
+}

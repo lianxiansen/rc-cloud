@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: rc-resource-server
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: 125.124.110.195:31001
+        username: nacos
+        password: nacos
+        file-extension: yaml
+        enabled: true
+        namespace: 4cca4105-2349-43bd-9690-58943921372f
+      discovery:
+        server-addr: 125.124.110.195:31001
+  boot:
+    admin:
+      client:
+        url: http://localhost:5001
+        username: admin
+        password: admin
+        instance:
+          prefer-ip: true
+
+management:
+  health:
+    redis:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"

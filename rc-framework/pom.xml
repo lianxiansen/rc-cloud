@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>rc-cloud</artifactId>
+        <groupId>com.rc.cloud</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>rc-framework</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
+    <description>通用模块</description>
+
+    <modules>
+        <module>rc-common-core</module>
+        <module>rc-common-mybatis</module>
+        <module>rc-common-redis</module>
+        <module>rc-common-log</module>
+        <module>rc-common-swagger</module>
+        <module>rc-common-tenant</module>
+        <module>rc-common-feign</module>
+        <module>rc-common-oss</module>
+        <module>rc-common-excel</module>
+        <module>rc-common-dict</module>
+        <module>rc-common-security</module>
+        <module>rc-common-job</module>
+        <module>rc-common-captcha</module>
+        <module>rc-common-test</module>
+    </modules>
+</project>
