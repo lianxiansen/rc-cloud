@@ -4,11 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="init">
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="解决单元测试报错问题">
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/cache/RedisCache.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/cache/RedisKeys.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/service/captcha/CaptchaService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/service/captcha/CaptchaServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/vo/captcha/CaptchaVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/captcha/CaptchaControllerTests2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/test/RcTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/test/RcTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/util/oauth2/OAuth2Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/util/oauth2/OAuth2Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/captcha/CaptchaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/captcha/CaptchaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-dependencies-parent/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-dependencies-parent/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application-test.yaml11" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application-test.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/auth/AuthControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/auth/AuthControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/captcha/CaptchaControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/captcha/CaptchaControllerTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,11 +110,11 @@
       <recent name="com.rc.clould.app.system.controller" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.rc.cloud.app.system.biz.contorller.admin.oauth2" />
+      <recent name="com.rc.cloud.app.system.biz.contorller.admin.captcha" />
       <recent name="com.rc.cloud.app.system.biz.common.test" />
-      <recent name="com.rc.cloud.app.system.biz.service.dept" />
-      <recent name="com.rc.cloud.common.mybatis.datasource.config" />
-      <recent name="com.rc.cloud.common.mybatis.core.util" />
+      <recent name="com.rc.cloud.app.system.biz.common.cache" />
+      <recent name="com.rc.cloud.app.system.biz.service.captcha" />
+      <recent name="com.rc.cloud.app.system.biz.contorller.admin.oauth2" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -114,8 +124,8 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.PostServiceImplTest">
-    <configuration name="CaptchaControllerTests.get_captcha_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.CaptchaControllerTests2">
+    <configuration name="CaptchaControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
@@ -125,46 +135,53 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.contorller.admin.captcha" />
       <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.biz.contorller.admin.captcha.CaptchaControllerTests" />
-      <option name="METHOD_NAME" value="get_captcha_success" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CaptchaControllerTests2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rc-app-system-biz" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.app.system.biz.contorller.admin.captcha.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.contorller.admin.captcha" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.biz.contorller.admin.captcha.CaptchaControllerTests2" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CaptchaControllerTests.test_getCaptcha_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rc-app-system-biz" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.app.system.biz.contorller.admin.captcha.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.contorller.admin.captcha" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.biz.contorller.admin.captcha.CaptchaControllerTests" />
+      <option name="METHOD_NAME" value="test_getCaptcha_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PostServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="OAuth2OpenControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.biz.service.dept.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.biz.contorller.admin.oauth2.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.service.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.biz.service.dept.PostServiceImplTest" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.contorller.admin.oauth2" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.biz.contorller.admin.oauth2.OAuth2OpenControllerTest" />
       <option name="TEST_OBJECT" value="class" />
-      <dir value="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/service" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="com.rc.cloud.app.system.biz.service in rc-app-system-biz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rc-app-system-biz" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.biz.service.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.service" />
-      <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="service in rc-app-system-biz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rc-app-system-biz" />
-      <option name="TEST_OBJECT" value="directory" />
-      <dir value="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/service" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -211,10 +228,10 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.CaptchaControllerTests.get_captcha_success" />
-      <item itemvalue="JUnit.service in rc-app-system-biz" />
-      <item itemvalue="JUnit.com.rc.cloud.app.system.biz.service in rc-app-system-biz" />
-      <item itemvalue="JUnit.PostServiceImplTest" />
+      <item itemvalue="JUnit.CaptchaControllerTests" />
+      <item itemvalue="JUnit.CaptchaControllerTests.test_getCaptcha_success" />
+      <item itemvalue="JUnit.CaptchaControllerTests2" />
+      <item itemvalue="JUnit.OAuth2OpenControllerTest" />
       <item itemvalue="Spring Boot.AuthServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
       <item itemvalue="Spring Boot.MonitorServerApplication" />
@@ -223,11 +240,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.PostServiceImplTest" />
+        <item itemvalue="JUnit.CaptchaControllerTests2" />
+        <item itemvalue="JUnit.CaptchaControllerTests.test_getCaptcha_success" />
+        <item itemvalue="JUnit.OAuth2OpenControllerTest" />
         <item itemvalue="Spring Boot.SystemApplication" />
-        <item itemvalue="JUnit.service in rc-app-system-biz" />
-        <item itemvalue="JUnit.com.rc.cloud.app.system.biz.service in rc-app-system-biz" />
-        <item itemvalue="JUnit.CaptchaControllerTests.get_captcha_success" />
+        <item itemvalue="JUnit.CaptchaControllerTests" />
       </list>
     </recent_temporary>
   </component>
@@ -258,7 +275,7 @@
       <workItem from="1686010046505" duration="9527000" />
       <workItem from="1686037463820" duration="3287000" />
       <workItem from="1686041399527" duration="2422000" />
-      <workItem from="1686096035927" duration="15399000" />
+      <workItem from="1686096035927" duration="20928000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -281,7 +298,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686113975951</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="解决单元测试报错问题">
+      <created>1686115171035</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1686115171035</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,7 +332,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ignore" />
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="解决单元测试报错问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="解决单元测试报错问题" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -317,11 +342,6 @@
           <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/service/dept/PostServiceImplTest.java</url>
           <line>46</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/oauth2/OAuth2OpenControllerTest.java</url>
-          <line>74</line>
-          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
