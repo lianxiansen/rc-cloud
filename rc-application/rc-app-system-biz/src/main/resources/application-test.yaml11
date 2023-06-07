@@ -1,31 +1,26 @@
 spring:
-  main:
-    lazy-initialization: true # 开启懒加载，加快速度
-    banner-mode: off # 单元测试，禁用 Banner
-
---- #################### 数据库相关配置 ####################
-
-spring:
-  # 数据源配置项
+  # h2 内存数据库配置，供测试使用，其它环境勿用
   datasource:
-    name: 'rc-cloud-system'
-    url: jdbc:h2:mem:testdb;MODE=MYSQL;DATABASE_TO_UPPER=false;NON_KEYWORDS=value; # MODE 使用 MySQL 模式；DATABASE_TO_UPPER 配置表和字段使用小写
-    driver-class-name: org.h2.Driver
-    username: 'sa'
+    username: "sa"
     password: ''
-    druid:
-      async-init: true # 单元测试，异步初始化 Druid 连接池，提升启动速度
-      initial-size: 1 # 单元测试，配置为 1，提升启动速度
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;DB_CLOSE_DELAY=-1
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+        web-allow-others: false
   sql:
     init:
       schema-locations: classpath:/sql/create_tables.sql
-
+#      mode: embedded
   # Redis 配置。Redisson 默认的配置足够使用，一般不需要进行调优
   redis:
     host: 127.0.0.1 # 地址
-    port: 16379 # 端口（单元测试，使用 16379 端口）
-    database: 0 # 数据库索引
-
+    port: 6379 # 端口
+    database: 1 # 数据库索引
 
 mybatis:
   lazy-initialization: true # 单元测试，设置 MyBatis Mapper 延迟加载，加速每个单元测试

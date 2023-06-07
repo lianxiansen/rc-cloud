@@ -4,10 +4,10 @@ import com.rc.cloud.app.system.api.permission.PermissionApi;
 import com.rc.cloud.app.system.biz.common.datapermission.core.rule.dept.DeptDataPermissionRule;
 import com.rc.cloud.app.system.biz.common.datapermission.core.rule.dept.DeptDataPermissionRuleCustomizer;
 //import com.rc.cloud.common.security.core.LoginUser;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author 芋道源码
  */
-@AutoConfiguration
+@Configuration
 //@ConditionalOnClass(LoginUser.class)
 @ConditionalOnBean(value = {PermissionApi.class, DeptDataPermissionRuleCustomizer.class})
 public class YudaoDeptDataPermissionAutoConfiguration {

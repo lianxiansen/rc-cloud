@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8083
 
 spring:
   application:
@@ -39,6 +39,9 @@ mybatis-plus:
 
 --- #################### rc相关配置 ####################
 rc:
+  info:
+    version: 1.0.0
+    base-package: cn.rc.cloud
   web:
     admin-ui:
       url: http://dashboard.rc.cn # Admin 管理后台 UI 的地址

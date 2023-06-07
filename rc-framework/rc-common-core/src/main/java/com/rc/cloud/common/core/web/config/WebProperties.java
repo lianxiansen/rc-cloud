@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 
@@ -11,9 +12,10 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@ConfigurationProperties(prefix = "rc.web")
 @Validated
 @Data
+@Configuration
+@ConfigurationProperties(prefix = "rc.web")
 public class WebProperties {
 
     @NotNull(message = "APP API 不能为空")

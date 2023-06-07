@@ -16,9 +16,9 @@ import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.enums.UserTypeEnum;
 import com.rc.cloud.common.core.util.servlet.ServletUtils;
 import com.rc.cloud.common.core.util.validation.ValidationUtils;
-import com.xingyuv.captcha.model.common.ResponseModel;
-import com.xingyuv.captcha.model.vo.CaptchaVO;
-import com.xingyuv.captcha.service.CaptchaService;
+//import com.xingyuv.captcha.model.common.ResponseModel;
+//import com.xingyuv.captcha.model.vo.CaptchaVO;
+//import com.xingyuv.captcha.service.CaptchaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -52,8 +52,8 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 //    private MemberService memberService;
     @Resource
     private Validator validator;
-    @Resource
-    private CaptchaService captchaService;
+//    @Resource
+//    private CaptchaService captchaService;
 //    @Resource
 //    private SmsCodeApi smsCodeApi;
 
@@ -87,7 +87,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Override
     public AuthLoginRespVO login(AuthLoginReqVO reqVO) {
         // 校验验证码
-        validateCaptcha(reqVO);
+//        validateCaptcha(reqVO);
 
         // 使用账号密码，进行登录
         AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
@@ -164,24 +164,24 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 //        return createTokenAfterLoginSuccess(user.getId(), user.getUsername(), LoginLogTypeEnum.LOGIN_SOCIAL);
 //    }
 
-    @VisibleForTesting
-    void validateCaptcha(AuthLoginReqVO reqVO) {
-        // 如果验证码关闭，则不进行校验
-        if (!captchaEnable) {
-            return;
-        }
-        // 校验验证码
-        ValidationUtils.validate(validator, reqVO, AuthLoginReqVO.CodeEnableGroup.class);
-        CaptchaVO captchaVO = new CaptchaVO();
-        captchaVO.setCaptchaVerification(reqVO.getCaptchaVerification());
-        ResponseModel response = captchaService.verification(captchaVO);
-        // 验证不通过
-        if (!response.isSuccess()) {
-            // 创建登录失败日志（验证码不正确)
-//            createLoginLog(null, reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_ERROR);
-            throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR, response.getRepMsg());
-        }
-    }
+//    @VisibleForTesting
+//    void validateCaptcha(AuthLoginReqVO reqVO) {
+//        // 如果验证码关闭，则不进行校验
+//        if (!captchaEnable) {
+//            return;
+//        }
+//        // 校验验证码
+//        ValidationUtils.validate(validator, reqVO, AuthLoginReqVO.CodeEnableGroup.class);
+//        CaptchaVO captchaVO = new CaptchaVO();
+//        captchaVO.setCaptchaVerification(reqVO.getCaptchaVerification());
+//        ResponseModel response = captchaService.verification(captchaVO);
+//        // 验证不通过
+//        if (!response.isSuccess()) {
+//            // 创建登录失败日志（验证码不正确)
+////            createLoginLog(null, reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_ERROR);
+//            throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR, response.getRepMsg());
+//        }
+//    }
 
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
         // 插入登陆日志

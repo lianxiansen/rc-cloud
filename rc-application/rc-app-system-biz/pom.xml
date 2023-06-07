@@ -64,17 +64,21 @@
             <artifactId>rc-common-tenant</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.rc.cloud</groupId>-->
 <!--            <artifactId>rc-common-security</artifactId>-->
 <!--            <version>1.0.0</version>-->
 <!--            <scope>compile</scope>-->
 <!--        </dependency>-->
-        <dependency>
-            <groupId>com.rc.cloud</groupId>
-            <artifactId>rc-common-captcha</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.rc.cloud</groupId>-->
+<!--            <artifactId>rc-common-captcha</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
 
         <!-- Test 测试相关 -->
         <dependency>
@@ -83,6 +87,41 @@
             <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>com.rc.cloud</groupId>-->
+<!--            <artifactId>rc-common-security</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+        </dependency>
+
+        <!-- 嵌入式 Redis 依赖，集成测试时需要 -->
+        <dependency>
+            <groupId>it.ozimov</groupId>
+            <artifactId>embedded-redis</artifactId>
+            <scope>test</scope>
+            <version>0.7.2</version>
+            <!--            <exclusions>-->
+            <!--                <exclusion>-->
+            <!--                    <groupId>org.slf4j</groupId>-->
+            <!--                    <artifactId>slf4j-simple</artifactId>-->
+            <!--                </exclusion>-->
+            <!--            </exclusions>-->
+            <!--            <version>${embedded.redis.version}</version>-->
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -32,6 +32,7 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import javax.annotation.Resource;
 import java.util.Objects;
 
 @AutoConfiguration
@@ -39,8 +40,11 @@ import java.util.Objects;
 @EnableConfigurationProperties({TenantProperties.class, WebProperties.class})
 public class YudaoTenantAutoConfiguration {
 
+    @Resource
+    private TenantApi tenantApi;
+
     @Bean
-    public TenantFrameworkService tenantFrameworkService(TenantApi tenantApi) {
+    public TenantFrameworkService tenantFrameworkService() {
         return new TenantFrameworkServiceImpl(tenantApi);
     }
 

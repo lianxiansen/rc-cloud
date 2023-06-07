@@ -4,7 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="init" />
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="ignore">
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/test/RcTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/auth/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/captcha/CaptchaController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/oauth2/OAuth2ClientController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/oauth2/OAuth2OpenController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/oauth2/OAuth2TokenController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/oauth2/OAuth2UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application-test.yaml11" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/auth/AuthControllerTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/captcha/CaptchaControllerTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/oauth2/OAuth2OpenControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/datapermission/config/YudaoDataPermissionAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/datapermission/config/YudaoDataPermissionAutoConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/datapermission/config/YudaoDeptDataPermissionAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/datapermission/config/YudaoDeptDataPermissionAutoConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/util/oauth2/OAuth2Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/util/oauth2/OAuth2Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/service/auth/AdminAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/service/auth/AdminAuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application-dev.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/service/auth/AdminAuthServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/service/auth/AdminAuthServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/resources/application-unit-test.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/resources/application-unit-test.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-dependencies-parent/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-dependencies-parent/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-captcha/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-captcha/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-captcha/src/main/java/com/rc/cloud/common/captcha/config/YudaoCaptchaConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-captcha/src/main/java/com/rc/cloud/common/captcha/config/YudaoCaptchaConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/WebProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/WebProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/YudaoWebAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/YudaoWebAutoConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/util/WebFrameworkUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/util/WebFrameworkUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/resources/META-INF/spring.factories" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/resources/META-INF/spring.factories" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/src/main/java/com/rc/cloud/common/mybatis/config/YudaoMybatisAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/src/main/java/com/rc/cloud/common/mybatis/config/YudaoMybatisAutoConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/src/main/java/com/rc/cloud/common/mybatis/datasource/config/YudaoDataSourceAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/src/main/java/com/rc/cloud/common/mybatis/datasource/config/YudaoDataSourceAutoConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/config/YudaoSecurityAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/config/YudaoSecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/config/YudaoWebSecurityConfigurerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/config/YudaoWebSecurityConfigurerAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/resources/META-INF/spring.factories" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/resources/META-INF/spring.factories" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/config/YudaoTenantAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/config/YudaoTenantAutoConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-test/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-test/pom.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,7 +95,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "jdk.selected.JAVA_MODULE": "1.8 (3)",
-    "last_opened_file_path": "E:/project_code/rouchuan/rc-cloud",
+    "last_opened_file_path": "E:/project_code/rouchuan/rc-cloud/rc-application/rc-app-system-biz/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -66,7 +105,7 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "MavenSettings",
-    "spring.configuration.checksum": "9cdaa7db116ef61ea9b21bb1451355e5",
+    "spring.configuration.checksum": "01f193106a80585fadd244e2b990a928",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -78,28 +117,28 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\project_code\rouchuan\rc-cloud\rc-application\rc-app-system-biz\src\main\resources" />
+      <recent name="E:\project_code\rouchuan\rc-cloud\rc-application\rc-app-system-biz\src\test\java\com\rc\cloud\app\system\biz\contorller\auth" />
+      <recent name="E:\project_code\rouchuan\rc-cloud\rc-application\rc-app-system-biz\src\main\java\com\rc\cloud\app\system\biz\controller\admin" />
+      <recent name="E:\project_code\rouchuan\rc-cloud" />
       <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-framework\rc-common-mybatis\src\main\java\com\rc\cloud\common\mybatis\datasource\core" />
-      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-framework\rc-common-mybatis\src\main\java\com\rc\cloud\common\mybatis\core" />
-      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-framework\rc-common-test\src\main\java\com\rc\cloud\common\test" />
-      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-application\rc-app-system-biz\src\test\java\com\rc\cloud\app\system\biz" />
-      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-application\rc-app-system-biz\src\test\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\project_code\rouchuan\rc-cloud\rc-application\rc-app-system-biz\src\test\java\com\rc\cloud\app\system\biz\contorller\admin\oauth2" />
       <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-framework\rc-common-security\src\main\resources\META-INF" />
       <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-framework\rc-common-core\src\main\resources" />
       <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-application\rc-app-system\src\main\resources\db" />
       <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-application\rc-app-system\src\main\java" />
-      <recent name="E:\project_code\rouchuan\projects\rc-cloud\rc-application\rc-system" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.rc.clould.app.system.controller" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.rc.cloud.app.system.biz.contorller.admin.oauth2" />
+      <recent name="com.rc.cloud.app.system.biz.common.test" />
       <recent name="com.rc.cloud.app.system.biz.service.dept" />
       <recent name="com.rc.cloud.common.mybatis.datasource.config" />
       <recent name="com.rc.cloud.common.mybatis.core.util" />
-      <recent name="com.rc.cloud.common.mybatis.config" />
-      <recent name="com.rc.cloud.app.system.biz.api.tenant" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -109,31 +148,19 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.DeptServiceImplTest">
-    <configuration name="SystemApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.rc.clould.app.system.SystemApplication" />
+  <component name="RunManager" selected="JUnit.PostServiceImplTest">
+    <configuration name="CaptchaControllerTests.get_captcha_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.clould.app.system.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.biz.contorller.admin.captcha.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DeptServiceImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rc-app-system-biz" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.biz.service.dept.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.service.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.biz.service.dept.DeptServiceImplTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.contorller.admin.captcha" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.biz.contorller.admin.captcha.CaptchaControllerTests" />
+      <option name="METHOD_NAME" value="get_captcha_success" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -149,6 +176,29 @@
       <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.service.dept" />
       <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.biz.service.dept.PostServiceImplTest" />
       <option name="TEST_OBJECT" value="class" />
+      <dir value="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/service" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="com.rc.cloud.app.system.biz.service in rc-app-system-biz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rc-app-system-biz" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.app.system.biz.service.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.biz.service" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="service in rc-app-system-biz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rc-app-system-biz" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/service" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -195,8 +245,9 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.SystemApplication" />
-      <item itemvalue="JUnit.DeptServiceImplTest" />
+      <item itemvalue="JUnit.CaptchaControllerTests.get_captcha_success" />
+      <item itemvalue="JUnit.service in rc-app-system-biz" />
+      <item itemvalue="JUnit.com.rc.cloud.app.system.biz.service in rc-app-system-biz" />
       <item itemvalue="JUnit.PostServiceImplTest" />
       <item itemvalue="Spring Boot.AuthServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
@@ -206,10 +257,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.DeptServiceImplTest" />
-        <item itemvalue="Spring Boot.SystemApplication" />
         <item itemvalue="JUnit.PostServiceImplTest" />
-        <item itemvalue="Application.SystemApplication" />
+        <item itemvalue="Spring Boot.SystemApplication" />
+        <item itemvalue="JUnit.service in rc-app-system-biz" />
+        <item itemvalue="JUnit.com.rc.cloud.app.system.biz.service in rc-app-system-biz" />
+        <item itemvalue="JUnit.CaptchaControllerTests.get_captcha_success" />
       </list>
     </recent_temporary>
   </component>
@@ -238,7 +290,9 @@
       <workItem from="1685749463398" duration="11782000" />
       <workItem from="1685923539261" duration="28594000" />
       <workItem from="1686010046505" duration="9527000" />
-      <workItem from="1686037463820" duration="331000" />
+      <workItem from="1686037463820" duration="3287000" />
+      <workItem from="1686041399527" duration="2422000" />
+      <workItem from="1686096035927" duration="14212000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -247,7 +301,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686037620097</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="ignore">
+      <created>1686037916025</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1686037916025</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -273,7 +334,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="ignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="ignore" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -282,6 +344,11 @@
           <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/service/dept/PostServiceImplTest.java</url>
           <line>46</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/oauth2/OAuth2OpenControllerTest.java</url>
+          <line>74</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

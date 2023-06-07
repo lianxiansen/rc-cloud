@@ -48,6 +48,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
+        <!-- 用于测试 -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.h2database</groupId> <!-- 单元测试，我们采用 H2 作为数据库 -->
             <artifactId>h2</artifactId>

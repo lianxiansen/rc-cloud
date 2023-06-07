@@ -55,6 +55,7 @@ public class OAuth2Utils {
         Map<String, String> keys = new HashMap<String, String>();
         vars.put("access_token", accessToken);
 //        vars.put("token_type", SecurityFrameworkUtils.AUTHORIZATION_BEARER.toLowerCase());
+        vars.put("token_type", "Bearer");
         if (state != null) {
             vars.put("state", state);
         }

@@ -7,8 +7,8 @@ import com.rc.cloud.app.system.biz.common.datapermission.core.rule.DataPermissio
 import com.rc.cloud.app.system.biz.common.datapermission.core.rule.DataPermissionRuleFactory;
 import com.rc.cloud.app.system.biz.common.datapermission.core.rule.DataPermissionRuleFactoryImpl;
 import com.rc.cloud.common.mybatis.core.util.MyBatisUtils;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author 芋道源码
  */
-@AutoConfiguration
+@Configuration
 public class YudaoDataPermissionAutoConfiguration {
 
     @Bean

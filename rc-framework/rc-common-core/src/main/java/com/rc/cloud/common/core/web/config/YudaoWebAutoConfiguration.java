@@ -2,12 +2,13 @@ package com.rc.cloud.common.core.web.config;
 
 
 import com.rc.cloud.common.core.web.util.WebFrameworkUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.cors.CorsConfiguration;
@@ -19,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.annotation.Resource;
 import javax.servlet.Filter;
 
-@AutoConfiguration
+@Configuration
 @EnableConfigurationProperties(WebProperties.class)
 public class YudaoWebAutoConfiguration implements WebMvcConfigurer {
 

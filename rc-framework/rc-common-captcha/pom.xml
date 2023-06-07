@@ -21,6 +21,7 @@
         <dependency>
             <groupId>com.xingyuv</groupId>
             <artifactId>spring-boot-starter-captcha-plus</artifactId>
+            <version>1.0.2</version>
         </dependency>
         <!-- Spring 核心 -->
         <dependency>

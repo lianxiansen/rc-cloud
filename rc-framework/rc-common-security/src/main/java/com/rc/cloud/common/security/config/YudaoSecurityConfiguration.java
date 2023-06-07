@@ -12,9 +12,9 @@ import com.rc.cloud.common.security.core.handler.AuthenticationEntryPointImpl;
 import com.rc.cloud.common.security.core.service.SecurityFrameworkService;
 import com.rc.cloud.common.security.core.service.SecurityFrameworkServiceImpl;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,9 +31,9 @@ import javax.annotation.Resource;
  *
  * @author 芋道源码
  */
-@AutoConfiguration
+@Configuration
 @EnableConfigurationProperties(SecurityProperties.class)
-public class YudaoSecurityAutoConfiguration {
+public class YudaoSecurityConfiguration {
 
     @Resource
     private SecurityProperties securityProperties;

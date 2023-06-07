@@ -4,9 +4,9 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.rc.cloud.common.core.web.config.WebProperties;
 import com.rc.cloud.common.security.core.filter.TokenAuthenticationFilter;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -32,7 +32,7 @@ import java.util.Set;
  *
  * @author 芋道源码
  */
-@AutoConfiguration
+@Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class YudaoWebSecurityConfigurerAdapter {
 

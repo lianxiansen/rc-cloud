@@ -13,8 +13,8 @@ import com.rc.cloud.app.system.enums.social.SocialTypeEnum;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.enums.UserTypeEnum;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
-import com.xingyuv.captcha.model.common.ResponseModel;
-import com.xingyuv.captcha.service.CaptchaService;
+//import com.xingyuv.captcha.model.common.ResponseModel;
+//import com.xingyuv.captcha.service.CaptchaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,8 +44,8 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
 
     @MockBean
     private AdminUserService userService;
-    @MockBean
-    private CaptchaService captchaService;
+//    @MockBean
+//    private CaptchaService captchaService;
 //    @MockBean
 //    private LoginLogService loginLogService;
 //    @MockBean
@@ -269,71 +269,71 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
 //        );
 //    }
 
-    @Test
-    public void testValidateCaptcha_successWithEnable() {
-        // 准备参数
-        AuthLoginReqVO reqVO = randomPojo(AuthLoginReqVO.class);
+//    @Test
+//    public void testValidateCaptcha_successWithEnable() {
+//        // 准备参数
+//        AuthLoginReqVO reqVO = randomPojo(AuthLoginReqVO.class);
+//
+//        // mock 验证码打开
+//        ReflectUtil.setFieldValue(authService, "captchaEnable", true);
+//        // mock 验证通过
+//        when(captchaService.verification(argThat(captchaVO -> {
+//            assertEquals(reqVO.getCaptchaVerification(), captchaVO.getCaptchaVerification());
+//            return true;
+//        }))).thenReturn(ResponseModel.success());
+//
+//        // 调用，无需断言
+//        authService.validateCaptcha(reqVO);
+//    }
 
-        // mock 验证码打开
-        ReflectUtil.setFieldValue(authService, "captchaEnable", true);
-        // mock 验证通过
-        when(captchaService.verification(argThat(captchaVO -> {
-            assertEquals(reqVO.getCaptchaVerification(), captchaVO.getCaptchaVerification());
-            return true;
-        }))).thenReturn(ResponseModel.success());
+//    @Test
+//    public void testValidateCaptcha_successWithDisable() {
+//        // 准备参数
+//        AuthLoginReqVO reqVO = randomPojo(AuthLoginReqVO.class);
+//
+//        // mock 验证码关闭
+//        ReflectUtil.setFieldValue(authService, "captchaEnable", false);
+//
+//        // 调用，无需断言
+//        authService.validateCaptcha(reqVO);
+//    }
 
-        // 调用，无需断言
-        authService.validateCaptcha(reqVO);
-    }
-
-    @Test
-    public void testValidateCaptcha_successWithDisable() {
-        // 准备参数
-        AuthLoginReqVO reqVO = randomPojo(AuthLoginReqVO.class);
-
-        // mock 验证码关闭
-        ReflectUtil.setFieldValue(authService, "captchaEnable", false);
-
-        // 调用，无需断言
-        authService.validateCaptcha(reqVO);
-    }
-
-    @Test
-    public void testValidateCaptcha_constraintViolationException() {
-        // 准备参数
-        AuthLoginReqVO authLoginReqVO = randomPojo(AuthLoginReqVO.class);
-        authLoginReqVO.setCaptchaVerification(null);
-
-        // mock 验证码打开
-        ReflectUtil.setFieldValue(authService, "captchaEnable", true);
-
-        // 调用，并断言异常
-        assertThrows(ConstraintViolationException.class, () -> authService.validateCaptcha(authLoginReqVO),
-                "验证码不能为空");
-    }
+//    @Test
+//    public void testValidateCaptcha_constraintViolationException() {
+//        // 准备参数
+//        AuthLoginReqVO authLoginReqVO = randomPojo(AuthLoginReqVO.class);
+//        authLoginReqVO.setCaptchaVerification(null);
+//
+//        // mock 验证码打开
+//        ReflectUtil.setFieldValue(authService, "captchaEnable", true);
+//
+//        // 调用，并断言异常
+//        assertThrows(ConstraintViolationException.class, () -> authService.validateCaptcha(authLoginReqVO),
+//                "验证码不能为空");
+//    }
 
 
-    @Test
-    public void testCaptcha_fail() {
-        // 准备参数
-        AuthLoginReqVO reqVO = randomPojo(AuthLoginReqVO.class);
-
-        // mock 验证码打开
-        ReflectUtil.setFieldValue(authService, "captchaEnable", true);
-        // mock 验证通过
-        when(captchaService.verification(argThat(captchaVO -> {
-            assertEquals(reqVO.getCaptchaVerification(), captchaVO.getCaptchaVerification());
-            return true;
-        }))).thenReturn(ResponseModel.errorMsg("就是不对"));
-
-        // 调用, 并断言异常
-        assertServiceException(() -> authService.validateCaptcha(reqVO), AUTH_LOGIN_CAPTCHA_CODE_ERROR, "就是不对");
-        // 校验调用参数
-//        verify(loginLogService).createLoginLog(
-//            argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_USERNAME.getType())
-//                    && o.getResult().equals(LoginResultEnum.CAPTCHA_CODE_ERROR.getResult()))
-//        );
-    }
+//    @Test
+//    public void testCaptcha_fail() {
+//        // 准备参数
+//        AuthLoginReqVO reqVO = randomPojo(AuthLoginReqVO.class);
+//
+//        // mock 验证码打开
+//        ReflectUtil.setFieldValue(authService, "captchaEnable", true);
+//        // mock 验证通过
+//        when(captchaService.verification(argThat(captchaVO -> {
+//            assertEquals(reqVO.getCaptchaVerification(), captchaVO.getCaptchaVerification());
+//            return true;
+//        }))).thenReturn(ResponseModel.errorMsg("就是不对"));
+//
+//        // 调用, 并断言异常
+//        assertServiceException(() -> authService.validateCaptcha(reqVO), AUTH_LOGIN_CAPTCHA_CODE_ERROR, "就是不对");
+//        // 校验调用参数
+////        verify(loginLogService).createLoginLog(
+////            argThat(o -> o.getLogType().equals(LoginLogTypeEnum.LOGIN_USERNAME.getType())
+////                    && o.getResult().equals(LoginResultEnum.CAPTCHA_CODE_ERROR.getResult()))
+////        );
+//    }
 
     @Test
     public void testRefreshToken() {
