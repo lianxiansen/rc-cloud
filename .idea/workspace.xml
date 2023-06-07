@@ -4,45 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="ignore">
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/test/RcTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/auth/AuthController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/captcha/CaptchaController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/oauth2/OAuth2ClientController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/oauth2/OAuth2OpenController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/oauth2/OAuth2TokenController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/oauth2/OAuth2UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application-test.yaml11" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/auth/AuthControllerTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/captcha/CaptchaControllerTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/contorller/admin/oauth2/OAuth2OpenControllerTest.java" afterDir="false" />
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="init">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/datapermission/config/YudaoDataPermissionAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/datapermission/config/YudaoDataPermissionAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/datapermission/config/YudaoDeptDataPermissionAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/datapermission/config/YudaoDeptDataPermissionAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/util/oauth2/OAuth2Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/common/util/oauth2/OAuth2Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/service/auth/AdminAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/service/auth/AdminAuthServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application-dev.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application-dev.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/service/auth/AdminAuthServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/biz/service/auth/AdminAuthServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/resources/application-unit-test.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/resources/application-unit-test.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/captcha/CaptchaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/biz/controller/admin/captcha/CaptchaController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-dependencies-parent/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-dependencies-parent/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-captcha/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-captcha/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-captcha/src/main/java/com/rc/cloud/common/captcha/config/YudaoCaptchaConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-captcha/src/main/java/com/rc/cloud/common/captcha/config/YudaoCaptchaConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/WebProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/WebProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/YudaoWebAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/YudaoWebAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/util/WebFrameworkUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/util/WebFrameworkUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/resources/META-INF/spring.factories" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/resources/META-INF/spring.factories" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/src/main/java/com/rc/cloud/common/mybatis/config/YudaoMybatisAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/src/main/java/com/rc/cloud/common/mybatis/config/YudaoMybatisAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/src/main/java/com/rc/cloud/common/mybatis/datasource/config/YudaoDataSourceAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/src/main/java/com/rc/cloud/common/mybatis/datasource/config/YudaoDataSourceAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/config/YudaoSecurityAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/config/YudaoSecurityConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/config/YudaoWebSecurityConfigurerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/config/YudaoWebSecurityConfigurerAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/resources/META-INF/spring.factories" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/resources/META-INF/spring.factories" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/config/YudaoTenantAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/config/YudaoTenantAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-test/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-test/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -292,7 +258,7 @@
       <workItem from="1686010046505" duration="9527000" />
       <workItem from="1686037463820" duration="3287000" />
       <workItem from="1686041399527" duration="2422000" />
-      <workItem from="1686096035927" duration="14212000" />
+      <workItem from="1686096035927" duration="15399000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -308,7 +274,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686037916025</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="init">
+      <created>1686113975951</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1686113975951</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -333,9 +306,9 @@
     <option featureType="com.intellij.facetType" implementationName="JRebel" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="init" />
     <MESSAGE value="ignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="ignore" />
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

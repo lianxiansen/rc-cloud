@@ -1,31 +1,32 @@
-//package com.rc.cloud.app.system.biz.controller.admin.captcha;
-//
-//import cn.hutool.core.util.StrUtil;
-//import com.rc.cloud.common.core.util.servlet.ServletUtils;
-//import com.xingyuv.captcha.model.common.ResponseModel;
-//import com.xingyuv.captcha.model.vo.CaptchaVO;
-//import com.xingyuv.captcha.service.CaptchaService;
-//import io.swagger.v3.oas.annotations.Operation;
-//import io.swagger.v3.oas.annotations.tags.Tag;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import javax.annotation.Resource;
-//import javax.annotation.security.PermitAll;
-//import javax.servlet.http.HttpServletRequest;
-//
-///**
-// * 验证码
-// *
-// * @author 芋道源码
-// */
-//@Tag(name = "管理后台 - 验证码")
-//@RestController("adminCaptchaController")
-//@RequestMapping("/system/captcha")
-//public class CaptchaController {
-//
+package com.rc.cloud.app.system.biz.controller.admin.captcha;
+
+import cn.hutool.core.util.StrUtil;
+import com.rc.cloud.common.core.util.servlet.ServletUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * 验证码
+ *
+ * @author 芋道源码
+ */
+@Tag(name = "管理后台 - 验证码")
+@RestController("adminCaptchaController")
+@RequestMapping("/system/captcha")
+public class CaptchaController {
+
+
+
+
+
 //    @Resource
 //    private CaptchaService captchaService;
 //
@@ -56,5 +57,5 @@
 //        }
 //        return request.getRemoteAddr() + ua;
 //    }
-//
-//}
+
+}
