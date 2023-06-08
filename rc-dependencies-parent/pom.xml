@@ -60,6 +60,10 @@
         <dynamic-datasource.version>3.6.1</dynamic-datasource.version>
         <!-- 验证码相关 -->
         <captcha.version>1.6.2</captcha.version>
+        <!-- JWT 相关 -->
+        <java-auth0-jwt.version>3.10.1</java-auth0-jwt.version>
+        <fast-json.version>3.0.1</fast-json.version>
+
     </properties>
 
     <dependencies>
@@ -399,6 +403,24 @@
                 <groupId>com.github.whvcse</groupId>
                 <artifactId>easy-captcha</artifactId>
                 <version>${captcha.version}</version>
+            </dependency>
+
+            <!-- JWT 依赖 -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java-auth0-jwt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>me.joshlarson</groupId>
+                <artifactId>fast-json</artifactId>
+                <version>${fast-json.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>2.14.2</version>
             </dependency>
 
         </dependencies>

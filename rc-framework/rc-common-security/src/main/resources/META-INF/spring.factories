@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.rc.cloud.common.security.config.YudaoSecurityConfiguration,\
-  com.rc.cloud.common.security.config.YudaoWebSecurityConfigurerAdapter

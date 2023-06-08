@@ -3,6 +3,7 @@ package com.rc.cloud.app.system.biz.api.permission;
 import com.rc.cloud.app.system.api.permission.PermissionApi;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
 import com.rc.cloud.app.system.biz.service.permission.PermissionService;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,7 +15,7 @@ import java.util.Set;
  *
  * @author 芋道源码
  */
-@Service
+@Component
 public class PermissionApiImpl implements PermissionApi {
 
     @Resource

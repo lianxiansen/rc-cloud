@@ -22,7 +22,7 @@ import java.util.List;
 
 @Tag(name = "管理后台 - 字典数据")
 @RestController
-@RequestMapping("/system/dict-data")
+@RequestMapping("/sys/dict-data")
 @Validated
 public class DictDataController {
 

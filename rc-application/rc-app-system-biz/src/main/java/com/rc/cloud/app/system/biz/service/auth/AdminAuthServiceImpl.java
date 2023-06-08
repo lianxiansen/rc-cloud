@@ -4,11 +4,16 @@ import cn.hutool.core.util.ObjectUtil;
 import com.google.common.annotations.VisibleForTesting;
 import com.rc.cloud.app.system.api.social.dto.SocialUserBindReqDTO;
 import com.rc.cloud.app.system.biz.convert.auth.AuthConvert;
+import com.rc.cloud.app.system.biz.mapper.permission.MenuMapper;
+import com.rc.cloud.app.system.biz.mapper.user.AdminUserMapper;
 import com.rc.cloud.app.system.biz.model.oauth2.OAuth2AccessTokenDO;
 import com.rc.cloud.app.system.biz.model.user.AdminUserDO;
+import com.rc.cloud.app.system.biz.service.captcha.CaptchaService;
 import com.rc.cloud.app.system.biz.service.oauth2.OAuth2TokenService;
+import com.rc.cloud.app.system.biz.service.permission.PermissionService;
 import com.rc.cloud.app.system.biz.service.user.AdminUserService;
 import com.rc.cloud.app.system.biz.vo.auth.*;
+import com.rc.cloud.app.system.biz.vo.captcha.CaptchaVO;
 import com.rc.cloud.app.system.enums.login.LoginLogTypeEnum;
 import com.rc.cloud.app.system.enums.login.LoginResultEnum;
 import com.rc.cloud.app.system.enums.oauth2.OAuth2ClientConstants;
@@ -26,6 +31,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.validation.Validator;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
@@ -42,6 +49,9 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Resource
     private AdminUserService userService;
+
+    @Resource
+    private CaptchaService captchaService;
 //    @Resource
 //    private LoginLogService loginLogService;
     @Resource
@@ -52,8 +62,16 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 //    private MemberService memberService;
     @Resource
     private Validator validator;
-//    @Resource
-//    private CaptchaService captchaService;
+
+    @Resource
+    private AdminUserMapper adminUserMapper;
+
+    @Resource
+    private MenuMapper menuMapper;
+
+    @Resource
+    private PermissionService permissionService;
+
 //    @Resource
 //    private SmsCodeApi smsCodeApi;
 
@@ -87,17 +105,12 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Override
     public AuthLoginRespVO login(AuthLoginReqVO reqVO) {
         // 校验验证码
-//        validateCaptcha(reqVO);
+        validateCaptcha(reqVO);
 
         // 使用账号密码，进行登录
         AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
 
-        // 如果 socialType 非空，说明需要绑定社交用户
-//        if (reqVO.getSocialType() != null) {
-//            socialUserService.bindSocialUser(new SocialUserBindReqDTO(user.getId(), getUserType().getValue(),
-//                    reqVO.getSocialType(), reqVO.getSocialCode(), reqVO.getSocialState()));
-//        }
-        // 创建 Token 令牌，记录登录日志
+        // 创建 Token 令牌，并记录登录日志
         return createTokenAfterLoginSuccess(user.getId(), reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
     }
 
@@ -164,24 +177,16 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 //        return createTokenAfterLoginSuccess(user.getId(), user.getUsername(), LoginLogTypeEnum.LOGIN_SOCIAL);
 //    }
 
-//    @VisibleForTesting
-//    void validateCaptcha(AuthLoginReqVO reqVO) {
-//        // 如果验证码关闭，则不进行校验
-//        if (!captchaEnable) {
-//            return;
-//        }
-//        // 校验验证码
-//        ValidationUtils.validate(validator, reqVO, AuthLoginReqVO.CodeEnableGroup.class);
-//        CaptchaVO captchaVO = new CaptchaVO();
-//        captchaVO.setCaptchaVerification(reqVO.getCaptchaVerification());
-//        ResponseModel response = captchaService.verification(captchaVO);
-//        // 验证不通过
-//        if (!response.isSuccess()) {
-//            // 创建登录失败日志（验证码不正确)
-////            createLoginLog(null, reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME, LoginResultEnum.CAPTCHA_CODE_ERROR);
-//            throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR, response.getRepMsg());
-//        }
-//    }
+    @VisibleForTesting
+    void validateCaptcha(AuthLoginReqVO reqVO) {
+        // 验证码效验
+        boolean flag = captchaService.validate(reqVO.getKey(), reqVO.getCaptcha());
+        if (!flag) {
+            // 保存登录日志
+//            sysLogLoginService.save(loginDTO.getUsername(), Constant.FAIL, LoginOperationEnum.CAPTCHA_FAIL.getValue());
+            throw exception(AUTH_LOGIN_CAPTCHA_CODE_ERROR, "验证码错误");
+        }
+    }
 
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
         // 插入登陆日志
@@ -198,6 +203,22 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
         return AuthConvert.INSTANCE.convert(accessTokenDO);
     }
+
+    @Override
+    public Optional<AdminUserDO> findOptionalByUsernameWithAuthorities(String username) {
+        Optional<AdminUserDO> optionalByUsername = adminUserMapper.findOptionalByUsername(username);
+        if (optionalByUsername.isPresent()) {
+            return Optional.empty();
+        } else {
+            AdminUserDO adminUserDO = optionalByUsername.get();
+            Set<String> userAuthority = permissionService.getPermissionListByUserId(adminUserDO.getId());
+            optionalByUsername.ifPresent(adminUserDO1 ->
+                    adminUserDO1.setAuthorities(userAuthority));
+        }
+        return optionalByUsername;
+    }
+
+
 
     @Override
     public void logout(String token, Integer logType) {

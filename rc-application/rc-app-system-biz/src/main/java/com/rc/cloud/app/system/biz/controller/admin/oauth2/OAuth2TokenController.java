@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 @Tag(name = "管理后台 - OAuth2.0 令牌")
 @RestController
-@RequestMapping("/system/oauth2-token")
+@RequestMapping("/sys/oauth2-token")
 public class OAuth2TokenController {
 
     @Resource

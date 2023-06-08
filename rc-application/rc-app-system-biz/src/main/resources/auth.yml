@@ -1,0 +1,21 @@
+auth:
+  ignore_urls:
+    - /sys/captcha/get
+    - /sys/auth/login
+    - /sys/auth/send/code
+    - /sys/auth/token/refresh
+    - /sys/auth/mobile
+    - /upload/**
+    - /demo/**
+    - /testframework/**
+    - /h2-console/**
+    - /error/**
+    - /actuator/**
+    - /v3/api-docs/**
+    - /webjars/**
+    - /swagger/**
+    - /swagger-resources/**
+    - /swagger-ui.html
+    - /swagger-ui/**
+    - /doc.html
+    - /

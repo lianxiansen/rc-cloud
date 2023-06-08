@@ -170,4 +170,14 @@ public class DateUtils {
         return LocalDateTimeUtil.isSameDay(date, LocalDateTime.now());
     }
 
+    /**
+     * 过期的秒数转换成日期
+     * @param duration  过期的秒数
+     * @return 返回日期
+     */
+    public static Date getDurationDate(long duration) {
+        long expireTime = System.currentTimeMillis() + duration * 1000L;
+        return new Date(expireTime);
+    }
+
 }

@@ -10,6 +10,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
 import com.rc.cloud.app.system.biz.common.datapermission.core.annotation.DataPermission;
+import com.rc.cloud.app.system.biz.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.biz.mapper.permission.RoleMenuMapper;
 import com.rc.cloud.app.system.biz.mapper.permission.UserRoleMapper;
 import com.rc.cloud.app.system.biz.model.dept.DeptDO;
@@ -17,6 +18,7 @@ import com.rc.cloud.app.system.biz.model.permission.MenuDO;
 import com.rc.cloud.app.system.biz.model.permission.RoleDO;
 import com.rc.cloud.app.system.biz.model.permission.RoleMenuDO;
 import com.rc.cloud.app.system.biz.model.permission.UserRoleDO;
+import com.rc.cloud.app.system.biz.model.user.AdminUserDO;
 import com.rc.cloud.app.system.biz.service.dept.DeptService;
 import com.rc.cloud.app.system.biz.service.user.AdminUserService;
 import com.rc.cloud.app.system.enums.permission.DataScopeEnum;
@@ -31,8 +33,6 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionSynchronization;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -93,9 +93,11 @@ public class PermissionServiceImpl implements PermissionService {
     @Resource
     private MenuService menuService;
     @Resource
+    private MenuMapper menuMapper;
+    @Resource
     private DeptService deptService;
     @Resource
-    private AdminUserService userService;
+    private AdminUserService adminUserService;
 
 //    @Resource
 //    private PermissionProducer permissionProducer;
@@ -231,6 +233,16 @@ public class PermissionServiceImpl implements PermissionService {
     public Set<Long> getUserRoleIdListByUserId(Long userId) {
         return convertSet(userRoleMapper.selectListByUserId(userId),
                 UserRoleDO::getRoleId);
+    }
+
+    @Override
+    public Set<String> getPermissionListByUserId(Long userId) {
+        // 从用户角色表中查询角色id
+        Set<Long> roleIds = getUserRoleIdListByUserId(userId);
+        // 从角色菜单表中查询菜单id
+        Set<Long> menuIds = roleMenuMapper.getMenuIdsByRoleIds(roleIds);
+        // 从菜单表中查询权限列表
+        return menuMapper.getMenuPermissionListByMenuIds(menuIds);
     }
 
     @Override
@@ -390,7 +402,7 @@ public class PermissionServiceImpl implements PermissionService {
         List<RoleDO> roles = roleService.getRoleListFromCache(roleIds);
 
         // 获得用户的部门编号的缓存，通过 Guava 的 Suppliers 惰性求值，即有且仅有第一次发起 DB 的查询
-        Supplier<Long> userDeptIdCache = Suppliers.memoize(() -> userService.getUser(userId).getDeptId());
+        Supplier<Long> userDeptIdCache = Suppliers.memoize(() -> adminUserService.getUser(userId).getDeptId());
         // 遍历每个角色，计算
         for (RoleDO role : roles) {
             // 为空时，跳过
@@ -432,6 +444,20 @@ public class PermissionServiceImpl implements PermissionService {
             log.error("[getDeptDataPermission][LoginUser({}) role({}) 无法处理]", userId, JsonUtils.toJsonString(result));
         }
         return result;
+    }
+
+    @Override
+    public Optional<AdminUserDO> findOptionalByUsernameWithAuthorities(String username) {
+        Optional<AdminUserDO> optionalByUsername = adminUserService.findOptionalByUsername(username);
+        if (optionalByUsername.isPresent()) {
+            return Optional.empty();
+        } else {
+            AdminUserDO adminUserDO = optionalByUsername.get();
+            Set<String> userAuthority = getPermissionListByUserId(adminUserDO.getId());
+            optionalByUsername.ifPresent(sysUserDomain ->
+                    sysUserDomain.setAuthorities(userAuthority));
+        }
+        return optionalByUsername;
     }
 
 }

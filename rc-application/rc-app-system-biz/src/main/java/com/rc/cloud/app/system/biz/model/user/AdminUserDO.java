@@ -6,10 +6,15 @@ import com.rc.cloud.common.core.enums.SexEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import com.rc.cloud.common.mybatis.core.type.JsonLongSetTypeHandler;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 管理后台的用户 DO
@@ -88,5 +93,25 @@ public class AdminUserDO extends TenantBaseDO {
      * 最后登录时间
      */
     private LocalDateTime loginDate;
+
+    /**
+     * 权限列表
+     */
+    @TableField(exist=false)
+    private Set<String> authoritySet;
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (authoritySet == null) {
+            return null;
+        }
+        return authoritySet.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+    }
+
+    public void setAuthorities(Collection<?> authorities) {
+        if (authorities == null) {
+            return;
+        }
+        this.authoritySet = authorities.stream().map(Object::toString).collect(Collectors.toSet());
+    }
 
 }

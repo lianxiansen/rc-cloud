@@ -4,6 +4,7 @@ import com.rc.cloud.app.system.biz.model.user.AdminUserDO;
 import com.rc.cloud.app.system.biz.vo.auth.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * 管理后台的认证 Service 接口
@@ -69,5 +70,7 @@ public interface AdminAuthService {
      * @return 登录结果
      */
     AuthLoginRespVO refreshToken(String refreshToken);
+
+    Optional<AdminUserDO> findOptionalByUsernameWithAuthorities(String username);
 
 }

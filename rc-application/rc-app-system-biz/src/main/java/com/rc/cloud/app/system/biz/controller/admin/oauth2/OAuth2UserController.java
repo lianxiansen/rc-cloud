@@ -35,7 +35,7 @@ import static com.rc.cloud.common.core.web.util.WebFrameworkUtils.getLoginUserId
  */
 @Tag(name = "管理后台 - OAuth2.0 用户")
 @RestController
-@RequestMapping("/system/oauth2/user")
+@RequestMapping("/sys/oauth2/user")
 @Validated
 @Slf4j
 public class OAuth2UserController {

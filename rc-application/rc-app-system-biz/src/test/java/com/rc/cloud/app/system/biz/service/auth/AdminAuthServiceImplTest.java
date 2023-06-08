@@ -3,6 +3,7 @@ package com.rc.cloud.app.system.biz.service.auth;
 import cn.hutool.core.util.ReflectUtil;
 import com.rc.cloud.app.system.biz.model.oauth2.OAuth2AccessTokenDO;
 import com.rc.cloud.app.system.biz.model.user.AdminUserDO;
+import com.rc.cloud.app.system.biz.service.captcha.CaptchaService;
 import com.rc.cloud.app.system.biz.service.oauth2.OAuth2TokenService;
 import com.rc.cloud.app.system.biz.service.user.AdminUserService;
 import com.rc.cloud.app.system.biz.vo.auth.AuthLoginReqVO;
@@ -44,8 +45,8 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
 
     @MockBean
     private AdminUserService userService;
-//    @MockBean
-//    private CaptchaService captchaService;
+    @MockBean
+    private CaptchaService captchaService;
 //    @MockBean
 //    private LoginLogService loginLogService;
 //    @MockBean
@@ -158,7 +159,6 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         AuthLoginReqVO reqVO = randomPojo(AuthLoginReqVO.class, o -> {
                     o.setUsername("test_username");
                     o.setPassword("test_password");
-                    o.setSocialType(randomEle(SocialTypeEnum.values()).getType());
                 });
 
         // mock 验证码正确

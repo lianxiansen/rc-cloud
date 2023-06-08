@@ -34,7 +34,7 @@ import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertSe
 
 @Tag(name = "管理后台 - 用户")
 @RestController
-@RequestMapping("/system/user")
+@RequestMapping("/sys/user")
 @Validated
 public class UserController {
 

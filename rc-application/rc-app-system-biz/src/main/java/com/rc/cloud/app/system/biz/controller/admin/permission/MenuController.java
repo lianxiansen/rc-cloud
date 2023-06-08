@@ -21,7 +21,7 @@ import java.util.List;
 
 @Tag(name = "管理后台 - 菜单")
 @RestController
-@RequestMapping("/system/menu")
+@RequestMapping("/sys/menu")
 @Validated
 public class MenuController {
 

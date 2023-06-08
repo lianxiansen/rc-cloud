@@ -26,7 +26,7 @@ import java.util.Set;
  */
 @Tag(name = "管理后台 - 权限")
 @RestController
-@RequestMapping("/system/permission")
+@RequestMapping("/sys/permission")
 public class PermissionController {
 
     @Resource

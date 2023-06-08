@@ -32,7 +32,7 @@ import java.util.List;
 
 @Tag(name = "管理后台 - 用户个人中心")
 @RestController
-@RequestMapping("/system/user/profile")
+@RequestMapping("/sys/user/profile")
 @Validated
 @Slf4j
 public class UserProfileController {

@@ -4,45 +4,39 @@
  */
 package com.rc.cloud.app.system.biz.contorller.admin.captcha;
 
-import com.rc.cloud.app.system.biz.common.test.RcTest;
 import com.rc.cloud.app.system.biz.controller.admin.captcha.CaptchaController;
-import org.junit.jupiter.api.BeforeEach;
+import com.rc.cloud.app.system.biz.service.captcha.CaptchaService;
+import com.rc.cloud.app.system.biz.vo.captcha.CaptchaVO;
+import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static com.rc.cloud.common.test.core.util.RandomUtils.randomPojo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 /**
  * 针对 {@link CaptchaController}的单元测试
  */
-@RcTest
-public class CaptchaControllerTests2 {
+public class CaptchaControllerTests2 extends BaseMockitoUnitTest {
 
-    @Autowired
-    private WebApplicationContext context;
+    @InjectMocks
+    private CaptchaController captchaController;
 
-    private MockMvc mvc;
-
-    @BeforeEach
-    public void setup() {
-        mvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .build();
-    }
+    @Mock
+    private CaptchaService captchaService;
 
     @Test
-    public void get_captcha_success() throws Exception {
-        mvc.perform(get("/sys/captcha/get"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.data.image").isNotEmpty())
-                .andExpect(jsonPath("$.data.key").isNotEmpty());
+    public void test_getCaptcha_success() {
+        CaptchaVO captchaVO = randomPojo(CaptchaVO.class);
+        when(captchaService.generate()).thenReturn(captchaVO);
+        CodeResult<CaptchaVO> result = captchaController.captcha();
+        assertEquals(200, result.getCode());
+        CaptchaVO captchaVORes = result.getData();
+        assertNotNull(captchaVORes.getImage());
+        assertNotNull(captchaVORes.getKey());
     }
 }

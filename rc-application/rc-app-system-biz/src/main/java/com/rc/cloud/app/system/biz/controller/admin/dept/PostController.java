@@ -26,7 +26,7 @@ import java.util.List;
 
 @Tag(name = "管理后台 - 岗位")
 @RestController
-@RequestMapping("/system/post")
+@RequestMapping("/sys/post")
 @Validated
 public class PostController {
 

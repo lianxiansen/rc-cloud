@@ -10,10 +10,7 @@ import com.rc.cloud.common.core.util.collection.CollectionUtils;
 
 import javax.validation.Valid;
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 后台用户 Service 接口
@@ -99,6 +96,14 @@ public interface AdminUserService {
      * @return 用户对象信息
      */
     AdminUserDO getUserByUsername(String username);
+
+    /**
+     * 通过用户名查询用户Optional
+     *
+     * @param username 用户名
+     * @return 用户对象Optional信息
+     */
+    Optional<AdminUserDO> findOptionalByUsername(String username);
 
     /**
      * 通过手机号获取用户

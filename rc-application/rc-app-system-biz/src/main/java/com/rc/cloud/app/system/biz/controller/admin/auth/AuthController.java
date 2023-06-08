@@ -38,7 +38,7 @@ import static java.util.Collections.singleton;
 
 @Tag(name = "管理后台 - 认证")
 @RestController
-@RequestMapping("/system/auth")
+@RequestMapping("/sys/auth")
 @Validated
 @Slf4j
 public class AuthController {
@@ -51,17 +51,13 @@ public class AuthController {
     private RoleService roleService;
     @Resource
     private PermissionService permissionService;
-//    @Resource
-//    private SocialUserService socialUserService;
-//    @Resource
-//    private SecurityProperties securityProperties;
 
     @PostMapping("/login")
     @PermitAll
     @Operation(summary = "使用账号密码登录")
-//    @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
     public CodeResult<AuthLoginRespVO> login(@RequestBody @Valid AuthLoginReqVO reqVO) {
         return CodeResult.ok(authService.login(reqVO));
+//        return CodeResult.ok();
     }
 
 //    @PostMapping("/logout")

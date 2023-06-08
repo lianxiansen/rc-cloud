@@ -2,10 +2,12 @@ package com.rc.cloud.app.system.biz.service.permission;
 
 import com.rc.cloud.app.system.biz.model.permission.MenuDO;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
+import com.rc.cloud.app.system.biz.model.user.AdminUserDO;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -77,6 +79,13 @@ public interface PermissionService {
     Set<Long> getUserRoleIdListByUserId(Long userId);
 
     /**
+     * 根据用户编号，获得菜单权限数组
+     * @param userId 用户编号
+     * @return 菜单权限数组
+     */
+    Set<String> getPermissionListByUserId(Long userId);
+
+    /**
      * 设置用户角色
      *
      * @param userId 角色编号
@@ -138,5 +147,12 @@ public interface PermissionService {
      * @return 部门数据权限
      */
     DeptDataPermissionRespDTO getDeptDataPermission(Long userId);
+
+    /**
+     * 根据用户名，获得包含权限列表的用户信息
+     * @param username 用户名
+     * @return 包含权限列表的用户信息
+     */
+    Optional<AdminUserDO> findOptionalByUsernameWithAuthorities(String username);
 
 }

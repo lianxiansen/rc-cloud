@@ -23,7 +23,7 @@ import java.util.List;
 
 @Tag(name = "管理后台 - 租户")
 @RestController
-@RequestMapping("/system/tenant")
+@RequestMapping("/sys/tenant")
 public class TenantController {
 
     @Resource

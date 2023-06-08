@@ -21,7 +21,7 @@ import java.util.List;
 
 @Tag(name = "管理后台 - 租户套餐")
 @RestController
-@RequestMapping("/system/tenant-package")
+@RequestMapping("/sys/tenant-package")
 @Validated
 public class TenantPackageController {
 

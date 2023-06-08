@@ -23,7 +23,7 @@ import java.util.List;
 
 @Tag(name = "管理后台 - 字典类型")
 @RestController
-@RequestMapping("/system/dict-type")
+@RequestMapping("/sys/dict-type")
 @Validated
 public class DictTypeController {
 

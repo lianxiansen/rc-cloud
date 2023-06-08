@@ -22,7 +22,7 @@ import javax.validation.Valid;
 
 @Tag(name = "管理后台 - OAuth2 客户端")
 @RestController
-@RequestMapping("/system/oauth2-client")
+@RequestMapping("/sys/oauth2-client")
 @Validated
 public class OAuth2ClientController {
 

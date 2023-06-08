@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.annotations.VisibleForTesting;
 import com.rc.cloud.app.system.biz.common.datapermission.core.util.DataPermissionUtils;
 import com.rc.cloud.app.system.biz.convert.user.UserConvert;
@@ -24,6 +25,7 @@ import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
+import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -226,6 +228,15 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public AdminUserDO getUserByUsername(String username) {
         return userMapper.selectByUsername(username);
+    }
+
+    @Override
+    public Optional<AdminUserDO> findOptionalByUsername(String username) {
+        AdminUserDO sysUserDO = userMapper.selectOne(new LambdaQueryWrapperX<AdminUserDO>().eq(AdminUserDO::getUsername, username));
+        if (sysUserDO == null) {
+            return Optional.empty();
+        }
+        return Optional.of(sysUserDO);
     }
 
     @Override

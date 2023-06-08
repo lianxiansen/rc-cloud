@@ -1,5 +1,7 @@
 package com.rc.cloud.app.system.biz.mapper.user;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.rc.cloud.app.system.biz.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.biz.model.user.AdminUserDO;
 import com.rc.cloud.app.system.biz.vo.user.user.UserExportReqVO;
 import com.rc.cloud.app.system.biz.vo.user.user.UserPageReqVO;
@@ -8,8 +10,11 @@ import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import com.rc.cloud.common.mybatis.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Mapper;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Mapper
 public interface AdminUserMapper extends BaseMapperX<AdminUserDO> {
@@ -57,4 +62,11 @@ public interface AdminUserMapper extends BaseMapperX<AdminUserDO> {
         return selectList(AdminUserDO::getDeptId, deptIds);
     }
 
+    default Optional<AdminUserDO> findOptionalByUsername(String username) {
+        AdminUserDO adminUserDO = selectOne(new LambdaQueryWrapperX<AdminUserDO>().eq(AdminUserDO::getUsername, username));
+        if (adminUserDO == null) {
+            return Optional.empty();
+        }
+        return Optional.of(adminUserDO);
+    }
 }
