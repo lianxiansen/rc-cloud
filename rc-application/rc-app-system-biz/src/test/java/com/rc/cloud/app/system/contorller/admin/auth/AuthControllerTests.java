@@ -5,18 +5,25 @@
 package com.rc.cloud.app.system.contorller.admin.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rc.cloud.app.system.common.cache.RedisCache;
+import com.rc.cloud.app.system.common.cache.RedisKeys;
 import com.rc.cloud.app.system.common.test.RcTest;
 import com.rc.cloud.app.system.controller.admin.auth.AuthController;
+import com.rc.cloud.app.system.service.auth.AdminAuthService;
+import com.rc.cloud.app.system.service.captcha.CaptchaService;
 import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
+import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
+import com.rc.cloud.app.system.vo.captcha.CaptchaVO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import javax.annotation.Resource;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,13 +37,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RcTest
 public class AuthControllerTests {
 
-    @Autowired
+    @Resource
     private WebApplicationContext context;
 
-    @Autowired
+    @Resource
     private PasswordEncoder passwordEncoder;
 
     private MockMvc mvc;
+
+    @Resource
+    private CaptchaService captchaService;
+
+    @Resource
+    private AdminAuthService authService;
+
+    @Resource
+    private RedisCache redisCache;
 
     @Qualifier("springSecurityFilterChain")
 
@@ -49,13 +65,14 @@ public class AuthControllerTests {
     }
 
     @Test
-    public void test_login_success() throws Exception {
+    public void loginWithCaptcha_success() throws Exception {
+        CaptchaVO captcha = getCaptcha();
         // 准备参数
         AuthLoginReqVO login = new AuthLoginReqVO();
         login.setUsername("admin");
         login.setPassword("123456");
-        login.setKey("xxx");
-        login.setCaptcha("1T34C");
+        login.setKey(captcha.getKey());
+        login.setCaptcha(getCaptchaCode(captcha.getKey()));
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(login);
@@ -78,73 +95,76 @@ public class AuthControllerTests {
     }
 
     // sad path：登录时用户名错误
-//    @Test
-//    public void loginWithErrorUsername_then_throwException() throws Exception {
-//        // 准备参数
-//        SysAccountLoginDTO login = new SysAccountLoginDTO();
-//        login.setUsername("admin111");
-//        login.setPassword("123");
-//        login.setKey("xxx");
-//        login.setCaptcha("xxx");
-//        ObjectMapper mapper = new ObjectMapper();
-//        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-//                .writeValueAsString(login);
-//
-//        mvc.perform(post("/sys/auth/login")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestBody)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isForbidden())
-//                .andExpect(jsonPath("$.code").value(10070))
-//                .andExpect(jsonPath("$.message").value("用户名或密码错误"));
-//    }
+    @Test
+    public void loginWithErrorUsername_then_throwException() throws Exception {
+        CaptchaVO captcha = getCaptcha();
+        // 准备参数
+        AuthLoginReqVO login = new AuthLoginReqVO();
+        login.setUsername("admin111");
+        login.setPassword("123456");
+        login.setKey(captcha.getKey());
+        login.setCaptcha(getCaptchaCode(captcha.getKey()));
+        ObjectMapper mapper = new ObjectMapper();
+        String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(login);
+
+        mvc.perform(post("/sys/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.msg").value("登录失败，账号密码不正确"));
+    }
 
     // sad path：登录时密码错误
-//    @Test
-//    public void loginWithErrorPassword_then_throwException() throws Exception {
-//        // 准备参数
-//        SysAccountLoginDTO login = new SysAccountLoginDTO();
-//        login.setUsername("admin_test");
-//        login.setPassword("123321");
-//        login.setKey("xxx");
-//        login.setCaptcha("xxx");
-//        ObjectMapper mapper = new ObjectMapper();
-//        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-//                .writeValueAsString(login);
-//
-//        mvc.perform(post("/sys/auth/login")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestBody)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isForbidden())
-//                .andExpect(jsonPath("$.code").value(10070))
-//                .andExpect(jsonPath("$.message").value("用户名或密码错误"));
-//    }
+    @Test
+    public void loginWithErrorPassword_then_throwException() throws Exception {
+        CaptchaVO captcha = getCaptcha();
+        // 准备参数
+        AuthLoginReqVO login = new AuthLoginReqVO();
+        login.setUsername("admin");
+        login.setPassword("123321");
+        login.setKey(captcha.getKey());
+        login.setCaptcha(getCaptchaCode(captcha.getKey()));
+        ObjectMapper mapper = new ObjectMapper();
+        String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(login);
+
+        mvc.perform(post("/sys/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.msg").value("登录失败，账号密码不正确"));
+    }
 
     // sad path：登录时验证码错误，涉及到数据库中的一个字段，暂时不测试
-//    @Test
-//    public void loginWithErrorCaptcha_then_throwException() throws Exception {
-//        // 准备参数
-//        SysAccountLoginDTO login = new SysAccountLoginDTO();
-//        login.setUsername("admin");
-//        login.setPassword("123");
-//        login.setKey("xxx");
-//        login.setCaptcha("xxx");
-//        ObjectMapper mapper = new ObjectMapper();
-//        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-//                .writeValueAsString(login);
-//
-//        mvc.perform(post("/sys/auth/login")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestBody)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isForbidden())
-//                .andExpect(jsonPath("$.code").value(10070))
-//                .andExpect(jsonPath("$.message").value("验证码错误"));
-//    }
+    @Test
+    public void loginWithErrorCaptcha_then_throwException() throws Exception {
+        CaptchaVO captcha = getCaptcha();
+        // 准备参数
+        AuthLoginReqVO login = new AuthLoginReqVO();
+        login.setUsername("admin");
+        login.setPassword("123456");
+        login.setKey(captcha.getKey());
+        login.setCaptcha("xxx");
+        ObjectMapper mapper = new ObjectMapper();
+        String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(login);
+
+        mvc.perform(post("/sys/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.msg").value("验证码不正确，原因：验证码错误"));
+    }
 
 //    @Test
 //    public void get_access_token_by_refresh_token_success() throws Exception {
@@ -196,16 +216,21 @@ public class AuthControllerTests {
 //                .andExpect(jsonPath("$.message").value("success"));
 //    }
 //
-//    private SysTokenVO getToken() {
-//        SysAccountLoginDTO login = new SysAccountLoginDTO();
-//        login.setUsername("admin_test");
-//        login.setPassword("123");
-//        login.setKey("xxx");
-//        login.setCaptcha("xxx");
-//        return sysAuthService.loginAndReturnDoubleToken(login);
-//    }
+    private AuthLoginRespVO getToken() {
+        AuthLoginReqVO login = new AuthLoginReqVO();
+        login.setUsername("admin");
+        login.setPassword("123456");
+        login.setKey("xxx");
+        login.setCaptcha("xxx");
+        return authService.login(login);
+    }
 
+    private CaptchaVO getCaptcha() {
+        return captchaService.generate();
+    }
 
-
-
+    private String getCaptchaCode(String key) {
+        key = RedisKeys.getCaptchaKey(key);
+        return (String) redisCache.get(key);
+    }
 }

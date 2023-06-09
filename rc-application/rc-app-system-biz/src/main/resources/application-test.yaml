@@ -53,4 +53,4 @@ rc:
   info:
     base-package: com.rc.cloud.app.system.mapper
   captcha:
-    enable: false # 是否开启验证码
+    enable: true # 是否开启验证码
