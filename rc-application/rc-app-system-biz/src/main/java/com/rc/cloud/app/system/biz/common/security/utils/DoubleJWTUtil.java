@@ -11,6 +11,7 @@ import com.rc.cloud.app.system.biz.vo.token.TokenVO;
 import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
 import com.rc.cloud.common.core.util.HttpContextUtils;
 import com.rc.cloud.common.core.util.date.DateUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +23,11 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
 
 public class DoubleJWTUtil {
 
-    private final String header = "Authorization"; // HTTP 报头的认证字段的 key
-    private final String prefix = "Bearer "; // HTTP 报头的认证字段的值的前缀
+    @Value("${rc.jwt.header}")
+    private String header;
+
+    @Value("${rc.jwt.prefix}")
+    private String prefix;
 
     /**
      * access_token 过期时间

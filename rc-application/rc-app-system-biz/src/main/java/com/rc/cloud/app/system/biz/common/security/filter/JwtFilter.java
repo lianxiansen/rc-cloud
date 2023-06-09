@@ -10,11 +10,13 @@ import com.rc.cloud.app.system.biz.service.permission.PermissionService;
 import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.val;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,22 +33,27 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  */
 //@Slf4j
 @Component
-@AllArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final TokenStoreCache tokenStoreCache;
+    @Resource
+    private TokenStoreCache tokenStoreCache;
 
-    private final PermissionService permissionService;
+    private PermissionService permissionService;
 
-    private final String header = "Authorization"; // HTTP 报头的认证字段的 key
-    private final String prefix = "Bearer "; // HTTP 报头的认证字段的值的前缀
-    @Min(5L)
-    private final long accessTokenExpireTime = 60L; // Access Token 过期时间，单位秒
+    @Value("${rc.jwt.header}")
+    private String header;
 
-    @Min(3600L)
-    private final long refreshTokenExpireTime = 30 * 24 * 3600L; // Refresh Token 过期时间，单位秒
+    @Value("${rc.jwt.prefix}")
+    private String prefix;
 
-    private final String secret = "x88Wf09ger56t837gf89nk390rU17c5Vbe8beod7d8d3e695*4"; // JWT 密钥
+    @Value("${rc.jwt.accessTokenExpireTime}")
+    private long accessTokenExpireTime;
+
+    @Value("${rc.jwt.refreshTokenExpireTime}")
+    private long refreshTokenExpireTime;
+
+    @Value("${rc.jwt.secret}")
+    private String secret; // JWT 密钥
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
