@@ -30,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 //import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,8 +65,8 @@ public class AdminUserServiceImpl implements AdminUserService {
     private PostService postService;
     @Resource
     private PermissionService permissionService;
-//    @Resource
-//    private PasswordEncoder passwordEncoder;
+    @Resource
+    private PasswordEncoder passwordEncoder;
     @Resource
     @Lazy // 延迟，避免循环依赖报错
     private TenantService tenantService;
@@ -92,8 +93,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         // 插入用户
         AdminUserDO user = UserConvert.INSTANCE.convert(reqVO);
         user.setStatus(CommonStatusEnum.ENABLE.getStatus()); // 默认开启
-//        user.setPassword(encodePassword(reqVO.getPassword())); // 加密密码
-        user.setPassword(reqVO.getPassword());
+        user.setPassword(encodePassword(reqVO.getPassword())); // 加密密码
         userMapper.insert(user);
         // 插入关联岗位
         if (CollectionUtil.isNotEmpty(user.getPostIds())) {
@@ -173,7 +173,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         AdminUserDO adminUserDO = new AdminUserDO();
         adminUserDO.setId(id);
         AdminUserDO updateObj = adminUserDO;
-//        updateObj.setPassword(encodePassword(reqVO.getNewPassword())); // 加密密码
+        updateObj.setPassword(encodePassword(reqVO.getNewPassword())); // 加密密码
         userMapper.updateById(updateObj);
     }
 
@@ -197,7 +197,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         // 更新密码
         AdminUserDO updateObj = new AdminUserDO();
         updateObj.setId(id);
-//        updateObj.setPassword(encodePassword(password)); // 加密密码
+        updateObj.setPassword(encodePassword(password)); // 加密密码
         userMapper.updateById(updateObj);
     }
 
@@ -422,9 +422,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
-//        if (!isPasswordMatch(oldPassword, user.getPassword())) {
-//            throw exception(USER_PASSWORD_FAILED);
-//        }
+        if (!isPasswordMatch(oldPassword, user.getPassword())) {
+            throw exception(USER_PASSWORD_FAILED);
+        }
     }
 
 //    @Override
@@ -470,10 +470,10 @@ public class AdminUserServiceImpl implements AdminUserService {
         return userMapper.selectListByStatus(status);
     }
 
-//    @Override
-//    public boolean isPasswordMatch(String rawPassword, String encodedPassword) {
-//        return passwordEncoder.matches(rawPassword, encodedPassword);
-//    }
+    @Override
+    public boolean isPasswordMatch(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
 
     /**
      * 对密码进行加密
@@ -481,8 +481,8 @@ public class AdminUserServiceImpl implements AdminUserService {
      * @param password 密码
      * @return 加密后的密码
      */
-//    private String encodePassword(String password) {
-//        return passwordEncoder.encode(password);
-//    }
+    private String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
 
 }

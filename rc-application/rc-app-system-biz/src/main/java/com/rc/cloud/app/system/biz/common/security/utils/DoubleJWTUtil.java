@@ -11,6 +11,7 @@ import com.rc.cloud.app.system.biz.vo.token.TokenVO;
 import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
 import com.rc.cloud.common.core.util.HttpContextUtils;
 import com.rc.cloud.common.core.util.date.DateUtils;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -48,8 +49,6 @@ public class DoubleJWTUtil {
      * token 构建器
      */
     private JWTCreator.Builder builder;
-
-
 
     /**
      * 初始化构建器和验证器，通过签名算法

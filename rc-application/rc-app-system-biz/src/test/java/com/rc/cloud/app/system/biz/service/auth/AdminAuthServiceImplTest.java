@@ -9,33 +9,27 @@ import com.rc.cloud.app.system.biz.service.user.AdminUserService;
 import com.rc.cloud.app.system.biz.vo.auth.AuthLoginReqVO;
 import com.rc.cloud.app.system.biz.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.enums.login.LoginLogTypeEnum;
-import com.rc.cloud.app.system.enums.login.LoginResultEnum;
-import com.rc.cloud.app.system.enums.social.SocialTypeEnum;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.enums.UserTypeEnum;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
-//import com.xingyuv.captcha.model.common.ResponseModel;
-//import com.xingyuv.captcha.service.CaptchaService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import static cn.hutool.core.util.RandomUtil.randomEle;
-import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
+import static com.rc.cloud.app.system.enums.ErrorCodeConstants.AUTH_LOGIN_BAD_CREDENTIALS;
+import static com.rc.cloud.app.system.enums.ErrorCodeConstants.AUTH_LOGIN_USER_DISABLED;
 import static com.rc.cloud.common.test.core.util.AssertUtils.assertPojoEquals;
 import static com.rc.cloud.common.test.core.util.AssertUtils.assertServiceException;
 import static com.rc.cloud.common.test.core.util.RandomUtils.randomPojo;
 import static com.rc.cloud.common.test.core.util.RandomUtils.randomString;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.isNull;
+import static org.mockito.Mockito.when;
 
 @Import(AdminAuthServiceImpl.class)
 public class AdminAuthServiceImplTest extends BaseDbUnitTest {
@@ -45,18 +39,13 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
 
     @MockBean
     private AdminUserService userService;
+
     @MockBean
     private CaptchaService captchaService;
 //    @MockBean
 //    private LoginLogService loginLogService;
-//    @MockBean
-//    private SocialUserService socialUserService;
-//    @MockBean
-//    private SmsCodeApi smsCodeApi;
     @MockBean
     private OAuth2TokenService oauth2TokenService;
-//    @MockBean
-//    private MemberService memberService;
     @MockBean
     private Validator validator;
 
@@ -81,7 +70,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         });
         when(userService.getUserByUsername(eq(username))).thenReturn(user);
         // mock password 匹配
-//        when(userService.isPasswordMatch(eq(password), eq(user.getPassword()))).thenReturn(true);
+        when(userService.isPasswordMatch(eq(password), eq(user.getPassword()))).thenReturn(true);
 
         // 调用
         AdminUserDO loginUser = authService.authenticate(username, password);
@@ -141,7 +130,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         });
         when(userService.getUserByUsername(eq(username))).thenReturn(user);
         // mock password 匹配
-//        when(userService.isPasswordMatch(eq(password), eq(user.getPassword()))).thenReturn(true);
+        when(userService.isPasswordMatch(eq(password), eq(user.getPassword()))).thenReturn(true);
 
         // 调用, 并断言异常
         assertServiceException(() -> authService.authenticate(username, password),
@@ -172,7 +161,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         });
         when(userService.getUserByUsername(eq("test_username"))).thenReturn(user);
         // mock password 匹配
-//        when(userService.isPasswordMatch(eq("test_password"), eq(user.getPassword()))).thenReturn(true);
+        when(userService.isPasswordMatch(eq("test_password"), eq(user.getPassword()))).thenReturn(true);
         // mock 缓存登录用户到 Redis
         OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class, o -> {
             o.setUserId(1L);

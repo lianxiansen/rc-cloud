@@ -1,3 +1,0 @@
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-##    com.rc.cloud.app.system.biz.common.security.filter.JwtFilter,\
-##    com.rc.cloud.app.system.biz.common.security.utils.DoubleJWTUtil

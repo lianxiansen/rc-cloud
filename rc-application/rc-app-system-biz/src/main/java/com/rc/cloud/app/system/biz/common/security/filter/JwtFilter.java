@@ -8,8 +8,8 @@ import com.rc.cloud.app.system.biz.common.security.utils.DoubleJWTUtil;
 import com.rc.cloud.app.system.biz.model.user.AdminUserDO;
 import com.rc.cloud.app.system.biz.service.permission.PermissionService;
 import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
+import lombok.AllArgsConstructor;
 import lombok.val;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -31,16 +31,12 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  */
 //@Slf4j
 @Component
+@AllArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private TokenStoreCache tokenStoreCache;
+    private final TokenStoreCache tokenStoreCache;
 
-    @Autowired
-    private DoubleJWTUtil doubleJWTUtil;
-
-    @Autowired
-    private PermissionService permissionService;
+    private final PermissionService permissionService;
 
     private final String header = "Authorization"; // HTTP 报头的认证字段的 key
     private final String prefix = "Bearer "; // HTTP 报头的认证字段的值的前缀
@@ -58,6 +54,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if(checkJwtTokenInHeader(request) && validateJwtToken(request) && checkJwtTokenInCache(request)) {
             String jwtToken = request.getHeader(header).replace(prefix, "");
             // 解析token
+            DoubleJWTUtil doubleJWTUtil = new DoubleJWTUtil(secret, accessTokenExpireTime, refreshTokenExpireTime);
             Map<String, Claim> stringClaimMap = doubleJWTUtil.decodeAccessToken(jwtToken);
             if (stringClaimMap == null) {
                 SecurityContextHolder.clearContext();
@@ -108,6 +105,7 @@ public class JwtFilter extends OncePerRequestFilter {
      */
     private boolean validateJwtToken(HttpServletRequest req) {
         String jwtToken = req.getHeader(header).replace(prefix, "");
+        DoubleJWTUtil doubleJWTUtil = new DoubleJWTUtil(secret, accessTokenExpireTime, refreshTokenExpireTime);
         return doubleJWTUtil.checkToken(jwtToken, TokenTypeEnum.ACCESS_TOKEN.getValue());
     }
 
@@ -119,6 +117,7 @@ public class JwtFilter extends OncePerRequestFilter {
      */
     private boolean checkJwtTokenInCache(HttpServletRequest request) {
         String jwtToken = request.getHeader(header).replace(prefix, "");
+        DoubleJWTUtil doubleJWTUtil = new DoubleJWTUtil(secret, accessTokenExpireTime, refreshTokenExpireTime);
         String username = doubleJWTUtil.getUsernameFromAccessToken(jwtToken);
         return tokenStoreCache.validateHasJwtAccessToken(jwtToken, username);
     }
