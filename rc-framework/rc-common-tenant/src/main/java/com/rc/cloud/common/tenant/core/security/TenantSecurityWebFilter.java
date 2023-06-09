@@ -54,8 +54,7 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
-//        Long tenantId = TenantContextHolder.getTenantId();
-        Long tenantId = 1L;
+        Long tenantId = TenantContextHolder.getTenantId();
         // 1. 登陆的用户，校验是否有权限访问该租户，避免越权问题。
 //        LoginUser user = SecurityFrameworkUtils.getLoginUser();
 //        if (user != null) {

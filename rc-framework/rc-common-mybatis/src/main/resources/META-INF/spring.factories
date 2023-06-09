@@ -1,3 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.rc.cloud.common.mybatis.MybatisConfiguration
-#    com.rc.cloud.common.mybatis.util.MybatisInterceptor
+    com.rc.cloud.common.mybatis.config.IdTypeEnvironmentPostProcessor

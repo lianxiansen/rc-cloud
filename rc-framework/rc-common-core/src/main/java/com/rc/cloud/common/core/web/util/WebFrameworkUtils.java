@@ -43,6 +43,9 @@ public class WebFrameworkUtils {
      */
     public static Long getTenantId(HttpServletRequest request) {
         String tenantId = request.getHeader(HEADER_TENANT_ID);
+        if (tenantId == null) {
+            tenantId = String.valueOf(request.getHeaders(HEADER_TENANT_ID));
+        }
         return NumberUtil.isNumber(tenantId) ? Long.valueOf(tenantId) : null;
     }
 

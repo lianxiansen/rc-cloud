@@ -48,7 +48,7 @@ mybatis:
 # RC配置项，设置当前项目所有自定义的配置
 rc:
   info:
-    base-package: com.rc.cloud.app.system.biz.mapper
+    base-package: com.rc.cloud.app.system.mapper
   captcha:
     timeout: 5m
     width: 160

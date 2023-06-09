@@ -56,12 +56,6 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.rc.cloud</groupId>-->
-<!--            <artifactId>rc-common-security</artifactId>-->
-<!--            <version>1.0.0</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>

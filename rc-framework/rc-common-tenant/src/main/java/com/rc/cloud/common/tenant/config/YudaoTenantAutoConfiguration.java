@@ -36,8 +36,8 @@ import javax.annotation.Resource;
 import java.util.Objects;
 
 @AutoConfiguration
-@ConditionalOnProperty(prefix = "rc.tenant", value = "enable", matchIfMissing = true) // 允许使用 yudao.tenant.enable=false 禁用多租户
-@EnableConfigurationProperties({TenantProperties.class, WebProperties.class})
+@ConditionalOnProperty(prefix = "rc.tenant", value = "enable", matchIfMissing = true) // 允许使用 rc.tenant.enable=false 禁用多租户
+@EnableConfigurationProperties(TenantProperties.class)
 public class YudaoTenantAutoConfiguration {
 
     @Resource

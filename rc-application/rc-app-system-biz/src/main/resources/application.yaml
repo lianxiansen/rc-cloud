@@ -41,12 +41,14 @@ mybatis-plus:
 rc:
   info:
     version: 1.0.0
-    base-package: cn.rc.cloud
+    base-package: com.rc.cloud
   web:
     admin-ui:
       url: http://dashboard.rc.cn # Admin 管理后台 UI 的地址
+  captcha:
+    enable: false # 是否开启验证码
   tenant: # 多租户相关配置项
-    enable: false
+    enable: true
     ignore-urls:
       - /admin-api/system/tenant/get-id-by-name # 基于名字获取租户，不许带租户编号
       - /admin-api/system/captcha/get # 获取图片验证码，和租户无关
@@ -70,25 +72,6 @@ rc:
     accessTokenExpireTime: 600 # JWT 的 Access Token 过期时间，单位为秒 （10 * 60 十分钟过期）
     refreshTokenExpireTime: 2592000  # JWT 的 Refresh Token 过期时间，单位为秒 30 * 24 * 3600（30天过期）
     secret: "x88Wf09ger56t837gf89nk390rU17c5Vbe8beod7d8d3e695*4" # JWT 的加密密钥
-
---- #################### 验证码相关配置 ####################
-
-aj:
-  captcha:
-    jigsaw: classpath:images/jigsaw # 滑动验证，底图路径，不配置将使用默认图片；以 classpath: 开头，取 resource 目录下路径
-    pic-click: classpath:images/pic-click # 滑动验证，底图路径，不配置将使用默认图片；以 classpath: 开头，取 resource 目录下路径
-    cache-type: redis # 缓存 local/redis...
-    cache-number: 1000 # local 缓存的阈值,达到这个值，清除缓存
-    timing-clear: 180 # local定时清除过期缓存(单位秒),设置为0代表不执行
-    type: blockPuzzle # 验证码类型 default两种都实例化。 blockPuzzle 滑块拼图 clickWord 文字点选
-    water-mark: 芋道源码 # 右下角水印文字(我的水印)，可使用 https://tool.chinaz.com/tools/unicode.aspx 中文转 Unicode，Linux 可能需要转 unicode
-    interference-options: 0 # 滑动干扰项(0/1/2)
-    req-frequency-limit-enable: false # 接口请求次数一分钟限制是否开启 true|false
-    req-get-lock-limit: 5 # 验证失败 5 次，get接口锁定
-    req-get-lock-seconds: 10 # 验证失败后，锁定时间间隔
-    req-get-minute-limit: 30 # get 接口一分钟内请求数限制
-    req-check-minute-limit: 60 # check 接口一分钟内请求数限制
-    req-verify-minute-limit: 60 # verify 接口一分钟内请求数限制
 
 # Quartz 配置项，对应 QuartzProperties 配置类
 spring:
@@ -135,4 +118,3 @@ justauth:
     type: REDIS
     prefix: 'social_auth_state:' # 缓存前缀，目前只对 Redis 缓存生效，默认 JUSTAUTH::STATE::
     timeout: 24h # 超时时长，目前只对 Redis 缓存生效，默认 3 分钟
-

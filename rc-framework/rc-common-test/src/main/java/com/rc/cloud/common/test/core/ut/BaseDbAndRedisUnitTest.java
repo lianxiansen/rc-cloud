@@ -2,8 +2,8 @@ package com.rc.cloud.common.test.core.ut;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
+import com.rc.cloud.common.datasource.config.YudaoDataSourceAutoConfiguration;
 import com.rc.cloud.common.mybatis.config.YudaoMybatisAutoConfiguration;
-import com.rc.cloud.common.mybatis.datasource.config.YudaoDataSourceAutoConfiguration;
 import com.rc.cloud.common.redis.config.YudaoRedisAutoConfiguration;
 import com.rc.cloud.common.test.config.RedisTestConfiguration;
 import com.rc.cloud.common.test.config.SqlInitializationTestConfiguration;

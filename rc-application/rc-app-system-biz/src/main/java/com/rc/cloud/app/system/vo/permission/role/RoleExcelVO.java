@@ -1,0 +1,34 @@
+package com.rc.cloud.app.system.vo.permission.role;
+
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.rc.cloud.app.system.enums.DictTypeConstants;
+import com.rc.cloud.common.excel.annotations.DictFormat;
+import com.rc.cloud.common.excel.convert.DictConvert;
+import lombok.Data;
+
+/**
+ * 角色 Excel 导出响应 VO
+ */
+@Data
+public class RoleExcelVO {
+
+    @ExcelProperty("角色序号")
+    private Long id;
+
+    @ExcelProperty("角色名称")
+    private String name;
+
+    @ExcelProperty("角色标志")
+    private String code;
+
+    @ExcelProperty("角色排序")
+    private Integer sort;
+
+    @ExcelProperty("数据范围")
+    private Integer dataScope;
+
+    @ExcelProperty(value = "角色状态", converter = DictConvert.class)
+    @DictFormat(DictTypeConstants.COMMON_STATUS)
+    private String status;
+
+}
