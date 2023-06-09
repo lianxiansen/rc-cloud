@@ -38,6 +38,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private PermissionService permissionService;
 
+    @Resource
+    private DoubleJWTUtil doubleJWTUtil;
+
     @Value("${rc.jwt.header}")
     private String header;
 
@@ -59,7 +62,6 @@ public class JwtFilter extends OncePerRequestFilter {
         if(checkJwtTokenInHeader(request) && validateJwtToken(request) && checkJwtTokenInCache(request)) {
             String jwtToken = request.getHeader(header).replace(prefix, "");
             // 解析token
-            DoubleJWTUtil doubleJWTUtil = new DoubleJWTUtil(secret, accessTokenExpireTime, refreshTokenExpireTime);
             Map<String, Claim> stringClaimMap = doubleJWTUtil.decodeAccessToken(jwtToken);
             if (stringClaimMap == null) {
                 SecurityContextHolder.clearContext();
@@ -110,7 +112,6 @@ public class JwtFilter extends OncePerRequestFilter {
      */
     private boolean validateJwtToken(HttpServletRequest req) {
         String jwtToken = req.getHeader(header).replace(prefix, "");
-        DoubleJWTUtil doubleJWTUtil = new DoubleJWTUtil(secret, accessTokenExpireTime, refreshTokenExpireTime);
         return doubleJWTUtil.checkToken(jwtToken, TokenTypeEnum.ACCESS_TOKEN.getValue());
     }
 
@@ -122,7 +123,6 @@ public class JwtFilter extends OncePerRequestFilter {
      */
     private boolean checkJwtTokenInCache(HttpServletRequest request) {
         String jwtToken = request.getHeader(header).replace(prefix, "");
-        DoubleJWTUtil doubleJWTUtil = new DoubleJWTUtil(secret, accessTokenExpireTime, refreshTokenExpireTime);
         String username = doubleJWTUtil.getUsernameFromAccessToken(jwtToken);
         return tokenStoreCache.validateHasJwtAccessToken(jwtToken, username);
     }

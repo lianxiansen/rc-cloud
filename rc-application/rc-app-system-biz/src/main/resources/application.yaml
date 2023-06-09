@@ -45,10 +45,7 @@ rc:
   web:
     admin-ui:
       url: http://dashboard.rc.cn # Admin 管理后台 UI 的地址
-  captcha:
-    enable: false # 是否开启验证码
   tenant: # 多租户相关配置项
-    enable: true
     ignore-urls:
       - /admin-api/system/tenant/get-id-by-name # 基于名字获取租户，不许带租户编号
       - /admin-api/system/captcha/get # 获取图片验证码，和租户无关

@@ -26,5 +26,4 @@ public class TenantApiImpl implements TenantApi {
     public void validateTenant(Long id) {
         tenantService.validTenant(id);
     }
-
 }

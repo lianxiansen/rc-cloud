@@ -2,6 +2,8 @@ package com.rc.cloud.app.system.service.auth;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.google.common.annotations.VisibleForTesting;
+import com.rc.cloud.app.system.common.security.cache.TokenStoreCache;
+import com.rc.cloud.app.system.common.security.utils.DoubleJWTUtil;
 import com.rc.cloud.app.system.convert.auth.AuthConvert;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
@@ -68,6 +70,12 @@ public class AdminAuthServiceImpl implements AdminAuthService {
      */
     @Value("${rc.captcha.enable:true}")
     private Boolean captchaEnable;
+
+    @Resource
+    private DoubleJWTUtil doubleJWTUtil;
+
+    @Resource
+    private TokenStoreCache tokenStoreCache;
 
     @Override
     public AdminUserDO authenticate(String username, String password) {
@@ -184,11 +192,12 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         // 插入登陆日志
 //        createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
 //        // 创建访问令牌
-//        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.createAccessToken(userId, getUserType().getValue(),
-//                OAuth2ClientConstants.CLIENT_ID_DEFAULT, null);
-//        // 构建返回结果
-//        return AuthConvert.INSTANCE.convert(accessTokenDO);
-        return null;
+        AuthLoginRespVO authLoginRespVO = doubleJWTUtil.generateTokens(userId, username);
+
+        // 保存token到redis
+        tokenStoreCache.saveJwtAccessToken(authLoginRespVO.getAccessToken(), username);
+        tokenStoreCache.saveJwtRefreshToken(authLoginRespVO.getRefreshToken(), username);
+        return authLoginRespVO;
     }
 
     @Override

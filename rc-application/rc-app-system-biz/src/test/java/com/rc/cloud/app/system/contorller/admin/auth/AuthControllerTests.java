@@ -52,8 +52,8 @@ public class AuthControllerTests {
     public void test_login_success() throws Exception {
         // 准备参数
         AuthLoginReqVO login = new AuthLoginReqVO();
-        login.setUsername("admin_test");
-        login.setPassword("123");
+        login.setUsername("admin");
+        login.setPassword("123456");
         login.setKey("xxx");
         login.setCaptcha("1T34C");
         ObjectMapper mapper = new ObjectMapper();
@@ -66,9 +66,9 @@ public class AuthControllerTests {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200));
-//                .andExpect(jsonPath("$.data.access_token").isNotEmpty())
-//                .andExpect(jsonPath("$.data.refresh_token").isNotEmpty());
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.data.accessToken").isNotEmpty())
+                .andExpect(jsonPath("$.data.refreshToken").isNotEmpty());
     }
 
     @Test

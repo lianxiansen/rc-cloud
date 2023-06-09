@@ -7,7 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.rc.cloud.app.system.vo.token.TokenVO;
+import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
 import com.rc.cloud.common.core.util.HttpContextUtils;
 import com.rc.cloud.common.core.util.date.DateUtils;
@@ -157,10 +157,10 @@ public class DoubleJWTUtil {
      * @param username 用户名
      * @return 双令牌
      */
-    public TokenVO generateSysTokensWithoutRealm(long id, String username) {
+    public AuthLoginRespVO generateTokens(long id, String username) {
         String access = this.generateToken("access", id, username, this.accessExpire);
         String refresh = this.generateToken("refresh", id, username, this.refreshExpire);
-        return new TokenVO(access, refresh);
+        return new AuthLoginRespVO(access, refresh);
     }
 
     /**
@@ -169,10 +169,10 @@ public class DoubleJWTUtil {
      * @param username 用户名
      * @return 双令牌
      */
-    public TokenVO generateSysTokensRealm(String id, String username) {
+    public AuthLoginRespVO generateSysTokensRealm(String id, String username) {
         String access = this.generateToken("access", id, username, this.accessExpire);
         String refresh = this.generateToken("refresh", id, username, this.refreshExpire);
-        return new TokenVO(access, refresh);
+        return new AuthLoginRespVO(access, refresh);
     }
 
     /**

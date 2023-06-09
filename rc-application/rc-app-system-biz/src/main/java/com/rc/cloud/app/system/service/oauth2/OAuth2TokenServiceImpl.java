@@ -51,12 +51,11 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
     @Override
     @Transactional
     public OAuth2AccessTokenDO createAccessToken(Long userId, Integer userType, String clientId, List<String> scopes) {
-//        OAuth2ClientDO clientDO = oauth2ClientService.validOAuthClientFromCache(clientId);
-//        // 创建刷新令牌
-//        OAuth2RefreshTokenDO refreshTokenDO = createOAuth2RefreshToken(userId, userType, clientDO, scopes);
-//        // 创建访问令牌
-//        return createOAuth2AccessToken(refreshTokenDO, clientDO);
-        return null;
+        OAuth2ClientDO clientDO = oauth2ClientService.validOAuthClientFromCache(clientId);
+        // 创建刷新令牌
+        OAuth2RefreshTokenDO refreshTokenDO = createOAuth2RefreshToken(userId, userType, clientDO, scopes);
+        // 创建访问令牌
+        return createOAuth2AccessToken(refreshTokenDO, clientDO);
 
     }
 
