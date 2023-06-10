@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception0;
 
 /**
  * 用于 JWT Token 形式的请求过滤器
@@ -80,8 +81,8 @@ public class JwtFilter extends OncePerRequestFilter {
     private void setupSpringAuthentication(String username) {
         // 通过用户名获取用户权限
         Optional<AdminUserDO> adminUserOptional = permissionService.findOptionalByUsernameWithAuthorities(username);
-        if (adminUserOptional.isPresent()) {
-            throw exception(10040, "Token 无效");
+        if (!adminUserOptional.isPresent()) {
+            throw exception0(10040, "Token 无效");
         }
         AdminUserDO adminUserDO = adminUserOptional.get();
         UserInfoCommon userInfoCommon = new UserInfoCommon();

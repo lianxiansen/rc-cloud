@@ -449,7 +449,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public Optional<AdminUserDO> findOptionalByUsernameWithAuthorities(String username) {
         Optional<AdminUserDO> optionalByUsername = adminUserService.findOptionalByUsername(username);
-        if (optionalByUsername.isPresent()) {
+        if (!optionalByUsername.isPresent()) {
             return Optional.empty();
         } else {
             AdminUserDO adminUserDO = optionalByUsername.get();

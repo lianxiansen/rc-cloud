@@ -8,7 +8,6 @@ import com.rc.cloud.app.system.model.user.AdminUserDO;
 import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.auth.AuthMenuRespVO;
 import com.rc.cloud.app.system.vo.auth.AuthPermissionInfoRespVO;
-import com.rc.cloud.app.system.vo.auth.AuthSocialLoginReqVO;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -69,7 +68,7 @@ public interface AuthConvert {
         return filterList(treeNodeMap.values(), node -> ID_ROOT.equals(node.getParentId()));
     }
 
-    SocialUserBindReqDTO convert(Long userId, Integer userType, AuthSocialLoginReqVO reqVO);
+//    SocialUserBindReqDTO convert(Long userId, Integer userType, AuthSocialLoginReqVO reqVO);
 
 //    SmsCodeSendReqDTO convert(AuthSmsSendReqVO reqVO);
 //

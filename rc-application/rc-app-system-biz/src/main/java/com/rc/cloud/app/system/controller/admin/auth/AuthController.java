@@ -8,10 +8,7 @@ import com.rc.cloud.app.system.service.auth.AdminAuthService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.permission.RoleService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
-import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
-import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
-import com.rc.cloud.app.system.vo.auth.AuthMenuRespVO;
-import com.rc.cloud.app.system.vo.auth.AuthPermissionInfoRespVO;
+import com.rc.cloud.app.system.vo.auth.*;
 import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.util.collection.SetUtils;
@@ -73,8 +70,8 @@ public class AuthController {
     @Operation(summary = "刷新令牌")
     @Parameter(name = "refreshToken", description = "刷新令牌", required = true)
 //    @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
-    public CodeResult<AuthLoginRespVO> refreshToken(@RequestParam("refreshToken") String refreshToken) {
-        return CodeResult.ok(authService.refreshToken(refreshToken));
+    public CodeResult<AuthLoginRespVO> refreshToken(@RequestBody @Valid RefreshTokenVO sysRefreshTokenDTO) {
+        return CodeResult.ok(authService.refreshToken(sysRefreshTokenDTO.getRefreshToken()));
     }
 
     @GetMapping("/get-permission-info")

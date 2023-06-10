@@ -5,6 +5,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.rc.cloud.app.system.common.security.cache.TokenStoreCache;
 import com.rc.cloud.app.system.common.security.utils.DoubleJWTUtil;
 import com.rc.cloud.app.system.convert.auth.AuthConvert;
+import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
 import com.rc.cloud.app.system.model.oauth2.OAuth2AccessTokenDO;
@@ -18,6 +19,7 @@ import com.rc.cloud.app.system.enums.login.LoginLogTypeEnum;
 import com.rc.cloud.app.system.enums.oauth2.OAuth2ClientConstants;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.enums.UserTypeEnum;
+import com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ import java.util.Set;
 
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception0;
 import static com.rc.cloud.common.core.util.servlet.ServletUtils.getClientIP;
 
 /**
@@ -191,7 +194,11 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
         // 插入登陆日志
 //        createLoginLog(userId, username, logType, LoginResultEnum.SUCCESS);
-//        // 创建访问令牌
+        return createDoubleToken(userId, username);
+    }
+
+    private AuthLoginRespVO createDoubleToken(Long userId, String username) {
+        // 创建访问令牌
         AuthLoginRespVO authLoginRespVO = doubleJWTUtil.generateTokens(userId, username);
 
         // 保存token到redis
@@ -202,14 +209,50 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
     @Override
     public AuthLoginRespVO refreshToken(String refreshToken) {
-        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
-        return AuthConvert.INSTANCE.convert(accessTokenDO);
+        // 检查refreshToken是否有效
+        AdminUserDO adminUserDO = validateRefreshToken(refreshToken);
+
+        // 从缓存中删除access_token和refresh_token
+        deleteJwtTokenByUsername(adminUserDO.getUsername());
+
+        // 生成token
+        return createDoubleToken(adminUserDO.getId(), adminUserDO.getUsername());
+    }
+
+    private AdminUserDO validateRefreshToken(String refreshToken) {
+        // 检查token是否有效
+        if (!doubleJWTUtil.checkToken(refreshToken, TokenTypeEnum.REFRESH_TOKEN.getValue())) {
+            throw exception0(10052, "刷新令牌已过期");
+        }
+
+        // 从jwt token中获取用户名
+        String username = doubleJWTUtil.getUsernameFromRefreshToken(refreshToken);
+
+        // 验证refreshToken是否在缓存中
+        if (!tokenStoreCache.validateHasJwtRefreshToken(refreshToken, username)) {
+            throw exception0(10042, "刷新令牌失效");
+        }
+
+        // 查询用户信息: 用户不存在或者已被禁用
+        return adminUserMapper.findOptionalByUsername(username).orElseThrow(() -> exception0(500, "用户不存在"));
+    }
+
+    /**
+     * 通过用户名删除缓存中的token
+     *
+     * @param username 用户名
+     */
+    private void deleteJwtTokenByUsername(String username) {
+        // 删除access_token
+        tokenStoreCache.deleteJwtAccessTokenByUsername(username);
+        // 删除refresh_token
+        tokenStoreCache.deleteJwtRefreshTokenByUsername(username);
     }
 
     @Override
     public Optional<AdminUserDO> findOptionalByUsernameWithAuthorities(String username) {
         Optional<AdminUserDO> optionalByUsername = adminUserMapper.findOptionalByUsername(username);
-        if (optionalByUsername.isPresent()) {
+        if (!optionalByUsername.isPresent()) {
             return Optional.empty();
         } else {
             AdminUserDO adminUserDO = optionalByUsername.get();

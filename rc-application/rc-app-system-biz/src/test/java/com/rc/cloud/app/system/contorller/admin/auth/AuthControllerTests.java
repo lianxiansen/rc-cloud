@@ -4,6 +4,7 @@
  */
 package com.rc.cloud.app.system.contorller.admin.auth;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.system.common.cache.RedisCache;
 import com.rc.cloud.app.system.common.cache.RedisKeys;
@@ -13,6 +14,7 @@ import com.rc.cloud.app.system.service.auth.AdminAuthService;
 import com.rc.cloud.app.system.service.captcha.CaptchaService;
 import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
 import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
+import com.rc.cloud.app.system.vo.auth.RefreshTokenVO;
 import com.rc.cloud.app.system.vo.captcha.CaptchaVO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,12 +22,17 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import com.alibaba.fastjson.TypeReference;
 
 import javax.annotation.Resource;
 
+import java.util.Map;
+
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -142,7 +149,7 @@ public class AuthControllerTests {
                 .andExpect(jsonPath("$.msg").value("登录失败，账号密码不正确"));
     }
 
-    // sad path：登录时验证码错误，涉及到数据库中的一个字段，暂时不测试
+    // sad path：登录时验证码错误
     @Test
     public void loginWithErrorCaptcha_then_throwException() throws Exception {
         CaptchaVO captcha = getCaptcha();
@@ -166,44 +173,44 @@ public class AuthControllerTests {
                 .andExpect(jsonPath("$.msg").value("验证码不正确，原因：验证码错误"));
     }
 
-//    @Test
-//    public void get_access_token_by_refresh_token_success() throws Exception {
-//        SysRefreshTokenDTO refreshTokenDTO = new SysRefreshTokenDTO();
-//        refreshTokenDTO.setRefreshToken(getToken().getRefresh_token());
-//        ObjectMapper mapper = new ObjectMapper();
-//        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-//                .writeValueAsString(refreshTokenDTO);
-//        // 准备参数
-//        MvcResult mvcResult = mvc.perform(post("/sys/auth/token/refresh")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestBody)
-//                        .accept(MediaType.APPLICATION_JSON)
-//                )
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.code").value(0))
-//                .andExpect(jsonPath("$.message").value("success"))
-//                .andExpect(jsonPath("$.data.access_token").isNotEmpty())
-//                .andExpect(jsonPath("$.data.refresh_token").isNotEmpty())
-//                .andReturn();
-//        String contentAsString = mvcResult.getResponse().getContentAsString();
+    // happy path：根据refreshToken获取accessToken
+    @Test
+    public void get_accessTokenByRefreshToken_success() throws Exception {
+        AuthLoginRespVO authLoginRespVO =  getToken();
+        RefreshTokenVO refreshTokenVO = new RefreshTokenVO();
+        refreshTokenVO.setRefreshToken(authLoginRespVO.getRefreshToken());
+        ObjectMapper mapper = new ObjectMapper();
+        String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(refreshTokenVO);
+        // 准备参数
+        MvcResult mvcResult = mvc.perform(post("/sys/auth/refresh-token")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                        .accept(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.data.accessToken").isNotEmpty())
+                .andExpect(jsonPath("$.data.refreshToken").isNotEmpty())
+                .andReturn();
+        String contentAsString = mvcResult.getResponse().getContentAsString();
 //        System.out.println(contentAsString);
-//        Map<String, Object> mapRoot = JSON.parseObject(contentAsString, new TypeReference<>(){});
-//        Object data = mapRoot.get("data");
-//        String dataStr = JSON.toJSONString(data);
-//        Map<String, Object> mapData = JSON.parseObject(dataStr, new TypeReference<>(){});
-//        String access_token = (String) mapData.get("access_token");
-//        System.out.println(access_token);
-//
+        Map<String, Object> mapRoot = JSON.parseObject(contentAsString, new TypeReference<Map<String, Object>>(){});
+        Object data = mapRoot.get("data");
+        String dataStr = JSON.toJSONString(data);
+        Map<String, Object> mapData = JSON.parseObject(dataStr, new TypeReference<Map<String, Object>>(){});
+        String accessToken = (String) mapData.get("accessToken");
+//        System.out.println(accessToken);
+
 //        mvc.perform(get("/sys/user/info")
 //                        .header("Authorization", "Bearer " + access_token))
 //                .andDo(print())
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.code").value(0))
-//                .andExpect(jsonPath("$.message").value("success"))
-//                .andExpect(jsonPath("$.data.username").value("admin_test"));
-//    }
-//
+//                .andExpect(jsonPath("$.data.username").value("admin"));
+    }
+
 //    @Test
 //    public void logout_success() throws Exception {
 //        mvc.perform(get("/sys/auth/logout")
@@ -220,8 +227,10 @@ public class AuthControllerTests {
         AuthLoginReqVO login = new AuthLoginReqVO();
         login.setUsername("admin");
         login.setPassword("123456");
-        login.setKey("xxx");
-        login.setCaptcha("xxx");
+        String key = getCaptcha().getKey();
+        login.setKey(key);
+        String captchaCode = getCaptchaCode(key);
+        login.setCaptcha(captchaCode);
         return authService.login(login);
     }
 
