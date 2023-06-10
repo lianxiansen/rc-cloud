@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Validator;
 import java.util.Optional;
 import java.util.Set;
@@ -274,6 +275,24 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         }
         // 删除成功，则记录登出日志
 //        createLogoutLog(accessTokenDO.getUserId(), accessTokenDO.getUserType(), logType);
+    }
+
+    // HttpServletRequest request
+
+    @Override
+    public void logout() {
+        // 获取当前用户名
+        String username = doubleJWTUtil.getUsernameFromCurrentAccessToken();
+        // 从缓存中删除access_token和refresh_token
+        deleteJwtTokenByUsername(username);
+
+//        // 保存登录日志
+//        sysLogLoginService.save(username, Constant.SUCCESS, LoginOperationEnum.LOGOUT_SUCCESS.getValue());
+//
+//        // 登出
+//        if (StrUtil.isNotBlank(token)) {
+//            authService.logout(token, LoginLogTypeEnum.LOGOUT_SELF.getType());
+//        }
     }
 
 //    private void createLogoutLog(Long userId, Integer userType, Integer logType) {

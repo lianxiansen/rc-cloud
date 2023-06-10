@@ -239,8 +239,14 @@ public class PermissionServiceImpl implements PermissionService {
     public Set<String> getPermissionListByUserId(Long userId) {
         // 从用户角色表中查询角色id
         Set<Long> roleIds = getUserRoleIdListByUserId(userId);
+        if (CollectionUtil.isEmpty(roleIds)) {
+            return Collections.emptySet();
+        }
         // 从角色菜单表中查询菜单id
         Set<Long> menuIds = roleMenuMapper.getMenuIdsByRoleIds(roleIds);
+        if (CollectionUtil.isEmpty(menuIds)) {
+            return Collections.emptySet();
+        }
         // 从菜单表中查询权限列表
         return menuMapper.getMenuPermissionListByMenuIds(menuIds);
     }

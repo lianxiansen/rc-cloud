@@ -1,6 +1,7 @@
 package com.rc.cloud.app.system.controller.admin.auth;
 
 import com.rc.cloud.app.system.convert.auth.AuthConvert;
+import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
 import com.rc.cloud.app.system.model.permission.MenuDO;
 import com.rc.cloud.app.system.model.permission.RoleDO;
 import com.rc.cloud.app.system.model.user.AdminUserDO;
@@ -9,7 +10,6 @@ import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.permission.RoleService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.auth.*;
-import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.util.collection.SetUtils;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -21,7 +21,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
@@ -46,27 +45,22 @@ public class AuthController {
     @Resource
     private PermissionService permissionService;
 
+
     @PostMapping("/login")
-    @PermitAll
     @Operation(summary = "使用账号密码登录")
     public CodeResult<AuthLoginRespVO> login(@RequestBody @Valid AuthLoginReqVO reqVO, HttpServletRequest request) {
         return CodeResult.ok(authService.login(reqVO));
     }
 
-//    @PostMapping("/logout")
-//    @PermitAll
-//    @Operation(summary = "登出系统")
-////    @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
-//    public CodeResult<Boolean> logout(HttpServletRequest request) {
-//        String token = obtainAuthorization(request, securityProperties.getTokenHeader());
-//        if (StrUtil.isNotBlank(token)) {
-//            authService.logout(token, LoginLogTypeEnum.LOGOUT_SELF.getType());
-//        }
-//        return CodeResult.ok(true);
-//    }
+    @GetMapping("/logout")
+    @Operation(summary = "登出系统")
+//    @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
+    public CodeResult<Boolean> logout() {
+        authService.logout();
+        return CodeResult.ok(true);
+    }
 
     @PostMapping("/refresh-token")
-    @PermitAll
     @Operation(summary = "刷新令牌")
     @Parameter(name = "refreshToken", description = "刷新令牌", required = true)
 //    @OperateLog(enable = false) // 避免 Post 请求被记录操作日志

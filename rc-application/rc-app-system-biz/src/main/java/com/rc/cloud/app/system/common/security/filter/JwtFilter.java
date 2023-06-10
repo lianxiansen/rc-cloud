@@ -5,9 +5,10 @@ import com.auth0.jwt.interfaces.Claim;
 import com.rc.cloud.app.system.common.security.cache.TokenStoreCache;
 import com.rc.cloud.app.system.common.security.user.UserInfoCommon;
 import com.rc.cloud.app.system.common.security.utils.DoubleJWTUtil;
+import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
 import com.rc.cloud.app.system.model.user.AdminUserDO;
 import com.rc.cloud.app.system.service.permission.PermissionService;
-import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,19 +25,19 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception0;
 
 /**
  * 用于 JWT Token 形式的请求过滤器
  */
-//@Slf4j
+@Slf4j
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
     @Resource
     private TokenStoreCache tokenStoreCache;
 
+    @Resource
     private PermissionService permissionService;
 
     @Resource

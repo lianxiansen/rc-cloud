@@ -5,6 +5,7 @@ import com.rc.cloud.app.system.vo.auth.*;
 import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
 import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -41,6 +42,7 @@ public interface AdminAuthService {
      * @param logType 登出类型
      */
     void logout(String token, Integer logType);
+    void logout();
 
     /**
      * 短信验证码发送

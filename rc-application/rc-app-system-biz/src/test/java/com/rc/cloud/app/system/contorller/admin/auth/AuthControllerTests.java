@@ -211,18 +211,18 @@ public class AuthControllerTests {
 //                .andExpect(jsonPath("$.data.username").value("admin"));
     }
 
-//    @Test
-//    public void logout_success() throws Exception {
-//        mvc.perform(get("/sys/auth/logout")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header("Authorization", "Bearer " + getToken().getAccess_token())
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.code").value(0))
-//                .andExpect(jsonPath("$.message").value("success"));
-//    }
-//
+    @Test
+    public void logout_success() throws Exception {
+        mvc.perform(get("/sys/auth/logout")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + getToken().getAccessToken())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.data").value("true"));
+    }
+
     private AuthLoginRespVO getToken() {
         AuthLoginReqVO login = new AuthLoginReqVO();
         login.setUsername("admin");
