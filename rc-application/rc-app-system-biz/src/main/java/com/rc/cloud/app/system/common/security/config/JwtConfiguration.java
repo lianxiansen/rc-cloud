@@ -20,12 +20,6 @@ import org.springframework.core.annotation.Order;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class JwtConfiguration {
 
-    @Value("${rc.jwt.header}")
-    private String header;
-
-    @Value("${rc.jwt.prefix}")
-    private String prefix;
-
     @Value("${rc.jwt.accessTokenExpireTime}")
     private long accessTokenExpireTime;
 

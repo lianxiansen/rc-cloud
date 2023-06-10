@@ -59,7 +59,7 @@ public class SecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests(auth -> auth
-                        .regexMatchers(permits).permitAll()
+                        .antMatchers(permits).permitAll()
                         .regexMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().authenticated()
                 )
