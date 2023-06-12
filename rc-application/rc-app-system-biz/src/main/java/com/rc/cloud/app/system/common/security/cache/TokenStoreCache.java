@@ -3,8 +3,10 @@ package com.rc.cloud.app.system.common.security.cache;
 import com.rc.cloud.app.system.common.cache.RedisCache;
 import com.rc.cloud.app.system.common.cache.RedisKeys;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.Min;
 
 /**
@@ -13,17 +15,17 @@ import javax.validation.constraints.Min;
  * @author oliveoil
  */
 @Component
-@AllArgsConstructor
 public class TokenStoreCache {
-    private final RedisCache redisCache;
+    @Resource
+    private RedisCache redisCache;
 
-    // HTTP 报头的认证字段的 key
-    // HTTP 报头的认证字段的值的前缀
     @Min(5L)
-    private final long accessTokenExpireTime = 60L; // Access Token 过期时间，单位秒
+    @Value("${rc.jwt.accessTokenExpireTime}")
+    private long accessTokenExpireTime = 60 * 60L; // Access Token 过期时间，单位秒
 
     @Min(3600L)
-    private final long refreshTokenExpireTime = 30 * 24 * 3600L; // Refresh Token 过期时间，单位秒
+    @Value("${rc.jwt.refreshTokenExpireTime}")
+    private long refreshTokenExpireTime = 30 * 24 * 3600L; // Refresh Token 过期时间，单位秒
 
     // JWT 密钥
     public void saveJwtAccessToken(String accessToken, String username) {

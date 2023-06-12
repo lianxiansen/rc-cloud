@@ -49,14 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Value("${rc.jwt.prefix}")
     private String prefix;
 
-    @Value("${rc.jwt.accessTokenExpireTime}")
-    private long accessTokenExpireTime;
-
-    @Value("${rc.jwt.refreshTokenExpireTime}")
-    private long refreshTokenExpireTime;
-
-    @Value("${rc.jwt.secret}")
-    private String secret; // JWT 密钥
+    // JWT 密钥
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)

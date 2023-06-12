@@ -66,7 +66,7 @@ rc:
   jwt:
     header: "Authorization" # JWT 在 HTTP Header 中的 Header 名字
     prefix: "Bearer " # JWT 在 HTTP Header 中的值的前缀
-    accessTokenExpireTime: 3600 # JWT 的 Access Token 过期时间，单位为秒 （60 * 60 十分钟过期）
+    accessTokenExpireTime: 3600 # JWT 的 Access Token 过期时间，单位为秒 （60 * 60 ）
     refreshTokenExpireTime: 2592000  # JWT 的 Refresh Token 过期时间，单位为秒 30 * 24 * 3600（30天过期）
     secret: "x88Wf09ger56t837gf89nk390rU17c5Vbe8beod7d8d3e695*4" # JWT 的加密密钥
 
