@@ -50,6 +50,9 @@ public interface MenuMapper extends BaseMapperX<MenuDO> {
         QueryWrapper<MenuDO> wrapper = new QueryWrapper<>();
         wrapper.lambda().select(MenuDO::getPermission);
         wrapper.in("id", menuIds);
-        return selectObjs(wrapper).stream().map(String::valueOf).collect(Collectors.toSet());
+        return selectObjs(wrapper).stream()
+                .map(String::valueOf)
+                .filter(item -> !item.isEmpty())
+                .collect(Collectors.toSet());
     }
 }
