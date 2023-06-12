@@ -1,6 +1,9 @@
 package com.rc.cloud.common.tenant.core.context;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.Objects;
 
 /**
  * 多租户上下文 Holder

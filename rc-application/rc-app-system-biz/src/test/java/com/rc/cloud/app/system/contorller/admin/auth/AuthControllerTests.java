@@ -5,6 +5,7 @@
 package com.rc.cloud.app.system.contorller.admin.auth;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.system.common.cache.RedisCache;
 import com.rc.cloud.app.system.common.cache.RedisKeys;
@@ -16,6 +17,7 @@ import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
 import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.auth.RefreshTokenVO;
 import com.rc.cloud.app.system.vo.captcha.CaptchaVO;
+import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,10 +27,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import com.alibaba.fastjson.TypeReference;
 
 import javax.annotation.Resource;
-
 import java.util.Map;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -62,9 +62,9 @@ public class AuthControllerTests {
     private RedisCache redisCache;
 
     @Qualifier("springSecurityFilterChain")
-
     @BeforeEach
     public void setup() {
+        TenantContextHolder.setTenantId(1L);
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())

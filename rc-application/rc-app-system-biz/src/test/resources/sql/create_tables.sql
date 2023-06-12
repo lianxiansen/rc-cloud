@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS "sys_menu" (
     "updater" varchar(64) DEFAULT '',
     "update_time" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deleted" bit NOT NULL DEFAULT FALSE,
+    "tenant_id" bigint not null default  '0',
     PRIMARY KEY ("id")
 ) COMMENT '菜单权限表';
 

@@ -1,7 +1,6 @@
 package com.rc.cloud.common.core.web.util;
 
 import cn.hutool.core.util.NumberUtil;
-import cn.hutool.core.util.StrUtil;
 import com.rc.cloud.common.core.enums.UserTypeEnum;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.core.web.config.WebProperties;
@@ -129,5 +128,4 @@ public class WebFrameworkUtils {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
         return servletRequestAttributes.getRequest();
     }
-
 }
