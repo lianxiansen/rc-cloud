@@ -5,6 +5,7 @@ import com.rc.cloud.app.system.model.dept.PostDO;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.vo.dept.post.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
+import com.rc.cloud.common.core.exception.ErrorCode;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.excel.util.ExcelUtils;
@@ -22,6 +23,9 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import static com.rc.cloud.app.system.enums.ErrorCodeConstants.POST_NOT_FOUND;
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
 
 @Tag(name = "管理后台 - 岗位")
@@ -49,20 +53,23 @@ public class PostController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{id}")
     @Operation(summary = "删除岗位")
 //    @PreAuthorize("@ss.hasPermission('system:post:delete')")
-    public CodeResult<Boolean> deletePost(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> deletePost(@PathVariable("id") Long id) {
         postService.deletePost(id);
         return CodeResult.ok(true);
     }
 
-    @GetMapping(value = "/get")
+    @GetMapping(value = "/{id}")
     @Operation(summary = "获得岗位信息")
     @Parameter(name = "id", description = "岗位编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:post:query')")
-    public CodeResult<PostRespVO> getPost(@RequestParam("id") Long id) {
+    public CodeResult<PostRespVO> getPost(@PathVariable("id") Long id) {
         PostDO postDO = postService.getPost(id);
+        if (postDO == null) {
+            throw exception(POST_NOT_FOUND);
+        }
         return CodeResult.ok(PostConvert.INSTANCE.convert(postDO));
     }
 

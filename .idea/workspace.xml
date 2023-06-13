@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完成创建和更新部门的单元测试">
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完成删除部门和获取部门简单列表的单元测试">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/DeptController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/DeptController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/dept/DeptControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/dept/DeptControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/dept/SysPostControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/dept/PostControllerTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,8 +118,8 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.DeptControllerTests.listDeptAllSimple_success">
-    <configuration name="DeptControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.PostControllerTests">
+    <configuration name="PostControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
@@ -128,13 +128,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.DeptControllerTests" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.PostControllerTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeptControllerTests.deleteDept_when_childExist_then_throwNotFailedException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PostControllerTests.createPost_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
@@ -143,14 +143,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.DeptControllerTests" />
-      <option name="METHOD_NAME" value="deleteDept_when_childExist_then_throwNotFailedException" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.PostControllerTests" />
+      <option name="METHOD_NAME" value="createPost_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeptControllerTests.deleteDept_when_idNotExist_then_throwNotFoundException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PostControllerTests.deletePostById_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
@@ -159,14 +159,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.DeptControllerTests" />
-      <option name="METHOD_NAME" value="deleteDept_when_idNotExist_then_throwNotFoundException" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.PostControllerTests" />
+      <option name="METHOD_NAME" value="deletePostById_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeptControllerTests.deleteOrg_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PostControllerTests.getPostByIdNotExist_then_throwNotFoundException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
@@ -175,14 +175,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.DeptControllerTests" />
-      <option name="METHOD_NAME" value="deleteOrg_success" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.PostControllerTests" />
+      <option name="METHOD_NAME" value="getPostByIdNotExist_then_throwNotFoundException" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeptControllerTests.listDeptAllSimple_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PostControllerTests.updatePost_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
@@ -191,8 +191,8 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.DeptControllerTests" />
-      <option name="METHOD_NAME" value="listDeptAllSimple_success" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.PostControllerTests" />
+      <option name="METHOD_NAME" value="updatePost_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -227,11 +227,11 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.DeptControllerTests.deleteDept_when_childExist_then_throwNotFailedException" />
-      <item itemvalue="JUnit.DeptControllerTests.deleteDept_when_idNotExist_then_throwNotFoundException" />
-      <item itemvalue="JUnit.DeptControllerTests.deleteOrg_success" />
-      <item itemvalue="JUnit.DeptControllerTests.listDeptAllSimple_success" />
-      <item itemvalue="JUnit.DeptControllerTests" />
+      <item itemvalue="JUnit.PostControllerTests" />
+      <item itemvalue="JUnit.PostControllerTests.createPost_success" />
+      <item itemvalue="JUnit.PostControllerTests.deletePostById_success" />
+      <item itemvalue="JUnit.PostControllerTests.getPostByIdNotExist_then_throwNotFoundException" />
+      <item itemvalue="JUnit.PostControllerTests.updatePost_success" />
       <item itemvalue="Spring Boot.AuthServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
       <item itemvalue="Spring Boot.MonitorServerApplication" />
@@ -239,11 +239,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.DeptControllerTests.listDeptAllSimple_success" />
-        <item itemvalue="JUnit.DeptControllerTests.deleteDept_when_childExist_then_throwNotFailedException" />
-        <item itemvalue="JUnit.DeptControllerTests.deleteDept_when_idNotExist_then_throwNotFoundException" />
-        <item itemvalue="JUnit.DeptControllerTests.deleteOrg_success" />
-        <item itemvalue="JUnit.DeptControllerTests" />
+        <item itemvalue="JUnit.PostControllerTests" />
+        <item itemvalue="JUnit.PostControllerTests.deletePostById_success" />
+        <item itemvalue="JUnit.PostControllerTests.updatePost_success" />
+        <item itemvalue="JUnit.PostControllerTests.createPost_success" />
+        <item itemvalue="JUnit.PostControllerTests.getPostByIdNotExist_then_throwNotFoundException" />
       </list>
     </recent_temporary>
   </component>
@@ -281,7 +281,7 @@
       <workItem from="1686278062489" duration="20757000" />
       <workItem from="1686354403567" duration="28321000" />
       <workItem from="1686528227189" duration="21127000" />
-      <workItem from="1686614222121" duration="4074000" />
+      <workItem from="1686614222121" duration="6398000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -416,7 +416,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686616473970</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="完成删除部门和获取部门简单列表的单元测试">
+      <created>1686618407212</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1686618407212</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -470,7 +477,8 @@
     <MESSAGE value="过滤权限为空的记录" />
     <MESSAGE value="完成获取部门列表和根据id获取部门的业务逻辑和单元测试" />
     <MESSAGE value="完成创建和更新部门的单元测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成创建和更新部门的单元测试" />
+    <MESSAGE value="完成删除部门和获取部门简单列表的单元测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成删除部门和获取部门简单列表的单元测试" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
