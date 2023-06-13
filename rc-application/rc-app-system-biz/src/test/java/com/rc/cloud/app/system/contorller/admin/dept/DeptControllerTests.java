@@ -4,10 +4,10 @@
  */
 package com.rc.cloud.app.system.contorller.admin.dept;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.system.common.cache.RedisCache;
 import com.rc.cloud.app.system.common.cache.RedisKeys;
 import com.rc.cloud.app.system.common.test.RcTest;
+import com.rc.cloud.app.system.controller.admin.dept.DeptController;
 import com.rc.cloud.app.system.service.auth.AdminAuthService;
 import com.rc.cloud.app.system.service.captcha.CaptchaService;
 import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
@@ -18,7 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -26,11 +25,14 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.Resource;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * 关联 {@link DeptController} 类
+ */
 @RcTest
 public class DeptControllerTests {
 
@@ -67,42 +69,41 @@ public class DeptControllerTests {
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isArray())
                 .andExpect(jsonPath("$.data").isNotEmpty())
-                .andExpect(jsonPath("$.data[1].name").value("深圳总公司"));
+                .andExpect(jsonPath("$.data[1].name").value("黄岩总公司"));
     }
 
-//    @Test
-//    public void getOrgByIdExist_then_success() throws Exception {
-//        mvc.perform(get("/sys/org/3")
-//                        .header("Authorization", "Bearer " + getAccessToken()))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.code").value(0))
-//                .andExpect(jsonPath("$.message").value("success"))
-//                .andExpect(jsonPath("$.data.orgName").value("IT部"));
-//    }
-//
-//    @Test
-//    public void getOrgById_when_ParentExist_then_return_parentName() throws Exception {
-//        mvc.perform(get("/sys/org/6")
-//                        .header("Authorization", "Bearer " + getAccessToken()))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.code").value(0))
-//                .andExpect(jsonPath("$.message").value("success"))
-//                .andExpect(jsonPath("$.data.orgName").value("项目组A"))
-//                .andExpect(jsonPath("$.data.parentName").value("IT部"));
-//    }
-//
-//    @Test
-//    public void getOrgByIdNotExist_then_throwNotFoundException() throws Exception {
-//        mvc.perform(get("/sys/org/9999999")
-//                        .header("Authorization", "Bearer " + getAccessToken()))
-//                .andDo(print())
-//                .andExpect(status().isNotFound())
-//                .andExpect(jsonPath("$.code").value(10020))
-//                .andExpect(jsonPath("$.message").value("机构不存在"));
-//    }
-//
+    @Test
+    public void getDeptById_success() throws Exception {
+        mvc.perform(get("/sys/dept/100")
+                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.data.name").value("柔川信息"));
+    }
+
+    @Test
+    public void getDeptById_when_ParentExist_then_returnParentName() throws Exception {
+        mvc.perform(get("/sys/dept/101")
+                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.data.name").value("黄岩总公司"))
+                .andExpect(jsonPath("$.data.parentName").value("柔川信息"));
+    }
+
+    @Test
+    public void getOrgByIdNotExist_then_throwNotFoundException() throws Exception {
+        mvc.perform(get("/sys/dept/9999999")
+                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.data").value(1002004002))
+                .andExpect(jsonPath("$.msg").value("当前部门不存在"));
+    }
+
 //    @Test
 //    public void saveOrg_success() throws Exception {
 //        SysOrgCreateDTO createDTO = new SysOrgCreateDTO();

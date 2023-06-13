@@ -2,9 +2,9 @@
 -- ----------------------------
 -- Records of sys_dept
 -- ----------------------------
-INSERT INTO `sys_dept` VALUES (100, '芋道源码', 0, 0, 1, '15888888888', 'ry@qq.com', 0, 'admin', '2021-01-05 17:03:47', '1', '2022-06-19 00:29:10', 0, 1);
-INSERT INTO `sys_dept` VALUES (101, '深圳总公司', 100, 1, 104, '15888888888', 'ry@qq.com', 0, 'admin', '2021-01-05 17:03:47', '1', '2022-05-16 20:25:23', 0, 1);
-INSERT INTO `sys_dept` VALUES (102, '长沙分公司', 100, 2, NULL, '15888888888', 'ry@qq.com', 0, 'admin', '2021-01-05 17:03:47', '', '2021-12-15 05:01:40', 0, 1);
+INSERT INTO `sys_dept` VALUES (100, '柔川信息', 0, 0, 1, '15888888888', 'ry@qq.com', 0, 'admin', '2021-01-05 17:03:47', '1', '2022-06-19 00:29:10', 0, 1);
+INSERT INTO `sys_dept` VALUES (101, '黄岩总公司', 100, 1, 104, '15888888888', 'ry@qq.com', 0, 'admin', '2021-01-05 17:03:47', '1', '2022-05-16 20:25:23', 0, 1);
+INSERT INTO `sys_dept` VALUES (102, '杭州分公司', 100, 2, NULL, '15888888888', 'ry@qq.com', 0, 'admin', '2021-01-05 17:03:47', '', '2021-12-15 05:01:40', 0, 1);
 INSERT INTO `sys_dept` VALUES (103, '研发部门', 101, 1, 104, '15888888888', 'ry@qq.com', 0, 'admin', '2021-01-05 17:03:47', '103', '2022-01-14 01:04:14', 0, 1);
 INSERT INTO `sys_dept` VALUES (104, '市场部门', 101, 2, NULL, '15888888888', 'ry@qq.com', 0, 'admin', '2021-01-05 17:03:47', '', '2021-12-15 05:01:38', 0, 1);
 INSERT INTO `sys_dept` VALUES (105, '测试部门', 101, 3, NULL, '15888888888', 'ry@qq.com', 0, 'admin', '2021-01-05 17:03:47', '1', '2022-05-16 20:25:15', 0, 1);
@@ -1548,9 +1548,9 @@ INSERT INTO `sys_role_menu` VALUES (2900, 139, 1020, '1', '2023-05-31 13:52:15',
 -- ----------------------------
 -- Records of sys_tenant
 -- ----------------------------
-INSERT INTO `sys_tenant` VALUES (1, '芋道源码', NULL, '芋艿', '17321315478', 0, 'https://www.iocoder.cn', 0, '2099-02-19 17:14:16', 9999, '1', '2021-01-05 17:03:47', '1', '2022-02-23 12:15:11', 0);
+INSERT INTO `sys_tenant` VALUES (1, '柔川信息', NULL, 'rc', '17321315478', 0, 'https://www.iocoder.cn', 0, '2099-02-19 17:14:16', 9999, '1', '2021-01-05 17:03:47', '1', '2022-02-23 12:15:11', 0);
 INSERT INTO `sys_tenant` VALUES (121, '小租户', 110, '小王2', '15601691300', 0, 'http://www.iocoder.cn', 111, '2024-03-11 00:00:00', 20, '1', '2022-02-22 00:56:14', '1', '2022-05-17 10:03:59', 0);
-INSERT INTO `sys_tenant` VALUES (122, '测试租户', 113, '芋道', '15601691300', 0, 'https://www.iocoder.cn', 111, '2022-04-30 00:00:00', 50, '1', '2022-03-07 21:37:58', '1', '2022-03-07 21:37:58', 0);
+INSERT INTO `sys_tenant` VALUES (122, '测试租户', 113, 'rc', '15601691300', 0, 'https://www.iocoder.cn', 111, '2022-04-30 00:00:00', 50, '1', '2022-03-07 21:37:58', '1', '2022-03-07 21:37:58', 0);
 INSERT INTO `sys_tenant` VALUES (150, 'zuhu1', 126, 'huang', NULL, 0, 'www.baidu.com', 111, '2024-05-31 00:00:00', 1000, '1', '2023-05-31 13:52:15', '1', '2023-05-31 13:52:15', 0);
 
 
@@ -1564,7 +1564,7 @@ INSERT INTO `sys_tenant_package` VALUES (111, '普通套餐', 0, '小功能', '[
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'admin', '{bcrypt}$2a$10$YJbogpdxBMetfPmF.PE8.OuTpKPH8SvYAvs7vN.SmYVaViNazCQxO', '芋道源码', '管理员', 103, '[1]', 'aoteman@126.com', '15612345678', 1, 'http://test.yudao.iocoder.cn/e1fdd7271685ec143a0900681606406621717a666ad0b2798b096df41422b32f.png', 0, '127.0.0.1', '2023-05-31 11:26:15', 'admin', '2021-01-05 17:03:47', NULL, '2023-06-10 15:05:14', 0, 1);
-INSERT INTO `sys_user` VALUES (100, 'yudao', '{bcrypt}$2a$10$YJbogpdxBMetfPmF.PE8.OuTpKPH8SvYAvs7vN.SmYVaViNazCQxO', '芋道', '不要吓我', 104, '[1]', 'yudao@iocoder.cn', '15601691300', 1, '', 1, '127.0.0.1', '2022-07-09 23:03:33', '', '2021-01-07 09:07:17', NULL, '2023-06-10 15:05:47', 0, 1);
+INSERT INTO `sys_user` VALUES (100, 'rc', '{bcrypt}$2a$10$YJbogpdxBMetfPmF.PE8.OuTpKPH8SvYAvs7vN.SmYVaViNazCQxO', '芋道', '不要吓我', 104, '[1]', 'yudao@iocoder.cn', '15601691300', 1, '', 1, '127.0.0.1', '2022-07-09 23:03:33', '', '2021-01-07 09:07:17', NULL, '2023-06-10 15:05:47', 0, 1);
 INSERT INTO `sys_user` VALUES (103, 'yuanma', '{bcrypt}$2a$10$YJbogpdxBMetfPmF.PE8.OuTpKPH8SvYAvs7vN.SmYVaViNazCQxO', '源码', NULL, 106, NULL, 'yuanma@iocoder.cn', '15601701300', 0, '', 0, '127.0.0.1', '2022-07-08 01:26:27', '', '2021-01-13 23:50:35', NULL, '2023-06-10 15:05:49', 0, 1);
 INSERT INTO `sys_user` VALUES (104, 'test', '{bcrypt}$2a$10$YJbogpdxBMetfPmF.PE8.OuTpKPH8SvYAvs7vN.SmYVaViNazCQxO', '测试号', NULL, 107, '[1,2]', '111@qq.com', '15601691200', 1, '', 0, '127.0.0.1', '2022-05-28 15:43:17', '', '2021-01-21 02:13:53', NULL, '2023-06-10 15:05:52', 0, 1);
 INSERT INTO `sys_user` VALUES (107, 'admin107', '{bcrypt}$2a$10$YJbogpdxBMetfPmF.PE8.OuTpKPH8SvYAvs7vN.SmYVaViNazCQxO', '芋艿', NULL, NULL, NULL, '', '15601691300', 0, '', 0, '', NULL, '1', '2022-02-20 22:59:33', '1', '2023-06-10 15:05:54', 0, 118);
@@ -1629,5 +1629,3 @@ INSERT INTO `sys_user_role` VALUES (28, 123, 136, '1', '2023-03-05 21:23:35', '1
 INSERT INTO `sys_user_role` VALUES (29, 124, 137, '1', '2023-03-05 21:42:27', '1', '2023-03-05 21:42:27', 0, 148);
 INSERT INTO `sys_user_role` VALUES (30, 125, 138, '1', '2023-03-05 21:59:03', '1', '2023-03-05 21:59:03', 0, 149);
 INSERT INTO `sys_user_role` VALUES (31, 126, 139, '1', '2023-05-31 13:52:15', '1', '2023-05-31 13:52:15', 0, 150);
-
-

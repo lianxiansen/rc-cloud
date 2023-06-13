@@ -73,12 +73,20 @@ public class DeptController {
         return CodeResult.ok(DeptConvert.INSTANCE.convertList02(list));
     }
 
-    @GetMapping("/get")
+    @GetMapping("/{id}")
     @Operation(summary = "获得部门信息")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:dept:query')")
-    public CodeResult<DeptRespVO> getDept(@RequestParam("id") Long id) {
-        return CodeResult.ok(DeptConvert.INSTANCE.convert(deptService.getDept(id)));
-    }
+    public CodeResult<DeptRespVO> getDept(@PathVariable("id") Long id) {
+        DeptRespVO deptRespVO = DeptConvert.INSTANCE.convert(deptService.getDept(id));
+        Long parentId = deptRespVO.getParentId();
 
+        if (parentId == null || parentId <= 0L) {
+            deptRespVO.setParentName(null);
+            return CodeResult.ok(deptRespVO);
+        }
+        DeptDO parent = deptService.getDept(parentId);
+        deptRespVO.setParentName(parent == null ? null : parent.getName());
+        return CodeResult.ok(deptRespVO);
+    }
 }

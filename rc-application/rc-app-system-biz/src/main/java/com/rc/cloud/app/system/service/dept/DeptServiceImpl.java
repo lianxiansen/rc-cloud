@@ -242,7 +242,11 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     public DeptDO getDept(Long id) {
-        return deptMapper.selectById(id);
+        DeptDO deptDO = deptMapper.selectById(id);
+        if (deptDO == null) {
+            throw exception(DEPT_NOT_FOUND);
+        }
+        return deptDO;
     }
 
     @Override

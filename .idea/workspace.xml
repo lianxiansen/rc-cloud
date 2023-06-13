@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="解决token缓存时间不对的问题">
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="过滤权限为空的记录">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/DeptController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/DeptController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/permission/MenuMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/permission/MenuMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/DeptServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/DeptServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/dept/dept/DeptRespVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/dept/dept/DeptRespVO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/dept/DeptControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/dept/DeptControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/resources/sql/init_data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/resources/sql/init_data.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +121,22 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.SystemApplication">
+  <component name="RunManager" selected="JUnit.DeptControllerTests">
+    <configuration name="AuthControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rc-app-system-biz" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.auth.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.auth" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.auth.AuthControllerTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CaptchaControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
@@ -149,7 +167,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeptControllerTests.getDeptById_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DeptControllerTests.getOrgByIdNotExist_then_throwNotFoundException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
@@ -159,24 +177,22 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
       <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.DeptControllerTests" />
-      <option name="METHOD_NAME" value="getDeptById_success" />
+      <option name="METHOD_NAME" value="getOrgByIdNotExist_then_throwNotFoundException" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeptControllerTests.getDeptList_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="com.rc.cloud.app.system.contorller.admin in rc-app-system-biz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.dept.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.DeptControllerTests" />
-      <option name="METHOD_NAME" value="getDeptList_success" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -209,37 +225,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SystemApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="rc-app-system-biz" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.app.system.SystemApplication" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
-      <item itemvalue="JUnit.DeptControllerTests" />
-      <item itemvalue="JUnit.DeptControllerTests.getDeptById_success" />
-      <item itemvalue="JUnit.DeptControllerTests.getDeptList_success" />
+      <item itemvalue="JUnit.AuthControllerTests" />
       <item itemvalue="JUnit.CaptchaControllerTests" />
+      <item itemvalue="JUnit.DeptControllerTests" />
+      <item itemvalue="JUnit.DeptControllerTests.getOrgByIdNotExist_then_throwNotFoundException" />
+      <item itemvalue="JUnit.com.rc.cloud.app.system.contorller.admin in rc-app-system-biz" />
       <item itemvalue="Spring Boot.AuthServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
       <item itemvalue="Spring Boot.MonitorServerApplication" />
       <item itemvalue="Spring Boot.ResourceServerApplication" />
-      <item itemvalue="Spring Boot.SystemApplication" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.SystemApplication" />
-        <item itemvalue="JUnit.DeptControllerTests.getDeptList_success" />
-        <item itemvalue="JUnit.DeptControllerTests.getDeptById_success" />
         <item itemvalue="JUnit.DeptControllerTests" />
         <item itemvalue="JUnit.CaptchaControllerTests" />
+        <item itemvalue="JUnit.AuthControllerTests" />
+        <item itemvalue="JUnit.DeptControllerTests.getOrgByIdNotExist_then_throwNotFoundException" />
+        <item itemvalue="JUnit.com.rc.cloud.app.system.contorller.admin in rc-app-system-biz" />
       </list>
     </recent_temporary>
   </component>
@@ -276,7 +279,8 @@
       <workItem from="1686267840402" duration="7067000" />
       <workItem from="1686278062489" duration="20757000" />
       <workItem from="1686354403567" duration="28321000" />
-      <workItem from="1686528227189" duration="19365000" />
+      <workItem from="1686528227189" duration="21127000" />
+      <workItem from="1686614222121" duration="765000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -390,7 +394,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686560268956</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="过滤权限为空的记录">
+      <created>1686560546988</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1686560546988</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -441,7 +452,8 @@
     <MESSAGE value="security改成antMatchers url匹配，增加跨域访问配置" />
     <MESSAGE value="解决单元测试多租户问题" />
     <MESSAGE value="解决token缓存时间不对的问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="解决token缓存时间不对的问题" />
+    <MESSAGE value="过滤权限为空的记录" />
+    <option name="LAST_COMMIT_MESSAGE" value="过滤权限为空的记录" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
