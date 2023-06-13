@@ -8,6 +8,7 @@ import com.rc.cloud.app.system.common.security.utils.DoubleJWTUtil;
 import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
 import com.rc.cloud.app.system.model.user.AdminUserDO;
 import com.rc.cloud.app.system.service.permission.PermissionService;
+import com.rc.cloud.common.core.web.util.WebFrameworkUtils;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,7 +64,7 @@ public class JwtFilter extends OncePerRequestFilter {
             } else {
                 // 获取用户名
                 String username = stringClaimMap.get("username").asString();
-                setupSpringAuthentication(username);
+                setupSpringAuthentication(username, request);
             }
         } else {
             filterChain.doFilter(request, response);
@@ -72,7 +73,7 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void setupSpringAuthentication(String username) {
+    private void setupSpringAuthentication(String username, HttpServletRequest request) {
         // 通过用户名获取用户权限
         Optional<AdminUserDO> adminUserOptional = permissionService.findOptionalByUsernameWithAuthorities(username);
         if (!adminUserOptional.isPresent()) {
@@ -86,6 +87,10 @@ public class JwtFilter extends OncePerRequestFilter {
         val authentication = new UsernamePasswordAuthenticationToken(userInfoCommon, null,
                 adminUserOptional.get().getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // 额外设置到 request 中，用于 ApiAccessLogFilter 可以获取到用户编号；
+        // 原因是，Spring Security 的 Filter 在 ApiAccessLogFilter 后面，在它记录访问日志时，线上上下文已经没有用户编号等信息
+        WebFrameworkUtils.setLoginUserId(request, adminUserDO.getId());
     }
 
     /**

@@ -52,15 +52,15 @@ public class WebFrameworkUtils {
         request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID, userId);
     }
 
-    /**
-     * 设置用户类型
-     *
-     * @param request 请求
-     * @param userType 用户类型
-     */
-    public static void setLoginUserType(ServletRequest request, Integer userType) {
-        request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_TYPE, userType);
-    }
+//    /**
+//     * 设置用户类型
+//     *
+//     * @param request 请求
+//     * @param userType 用户类型
+//     */
+//    public static void setLoginUserType(ServletRequest request, Integer userType) {
+//        request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_TYPE, userType);
+//    }
 
     /**
      * 获得当前用户的编号，从请求中
@@ -102,10 +102,10 @@ public class WebFrameworkUtils {
         return null;
     }
 
-    public static Integer getLoginUserType() {
-        HttpServletRequest request = getRequest();
-        return getLoginUserType(request);
-    }
+//    public static Integer getLoginUserType() {
+//        HttpServletRequest request = getRequest();
+//        return getLoginUserType(request);
+//    }
 
     public static Long getLoginUserId() {
         HttpServletRequest request = getRequest();

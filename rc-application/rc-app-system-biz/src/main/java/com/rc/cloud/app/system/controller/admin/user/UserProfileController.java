@@ -26,6 +26,8 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.rc.cloud.common.core.web.util.WebFrameworkUtils.getLoginUserId;
+
 //import static com.rc.cloud.common.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
 
@@ -46,16 +48,13 @@ public class UserProfileController {
     private PermissionService permissionService;
     @Resource
     private RoleService roleService;
-//    @Resource
-//    private SocialUserService socialService;
 
     @GetMapping("/get")
     @Operation(summary = "获得登录用户信息")
     @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
     public CodeResult<UserProfileRespVO> profile() {
         // 获得用户基本信息
-//        AdminUserDO user = userService.getUser(getLoginUserId());
-        AdminUserDO user = userService.getUser(1L);
+        AdminUserDO user = userService.getUser(getLoginUserId());
         UserProfileRespVO resp = UserConvert.INSTANCE.convert03(user);
         // 获得用户角色
         List<RoleDO> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
@@ -70,25 +69,20 @@ public class UserProfileController {
             List<PostDO> posts = postService.getPostList(user.getPostIds());
             resp.setPosts(UserConvert.INSTANCE.convertList02(posts));
         }
-//        // 获得社交用户信息
-//        List<SocialUserDO> socialUsers = socialService.getSocialUserList(user.getId(), UserTypeEnum.ADMIN.getValue());
-//        resp.setSocialUsers(UserConvert.INSTANCE.convertList03(socialUsers));
         return CodeResult.ok(resp);
     }
 
     @PutMapping("/update")
     @Operation(summary = "修改用户个人信息")
     public CodeResult<Boolean> updateUserProfile(@Valid @RequestBody UserProfileUpdateReqVO reqVO) {
-//        userService.updateUserProfile(getLoginUserId(), reqVO);
-        userService.updateUserProfile(1L, reqVO);
+        userService.updateUserProfile(getLoginUserId(), reqVO);
         return CodeResult.ok(true);
     }
 
     @PutMapping("/update-password")
     @Operation(summary = "修改用户个人密码")
     public CodeResult<Boolean> updateUserProfilePassword(@Valid @RequestBody UserProfileUpdatePasswordReqVO reqVO) {
-//        userService.updateUserPassword(getLoginUserId(), reqVO);
-        userService.updateUserPassword(1L, reqVO);
+        userService.updateUserPassword(getLoginUserId(), reqVO);
         return CodeResult.ok(true);
     }
 
