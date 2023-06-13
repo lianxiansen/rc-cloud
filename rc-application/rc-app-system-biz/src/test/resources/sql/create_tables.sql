@@ -114,7 +114,6 @@ CREATE TABLE IF NOT EXISTS "sys_dict_type" (
     "updater" varchar(64) DEFAULT '',
     "update_time" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deleted" bit NOT NULL DEFAULT FALSE,
-    "deleted_time" timestamp NOT NULL,
     PRIMARY KEY ("id")
 ) COMMENT '字典类型表';
 

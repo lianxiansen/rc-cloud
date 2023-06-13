@@ -62,8 +62,6 @@ public class DictTypeServiceImpl implements DictTypeService {
 
         // 插入字典类型
         DictTypeDO dictTypeDO = DictTypeConvert.INSTANCE.convert(reqVO);
-        // 唯一索引，避免 null 值
-        dictTypeDO.setDeletedTime(LocalDateTimeUtils.EMPTY);
         dictTypeMapper.insert(dictTypeDO);
         return dictTypeDO.getId();
     }
@@ -87,7 +85,7 @@ public class DictTypeServiceImpl implements DictTypeService {
             throw exception(DICT_TYPE_HAS_CHILDREN);
         }
         // 删除字典类型
-        dictTypeMapper.updateToDelete(id, LocalDateTime.now());
+        dictTypeMapper.updateToDelete(id);
     }
 
     @Override

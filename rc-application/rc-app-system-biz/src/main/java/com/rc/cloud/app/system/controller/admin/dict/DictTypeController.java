@@ -46,11 +46,11 @@ public class DictTypeController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{id}")
     @Operation(summary = "删除字典类型")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:dict:delete')")
-    public CodeResult<Boolean> deleteDictType(Long id) {
+    public CodeResult<Boolean> deleteDictType(@PathVariable Long id) {
         dictTypeService.deleteDictType(id);
         return CodeResult.ok(true);
     }
@@ -64,9 +64,9 @@ public class DictTypeController {
 
     @Operation(summary = "/查询字典类型详细")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
-    @GetMapping(value = "/get")
+    @GetMapping(value = "/{id}")
 //    @PreAuthorize("@ss.hasPermission('system:dict:query')")
-    public CodeResult<DictTypeRespVO> getDictType(@RequestParam("id") Long id) {
+    public CodeResult<DictTypeRespVO> getDictType(@PathVariable("id") Long id) {
         return CodeResult.ok(DictTypeConvert.INSTANCE.convert(dictTypeService.getDictType(id)));
     }
 

@@ -18,12 +18,12 @@ public class DictDataBaseVO {
     @NotNull(message = "显示顺序不能为空")
     private Integer sort;
 
-    @Schema(description = "字典标签", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
+    @Schema(description = "字典标签", requiredMode = Schema.RequiredMode.REQUIRED, example = "柔川")
     @NotBlank(message = "字典标签不能为空")
     @Size(max = 100, message = "字典标签长度不能超过100个字符")
     private String label;
 
-    @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "iocoder")
+    @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "rc")
     @NotBlank(message = "字典键值不能为空")
     @Size(max = 100, message = "字典键值长度不能超过100个字符")
     private String value;

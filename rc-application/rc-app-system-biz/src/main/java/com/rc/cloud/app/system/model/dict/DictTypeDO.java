@@ -47,9 +47,4 @@ public class DictTypeDO extends BaseDO {
      */
     private String remark;
 
-    /**
-     * 删除时间
-     */
-    private LocalDateTime deletedTime;
-
 }

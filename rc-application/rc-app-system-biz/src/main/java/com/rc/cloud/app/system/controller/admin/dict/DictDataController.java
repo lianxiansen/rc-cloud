@@ -45,11 +45,11 @@ public class DictDataController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{id}")
     @Operation(summary = "删除字典数据")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:dict:delete')")
-    public CodeResult<Boolean> deleteDictData(Long id) {
+    public CodeResult<Boolean> deleteDictData(@PathVariable Long id) {
         dictDataService.deleteDictData(id);
         return CodeResult.ok(true);
     }
@@ -69,11 +69,11 @@ public class DictDataController {
         return CodeResult.ok(DictDataConvert.INSTANCE.convertPage(dictDataService.getDictDataPage(reqVO)));
     }
 
-    @GetMapping(value = "/get")
+    @GetMapping(value = "/{id}")
     @Operation(summary = "/查询字典数据详细")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:dict:query')")
-    public CodeResult<DictDataRespVO> getDictData(@RequestParam("id") Long id) {
+    public CodeResult<DictDataRespVO> getDictData(@PathVariable("id") Long id) {
         return CodeResult.ok(DictDataConvert.INSTANCE.convert(dictDataService.getDictData(id)));
     }
 

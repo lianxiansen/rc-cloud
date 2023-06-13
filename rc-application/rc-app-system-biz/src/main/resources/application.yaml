@@ -61,7 +61,6 @@ rc:
       - sys_dict_data
       - sys_dict_type
       - sys_error_code
-#      - sys_menu
       - sys_oauth2_client
   jwt:
     header: "Authorization" # JWT 在 HTTP Header 中的 Header 名字
