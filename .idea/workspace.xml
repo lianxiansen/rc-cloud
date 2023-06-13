@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="过滤权限为空的记录">
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完成获取部门列表和根据id获取部门的业务逻辑和单元测试">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/DeptController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/DeptController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/DeptServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/DeptServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/dept/dept/DeptRespVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/dept/dept/DeptRespVO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/dept/DeptControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/dept/DeptControllerTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/resources/sql/init_data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/resources/sql/init_data.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +117,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.DeptControllerTests">
+  <component name="RunManager" selected="JUnit.DeptControllerTests.updateDept_success">
     <configuration name="AuthControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
@@ -167,7 +163,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DeptControllerTests.getOrgByIdNotExist_then_throwNotFoundException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DeptControllerTests.createDept_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
@@ -177,22 +173,24 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
       <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.DeptControllerTests" />
-      <option name="METHOD_NAME" value="getOrgByIdNotExist_then_throwNotFoundException" />
+      <option name="METHOD_NAME" value="createDept_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="com.rc.cloud.app.system.contorller.admin in rc-app-system-biz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="DeptControllerTests.updateDept_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.dept.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin" />
-      <option name="TEST_OBJECT" value="package" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.DeptControllerTests" />
+      <option name="METHOD_NAME" value="updateDept_success" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -228,9 +226,9 @@
     <list>
       <item itemvalue="JUnit.AuthControllerTests" />
       <item itemvalue="JUnit.CaptchaControllerTests" />
+      <item itemvalue="JUnit.DeptControllerTests.createDept_success" />
+      <item itemvalue="JUnit.DeptControllerTests.updateDept_success" />
       <item itemvalue="JUnit.DeptControllerTests" />
-      <item itemvalue="JUnit.DeptControllerTests.getOrgByIdNotExist_then_throwNotFoundException" />
-      <item itemvalue="JUnit.com.rc.cloud.app.system.contorller.admin in rc-app-system-biz" />
       <item itemvalue="Spring Boot.AuthServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
       <item itemvalue="Spring Boot.MonitorServerApplication" />
@@ -238,11 +236,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.DeptControllerTests.updateDept_success" />
+        <item itemvalue="JUnit.DeptControllerTests.createDept_success" />
         <item itemvalue="JUnit.DeptControllerTests" />
         <item itemvalue="JUnit.CaptchaControllerTests" />
         <item itemvalue="JUnit.AuthControllerTests" />
-        <item itemvalue="JUnit.DeptControllerTests.getOrgByIdNotExist_then_throwNotFoundException" />
-        <item itemvalue="JUnit.com.rc.cloud.app.system.contorller.admin in rc-app-system-biz" />
       </list>
     </recent_temporary>
   </component>
@@ -280,7 +278,7 @@
       <workItem from="1686278062489" duration="20757000" />
       <workItem from="1686354403567" duration="28321000" />
       <workItem from="1686528227189" duration="21127000" />
-      <workItem from="1686614222121" duration="765000" />
+      <workItem from="1686614222121" duration="2222000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -401,7 +399,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686560546988</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="完成获取部门列表和根据id获取部门的业务逻辑和单元测试">
+      <created>1686615266955</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1686615266955</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -453,7 +458,8 @@
     <MESSAGE value="解决单元测试多租户问题" />
     <MESSAGE value="解决token缓存时间不对的问题" />
     <MESSAGE value="过滤权限为空的记录" />
-    <option name="LAST_COMMIT_MESSAGE" value="过滤权限为空的记录" />
+    <MESSAGE value="完成获取部门列表和根据id获取部门的业务逻辑和单元测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成获取部门列表和根据id获取部门的业务逻辑和单元测试" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

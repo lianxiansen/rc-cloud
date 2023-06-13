@@ -4,6 +4,7 @@
  */
 package com.rc.cloud.app.system.contorller.admin.dept;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.system.common.cache.RedisCache;
 import com.rc.cloud.app.system.common.cache.RedisKeys;
 import com.rc.cloud.app.system.common.test.RcTest;
@@ -13,11 +14,14 @@ import com.rc.cloud.app.system.service.captcha.CaptchaService;
 import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
 import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.captcha.CaptchaVO;
+import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;
+import com.rc.cloud.app.system.vo.dept.dept.DeptUpdateReqVO;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -25,7 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.Resource;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -94,7 +98,7 @@ public class DeptControllerTests {
     }
 
     @Test
-    public void getOrgByIdNotExist_then_throwNotFoundException() throws Exception {
+    public void getDeptByIdNotExist_then_throwNotFoundException() throws Exception {
         mvc.perform(get("/sys/dept/9999999")
                         .header("Authorization", "Bearer " + getToken().getAccessToken()))
                 .andDo(print())
@@ -104,55 +108,55 @@ public class DeptControllerTests {
                 .andExpect(jsonPath("$.msg").value("当前部门不存在"));
     }
 
-//    @Test
-//    public void saveOrg_success() throws Exception {
-//        SysOrgCreateDTO createDTO = new SysOrgCreateDTO();
-//        createDTO.setOrgName("测试项目组001");
-//        createDTO.setSort(3);
-//        createDTO.setPid(3L);
-//        createDTO.setParentName("IT部");
-//        ObjectMapper mapper = new ObjectMapper();
-//        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-//                .writeValueAsString(createDTO);
-//        mvc.perform(post("/sys/org/save")
-//                        .header("Authorization", "Bearer " + getAccessToken())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestBody)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.code").value(0))
-//                .andExpect(jsonPath("$.message").value("success"))
-//                .andExpect(jsonPath("$.data.orgName").value("测试项目组001"))
-//                .andExpect(jsonPath("$.data.parentName").value("IT部"))
-//                .andExpect(jsonPath("$.data.children").isEmpty())
-//                .andExpect(jsonPath("$.data.sort").value(3))
-//                .andExpect(jsonPath("$.data.pid").value(3));
-//    }
-//
-//    @Test
-//    public void updateOrg_success() throws Exception {
-//        SysOrgUpdateDTO updateDTO = new SysOrgUpdateDTO();
-//        updateDTO.setId(3L);
-//        updateDTO.setOrgName("IT部2部");
-//        updateDTO.setSort(3);
-//        updateDTO.setPid(0L);
-//        ObjectMapper mapper = new ObjectMapper();
-//        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-//                .writeValueAsString(updateDTO);
-//        mvc.perform(put("/sys/org/update")
-//                        .header("Authorization", "Bearer " + getAccessToken())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestBody)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.code").value(0))
-//                .andExpect(jsonPath("$.message").value("success"))
-//                .andExpect(jsonPath("$.data.orgName").value("IT部2部"))
-//                .andExpect(jsonPath("$.data.sort").value(3));
-//    }
-//
+    @Test
+    public void createDept_success() throws Exception {
+        DeptCreateReqVO deptCreateReqVO = new DeptCreateReqVO();
+        deptCreateReqVO.setName("测试项目组001");
+        deptCreateReqVO.setSort(3);
+        deptCreateReqVO.setParentId(101L);
+        deptCreateReqVO.setPhone("12345678901");
+        deptCreateReqVO.setEmail("123232@qq.com");
+        deptCreateReqVO.setStatus(1);
+        ObjectMapper mapper = new ObjectMapper();
+        String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(deptCreateReqVO);
+        mvc.perform(post("/sys/dept/create")
+                        .header("Authorization", "Bearer " + getToken().getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").isNotEmpty());
+    }
+
+    // TODO:: create dept sad path
+
+    @Test
+    public void updateDept_success() throws Exception {
+        DeptUpdateReqVO deptUpdateReqVO = new DeptUpdateReqVO();
+        deptUpdateReqVO.setId(105L);
+        deptUpdateReqVO.setName("测试部门2");
+        deptUpdateReqVO.setSort(77);
+        deptUpdateReqVO.setParentId(0L);
+        deptUpdateReqVO.setStatus(1);
+        ObjectMapper mapper = new ObjectMapper();
+        String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(deptUpdateReqVO);
+        mvc.perform(put("/sys/dept/update")
+                        .header("Authorization", "Bearer " + getToken().getAccessToken())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").value(true));
+    }
+
 //    @Test
 //    public void deleteOrg_success() throws Exception {
 //        mvc.perform(delete("/sys/org/6")
