@@ -268,7 +268,8 @@ public class TenantServiceImpl implements TenantService {
             return;
         }
         // 获得租户，然后获得菜单
-        TenantDO tenant = getTenant(TenantContextHolder.getRequiredTenantId());
+        Long tenantId = TenantContextHolder.getRequiredTenantId();
+        TenantDO tenant = getTenant(tenantId);
         Set<Long> menuIds;
         if (isSystemTenant(tenant)) { // 系统租户，菜单是全量的
             menuIds = CollectionUtils.convertSet(menuService.getMenuList(), MenuDO::getId);

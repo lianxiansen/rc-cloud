@@ -1,5 +1,9 @@
 package com.rc.cloud.app.system.vo.tenant.tenant;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -37,6 +41,8 @@ public class TenantBaseVO {
 
     @Schema(description = "过期时间", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "过期时间不能为空")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime expireTime;
 
     @Schema(description = "账号数量", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")

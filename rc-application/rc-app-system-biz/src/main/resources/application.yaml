@@ -56,7 +56,7 @@ rc:
       - /jmreport/* # 积木报表，无法携带租户编号
       - /admin-api/mp/open/** # 微信公众号开放平台，微信回调接口，无法携带租户编号
     ignore-tables:
-      - sys-tenant
+      - sys_tenant
       - sys_tenant_package
       - sys_dict_data
       - sys_dict_type

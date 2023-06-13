@@ -53,20 +53,20 @@ public class TenantController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{id}")
     @Operation(summary = "删除租户")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:tenant:delete')")
-    public CodeResult<Boolean> deleteTenant(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> deleteTenant(@PathVariable("id") Long id) {
         tenantService.deleteTenant(id);
         return CodeResult.ok(true);
     }
 
-    @GetMapping("/get")
+    @GetMapping("/{id}")
     @Operation(summary = "获得租户")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:tenant:query')")
-    public CodeResult<TenantRespVO> getTenant(@RequestParam("id") Long id) {
+    public CodeResult<TenantRespVO> getTenant(@PathVariable("id") Long id) {
         TenantDO tenant = tenantService.getTenant(id);
         return CodeResult.ok(TenantConvert.INSTANCE.convert(tenant));
     }

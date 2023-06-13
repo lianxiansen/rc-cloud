@@ -4,10 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完成删除部门和获取部门简单列表的单元测试">
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完成数据字典相关单元测试">
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/permission/MenuControllerTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/permission/PermissionControllerTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/permission/RoleControllerTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/tenant/TenantControllerTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/tenant/TenantPackageControllerTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/user/UserControllerTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/user/UserProfileControllerTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/dept/SysPostControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/dept/PostControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/permission/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/permission/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/tenant/TenantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/tenant/TenantController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/model/tenant/TenantDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/model/tenant/TenantDO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/tenant/tenant/TenantBaseVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/tenant/tenant/TenantBaseVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/resources/sql/init_data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/resources/sql/init_data.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,11 +117,11 @@
       <recent name="com.rc.clould.app.system.controller" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.rc.cloud.app.system.contorller.admin.user" />
+      <recent name="com.rc.cloud.app.system.contorller.admin.tenant" />
+      <recent name="com.rc.cloud.app.system.contorller.admin.permission" />
+      <recent name="com.rc.cloud.app.system.contorller.admin.dict" />
       <recent name="com.rc.cloud.app.system.common.config" />
-      <recent name="com.rc.cloud.app.system.common" />
-      <recent name="com.rc.cloud.common.mybatis.core.query" />
-      <recent name="com.rc.cloud.common.mybatis.core.mapper" />
-      <recent name="com.rc.cloud.app.system.biz.common.security.config" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -118,81 +131,81 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.PostControllerTests">
-    <configuration name="PostControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.TenantControllerTests">
+    <configuration name="TenantControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.dept.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.tenant.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.PostControllerTests" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant.TenantControllerTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PostControllerTests.createPost_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TenantControllerTests.deleteTenantById_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.dept.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.tenant.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.PostControllerTests" />
-      <option name="METHOD_NAME" value="createPost_success" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant.TenantControllerTests" />
+      <option name="METHOD_NAME" value="deleteTenantById_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PostControllerTests.deletePostById_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TenantControllerTests.getTenantById_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.dept.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.tenant.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.PostControllerTests" />
-      <option name="METHOD_NAME" value="deletePostById_success" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant.TenantControllerTests" />
+      <option name="METHOD_NAME" value="getTenantById_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PostControllerTests.getPostByIdNotExist_then_throwNotFoundException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TenantControllerTests.getTenantPage_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.dept.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.tenant.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.PostControllerTests" />
-      <option name="METHOD_NAME" value="getPostByIdNotExist_then_throwNotFoundException" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant.TenantControllerTests" />
+      <option name="METHOD_NAME" value="getTenantPage_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PostControllerTests.updatePost_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TenantControllerTests.updateTenant_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.dept.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.tenant.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.PostControllerTests" />
-      <option name="METHOD_NAME" value="updatePost_success" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant.TenantControllerTests" />
+      <option name="METHOD_NAME" value="updateTenant_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -227,11 +240,11 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.PostControllerTests" />
-      <item itemvalue="JUnit.PostControllerTests.createPost_success" />
-      <item itemvalue="JUnit.PostControllerTests.deletePostById_success" />
-      <item itemvalue="JUnit.PostControllerTests.getPostByIdNotExist_then_throwNotFoundException" />
-      <item itemvalue="JUnit.PostControllerTests.updatePost_success" />
+      <item itemvalue="JUnit.TenantControllerTests" />
+      <item itemvalue="JUnit.TenantControllerTests.deleteTenantById_success" />
+      <item itemvalue="JUnit.TenantControllerTests.getTenantById_success" />
+      <item itemvalue="JUnit.TenantControllerTests.getTenantPage_success" />
+      <item itemvalue="JUnit.TenantControllerTests.updateTenant_success" />
       <item itemvalue="Spring Boot.AuthServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
       <item itemvalue="Spring Boot.MonitorServerApplication" />
@@ -239,11 +252,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.PostControllerTests" />
-        <item itemvalue="JUnit.PostControllerTests.deletePostById_success" />
-        <item itemvalue="JUnit.PostControllerTests.updatePost_success" />
-        <item itemvalue="JUnit.PostControllerTests.createPost_success" />
-        <item itemvalue="JUnit.PostControllerTests.getPostByIdNotExist_then_throwNotFoundException" />
+        <item itemvalue="JUnit.TenantControllerTests" />
+        <item itemvalue="JUnit.TenantControllerTests.getTenantPage_success" />
+        <item itemvalue="JUnit.TenantControllerTests.getTenantById_success" />
+        <item itemvalue="JUnit.TenantControllerTests.deleteTenantById_success" />
+        <item itemvalue="JUnit.TenantControllerTests.updateTenant_success" />
       </list>
     </recent_temporary>
   </component>
@@ -281,7 +294,7 @@
       <workItem from="1686278062489" duration="20757000" />
       <workItem from="1686354403567" duration="28321000" />
       <workItem from="1686528227189" duration="21127000" />
-      <workItem from="1686614222121" duration="6398000" />
+      <workItem from="1686614222121" duration="22395000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -423,7 +436,21 @@
       <option name="project" value="LOCAL" />
       <updated>1686618407212</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="完成岗位的单元测试">
+      <created>1686620647600</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1686620647600</updated>
+    </task>
+    <task id="LOCAL-00022" summary="完成数据字典相关单元测试">
+      <created>1686633621265</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1686633621265</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -478,7 +505,9 @@
     <MESSAGE value="完成获取部门列表和根据id获取部门的业务逻辑和单元测试" />
     <MESSAGE value="完成创建和更新部门的单元测试" />
     <MESSAGE value="完成删除部门和获取部门简单列表的单元测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成删除部门和获取部门简单列表的单元测试" />
+    <MESSAGE value="完成岗位的单元测试" />
+    <MESSAGE value="完成数据字典相关单元测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成数据字典相关单元测试" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -489,24 +518,19 @@
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/PermissionServiceImpl.java</url>
-          <line>240</line>
-          <option name="timeStamp" value="47" />
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantServiceImpl.java</url>
+          <line>283</line>
+          <option name="timeStamp" value="73" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/auth/AdminAuthServiceImpl.java</url>
-          <line>284</line>
-          <option name="timeStamp" value="51" />
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantServiceImpl.java</url>
+          <line>270</line>
+          <option name="timeStamp" value="78" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/PermissionServiceImpl.java</url>
-          <line>456</line>
-          <option name="timeStamp" value="55" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/PermissionServiceImpl.java</url>
-          <line>245</line>
-          <option name="timeStamp" value="57" />
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantServiceImpl.java</url>
+          <line>223</line>
+          <option name="timeStamp" value="79" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

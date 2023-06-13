@@ -131,10 +131,15 @@
             <artifactId>jackson-core</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.h2database</groupId> <!-- 单元测试，我们采用 H2 作为数据库 -->
             <artifactId>h2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.13.2</version>
         </dependency>
     </dependencies>
 

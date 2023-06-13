@@ -9,6 +9,7 @@ import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 租户 DO
