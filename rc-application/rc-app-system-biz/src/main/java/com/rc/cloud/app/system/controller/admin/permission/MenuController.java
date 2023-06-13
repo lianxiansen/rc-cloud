@@ -44,11 +44,11 @@ public class MenuController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{id}")
     @Operation(summary = "删除菜单")
     @Parameter(name = "id", description = "角色编号", required= true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:menu:delete')")
-    public CodeResult<Boolean> deleteMenu(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> deleteMenu(@PathVariable("id") Long id) {
         menuService.deleteMenu(id);
         return CodeResult.ok(true);
     }
@@ -75,10 +75,10 @@ public class MenuController {
         return CodeResult.ok(MenuConvert.INSTANCE.convertList02(list));
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get/{id}")
     @Operation(summary = "获取菜单信息")
 //    @PreAuthorize("@ss.hasPermission('system:menu:query')")
-    public CodeResult<MenuRespVO> getMenu(Long id) {
+    public CodeResult<MenuRespVO> getMenu(@PathVariable Long id) {
         MenuDO menu = menuService.getMenu(id);
         return CodeResult.ok(MenuConvert.INSTANCE.convert(menu));
     }
