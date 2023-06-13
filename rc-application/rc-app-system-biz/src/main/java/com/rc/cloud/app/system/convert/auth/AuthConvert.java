@@ -1,11 +1,8 @@
 package com.rc.cloud.app.system.convert.auth;
 
-import com.rc.cloud.app.system.api.social.dto.SocialUserBindReqDTO;
-import com.rc.cloud.app.system.model.oauth2.OAuth2AccessTokenDO;
 import com.rc.cloud.app.system.model.permission.MenuDO;
 import com.rc.cloud.app.system.model.permission.RoleDO;
 import com.rc.cloud.app.system.model.user.AdminUserDO;
-import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.auth.AuthMenuRespVO;
 import com.rc.cloud.app.system.vo.auth.AuthPermissionInfoRespVO;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
@@ -24,7 +21,7 @@ public interface AuthConvert {
 
     AuthConvert INSTANCE = Mappers.getMapper(AuthConvert.class);
 
-    AuthLoginRespVO convert(OAuth2AccessTokenDO bean);
+//    AuthLoginRespVO convert(OAuth2AccessTokenDO bean);
 
     default AuthPermissionInfoRespVO convert(AdminUserDO user, List<RoleDO> roleList, List<MenuDO> menuList) {
         return AuthPermissionInfoRespVO.builder()

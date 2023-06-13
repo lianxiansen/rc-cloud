@@ -4,28 +4,23 @@ import cn.hutool.core.util.ObjectUtil;
 import com.google.common.annotations.VisibleForTesting;
 import com.rc.cloud.app.system.common.security.cache.TokenStoreCache;
 import com.rc.cloud.app.system.common.security.utils.DoubleJWTUtil;
-import com.rc.cloud.app.system.convert.auth.AuthConvert;
+import com.rc.cloud.app.system.enums.login.LoginLogTypeEnum;
 import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
-import com.rc.cloud.app.system.model.oauth2.OAuth2AccessTokenDO;
 import com.rc.cloud.app.system.model.user.AdminUserDO;
 import com.rc.cloud.app.system.service.captcha.CaptchaService;
-import com.rc.cloud.app.system.service.oauth2.OAuth2TokenService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
-import com.rc.cloud.app.system.vo.auth.*;
-import com.rc.cloud.app.system.enums.login.LoginLogTypeEnum;
-import com.rc.cloud.app.system.enums.oauth2.OAuth2ClientConstants;
+import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
+import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.enums.UserTypeEnum;
-import com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Validator;
 import java.util.Optional;
 import java.util.Set;
@@ -33,7 +28,6 @@ import java.util.Set;
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception0;
-import static com.rc.cloud.common.core.util.servlet.ServletUtils.getClientIP;
 
 /**
  * Auth Service 实现类
@@ -51,12 +45,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private CaptchaService captchaService;
 //    @Resource
 //    private LoginLogService loginLogService;
-    @Resource
-    private OAuth2TokenService oauth2TokenService;
-//    @Resource
-//    private SocialUserService socialUserService;
-//    @Resource
-//    private MemberService memberService;
     @Resource
     private Validator validator;
 
@@ -262,19 +250,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
                     adminUserDO1.setAuthorities(userAuthority));
         }
         return optionalByUsername;
-    }
-
-
-
-    @Override
-    public void logout(String token, Integer logType) {
-        // 删除访问令牌
-        OAuth2AccessTokenDO accessTokenDO = oauth2TokenService.removeAccessToken(token);
-        if (accessTokenDO == null) {
-            return;
-        }
-        // 删除成功，则记录登出日志
-//        createLogoutLog(accessTokenDO.getUserId(), accessTokenDO.getUserType(), logType);
     }
 
     // HttpServletRequest request

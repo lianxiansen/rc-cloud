@@ -4,17 +4,63 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完成租户相关单元测试">
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/permission/MenuControllerTests.java" afterDir="false" />
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完成菜单单元测试">
       <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/permission/PermissionControllerTests.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/permission/RoleControllerTests.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/user/UserControllerTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/permission/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/permission/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/tenant/TenantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/tenant/TenantController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/tenant/TenantPackageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/tenant/TenantPackageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/tenant/TenantControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/tenant/TenantControllerTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/tenant/TenantPackageControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/tenant/TenantPackageControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/oauth2/OAuth2TokenApi.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/oauth2/dto/OAuth2AccessTokenCheckRespDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/oauth2/dto/OAuth2AccessTokenCreateReqDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/oauth2/dto/OAuth2AccessTokenRespDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/api/oauth2/OAuth2TokenApiImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/redis/OAuth2AccessTokenRedisDAO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/redis/RedisKeyConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/redis/RedisKeyConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/auth/AuthConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/auth/AuthConvert.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/auth/OAuth2ClientConvert.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/auth/OAuth2TokenConvert.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/oauth2/OAuth2OpenConvert.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/oauth2/OAuth2UserConvert.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/oauth2/OAuth2AccessTokenMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/oauth2/OAuth2ApproveMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/oauth2/OAuth2ClientMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/oauth2/OAuth2CodeMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/oauth2/OAuth2RefreshTokenMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/model/oauth2/OAuth2AccessTokenDO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/model/oauth2/OAuth2ApproveDO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/model/oauth2/OAuth2ClientDO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/model/oauth2/OAuth2CodeDO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/model/oauth2/OAuth2RefreshTokenDO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/auth/AdminAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/auth/AdminAuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/auth/AdminAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/auth/AdminAuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauth2/OAuth2ApproveService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauth2/OAuth2ApproveServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauth2/OAuth2ClientService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauth2/OAuth2ClientServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauth2/OAuth2CodeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauth2/OAuth2CodeServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauth2/OAuth2GrantService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauth2/OAuth2GrantServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauth2/OAuth2TokenService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauth2/OAuth2TokenServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/client/OAuth2ClientBaseVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/client/OAuth2ClientCreateReqVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/client/OAuth2ClientPageReqVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/client/OAuth2ClientRespVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/client/OAuth2ClientUpdateReqVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/open/OAuth2OpenAccessTokenRespVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/open/OAuth2OpenAuthorizeInfoRespVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/open/OAuth2OpenCheckTokenRespVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/token/OAuth2AccessTokenPageReqVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/token/OAuth2AccessTokenRespVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/user/OAuth2UserInfoRespVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/vo/oauth2/user/OAuth2UserUpdateReqVO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/auth/AdminAuthServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/auth/AdminAuthServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/oauth2/OAuth2ApproveServiceImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/oauth2/OAuth2ClientServiceImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/oauth2/OAuth2CodeServiceImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/oauth2/OAuth2GrantServiceImplTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/oauth2/OAuth2TokenServiceImplTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +171,23 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TenantPackageControllerTests">
+  <component name="RunManager" selected="JUnit.service in rc-app-system-biz">
+    <configuration name="MenuControllerTests.getMenuById_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rc-app-system-biz" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.permission.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.permission" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.permission.MenuControllerTests" />
+      <option name="METHOD_NAME" value="getMenuById_success" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TenantPackageControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
@@ -141,66 +203,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TenantPackageControllerTests.getTenantPackageById_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="admin in rc-app-system-biz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.tenant.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant.TenantPackageControllerTests" />
-      <option name="METHOD_NAME" value="getTenantPackageById_success" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TenantPackageControllerTests.getTenantPackagePage_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="service in rc-app-system-biz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.tenant.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant.TenantPackageControllerTests" />
-      <option name="METHOD_NAME" value="getTenantPackagePage_success" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TenantPackageControllerTests.getTenantPackageSimpleAllList_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rc-app-system-biz" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.tenant.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant.TenantPackageControllerTests" />
-      <option name="METHOD_NAME" value="getTenantPackageSimpleAllList_success" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="TenantPackageControllerTests.getTenantPackageSimpleList_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rc-app-system-biz" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.tenant.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.tenant.TenantPackageControllerTests" />
-      <option name="METHOD_NAME" value="getTenantPackageSimpleList_success" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="directory" />
+      <dir value="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -233,24 +247,37 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SystemApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="rc-app-system-biz" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.app.system.SystemApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.app.system.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
+      <item itemvalue="JUnit.MenuControllerTests.getMenuById_success" />
       <item itemvalue="JUnit.TenantPackageControllerTests" />
-      <item itemvalue="JUnit.TenantPackageControllerTests.getTenantPackageById_success" />
-      <item itemvalue="JUnit.TenantPackageControllerTests.getTenantPackagePage_success" />
-      <item itemvalue="JUnit.TenantPackageControllerTests.getTenantPackageSimpleAllList_success" />
-      <item itemvalue="JUnit.TenantPackageControllerTests.getTenantPackageSimpleList_success" />
+      <item itemvalue="JUnit.admin in rc-app-system-biz" />
+      <item itemvalue="JUnit.service in rc-app-system-biz" />
       <item itemvalue="Spring Boot.AuthServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
       <item itemvalue="Spring Boot.MonitorServerApplication" />
       <item itemvalue="Spring Boot.ResourceServerApplication" />
+      <item itemvalue="Spring Boot.SystemApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.service in rc-app-system-biz" />
+        <item itemvalue="JUnit.admin in rc-app-system-biz" />
+        <item itemvalue="Spring Boot.SystemApplication" />
+        <item itemvalue="JUnit.MenuControllerTests.getMenuById_success" />
         <item itemvalue="JUnit.TenantPackageControllerTests" />
-        <item itemvalue="JUnit.TenantPackageControllerTests.getTenantPackageSimpleList_success" />
-        <item itemvalue="JUnit.TenantPackageControllerTests.getTenantPackageSimpleAllList_success" />
-        <item itemvalue="JUnit.TenantPackageControllerTests.getTenantPackageById_success" />
-        <item itemvalue="JUnit.TenantPackageControllerTests.getTenantPackagePage_success" />
       </list>
     </recent_temporary>
   </component>
@@ -288,7 +315,7 @@
       <workItem from="1686278062489" duration="20757000" />
       <workItem from="1686354403567" duration="28321000" />
       <workItem from="1686528227189" duration="21127000" />
-      <workItem from="1686614222121" duration="24473000" />
+      <workItem from="1686614222121" duration="25710000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -451,7 +478,21 @@
       <option name="project" value="LOCAL" />
       <updated>1686642013284</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="完成租户套餐单元测试">
+      <created>1686643866521</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1686643866521</updated>
+    </task>
+    <task id="LOCAL-00025" summary="完成菜单单元测试">
+      <created>1686644176928</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1686644176928</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -509,7 +550,9 @@
     <MESSAGE value="完成岗位的单元测试" />
     <MESSAGE value="完成数据字典相关单元测试" />
     <MESSAGE value="完成租户相关单元测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成租户相关单元测试" />
+    <MESSAGE value="完成租户套餐单元测试" />
+    <MESSAGE value="完成菜单单元测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成菜单单元测试" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
