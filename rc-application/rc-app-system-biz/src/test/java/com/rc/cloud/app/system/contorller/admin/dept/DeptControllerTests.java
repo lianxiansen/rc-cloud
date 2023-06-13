@@ -157,35 +157,51 @@ public class DeptControllerTests {
                 .andExpect(jsonPath("$.data").value(true));
     }
 
-//    @Test
-//    public void deleteOrg_success() throws Exception {
-//        mvc.perform(delete("/sys/org/6")
-//                        .header("Authorization", "Bearer " + getAccessToken()))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.code").value(0))
-//                .andExpect(jsonPath("$.message").value("success"));
-//    }
-//
-//    @Test
-//    public void deleteOrg_when_idNotExist_then_throwNotFoundException() throws Exception {
-//        mvc.perform(delete("/sys/org/999999")
-//                        .header("Authorization", "Bearer " + getAccessToken()))
-//                .andDo(print())
-//                .andExpect(status().isNotFound())
-//                .andExpect(jsonPath("$.code").value(10020))
-//                .andExpect(jsonPath("$.message").value("删除失败，该机构不存在"));
-//    }
-//
-//    @Test
-//    public void deleteOrg_when_childExist_then_throwNotFailedException() throws Exception {
-//        mvc.perform(delete("/sys/org/3")
-//                        .header("Authorization", "Bearer " + getAccessToken()))
-//                .andDo(print())
-//                .andExpect(status().isInternalServerError())
-//                .andExpect(jsonPath("$.code").value(10200))
-//                .andExpect(jsonPath("$.message").value("删除失败，请先删除该机构下的子机构"));
-//    }
+    @Test
+    public void deleteDept_success() throws Exception {
+        mvc.perform(delete("/sys/dept/109")
+                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").value(true));
+    }
+
+    @Test
+    public void deleteDept_when_idNotExist_then_throwNotFoundException() throws Exception {
+        mvc.perform(delete("/sys/dept/999999")
+                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.msg").value("当前部门不存在"))
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.data").value("1002004002"));
+    }
+
+    @Test
+    public void deleteDept_when_childExist_then_throwNotFailedException() throws Exception {
+        mvc.perform(delete("/sys/dept/101")
+                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.msg").value("存在子部门，无法删除"))
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.data").value("1002004003"));
+    }
+
+    @Test
+    public void listDeptAllSimple_success() throws Exception {
+        mvc.perform(get("/sys/dept/list-all-simple")
+                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").isArray());
+    }
 //
 //    @Test
 //    public void deleteOrg_when_hasUser_then_throwNotFailedException() throws Exception {

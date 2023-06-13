@@ -43,11 +43,11 @@ public class DeptController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping("/{id}")
     @Operation(summary = "删除部门")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:dept:delete')")
-    public CodeResult<Boolean> deleteDept(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> deleteDept(@PathVariable("id") Long id) {
         deptService.deleteDept(id);
         return CodeResult.ok(true);
     }
