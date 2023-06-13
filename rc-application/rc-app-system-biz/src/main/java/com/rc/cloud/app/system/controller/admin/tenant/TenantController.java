@@ -62,7 +62,7 @@ public class TenantController {
         return CodeResult.ok(true);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     @Operation(summary = "获得租户")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:tenant:query')")

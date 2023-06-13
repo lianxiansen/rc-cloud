@@ -44,20 +44,20 @@ public class TenantPackageController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{id}")
     @Operation(summary = "删除租户套餐")
     @Parameter(name = "id", description = "编号", required = true)
 //    @PreAuthorize("@ss.hasPermission('system:tenant-package:delete')")
-    public CodeResult<Boolean> deleteTenantPackage(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> deleteTenantPackage(@PathVariable("id") Long id) {
         tenantPackageService.deleteTenantPackage(id);
         return CodeResult.ok(true);
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get/{id}")
     @Operation(summary = "获得租户套餐")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:tenant-package:query')")
-    public CodeResult<TenantPackageRespVO> getTenantPackage(@RequestParam("id") Long id) {
+    public CodeResult<TenantPackageRespVO> getTenantPackage(@PathVariable("id") Long id) {
         TenantPackageDO tenantPackage = tenantPackageService.getTenantPackage(id);
         return CodeResult.ok(TenantPackageConvert.INSTANCE.convert(tenantPackage));
     }

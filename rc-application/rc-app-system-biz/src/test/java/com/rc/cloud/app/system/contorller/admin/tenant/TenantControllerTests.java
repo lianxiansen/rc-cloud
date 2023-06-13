@@ -163,7 +163,7 @@ public class TenantControllerTests {
 
     @Test
     public void getTenantById_success() throws Exception {
-        mvc.perform(get("/sys/tenant/" + 1)
+        mvc.perform(get("/sys/tenant/get/" + 1)
                         .header("Authorization", "Bearer " + getToken().getAccessToken()))
                 .andDo(print())
                 .andExpect(status().isOk())
