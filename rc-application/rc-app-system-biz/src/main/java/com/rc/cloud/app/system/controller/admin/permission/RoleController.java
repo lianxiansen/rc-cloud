@@ -57,19 +57,19 @@ public class RoleController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{id}")
     @Operation(summary = "删除角色")
     @Parameter(name = "id", description = "角色编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:role:delete')")
-    public CodeResult<Boolean> deleteRole(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> deleteRole(@PathVariable("id") Long id) {
         roleService.deleteRole(id);
         return CodeResult.ok(true);
     }
 
-    @GetMapping("/get")
+    @GetMapping("/{id}")
     @Operation(summary = "获得角色信息")
 //    @PreAuthorize("@ss.hasPermission('system:role:query')")
-    public CodeResult<RoleRespVO> getRole(@RequestParam("id") Long id) {
+    public CodeResult<RoleRespVO> getRole(@PathVariable("id") Long id) {
         RoleDO role = roleService.getRole(id);
         return CodeResult.ok(RoleConvert.INSTANCE.convert(role));
     }
