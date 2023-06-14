@@ -203,12 +203,12 @@ public class AuthControllerTests {
         String accessToken = (String) mapData.get("accessToken");
 //        System.out.println(accessToken);
 
-//        mvc.perform(get("/sys/user/info")
-//                        .header("Authorization", "Bearer " + access_token))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.code").value(0))
-//                .andExpect(jsonPath("$.data.username").value("admin"));
+        mvc.perform(get("/sys/user/profile/get")
+                        .header("Authorization", "Bearer " + accessToken))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.data.username").value("admin"));
     }
 
     @Test
@@ -221,6 +221,31 @@ public class AuthControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.data").value("true"));
+    }
+
+    @Test
+    public void getPermissionInfo_success() throws Exception {
+        mvc.perform(get("/sys/auth/get-permission-info")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + getToken().getAccessToken())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.data.user.nickname").value("芋道源码"));
+    }
+
+    @Test
+    public void getMenuList_success() throws Exception {
+        mvc.perform(get("/sys/auth/list-menus")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + getToken().getAccessToken())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.data").isArray())
+                .andExpect(jsonPath("$.data").isNotEmpty());
     }
 
     private AuthLoginRespVO getToken() {
