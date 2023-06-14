@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="删除自定义auth2">
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/permission/PermissionControllerTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/permission/RoleControllerTests.java" afterDir="false" />
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完成权限相关单元测试">
       <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/user/UserControllerTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/permission/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/permission/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/user/UserController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,81 +118,81 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.RoleControllerTests">
-    <configuration name="RoleControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.UserControllerTests">
+    <configuration name="UserControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.permission.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.user.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.permission" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.permission.RoleControllerTests" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.user" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.user.UserControllerTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RoleControllerTests.deleteRole_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTests.getUserById_then_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.permission.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.user.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.permission" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.permission.RoleControllerTests" />
-      <option name="METHOD_NAME" value="deleteRole_success" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.user" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.user.UserControllerTests" />
+      <option name="METHOD_NAME" value="getUserById_then_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RoleControllerTests.getRoleById_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTests.getUserListAllSimple_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.permission.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.user.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.permission" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.permission.RoleControllerTests" />
-      <option name="METHOD_NAME" value="getRoleById_success" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.user" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.user.UserControllerTests" />
+      <option name="METHOD_NAME" value="getUserListAllSimple_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RoleControllerTests.getRoleListAllSimple_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTests.getUserPage_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.permission.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.user.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.permission" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.permission.RoleControllerTests" />
-      <option name="METHOD_NAME" value="getRoleListAllSimple_success" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.user" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.user.UserControllerTests" />
+      <option name="METHOD_NAME" value="getUserPage_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RoleControllerTests.getRolePage_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="UserControllerTests.updateUserStatus_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.permission.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.user.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.permission" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.permission.RoleControllerTests" />
-      <option name="METHOD_NAME" value="getRolePage_success" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.user" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.user.UserControllerTests" />
+      <option name="METHOD_NAME" value="updateUserStatus_success" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -229,11 +227,11 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.RoleControllerTests" />
-      <item itemvalue="JUnit.RoleControllerTests.deleteRole_success" />
-      <item itemvalue="JUnit.RoleControllerTests.getRoleById_success" />
-      <item itemvalue="JUnit.RoleControllerTests.getRoleListAllSimple_success" />
-      <item itemvalue="JUnit.RoleControllerTests.getRolePage_success" />
+      <item itemvalue="JUnit.UserControllerTests" />
+      <item itemvalue="JUnit.UserControllerTests.getUserById_then_success" />
+      <item itemvalue="JUnit.UserControllerTests.getUserListAllSimple_success" />
+      <item itemvalue="JUnit.UserControllerTests.getUserPage_success" />
+      <item itemvalue="JUnit.UserControllerTests.updateUserStatus_success" />
       <item itemvalue="Spring Boot.AuthServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
       <item itemvalue="Spring Boot.MonitorServerApplication" />
@@ -241,11 +239,11 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.RoleControllerTests" />
-        <item itemvalue="JUnit.RoleControllerTests.getRoleListAllSimple_success" />
-        <item itemvalue="JUnit.RoleControllerTests.getRolePage_success" />
-        <item itemvalue="JUnit.RoleControllerTests.getRoleById_success" />
-        <item itemvalue="JUnit.RoleControllerTests.deleteRole_success" />
+        <item itemvalue="JUnit.UserControllerTests" />
+        <item itemvalue="JUnit.UserControllerTests.getUserById_then_success" />
+        <item itemvalue="JUnit.UserControllerTests.getUserListAllSimple_success" />
+        <item itemvalue="JUnit.UserControllerTests.getUserPage_success" />
+        <item itemvalue="JUnit.UserControllerTests.updateUserStatus_success" />
       </list>
     </recent_temporary>
   </component>
@@ -284,7 +282,7 @@
       <workItem from="1686354403567" duration="28321000" />
       <workItem from="1686528227189" duration="21127000" />
       <workItem from="1686614222121" duration="27524000" />
-      <workItem from="1686700257731" duration="1922000" />
+      <workItem from="1686700257731" duration="5352000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -468,7 +466,21 @@
       <option name="project" value="LOCAL" />
       <updated>1686645106316</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="完成角色相关单元测试">
+      <created>1686702228758</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1686702228758</updated>
+    </task>
+    <task id="LOCAL-00028" summary="完成权限相关单元测试">
+      <created>1686703777018</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1686703777018</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -504,8 +516,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="ignore" />
-    <MESSAGE value="init" />
     <MESSAGE value="解决单元测试报错问题" />
     <MESSAGE value="改造获取图形验证码，以及完成单元测试" />
     <MESSAGE value="集成jwt和spring security" />
@@ -529,7 +539,9 @@
     <MESSAGE value="完成租户套餐单元测试" />
     <MESSAGE value="完成菜单单元测试" />
     <MESSAGE value="删除自定义auth2" />
-    <option name="LAST_COMMIT_MESSAGE" value="删除自定义auth2" />
+    <MESSAGE value="完成角色相关单元测试" />
+    <MESSAGE value="完成权限相关单元测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成权限相关单元测试" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

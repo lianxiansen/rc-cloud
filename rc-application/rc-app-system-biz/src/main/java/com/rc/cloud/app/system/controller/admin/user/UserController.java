@@ -57,11 +57,11 @@ public class UserController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{id}")
     @Operation(summary = "删除用户")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:user:delete')")
-    public CodeResult<Boolean> deleteUser(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return CodeResult.ok(true);
     }
@@ -114,11 +114,11 @@ public class UserController {
         return CodeResult.ok(UserConvert.INSTANCE.convertList04(list));
     }
 
-    @GetMapping("/get")
+    @GetMapping("/{id}")
     @Operation(summary = "获得用户详情")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:user:query')")
-    public CodeResult<UserRespVO> getUser(@RequestParam("id") Long id) {
+    public CodeResult<UserRespVO> getUser(@PathVariable("id") Long id) {
         AdminUserDO user = userService.getUser(id);
         // 获得部门数据
         DeptDO dept = deptService.getDept(user.getDeptId());
@@ -127,52 +127,52 @@ public class UserController {
         return CodeResult.ok(userPageItemRespVO);
     }
 
-    @GetMapping("/export")
-    @Operation(summary = "导出用户")
-//    @PreAuthorize("@ss.hasPermission('system:user:export')")
-//    @OperateLog(type = EXPORT)
-    public void exportUserList(@Validated UserExportReqVO reqVO,
-                               HttpServletResponse response) throws IOException {
-        // 获得用户列表
-        List<AdminUserDO> users = userService.getUserList(reqVO);
-
-        // 获得拼接需要的数据
-        Collection<Long> deptIds = convertList(users, AdminUserDO::getDeptId);
-        Map<Long, DeptDO> deptMap = deptService.getDeptMap(deptIds);
-        Map<Long, AdminUserDO> deptLeaderUserMap = userService.getUserMap(
-                convertSet(deptMap.values(), DeptDO::getLeaderUserId));
-        // 拼接数据
-        List<UserExcelVO> excelUsers = new ArrayList<>(users.size());
-        users.forEach(user -> {
-            UserExcelVO excelVO = UserConvert.INSTANCE.convert02(user);
-            // 设置部门
-            MapUtils.findAndThen(deptMap, user.getDeptId(), dept -> {
-                excelVO.setDeptName(dept.getName());
-                // 设置部门负责人的名字
-                MapUtils.findAndThen(deptLeaderUserMap, dept.getLeaderUserId(),
-                        deptLeaderUser -> excelVO.setDeptLeaderNickname(deptLeaderUser.getNickname()));
-            });
-            excelUsers.add(excelVO);
-        });
-
-        // 输出
-        ExcelUtils.write(response, "用户数据.xls", "用户列表", UserExcelVO.class, excelUsers);
-    }
-
-    @GetMapping("/get-import-template")
-    @Operation(summary = "获得导入用户模板")
-    public void importTemplate(HttpServletResponse response) throws IOException {
-        // 手动创建导出 demo
-        List<UserImportExcelVO> list = Arrays.asList(
-                UserImportExcelVO.builder().username("yunai").deptId(1L).email("yunai@iocoder.cn").mobile("15601691300")
-                        .nickname("芋道").status(CommonStatusEnum.ENABLE.getStatus()).sex(SexEnum.MALE.getSex()).build(),
-                UserImportExcelVO.builder().username("yuanma").deptId(2L).email("yuanma@iocoder.cn").mobile("15601701300")
-                        .nickname("源码").status(CommonStatusEnum.DISABLE.getStatus()).sex(SexEnum.FEMALE.getSex()).build()
-        );
-
-        // 输出
-        ExcelUtils.write(response, "用户导入模板.xls", "用户列表", UserImportExcelVO.class, list);
-    }
+//    @GetMapping("/export")
+//    @Operation(summary = "导出用户")
+////    @PreAuthorize("@ss.hasPermission('system:user:export')")
+////    @OperateLog(type = EXPORT)
+//    public void exportUserList(@Validated UserExportReqVO reqVO,
+//                               HttpServletResponse response) throws IOException {
+//        // 获得用户列表
+//        List<AdminUserDO> users = userService.getUserList(reqVO);
+//
+//        // 获得拼接需要的数据
+//        Collection<Long> deptIds = convertList(users, AdminUserDO::getDeptId);
+//        Map<Long, DeptDO> deptMap = deptService.getDeptMap(deptIds);
+//        Map<Long, AdminUserDO> deptLeaderUserMap = userService.getUserMap(
+//                convertSet(deptMap.values(), DeptDO::getLeaderUserId));
+//        // 拼接数据
+//        List<UserExcelVO> excelUsers = new ArrayList<>(users.size());
+//        users.forEach(user -> {
+//            UserExcelVO excelVO = UserConvert.INSTANCE.convert02(user);
+//            // 设置部门
+//            MapUtils.findAndThen(deptMap, user.getDeptId(), dept -> {
+//                excelVO.setDeptName(dept.getName());
+//                // 设置部门负责人的名字
+//                MapUtils.findAndThen(deptLeaderUserMap, dept.getLeaderUserId(),
+//                        deptLeaderUser -> excelVO.setDeptLeaderNickname(deptLeaderUser.getNickname()));
+//            });
+//            excelUsers.add(excelVO);
+//        });
+//
+//        // 输出
+//        ExcelUtils.write(response, "用户数据.xls", "用户列表", UserExcelVO.class, excelUsers);
+//    }
+//
+//    @GetMapping("/get-import-template")
+//    @Operation(summary = "获得导入用户模板")
+//    public void importTemplate(HttpServletResponse response) throws IOException {
+//        // 手动创建导出 demo
+//        List<UserImportExcelVO> list = Arrays.asList(
+//                UserImportExcelVO.builder().username("yunai").deptId(1L).email("yunai@iocoder.cn").mobile("15601691300")
+//                        .nickname("芋道").status(CommonStatusEnum.ENABLE.getStatus()).sex(SexEnum.MALE.getSex()).build(),
+//                UserImportExcelVO.builder().username("yuanma").deptId(2L).email("yuanma@iocoder.cn").mobile("15601701300")
+//                        .nickname("源码").status(CommonStatusEnum.DISABLE.getStatus()).sex(SexEnum.FEMALE.getSex()).build()
+//        );
+//
+//        // 输出
+//        ExcelUtils.write(response, "用户导入模板.xls", "用户列表", UserImportExcelVO.class, list);
+//    }
 
 //    @PostMapping("/import")
 //    @Operation(summary = "导入用户")
