@@ -103,8 +103,7 @@ public class DeptControllerTests {
                         .header("Authorization", "Bearer " + getToken().getAccessToken()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(500))
-                .andExpect(jsonPath("$.data").value(1002004002))
+                .andExpect(jsonPath("$.code").value(1002004002))
                 .andExpect(jsonPath("$.msg").value("当前部门不存在"));
     }
 
@@ -174,10 +173,9 @@ public class DeptControllerTests {
                         .header("Authorization", "Bearer " + getToken().getAccessToken()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.code").value(1002004002))
                 .andExpect(jsonPath("$.msg").value("当前部门不存在"))
-                .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.data").value("1002004002"));
+                .andExpect(jsonPath("$.success").value(false));
     }
 
     @Test
@@ -186,10 +184,9 @@ public class DeptControllerTests {
                         .header("Authorization", "Bearer " + getToken().getAccessToken()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.code").value(1002004003))
                 .andExpect(jsonPath("$.msg").value("存在子部门，无法删除"))
-                .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.data").value("1002004003"));
+                .andExpect(jsonPath("$.success").value(false));
     }
 
     @Test

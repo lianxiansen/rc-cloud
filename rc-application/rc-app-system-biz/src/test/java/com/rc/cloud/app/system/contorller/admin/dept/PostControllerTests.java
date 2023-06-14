@@ -111,10 +111,9 @@ public class PostControllerTests {
                         .header("Authorization", "Bearer " + getToken().getAccessToken()))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.code").value(1002005000))
                 .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.msg").value("当前岗位不存在"))
-                .andExpect(jsonPath("$.data").value(1002005000));
+                .andExpect(jsonPath("$.msg").value("当前岗位不存在"));
     }
 
     @Test

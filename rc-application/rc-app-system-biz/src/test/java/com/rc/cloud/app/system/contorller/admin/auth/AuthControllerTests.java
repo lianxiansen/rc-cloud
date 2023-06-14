@@ -121,7 +121,7 @@ public class AuthControllerTests {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.code").value(1002000000))
                 .andExpect(jsonPath("$.msg").value("登录失败，账号密码不正确"));
     }
 
@@ -145,7 +145,7 @@ public class AuthControllerTests {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.code").value(1002000000))
                 .andExpect(jsonPath("$.msg").value("登录失败，账号密码不正确"));
     }
 
@@ -169,7 +169,7 @@ public class AuthControllerTests {
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(500))
+                .andExpect(jsonPath("$.code").value(1002000004))
                 .andExpect(jsonPath("$.msg").value("验证码不正确，原因：验证码错误"));
     }
 

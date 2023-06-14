@@ -34,12 +34,12 @@ public class CodeResult<T> implements Serializable
 
     public static <T> CodeResult<T> ok(T data)
     {
-        return restResult(data, true,SUCCESS, null);
+        return restResult(data, true, SUCCESS, null);
     }
 
     public static <T> CodeResult<T> ok(T data, String msg)
     {
-        return restResult(data, true,SUCCESS, msg);
+        return restResult(data, true, SUCCESS, msg);
     }
 
     public static <T> CodeResult<T> fail()
@@ -63,6 +63,11 @@ public class CodeResult<T> implements Serializable
     }
 
     public static <T> CodeResult<T> fail(int code, String msg)
+    {
+        return restResult(null, false,code, msg);
+    }
+
+    public static <T> CodeResult<T> fail(Integer code, String msg)
     {
         return restResult(null, false,code, msg);
     }
