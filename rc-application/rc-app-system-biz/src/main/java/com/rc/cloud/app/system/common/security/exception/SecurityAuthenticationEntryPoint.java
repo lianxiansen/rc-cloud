@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.rc.cloud.common.core.bean.Code.TOKEN_INVALID;
+
 /**
  * 匿名用户(token不存在、错误)，异常处理器
  *
@@ -24,8 +26,7 @@ public class SecurityAuthenticationEntryPoint implements AuthenticationEntryPoin
         response.setContentType("application/json; charset=utf-8");
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Origin", request.getHeader(HttpHeaders.ORIGIN));
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         // 暂时定义为
-        response.getWriter().print(JsonUtils.toJsonString(CodeResult.fail(10041, "访问令牌失效")));
+        response.getWriter().print(JsonUtils.toJsonString(CodeResult.fail(TOKEN_INVALID.getCode(), TOKEN_INVALID.getZhDescription())));
     }
 }

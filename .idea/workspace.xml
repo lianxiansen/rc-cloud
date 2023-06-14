@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完善auth相关单元测试">
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="解决code码set到data中的问题">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/util/oauth2/OAuth2Utils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/exception/SecurityAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/exception/SecurityAuthenticationEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/auth/AuthControllerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin/auth/AuthControllerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/bean/Code.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/bean/Code.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +119,23 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.admin in rc-app-system-biz">
+  <component name="RunManager" selected="JUnit.AuthControllerTests.getByErrorAccessToken_fail">
+    <configuration name="AuthControllerTests.getByErrorAccessToken_fail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="rc-app-system-biz" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.auth.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.auth" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.auth.AuthControllerTests" />
+      <option name="METHOD_NAME" value="getByErrorAccessToken_fail" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="AuthControllerTests.getMenuList_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
@@ -134,7 +152,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AuthControllerTests.getPermissionInfo_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AuthControllerTests.loginWithErrorUsername_then_throwException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
@@ -144,39 +162,24 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.auth" />
       <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.auth.AuthControllerTests" />
-      <option name="METHOD_NAME" value="getPermissionInfo_success" />
+      <option name="METHOD_NAME" value="loginWithErrorUsername_then_throwException" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AuthControllerTests.get_accessTokenByRefreshToken_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PostControllerTests.getPostByIdNotExist_then_throwNotFoundException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.auth.*" />
+          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.dept.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.auth" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.auth.AuthControllerTests" />
-      <option name="METHOD_NAME" value="get_accessTokenByRefreshToken_success" />
+      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.dept" />
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.dept.PostControllerTests" />
+      <option name="METHOD_NAME" value="getPostByIdNotExist_then_throwNotFoundException" />
       <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UserControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rc-app-system-biz" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.user.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.user" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.user.UserControllerTests" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -218,10 +221,10 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.AuthControllerTests.getByErrorAccessToken_fail" />
       <item itemvalue="JUnit.AuthControllerTests.getMenuList_success" />
-      <item itemvalue="JUnit.AuthControllerTests.getPermissionInfo_success" />
-      <item itemvalue="JUnit.AuthControllerTests.get_accessTokenByRefreshToken_success" />
-      <item itemvalue="JUnit.UserControllerTests" />
+      <item itemvalue="JUnit.AuthControllerTests.loginWithErrorUsername_then_throwException" />
+      <item itemvalue="JUnit.PostControllerTests.getPostByIdNotExist_then_throwNotFoundException" />
       <item itemvalue="JUnit.admin in rc-app-system-biz" />
       <item itemvalue="Spring Boot.AuthServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
@@ -230,11 +233,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.AuthControllerTests.getByErrorAccessToken_fail" />
         <item itemvalue="JUnit.admin in rc-app-system-biz" />
+        <item itemvalue="JUnit.PostControllerTests.getPostByIdNotExist_then_throwNotFoundException" />
+        <item itemvalue="JUnit.AuthControllerTests.loginWithErrorUsername_then_throwException" />
         <item itemvalue="JUnit.AuthControllerTests.getMenuList_success" />
-        <item itemvalue="JUnit.AuthControllerTests.getPermissionInfo_success" />
-        <item itemvalue="JUnit.AuthControllerTests.get_accessTokenByRefreshToken_success" />
-        <item itemvalue="JUnit.UserControllerTests" />
       </list>
     </recent_temporary>
   </component>
@@ -273,7 +276,7 @@
       <workItem from="1686354403567" duration="28321000" />
       <workItem from="1686528227189" duration="21127000" />
       <workItem from="1686614222121" duration="27524000" />
-      <workItem from="1686700257731" duration="7736000" />
+      <workItem from="1686700257731" duration="10971000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -485,7 +488,21 @@
       <option name="project" value="LOCAL" />
       <updated>1686706621375</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="删除无用的工具类">
+      <created>1686708020748</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1686708020748</updated>
+    </task>
+    <task id="LOCAL-00032" summary="解决code码set到data中的问题">
+      <created>1686709611676</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1686709611676</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -521,9 +538,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="集成jwt和spring security" />
-    <MESSAGE value="加入security密码加密" />
-    <MESSAGE value="jwt相关参数改成从配置文件读取" />
     <MESSAGE value="调整项目结构，调通多租户插件" />
     <MESSAGE value="完成登录的单元测试" />
     <MESSAGE value="完成登录的sad path单元测试" />
@@ -546,7 +560,10 @@
     <MESSAGE value="完成权限相关单元测试" />
     <MESSAGE value="完成用户相关单元测试" />
     <MESSAGE value="完善auth相关单元测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="完善auth相关单元测试" />
+    <MESSAGE value="删除无用的工具类" />
+    <MESSAGE value="调整全局异常处理" />
+    <MESSAGE value="解决code码set到data中的问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="解决code码set到data中的问题" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

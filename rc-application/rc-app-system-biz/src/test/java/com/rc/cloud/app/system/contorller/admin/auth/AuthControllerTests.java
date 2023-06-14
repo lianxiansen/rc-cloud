@@ -211,6 +211,21 @@ public class AuthControllerTests {
                 .andExpect(jsonPath("$.data.username").value("admin"));
     }
 
+    /**
+     * 测试传入的refreshToken不正确时，返回的结果
+     * @throws Exception
+     */
+    @Test
+    public void getByErrorAccessToken_fail() throws Exception {
+        String accessToken = "xxx";
+        mvc.perform(get("/sys/user/profile/get")
+                        .header("Authorization", "Bearer " + accessToken))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(10040))
+                .andExpect(jsonPath("$.msg").value("令牌失效"));
+    }
+
     @Test
     public void logout_success() throws Exception {
         mvc.perform(get("/sys/auth/logout")
