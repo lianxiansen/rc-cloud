@@ -1,6 +1,6 @@
-package com.rc.cloud.app.system.api.client.feign;
+package com.rc.cloud.app.system.api.oauthclient.feign;
 
-import com.rc.cloud.app.system.api.client.model.SysOauthClientDetailsDO;
+import com.rc.cloud.app.system.api.oauthclient.entity.SysOauthClientDetailsDO;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.constant.ServiceNameConstants;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -20,14 +20,14 @@ public interface RemoteClientDetailsService {
 	/**
 	 * 通过clientId 查询客户端信息
 	 * @param clientId 用户名
-	 * @return R
+	 * @return CodeResult
 	 */
 	@GetMapping(value = "/client/getClientDetailsById/{clientId}", headers = SecurityConstants.HEADER_FROM_IN)
 	CodeResult<SysOauthClientDetailsDO> getClientDetailsById(@PathVariable("clientId") String clientId);
 
 	/**
 	 * 查询全部客户端
-	 * @return R
+	 * @return CodeResult
 	 */
 	@GetMapping(value = "/client/list", headers = SecurityConstants.HEADER_FROM_IN)
 	CodeResult<List<SysOauthClientDetailsDO>> listClientDetails();

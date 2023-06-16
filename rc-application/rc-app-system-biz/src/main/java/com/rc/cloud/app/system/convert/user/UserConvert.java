@@ -1,10 +1,10 @@
 package com.rc.cloud.app.system.convert.user;
 
-import com.rc.cloud.app.system.api.dept.model.SysPostDO;
-import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
+import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
+import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
 import com.rc.cloud.app.system.api.user.dto.AdminUserRespDTO;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
-import com.rc.cloud.app.system.api.dept.model.SysDeptDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
+import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileRespVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;

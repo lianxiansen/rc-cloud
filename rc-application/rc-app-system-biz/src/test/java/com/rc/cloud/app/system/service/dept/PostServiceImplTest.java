@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.service.dept;
 
-import com.rc.cloud.app.system.api.dept.model.SysPostDO;
+import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
 import com.rc.cloud.app.system.mapper.dept.PostMapper;
 import com.rc.cloud.app.system.vo.dept.post.PostCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostExportReqVO;

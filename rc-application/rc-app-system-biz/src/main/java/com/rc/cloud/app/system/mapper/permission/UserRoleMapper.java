@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.mapper.permission;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.rc.cloud.app.system.api.permission.model.SysUserRoleDO;
+import com.rc.cloud.app.system.api.permission.entity.SysUserRoleDO;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Mapper;
 

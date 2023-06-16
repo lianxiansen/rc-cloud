@@ -1,10 +1,10 @@
 package com.rc.cloud.app.system.service.tenant;
 
-import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
-import com.rc.cloud.app.system.api.tenant.model.SysTenantDO;
-import com.rc.cloud.app.system.api.tenant.model.SysTenantPackageDO;
+import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
+import com.rc.cloud.app.system.api.tenant.entity.SysTenantDO;
+import com.rc.cloud.app.system.api.tenant.entity.SysTenantPackageDO;
 import com.rc.cloud.app.system.mapper.tenant.TenantMapper;
-import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
+import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
 import com.rc.cloud.app.system.service.permission.MenuService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.permission.RoleService;
@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.rc.cloud.app.system.api.tenant.model.SysTenantDO.PACKAGE_ID_SYSTEM;
+import static com.rc.cloud.app.system.api.tenant.entity.SysTenantDO.PACKAGE_ID_SYSTEM;
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
 import static com.rc.cloud.common.core.util.collection.SetUtils.asSet;
 import static com.rc.cloud.common.core.util.date.LocalDateTimeUtils.buildBetweenTime;

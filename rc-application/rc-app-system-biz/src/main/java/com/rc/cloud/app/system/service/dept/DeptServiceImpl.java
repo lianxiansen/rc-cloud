@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.rc.cloud.app.system.api.dept.model.SysDeptDO;
+import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
 import com.rc.cloud.app.system.convert.dept.DeptConvert;
 import com.rc.cloud.app.system.mapper.dept.DeptMapper;
 import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;

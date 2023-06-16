@@ -5,7 +5,7 @@
 package com.rc.cloud.app.system.service.user;
 
 import com.rc.cloud.app.system.common.security.user.UserDetail;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import lombok.AllArgsConstructor;

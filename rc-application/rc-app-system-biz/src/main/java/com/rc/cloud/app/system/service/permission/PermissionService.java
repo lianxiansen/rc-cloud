@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.service.permission;
 
-import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
+import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;

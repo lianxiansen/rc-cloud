@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package com.rc.cloud.app.system.api.client.model;
+package com.rc.cloud.app.system.api.oauthclient.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -34,6 +35,7 @@ import javax.validation.constraints.NotBlank;
  * @since 2019/2/1
  */
 @Data
+@TableName("sys_oauth_client_details")
 @EqualsAndHashCode(callSuper = true)
 public class SysOauthClientDetailsDO extends BaseDO {
 

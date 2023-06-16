@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.tenant;
 
-import com.rc.cloud.app.system.api.tenant.model.SysTenantPackageDO;
+import com.rc.cloud.app.system.api.tenant.entity.SysTenantPackageDO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackagePageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;

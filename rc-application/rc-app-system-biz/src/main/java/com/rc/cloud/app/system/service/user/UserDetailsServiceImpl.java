@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.user;
 
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

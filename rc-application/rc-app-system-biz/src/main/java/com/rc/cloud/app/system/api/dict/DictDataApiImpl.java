@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.api.dict;
 
 import com.rc.cloud.app.system.api.dict.dto.DictDataRespDTO;
-import com.rc.cloud.app.system.api.dict.model.SysDictDataDO;
+import com.rc.cloud.app.system.api.dict.entity.SysDictDataDO;
 import com.rc.cloud.app.system.convert.dict.DictDataConvert;
 import com.rc.cloud.app.system.service.dict.DictDataService;
 import org.springframework.stereotype.Service;

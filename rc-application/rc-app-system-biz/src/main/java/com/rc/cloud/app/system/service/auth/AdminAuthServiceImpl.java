@@ -8,7 +8,7 @@ import com.rc.cloud.app.system.enums.login.LoginLogTypeEnum;
 import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.service.captcha.CaptchaService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.user.AdminUserService;

@@ -1,9 +1,9 @@
-package com.rc.cloud.app.system.api.dept.model;
+package com.rc.cloud.app.system.api.dept.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import lombok.Data;

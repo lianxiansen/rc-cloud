@@ -2,8 +2,8 @@ package com.rc.cloud.common.security.service;
 
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
-import com.rc.cloud.app.system.api.client.feign.RemoteClientDetailsService;
-import com.rc.cloud.app.system.api.client.model.SysOauthClientDetailsDO;
+import com.rc.cloud.app.system.api.oauthclient.feign.RemoteClientDetailsService;
+import com.rc.cloud.app.system.api.oauthclient.entity.SysOauthClientDetailsDO;
 import com.rc.cloud.common.core.constant.CacheConstants;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;

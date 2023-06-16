@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.convert.dict;
 
-import com.rc.cloud.app.system.api.dict.model.SysDictTypeDO;
+import com.rc.cloud.app.system.api.dict.entity.SysDictTypeDO;
 import com.rc.cloud.app.system.vo.dict.type.*;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.mapstruct.Mapper;

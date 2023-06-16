@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.mapper.dept;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.rc.cloud.app.system.api.dept.model.SysUserPostDO;
+import com.rc.cloud.app.system.api.dept.entity.SysUserPostDO;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.apache.ibatis.annotations.Mapper;

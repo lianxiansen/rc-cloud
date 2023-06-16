@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.permission;
 
 
-import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
+import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuListReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuUpdateReqVO;

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.dict;
 
-import com.rc.cloud.app.system.api.dict.model.SysDictDataDO;
-import com.rc.cloud.app.system.api.dict.model.SysDictTypeDO;
+import com.rc.cloud.app.system.api.dict.entity.SysDictDataDO;
+import com.rc.cloud.app.system.api.dict.entity.SysDictTypeDO;
 import com.rc.cloud.app.system.mapper.dict.DictDataMapper;
 import com.rc.cloud.app.system.vo.dict.data.DictDataCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataExportReqVO;

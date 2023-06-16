@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.convert.dept;
 
-import com.rc.cloud.app.system.api.dept.model.SysPostDO;
+import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
 import com.rc.cloud.app.system.vo.dept.post.*;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.mapstruct.Mapper;

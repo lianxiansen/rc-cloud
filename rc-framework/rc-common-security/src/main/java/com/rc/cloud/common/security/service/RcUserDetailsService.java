@@ -2,7 +2,7 @@ package com.rc.cloud.common.security.service;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.web.CodeResult;

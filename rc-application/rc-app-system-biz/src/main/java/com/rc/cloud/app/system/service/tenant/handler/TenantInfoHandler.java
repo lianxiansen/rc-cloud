@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.tenant.handler;
 
 
-import com.rc.cloud.app.system.api.tenant.model.SysTenantDO;
+import com.rc.cloud.app.system.api.tenant.entity.SysTenantDO;
 
 /**
  * 租户信息处理

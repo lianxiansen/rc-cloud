@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.api.permission.model;
+package com.rc.cloud.app.system.api.permission.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

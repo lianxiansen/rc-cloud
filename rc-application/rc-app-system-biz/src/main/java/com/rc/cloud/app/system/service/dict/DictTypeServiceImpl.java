@@ -2,7 +2,7 @@ package com.rc.cloud.app.system.service.dict;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.api.dict.model.SysDictTypeDO;
+import com.rc.cloud.app.system.api.dict.entity.SysDictTypeDO;
 import com.rc.cloud.app.system.convert.dict.DictTypeConvert;
 import com.rc.cloud.app.system.mapper.dict.DictTypeMapper;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeCreateReqVO;

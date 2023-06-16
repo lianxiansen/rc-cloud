@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.controller.admin.permission;
 
-import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
+import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.service.permission.MenuService;
 import com.rc.cloud.app.system.vo.permission.menu.*;

@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.permission;
 
-import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
+import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
 import com.rc.cloud.app.system.vo.permission.role.RoleExportReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RolePageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;

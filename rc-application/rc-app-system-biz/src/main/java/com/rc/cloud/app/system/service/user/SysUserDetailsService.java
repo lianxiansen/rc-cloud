@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.service.user;
 
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface SysUserDetailsService {

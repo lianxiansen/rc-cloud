@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.user;
 
 import cn.hutool.core.collection.CollUtil;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserCreateReqVO;

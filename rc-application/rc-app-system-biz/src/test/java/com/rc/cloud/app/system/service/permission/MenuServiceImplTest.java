@@ -2,7 +2,7 @@ package com.rc.cloud.app.system.service.permission;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
+import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.service.tenant.TenantService;
 import com.rc.cloud.app.system.vo.permission.menu.MenuCreateReqVO;
@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Import;
 import javax.annotation.Resource;
 import java.util.*;
 
-import static com.rc.cloud.app.system.api.permission.model.SysMenuDO.ID_ROOT;
+import static com.rc.cloud.app.system.api.permission.entity.SysMenuDO.ID_ROOT;
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
 import static com.rc.cloud.common.core.util.collection.SetUtils.asSet;
 import static com.rc.cloud.common.core.util.object.ObjectUtils.cloneIgnoreId;

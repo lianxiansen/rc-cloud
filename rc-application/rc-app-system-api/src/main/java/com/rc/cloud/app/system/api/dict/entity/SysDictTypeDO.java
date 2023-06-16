@@ -1,40 +1,39 @@
-package com.rc.cloud.app.system.api.dept.model;
+package com.rc.cloud.app.system.api.dict.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 /**
- * 岗位表
+ * 字典类型表
  *
  * @author ruoyi
  */
-@TableName("sys_post")
+@TableName("sys_dict_type")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysPostDO extends BaseDO {
+@ToString(callSuper = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class SysDictTypeDO extends BaseDO {
 
     /**
-     * 岗位序号
+     * 字典主键
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
-     * 岗位名称
+     * 字典名称
      */
     private String name;
     /**
-     * 岗位编码
+     * 字典类型
      */
-    private String code;
-    /**
-     * 岗位排序
-     */
-    private Integer sort;
+    private String type;
     /**
      * 状态
      *

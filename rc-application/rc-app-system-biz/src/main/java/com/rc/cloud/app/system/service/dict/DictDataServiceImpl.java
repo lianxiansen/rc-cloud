@@ -2,10 +2,10 @@ package com.rc.cloud.app.system.service.dict;
 
 import cn.hutool.core.collection.CollUtil;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.api.dict.model.SysDictDataDO;
+import com.rc.cloud.app.system.api.dict.entity.SysDictDataDO;
 import com.rc.cloud.app.system.convert.dict.DictDataConvert;
 import com.rc.cloud.app.system.mapper.dict.DictDataMapper;
-import com.rc.cloud.app.system.api.dict.model.SysDictTypeDO;
+import com.rc.cloud.app.system.api.dict.entity.SysDictTypeDO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataExportReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataPageReqVO;

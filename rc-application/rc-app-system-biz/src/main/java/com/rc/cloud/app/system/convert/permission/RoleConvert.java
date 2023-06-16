@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.convert.permission;
 
-import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
+import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
 import com.rc.cloud.app.system.service.permission.bo.RoleCreateReqBO;
 import com.rc.cloud.app.system.vo.permission.role.*;
 import org.mapstruct.Mapper;

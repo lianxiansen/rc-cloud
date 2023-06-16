@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.api.user.dto;
 
-import com.rc.cloud.app.system.api.dept.model.SysPostDO;
-import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
+import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import lombok.Data;
 
 import java.io.Serializable;

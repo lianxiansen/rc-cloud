@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.controller.admin.dept;
 
-import com.rc.cloud.app.system.api.dept.model.SysDeptDO;
+import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
 import com.rc.cloud.app.system.convert.dept.DeptConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.vo.dept.dept.*;

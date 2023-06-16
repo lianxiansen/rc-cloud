@@ -1,10 +1,10 @@
 package com.rc.cloud.app.system.controller.admin.auth;
 
-import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.convert.auth.AuthConvert;
 import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
-import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
+import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
 import com.rc.cloud.app.system.service.auth.AdminAuthService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.permission.RoleService;

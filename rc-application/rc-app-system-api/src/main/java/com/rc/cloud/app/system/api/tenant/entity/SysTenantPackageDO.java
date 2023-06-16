@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.api.tenant.model;
+package com.rc.cloud.app.system.api.tenant.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;

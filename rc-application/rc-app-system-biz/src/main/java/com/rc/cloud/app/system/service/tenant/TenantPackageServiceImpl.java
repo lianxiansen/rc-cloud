@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.service.tenant;
 
 import cn.hutool.core.collection.CollUtil;
-import com.rc.cloud.app.system.api.tenant.model.SysTenantDO;
-import com.rc.cloud.app.system.api.tenant.model.SysTenantPackageDO;
+import com.rc.cloud.app.system.api.tenant.entity.SysTenantDO;
+import com.rc.cloud.app.system.api.tenant.entity.SysTenantPackageDO;
 import com.rc.cloud.app.system.convert.tenant.TenantPackageConvert;
 import com.rc.cloud.app.system.mapper.tenant.TenantPackageMapper;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;

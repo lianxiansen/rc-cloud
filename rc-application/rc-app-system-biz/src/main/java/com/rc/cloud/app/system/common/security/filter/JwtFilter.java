@@ -2,7 +2,7 @@ package com.rc.cloud.app.system.common.security.filter;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.auth0.jwt.interfaces.Claim;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.common.security.cache.TokenStoreCache;
 import com.rc.cloud.app.system.common.security.user.UserInfoCommon;
 import com.rc.cloud.app.system.common.security.utils.DoubleJWTUtil;

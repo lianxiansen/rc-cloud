@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.dept;
 
-import com.rc.cloud.app.system.api.dept.model.SysPostDO;
+import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
 import com.rc.cloud.app.system.vo.dept.post.PostExportReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;

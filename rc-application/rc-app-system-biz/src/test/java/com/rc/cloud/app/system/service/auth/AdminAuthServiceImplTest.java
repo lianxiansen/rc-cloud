@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.auth;
 
 import cn.hutool.core.util.ReflectUtil;
-import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.service.captcha.CaptchaService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
