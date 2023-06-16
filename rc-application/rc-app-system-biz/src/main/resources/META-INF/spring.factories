@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.rc.cloud.app.system.common.datapermission.config.YudaoDataPermissionAutoConfiguration ,\
+  com.rc.cloud.app.system.common.datapermission.config.YudaoDeptDataPermissionAutoConfiguration

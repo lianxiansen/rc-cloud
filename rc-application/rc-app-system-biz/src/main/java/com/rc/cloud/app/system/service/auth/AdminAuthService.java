@@ -1,11 +1,9 @@
 package com.rc.cloud.app.system.service.auth;
 
-import com.rc.cloud.app.system.model.user.AdminUserDO;
-import com.rc.cloud.app.system.vo.auth.*;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
 import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -25,7 +23,7 @@ public interface AdminAuthService {
      * @param password 密码
      * @return 用户
      */
-    AdminUserDO authenticate(String username, String password);
+    SysUserDO authenticate(String username, String password);
 
     /**
      * 账号登录
@@ -71,6 +69,6 @@ public interface AdminAuthService {
      */
     AuthLoginRespVO refreshToken(String refreshToken);
 
-    Optional<AdminUserDO> findOptionalByUsernameWithAuthorities(String username);
+    Optional<SysUserDO> findOptionalByUsernameWithAuthorities(String username);
 
 }

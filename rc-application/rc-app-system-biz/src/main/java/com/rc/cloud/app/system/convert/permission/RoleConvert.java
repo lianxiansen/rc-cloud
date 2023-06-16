@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.convert.permission;
 
-import com.rc.cloud.app.system.model.permission.RoleDO;
+import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
 import com.rc.cloud.app.system.service.permission.bo.RoleCreateReqBO;
 import com.rc.cloud.app.system.vo.permission.role.*;
 import org.mapstruct.Mapper;
@@ -13,16 +13,16 @@ public interface RoleConvert {
 
     RoleConvert INSTANCE = Mappers.getMapper(RoleConvert.class);
 
-    RoleDO convert(RoleUpdateReqVO bean);
+    SysRoleDO convert(RoleUpdateReqVO bean);
 
-    RoleRespVO convert(RoleDO bean);
+    RoleRespVO convert(SysRoleDO bean);
 
-    RoleDO convert(RoleCreateReqVO bean);
+    SysRoleDO convert(RoleCreateReqVO bean);
 
-    List<RoleSimpleRespVO> convertList02(List<RoleDO> list);
+    List<RoleSimpleRespVO> convertList02(List<SysRoleDO> list);
 
-    List<RoleExcelVO> convertList03(List<RoleDO> list);
+    List<RoleExcelVO> convertList03(List<SysRoleDO> list);
 
-    RoleDO convert(RoleCreateReqBO bean);
+    SysRoleDO convert(RoleCreateReqBO bean);
 
 }

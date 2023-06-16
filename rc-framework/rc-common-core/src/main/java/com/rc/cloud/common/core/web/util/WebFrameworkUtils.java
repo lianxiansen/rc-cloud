@@ -11,6 +11,13 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.util.Optional;
+
+import static com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants.NOT_FOUND_HTTP_SERVLET_REQUEST;
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception0;
 
 /**
  * 专属于 web 包的工具类
@@ -50,6 +57,22 @@ public class WebFrameworkUtils {
 
     public static void setLoginUserId(ServletRequest request, Long userId) {
         request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID, userId);
+    }
+
+    /**
+     * 获取 HttpServletResponse
+     * @return {HttpServletResponse}
+     */
+    public static HttpServletResponse getResponse() {
+        ServletRequestAttributes servletRequestAttributes = getServletRequestAttributes();
+        if (servletRequestAttributes == null) {
+            throw exception(NOT_FOUND_HTTP_SERVLET_REQUEST);
+        }
+        return servletRequestAttributes.getResponse();
+    }
+
+    public static ServletRequestAttributes getServletRequestAttributes() {
+        return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
     }
 
 //    /**
@@ -108,8 +131,10 @@ public class WebFrameworkUtils {
 //    }
 
     public static Long getLoginUserId() {
-        HttpServletRequest request = getRequest();
-        return getLoginUserId(request);
+        if (getRequest().isPresent()) {
+            return getLoginUserId(getRequest().get());
+        }
+        return null;
     }
 
     public static void setCommonResult(ServletRequest request, CodeResult<?> result) {
@@ -120,12 +145,24 @@ public class WebFrameworkUtils {
         return (CodeResult<?>) request.getAttribute(REQUEST_ATTRIBUTE_COMMON_RESULT);
     }
 
-    public static HttpServletRequest getRequest() {
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-        if (!(requestAttributes instanceof ServletRequestAttributes)) {
-            return null;
+//    public static HttpServletRequest getRequest() {
+//        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+//        if (!(requestAttributes instanceof ServletRequestAttributes)) {
+//            return null;
+//        }
+//        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
+//        return servletRequestAttributes.getRequest();
+//    }
+
+    /**
+     * 获取 HttpServletRequest
+     * @return {HttpServletRequest}
+     */
+    public static Optional<HttpServletRequest> getRequest() {
+        ServletRequestAttributes servletRequestAttributes = getServletRequestAttributes();
+        if (servletRequestAttributes == null) {
+            return Optional.empty();
         }
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) requestAttributes;
-        return servletRequestAttributes.getRequest();
+        return Optional.of(servletRequestAttributes.getRequest());
     }
 }

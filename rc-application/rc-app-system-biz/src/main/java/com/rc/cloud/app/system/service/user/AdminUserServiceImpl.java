@@ -4,19 +4,19 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.annotations.VisibleForTesting;
+import com.rc.cloud.app.system.api.dept.model.SysDeptDO;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import com.rc.cloud.app.system.common.datapermission.core.util.DataPermissionUtils;
 import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.mapper.dept.UserPostMapper;
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
-import com.rc.cloud.app.system.model.dept.UserPostDO;
-import com.rc.cloud.app.system.model.user.AdminUserDO;
+import com.rc.cloud.app.system.api.dept.model.SysUserPostDO;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.tenant.TenantService;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
-import com.rc.cloud.app.system.model.dept.DeptDO;
 
 import com.rc.cloud.app.system.vo.user.user.UserCreateReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserExportReqVO;
@@ -90,7 +90,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         validateUserForCreateOrUpdate(null, reqVO.getUsername(), reqVO.getMobile(), reqVO.getEmail(),
                 reqVO.getDeptId(), reqVO.getPostIds());
         // 插入用户
-        AdminUserDO user = UserConvert.INSTANCE.convert(reqVO);
+        SysUserDO user = UserConvert.INSTANCE.convert(reqVO);
         user.setStatus(CommonStatusEnum.ENABLE.getStatus()); // 默认开启
         user.setPassword(encodePassword(reqVO.getPassword())); // 加密密码
         userMapper.insert(user);
@@ -98,7 +98,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (CollectionUtil.isNotEmpty(user.getPostIds())) {
             userPostMapper.insertBatch(convertList(user.getPostIds(),
                     postId -> {
-                        UserPostDO userPostDO = new UserPostDO();
+                        SysUserPostDO userPostDO = new SysUserPostDO();
                         userPostDO.setUserId(user.getId());
                         userPostDO.setPostId(postId);
                         return userPostDO;
@@ -115,15 +115,15 @@ public class AdminUserServiceImpl implements AdminUserService {
         validateUserForCreateOrUpdate(reqVO.getId(), reqVO.getUsername(), reqVO.getMobile(), reqVO.getEmail(),
                 reqVO.getDeptId(), reqVO.getPostIds());
         // 更新用户
-        AdminUserDO updateObj = UserConvert.INSTANCE.convert(reqVO);
+        SysUserDO updateObj = UserConvert.INSTANCE.convert(reqVO);
         userMapper.updateById(updateObj);
         // 更新岗位
         updateUserPost(reqVO, updateObj);
     }
 
-    private void updateUserPost(UserUpdateReqVO reqVO, AdminUserDO updateObj) {
+    private void updateUserPost(UserUpdateReqVO reqVO, SysUserDO updateObj) {
         Long userId = reqVO.getId();
-        Set<Long> dbPostIds = convertSet(userPostMapper.selectListByUserId(userId), UserPostDO::getPostId);
+        Set<Long> dbPostIds = convertSet(userPostMapper.selectListByUserId(userId), SysUserPostDO::getPostId);
         // 计算新增和删除的岗位编号
         Set<Long> postIds = updateObj.getPostIds();
         Collection<Long> createPostIds = CollUtil.subtract(postIds, dbPostIds);
@@ -132,7 +132,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (!CollectionUtil.isEmpty(createPostIds)) {
             userPostMapper.insertBatch(convertList(createPostIds,
                     postId -> {
-                        UserPostDO userPostDO = new UserPostDO();
+                        SysUserPostDO userPostDO = new SysUserPostDO();
                         userPostDO.setUserId(userId);
                         userPostDO.setPostId(postId);
                         return userPostDO;})
@@ -145,11 +145,11 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public void updateUserLogin(Long id, String loginIp) {
-        AdminUserDO adminUserDO = new AdminUserDO();
-        adminUserDO.setId(id);
-        adminUserDO.setLoginIp(loginIp);
-        adminUserDO.setLoginDate(LocalDateTime.now());
-        userMapper.updateById(adminUserDO);
+        SysUserDO sysUserDO = new SysUserDO();
+        sysUserDO.setId(id);
+        sysUserDO.setLoginIp(loginIp);
+        sysUserDO.setLoginDate(LocalDateTime.now());
+        userMapper.updateById(sysUserDO);
     }
 
     @Override
@@ -159,9 +159,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         validateEmailUnique(id, reqVO.getEmail());
         validateMobileUnique(id, reqVO.getMobile());
         // 执行更新
-        AdminUserDO adminUserDO = UserConvert.INSTANCE.convert(reqVO);
-        adminUserDO.setId(id);
-        userMapper.updateById(adminUserDO);
+        SysUserDO sysUserDO = UserConvert.INSTANCE.convert(reqVO);
+        sysUserDO.setId(id);
+        userMapper.updateById(sysUserDO);
     }
 
     @Override
@@ -169,9 +169,9 @@ public class AdminUserServiceImpl implements AdminUserService {
         // 校验旧密码密码
         validateOldPassword(id, reqVO.getOldPassword());
         // 执行更新
-        AdminUserDO adminUserDO = new AdminUserDO();
-        adminUserDO.setId(id);
-        AdminUserDO updateObj = adminUserDO;
+        SysUserDO sysUserDO = new SysUserDO();
+        sysUserDO.setId(id);
+        SysUserDO updateObj = sysUserDO;
         updateObj.setPassword(encodePassword(reqVO.getNewPassword())); // 加密密码
         userMapper.updateById(updateObj);
     }
@@ -194,7 +194,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         // 校验用户存在
         validateUserExists(id);
         // 更新密码
-        AdminUserDO updateObj = new AdminUserDO();
+        SysUserDO updateObj = new SysUserDO();
         updateObj.setId(id);
         updateObj.setPassword(encodePassword(password)); // 加密密码
         userMapper.updateById(updateObj);
@@ -205,7 +205,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         // 校验用户存在
         validateUserExists(id);
         // 更新状态
-        AdminUserDO updateObj = new AdminUserDO();
+        SysUserDO updateObj = new SysUserDO();
         updateObj.setId(id);
         updateObj.setStatus(status);
         userMapper.updateById(updateObj);
@@ -225,13 +225,13 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public AdminUserDO getUserByUsername(String username) {
+    public SysUserDO getUserByUsername(String username) {
         return userMapper.selectByUsername(username);
     }
 
     @Override
-    public Optional<AdminUserDO> findOptionalByUsername(String username) {
-        AdminUserDO sysUserDO = userMapper.selectOne(new LambdaQueryWrapperX<AdminUserDO>().eq(AdminUserDO::getUsername, username));
+    public Optional<SysUserDO> findOptionalByUsername(String username) {
+        SysUserDO sysUserDO = userMapper.selectOne(new LambdaQueryWrapperX<SysUserDO>().eq(SysUserDO::getUsername, username));
         if (sysUserDO == null) {
             return Optional.empty();
         }
@@ -239,22 +239,22 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public AdminUserDO getUserByMobile(String mobile) {
+    public SysUserDO getUserByMobile(String mobile) {
         return userMapper.selectByMobile(mobile);
     }
 
     @Override
-    public PageResult<AdminUserDO> getUserPage(UserPageReqVO reqVO) {
+    public PageResult<SysUserDO> getUserPage(UserPageReqVO reqVO) {
         return userMapper.selectPage(reqVO, getDeptCondition(reqVO.getDeptId()));
     }
 
     @Override
-    public AdminUserDO getUser(Long id) {
+    public SysUserDO getUser(Long id) {
         return userMapper.selectById(id);
     }
 
     @Override
-    public List<AdminUserDO> getUserListByDeptIds(Collection<Long> deptIds) {
+    public List<SysUserDO> getUserListByDeptIds(Collection<Long> deptIds) {
         if (CollUtil.isEmpty(deptIds)) {
             return Collections.emptyList();
         }
@@ -262,11 +262,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public List<AdminUserDO> getUserListByPostIds(Collection<Long> postIds) {
+    public List<SysUserDO> getUserListByPostIds(Collection<Long> postIds) {
         if (CollUtil.isEmpty(postIds)) {
             return Collections.emptyList();
         }
-        Set<Long> userIds = convertSet(userPostMapper.selectListByPostIds(postIds), UserPostDO::getUserId);
+        Set<Long> userIds = convertSet(userPostMapper.selectListByPostIds(postIds), SysUserPostDO::getUserId);
         if (CollUtil.isEmpty(userIds)) {
             return Collections.emptyList();
         }
@@ -274,7 +274,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public List<AdminUserDO> getUserList(Collection<Long> ids) {
+    public List<SysUserDO> getUserList(Collection<Long> ids) {
         if (CollUtil.isEmpty(ids)) {
             return Collections.emptyList();
         }
@@ -287,11 +287,11 @@ public class AdminUserServiceImpl implements AdminUserService {
             return;
         }
         // 获得岗位信息
-        List<AdminUserDO> users = userMapper.selectBatchIds(ids);
-        Map<Long, AdminUserDO> userMap = CollectionUtils.convertMap(users, AdminUserDO::getId);
+        List<SysUserDO> users = userMapper.selectBatchIds(ids);
+        Map<Long, SysUserDO> userMap = CollectionUtils.convertMap(users, SysUserDO::getId);
         // 校验
         ids.forEach(id -> {
-            AdminUserDO user = userMap.get(id);
+            SysUserDO user = userMap.get(id);
             if (user == null) {
                 throw exception(USER_NOT_EXISTS);
             }
@@ -302,12 +302,12 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
-    public List<AdminUserDO> getUserList(UserExportReqVO reqVO) {
+    public List<SysUserDO> getUserList(UserExportReqVO reqVO) {
         return userMapper.selectList(reqVO, getDeptCondition(reqVO.getDeptId()));
     }
 
     @Override
-    public List<AdminUserDO> getUserListByNickname(String nickname) {
+    public List<SysUserDO> getUserListByNickname(String nickname) {
         return userMapper.selectListByNickname(nickname);
     }
 
@@ -321,7 +321,7 @@ public class AdminUserServiceImpl implements AdminUserService {
             return Collections.emptySet();
         }
         Set<Long> deptIds = convertSet(deptService.getDeptListByParentIdFromCache(
-                deptId, true), DeptDO::getId);
+                deptId, true), SysDeptDO::getId);
         deptIds.add(deptId); // 包括自身
         return deptIds;
     }
@@ -350,7 +350,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (id == null) {
             return;
         }
-        AdminUserDO user = userMapper.selectById(id);
+        SysUserDO user = userMapper.selectById(id);
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
@@ -361,7 +361,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (StrUtil.isBlank(username)) {
             return;
         }
-        AdminUserDO user = userMapper.selectByUsername(username);
+        SysUserDO user = userMapper.selectByUsername(username);
         if (user == null) {
             return;
         }
@@ -379,7 +379,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (StrUtil.isBlank(email)) {
             return;
         }
-        AdminUserDO user = userMapper.selectByEmail(email);
+        SysUserDO user = userMapper.selectByEmail(email);
         if (user == null) {
             return;
         }
@@ -397,7 +397,7 @@ public class AdminUserServiceImpl implements AdminUserService {
         if (StrUtil.isBlank(mobile)) {
             return;
         }
-        AdminUserDO user = userMapper.selectByMobile(mobile);
+        SysUserDO user = userMapper.selectByMobile(mobile);
         if (user == null) {
             return;
         }
@@ -417,7 +417,7 @@ public class AdminUserServiceImpl implements AdminUserService {
      */
     @VisibleForTesting
     void validateOldPassword(Long id, String oldPassword) {
-        AdminUserDO user = userMapper.selectById(id);
+        SysUserDO user = userMapper.selectById(id);
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
@@ -465,7 +465,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 //    }
 
     @Override
-    public List<AdminUserDO> getUserListByStatus(Integer status) {
+    public List<SysUserDO> getUserListByStatus(Integer status) {
         return userMapper.selectListByStatus(status);
     }
 

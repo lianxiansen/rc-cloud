@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.dict;
 
-import com.rc.cloud.app.system.model.dict.DictTypeDO;
+import com.rc.cloud.app.system.api.dict.model.SysDictTypeDO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeExportReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypePageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -14,31 +14,31 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
-public interface DictTypeMapper extends BaseMapperX<DictTypeDO> {
+public interface DictTypeMapper extends BaseMapperX<SysDictTypeDO> {
 
-    default PageResult<DictTypeDO> selectPage(DictTypePageReqVO reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<DictTypeDO>()
-                .likeIfPresent(DictTypeDO::getName, reqVO.getName())
-                .likeIfPresent(DictTypeDO::getType, reqVO.getType())
-                .eqIfPresent(DictTypeDO::getStatus, reqVO.getStatus())
-                .betweenIfPresent(DictTypeDO::getCreateTime, reqVO.getCreateTime())
-                .orderByDesc(DictTypeDO::getId));
+    default PageResult<SysDictTypeDO> selectPage(DictTypePageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<SysDictTypeDO>()
+                .likeIfPresent(SysDictTypeDO::getName, reqVO.getName())
+                .likeIfPresent(SysDictTypeDO::getType, reqVO.getType())
+                .eqIfPresent(SysDictTypeDO::getStatus, reqVO.getStatus())
+                .betweenIfPresent(SysDictTypeDO::getCreateTime, reqVO.getCreateTime())
+                .orderByDesc(SysDictTypeDO::getId));
     }
 
-    default List<DictTypeDO> selectList(DictTypeExportReqVO reqVO) {
-        return selectList(new LambdaQueryWrapperX<DictTypeDO>()
-                .likeIfPresent(DictTypeDO::getName, reqVO.getName())
-                .likeIfPresent(DictTypeDO::getType, reqVO.getType())
-                .eqIfPresent(DictTypeDO::getStatus, reqVO.getStatus())
-                .betweenIfPresent(DictTypeDO::getCreateTime, reqVO.getCreateTime()));
+    default List<SysDictTypeDO> selectList(DictTypeExportReqVO reqVO) {
+        return selectList(new LambdaQueryWrapperX<SysDictTypeDO>()
+                .likeIfPresent(SysDictTypeDO::getName, reqVO.getName())
+                .likeIfPresent(SysDictTypeDO::getType, reqVO.getType())
+                .eqIfPresent(SysDictTypeDO::getStatus, reqVO.getStatus())
+                .betweenIfPresent(SysDictTypeDO::getCreateTime, reqVO.getCreateTime()));
     }
 
-    default DictTypeDO selectByType(String type) {
-        return selectOne(DictTypeDO::getType, type);
+    default SysDictTypeDO selectByType(String type) {
+        return selectOne(SysDictTypeDO::getType, type);
     }
 
-    default DictTypeDO selectByName(String name) {
-        return selectOne(DictTypeDO::getName, name);
+    default SysDictTypeDO selectByName(String name) {
+        return selectOne(SysDictTypeDO::getName, name);
     }
 
     int deleteById(@Param("id") Long id, @Param("deletedTime") LocalDateTime deletedTime);

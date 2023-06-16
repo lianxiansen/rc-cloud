@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.controller.admin.dict;
 
+import com.rc.cloud.app.system.api.dict.model.SysDictTypeDO;
 import com.rc.cloud.app.system.convert.dict.DictTypeConvert;
-import com.rc.cloud.app.system.model.dict.DictTypeDO;
 import com.rc.cloud.app.system.service.dict.DictTypeService;
 import com.rc.cloud.app.system.vo.dict.type.*;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -74,7 +74,7 @@ public class DictTypeController {
     @Operation(summary = "获得全部字典类型列表", description = "包括开启 + 禁用的字典类型，主要用于前端的下拉选项")
     // 无需添加权限认证，因为前端全局都需要
     public CodeResult<List<DictTypeSimpleRespVO>> getSimpleDictTypeList() {
-        List<DictTypeDO> list = dictTypeService.getDictTypeList();
+        List<SysDictTypeDO> list = dictTypeService.getDictTypeList();
         return CodeResult.ok(DictTypeConvert.INSTANCE.convertList(list));
     }
 
@@ -83,7 +83,7 @@ public class DictTypeController {
 //    @PreAuthorize("@ss.hasPermission('system:dict:query')")
 //    @OperateLog(type = EXPORT)
     public void export(HttpServletResponse response, @Valid DictTypeExportReqVO reqVO) throws IOException {
-        List<DictTypeDO> list = dictTypeService.getDictTypeList(reqVO);
+        List<SysDictTypeDO> list = dictTypeService.getDictTypeList(reqVO);
         List<DictTypeExcelVO> data = DictTypeConvert.INSTANCE.convertList02(list);
         // 输出
         ExcelUtils.write(response, "字典类型.xls", "类型列表", DictTypeExcelVO.class, data);

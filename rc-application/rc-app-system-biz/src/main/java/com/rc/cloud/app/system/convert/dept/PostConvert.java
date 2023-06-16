@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.convert.dept;
 
-import com.rc.cloud.app.system.model.dept.PostDO;
+import com.rc.cloud.app.system.api.dept.model.SysPostDO;
 import com.rc.cloud.app.system.vo.dept.post.*;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.mapstruct.Mapper;
@@ -13,16 +13,16 @@ public interface PostConvert {
 
     PostConvert INSTANCE = Mappers.getMapper(PostConvert.class);
 
-    List<PostSimpleRespVO> convertList02(List<PostDO> list);
+    List<PostSimpleRespVO> convertList02(List<SysPostDO> list);
 
-    PageResult<PostRespVO> convertPage(PageResult<PostDO> page);
+    PageResult<PostRespVO> convertPage(PageResult<SysPostDO> page);
 
-    PostRespVO convert(PostDO id);
+    PostRespVO convert(SysPostDO id);
 
-    PostDO convert(PostCreateReqVO bean);
+    SysPostDO convert(PostCreateReqVO bean);
 
-    PostDO convert(PostUpdateReqVO reqVO);
+    SysPostDO convert(PostUpdateReqVO reqVO);
 
-    List<PostExcelVO> convertList03(List<PostDO> list);
+    List<PostExcelVO> convertList03(List<SysPostDO> list);
 
 }

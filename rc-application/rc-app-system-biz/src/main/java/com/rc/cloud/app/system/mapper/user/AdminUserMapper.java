@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.user;
 
-import com.rc.cloud.app.system.model.user.AdminUserDO;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import com.rc.cloud.app.system.vo.user.user.UserExportReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -13,56 +13,56 @@ import java.util.List;
 import java.util.Optional;
 
 @Mapper
-public interface AdminUserMapper extends BaseMapperX<AdminUserDO> {
+public interface AdminUserMapper extends BaseMapperX<SysUserDO> {
 
-    default AdminUserDO selectByUsername(String username) {
-        return selectOne(AdminUserDO::getUsername, username);
+    default SysUserDO selectByUsername(String username) {
+        return selectOne(SysUserDO::getUsername, username);
     }
 
-    default AdminUserDO selectByEmail(String email) {
-        return selectOne(AdminUserDO::getEmail, email);
+    default SysUserDO selectByEmail(String email) {
+        return selectOne(SysUserDO::getEmail, email);
     }
 
-    default AdminUserDO selectByMobile(String mobile) {
-        return selectOne(AdminUserDO::getMobile, mobile);
+    default SysUserDO selectByMobile(String mobile) {
+        return selectOne(SysUserDO::getMobile, mobile);
     }
 
-    default PageResult<AdminUserDO> selectPage(UserPageReqVO reqVO, Collection<Long> deptIds) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<AdminUserDO>()
-                .likeIfPresent(AdminUserDO::getUsername, reqVO.getUsername())
-                .likeIfPresent(AdminUserDO::getMobile, reqVO.getMobile())
-                .eqIfPresent(AdminUserDO::getStatus, reqVO.getStatus())
-                .betweenIfPresent(AdminUserDO::getCreateTime, reqVO.getCreateTime())
-                .inIfPresent(AdminUserDO::getDeptId, deptIds)
-                .orderByDesc(AdminUserDO::getId));
+    default PageResult<SysUserDO> selectPage(UserPageReqVO reqVO, Collection<Long> deptIds) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<SysUserDO>()
+                .likeIfPresent(SysUserDO::getUsername, reqVO.getUsername())
+                .likeIfPresent(SysUserDO::getMobile, reqVO.getMobile())
+                .eqIfPresent(SysUserDO::getStatus, reqVO.getStatus())
+                .betweenIfPresent(SysUserDO::getCreateTime, reqVO.getCreateTime())
+                .inIfPresent(SysUserDO::getDeptId, deptIds)
+                .orderByDesc(SysUserDO::getId));
     }
 
-    default List<AdminUserDO> selectList(UserExportReqVO reqVO, Collection<Long> deptIds) {
-        return selectList(new LambdaQueryWrapperX<AdminUserDO>()
-                .likeIfPresent(AdminUserDO::getUsername, reqVO.getUsername())
-                .likeIfPresent(AdminUserDO::getMobile, reqVO.getMobile())
-                .eqIfPresent(AdminUserDO::getStatus, reqVO.getStatus())
-                .betweenIfPresent(AdminUserDO::getCreateTime, reqVO.getCreateTime())
-                .inIfPresent(AdminUserDO::getDeptId, deptIds));
+    default List<SysUserDO> selectList(UserExportReqVO reqVO, Collection<Long> deptIds) {
+        return selectList(new LambdaQueryWrapperX<SysUserDO>()
+                .likeIfPresent(SysUserDO::getUsername, reqVO.getUsername())
+                .likeIfPresent(SysUserDO::getMobile, reqVO.getMobile())
+                .eqIfPresent(SysUserDO::getStatus, reqVO.getStatus())
+                .betweenIfPresent(SysUserDO::getCreateTime, reqVO.getCreateTime())
+                .inIfPresent(SysUserDO::getDeptId, deptIds));
     }
 
-    default List<AdminUserDO> selectListByNickname(String nickname) {
-        return selectList(new LambdaQueryWrapperX<AdminUserDO>().like(AdminUserDO::getNickname, nickname));
+    default List<SysUserDO> selectListByNickname(String nickname) {
+        return selectList(new LambdaQueryWrapperX<SysUserDO>().like(SysUserDO::getNickname, nickname));
     }
 
-    default List<AdminUserDO> selectListByStatus(Integer status) {
-        return selectList(AdminUserDO::getStatus, status);
+    default List<SysUserDO> selectListByStatus(Integer status) {
+        return selectList(SysUserDO::getStatus, status);
     }
 
-    default List<AdminUserDO> selectListByDeptIds(Collection<Long> deptIds) {
-        return selectList(AdminUserDO::getDeptId, deptIds);
+    default List<SysUserDO> selectListByDeptIds(Collection<Long> deptIds) {
+        return selectList(SysUserDO::getDeptId, deptIds);
     }
 
-    default Optional<AdminUserDO> findOptionalByUsername(String username) {
-        AdminUserDO adminUserDO = selectOne(new LambdaQueryWrapperX<AdminUserDO>().eq(AdminUserDO::getUsername, username));
-        if (adminUserDO == null) {
+    default Optional<SysUserDO> findOptionalByUsername(String username) {
+        SysUserDO sysUserDO = selectOne(new LambdaQueryWrapperX<SysUserDO>().eq(SysUserDO::getUsername, username));
+        if (sysUserDO == null) {
             return Optional.empty();
         }
-        return Optional.of(adminUserDO);
+        return Optional.of(sysUserDO);
     }
 }

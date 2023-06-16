@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.service.permission;
 
-import com.rc.cloud.app.system.model.permission.MenuDO;
+import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
-import com.rc.cloud.app.system.model.user.AdminUserDO;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
@@ -34,8 +34,8 @@ public interface PermissionService {
      * @param menusStatuses 菜单状态数组
      * @return 菜单列表
      */
-    List<MenuDO> getRoleMenuListFromCache(Collection<Long> roleIds, Collection<Integer> menuTypes,
-                                          Collection<Integer> menusStatuses);
+    List<SysMenuDO> getRoleMenuListFromCache(Collection<Long> roleIds, Collection<Integer> menuTypes,
+                                             Collection<Integer> menusStatuses);
 
     /**
      * 获得用户拥有的角色编号集合，从缓存中获取
@@ -153,6 +153,6 @@ public interface PermissionService {
      * @param username 用户名
      * @return 包含权限列表的用户信息
      */
-    Optional<AdminUserDO> findOptionalByUsernameWithAuthorities(String username);
+    Optional<SysUserDO> findOptionalByUsernameWithAuthorities(String username);
 
 }

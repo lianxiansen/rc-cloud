@@ -41,4 +41,32 @@ public class SecurityConstants
      * 登录用户
      */
     public static final String LOGIN_USER = "login_user";
+
+    /**
+     * app
+     */
+    public static final String APP = "app";
+    /**
+     * role
+     */
+    public static final String ROLE = "role";
+    /**
+     * bcrypt
+     */
+    public static final String BCRYPT = "bcrypt";
+
+    /**
+     * 内部
+     */
+    public static final String FROM_IN = "Y";
+
+    /**
+     * 标志
+     */
+    public static final String FROM = "from";
+
+    /**
+     * 请求header
+     */
+    public static final String HEADER_FROM_IN = FROM + "=" + FROM_IN;
 }

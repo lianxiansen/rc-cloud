@@ -5,7 +5,7 @@
 package com.rc.cloud.app.system.service.user;
 
 import com.rc.cloud.app.system.common.security.user.UserDetail;
-import com.rc.cloud.app.system.model.user.AdminUserDO;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import lombok.AllArgsConstructor;
@@ -23,18 +23,18 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
     private final PermissionService permissionService;
 
     @Override
-    public UserDetails getUserDetails(AdminUserDO adminUserDO) {
+    public UserDetails getUserDetails(SysUserDO sysUserDO) {
         UserDetail userDetail = new UserDetail();
-        userDetail.setUsername(adminUserDO.getUsername());
-        userDetail.setPassword(adminUserDO.getPassword());
-        userDetail.setAvatar(adminUserDO.getAvatar());
-        userDetail.setSex(adminUserDO.getSex());
-        userDetail.setEmail( adminUserDO.getEmail());
-        userDetail.setMobile( adminUserDO.getMobile());
-        userDetail.setDeptId( adminUserDO.getDeptId());
-        userDetail.setStatus( adminUserDO.getStatus());
+        userDetail.setUsername(sysUserDO.getUsername());
+        userDetail.setPassword(sysUserDO.getPassword());
+        userDetail.setAvatar(sysUserDO.getAvatar());
+        userDetail.setSex(sysUserDO.getSex());
+        userDetail.setEmail( sysUserDO.getEmail());
+        userDetail.setMobile( sysUserDO.getMobile());
+        userDetail.setDeptId( sysUserDO.getDeptId());
+        userDetail.setStatus( sysUserDO.getStatus());
         // 账号不可用
-        if (adminUserDO.getStatus().equals(CommonStatusEnum.DISABLE.getStatus())) {
+        if (sysUserDO.getStatus().equals(CommonStatusEnum.DISABLE.getStatus())) {
             userDetail.setEnabled(false);
         }
 
@@ -43,7 +43,7 @@ public class SysUserDetailsServiceImpl implements SysUserDetailsService {
         userDetail.setDataScopeList(dataScopeList);
 
         // 用户权限列表
-        Set<String> authoritySet = permissionService.getPermissionListByUserId(adminUserDO.getId());
+        Set<String> authoritySet = permissionService.getPermissionListByUserId(sysUserDO.getId());
         userDetail.setAuthoritySet(authoritySet);
         return userDetail;
     }

@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.service.tenant;
 
+import com.rc.cloud.app.system.api.tenant.model.SysTenantPackageDO;
 import com.rc.cloud.app.system.mapper.tenant.TenantPackageMapper;
-import com.rc.cloud.app.system.model.tenant.TenantDO;
-import com.rc.cloud.app.system.model.tenant.TenantPackageDO;
+import com.rc.cloud.app.system.api.tenant.model.SysTenantDO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackagePageReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageUpdateReqVO;
@@ -57,14 +57,14 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(tenantPackageId);
         // 校验记录的属性是否正确
-        TenantPackageDO tenantPackage = tenantPackageMapper.selectById(tenantPackageId);
+        SysTenantPackageDO tenantPackage = tenantPackageMapper.selectById(tenantPackageId);
         assertPojoEquals(reqVO, tenantPackage);
     }
 
     @Test
     public void testUpdateTenantPackage_success() {
         // mock 数据
-        TenantPackageDO dbTenantPackage = randomPojo(TenantPackageDO.class);
+        SysTenantPackageDO dbTenantPackage = randomPojo(SysTenantPackageDO.class);
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: 先插入出一条存在的数据
         // 准备参数
         TenantPackageUpdateReqVO reqVO = randomPojo(TenantPackageUpdateReqVO.class, o -> {
@@ -74,13 +74,13 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
         Long tenantId01 = randomLongId();
         Long tenantId02 = randomLongId();
         when(tenantService.getTenantListByPackageId(eq(reqVO.getId()))).thenReturn(
-                asList(randomPojo(TenantDO.class, o -> o.setId(tenantId01)),
-                        randomPojo(TenantDO.class, o -> o.setId(tenantId02))));
+                asList(randomPojo(SysTenantDO.class, o -> o.setId(tenantId01)),
+                        randomPojo(SysTenantDO.class, o -> o.setId(tenantId02))));
 
         // 调用
         tenantPackageService.updateTenantPackage(reqVO);
         // 校验是否更新正确
-        TenantPackageDO tenantPackage = tenantPackageMapper.selectById(reqVO.getId()); // 获取最新的
+        SysTenantPackageDO tenantPackage = tenantPackageMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, tenantPackage);
         // 校验调用租户的菜单
         verify(tenantService).updateTenantRoleMenu(eq(tenantId01), eq(reqVO.getMenuIds()));
@@ -99,7 +99,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteTenantPackage_success() {
         // mock 数据
-        TenantPackageDO dbTenantPackage = randomPojo(TenantPackageDO.class);
+        SysTenantPackageDO dbTenantPackage = randomPojo(SysTenantPackageDO.class);
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbTenantPackage.getId();
@@ -124,7 +124,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteTenantPackage_used() {
         // mock 数据
-        TenantPackageDO dbTenantPackage = randomPojo(TenantPackageDO.class);
+        SysTenantPackageDO dbTenantPackage = randomPojo(SysTenantPackageDO.class);
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbTenantPackage.getId();
@@ -138,7 +138,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetTenantPackagePage() {
        // mock 数据
-       TenantPackageDO dbTenantPackage = randomPojo(TenantPackageDO.class, o -> { // 等会查询到
+       SysTenantPackageDO dbTenantPackage = randomPojo(SysTenantPackageDO.class, o -> { // 等会查询到
            o.setName("芋道源码");
            o.setStatus(CommonStatusEnum.ENABLE.getStatus());
            o.setRemark("源码解析");
@@ -161,7 +161,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
        reqVO.setCreateTime(buildBetweenTime(2022, 10, 9, 2022, 10, 11));
 
        // 调用
-       PageResult<TenantPackageDO> pageResult = tenantPackageService.getTenantPackagePage(reqVO);
+       PageResult<SysTenantPackageDO> pageResult = tenantPackageService.getTenantPackagePage(reqVO);
        // 断言
        assertEquals(1, pageResult.getTotal());
        assertEquals(1, pageResult.getList().size());
@@ -171,12 +171,12 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidTenantPackage_success() {
         // mock 数据
-        TenantPackageDO dbTenantPackage = randomPojo(TenantPackageDO.class,
+        SysTenantPackageDO dbTenantPackage = randomPojo(SysTenantPackageDO.class,
                 o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: 先插入出一条存在的数据
 
         // 调用
-        TenantPackageDO result = tenantPackageService.validTenantPackage(dbTenantPackage.getId());
+        SysTenantPackageDO result = tenantPackageService.validTenantPackage(dbTenantPackage.getId());
         // 断言
         assertPojoEquals(dbTenantPackage, result);
     }
@@ -193,7 +193,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidTenantPackage_disable() {
         // mock 数据
-        TenantPackageDO dbTenantPackage = randomPojo(TenantPackageDO.class,
+        SysTenantPackageDO dbTenantPackage = randomPojo(SysTenantPackageDO.class,
                 o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: 先插入出一条存在的数据
 
@@ -205,11 +205,11 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetTenantPackage() {
         // mock 数据
-        TenantPackageDO dbTenantPackage = randomPojo(TenantPackageDO.class);
+        SysTenantPackageDO dbTenantPackage = randomPojo(SysTenantPackageDO.class);
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: 先插入出一条存在的数据
 
         // 调用
-        TenantPackageDO result = tenantPackageService.getTenantPackage(dbTenantPackage.getId());
+        SysTenantPackageDO result = tenantPackageService.getTenantPackage(dbTenantPackage.getId());
         // 断言
         assertPojoEquals(result, dbTenantPackage);
     }
@@ -217,7 +217,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetTenantPackageListByStatus() {
         // mock 数据
-        TenantPackageDO dbTenantPackage = randomPojo(TenantPackageDO.class,
+        SysTenantPackageDO dbTenantPackage = randomPojo(SysTenantPackageDO.class,
                 o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         tenantPackageMapper.insert(dbTenantPackage);
         // 测试 status 不匹配
@@ -225,7 +225,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
                 o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
 
         // 调用
-        List<TenantPackageDO> list = tenantPackageService.getTenantPackageListByStatus(
+        List<SysTenantPackageDO> list = tenantPackageService.getTenantPackageListByStatus(
                 CommonStatusEnum.ENABLE.getStatus());
         assertEquals(1, list.size());
         assertPojoEquals(dbTenantPackage, list.get(0));

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.controller.admin.permission;
 
+import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
-import com.rc.cloud.app.system.model.permission.MenuDO;
 import com.rc.cloud.app.system.service.permission.MenuService;
 import com.rc.cloud.app.system.vo.permission.menu.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
@@ -57,8 +57,8 @@ public class MenuController {
     @Operation(summary = "获取菜单列表", description = "用于【菜单管理】界面")
 //    @PreAuthorize("@ss.hasPermission('system:menu:query')")
     public CodeResult<List<MenuRespVO>> getMenuList(MenuListReqVO reqVO) {
-        List<MenuDO> list = menuService.getMenuList(reqVO);
-        list.sort(Comparator.comparing(MenuDO::getSort));
+        List<SysMenuDO> list = menuService.getMenuList(reqVO);
+        list.sort(Comparator.comparing(SysMenuDO::getSort));
         return CodeResult.ok(MenuConvert.INSTANCE.convertList(list));
     }
 
@@ -69,9 +69,9 @@ public class MenuController {
         // 获得菜单列表，只要开启状态的
         MenuListReqVO reqVO = new MenuListReqVO();
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        List<MenuDO> list = menuService.getMenuListByTenant(reqVO);
+        List<SysMenuDO> list = menuService.getMenuListByTenant(reqVO);
         // 排序后，返回给前端
-        list.sort(Comparator.comparing(MenuDO::getSort));
+        list.sort(Comparator.comparing(SysMenuDO::getSort));
         return CodeResult.ok(MenuConvert.INSTANCE.convertList02(list));
     }
 
@@ -79,7 +79,7 @@ public class MenuController {
     @Operation(summary = "获取菜单信息")
 //    @PreAuthorize("@ss.hasPermission('system:menu:query')")
     public CodeResult<MenuRespVO> getMenu(@PathVariable Long id) {
-        MenuDO menu = menuService.getMenu(id);
+        SysMenuDO menu = menuService.getMenu(id);
         return CodeResult.ok(MenuConvert.INSTANCE.convert(menu));
     }
 

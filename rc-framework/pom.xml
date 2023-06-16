@@ -27,5 +27,6 @@
         <module>rc-common-dict</module>
         <module>rc-common-job</module>
         <module>rc-common-test</module>
+        <module>rc-common-security</module>
     </modules>
 </project>

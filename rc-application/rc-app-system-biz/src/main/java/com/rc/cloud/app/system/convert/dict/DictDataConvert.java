@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.convert.dict;
 
 import com.rc.cloud.app.system.api.dict.dto.DictDataRespDTO;
-import com.rc.cloud.app.system.model.dict.DictDataDO;
+import com.rc.cloud.app.system.api.dict.model.SysDictDataDO;
 import com.rc.cloud.app.system.vo.dict.data.*;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.mapstruct.Mapper;
@@ -14,18 +14,18 @@ public interface DictDataConvert {
 
     DictDataConvert INSTANCE = Mappers.getMapper(DictDataConvert.class);
 
-    List<DictDataSimpleRespVO> convertList(List<DictDataDO> list);
+    List<DictDataSimpleRespVO> convertList(List<SysDictDataDO> list);
 
-    DictDataRespVO convert(DictDataDO bean);
+    DictDataRespVO convert(SysDictDataDO bean);
 
-    PageResult<DictDataRespVO> convertPage(PageResult<DictDataDO> page);
+    PageResult<DictDataRespVO> convertPage(PageResult<SysDictDataDO> page);
 
-    DictDataDO convert(DictDataUpdateReqVO bean);
+    SysDictDataDO convert(DictDataUpdateReqVO bean);
 
-    DictDataDO convert(DictDataCreateReqVO bean);
+    SysDictDataDO convert(DictDataCreateReqVO bean);
 
-    List<DictDataExcelVO> convertList02(List<DictDataDO> bean);
+    List<DictDataExcelVO> convertList02(List<SysDictDataDO> bean);
 
-    DictDataRespDTO convert02(DictDataDO bean);
+    DictDataRespDTO convert02(SysDictDataDO bean);
 
 }

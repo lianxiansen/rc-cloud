@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.controller.admin.dept;
 
+import com.rc.cloud.app.system.api.dept.model.SysDeptDO;
 import com.rc.cloud.app.system.convert.dept.DeptConvert;
-import com.rc.cloud.app.system.model.dept.DeptDO;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.vo.dept.dept.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
@@ -56,8 +56,8 @@ public class DeptController {
     @Operation(summary = "获取部门列表")
 //    @PreAuthorize("@ss.hasPermission('system:dept:query')")
     public CodeResult<List<DeptRespVO>> getDeptList(DeptListReqVO reqVO) {
-        List<DeptDO> list = deptService.getDeptList(reqVO);
-        list.sort(Comparator.comparing(DeptDO::getSort));
+        List<SysDeptDO> list = deptService.getDeptList(reqVO);
+        list.sort(Comparator.comparing(SysDeptDO::getSort));
         return CodeResult.ok(DeptConvert.INSTANCE.convertList(list));
     }
 
@@ -67,9 +67,9 @@ public class DeptController {
         // 获得部门列表，只要开启状态的
         DeptListReqVO reqVO = new DeptListReqVO();
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        List<DeptDO> list = deptService.getDeptList(reqVO);
+        List<SysDeptDO> list = deptService.getDeptList(reqVO);
         // 排序后，返回给前端
-        list.sort(Comparator.comparing(DeptDO::getSort));
+        list.sort(Comparator.comparing(SysDeptDO::getSort));
         return CodeResult.ok(DeptConvert.INSTANCE.convertList02(list));
     }
 
@@ -85,7 +85,7 @@ public class DeptController {
             deptRespVO.setParentName(null);
             return CodeResult.ok(deptRespVO);
         }
-        DeptDO parent = deptService.getDept(parentId);
+        SysDeptDO parent = deptService.getDept(parentId);
         deptRespVO.setParentName(parent == null ? null : parent.getName());
         return CodeResult.ok(deptRespVO);
     }

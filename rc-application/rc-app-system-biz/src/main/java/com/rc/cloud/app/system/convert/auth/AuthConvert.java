@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.convert.auth;
 
-import com.rc.cloud.app.system.model.permission.MenuDO;
-import com.rc.cloud.app.system.model.permission.RoleDO;
-import com.rc.cloud.app.system.model.user.AdminUserDO;
+import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
+import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import com.rc.cloud.app.system.vo.auth.AuthMenuRespVO;
 import com.rc.cloud.app.system.vo.auth.AuthPermissionInfoRespVO;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static com.rc.cloud.app.system.model.permission.MenuDO.ID_ROOT;
+import static com.rc.cloud.app.system.api.permission.model.SysMenuDO.ID_ROOT;
 import static com.rc.cloud.common.core.util.collection.CollectionUtils.filterList;
 
 
@@ -23,15 +23,15 @@ public interface AuthConvert {
 
 //    AuthLoginRespVO convert(OAuth2AccessTokenDO bean);
 
-    default AuthPermissionInfoRespVO convert(AdminUserDO user, List<RoleDO> roleList, List<MenuDO> menuList) {
+    default AuthPermissionInfoRespVO convert(SysUserDO user, List<SysRoleDO> roleList, List<SysMenuDO> menuList) {
         return AuthPermissionInfoRespVO.builder()
             .user(AuthPermissionInfoRespVO.UserVO.builder().id(user.getId()).nickname(user.getNickname()).avatar(user.getAvatar()).build())
-            .roles(CollectionUtils.convertSet(roleList, RoleDO::getCode))
-            .permissions(CollectionUtils.convertSet(menuList, MenuDO::getPermission))
+            .roles(CollectionUtils.convertSet(roleList, SysRoleDO::getCode))
+            .permissions(CollectionUtils.convertSet(menuList, SysMenuDO::getPermission))
             .build();
     }
 
-    AuthMenuRespVO convertTreeNode(MenuDO menu);
+    AuthMenuRespVO convertTreeNode(SysMenuDO menu);
 
     /**
      * 将菜单列表，构建成菜单树
@@ -39,9 +39,9 @@ public interface AuthConvert {
      * @param menuList 菜单列表
      * @return 菜单树
      */
-    default List<AuthMenuRespVO> buildMenuTree(List<MenuDO> menuList) {
+    default List<AuthMenuRespVO> buildMenuTree(List<SysMenuDO> menuList) {
         // 排序，保证菜单的有序性
-        menuList.sort(Comparator.comparing(MenuDO::getSort));
+        menuList.sort(Comparator.comparing(SysMenuDO::getSort));
         // 构建菜单树
         // 使用 LinkedHashMap 的原因，是为了排序 。实际也可以用 Stream API ，就是太丑了。
         Map<Long, AuthMenuRespVO> treeNodeMap = new LinkedHashMap<>();

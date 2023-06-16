@@ -1,9 +1,9 @@
 package com.rc.cloud.app.system.service.dept;
 
 import cn.hutool.core.collection.CollUtil;
+import com.rc.cloud.app.system.api.dept.model.SysPostDO;
 import com.rc.cloud.app.system.convert.dept.PostConvert;
 import com.rc.cloud.app.system.mapper.dept.PostMapper;
-import com.rc.cloud.app.system.model.dept.PostDO;
 import com.rc.cloud.app.system.vo.dept.post.PostCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostExportReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostPageReqVO;
@@ -41,7 +41,7 @@ public class PostServiceImpl implements PostService {
         validatePostForCreateOrUpdate(null, reqVO.getName(), reqVO.getCode());
 
         // 插入岗位
-        PostDO post = PostConvert.INSTANCE.convert(reqVO);
+        SysPostDO post = PostConvert.INSTANCE.convert(reqVO);
         postMapper.insert(post);
         return post.getId();
     }
@@ -52,7 +52,7 @@ public class PostServiceImpl implements PostService {
         validatePostForCreateOrUpdate(reqVO.getId(), reqVO.getName(), reqVO.getCode());
 
         // 更新岗位
-        PostDO updateObj = PostConvert.INSTANCE.convert(reqVO);
+        SysPostDO updateObj = PostConvert.INSTANCE.convert(reqVO);
         postMapper.updateById(updateObj);
     }
 
@@ -74,7 +74,7 @@ public class PostServiceImpl implements PostService {
     }
 
     private void validatePostNameUnique(Long id, String name) {
-        PostDO post = postMapper.selectByName(name);
+        SysPostDO post = postMapper.selectByName(name);
         if (post == null) {
             return;
         }
@@ -88,7 +88,7 @@ public class PostServiceImpl implements PostService {
     }
 
     private void validatePostCodeUnique(Long id, String code) {
-        PostDO post = postMapper.selectByCode(code);
+        SysPostDO post = postMapper.selectByCode(code);
         if (post == null) {
             return;
         }
@@ -111,22 +111,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDO> getPostList(Collection<Long> ids, Collection<Integer> statuses) {
+    public List<SysPostDO> getPostList(Collection<Long> ids, Collection<Integer> statuses) {
         return postMapper.selectList(ids, statuses);
     }
 
     @Override
-    public PageResult<PostDO> getPostPage(PostPageReqVO reqVO) {
+    public PageResult<SysPostDO> getPostPage(PostPageReqVO reqVO) {
         return postMapper.selectPage(reqVO);
     }
 
     @Override
-    public List<PostDO> getPostList(PostExportReqVO reqVO) {
+    public List<SysPostDO> getPostList(PostExportReqVO reqVO) {
         return postMapper.selectList(reqVO);
     }
 
     @Override
-    public PostDO getPost(Long id) {
+    public SysPostDO getPost(Long id) {
         return postMapper.selectById(id);
     }
 
@@ -136,11 +136,11 @@ public class PostServiceImpl implements PostService {
             return;
         }
         // 获得岗位信息
-        List<PostDO> posts = postMapper.selectBatchIds(ids);
-        Map<Long, PostDO> postMap = convertMap(posts, PostDO::getId);
+        List<SysPostDO> posts = postMapper.selectBatchIds(ids);
+        Map<Long, SysPostDO> postMap = convertMap(posts, SysPostDO::getId);
         // 校验
         ids.forEach(id -> {
-            PostDO post = postMap.get(id);
+            SysPostDO post = postMap.get(id);
             if (post == null) {
                 throw exception(POST_NOT_FOUND);
             }

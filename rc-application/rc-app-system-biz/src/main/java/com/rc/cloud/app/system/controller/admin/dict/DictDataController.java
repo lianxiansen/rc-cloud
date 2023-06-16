@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.controller.admin.dict;
 
+import com.rc.cloud.app.system.api.dict.model.SysDictDataDO;
 import com.rc.cloud.app.system.convert.dict.DictDataConvert;
-import com.rc.cloud.app.system.model.dict.DictDataDO;
 import com.rc.cloud.app.system.service.dict.DictDataService;
 import com.rc.cloud.app.system.vo.dict.data.*;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -58,7 +58,7 @@ public class DictDataController {
     @Operation(summary = "获得全部字典数据列表", description = "一般用于管理后台缓存字典数据在本地")
     // 无需添加权限认证，因为前端全局都需要
     public CodeResult<List<DictDataSimpleRespVO>> getSimpleDictDataList() {
-        List<DictDataDO> list = dictDataService.getDictDataList();
+        List<SysDictDataDO> list = dictDataService.getDictDataList();
         return CodeResult.ok(DictDataConvert.INSTANCE.convertList(list));
     }
 
@@ -82,7 +82,7 @@ public class DictDataController {
 //    @PreAuthorize("@ss.hasPermission('system:dict:export')")
 //    @OperateLog(type = EXPORT)
     public void export(HttpServletResponse response, @Valid DictDataExportReqVO reqVO) throws IOException {
-        List<DictDataDO> list = dictDataService.getDictDataList(reqVO);
+        List<SysDictDataDO> list = dictDataService.getDictDataList(reqVO);
         List<DictDataExcelVO> data = DictDataConvert.INSTANCE.convertList02(list);
         // 输出
         ExcelUtils.write(response, "字典数据.xls", "数据列表", DictDataExcelVO.class, data);

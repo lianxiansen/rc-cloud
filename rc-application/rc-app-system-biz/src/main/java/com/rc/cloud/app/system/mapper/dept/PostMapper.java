@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.mapper.dept;
 
+import com.rc.cloud.app.system.api.dept.model.SysPostDO;
 import com.rc.cloud.app.system.vo.dept.post.PostExportReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostPageReqVO;
-import com.rc.cloud.app.system.model.dept.PostDO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
@@ -12,35 +12,35 @@ import java.util.Collection;
 import java.util.List;
 
 @Mapper
-public interface PostMapper extends BaseMapperX<PostDO> {
+public interface PostMapper extends BaseMapperX<SysPostDO> {
 
-    default List<PostDO> selectList(Collection<Long> ids, Collection<Integer> statuses) {
-        return selectList(new LambdaQueryWrapperX<PostDO>()
-                .inIfPresent(PostDO::getId, ids)
-                .inIfPresent(PostDO::getStatus, statuses));
+    default List<SysPostDO> selectList(Collection<Long> ids, Collection<Integer> statuses) {
+        return selectList(new LambdaQueryWrapperX<SysPostDO>()
+                .inIfPresent(SysPostDO::getId, ids)
+                .inIfPresent(SysPostDO::getStatus, statuses));
     }
 
-    default PageResult<PostDO> selectPage(PostPageReqVO reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<PostDO>()
-                .likeIfPresent(PostDO::getCode, reqVO.getCode())
-                .likeIfPresent(PostDO::getName, reqVO.getName())
-                .eqIfPresent(PostDO::getStatus, reqVO.getStatus())
-                .orderByDesc(PostDO::getId));
+    default PageResult<SysPostDO> selectPage(PostPageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<SysPostDO>()
+                .likeIfPresent(SysPostDO::getCode, reqVO.getCode())
+                .likeIfPresent(SysPostDO::getName, reqVO.getName())
+                .eqIfPresent(SysPostDO::getStatus, reqVO.getStatus())
+                .orderByDesc(SysPostDO::getId));
     }
 
-    default List<PostDO> selectList(PostExportReqVO reqVO) {
-        return selectList(new LambdaQueryWrapperX<PostDO>()
-                .likeIfPresent(PostDO::getCode, reqVO.getCode())
-                .likeIfPresent(PostDO::getName, reqVO.getName())
-                .eqIfPresent(PostDO::getStatus, reqVO.getStatus()));
+    default List<SysPostDO> selectList(PostExportReqVO reqVO) {
+        return selectList(new LambdaQueryWrapperX<SysPostDO>()
+                .likeIfPresent(SysPostDO::getCode, reqVO.getCode())
+                .likeIfPresent(SysPostDO::getName, reqVO.getName())
+                .eqIfPresent(SysPostDO::getStatus, reqVO.getStatus()));
     }
 
-    default PostDO selectByName(String name) {
-        return selectOne(PostDO::getName, name);
+    default SysPostDO selectByName(String name) {
+        return selectOne(SysPostDO::getName, name);
     }
 
-    default PostDO selectByCode(String code) {
-        return selectOne(PostDO::getCode, code);
+    default SysPostDO selectByCode(String code) {
+        return selectOne(SysPostDO::getCode, code);
     }
 
 }

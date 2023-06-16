@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.controller.admin.permission;
 
+import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
 import com.rc.cloud.app.system.convert.permission.RoleConvert;
-import com.rc.cloud.app.system.model.permission.RoleDO;
 import com.rc.cloud.app.system.service.permission.RoleService;
 import com.rc.cloud.app.system.vo.permission.role.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
@@ -70,14 +70,14 @@ public class RoleController {
     @Operation(summary = "获得角色信息")
 //    @PreAuthorize("@ss.hasPermission('system:role:query')")
     public CodeResult<RoleRespVO> getRole(@PathVariable("id") Long id) {
-        RoleDO role = roleService.getRole(id);
+        SysRoleDO role = roleService.getRole(id);
         return CodeResult.ok(RoleConvert.INSTANCE.convert(role));
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得角色分页")
 //    @PreAuthorize("@ss.hasPermission('system:role:query')")
-    public CodeResult<PageResult<RoleDO>> getRolePage(RolePageReqVO reqVO) {
+    public CodeResult<PageResult<SysRoleDO>> getRolePage(RolePageReqVO reqVO) {
         return CodeResult.ok(roleService.getRolePage(reqVO));
     }
 
@@ -85,9 +85,9 @@ public class RoleController {
     @Operation(summary = "获取角色精简信息列表", description = "只包含被开启的角色，主要用于前端的下拉选项")
     public CodeResult<List<RoleSimpleRespVO>> getSimpleRoleList() {
         // 获得角色列表，只要开启状态的
-        List<RoleDO> list = roleService.getRoleListByStatus(singleton(CommonStatusEnum.ENABLE.getStatus()));
+        List<SysRoleDO> list = roleService.getRoleListByStatus(singleton(CommonStatusEnum.ENABLE.getStatus()));
         // 排序后，返回给前端
-        list.sort(Comparator.comparing(RoleDO::getSort));
+        list.sort(Comparator.comparing(SysRoleDO::getSort));
         return CodeResult.ok(RoleConvert.INSTANCE.convertList02(list));
     }
 
@@ -95,7 +95,7 @@ public class RoleController {
 //    @OperateLog(type = EXPORT)
 //    @PreAuthorize("@ss.hasPermission('system:role:export')")
     public void export(HttpServletResponse response, @Validated RoleExportReqVO reqVO) throws IOException {
-        List<RoleDO> list = roleService.getRoleList(reqVO);
+        List<SysRoleDO> list = roleService.getRoleList(reqVO);
         List<RoleExcelVO> data = RoleConvert.INSTANCE.convertList03(list);
         // 输出
         ExcelUtils.write(response, "角色数据.xls", "角色列表", RoleExcelVO.class, data);

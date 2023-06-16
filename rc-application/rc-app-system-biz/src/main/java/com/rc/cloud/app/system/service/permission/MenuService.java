@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.permission;
 
 
-import com.rc.cloud.app.system.model.permission.MenuDO;
+import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuListReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuUpdateReqVO;
@@ -48,7 +48,7 @@ public interface MenuService {
      *
      * @return 菜单列表
      */
-    List<MenuDO> getMenuList();
+    List<SysMenuDO> getMenuList();
 
     /**
      * 基于租户，筛选菜单列表
@@ -57,7 +57,7 @@ public interface MenuService {
      * @param reqVO 筛选条件请求 VO
      * @return 菜单列表
      */
-    List<MenuDO> getMenuListByTenant(MenuListReqVO reqVO);
+    List<SysMenuDO> getMenuListByTenant(MenuListReqVO reqVO);
 
     /**
      * 筛选菜单列表
@@ -65,7 +65,7 @@ public interface MenuService {
      * @param reqVO 筛选条件请求 VO
      * @return 菜单列表
      */
-    List<MenuDO> getMenuList(MenuListReqVO reqVO);
+    List<SysMenuDO> getMenuList(MenuListReqVO reqVO);
 
     /**
      * 获得所有菜单，从缓存中
@@ -76,7 +76,7 @@ public interface MenuService {
      * @param menusStatuses 菜单状态数组
      * @return 菜单列表
      */
-    List<MenuDO> getMenuListFromCache(Collection<Integer> menuTypes, Collection<Integer> menusStatuses);
+    List<SysMenuDO> getMenuListFromCache(Collection<Integer> menuTypes, Collection<Integer> menusStatuses);
 
     /**
      * 获得指定编号的菜单数组，从缓存中
@@ -88,8 +88,8 @@ public interface MenuService {
      * @param menusStatuses 菜单状态数组
      * @return 菜单数组
      */
-    List<MenuDO> getMenuListFromCache(Collection<Long> menuIds, Collection<Integer> menuTypes,
-                                      Collection<Integer> menusStatuses);
+    List<SysMenuDO> getMenuListFromCache(Collection<Long> menuIds, Collection<Integer> menuTypes,
+                                         Collection<Integer> menusStatuses);
 
     /**
      * 获得权限对应的菜单数组
@@ -97,7 +97,7 @@ public interface MenuService {
      * @param permission 权限标识
      * @return 数组
      */
-    List<MenuDO> getMenuListByPermissionFromCache(String permission);
+    List<SysMenuDO> getMenuListByPermissionFromCache(String permission);
 
     /**
      * 获得菜单
@@ -105,6 +105,6 @@ public interface MenuService {
      * @param id 菜单编号
      * @return 菜单
      */
-    MenuDO getMenu(Long id);
+    SysMenuDO getMenu(Long id);
 
 }

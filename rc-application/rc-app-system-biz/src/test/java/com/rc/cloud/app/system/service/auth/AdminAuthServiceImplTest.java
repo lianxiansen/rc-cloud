@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.auth;
 
 import cn.hutool.core.util.ReflectUtil;
-import com.rc.cloud.app.system.model.user.AdminUserDO;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import com.rc.cloud.app.system.service.captcha.CaptchaService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
@@ -54,7 +54,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         String username = randomString();
         String password = randomString();
         // mock user 数据
-        AdminUserDO user = randomPojo(AdminUserDO.class, o -> {
+        SysUserDO user = randomPojo(SysUserDO.class, o -> {
             o.setUsername(username);
             o.setPassword(password);
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -64,7 +64,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         when(userService.isPasswordMatch(eq(password), eq(user.getPassword()))).thenReturn(true);
 
         // 调用
-        AdminUserDO loginUser = authService.authenticate(username, password);
+        SysUserDO loginUser = authService.authenticate(username, password);
         // 校验
         assertPojoEquals(user, loginUser);
     }
@@ -91,7 +91,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         String username = randomString();
         String password = randomString();
         // mock user 数据
-        AdminUserDO user = randomPojo(AdminUserDO.class, o -> {
+        SysUserDO user = randomPojo(SysUserDO.class, o -> {
             o.setUsername(username);
             o.setPassword(password);
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -114,7 +114,7 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         String username = randomString();
         String password = randomString();
         // mock user 数据
-        AdminUserDO user = randomPojo(AdminUserDO.class, o -> {
+        SysUserDO user = randomPojo(SysUserDO.class, o -> {
             o.setUsername(username);
             o.setPassword(password);
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());

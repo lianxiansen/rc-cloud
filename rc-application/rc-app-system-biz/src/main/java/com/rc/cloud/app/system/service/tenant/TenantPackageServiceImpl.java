@@ -1,10 +1,10 @@
 package com.rc.cloud.app.system.service.tenant;
 
 import cn.hutool.core.collection.CollUtil;
+import com.rc.cloud.app.system.api.tenant.model.SysTenantDO;
+import com.rc.cloud.app.system.api.tenant.model.SysTenantPackageDO;
 import com.rc.cloud.app.system.convert.tenant.TenantPackageConvert;
 import com.rc.cloud.app.system.mapper.tenant.TenantPackageMapper;
-import com.rc.cloud.app.system.model.tenant.TenantDO;
-import com.rc.cloud.app.system.model.tenant.TenantPackageDO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackagePageReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageUpdateReqVO;
@@ -41,7 +41,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     @Override
     public Long createTenantPackage(TenantPackageCreateReqVO createReqVO) {
         // 插入
-        TenantPackageDO tenantPackage = TenantPackageConvert.INSTANCE.convert(createReqVO);
+        SysTenantPackageDO tenantPackage = TenantPackageConvert.INSTANCE.convert(createReqVO);
         tenantPackageMapper.insert(tenantPackage);
         // 返回
         return tenantPackage.getId();
@@ -51,13 +51,13 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     @Transactional(rollbackFor = Exception.class)
     public void updateTenantPackage(TenantPackageUpdateReqVO updateReqVO) {
         // 校验存在
-        TenantPackageDO tenantPackage = validateTenantPackageExists(updateReqVO.getId());
+        SysTenantPackageDO tenantPackage = validateTenantPackageExists(updateReqVO.getId());
         // 更新
-        TenantPackageDO updateObj = TenantPackageConvert.INSTANCE.convert(updateReqVO);
+        SysTenantPackageDO updateObj = TenantPackageConvert.INSTANCE.convert(updateReqVO);
         tenantPackageMapper.updateById(updateObj);
         // 如果菜单发生变化，则修改每个租户的菜单
         if (!CollUtil.isEqualList(tenantPackage.getMenuIds(), updateReqVO.getMenuIds())) {
-            List<TenantDO> tenants = tenantService.getTenantListByPackageId(tenantPackage.getId());
+            List<SysTenantDO> tenants = tenantService.getTenantListByPackageId(tenantPackage.getId());
             tenants.forEach(tenant -> tenantService.updateTenantRoleMenu(tenant.getId(), updateReqVO.getMenuIds()));
         }
     }
@@ -72,8 +72,8 @@ public class TenantPackageServiceImpl implements TenantPackageService {
         tenantPackageMapper.deleteById(id);
     }
 
-    private TenantPackageDO validateTenantPackageExists(Long id) {
-        TenantPackageDO tenantPackage = tenantPackageMapper.selectById(id);
+    private SysTenantPackageDO validateTenantPackageExists(Long id) {
+        SysTenantPackageDO tenantPackage = tenantPackageMapper.selectById(id);
         if (tenantPackage == null) {
             throw exception(TENANT_PACKAGE_NOT_EXISTS);
         }
@@ -87,18 +87,18 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     }
 
     @Override
-    public TenantPackageDO getTenantPackage(Long id) {
+    public SysTenantPackageDO getTenantPackage(Long id) {
         return tenantPackageMapper.selectById(id);
     }
 
     @Override
-    public PageResult<TenantPackageDO> getTenantPackagePage(TenantPackagePageReqVO pageReqVO) {
+    public PageResult<SysTenantPackageDO> getTenantPackagePage(TenantPackagePageReqVO pageReqVO) {
         return tenantPackageMapper.selectPage(pageReqVO);
     }
 
     @Override
-    public TenantPackageDO validTenantPackage(Long id) {
-        TenantPackageDO tenantPackage = tenantPackageMapper.selectById(id);
+    public SysTenantPackageDO validTenantPackage(Long id) {
+        SysTenantPackageDO tenantPackage = tenantPackageMapper.selectById(id);
         if (tenantPackage == null) {
             throw exception(TENANT_PACKAGE_NOT_EXISTS);
         }
@@ -109,7 +109,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     }
 
     @Override
-    public List<TenantPackageDO> getTenantPackageListByStatus(Integer status) {
+    public List<SysTenantPackageDO> getTenantPackageListByStatus(Integer status) {
         return tenantPackageMapper.selectListByStatus(status);
     }
 

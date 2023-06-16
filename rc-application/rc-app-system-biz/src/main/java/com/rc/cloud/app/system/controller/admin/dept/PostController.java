@@ -1,11 +1,10 @@
 package com.rc.cloud.app.system.controller.admin.dept;
 
+import com.rc.cloud.app.system.api.dept.model.SysPostDO;
 import com.rc.cloud.app.system.convert.dept.PostConvert;
-import com.rc.cloud.app.system.model.dept.PostDO;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.vo.dept.post.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
-import com.rc.cloud.common.core.exception.ErrorCode;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.excel.util.ExcelUtils;
@@ -66,7 +65,7 @@ public class PostController {
     @Parameter(name = "id", description = "岗位编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:post:query')")
     public CodeResult<PostRespVO> getPost(@PathVariable("id") Long id) {
-        PostDO postDO = postService.getPost(id);
+        SysPostDO postDO = postService.getPost(id);
         if (postDO == null) {
             throw exception(POST_NOT_FOUND);
         }
@@ -77,9 +76,9 @@ public class PostController {
     @Operation(summary = "获取岗位精简信息列表", description = "只包含被开启的岗位，主要用于前端的下拉选项")
     public CodeResult<List<PostSimpleRespVO>> getSimplePostList() {
         // 获得岗位列表，只要开启状态的
-        List<PostDO> list = postService.getPostList(null, Collections.singleton(CommonStatusEnum.ENABLE.getStatus()));
+        List<SysPostDO> list = postService.getPostList(null, Collections.singleton(CommonStatusEnum.ENABLE.getStatus()));
         // 排序后，返回给前端
-        list.sort(Comparator.comparing(PostDO::getSort));
+        list.sort(Comparator.comparing(SysPostDO::getSort));
         return CodeResult.ok(PostConvert.INSTANCE.convertList02(list));
     }
 
@@ -95,7 +94,7 @@ public class PostController {
 //    @PreAuthorize("@ss.hasPermission('system:post:export')")
 //    @OperateLog(type = EXPORT)
     public void export(HttpServletResponse response, @Validated PostExportReqVO reqVO) throws IOException {
-        List<PostDO> posts = postService.getPostList(reqVO);
+        List<SysPostDO> posts = postService.getPostList(reqVO);
         List<PostExcelVO> data = PostConvert.INSTANCE.convertList03(posts);
         // 输出
         ExcelUtils.write(response, "岗位数据.xls", "岗位列表", PostExcelVO.class, data);

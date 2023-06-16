@@ -13,7 +13,7 @@
         <rc-cloud.version>1.0.0</rc-cloud.version>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>2.7.11</spring-boot.version>
+        <spring-boot.version>2.6.8</spring-boot.version>
         <spring-cloud.version>2021.0.0</spring-cloud.version>
         <com-alibaba-cloud.version>2021.1</com-alibaba-cloud.version>
         <alibaba.nacos.version>2.2.2</alibaba.nacos.version>
@@ -42,7 +42,6 @@
         <minio.version>8.2.2</minio.version>
         <HikariCP.version>4.0.3</HikariCP.version>
         <spring-boot-admin.version>2.4.1</spring-boot-admin.version>
-        <kaptcha.version>0.0.9</kaptcha.version>
         <redission.version>3.17.0</redission.version>
         <lock4j-redisson.version>2.2.1</lock4j-redisson.version>
         <gson.version>2.8.9</gson.version>
@@ -159,11 +158,11 @@
                 <version>${commons-lang.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-all</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>io.seata</groupId>-->
+<!--                <artifactId>seata-all</artifactId>-->
+<!--                <version>${seata.version}</version>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -171,22 +170,22 @@
                 <version>${druid.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.apache.shardingsphere</groupId>
-                <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>
-                <version>${shardingsphere.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shardingsphere</groupId>
-                <artifactId>shardingsphere-cluster-mode-repository-zookeeper-curator</artifactId>
-                <version>${shardingsphere.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.apache.shardingsphere</groupId>-->
+<!--                <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>-->
+<!--                <version>${shardingsphere.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.shardingsphere</groupId>-->
+<!--                <artifactId>shardingsphere-cluster-mode-repository-zookeeper-curator</artifactId>-->
+<!--                <version>${shardingsphere.version}</version>-->
+<!--            </dependency>-->
 
-            <dependency>
-                <groupId>org.apache.shardingsphere</groupId>
-                <artifactId>shardingsphere-transaction-xa-core</artifactId>
-                <version>${shardingsphere.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.apache.shardingsphere</groupId>-->
+<!--                <artifactId>shardingsphere-transaction-xa-core</artifactId>-->
+<!--                <version>${shardingsphere.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
@@ -199,29 +198,24 @@
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate-validator.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.hibernate.javax.persistence</groupId>
-                <artifactId>hibernate-jpa-2.1-api</artifactId>
-                <version>${hibernate-jpa.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.hibernate.javax.persistence</groupId>-->
+<!--                <artifactId>hibernate-jpa-2.1-api</artifactId>-->
+<!--                <version>${hibernate-jpa.version}</version>-->
+<!--            </dependency>-->
 
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.hibernate</groupId>-->
+<!--                <artifactId>hibernate-core</artifactId>-->
+<!--                <version>${hibernate.version}</version>-->
+<!--            </dependency>-->
 
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-entitymanager</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
-            <!--redisson-->
-            <!--            <dependency>-->
-            <!--                <groupId>org.redisson</groupId>-->
-            <!--                <artifactId>redisson-spring-boot-starter</artifactId>-->
-            <!--                <version>3.17.0</version>-->
-            <!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.hibernate</groupId>-->
+<!--                <artifactId>hibernate-entitymanager</artifactId>-->
+<!--                <version>${hibernate.version}</version>-->
+<!--            </dependency>-->
+
 
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -270,12 +264,6 @@
                 <groupId>de.codecentric</groupId>
                 <artifactId>spring-boot-admin-starter-client</artifactId>
                 <version>${spring-boot-admin.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.github.axet</groupId>
-                <artifactId>kaptcha</artifactId>
-                <version>${kaptcha.version}</version>
             </dependency>
 
             <dependency>

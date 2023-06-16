@@ -23,6 +23,25 @@
             <artifactId>rc-common-core</artifactId>
             <version>1.0.0</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.rc.cloud</groupId>-->
+<!--            <artifactId>rc-common-tenant</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-feign</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-mybatis</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
 </project>

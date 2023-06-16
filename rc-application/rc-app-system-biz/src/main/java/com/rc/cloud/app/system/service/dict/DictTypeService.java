@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.dict;
 
 
-import com.rc.cloud.app.system.model.dict.DictTypeDO;
+import com.rc.cloud.app.system.api.dict.model.SysDictTypeDO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeExportReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypePageReqVO;
@@ -45,7 +45,7 @@ public interface DictTypeService {
      * @param reqVO 分页请求
      * @return 字典类型分页列表
      */
-    PageResult<DictTypeDO> getDictTypePage(DictTypePageReqVO reqVO);
+    PageResult<SysDictTypeDO> getDictTypePage(DictTypePageReqVO reqVO);
 
     /**
      * 获得字典类型列表
@@ -53,7 +53,7 @@ public interface DictTypeService {
      * @param reqVO 列表请求
      * @return 字典类型列表
      */
-    List<DictTypeDO> getDictTypeList(DictTypeExportReqVO reqVO);
+    List<SysDictTypeDO> getDictTypeList(DictTypeExportReqVO reqVO);
 
     /**
      * 获得字典类型详情
@@ -61,7 +61,7 @@ public interface DictTypeService {
      * @param id 字典类型编号
      * @return 字典类型
      */
-    DictTypeDO getDictType(Long id);
+    SysDictTypeDO getDictType(Long id);
 
     /**
      * 获得字典类型详情
@@ -69,13 +69,13 @@ public interface DictTypeService {
      * @param type 字典类型
      * @return 字典类型详情
      */
-    DictTypeDO getDictType(String type);
+    SysDictTypeDO getDictType(String type);
 
     /**
      * 获得全部字典类型列表
      *
      * @return 字典类型列表
      */
-    List<DictTypeDO> getDictTypeList();
+    List<SysDictTypeDO> getDictTypeList();
 
 }

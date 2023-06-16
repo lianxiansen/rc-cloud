@@ -1,13 +1,13 @@
 package com.rc.cloud.app.system.convert.user;
 
+import com.rc.cloud.app.system.api.dept.model.SysPostDO;
+import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
 import com.rc.cloud.app.system.api.user.dto.AdminUserRespDTO;
-import com.rc.cloud.app.system.model.dept.DeptDO;
-import com.rc.cloud.app.system.model.dept.PostDO;
-import com.rc.cloud.app.system.model.user.AdminUserDO;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
+import com.rc.cloud.app.system.api.dept.model.SysDeptDO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileRespVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
-import com.rc.cloud.app.system.model.permission.RoleDO;
 import com.rc.cloud.app.system.vo.user.user.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -19,36 +19,36 @@ public interface UserConvert {
 
     UserConvert INSTANCE = Mappers.getMapper(UserConvert.class);
 
-    UserPageItemRespVO convert(AdminUserDO bean);
+    UserPageItemRespVO convert(SysUserDO bean);
 
-    UserPageItemRespVO.Dept convert(DeptDO bean);
+    UserPageItemRespVO.Dept convert(SysDeptDO bean);
 
-    AdminUserDO convert(UserCreateReqVO bean);
+    SysUserDO convert(UserCreateReqVO bean);
 
-    AdminUserDO convert(UserUpdateReqVO bean);
+    SysUserDO convert(UserUpdateReqVO bean);
 
-    UserExcelVO convert02(AdminUserDO bean);
+    UserExcelVO convert02(SysUserDO bean);
 
-    AdminUserDO convert(UserImportExcelVO bean);
+    SysUserDO convert(UserImportExcelVO bean);
 
-    UserProfileRespVO convert03(AdminUserDO bean);
+    UserProfileRespVO convert03(SysUserDO bean);
 
-    List<UserProfileRespVO.Role> convertList(List<RoleDO> list);
+    List<UserProfileRespVO.Role> convertList(List<SysRoleDO> list);
 
-    UserProfileRespVO.Dept convert02(DeptDO bean);
+    UserProfileRespVO.Dept convert02(SysDeptDO bean);
 
-    AdminUserDO convert(UserProfileUpdateReqVO bean);
+    SysUserDO convert(UserProfileUpdateReqVO bean);
 
-    AdminUserDO convert(UserProfileUpdatePasswordReqVO bean);
+    SysUserDO convert(UserProfileUpdatePasswordReqVO bean);
 
-    List<UserProfileRespVO.Post> convertList02(List<PostDO> list);
+    List<UserProfileRespVO.Post> convertList02(List<SysPostDO> list);
 
 //    List<UserProfileRespVO.SocialUser> convertList03(List<SocialUserDO> list);
 
-    List<UserSimpleRespVO> convertList04(List<AdminUserDO> list);
+    List<UserSimpleRespVO> convertList04(List<SysUserDO> list);
 
-    AdminUserRespDTO convert4(AdminUserDO bean);
+    AdminUserRespDTO convert4(SysUserDO bean);
 
-    List<AdminUserRespDTO> convertList4(List<AdminUserDO> users);
+    List<AdminUserRespDTO> convertList4(List<SysUserDO> users);
 
 }

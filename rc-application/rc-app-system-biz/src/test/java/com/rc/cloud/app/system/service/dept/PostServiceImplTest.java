@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.dept;
 
+import com.rc.cloud.app.system.api.dept.model.SysPostDO;
 import com.rc.cloud.app.system.mapper.dept.PostMapper;
-import com.rc.cloud.app.system.model.dept.PostDO;
 import com.rc.cloud.app.system.vo.dept.post.PostCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostExportReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostPageReqVO;
@@ -52,14 +52,14 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(postId);
         // 校验记录的属性是否正确
-        PostDO post = postMapper.selectById(postId);
+        SysPostDO post = postMapper.selectById(postId);
         assertPojoEquals(reqVO, post);
     }
 
     @Test
     public void testUpdatePost_success() {
         // mock 数据
-        PostDO postDO = randomPostDO();
+        SysPostDO postDO = randomPostDO();
         postMapper.insert(postDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
         PostUpdateReqVO reqVO = randomPojo(PostUpdateReqVO.class, o -> {
@@ -71,14 +71,14 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         // 调用
         postService.updatePost(reqVO);
         // 校验是否更新正确
-        PostDO post = postMapper.selectById(reqVO.getId());
+        SysPostDO post = postMapper.selectById(reqVO.getId());
         assertPojoEquals(reqVO, post);
     }
 
     @Test
     public void testDeletePost_success() {
         // mock 数据
-        PostDO postDO = randomPostDO();
+        SysPostDO postDO = randomPostDO();
         postMapper.insert(postDO);
         // 准备参数
         Long id = postDO.getId();
@@ -100,7 +100,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidatePost_nameDuplicateForCreate() {
         // mock 数据
-        PostDO postDO = randomPostDO();
+        SysPostDO postDO = randomPostDO();
         postMapper.insert(postDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
         PostCreateReqVO reqVO = randomPojo(PostCreateReqVO.class,
@@ -112,10 +112,10 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidatePost_codeDuplicateForUpdate() {
         // mock 数据
-        PostDO postDO = randomPostDO();
+        SysPostDO postDO = randomPostDO();
         postMapper.insert(postDO);
         // mock 数据：稍后模拟重复它的 code
-        PostDO codePostDO = randomPostDO();
+        SysPostDO codePostDO = randomPostDO();
         postMapper.insert(codePostDO);
         // 准备参数
         PostUpdateReqVO reqVO = randomPojo(PostUpdateReqVO.class, o -> {
@@ -132,7 +132,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetPostPage() {
         // mock 数据
-        PostDO postDO = randomPojo(PostDO.class, o -> {
+        SysPostDO postDO = randomPojo(SysPostDO.class, o -> {
             o.setName("码仔");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
@@ -147,7 +147,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        PageResult<PostDO> pageResult = postService.getPostPage(reqVO);
+        PageResult<SysPostDO> pageResult = postService.getPostPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -157,7 +157,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetPostList_export() {
         // mock 数据
-        PostDO postDO = randomPojo(PostDO.class, o -> {
+        SysPostDO postDO = randomPojo(SysPostDO.class, o -> {
             o.setName("码仔");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
@@ -172,7 +172,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        List<PostDO> list = postService.getPostList(reqVO);
+        List<SysPostDO> list = postService.getPostList(reqVO);
         // 断言
         assertEquals(1, list.size());
         assertPojoEquals(postDO, list.get(0));
@@ -181,16 +181,16 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetPostList() {
         // mock 数据
-        PostDO postDO01 = randomPojo(PostDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
+        SysPostDO postDO01 = randomPojo(SysPostDO.class, o -> o.setStatus(CommonStatusEnum.ENABLE.getStatus()));
         postMapper.insert(postDO01);
         // 测试 status 不匹配
-        PostDO postDO02 = randomPojo(PostDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
+        SysPostDO postDO02 = randomPojo(SysPostDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
         postMapper.insert(postDO02);
         // 准备参数
         List<Long> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
 
         // 调用
-        List<PostDO> list = postService.getPostList(ids, singletonList(CommonStatusEnum.ENABLE.getStatus()));
+        List<SysPostDO> list = postService.getPostList(ids, singletonList(CommonStatusEnum.ENABLE.getStatus()));
         // 断言
         assertEquals(1, list.size());
         assertPojoEquals(postDO01, list.get(0));
@@ -199,12 +199,12 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetPost() {
         // mock 数据
-        PostDO dbPostDO = randomPostDO();
+        SysPostDO dbPostDO = randomPostDO();
         postMapper.insert(dbPostDO);
         // 准备参数
         Long id = dbPostDO.getId();
         // 调用
-        PostDO post = postService.getPost(id);
+        SysPostDO post = postService.getPost(id);
         // 断言
         assertNotNull(post);
         assertPojoEquals(dbPostDO, post);
@@ -213,9 +213,9 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidatePostList_success() {
         // mock 数据
-        PostDO radomPostDO = randomPostDO();
+        SysPostDO radomPostDO = randomPostDO();
         radomPostDO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        PostDO postDO = radomPostDO;
+        SysPostDO postDO = radomPostDO;
         postMapper.insert(postDO);
         // 准备参数
         List<Long> ids = singletonList(postDO.getId());
@@ -236,9 +236,9 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidatePostList_notEnable() {
         // mock 数据
-        PostDO randomPostDO = randomPostDO();
+        SysPostDO randomPostDO = randomPostDO();
         randomPostDO.setStatus(CommonStatusEnum.DISABLE.getStatus());
-        PostDO postDO = randomPostDO;
+        SysPostDO postDO = randomPostDO;
         postMapper.insert(postDO);
         // 准备参数
         List<Long> ids = singletonList(postDO.getId());
@@ -249,10 +249,10 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     }
 
     @SafeVarargs
-    private static PostDO randomPostDO(Consumer<PostDO>... consumers) {
-        Consumer<PostDO> consumer = (o) -> {
+    private static SysPostDO randomPostDO(Consumer<SysPostDO>... consumers) {
+        Consumer<SysPostDO> consumer = (o) -> {
             o.setStatus(randomCommonStatus()); // 保证 status 的范围
         };
-        return randomPojo(PostDO.class, ArrayUtils.append(consumer, consumers));
+        return randomPojo(SysPostDO.class, ArrayUtils.append(consumer, consumers));
     }
 }

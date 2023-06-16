@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.tenant;
 
-import com.rc.cloud.app.system.model.tenant.TenantDO;
+import com.rc.cloud.app.system.api.tenant.model.SysTenantDO;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantExportReqVO;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -16,37 +16,37 @@ import java.util.List;
  * @author 芋道源码
  */
 @Mapper
-public interface TenantMapper extends BaseMapperX<TenantDO> {
+public interface TenantMapper extends BaseMapperX<SysTenantDO> {
 
-    default PageResult<TenantDO> selectPage(TenantPageReqVO reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<TenantDO>()
-                .likeIfPresent(TenantDO::getName, reqVO.getName())
-                .likeIfPresent(TenantDO::getContactName, reqVO.getContactName())
-                .likeIfPresent(TenantDO::getContactMobile, reqVO.getContactMobile())
-                .eqIfPresent(TenantDO::getStatus, reqVO.getStatus())
-                .betweenIfPresent(TenantDO::getCreateTime, reqVO.getCreateTime())
-                .orderByDesc(TenantDO::getId));
+    default PageResult<SysTenantDO> selectPage(TenantPageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<SysTenantDO>()
+                .likeIfPresent(SysTenantDO::getName, reqVO.getName())
+                .likeIfPresent(SysTenantDO::getContactName, reqVO.getContactName())
+                .likeIfPresent(SysTenantDO::getContactMobile, reqVO.getContactMobile())
+                .eqIfPresent(SysTenantDO::getStatus, reqVO.getStatus())
+                .betweenIfPresent(SysTenantDO::getCreateTime, reqVO.getCreateTime())
+                .orderByDesc(SysTenantDO::getId));
     }
 
-    default List<TenantDO> selectList(TenantExportReqVO reqVO) {
-        return selectList(new LambdaQueryWrapperX<TenantDO>()
-                .likeIfPresent(TenantDO::getName, reqVO.getName())
-                .likeIfPresent(TenantDO::getContactName, reqVO.getContactName())
-                .likeIfPresent(TenantDO::getContactMobile, reqVO.getContactMobile())
-                .eqIfPresent(TenantDO::getStatus, reqVO.getStatus())
-                .betweenIfPresent(TenantDO::getCreateTime, reqVO.getCreateTime())
-                .orderByDesc(TenantDO::getId));
+    default List<SysTenantDO> selectList(TenantExportReqVO reqVO) {
+        return selectList(new LambdaQueryWrapperX<SysTenantDO>()
+                .likeIfPresent(SysTenantDO::getName, reqVO.getName())
+                .likeIfPresent(SysTenantDO::getContactName, reqVO.getContactName())
+                .likeIfPresent(SysTenantDO::getContactMobile, reqVO.getContactMobile())
+                .eqIfPresent(SysTenantDO::getStatus, reqVO.getStatus())
+                .betweenIfPresent(SysTenantDO::getCreateTime, reqVO.getCreateTime())
+                .orderByDesc(SysTenantDO::getId));
     }
 
-    default TenantDO selectByName(String name) {
-        return selectOne(TenantDO::getName, name);
+    default SysTenantDO selectByName(String name) {
+        return selectOne(SysTenantDO::getName, name);
     }
 
     default Long selectCountByPackageId(Long packageId) {
-        return selectCount(TenantDO::getPackageId, packageId);
+        return selectCount(SysTenantDO::getPackageId, packageId);
     }
 
-    default List<TenantDO> selectListByPackageId(Long packageId) {
-        return selectList(TenantDO::getPackageId, packageId);
+    default List<SysTenantDO> selectListByPackageId(Long packageId) {
+        return selectList(SysTenantDO::getPackageId, packageId);
     }
 }

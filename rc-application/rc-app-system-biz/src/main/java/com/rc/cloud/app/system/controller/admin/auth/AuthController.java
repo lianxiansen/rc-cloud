@@ -1,10 +1,10 @@
 package com.rc.cloud.app.system.controller.admin.auth;
 
+import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import com.rc.cloud.app.system.convert.auth.AuthConvert;
 import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
-import com.rc.cloud.app.system.model.permission.MenuDO;
-import com.rc.cloud.app.system.model.permission.RoleDO;
-import com.rc.cloud.app.system.model.user.AdminUserDO;
+import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
 import com.rc.cloud.app.system.service.auth.AdminAuthService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.permission.RoleService;
@@ -72,15 +72,15 @@ public class AuthController {
     @Operation(summary = "获取登录用户的权限信息")
     public CodeResult<AuthPermissionInfoRespVO> getPermissionInfo() {
         // 获得用户信息
-        AdminUserDO user = userService.getUser(getLoginUserId());
+        SysUserDO user = userService.getUser(getLoginUserId());
         if (user == null) {
             return null;
         }
         // 获得角色列表
         Set<Long> roleIds = permissionService.getUserRoleIdsFromCache(getLoginUserId(), singleton(CommonStatusEnum.ENABLE.getStatus()));
-        List<RoleDO> roleList = roleService.getRoleListFromCache(roleIds);
+        List<SysRoleDO> roleList = roleService.getRoleListFromCache(roleIds);
         // 获得菜单列表
-        List<MenuDO> menuList = permissionService.getRoleMenuListFromCache(roleIds,
+        List<SysMenuDO> menuList = permissionService.getRoleMenuListFromCache(roleIds,
                 SetUtils.asSet(MenuTypeEnum.DIR.getType(), MenuTypeEnum.MENU.getType(), MenuTypeEnum.BUTTON.getType()),
                 singleton(CommonStatusEnum.ENABLE.getStatus())); // 只要开启的
         // 拼接结果返回
@@ -93,7 +93,7 @@ public class AuthController {
         // 获得角色列表
         Set<Long> roleIds = permissionService.getUserRoleIdsFromCache(getLoginUserId(), singleton(CommonStatusEnum.ENABLE.getStatus()));
         // 获得用户拥有的菜单列表
-        List<MenuDO> menuList = permissionService.getRoleMenuListFromCache(roleIds,
+        List<SysMenuDO> menuList = permissionService.getRoleMenuListFromCache(roleIds,
                 SetUtils.asSet(MenuTypeEnum.DIR.getType(), MenuTypeEnum.MENU.getType()), // 只要目录和菜单类型
                 singleton(CommonStatusEnum.ENABLE.getStatus())); // 只要开启的
         // 转换成 Tree 结构返回

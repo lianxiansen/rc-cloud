@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.service.dict;
 
+import com.rc.cloud.app.system.api.dict.model.SysDictDataDO;
+import com.rc.cloud.app.system.api.dict.model.SysDictTypeDO;
 import com.rc.cloud.app.system.mapper.dict.DictDataMapper;
-import com.rc.cloud.app.system.model.dict.DictDataDO;
-import com.rc.cloud.app.system.model.dict.DictTypeDO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataExportReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataPageReqVO;
@@ -43,18 +43,18 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictDataList() {
         // mock 数据
-        DictDataDO dictDataDO1 = randomDictDataDO();
+        SysDictDataDO dictDataDO1 = randomDictDataDO();
         dictDataDO1.setDictType("yunai");
         dictDataDO1.setSort(2);
         dictDataMapper.insert(dictDataDO1);
-        DictDataDO dictDataDO2 = randomDictDataDO();
+        SysDictDataDO dictDataDO2 = randomDictDataDO();
         dictDataDO2.setDictType("yunai");
         dictDataDO2.setSort(1);
         dictDataMapper.insert(dictDataDO2);
         // 准备参数
 
         // 调用
-        List<DictDataDO> dictDataDOList = dictDataService.getDictDataList();
+        List<SysDictDataDO> dictDataDOList = dictDataService.getDictDataList();
         // 断言
         assertEquals(2, dictDataDOList.size());
         assertPojoEquals(dictDataDO2, dictDataDOList.get(0));
@@ -64,7 +64,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictDataPage() {
         // mock 数据
-        DictDataDO dbDictData = randomPojo(DictDataDO.class, o -> { // 等会查询到
+        SysDictDataDO dbDictData = randomPojo(SysDictDataDO.class, o -> { // 等会查询到
             o.setLabel("芋艿");
             o.setDictType("yunai");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -83,7 +83,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        PageResult<DictDataDO> pageResult = dictDataService.getDictDataPage(reqVO);
+        PageResult<SysDictDataDO> pageResult = dictDataService.getDictDataPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -93,7 +93,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictDataList_export() {
         // mock 数据
-        DictDataDO dbDictData = randomPojo(DictDataDO.class, o -> { // 等会查询到
+        SysDictDataDO dbDictData = randomPojo(SysDictDataDO.class, o -> { // 等会查询到
             o.setLabel("芋艿");
             o.setDictType("yunai");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -112,7 +112,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
-        List<DictDataDO> list = dictDataService.getDictDataList(reqVO);
+        List<SysDictDataDO> list = dictDataService.getDictDataList(reqVO);
         // 断言
         assertEquals(1, list.size());
         assertPojoEquals(dbDictData, list.get(0));
@@ -121,13 +121,13 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictData() {
         // mock 数据
-        DictDataDO dbDictData = randomDictDataDO();
+        SysDictDataDO dbDictData = randomDictDataDO();
         dictDataMapper.insert(dbDictData);
         // 准备参数
         Long id = dbDictData.getId();
 
         // 调用
-        DictDataDO dictData = dictDataService.getDictData(id);
+        SysDictDataDO dictData = dictDataService.getDictData(id);
         // 断言
         assertPojoEquals(dbDictData, dictData);
     }
@@ -145,14 +145,14 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(dictDataId);
         // 校验记录的属性是否正确
-        DictDataDO dictData = dictDataMapper.selectById(dictDataId);
+        SysDictDataDO dictData = dictDataMapper.selectById(dictDataId);
         assertPojoEquals(reqVO, dictData);
     }
 
     @Test
     public void testUpdateDictData_success() {
         // mock 数据
-        DictDataDO dbDictData = randomDictDataDO();
+        SysDictDataDO dbDictData = randomDictDataDO();
         dictDataMapper.insert(dbDictData);// @Sql: 先插入出一条存在的数据
         // 准备参数
         DictDataUpdateReqVO reqVO = randomPojo(DictDataUpdateReqVO.class, o -> {
@@ -165,14 +165,14 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         // 调用
         dictDataService.updateDictData(reqVO);
         // 校验是否更新正确
-        DictDataDO dictData = dictDataMapper.selectById(reqVO.getId()); // 获取最新的
+        SysDictDataDO dictData = dictDataMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, dictData);
     }
 
     @Test
     public void testDeleteDictData_success() {
         // mock 数据
-        DictDataDO dbDictData = randomDictDataDO();
+        SysDictDataDO dbDictData = randomDictDataDO();
         dictDataMapper.insert(dbDictData);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Long id = dbDictData.getId();
@@ -186,7 +186,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateDictDataExists_success() {
         // mock 数据
-        DictDataDO dbDictData = randomDictDataDO();
+        SysDictDataDO dbDictData = randomDictDataDO();
         dictDataMapper.insert(dbDictData);// @Sql: 先插入出一条存在的数据
 
         // 调用成功
@@ -218,7 +218,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         // mock 方法，数据类型被禁用
         String dictType = randomString();
         when(dictTypeService.getDictType(eq(dictType))).thenReturn(
-                randomPojo(DictTypeDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
+                randomPojo(SysDictTypeDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
 
         // 调用, 并断言异常
         assertServiceException(() -> dictDataService.validateDictTypeExists(dictType), DICT_TYPE_NOT_ENABLE);
@@ -281,7 +281,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateDictDataList_success() {
         // mock 数据
-        DictDataDO dictDataDO = randomDictDataDO();
+        SysDictDataDO dictDataDO = randomDictDataDO();
         dictDataDO.setStatus(CommonStatusEnum.ENABLE.getStatus());
         dictDataMapper.insert(dictDataDO);
         // 准备参数
@@ -305,7 +305,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateDictDataList_notEnable() {
         // mock 数据
-        DictDataDO dictDataDO = randomDictDataDO();
+        SysDictDataDO dictDataDO = randomDictDataDO();
         dictDataDO.setStatus(CommonStatusEnum.DISABLE.getStatus());
         dictDataMapper.insert(dictDataDO);
         // 准备参数
@@ -320,11 +320,11 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictData_dictType() {
         // mock 数据
-        DictDataDO dictDataDO1 = randomDictDataDO();
+        SysDictDataDO dictDataDO1 = randomDictDataDO();
         dictDataDO1.setDictType("yunai");
         dictDataDO1.setValue("1");
         dictDataMapper.insert(dictDataDO1);
-        DictDataDO dictDataDO2 = randomDictDataDO();
+        SysDictDataDO dictDataDO2 = randomDictDataDO();
         dictDataDO2.setDictType("yunai");
         dictDataDO2.setValue("2");
         dictDataMapper.insert(dictDataDO2);
@@ -333,7 +333,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         String value = "1";
 
         // 调用
-        DictDataDO dbDictData = dictDataService.getDictData(dictType, value);
+        SysDictDataDO dbDictData = dictDataService.getDictData(dictType, value);
         // 断言
         assertEquals(dictDataDO1, dbDictData);
     }
@@ -341,11 +341,11 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testParseDictData() {
         // mock 数据
-        DictDataDO dictDataDO1 = randomDictDataDO();
+        SysDictDataDO dictDataDO1 = randomDictDataDO();
         dictDataDO1.setDictType("yunai");
         dictDataDO1.setLabel("1");
         dictDataMapper.insert(dictDataDO1);
-        DictDataDO dictDataDO2 = randomDictDataDO();
+        SysDictDataDO dictDataDO2 = randomDictDataDO();
         dictDataDO2.setDictType("yunai");
         dictDataDO2.setLabel("2");
         dictDataMapper.insert(dictDataDO2);
@@ -354,7 +354,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         String label = "1";
 
         // 调用
-        DictDataDO dbDictData = dictDataService.parseDictData(dictType, label);
+        SysDictDataDO dbDictData = dictDataService.parseDictData(dictType, label);
         // 断言
         assertEquals(dictDataDO1, dbDictData);
     }
@@ -362,11 +362,11 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     // ========== 随机对象 ==========
 
     @SafeVarargs
-    private static DictDataDO randomDictDataDO(Consumer<DictDataDO>... consumers) {
-        Consumer<DictDataDO> consumer = (o) -> {
+    private static SysDictDataDO randomDictDataDO(Consumer<SysDictDataDO>... consumers) {
+        Consumer<SysDictDataDO> consumer = (o) -> {
             o.setStatus(randomCommonStatus()); // 保证 status 的范围
         };
-        return randomPojo(DictDataDO.class, ArrayUtils.append(consumer, consumers));
+        return randomPojo(SysDictDataDO.class, ArrayUtils.append(consumer, consumers));
     }
 
     /**
@@ -375,8 +375,8 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
      * @param type 字典类型
      * @return DictTypeDO 对象
      */
-    private static DictTypeDO randomDictTypeDO(String type) {
-        return randomPojo(DictTypeDO.class, o -> {
+    private static SysDictTypeDO randomDictTypeDO(String type) {
+        return randomPojo(SysDictTypeDO.class, o -> {
             o.setType(type);
             o.setStatus(CommonStatusEnum.ENABLE.getStatus()); // 保证 status 是开启
         });

@@ -2,11 +2,11 @@ package com.rc.cloud.app.system.common.security.filter;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.auth0.jwt.interfaces.Claim;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import com.rc.cloud.app.system.common.security.cache.TokenStoreCache;
 import com.rc.cloud.app.system.common.security.user.UserInfoCommon;
 import com.rc.cloud.app.system.common.security.utils.DoubleJWTUtil;
 import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
-import com.rc.cloud.app.system.model.user.AdminUserDO;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.common.core.web.util.WebFrameworkUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -75,13 +75,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private void setupSpringAuthentication(String username, HttpServletRequest request) {
         // 通过用户名获取用户权限
-        Optional<AdminUserDO> adminUserOptional = permissionService.findOptionalByUsernameWithAuthorities(username);
+        Optional<SysUserDO> adminUserOptional = permissionService.findOptionalByUsernameWithAuthorities(username);
         if (!adminUserOptional.isPresent()) {
             throw exception0(10040, "Token 无效");
         }
-        AdminUserDO adminUserDO = adminUserOptional.get();
+        SysUserDO sysUserDO = adminUserOptional.get();
         UserInfoCommon userInfoCommon = new UserInfoCommon();
-        BeanUtil.copyProperties(adminUserDO, userInfoCommon);
+        BeanUtil.copyProperties(sysUserDO, userInfoCommon);
 
         // 设置 Spring Security 认证
         val authentication = new UsernamePasswordAuthenticationToken(userInfoCommon, null,
@@ -90,7 +90,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // 额外设置到 request 中，用于 ApiAccessLogFilter 可以获取到用户编号；
         // 原因是，Spring Security 的 Filter 在 ApiAccessLogFilter 后面，在它记录访问日志时，线上上下文已经没有用户编号等信息
-        WebFrameworkUtils.setLoginUserId(request, adminUserDO.getId());
+        WebFrameworkUtils.setLoginUserId(request, sysUserDO.getId());
     }
 
     /**

@@ -3,7 +3,7 @@ package com.rc.cloud.app.system.mapper.permission;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rc.cloud.app.system.model.permission.RoleMenuDO;
+import com.rc.cloud.app.system.api.permission.model.SysRoleMenuDO;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -14,35 +14,35 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Mapper
-public interface RoleMenuMapper extends BaseMapperX<RoleMenuDO> {
+public interface RoleMenuMapper extends BaseMapperX<SysRoleMenuDO> {
 
     @Repository
-    class BatchInsertMapper extends ServiceImpl<RoleMenuMapper, RoleMenuDO> {
+    class BatchInsertMapper extends ServiceImpl<RoleMenuMapper, SysRoleMenuDO> {
     }
 
-    default List<RoleMenuDO> selectListByRoleId(Long roleId) {
-        return selectList(RoleMenuDO::getRoleId, roleId);
+    default List<SysRoleMenuDO> selectListByRoleId(Long roleId) {
+        return selectList(SysRoleMenuDO::getRoleId, roleId);
     }
 
     default void deleteListByRoleIdAndMenuIds(Long roleId, Collection<Long> menuIds) {
-        delete(new LambdaQueryWrapper<RoleMenuDO>()
-                .eq(RoleMenuDO::getRoleId, roleId)
-                .in(RoleMenuDO::getMenuId, menuIds));
+        delete(new LambdaQueryWrapper<SysRoleMenuDO>()
+                .eq(SysRoleMenuDO::getRoleId, roleId)
+                .in(SysRoleMenuDO::getMenuId, menuIds));
     }
 
     default void deleteListByMenuId(Long menuId) {
-        delete(new LambdaQueryWrapper<RoleMenuDO>().eq(RoleMenuDO::getMenuId, menuId));
+        delete(new LambdaQueryWrapper<SysRoleMenuDO>().eq(SysRoleMenuDO::getMenuId, menuId));
     }
 
     default void deleteListByRoleId(Long roleId) {
-        delete(new LambdaQueryWrapper<RoleMenuDO>().eq(RoleMenuDO::getRoleId, roleId));
+        delete(new LambdaQueryWrapper<SysRoleMenuDO>().eq(SysRoleMenuDO::getRoleId, roleId));
     }
 
     default Set<Long> getMenuIdsByRoleIds(Set<Long> toList) {
-        QueryWrapper<RoleMenuDO> wrapper = new QueryWrapper<>();
-        wrapper.lambda().select(RoleMenuDO::getMenuId);
-        wrapper.lambda().in(RoleMenuDO::getRoleId, toList);
-        return selectList(wrapper).stream().map(RoleMenuDO::getMenuId).collect(Collectors.toSet());
+        QueryWrapper<SysRoleMenuDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().select(SysRoleMenuDO::getMenuId);
+        wrapper.lambda().in(SysRoleMenuDO::getRoleId, toList);
+        return selectList(wrapper).stream().map(SysRoleMenuDO::getMenuId).collect(Collectors.toSet());
     }
 
 }

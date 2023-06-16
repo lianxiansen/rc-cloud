@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.dict;
 
 
-import com.rc.cloud.app.system.model.dict.DictDataDO;
+import com.rc.cloud.app.system.api.dict.model.SysDictDataDO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataExportReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataPageReqVO;
@@ -45,7 +45,7 @@ public interface DictDataService {
      *
      * @return 字典数据全列表
      */
-    List<DictDataDO> getDictDataList();
+    List<SysDictDataDO> getDictDataList();
 
     /**
      * 获得字典数据分页列表
@@ -53,7 +53,7 @@ public interface DictDataService {
      * @param reqVO 分页请求
      * @return 字典数据分页列表
      */
-    PageResult<DictDataDO> getDictDataPage(DictDataPageReqVO reqVO);
+    PageResult<SysDictDataDO> getDictDataPage(DictDataPageReqVO reqVO);
 
     /**
      * 获得字典数据列表
@@ -61,7 +61,7 @@ public interface DictDataService {
      * @param reqVO 列表请求
      * @return 字典数据列表
      */
-    List<DictDataDO> getDictDataList(DictDataExportReqVO reqVO);
+    List<SysDictDataDO> getDictDataList(DictDataExportReqVO reqVO);
 
     /**
      * 获得字典数据详情
@@ -69,7 +69,7 @@ public interface DictDataService {
      * @param id 字典数据编号
      * @return 字典数据
      */
-    DictDataDO getDictData(Long id);
+    SysDictDataDO getDictData(Long id);
 
     /**
      * 获得指定字典类型的数据数量
@@ -96,7 +96,7 @@ public interface DictDataService {
      * @param value 字典数据值
      * @return 字典数据
      */
-    DictDataDO getDictData(String dictType, String value);
+    SysDictDataDO getDictData(String dictType, String value);
 
     /**
      * 解析获得指定的字典数据，从缓存中
@@ -105,5 +105,5 @@ public interface DictDataService {
      * @param label 字典数据标签
      * @return 字典数据
      */
-    DictDataDO parseDictData(String dictType, String label);
+    SysDictDataDO parseDictData(String dictType, String label);
 }

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.controller.admin.tenant;
 
+import com.rc.cloud.app.system.api.tenant.model.SysTenantDO;
 import com.rc.cloud.app.system.convert.tenant.TenantConvert;
-import com.rc.cloud.app.system.model.tenant.TenantDO;
 import com.rc.cloud.app.system.service.tenant.TenantService;
 import com.rc.cloud.app.system.vo.tenant.tenant.*;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -34,7 +34,7 @@ public class TenantController {
     @Operation(summary = "使用租户名，获得租户编号", description = "登录界面，根据用户的租户名，获得租户编号")
     @Parameter(name = "name", description = "租户名", required = true, example = "1024")
     public CodeResult<Long> getTenantIdByName(@RequestParam("name") String name) {
-        TenantDO tenantDO = tenantService.getTenantByName(name);
+        SysTenantDO tenantDO = tenantService.getTenantByName(name);
         return CodeResult.ok(tenantDO != null ? tenantDO.getId() : null);
     }
 
@@ -67,7 +67,7 @@ public class TenantController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:tenant:query')")
     public CodeResult<TenantRespVO> getTenant(@PathVariable("id") Long id) {
-        TenantDO tenant = tenantService.getTenant(id);
+        SysTenantDO tenant = tenantService.getTenant(id);
         return CodeResult.ok(TenantConvert.INSTANCE.convert(tenant));
     }
 
@@ -75,7 +75,7 @@ public class TenantController {
     @Operation(summary = "获得租户分页")
 //    @PreAuthorize("@ss.hasPermission('system:tenant:query')")
     public CodeResult<PageResult<TenantRespVO>> getTenantPage(@Valid TenantPageReqVO pageVO) {
-        PageResult<TenantDO> pageResult = tenantService.getTenantPage(pageVO);
+        PageResult<SysTenantDO> pageResult = tenantService.getTenantPage(pageVO);
         return CodeResult.ok(TenantConvert.INSTANCE.convertPage(pageResult));
     }
 
@@ -85,7 +85,7 @@ public class TenantController {
 //    @OperateLog(type = EXPORT)
     public void exportTenantExcel(@Valid TenantExportReqVO exportReqVO,
                                   HttpServletResponse response) throws IOException {
-        List<TenantDO> list = tenantService.getTenantList(exportReqVO);
+        List<SysTenantDO> list = tenantService.getTenantList(exportReqVO);
         // 导出 Excel
         List<TenantExcelVO> datas = TenantConvert.INSTANCE.convertList02(list);
         ExcelUtils.write(response, "租户.xls", "数据", TenantExcelVO.class, datas);

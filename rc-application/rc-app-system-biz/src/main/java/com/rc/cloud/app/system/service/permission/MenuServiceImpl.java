@@ -6,9 +6,9 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import com.rc.cloud.app.system.api.permission.model.SysMenuDO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
-import com.rc.cloud.app.system.model.permission.MenuDO;
 import com.rc.cloud.app.system.service.tenant.TenantService;
 import com.rc.cloud.app.system.vo.permission.menu.MenuCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuListReqVO;
@@ -27,7 +27,7 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.rc.cloud.app.system.model.permission.MenuDO.ID_ROOT;
+import static com.rc.cloud.app.system.api.permission.model.SysMenuDO.ID_ROOT;
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
@@ -49,17 +49,17 @@ public class MenuServiceImpl implements MenuService {
      */
     @Getter
     @Setter
-    private volatile Map<Long, MenuDO> menuCache;
+    private volatile Map<Long, SysMenuDO> menuCache;
     /**
      * 权限与菜单缓存
-     * key：权限 {@link MenuDO#getPermission()}
+     * key：权限 {@link SysMenuDO#getPermission()}
      * value：MenuDO 数组，因为一个权限可能对应多个 MenuDO 对象
      *
      * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
      */
     @Getter
     @Setter
-    private volatile Multimap<String, MenuDO> permissionMenuCache;
+    private volatile Multimap<String, SysMenuDO> permissionMenuCache;
 
     @Resource
     private MenuMapper menuMapper;
@@ -81,12 +81,12 @@ public class MenuServiceImpl implements MenuService {
     @PostConstruct
     public synchronized void initLocalCache() {
         // 第一步：查询数据
-        List<MenuDO> menuList = menuMapper.selectList();
+        List<SysMenuDO> menuList = menuMapper.selectList();
         log.info("[initLocalCache][缓存菜单，数量为:{}]", menuList.size());
 
         // 第二步：构建缓存
-        ImmutableMap.Builder<Long, MenuDO> menuCacheBuilder = ImmutableMap.builder();
-        ImmutableMultimap.Builder<String, MenuDO> permMenuCacheBuilder = ImmutableMultimap.builder();
+        ImmutableMap.Builder<Long, SysMenuDO> menuCacheBuilder = ImmutableMap.builder();
+        ImmutableMultimap.Builder<String, SysMenuDO> permMenuCacheBuilder = ImmutableMultimap.builder();
         menuList.forEach(menuDO -> {
             menuCacheBuilder.put(menuDO.getId(), menuDO);
             if (StrUtil.isNotEmpty(menuDO.getPermission())) { // 会存在 permission 为 null 的情况，导致 put 报 NPE 异常
@@ -105,7 +105,7 @@ public class MenuServiceImpl implements MenuService {
         validateMenu(reqVO.getParentId(), reqVO.getName(), null);
 
         // 插入数据库
-        MenuDO menu = MenuConvert.INSTANCE.convert(reqVO);
+        SysMenuDO menu = MenuConvert.INSTANCE.convert(reqVO);
         initMenuProperty(menu);
         menuMapper.insert(menu);
         // 发送刷新消息
@@ -126,7 +126,7 @@ public class MenuServiceImpl implements MenuService {
         validateMenu(reqVO.getParentId(), reqVO.getName(), reqVO.getId());
 
         // 更新到数据库
-        MenuDO updateObject = MenuConvert.INSTANCE.convert(reqVO);
+        SysMenuDO updateObject = MenuConvert.INSTANCE.convert(reqVO);
         initMenuProperty(updateObject);
         menuMapper.updateById(updateObject);
         // 发送刷新消息
@@ -160,25 +160,25 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuDO> getMenuList() {
+    public List<SysMenuDO> getMenuList() {
         return menuMapper.selectList();
     }
 
     @Override
-    public List<MenuDO> getMenuListByTenant(MenuListReqVO reqVO) {
-        List<MenuDO> menus = getMenuList(reqVO);
+    public List<SysMenuDO> getMenuListByTenant(MenuListReqVO reqVO) {
+        List<SysMenuDO> menus = getMenuList(reqVO);
         // 开启多租户的情况下，需要过滤掉未开通的菜单
         tenantService.handleTenantMenu(menuIds -> menus.removeIf(menu -> !CollUtil.contains(menuIds, menu.getId())));
         return menus;
     }
 
     @Override
-    public List<MenuDO> getMenuList(MenuListReqVO reqVO) {
+    public List<SysMenuDO> getMenuList(MenuListReqVO reqVO) {
         return menuMapper.selectList(reqVO);
     }
 
     @Override
-    public List<MenuDO> getMenuListFromCache(Collection<Integer> menuTypes, Collection<Integer> menusStatuses) {
+    public List<SysMenuDO> getMenuListFromCache(Collection<Integer> menuTypes, Collection<Integer> menusStatuses) {
         // 任一一个参数为空，则返回空
         if (CollectionUtils.isAnyEmpty(menuTypes, menusStatuses)) {
             return Collections.emptyList();
@@ -190,8 +190,8 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuDO> getMenuListFromCache(Collection<Long> menuIds, Collection<Integer> menuTypes,
-                                             Collection<Integer> menusStatuses) {
+    public List<SysMenuDO> getMenuListFromCache(Collection<Long> menuIds, Collection<Integer> menuTypes,
+                                                Collection<Integer> menusStatuses) {
         // 任一一个参数为空，则返回空
         if (CollectionUtils.isAnyEmpty(menuIds, menuTypes, menusStatuses)) {
             return Collections.emptyList();
@@ -203,12 +203,12 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuDO> getMenuListByPermissionFromCache(String permission) {
+    public List<SysMenuDO> getMenuListByPermissionFromCache(String permission) {
         return new ArrayList<>(permissionMenuCache.get(permission));
     }
 
     @Override
-    public MenuDO getMenu(Long id) {
+    public SysMenuDO getMenu(Long id) {
         return menuMapper.selectById(id);
     }
 
@@ -231,7 +231,7 @@ public class MenuServiceImpl implements MenuService {
         if (parentId.equals(childId)) {
             throw exception(MENU_PARENT_ERROR);
         }
-        MenuDO menu = menuMapper.selectById(parentId);
+        SysMenuDO menu = menuMapper.selectById(parentId);
         // 父菜单不存在
         if (menu == null) {
             throw exception(MENU_PARENT_NOT_EXISTS);
@@ -254,7 +254,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @VisibleForTesting
     void validateMenu(Long parentId, String name, Long id) {
-        MenuDO menu = menuMapper.selectByParentIdAndName(parentId, name);
+        SysMenuDO menu = menuMapper.selectByParentIdAndName(parentId, name);
         if (menu == null) {
             return;
         }
@@ -274,7 +274,7 @@ public class MenuServiceImpl implements MenuService {
      *
      * @param menu 菜单
      */
-    private void initMenuProperty(MenuDO menu) {
+    private void initMenuProperty(SysMenuDO menu) {
         // 菜单为按钮类型时，无需 component、icon、path 属性，进行置空
         if (MenuTypeEnum.BUTTON.getType().equals(menu.getType())) {
             menu.setComponent("");

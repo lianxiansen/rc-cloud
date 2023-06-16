@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.permission;
 
-import com.rc.cloud.app.system.model.permission.RoleDO;
+import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
 import com.rc.cloud.app.system.vo.permission.role.RoleExportReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RolePageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -14,35 +14,35 @@ import java.util.Collection;
 import java.util.List;
 
 @Mapper
-public interface RoleMapper extends BaseMapperX<RoleDO> {
+public interface RoleMapper extends BaseMapperX<SysRoleDO> {
 
-    default PageResult<RoleDO> selectPage(RolePageReqVO reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<RoleDO>()
-                .likeIfPresent(RoleDO::getName, reqVO.getName())
-                .likeIfPresent(RoleDO::getCode, reqVO.getCode())
-                .eqIfPresent(RoleDO::getStatus, reqVO.getStatus())
+    default PageResult<SysRoleDO> selectPage(RolePageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<SysRoleDO>()
+                .likeIfPresent(SysRoleDO::getName, reqVO.getName())
+                .likeIfPresent(SysRoleDO::getCode, reqVO.getCode())
+                .eqIfPresent(SysRoleDO::getStatus, reqVO.getStatus())
                 .betweenIfPresent(BaseDO::getCreateTime, reqVO.getCreateTime())
-                .orderByDesc(RoleDO::getId));
+                .orderByDesc(SysRoleDO::getId));
     }
 
-    default List<RoleDO> selectList(RoleExportReqVO reqVO) {
-        return selectList(new LambdaQueryWrapperX<RoleDO>()
-                .likeIfPresent(RoleDO::getName, reqVO.getName())
-                .likeIfPresent(RoleDO::getCode, reqVO.getCode())
-                .eqIfPresent(RoleDO::getStatus, reqVO.getStatus())
+    default List<SysRoleDO> selectList(RoleExportReqVO reqVO) {
+        return selectList(new LambdaQueryWrapperX<SysRoleDO>()
+                .likeIfPresent(SysRoleDO::getName, reqVO.getName())
+                .likeIfPresent(SysRoleDO::getCode, reqVO.getCode())
+                .eqIfPresent(SysRoleDO::getStatus, reqVO.getStatus())
                 .betweenIfPresent(BaseDO::getCreateTime, reqVO.getCreateTime()));
     }
 
-    default RoleDO selectByName(String name) {
-        return selectOne(RoleDO::getName, name);
+    default SysRoleDO selectByName(String name) {
+        return selectOne(SysRoleDO::getName, name);
     }
 
-    default RoleDO selectByCode(String code) {
-        return selectOne(RoleDO::getCode, code);
+    default SysRoleDO selectByCode(String code) {
+        return selectOne(SysRoleDO::getCode, code);
     }
 
-    default List<RoleDO> selectListByStatus(@Nullable Collection<Integer> statuses) {
-        return selectList(RoleDO::getStatus, statuses);
+    default List<SysRoleDO> selectListByStatus(@Nullable Collection<Integer> statuses) {
+        return selectList(SysRoleDO::getStatus, statuses);
     }
 
 }

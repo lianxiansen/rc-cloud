@@ -1,12 +1,12 @@
 package com.rc.cloud.app.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
+import com.rc.cloud.app.system.api.dept.model.SysDeptDO;
+import com.rc.cloud.app.system.api.permission.model.SysRoleDO;
 import com.rc.cloud.app.system.common.datapermission.core.annotation.DataPermission;
 import com.rc.cloud.app.system.convert.user.UserConvert;
-import com.rc.cloud.app.system.model.dept.DeptDO;
-import com.rc.cloud.app.system.model.dept.PostDO;
-import com.rc.cloud.app.system.model.permission.RoleDO;
-import com.rc.cloud.app.system.model.user.AdminUserDO;
+import com.rc.cloud.app.system.api.dept.model.SysPostDO;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
@@ -54,19 +54,19 @@ public class UserProfileController {
     @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
     public CodeResult<UserProfileRespVO> profile() {
         // 获得用户基本信息
-        AdminUserDO user = userService.getUser(getLoginUserId());
+        SysUserDO user = userService.getUser(getLoginUserId());
         UserProfileRespVO resp = UserConvert.INSTANCE.convert03(user);
         // 获得用户角色
-        List<RoleDO> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
+        List<SysRoleDO> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
         resp.setRoles(UserConvert.INSTANCE.convertList(userRoles));
         // 获得部门信息
         if (user.getDeptId() != null) {
-            DeptDO dept = deptService.getDept(user.getDeptId());
+            SysDeptDO dept = deptService.getDept(user.getDeptId());
             resp.setDept(UserConvert.INSTANCE.convert02(dept));
         }
         // 获得岗位信息
         if (CollUtil.isNotEmpty(user.getPostIds())) {
-            List<PostDO> posts = postService.getPostList(user.getPostIds());
+            List<SysPostDO> posts = postService.getPostList(user.getPostIds());
             resp.setPosts(UserConvert.INSTANCE.convertList02(posts));
         }
         return CodeResult.ok(resp);

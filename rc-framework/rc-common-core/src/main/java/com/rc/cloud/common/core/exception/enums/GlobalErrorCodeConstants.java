@@ -17,6 +17,8 @@ public interface GlobalErrorCodeConstants {
     ErrorCode UN_AUTHORIZATION = new ErrorCode(10000, "认证失败");
     ErrorCode UN_AUTHENTICATION = new ErrorCode(10010, "授权失败");
     ErrorCode NOT_FOUND = new ErrorCode(10020, "资源不存在");
+    ErrorCode NOT_FOUND_HTTP_SERVLET_REQUEST = new ErrorCode(10021, "无法获取HttpServletRequest");
+
     ErrorCode PARAMETER_ERROR = new ErrorCode(10030, "请求参数不正确");
     ErrorCode TOKEN_INVALID = new ErrorCode(10040, "令牌失效");
     ErrorCode TOKEN_EXPIRED = new ErrorCode(10041, "令牌过期");

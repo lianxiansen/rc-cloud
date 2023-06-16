@@ -1,18 +1,15 @@
 package com.rc.cloud.app.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
+import com.rc.cloud.app.system.api.dept.model.SysDeptDO;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import com.rc.cloud.app.system.convert.user.UserConvert;
-import com.rc.cloud.app.system.model.dept.DeptDO;
-import com.rc.cloud.app.system.model.user.AdminUserDO;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.user.user.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
-import com.rc.cloud.common.core.enums.SexEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
-import com.rc.cloud.common.core.util.collection.MapUtils;
 import com.rc.cloud.common.core.web.CodeResult;
-import com.rc.cloud.common.excel.util.ExcelUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,9 +18,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.*;
 
 import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertList;
@@ -87,14 +82,14 @@ public class UserController {
 //    @PreAuthorize("@ss.hasPermission('system:user:list')")
     public CodeResult<PageResult<UserPageItemRespVO>> getUserPage(@Valid UserPageReqVO reqVO) {
         // 获得用户分页列表
-        PageResult<AdminUserDO> pageResult = userService.getUserPage(reqVO);
+        PageResult<SysUserDO> pageResult = userService.getUserPage(reqVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
             return CodeResult.ok(new PageResult<>(pageResult.getTotal())); // 返回空
         }
 
         // 获得拼接需要的数据
-        Collection<Long> deptIds = convertList(pageResult.getList(), AdminUserDO::getDeptId);
-        Map<Long, DeptDO> deptMap = deptService.getDeptMap(deptIds);
+        Collection<Long> deptIds = convertList(pageResult.getList(), SysUserDO::getDeptId);
+        Map<Long, SysDeptDO> deptMap = deptService.getDeptMap(deptIds);
         // 拼接结果返回
         List<UserPageItemRespVO> userList = new ArrayList<>(pageResult.getList().size());
         pageResult.getList().forEach(user -> {
@@ -109,7 +104,7 @@ public class UserController {
     @Operation(summary = "获取用户精简信息列表", description = "只包含被开启的用户，主要用于前端的下拉选项")
     public CodeResult<List<UserSimpleRespVO>> getSimpleUserList() {
         // 获用户列表，只要开启状态的
-        List<AdminUserDO> list = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
+        List<SysUserDO> list = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
         // 排序后，返回给前端
         return CodeResult.ok(UserConvert.INSTANCE.convertList04(list));
     }
@@ -119,9 +114,9 @@ public class UserController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 //    @PreAuthorize("@ss.hasPermission('system:user:query')")
     public CodeResult<UserRespVO> getUser(@PathVariable("id") Long id) {
-        AdminUserDO user = userService.getUser(id);
+        SysUserDO user = userService.getUser(id);
         // 获得部门数据
-        DeptDO dept = deptService.getDept(user.getDeptId());
+        SysDeptDO dept = deptService.getDept(user.getDeptId());
         UserPageItemRespVO userPageItemRespVO = UserConvert.INSTANCE.convert(user);
         userPageItemRespVO.setDept(UserConvert.INSTANCE.convert(dept));
         return CodeResult.ok(userPageItemRespVO);

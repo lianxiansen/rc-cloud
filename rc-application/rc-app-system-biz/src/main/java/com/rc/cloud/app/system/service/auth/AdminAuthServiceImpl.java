@@ -8,7 +8,7 @@ import com.rc.cloud.app.system.enums.login.LoginLogTypeEnum;
 import com.rc.cloud.app.system.enums.token.TokenTypeEnum;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
-import com.rc.cloud.app.system.model.user.AdminUserDO;
+import com.rc.cloud.app.system.api.user.model.SysUserDO;
 import com.rc.cloud.app.system.service.captcha.CaptchaService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
@@ -70,10 +70,10 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private TokenStoreCache tokenStoreCache;
 
     @Override
-    public AdminUserDO authenticate(String username, String password) {
+    public SysUserDO authenticate(String username, String password) {
         final LoginLogTypeEnum logTypeEnum = LoginLogTypeEnum.LOGIN_USERNAME;
         // 校验账号是否存在
-        AdminUserDO user = userService.getUserByUsername(username);
+        SysUserDO user = userService.getUserByUsername(username);
         if (user == null) {
 //            createLoginLog(null, username, logTypeEnum, LoginResultEnum.BAD_CREDENTIALS);
             throw exception(AUTH_LOGIN_BAD_CREDENTIALS);
@@ -96,7 +96,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         validateCaptcha(reqVO);
 
         // 使用账号密码，进行登录
-        AdminUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
+        SysUserDO user = authenticate(reqVO.getUsername(), reqVO.getPassword());
 
         // 创建 Token 令牌，并记录登录日志
         return createTokenAfterLoginSuccess(user.getId(), reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
@@ -156,16 +156,16 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     @Override
     public AuthLoginRespVO refreshToken(String refreshToken) {
         // 检查refreshToken是否有效
-        AdminUserDO adminUserDO = validateRefreshToken(refreshToken);
+        SysUserDO sysUserDO = validateRefreshToken(refreshToken);
 
         // 从缓存中删除access_token和refresh_token
-        deleteJwtTokenByUsername(adminUserDO.getUsername());
+        deleteJwtTokenByUsername(sysUserDO.getUsername());
 
         // 生成token
-        return createDoubleToken(adminUserDO.getId(), adminUserDO.getUsername());
+        return createDoubleToken(sysUserDO.getId(), sysUserDO.getUsername());
     }
 
-    private AdminUserDO validateRefreshToken(String refreshToken) {
+    private SysUserDO validateRefreshToken(String refreshToken) {
         // 检查token是否有效
         if (!doubleJWTUtil.checkToken(refreshToken, TokenTypeEnum.REFRESH_TOKEN.getValue())) {
             throw exception(REFRESH_TOKEN_EXPIRED);
@@ -196,13 +196,13 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @Override
-    public Optional<AdminUserDO> findOptionalByUsernameWithAuthorities(String username) {
-        Optional<AdminUserDO> optionalByUsername = adminUserMapper.findOptionalByUsername(username);
+    public Optional<SysUserDO> findOptionalByUsernameWithAuthorities(String username) {
+        Optional<SysUserDO> optionalByUsername = adminUserMapper.findOptionalByUsername(username);
         if (!optionalByUsername.isPresent()) {
             return Optional.empty();
         } else {
-            AdminUserDO adminUserDO = optionalByUsername.get();
-            Set<String> userAuthority = permissionService.getPermissionListByUserId(adminUserDO.getId());
+            SysUserDO sysUserDO = optionalByUsername.get();
+            Set<String> userAuthority = permissionService.getPermissionListByUserId(sysUserDO.getId());
             optionalByUsername.ifPresent(adminUserDO1 ->
                     adminUserDO1.setAuthorities(userAuthority));
         }
@@ -248,7 +248,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         if (userId == null) {
             return null;
         }
-        AdminUserDO user = userService.getUser(userId);
+        SysUserDO user = userService.getUser(userId);
         return user != null ? user.getUsername() : null;
     }
 

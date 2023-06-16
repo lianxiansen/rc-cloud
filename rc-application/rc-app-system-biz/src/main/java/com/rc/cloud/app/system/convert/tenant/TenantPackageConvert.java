@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.convert.tenant;
 
-import com.rc.cloud.app.system.model.tenant.TenantPackageDO;
+import com.rc.cloud.app.system.api.tenant.model.SysTenantPackageDO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageRespVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageSimpleRespVO;
@@ -21,16 +21,16 @@ public interface TenantPackageConvert {
 
     TenantPackageConvert INSTANCE = Mappers.getMapper(TenantPackageConvert.class);
 
-    TenantPackageDO convert(TenantPackageCreateReqVO bean);
+    SysTenantPackageDO convert(TenantPackageCreateReqVO bean);
 
-    TenantPackageDO convert(TenantPackageUpdateReqVO bean);
+    SysTenantPackageDO convert(TenantPackageUpdateReqVO bean);
 
-    TenantPackageRespVO convert(TenantPackageDO bean);
+    TenantPackageRespVO convert(SysTenantPackageDO bean);
 
-    List<TenantPackageRespVO> convertList(List<TenantPackageDO> list);
+    List<TenantPackageRespVO> convertList(List<SysTenantPackageDO> list);
 
-    PageResult<TenantPackageRespVO> convertPage(PageResult<TenantPackageDO> page);
+    PageResult<TenantPackageRespVO> convertPage(PageResult<SysTenantPackageDO> page);
 
-    List<TenantPackageSimpleRespVO> convertList02(List<TenantPackageDO> list);
+    List<TenantPackageSimpleRespVO> convertList02(List<SysTenantPackageDO> list);
 
 }
