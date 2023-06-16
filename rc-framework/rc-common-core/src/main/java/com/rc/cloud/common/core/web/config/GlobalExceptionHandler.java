@@ -31,7 +31,7 @@ import static com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants.
  * @date 2023-06-02
  **/
 /**
- * 全局异常处理器，将 Exception 翻译成 CommonResult + 对应的异常编号
+ * 全局异常处理器，将 Exception 翻译成 CodeResult + 对应的异常编号
  *
  * @author 芋道源码
  */
@@ -98,7 +98,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public CodeResult<?> missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException ex) {
         log.warn("[missingServletRequestParameterExceptionHandler]", ex);
-        return CodeResult.fail(BAD_REQUEST.getCode(), String.format("请求参数缺失:%s", ex.getParameterName()));
+        return CodeResult.fail(PARAMETER_ERROR.getCode(), String.format("请求参数缺失:%s", ex.getParameterName()));
     }
 
     /**
@@ -109,7 +109,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public CodeResult<?> methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex) {
         log.warn("[missingServletRequestParameterExceptionHandler]", ex);
-        return CodeResult.fail(BAD_REQUEST.getCode(), String.format("请求参数类型错误:%s", ex.getMessage()));
+        return CodeResult.fail(PARAMETER_ERROR.getCode(), String.format("请求参数类型错误:%s", ex.getMessage()));
     }
 
     /**
@@ -120,7 +120,7 @@ public class GlobalExceptionHandler {
         log.warn("[methodArgumentNotValidExceptionExceptionHandler]", ex);
         FieldError fieldError = ex.getBindingResult().getFieldError();
         assert fieldError != null; // 断言，避免告警
-        return CodeResult.fail(BAD_REQUEST.getCode(), String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
+        return CodeResult.fail(PARAMETER_ERROR.getCode(), String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
     }
 
     /**
@@ -131,7 +131,7 @@ public class GlobalExceptionHandler {
         log.warn("[handleBindException]", ex);
         FieldError fieldError = ex.getFieldError();
         assert fieldError != null; // 断言，避免告警
-        return CodeResult.fail(BAD_REQUEST.getCode(), String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
+        return CodeResult.fail(PARAMETER_ERROR.getCode(), String.format("请求参数不正确:%s", fieldError.getDefaultMessage()));
     }
 
     /**
@@ -141,7 +141,7 @@ public class GlobalExceptionHandler {
     public CodeResult<?> constraintViolationExceptionHandler(ConstraintViolationException ex) {
         log.warn("[constraintViolationExceptionHandler]", ex);
         ConstraintViolation<?> constraintViolation = ex.getConstraintViolations().iterator().next();
-        return CodeResult.fail(BAD_REQUEST.getCode(), String.format("请求参数不正确:%s", constraintViolation.getMessage()));
+        return CodeResult.fail(PARAMETER_ERROR.getCode(), String.format("请求参数不正确:%s", constraintViolation.getMessage()));
     }
 
     /**
@@ -151,7 +151,7 @@ public class GlobalExceptionHandler {
     public CodeResult<?> validationException(ValidationException ex) {
         log.warn("[constraintViolationExceptionHandler]", ex);
         // 无法拼接明细的错误信息，因为 Dubbo Consumer 抛出 ValidationException 异常时，是直接的字符串信息，且人类不可读
-        return CodeResult.fail(BAD_REQUEST);
+        return CodeResult.fail(PARAMETER_ERROR.getCode(), PARAMETER_ERROR.getMsg());
     }
 
     /**
@@ -220,7 +220,7 @@ public class GlobalExceptionHandler {
 //        this.createExceptionLog(req, ex);
         log.error("[defaultExceptionHandler][req({}) 服务器异常]", req.getRequestURL(), ex);
         // 返回 ERROR CommonResult
-        return CodeResult.fail(INTERNAL_SERVER_ERROR.getCode(), INTERNAL_SERVER_ERROR.getMsg());
+        return CodeResult.fail(UNKNOWN.getCode(), ex.getMessage()==null? UNKNOWN.getMsg():ex.getMessage());
     }
 
 //    private void createExceptionLog(HttpServletRequest req, Throwable e) {

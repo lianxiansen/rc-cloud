@@ -26,8 +26,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
+import static com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
-import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception0;
 
 /**
  * Auth Service 实现类
@@ -102,30 +102,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         return createTokenAfterLoginSuccess(user.getId(), reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
     }
 
-//    @Override
-//    public void sendSmsCode(AuthSmsSendReqVO reqVO) {
-//        // 登录场景，验证是否存在
-//        if (userService.getUserByMobile(reqVO.getMobile()) == null) {
-//            throw exception(AUTH_MOBILE_NOT_EXISTS);
-//        }
-//        // 发送验证码
-//        smsCodeApi.sendSmsCode(AuthConvert.INSTANCE.convert(reqVO).setCreateIp(getClientIP()));
-//    }
-
-//    @Override
-//    public AuthLoginRespVO smsLogin(AuthSmsLoginReqVO reqVO) {
-//        // 校验验证码
-//        smsCodeApi.useSmsCode(AuthConvert.INSTANCE.convert(reqVO, SmsSceneEnum.ADMIN_MEMBER_LOGIN.getScene(), getClientIP()));
-//
-//        // 获得用户信息
-//        AdminUserDO user = userService.getUserByMobile(reqVO.getMobile());
-//        if (user == null) {
-//            throw exception(USER_NOT_EXISTS);
-//        }
-//
-//        // 创建 Token 令牌，记录登录日志
-//        return createTokenAfterLoginSuccess(user.getId(), reqVO.getMobile(), LoginLogTypeEnum.LOGIN_MOBILE);
-//    }
 
 //    private void createLoginLog(Long userId, String username,
 //                                LoginLogTypeEnum logTypeEnum, LoginResultEnum loginResult) {
@@ -144,25 +120,6 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 //        if (userId != null && Objects.equals(LoginResultEnum.SUCCESS.getResult(), loginResult.getResult())) {
 //            userService.updateUserLogin(userId, ServletUtils.getClientIP());
 //        }
-//    }
-
-//    @Override
-//    public AuthLoginRespVO socialLogin(AuthSocialLoginReqVO reqVO) {
-//        // 使用 code 授权码，进行登录。然后，获得到绑定的用户编号
-//        Long userId = socialUserService.getBindUserId(UserTypeEnum.ADMIN.getValue(), reqVO.getType(),
-//                reqVO.getCode(), reqVO.getState());
-//        if (userId == null) {
-//            throw exception(AUTH_THIRD_LOGIN_NOT_BIND);
-//        }
-//
-//        // 获得用户
-//        AdminUserDO user = userService.getUser(userId);
-//        if (user == null) {
-//            throw exception(USER_NOT_EXISTS);
-//        }
-//
-//        // 创建 Token 令牌，记录登录日志
-//        return createTokenAfterLoginSuccess(user.getId(), user.getUsername(), LoginLogTypeEnum.LOGIN_SOCIAL);
 //    }
 
     @VisibleForTesting
@@ -211,7 +168,7 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     private AdminUserDO validateRefreshToken(String refreshToken) {
         // 检查token是否有效
         if (!doubleJWTUtil.checkToken(refreshToken, TokenTypeEnum.REFRESH_TOKEN.getValue())) {
-            throw exception0(10052, "刷新令牌已过期");
+            throw exception(REFRESH_TOKEN_EXPIRED);
         }
 
         // 从jwt token中获取用户名
@@ -219,11 +176,11 @@ public class AdminAuthServiceImpl implements AdminAuthService {
 
         // 验证refreshToken是否在缓存中
         if (!tokenStoreCache.validateHasJwtRefreshToken(refreshToken, username)) {
-            throw exception0(10042, "刷新令牌失效");
+            throw exception(REFRESH_TOKEN_INVALID);
         }
 
         // 查询用户信息: 用户不存在或者已被禁用
-        return adminUserMapper.findOptionalByUsername(username).orElseThrow(() -> exception0(500, "用户不存在"));
+        return adminUserMapper.findOptionalByUsername(username).orElseThrow(() -> exception(USER_NOT_EXISTS));
     }
 
     /**

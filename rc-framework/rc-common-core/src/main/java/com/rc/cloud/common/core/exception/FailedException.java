@@ -1,6 +1,6 @@
 package com.rc.cloud.common.core.exception;
 
-import com.rc.cloud.common.core.bean.Code;
+import com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants;
 import org.springframework.http.HttpStatus;
 
 /**
@@ -15,12 +15,12 @@ public class FailedException extends HttpException {
 
     private static final long serialVersionUID = -661265124636854465L;
 
-    protected int code = Code.FAIL.getCode();
+    protected int code = GlobalErrorCodeConstants.FAIL.getCode();
 
-    protected int httpCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
+    protected int httpCode = HttpStatus.OK.value();
 
     public FailedException() {
-        super(Code.FAIL.getCode(), Code.FAIL.getDescription());
+        super(GlobalErrorCodeConstants.FAIL.getCode(), GlobalErrorCodeConstants.FAIL.getMsg());
         super.ifDefaultMessage=true;
     }
 
@@ -29,7 +29,7 @@ public class FailedException extends HttpException {
     }
 
     public FailedException(int code) {
-        super(code, Code.FAIL.getDescription());
+        super(code, GlobalErrorCodeConstants.FAIL.getMsg());
         this.code = code;
         super.ifDefaultMessage=true;
     }

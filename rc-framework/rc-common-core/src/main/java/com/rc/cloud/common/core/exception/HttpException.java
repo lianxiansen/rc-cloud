@@ -1,6 +1,6 @@
 package com.rc.cloud.common.core.exception;
 
-import com.rc.cloud.common.core.bean.Code;
+import com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants;
 import com.rc.cloud.common.core.interfaces.BaseResponse;
 import org.springframework.http.HttpStatus;
 
@@ -20,7 +20,7 @@ public class HttpException extends RuntimeException implements BaseResponse {
 
     protected int httpCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
 
-    protected int code = Code.INTERNAL_SERVER_ERROR.getCode();
+    protected int code = GlobalErrorCodeConstants.FAIL.getCode();
 
     /**
      * 是否是默认消息
@@ -32,7 +32,7 @@ public class HttpException extends RuntimeException implements BaseResponse {
     protected boolean ifDefaultMessage = true;
 
     public HttpException() {
-        super(Code.INTERNAL_SERVER_ERROR.getDescription());
+        super(GlobalErrorCodeConstants.FAIL.getMsg());
     }
 
     public HttpException(String message) {
@@ -41,12 +41,12 @@ public class HttpException extends RuntimeException implements BaseResponse {
     }
 
     public HttpException(int code) {
-        super(Code.INTERNAL_SERVER_ERROR.getDescription());
+        super(GlobalErrorCodeConstants.FAIL.getMsg());
         this.code = code;
     }
 
     public HttpException(int code, int httpCode) {
-        super(Code.INTERNAL_SERVER_ERROR.getDescription());
+        super(GlobalErrorCodeConstants.FAIL.getMsg());
         this.httpCode = httpCode;
         this.code = code;
     }

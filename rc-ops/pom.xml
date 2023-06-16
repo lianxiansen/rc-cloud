@@ -13,7 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>rc-monitor-server</module>
-        <module>rc-auth-server</module>
+        <module>rc-auth-server1</module>
         <module>rc-gateway-server</module>
         <module>rc-resource-server</module>
     </modules>

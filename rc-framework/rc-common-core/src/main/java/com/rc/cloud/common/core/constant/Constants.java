@@ -42,15 +42,15 @@ public class Constants
      */
     public static final String HTTPS = "https://";
 
-    /**
-     * 成功标记
-     */
-    public static final Integer SUCCESS = 200;
-
-    /**
-     * 失败标记
-     */
-    public static final Integer FAIL = 500;
+//    /**
+//     * 成功标记
+//     */
+//    public static final Integer SUCCESS = 200;
+//
+//    /**
+//     * 失败标记
+//     */
+//    public static final Integer FAIL = 500;
 
     /**
      * 登录成功

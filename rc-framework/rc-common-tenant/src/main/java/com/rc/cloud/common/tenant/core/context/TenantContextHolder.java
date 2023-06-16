@@ -1,9 +1,9 @@
 package com.rc.cloud.common.tenant.core.context;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
-import org.springframework.beans.factory.annotation.Value;
 
-import java.util.Objects;
+import static com.rc.cloud.app.system.enums.ErrorCodeConstants.TENANT_NOT_EXISTS;
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
 /**
  * 多租户上下文 Holder
@@ -39,7 +39,7 @@ public class TenantContextHolder {
     public static Long getRequiredTenantId() {
         Long tenantId = getTenantId();
         if (tenantId == null) {
-            throw new NullPointerException("TenantContextHolder 不存在租户编号");
+            throw exception(TENANT_NOT_EXISTS);
         }
         return tenantId;
     }

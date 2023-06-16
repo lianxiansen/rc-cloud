@@ -20,7 +20,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * 多租户 Security Web 过滤器
@@ -78,7 +77,7 @@ public class TenantSecurityWebFilter extends ApiRequestFilter {
             // 2. 如果请求未带租户的编号，不允许访问。
             if (tenantId == null) {
                 log.error("[doFilterInternal][URL({}/{}) 未传递租户编号]", request.getRequestURI(), request.getMethod());
-                ServletUtils.writeJSON(response, CodeResult.fail(GlobalErrorCodeConstants.BAD_REQUEST.getCode(),
+                ServletUtils.writeJSON(response, CodeResult.fail(GlobalErrorCodeConstants.PARAMETER_ERROR.getCode(),
                         "请求的租户标识未传递，请进行排查"));
                 return;
             }

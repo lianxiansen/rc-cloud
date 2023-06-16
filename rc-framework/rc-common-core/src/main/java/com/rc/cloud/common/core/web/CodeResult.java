@@ -1,6 +1,8 @@
 package com.rc.cloud.common.core.web;
 
 import com.rc.cloud.common.core.constant.Constants;
+import com.rc.cloud.common.core.exception.ErrorCode;
+import com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants;
 
 import java.io.Serializable;
 
@@ -14,10 +16,10 @@ public class CodeResult<T> implements Serializable
     private static final long serialVersionUID = 1L;
 
     /** 成功 */
-    public static final int SUCCESS = Constants.SUCCESS;
+    public static final ErrorCode SUCCESS = GlobalErrorCodeConstants.SUCCESS;
 
     /** 失败 */
-    public static final int FAIL = Constants.FAIL;
+    public static final ErrorCode FAIL = GlobalErrorCodeConstants.FAIL;
 
     private boolean success;
 
@@ -29,42 +31,42 @@ public class CodeResult<T> implements Serializable
 
     public static <T> CodeResult<T> ok()
     {
-        return restResult(null,true, SUCCESS, null);
+        return restResult(null,true, SUCCESS.getCode(), SUCCESS.getMsg());
     }
 
     public static <T> CodeResult<T> ok(T data)
     {
-        return restResult(data, true, SUCCESS, null);
+        return restResult(data, true, SUCCESS.getCode(), SUCCESS.getMsg());
     }
 
     public static <T> CodeResult<T> ok(T data, String msg)
     {
-        return restResult(data, true, SUCCESS, msg);
+        return restResult(data, true, SUCCESS.getCode(), msg);
     }
 
     public static <T> CodeResult<T> fail()
     {
-        return restResult(null,false, FAIL, null);
+        return restResult(null,false, FAIL.getCode(), FAIL.getMsg());
     }
 
     public static <T> CodeResult<T> fail(String msg)
     {
-        return restResult(null,false, FAIL, msg);
+        return restResult(null,false, FAIL.getCode(), msg);
     }
 
     public static <T> CodeResult<T> fail(T data)
     {
-        return restResult(data, false,FAIL, null);
+        return restResult(data, false, FAIL.getCode(), FAIL.getMsg());
     }
 
     public static <T> CodeResult<T> fail(T data, String msg)
     {
-        return restResult(data, false,FAIL, msg);
+        return restResult(data, false, FAIL.getCode(), msg);
     }
 
     public static <T> CodeResult<T> fail(int code, String msg)
     {
-        return restResult(null, false,code, msg);
+        return restResult(null, false, code, msg);
     }
 
     public static <T> CodeResult<T> fail(Integer code, String msg)
