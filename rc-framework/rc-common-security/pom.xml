@@ -41,6 +41,11 @@
             <artifactId>hutool-extra</artifactId>
             <version>5.8.18</version>
         </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-redis</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
 </project>

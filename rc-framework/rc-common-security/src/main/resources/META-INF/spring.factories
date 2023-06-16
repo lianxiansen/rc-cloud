@@ -1,3 +1,9 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.rc.cloud.common.security.component.RcSecurityMessageSourceConfiguration
+    com.rc.cloud.common.security.component.RcSecurityMessageSourceConfiguration ,\
+    com.rc.cloud.common.security.service.RcRedisOAuth2AuthorizationService ,\
+    com.rc.cloud.common.security.service.RcUserDetailsServiceImpl ,\
+    com.rc.cloud.common.security.service.RcAppUserDetailsServiceImpl ,\
+    com.rc.cloud.common.security.service.RcRedisOAuth2AuthorizationConsentService ,\
+    com.rc.cloud.common.security.component.RcSecurityInnerAspect ,\
+    com.rc.cloud.common.security.service.RcRemoteRegisteredClientRepository

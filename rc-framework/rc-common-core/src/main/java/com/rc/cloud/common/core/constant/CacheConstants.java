@@ -12,4 +12,14 @@ public interface CacheConstants {
      * 用户信息缓存
      */
     String USER_DETAILS = "user_details";
+
+    /**
+     * oauth 缓存前缀
+     */
+    String PROJECT_OAUTH_ACCESS = "token::access_token";
+
+    /**
+     * oauth 客户端信息
+     */
+    String CLIENT_DETAILS_KEY = "client:details";
 }

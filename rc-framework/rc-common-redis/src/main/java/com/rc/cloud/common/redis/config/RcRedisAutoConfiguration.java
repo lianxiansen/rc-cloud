@@ -1,7 +1,7 @@
 package com.rc.cloud.common.redis.config;
 
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -9,8 +9,8 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 /**
  * Redis 配置类
  */
-@AutoConfiguration
-public class YudaoRedisAutoConfiguration {
+@Configuration
+public class RcRedisAutoConfiguration {
 
     /**
      * 创建 RedisTemplate Bean，使用 JSON 序列化方式

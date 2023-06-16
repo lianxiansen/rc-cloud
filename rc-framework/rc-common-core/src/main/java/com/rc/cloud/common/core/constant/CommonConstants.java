@@ -6,7 +6,7 @@ package com.rc.cloud.common.core.constant;
  * @author hqf@rc
  * @date 2021-05-21
  **/
-public interface CommonConstant {
+public interface CommonConstants {
 
     /**
      * 用户ID
@@ -37,4 +37,34 @@ public interface CommonConstant {
      * Bearer
      */
     String AUTHORIZATION_PREFIX = "Bearer";
+
+    /**
+     * 请求开始时间
+     */
+    String REQUEST_START_TIME = "REQUEST-START-TIME";
+
+    /**
+     * 编码
+     */
+    String UTF8 = "UTF-8";
+
+    /**
+     * JSON 资源
+     */
+    String CONTENT_TYPE = "application/json; charset=utf-8";
+
+    /**
+     * 失败标记
+     */
+    Integer FAIL = 1;
+
+    /**
+     * 当前页
+     */
+    String CURRENT = "current";
+
+    /**
+     * size
+     */
+    String SIZE = "size";
 }

@@ -4,7 +4,7 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.rc.cloud.common.datasource.config.RcDataSourceAutoConfiguration;
 import com.rc.cloud.common.mybatis.config.RcMybatisAutoConfiguration;
-import com.rc.cloud.common.redis.config.YudaoRedisAutoConfiguration;
+import com.rc.cloud.common.redis.config.RcRedisAutoConfiguration;
 import com.rc.cloud.common.test.config.RedisTestConfiguration;
 import com.rc.cloud.common.test.config.SqlInitializationTestConfiguration;
 import org.redisson.spring.starter.RedissonAutoConfiguration;
@@ -42,7 +42,7 @@ public class BaseDbAndRedisUnitTest {
             // Redis 配置类
             RedisTestConfiguration.class, // Redis 测试配置类，用于启动 RedisServer
             RedisAutoConfiguration.class, // Spring Redis 自动配置类
-            YudaoRedisAutoConfiguration.class, // 自己的 Redis 配置类
+            RcRedisAutoConfiguration.class, // 自己的 Redis 配置类
             RedissonAutoConfiguration.class, // Redisson 自动高配置类
     })
     public static class Application {

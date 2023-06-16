@@ -2,7 +2,7 @@ package com.rc.cloud.common.core.util;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.rc.cloud.common.core.constant.CommonConstant;
+import com.rc.cloud.common.core.constant.CommonConstants;
 import groovy.util.logging.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -24,19 +24,19 @@ public class RequestUtils {
     }
 
     public static JSONObject getJwtPayload() {
-        String jwtPayload = getRequest().getHeader(CommonConstant.JWT_PAYLOAD_KEY);
+        String jwtPayload = getRequest().getHeader(CommonConstants.JWT_PAYLOAD_KEY);
         JSONObject jsonObject = JSONUtil.parseObj(jwtPayload);
         return jsonObject;
     }
 
     public static String getUserId() {
-        String userId = getJwtPayload().getStr(CommonConstant.USER_ID);
+        String userId = getJwtPayload().getStr(CommonConstants.USER_ID);
         return userId;
     }
 
 
     public static String getUserName() {
-        String userName = getJwtPayload().getStr(CommonConstant.USER_NAME);
+        String userName = getJwtPayload().getStr(CommonConstants.USER_NAME);
         return userName;
     }
 }
