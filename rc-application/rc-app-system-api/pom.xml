@@ -23,11 +23,6 @@
             <artifactId>rc-common-core</artifactId>
             <version>1.0.0</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.rc.cloud</groupId>-->
-<!--            <artifactId>rc-common-tenant</artifactId>-->
-<!--            <version>1.0.0</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.rc.cloud</groupId>
             <artifactId>rc-common-feign</artifactId>
