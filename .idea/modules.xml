@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/rc-ops/rc-auth-server/rc-auth-server.iml" filepath="$PROJECT_DIR$/rc-ops/rc-auth-server/rc-auth-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rc-ops/rc-auth-server/rc-auth-server1.iml" filepath="$PROJECT_DIR$/rc-ops/rc-auth-server/rc-auth-server1.iml" />
       <module fileurl="file://$PROJECT_DIR$/rc-framework/rc-common-core/rc-common-core.iml" filepath="$PROJECT_DIR$/rc-framework/rc-common-core/rc-common-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/rc-framework/rc-common-feign/rc-common-feign.iml" filepath="$PROJECT_DIR$/rc-framework/rc-common-feign/rc-common-feign.iml" />
       <module fileurl="file://$PROJECT_DIR$/rc-framework/rc-common-log/rc-common-log.iml" filepath="$PROJECT_DIR$/rc-framework/rc-common-log/rc-common-log.iml" />

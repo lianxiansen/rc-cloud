@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="rc-resource-server" />
+        <module name="rc-auth-server1" />
         <module name="rc-common-core" />
         <module name="rc-common-redis" />
         <module name="rc-app-system-api" />
@@ -53,7 +54,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="rc-application" options="" />
-      <module name="rc-auth-server" options="" />
+      <module name="rc-auth-server1" options="" />
       <module name="rc-common-core" options="" />
       <module name="rc-common-feign" options="" />
       <module name="rc-common-log" options="" />

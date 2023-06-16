@@ -24,11 +24,6 @@
         </dependency>
         <dependency>
             <groupId>com.rc.cloud</groupId>
-            <artifactId>rc-common-core</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.rc.cloud</groupId>
             <artifactId>rc-common-redis</artifactId>
             <version>1.0.0</version>
         </dependency>
@@ -75,12 +70,6 @@
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-authorization-server</artifactId>
-            <version>0.4.2</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>

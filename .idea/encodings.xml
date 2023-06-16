@@ -44,6 +44,8 @@
     <file url="file://$PROJECT_DIR$/rc-framework/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rc-ops/rc-auth-server1/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/rc-ops/rc-auth-server1/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/rc-ops/rc-monitor-server/src/main/java" charset="UTF-8" />

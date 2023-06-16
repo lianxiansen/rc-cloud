@@ -4,21 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完善access_token错误异常处理">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/exception/SecurityAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/exception/SecurityAuthenticationEntryPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/auth/AdminAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/auth/AdminAuthServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/bean/Code.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/constant/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/constant/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/exception/FailedException.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/exception/FailedException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/exception/HttpException.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/exception/HttpException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/exception/enums/GlobalErrorCodeConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/exception/enums/GlobalErrorCodeConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/CodeResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/CodeResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/core/context/TenantContextHolder.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/core/context/TenantContextHolder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/core/security/TenantSecurityWebFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/core/security/TenantSecurityWebFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/core/web/TenantContextWebFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/core/web/TenantContextWebFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-auth-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/pom.xml" afterDir="false" />
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完善权限管理，重命名auth授权中心">
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/AuthServerApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-auth-server1/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server1/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,7 +123,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.SystemApplication">
+  <component name="RunManager" selected="Spring Boot.AuthServerApp">
     <configuration name="AuthControllerTests.getByErrorAccessToken_fail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
@@ -141,22 +135,6 @@
       <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.auth" />
       <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.auth.AuthControllerTests" />
       <option name="METHOD_NAME" value="getByErrorAccessToken_fail" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AuthControllerTests.loginWithErrorUsername_then_throwException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rc-app-system-biz" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.rc.cloud.app.system.contorller.admin.auth.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.rc.cloud.app.system.contorller.admin.auth" />
-      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.system.contorller.admin.auth.AuthControllerTests" />
-      <option name="METHOD_NAME" value="loginWithErrorUsername_then_throwException" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -182,6 +160,19 @@
       <module name="rc-app-system-biz" />
       <option name="TEST_OBJECT" value="directory" />
       <dir value="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/contorller/admin" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthServerApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="rc-auth-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.ops.auth.AuthServerApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.ops.auth.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -229,22 +220,22 @@
     </configuration>
     <list>
       <item itemvalue="JUnit.AuthControllerTests.getByErrorAccessToken_fail" />
-      <item itemvalue="JUnit.AuthControllerTests.loginWithErrorUsername_then_throwException" />
       <item itemvalue="JUnit.PostControllerTests.getPostByIdNotExist_then_throwNotFoundException" />
       <item itemvalue="JUnit.admin in rc-app-system-biz" />
       <item itemvalue="Spring Boot.AuthServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
       <item itemvalue="Spring Boot.MonitorServerApplication" />
       <item itemvalue="Spring Boot.ResourceServerApplication" />
+      <item itemvalue="Spring Boot.AuthServerApp" />
       <item itemvalue="Spring Boot.SystemApplication" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.AuthServerApp" />
         <item itemvalue="Spring Boot.SystemApplication" />
         <item itemvalue="JUnit.AuthControllerTests.getByErrorAccessToken_fail" />
         <item itemvalue="JUnit.admin in rc-app-system-biz" />
         <item itemvalue="JUnit.PostControllerTests.getPostByIdNotExist_then_throwNotFoundException" />
-        <item itemvalue="JUnit.AuthControllerTests.loginWithErrorUsername_then_throwException" />
       </list>
     </recent_temporary>
   </component>
@@ -285,6 +276,7 @@
       <workItem from="1686614222121" duration="27524000" />
       <workItem from="1686700257731" duration="29482000" />
       <workItem from="1686787283757" duration="6904000" />
+      <workItem from="1686874311065" duration="1017000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -517,7 +509,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686711305818</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="完善权限管理，重命名auth授权中心">
+      <created>1686874567528</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1686874567529</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -553,7 +552,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="完成登录的单元测试" />
     <MESSAGE value="完成登录的sad path单元测试" />
     <MESSAGE value="完成根据accessToken换取refreshToken的业务逻辑改造和单元测试" />
     <MESSAGE value="解决h2数据库初始化sql延迟的问题，完成退出登录的改造及单元测试" />
@@ -578,7 +576,8 @@
     <MESSAGE value="调整全局异常处理" />
     <MESSAGE value="解决code码set到data中的问题" />
     <MESSAGE value="完善access_token错误异常处理" />
-    <option name="LAST_COMMIT_MESSAGE" value="完善access_token错误异常处理" />
+    <MESSAGE value="完善权限管理，重命名auth授权中心" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善权限管理，重命名auth授权中心" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -629,7 +628,7 @@
           <option name="timeStamp" value="94" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/filter/CaptchaFilter.java</url>
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server1/src/main/java/com/rc/cloud/ops/auth/filter/CaptchaFilter.java</url>
           <line>37</line>
           <option name="timeStamp" value="106" />
         </line-breakpoint>

@@ -1,0 +1,15 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: rc-ops-auth
+
+rc:
+  info:
+    version: 1.0.0
+    base-package: com.rc.cloud
+  web:
+    admin-ui:
+      url: http://dashboard.rc.cn # Admin 管理后台 UI 的地址
+
