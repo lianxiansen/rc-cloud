@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SuppressWarnings("SpringComponentScan") // 忽略 IDEA 无法识别 ${rc.info.base-package}
 @SpringBootApplication()
-public class SystemApplication {
+public class SysServerApp {
     public static void main(String[] args) {
-        SpringApplication.run(SystemApplication.class, args);
+        SpringApplication.run(SysServerApp.class, args);
     }
 }
