@@ -4,6 +4,7 @@
  */
 package com.rc.cloud.ops.auth;
 
+import com.rc.cloud.common.feign.EnableRcFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2023-06-16
  **/
 @SpringBootApplication
+@EnableRcFeignClients
 public class AuthServerApp {
 
     public static void main(String[] args) {

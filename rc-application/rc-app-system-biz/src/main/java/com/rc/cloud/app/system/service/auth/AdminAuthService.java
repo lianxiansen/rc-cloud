@@ -36,30 +36,7 @@ public interface AdminAuthService {
     /**
      * 退出登录
      */
-    void logout();
-
-    /**
-     * 短信验证码发送
-     *
-     * @param reqVO 发送请求
-     */
-//    void sendSmsCode(AuthSmsSendReqVO reqVO);
-
-    /**
-     * 短信登录
-     *
-     * @param reqVO 登录信息
-     * @return 登录结果
-     */
-//    AuthLoginRespVO smsLogin(AuthSmsLoginReqVO reqVO) ;
-
-    /**
-     * 社交快捷登录，使用 code 授权码
-     *
-     * @param reqVO 登录信息
-     * @return 登录结果
-     */
-//    AuthLoginRespVO socialLogin(@Valid AuthSocialLoginReqVO reqVO);
+//    void logout();
 
     /**
      * 刷新访问令牌
@@ -67,8 +44,8 @@ public interface AdminAuthService {
      * @param refreshToken 刷新令牌
      * @return 登录结果
      */
-    AuthLoginRespVO refreshToken(String refreshToken);
+//    AuthLoginRespVO refreshToken(String refreshToken);
 
-    Optional<SysUserDO> findOptionalByUsernameWithAuthorities(String username);
+//    Optional<SysUserDO> findOptionalByUsernameWithAuthorities(String username);
 
 }

@@ -4,98 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完成auth服务">
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="移除无用依赖">
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/resources/spring/org.springframework.cloud.openfeign.FeignClient.imports" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/oauthclient/OauthClientDetailsMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauthclient/OauthClientDetailsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/oauthclient/OauthClientDetailsServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/client/feign/RemoteClientDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/oauthclient/feign/RemoteClientDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/client/model/SysOauthClientDetailsDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/oauthclient/entity/SysOauthClientDetailsDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/dept/model/SysDeptDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/dept/entity/SysDeptDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/dept/model/SysPostDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/dept/entity/SysPostDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/dept/model/SysUserPostDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/dept/entity/SysUserPostDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/dict/model/SysDictDataDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/dict/entity/SysDictDataDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/dict/model/SysDictTypeDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/dict/entity/SysDictTypeDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/permission/model/SysMenuDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/permission/entity/SysMenuDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/permission/model/SysRoleDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/permission/entity/SysRoleDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/permission/model/SysRoleMenuDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/permission/entity/SysRoleMenuDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/permission/model/SysUserRoleDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/permission/entity/SysUserRoleDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/tenant/model/SysTenantDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/tenant/entity/SysTenantDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/tenant/model/SysTenantPackageDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/tenant/entity/SysTenantPackageDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/user/dto/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/user/dto/UserInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/user/model/SysUserDO.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/user/entity/SysUserDO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/api/dict/DictDataApiImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/api/dict/DictDataApiImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/user/feign/RemoteUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/user/feign/RemoteUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/SysServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/SysServerApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/config/AuthIgnoreUrlsResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/config/AuthIgnoreUrlsResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/config/PasswordConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/config/PasswordConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/filter/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/filter/JwtFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/auth/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/auth/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/DeptController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/DeptController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dept/PostController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dict/DictDataController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dict/DictDataController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dict/DictTypeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/dict/DictTypeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/permission/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/permission/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/permission/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/permission/RoleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/tenant/TenantController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/tenant/TenantController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/tenant/TenantPackageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/tenant/TenantPackageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/user/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/user/UserProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/user/UserProfileController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/auth/AuthConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/auth/AuthConvert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/dept/DeptConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/dept/DeptConvert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/dept/PostConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/dept/PostConvert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/dict/DictDataConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/dict/DictDataConvert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/dict/DictTypeConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/dict/DictTypeConvert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/permission/MenuConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/permission/MenuConvert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/permission/RoleConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/permission/RoleConvert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/tenant/TenantConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/tenant/TenantConvert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/tenant/TenantPackageConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/tenant/TenantPackageConvert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/user/UserConvert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/convert/user/UserConvert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/dept/DeptMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/dept/DeptMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/dept/PostMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/dept/PostMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/dept/UserPostMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/dept/UserPostMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/dict/DictDataMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/dict/DictDataMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/dict/DictTypeMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/dict/DictTypeMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/permission/MenuMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/permission/MenuMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/permission/RoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/permission/RoleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/permission/RoleMenuMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/permission/RoleMenuMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/permission/UserRoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/permission/UserRoleMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/tenant/TenantMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/tenant/TenantMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/tenant/TenantPackageMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/tenant/TenantPackageMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/user/AdminUserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/mapper/user/AdminUserMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/auth/AdminAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/auth/AdminAuthService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/auth/AdminAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/auth/AdminAuthServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/DeptService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/DeptService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/DeptServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/DeptServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/PostService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/PostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dept/PostServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dict/DictDataService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dict/DictDataService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dict/DictDataServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dict/DictDataServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dict/DictTypeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dict/DictTypeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dict/DictTypeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/dict/DictTypeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/MenuService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/MenuServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/MenuServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/PermissionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/PermissionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/PermissionServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/PermissionServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/RoleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/RoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/permission/RoleServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantPackageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantPackageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantPackageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantPackageServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/TenantServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/handler/TenantInfoHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/tenant/handler/TenantInfoHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/user/AdminUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/user/AdminUserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/user/AdminUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/user/AdminUserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/user/SysUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/user/SysUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/user/SysUserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/user/SysUserDetailsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/user/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/service/user/UserDetailsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/auth/AdminAuthServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/auth/AdminAuthServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/dept/DeptServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/dept/DeptServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/dept/PostServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/dept/PostServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/dict/DictDataServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/dict/DictDataServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/dict/DictTypeServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/dict/DictTypeServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/permission/MenuServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/permission/MenuServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/permission/PermissionServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/permission/PermissionServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/permission/RoleServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/permission/RoleServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/tenant/TenantPackageServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/tenant/TenantPackageServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/tenant/TenantServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/tenant/TenantServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/user/AdminUserServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service/user/AdminUserServiceImplTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/service/RcRemoteRegisteredClientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/service/RcRemoteRegisteredClientRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/service/RcUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/service/RcUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/AuthServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/AuthServerApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +75,7 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "jdk.selected.JAVA_MODULE": "1.8 (3)",
-    "last_opened_file_path": "E:/project_code/rouchuan/rc-cloud/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/component",
+    "last_opened_file_path": "E:/project_code/rouchuan/rc-cloud/rc-application/rc-app-system-api/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -158,7 +85,7 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "MavenSettings",
-    "spring.configuration.checksum": "cf50240add1e14dab3f44cb1769b0360",
+    "spring.configuration.checksum": "c348bed10d00ca5cd9d47b3f2feea250",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -175,11 +102,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\project_code\rouchuan\rc-cloud\rc-application\rc-app-system-api\src\main\resources" />
       <recent name="E:\project_code\rouchuan\rc-cloud\rc-framework\rc-common-security\src\main\java\com\rc\cloud\common\security\component" />
       <recent name="E:\project_code\rouchuan\rc-cloud\rc-framework\rc-common-security\src\main\java\com\rc\cloud\common\security" />
       <recent name="E:\project_code\rouchuan\rc-cloud\rc-ops\rc-auth-server\src\main\java\com\rc\cloud\ops\auth\support" />
       <recent name="E:\project_code\rouchuan\rc-cloud\rc-application\rc-app-system-biz\src\main\resources" />
-      <recent name="E:\project_code\rouchuan\rc-cloud\rc-framework\rc-common-security\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\project_code\rouchuan\rc-cloud\rc-ops\rc-auth-server\src\main\resources\static" />
@@ -192,11 +119,11 @@
       <recent name="com.rc.clould.app.system.controller" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.rc.cloud.app.system.mapper.oauthclient" />
+      <recent name="com.rc.cloud.app.system.service.oauthclient" />
+      <recent name="com.rc.cloud.app.system.controller.admin.oauthclient" />
       <recent name="com.rc.cloud.common.security.service" />
       <recent name="com.rc.cloud.common.security.component" />
-      <recent name="com.rc.cloud.common.security.utils" />
-      <recent name="com.rc.cloud.app.system.api.token.vo" />
-      <recent name="com.rc.cloud.app.system.api.client.model" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -206,7 +133,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.SysServerApp">
+  <component name="RunManager" selected="Spring Boot.AuthServerApp">
     <configuration name="AuthControllerTests.getByErrorAccessToken_fail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <extension name="coverage">
@@ -308,8 +235,8 @@
       <list>
         <item itemvalue="Spring Boot.AuthServerApp" />
         <item itemvalue="Spring Boot.SysServerApp" />
-        <item itemvalue="JUnit.service in rc-app-system-biz" />
         <item itemvalue="JUnit.admin in rc-app-system-biz" />
+        <item itemvalue="JUnit.service in rc-app-system-biz" />
         <item itemvalue="JUnit.AuthControllerTests.getByErrorAccessToken_fail" />
       </list>
     </recent_temporary>
@@ -351,7 +278,8 @@
       <workItem from="1686614222121" duration="27524000" />
       <workItem from="1686700257731" duration="29482000" />
       <workItem from="1686787283757" duration="6904000" />
-      <workItem from="1686874311065" duration="23057000" />
+      <workItem from="1686874311065" duration="27569000" />
+      <workItem from="1686959794896" duration="1480000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -626,7 +554,21 @@
       <option name="project" value="LOCAL" />
       <updated>1686901308468</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="model改为entity">
+      <created>1686903099523</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1686903099523</updated>
+    </task>
+    <task id="LOCAL-00041" summary="移除无用依赖">
+      <created>1686903563855</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1686903563855</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -662,8 +604,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="解决token缓存时间不对的问题" />
-    <MESSAGE value="过滤权限为空的记录" />
     <MESSAGE value="完成获取部门列表和根据id获取部门的业务逻辑和单元测试" />
     <MESSAGE value="完成创建和更新部门的单元测试" />
     <MESSAGE value="完成删除部门和获取部门简单列表的单元测试" />
@@ -687,7 +627,9 @@
     <MESSAGE value="修改h2连接串" />
     <MESSAGE value="修改启动类名称" />
     <MESSAGE value="完成auth服务" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成auth服务" />
+    <MESSAGE value="model改为entity" />
+    <MESSAGE value="移除无用依赖" />
+    <option name="LAST_COMMIT_MESSAGE" value="移除无用依赖" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

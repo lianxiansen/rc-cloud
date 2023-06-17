@@ -46,57 +46,57 @@ public class AuthController {
     private PermissionService permissionService;
 
 
-    @PostMapping("/login")
-    @Operation(summary = "使用账号密码登录")
-    public CodeResult<AuthLoginRespVO> login(@RequestBody @Valid AuthLoginReqVO reqVO, HttpServletRequest request) {
-        return CodeResult.ok(authService.login(reqVO));
-    }
-
-    @GetMapping("/logout")
-    @Operation(summary = "登出系统")
-//    @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
-    public CodeResult<Boolean> logout() {
-        authService.logout();
-        return CodeResult.ok(true);
-    }
-
-    @PostMapping("/refresh-token")
-    @Operation(summary = "刷新令牌")
-    @Parameter(name = "refreshToken", description = "刷新令牌", required = true)
-//    @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
-    public CodeResult<AuthLoginRespVO> refreshToken(@RequestBody @Valid RefreshTokenVO sysRefreshTokenDTO) {
-        return CodeResult.ok(authService.refreshToken(sysRefreshTokenDTO.getRefreshToken()));
-    }
-
-    @GetMapping("/get-permission-info")
-    @Operation(summary = "获取登录用户的权限信息")
-    public CodeResult<AuthPermissionInfoRespVO> getPermissionInfo() {
-        // 获得用户信息
-        SysUserDO user = userService.getUser(getLoginUserId());
-        if (user == null) {
-            return null;
-        }
-        // 获得角色列表
-        Set<Long> roleIds = permissionService.getUserRoleIdsFromCache(getLoginUserId(), singleton(CommonStatusEnum.ENABLE.getStatus()));
-        List<SysRoleDO> roleList = roleService.getRoleListFromCache(roleIds);
-        // 获得菜单列表
-        List<SysMenuDO> menuList = permissionService.getRoleMenuListFromCache(roleIds,
-                SetUtils.asSet(MenuTypeEnum.DIR.getType(), MenuTypeEnum.MENU.getType(), MenuTypeEnum.BUTTON.getType()),
-                singleton(CommonStatusEnum.ENABLE.getStatus())); // 只要开启的
-        // 拼接结果返回
-        return CodeResult.ok(AuthConvert.INSTANCE.convert(user, roleList, menuList));
-    }
-
-    @GetMapping("/list-menus")
-    @Operation(summary = "获得登录用户的菜单列表")
-    public CodeResult<List<AuthMenuRespVO>> getMenuList() {
-        // 获得角色列表
-        Set<Long> roleIds = permissionService.getUserRoleIdsFromCache(getLoginUserId(), singleton(CommonStatusEnum.ENABLE.getStatus()));
-        // 获得用户拥有的菜单列表
-        List<SysMenuDO> menuList = permissionService.getRoleMenuListFromCache(roleIds,
-                SetUtils.asSet(MenuTypeEnum.DIR.getType(), MenuTypeEnum.MENU.getType()), // 只要目录和菜单类型
-                singleton(CommonStatusEnum.ENABLE.getStatus())); // 只要开启的
-        // 转换成 Tree 结构返回
-        return CodeResult.ok(AuthConvert.INSTANCE.buildMenuTree(menuList));
-    }
+//    @PostMapping("/login")
+//    @Operation(summary = "使用账号密码登录")
+//    public CodeResult<AuthLoginRespVO> login(@RequestBody @Valid AuthLoginReqVO reqVO, HttpServletRequest request) {
+//        return CodeResult.ok(authService.login(reqVO));
+//    }
+//
+//    @GetMapping("/logout")
+//    @Operation(summary = "登出系统")
+////    @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
+//    public CodeResult<Boolean> logout() {
+//        authService.logout();
+//        return CodeResult.ok(true);
+//    }
+//
+//    @PostMapping("/refresh-token")
+//    @Operation(summary = "刷新令牌")
+//    @Parameter(name = "refreshToken", description = "刷新令牌", required = true)
+////    @OperateLog(enable = false) // 避免 Post 请求被记录操作日志
+//    public CodeResult<AuthLoginRespVO> refreshToken(@RequestBody @Valid RefreshTokenVO sysRefreshTokenDTO) {
+//        return CodeResult.ok(authService.refreshToken(sysRefreshTokenDTO.getRefreshToken()));
+//    }
+//
+//    @GetMapping("/get-permission-info")
+//    @Operation(summary = "获取登录用户的权限信息")
+//    public CodeResult<AuthPermissionInfoRespVO> getPermissionInfo() {
+//        // 获得用户信息
+//        SysUserDO user = userService.getUser(getLoginUserId());
+//        if (user == null) {
+//            return null;
+//        }
+//        // 获得角色列表
+//        Set<Long> roleIds = permissionService.getUserRoleIdsFromCache(getLoginUserId(), singleton(CommonStatusEnum.ENABLE.getStatus()));
+//        List<SysRoleDO> roleList = roleService.getRoleListFromCache(roleIds);
+//        // 获得菜单列表
+//        List<SysMenuDO> menuList = permissionService.getRoleMenuListFromCache(roleIds,
+//                SetUtils.asSet(MenuTypeEnum.DIR.getType(), MenuTypeEnum.MENU.getType(), MenuTypeEnum.BUTTON.getType()),
+//                singleton(CommonStatusEnum.ENABLE.getStatus())); // 只要开启的
+//        // 拼接结果返回
+//        return CodeResult.ok(AuthConvert.INSTANCE.convert(user, roleList, menuList));
+//    }
+//
+//    @GetMapping("/list-menus")
+//    @Operation(summary = "获得登录用户的菜单列表")
+//    public CodeResult<List<AuthMenuRespVO>> getMenuList() {
+//        // 获得角色列表
+//        Set<Long> roleIds = permissionService.getUserRoleIdsFromCache(getLoginUserId(), singleton(CommonStatusEnum.ENABLE.getStatus()));
+//        // 获得用户拥有的菜单列表
+//        List<SysMenuDO> menuList = permissionService.getRoleMenuListFromCache(roleIds,
+//                SetUtils.asSet(MenuTypeEnum.DIR.getType(), MenuTypeEnum.MENU.getType()), // 只要目录和菜单类型
+//                singleton(CommonStatusEnum.ENABLE.getStatus())); // 只要开启的
+//        // 转换成 Tree 结构返回
+//        return CodeResult.ok(AuthConvert.INSTANCE.buildMenuTree(menuList));
+//    }
 }

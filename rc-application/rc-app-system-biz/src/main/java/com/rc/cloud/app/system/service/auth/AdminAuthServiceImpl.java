@@ -153,35 +153,35 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         return authLoginRespVO;
     }
 
-    @Override
-    public AuthLoginRespVO refreshToken(String refreshToken) {
-        // 检查refreshToken是否有效
-        SysUserDO sysUserDO = validateRefreshToken(refreshToken);
+//    @Override
+//    public AuthLoginRespVO refreshToken(String refreshToken) {
+//        // 检查refreshToken是否有效
+//        SysUserDO sysUserDO = validateRefreshToken(refreshToken);
+//
+//        // 从缓存中删除access_token和refresh_token
+//        deleteJwtTokenByUsername(sysUserDO.getUsername());
+//
+//        // 生成token
+//        return createDoubleToken(sysUserDO.getId(), sysUserDO.getUsername());
+//    }
 
-        // 从缓存中删除access_token和refresh_token
-        deleteJwtTokenByUsername(sysUserDO.getUsername());
-
-        // 生成token
-        return createDoubleToken(sysUserDO.getId(), sysUserDO.getUsername());
-    }
-
-    private SysUserDO validateRefreshToken(String refreshToken) {
-        // 检查token是否有效
-        if (!doubleJWTUtil.checkToken(refreshToken, TokenTypeEnum.REFRESH_TOKEN.getValue())) {
-            throw exception(REFRESH_TOKEN_EXPIRED);
-        }
-
-        // 从jwt token中获取用户名
-        String username = doubleJWTUtil.getUsernameFromRefreshToken(refreshToken);
-
-        // 验证refreshToken是否在缓存中
-        if (!tokenStoreCache.validateHasJwtRefreshToken(refreshToken, username)) {
-            throw exception(REFRESH_TOKEN_INVALID);
-        }
-
-        // 查询用户信息: 用户不存在或者已被禁用
-        return adminUserMapper.findOptionalByUsername(username).orElseThrow(() -> exception(USER_NOT_EXISTS));
-    }
+//    private SysUserDO validateRefreshToken(String refreshToken) {
+//        // 检查token是否有效
+//        if (!doubleJWTUtil.checkToken(refreshToken, TokenTypeEnum.REFRESH_TOKEN.getValue())) {
+//            throw exception(REFRESH_TOKEN_EXPIRED);
+//        }
+//
+//        // 从jwt token中获取用户名
+//        String username = doubleJWTUtil.getUsernameFromRefreshToken(refreshToken);
+//
+//        // 验证refreshToken是否在缓存中
+//        if (!tokenStoreCache.validateHasJwtRefreshToken(refreshToken, username)) {
+//            throw exception(REFRESH_TOKEN_INVALID);
+//        }
+//
+//        // 查询用户信息: 用户不存在或者已被禁用
+//        return adminUserMapper.findOptionalByUsername(username).orElseThrow(() -> exception(USER_NOT_EXISTS));
+//    }
 
     /**
      * 通过用户名删除缓存中的token
@@ -195,37 +195,37 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         tokenStoreCache.deleteJwtRefreshTokenByUsername(username);
     }
 
-    @Override
-    public Optional<SysUserDO> findOptionalByUsernameWithAuthorities(String username) {
-        Optional<SysUserDO> optionalByUsername = adminUserMapper.findOptionalByUsername(username);
-        if (!optionalByUsername.isPresent()) {
-            return Optional.empty();
-        } else {
-            SysUserDO sysUserDO = optionalByUsername.get();
-            Set<String> userAuthority = permissionService.getPermissionListByUserId(sysUserDO.getId());
-            optionalByUsername.ifPresent(adminUserDO1 ->
-                    adminUserDO1.setAuthorities(userAuthority));
-        }
-        return optionalByUsername;
-    }
+//    @Override
+//    public Optional<SysUserDO> findOptionalByUsernameWithAuthorities(String username) {
+//        Optional<SysUserDO> optionalByUsername = adminUserMapper.findOptionalByUsername(username);
+//        if (!optionalByUsername.isPresent()) {
+//            return Optional.empty();
+//        } else {
+//            SysUserDO sysUserDO = optionalByUsername.get();
+//            Set<String> userAuthority = permissionService.getPermissionListByUserId(sysUserDO.getId());
+//            optionalByUsername.ifPresent(adminUserDO1 ->
+//                    adminUserDO1.setAuthorities(userAuthority));
+//        }
+//        return optionalByUsername;
+//    }
 
     // HttpServletRequest request
 
-    @Override
-    public void logout() {
-        // 获取当前用户名
-        String username = doubleJWTUtil.getUsernameFromCurrentAccessToken();
-        // 从缓存中删除access_token和refresh_token
-        deleteJwtTokenByUsername(username);
-
-//        // 保存登录日志
-//        sysLogLoginService.save(username, Constant.SUCCESS, LoginOperationEnum.LOGOUT_SUCCESS.getValue());
+//    @Override
+//    public void logout() {
+//        // 获取当前用户名
+//        String username = doubleJWTUtil.getUsernameFromCurrentAccessToken();
+//        // 从缓存中删除access_token和refresh_token
+//        deleteJwtTokenByUsername(username);
 //
-//        // 登出
-//        if (StrUtil.isNotBlank(token)) {
-//            authService.logout(token, LoginLogTypeEnum.LOGOUT_SELF.getType());
-//        }
-    }
+////        // 保存登录日志
+////        sysLogLoginService.save(username, Constant.SUCCESS, LoginOperationEnum.LOGOUT_SUCCESS.getValue());
+////
+////        // 登出
+////        if (StrUtil.isNotBlank(token)) {
+////            authService.logout(token, LoginLogTypeEnum.LOGOUT_SELF.getType());
+////        }
+//    }
 
 //    private void createLogoutLog(Long userId, Integer userType, Integer logType) {
 //        LoginLogCreateReqDTO reqDTO = new LoginLogCreateReqDTO();

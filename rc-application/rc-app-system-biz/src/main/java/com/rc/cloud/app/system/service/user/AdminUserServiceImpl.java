@@ -5,19 +5,18 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.annotations.VisibleForTesting;
 import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
+import com.rc.cloud.app.system.api.dept.entity.SysUserPostDO;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.common.datapermission.core.util.DataPermissionUtils;
 import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.mapper.dept.UserPostMapper;
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
-import com.rc.cloud.app.system.api.dept.entity.SysUserPostDO;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.tenant.TenantService;
-import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
-
+import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserCreateReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserExportReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserPageReqVO;
@@ -29,7 +28,7 @@ import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,8 +63,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     private PostService postService;
     @Resource
     private PermissionService permissionService;
-    @Resource
-    private PasswordEncoder passwordEncoder;
+    private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
     @Resource
     @Lazy // 延迟，避免循环依赖报错
     private TenantService tenantService;
@@ -471,7 +469,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public boolean isPasswordMatch(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
+        return ENCODER.matches(rawPassword, encodedPassword);
     }
 
     /**
@@ -481,7 +479,7 @@ public class AdminUserServiceImpl implements AdminUserService {
      * @return 加密后的密码
      */
     private String encodePassword(String password) {
-        return passwordEncoder.encode(password);
+        return ENCODER.encode(password);
     }
 
 }

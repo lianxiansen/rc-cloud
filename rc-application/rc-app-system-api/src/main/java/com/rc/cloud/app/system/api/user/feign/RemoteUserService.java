@@ -4,6 +4,7 @@ import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.constant.ServiceNameConstants;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.feign.EnableRcFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
