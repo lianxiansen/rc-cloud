@@ -88,6 +88,9 @@ public class TokenController {
 
 	private final CacheManager cacheManager;
 
+	public void test () {
+	}
+
 	/**
 	 * 认证页面
 	 * @param modelAndView
