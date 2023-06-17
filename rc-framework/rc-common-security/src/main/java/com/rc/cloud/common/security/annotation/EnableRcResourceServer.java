@@ -19,6 +19,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Import({ RcResourceServerAutoConfiguration.class, RcResourceServerConfiguration.class })
-public @interface EnablePigResourceServer {
+public @interface EnableRcResourceServer {
 
 }

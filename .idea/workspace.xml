@@ -4,17 +4,43 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="注释无用接口，解决openfeign问题">
-      <change afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/utils/SecurityUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/support/base/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/support/handler/RcLogoutSuccessEventHandler.java" afterDir="false" />
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="解决启动问题">
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/GatewayServerApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/config/ResourceServerConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/config/RouterFunctionConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/config/WhiteListConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/controller/IndexApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/controller/IndexApi1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/filter/AuthGlobalFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/filter/RequestFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/security/AuthorizationManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/util/WebUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/resources/banner.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/resources/bootstrap.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-dependencies-parent/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-dependencies-parent/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-auth-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/SysServerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/SysServerApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/annotation/EnablePigResourceServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/annotation/EnableRcResourceServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/rc-gateway-server.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/GatewayServerApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/config/ResourceServerConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/config/RouterFunctionConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/config/WhiteListConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/controller/IndexApi.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/controller/IndexApi1.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/filter/AuthGlobalFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/filter/RequestFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/security/AuthorizationManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/util/WebUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/resources/banner.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/resources/bootstrap.yml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,37 +81,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8 (3)&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/project_code/rouchuan/rc-cloud/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/support&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;c348bed10d00ca5cd9d47b3f2feea250&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "1.8 (3)",
+    "last_opened_file_path": "E:/project_code/demos/pig/pig",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "spring.configuration.checksum": "c348bed10d00ca5cd9d47b3f2feea250",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;h2&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "h2"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -179,7 +206,7 @@
       </method>
     </configuration>
     <configuration name="GatewayServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-      <module name="rc-gateway-server" />
+      <module name="rc-gateway-server1" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.ops.gateway.GatewayServerApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -272,7 +299,8 @@
       <workItem from="1686787283757" duration="6904000" />
       <workItem from="1686874311065" duration="27569000" />
       <workItem from="1686959794896" duration="6968000" />
-      <workItem from="1686968369903" duration="1586000" />
+      <workItem from="1686968369903" duration="2349000" />
+      <workItem from="1686972182143" duration="1765000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -568,7 +596,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686961441431</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="解决启动问题">
+      <created>1686969988221</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1686969988221</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -604,7 +639,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="完成创建和更新部门的单元测试" />
     <MESSAGE value="完成删除部门和获取部门简单列表的单元测试" />
     <MESSAGE value="完成岗位的单元测试" />
     <MESSAGE value="完成数据字典相关单元测试" />
@@ -629,7 +663,8 @@
     <MESSAGE value="model改为entity" />
     <MESSAGE value="移除无用依赖" />
     <MESSAGE value="注释无用接口，解决openfeign问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="注释无用接口，解决openfeign问题" />
+    <MESSAGE value="解决启动问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="解决启动问题" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -700,14 +735,9 @@
           <option name="timeStamp" value="113" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/config/AuthorizationServerConfiguration.java</url>
-          <line>66</line>
-          <option name="timeStamp" value="116" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/config/AuthorizationServerConfiguration.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="117" />
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java</url>
+          <line>82</line>
+          <option name="timeStamp" value="118" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
