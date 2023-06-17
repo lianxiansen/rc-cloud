@@ -46,12 +46,6 @@
             <artifactId>rc-common-redis</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <!-- 用于测试 -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
 </project>

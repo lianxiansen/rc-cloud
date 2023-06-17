@@ -15,6 +15,7 @@
         <module name="rc-common-feign" />
         <module name="rc-monitor-server" />
         <module name="rc-common-security" />
+        <module name="rc-gateway-server1" />
         <module name="rc-common-mybatis" />
         <module name="rc-common-tenant" />
         <module name="rc-common-oss" />
@@ -65,7 +66,7 @@
       <module name="rc-common-tenant" options="" />
       <module name="rc-dependencies-parent" options="" />
       <module name="rc-framework" options="" />
-      <module name="rc-gateway-server" options="" />
+      <module name="rc-gateway-server1" options="" />
       <module name="rc-monitor-server" options="" />
       <module name="rc-ops" options="" />
       <module name="rc-resource-server" options="" />
