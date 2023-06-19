@@ -64,7 +64,7 @@ public class OauthClientDetailsController {
 	 */
 //	@SysLog("添加终端")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('sys_client_add')")
+//	@PreAuthorize("@pms.hasPermission('sys_client_add')")
 	public CodeResult<Boolean> add(@Valid @RequestBody SysOauthClientDetailsDO sysOauthClientDetails) {
 		return CodeResult.ok(oauthClientDetailsService.save(sysOauthClientDetails));
 	}
@@ -76,7 +76,7 @@ public class OauthClientDetailsController {
 	 */
 //	@SysLog("删除终端")
 	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('sys_client_del')")
+//	@PreAuthorize("@pms.hasPermission('sys_client_del')")
 	public CodeResult<Boolean> removeById(@PathVariable String id) {
 		return CodeResult.ok(oauthClientDetailsService.removeClientDetailsById(id));
 	}
@@ -88,14 +88,14 @@ public class OauthClientDetailsController {
 	 */
 //	@SysLog("编辑终端")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('sys_client_edit')")
+//	@PreAuthorize("@pms.hasPermission('sys_client_edit')")
 	public CodeResult<Boolean> update(@Valid @RequestBody SysOauthClientDetailsDO sysOauthClientDetails) {
 		return CodeResult.ok(oauthClientDetailsService.updateClientDetailsById(sysOauthClientDetails));
 	}
 
 //	@SysLog("清除终端缓存")
 	@DeleteMapping("/cache")
-	@PreAuthorize("@pms.hasPermission('sys_client_del')")
+//	@PreAuthorize("@pms.hasPermission('sys_client_del')")
 	public CodeResult clearClientCache() {
 		oauthClientDetailsService.clearClientCache();
 		return CodeResult.ok();

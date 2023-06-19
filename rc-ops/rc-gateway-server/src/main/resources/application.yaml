@@ -20,7 +20,7 @@ spring:
       routes:
         # 认证中心
         - id: pig-auth
-          uri: lb://pig-auth
+          uri: lb://rc-ops-auth
           predicates:
             - Path=/auth/**
           filters:
@@ -30,7 +30,7 @@ spring:
             - PasswordDecoderFilter
         #UPMS 模块
         - id: pig-upms-biz
-          uri: lb://pig-upms-biz
+          uri: lb://rc-app-system-biz
           predicates:
             - Path=/admin/**
           filters:
@@ -47,7 +47,7 @@ spring:
             - Path=/gen/**
         # 固定路由转发配置 无修改
         - id: openapi
-          uri: lb://pig-gateway
+          uri: lb://rc-ops-gateway
           predicates:
             - Path=/v3/api-docs/**
           filters:

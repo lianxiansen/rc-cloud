@@ -4,60 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="sys不加资源服务器注解没问题，加了报错">
-      <change afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/exception/CheckedException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/exception/ValidateCodeException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/src/main/resources/META-INF/spring.factories" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/config/GatewayConfigProperties.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/config/GatewayConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/config/RateLimiterConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/config/RouterFunctionConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/config/SpringDocConfiguration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/filter/ApiLoggingFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/filter/PasswordDecoderFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/filter/RcRequestGlobalFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/filter/SwaggerBasicGatewayFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/filter/ValidateCodeGatewayFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/handler/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/handler/ImageCodeHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完善授权中心，完成网关">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/user/feign/RemoteUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-api/src/main/java/com/rc/cloud/app/system/api/user/feign/RemoteUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/exception/SecurityAuthenticationEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/exception/SecurityAuthenticationEntryPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/filter/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/common/security/filter/JwtFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/auth/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/auth/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/constant/CacheConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/constant/CacheConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/constant/SecurityConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/constant/SecurityConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/BaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/src/main/java/com/rc/cloud/common/web/BaseController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/CodeResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/CodeResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/src/main/java/com/rc/cloud/common/web/config/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/config/YudaoWebAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/src/main/java/com/rc/cloud/common/web/config/YudaoWebAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/constant/ResultCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/src/main/java/com/rc/cloud/common/web/constant/ResultCode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/filter/ApiRequestFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/src/main/java/com/rc/cloud/common/web/filter/ApiRequestFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/util/WebFrameworkUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/util/WebFrameworkUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/validator/Assert.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/src/main/java/com/rc/cloud/common/web/validator/Assert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/validator/ValidatorUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/src/main/java/com/rc/cloud/common/web/validator/ValidatorUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/validator/group/AddGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/src/main/java/com/rc/cloud/common/web/validator/group/AddGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/validator/group/Group.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/src/main/java/com/rc/cloud/common/web/validator/group/Group.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/web/validator/group/UpdateGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-web/src/main/java/com/rc/cloud/common/web/validator/group/UpdateGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/resources/META-INF/spring.factories" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-mybatis/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/config/YudaoTenantAutoConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/config/YudaoTenantAutoConfiguration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/core/security/TenantSecurityWebFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-tenant/src/main/java/com/rc/cloud/common/tenant/core/security/TenantSecurityWebFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-auth-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-auth-server1/src/main/java/com/rc/cloud/ops/auth/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server1/src/main/java/com/rc/cloud/ops/auth/config/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/config/ResourceServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/config/ResourceServerConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/filter/AuthGlobalFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/filter/AuthGlobalFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/util/WebUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server1/src/main/java/com/rc/cloud/ops/gateway/util/WebUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-resource-server/src/main/java/com/rc/cloud/resource/api/OssController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-resource-server/src/main/java/com/rc/cloud/resource/api/OssController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/constant/ServiceNameConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/constant/ServiceNameConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,38 +50,38 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "1.8 (3)",
-    "last_opened_file_path": "E:/project_code/rouchuan/rc-cloud/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "MavenSettings",
-    "spring.configuration.checksum": "535e707cdc22706ff1585b4bbfb60a46",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8 (3)&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/project_code/rouchuan/rc-cloud/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;535e707cdc22706ff1585b4bbfb60a46&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "h2"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;h2&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -316,7 +268,8 @@
       <workItem from="1686968369903" duration="2349000" />
       <workItem from="1686972182143" duration="9959000" />
       <workItem from="1686994002708" duration="211000" />
-      <workItem from="1687131503503" duration="1966000" />
+      <workItem from="1687131503503" duration="2943000" />
+      <workItem from="1687137340672" duration="10883000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -633,7 +586,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686982738098</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="完善授权中心，完成网关">
+      <created>1687133544330</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1687133544330</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -669,7 +629,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="完成数据字典相关单元测试" />
     <MESSAGE value="完成租户相关单元测试" />
     <MESSAGE value="完成租户套餐单元测试" />
     <MESSAGE value="完成菜单单元测试" />
@@ -694,7 +653,8 @@
     <MESSAGE value="解决启动问题" />
     <MESSAGE value="重命名原来的gateway，并新增gateway" />
     <MESSAGE value="sys不加资源服务器注解没问题，加了报错" />
-    <option name="LAST_COMMIT_MESSAGE" value="sys不加资源服务器注解没问题，加了报错" />
+    <MESSAGE value="完善授权中心，完成网关" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善授权中心，完成网关" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -770,9 +730,109 @@
           <option name="timeStamp" value="118" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway/config/SpringDocConfiguration.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="119" />
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/support/password/OAuth2ResourceOwnerPasswordAuthenticationProvider.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="120" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/support/password/OAuth2ResourceOwnerPasswordAuthenticationProvider.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="121" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/support/password/OAuth2ResourceOwnerPasswordAuthenticationConverter.java</url>
+          <line>46</line>
+          <option name="timeStamp" value="122" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/service/RcUserDetailsServiceImpl.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="123" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/support/core/RcDaoAuthenticationProvider.java</url>
+          <line>95</line>
+          <option name="timeStamp" value="125" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/support/core/RcDaoAuthenticationProvider.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="126" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="134" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java</url>
+          <line>126</line>
+          <option name="timeStamp" value="135" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java</url>
+          <line>156</line>
+          <option name="timeStamp" value="136" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java</url>
+          <line>183</line>
+          <option name="timeStamp" value="138" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/support/base/OAuth2ResourceOwnerBaseAuthenticationToken.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="139" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/service/RcRemoteRegisteredClientRepository.java</url>
+          <line>88</line>
+          <option name="timeStamp" value="140" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/service/RcRedisOAuth2AuthorizationConsentService.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="141" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-framework/rc-common-security/src/main/java/com/rc/cloud/common/security/service/RcRemoteRegisteredClientRepository.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="142" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="143" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="145" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java</url>
+          <line>68</line>
+          <option name="timeStamp" value="146" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java</url>
+          <line>80</line>
+          <option name="timeStamp" value="147" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java</url>
+          <line>92</line>
+          <option name="timeStamp" value="148" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java</url>
+          <line>99</line>
+          <option name="timeStamp" value="149" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java</url>
+          <line>106</line>
+          <option name="timeStamp" value="151" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

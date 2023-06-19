@@ -158,7 +158,6 @@ public class TokenController {
 		if (authorization == null) {
 			return CodeResult.ok();
 		}
-
 		OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
 		if (accessToken == null || StrUtil.isBlank(accessToken.getToken().getTokenValue())) {
 			return CodeResult.ok();
