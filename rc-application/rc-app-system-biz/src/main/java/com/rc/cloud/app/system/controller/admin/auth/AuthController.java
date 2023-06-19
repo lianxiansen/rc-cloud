@@ -1,33 +1,17 @@
 package com.rc.cloud.app.system.controller.admin.auth;
 
-import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
-import com.rc.cloud.app.system.api.user.entity.SysUserDO;
-import com.rc.cloud.app.system.convert.auth.AuthConvert;
-import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
-import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
 import com.rc.cloud.app.system.service.auth.AdminAuthService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.permission.RoleService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
-import com.rc.cloud.app.system.vo.auth.*;
-import com.rc.cloud.common.core.enums.CommonStatusEnum;
-import com.rc.cloud.common.core.util.collection.SetUtils;
-import com.rc.cloud.common.core.web.CodeResult;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Set;
 
 import static com.rc.cloud.common.core.web.util.WebFrameworkUtils.getLoginUserId;
-import static java.util.Collections.singleton;
 
 @Tag(name = "管理后台 - 认证")
 @RestController

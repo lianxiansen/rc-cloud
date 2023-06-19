@@ -2,7 +2,7 @@ package com.rc.cloud.ops.auth.config;
 
 import com.google.gson.Gson;
 import com.rc.cloud.common.core.web.CodeResult;
-import com.rc.cloud.common.core.web.constant.ResultCode;
+import com.rc.cloud.common.web.constant.ResultCode;
 import com.rc.cloud.ops.auth.service.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

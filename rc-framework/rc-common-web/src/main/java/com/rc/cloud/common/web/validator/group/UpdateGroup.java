@@ -1,4 +1,4 @@
-package com.rc.cloud.common.core.web.validator.group;
+package com.rc.cloud.common.web.validator.group;
 
 /**
  * 更新数据 Group

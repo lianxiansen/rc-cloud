@@ -29,7 +29,6 @@
       <set>
         <option value="$PROJECT_DIR$/rc-application/rc-app-system/rc-sys-server/pom.xml" />
         <option value="$PROJECT_DIR$/rc-framework/rc-common-captcha/pom.xml" />
-        <option value="$PROJECT_DIR$/rc-framework/rc-common-web/pom.xml" />
       </set>
     </option>
   </component>

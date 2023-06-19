@@ -1,4 +1,4 @@
-package com.rc.cloud.common.core.web.validator;
+package com.rc.cloud.common.web.validator;
 
 import com.rc.cloud.common.core.exception.BaseException;
 import org.apache.commons.lang3.StringUtils;

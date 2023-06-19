@@ -1,23 +1,28 @@
 package com.rc.cloud.common.core.web.util;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.NumberUtil;
 import com.rc.cloud.common.core.enums.UserTypeEnum;
+import com.rc.cloud.common.core.exception.CheckedException;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.core.web.config.WebProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.context.request.RequestAttributes;
+import lombok.SneakyThrows;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotNull;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 import static com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants.NOT_FOUND_HTTP_SERVLET_REQUEST;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
-import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception0;
 
 /**
  * 专属于 web 包的工具类
@@ -33,6 +38,7 @@ public class WebFrameworkUtils {
     private static final String REQUEST_ATTRIBUTE_COMMON_RESULT = "common_result";
 
     public static final String HEADER_TENANT_ID = "tenant-id";
+    private static final String BASIC_ = "Basic ";
 
     private static WebProperties properties;
 
@@ -165,4 +171,39 @@ public class WebFrameworkUtils {
         }
         return Optional.of(servletRequestAttributes.getRequest());
     }
+
+    /**
+     * 从request 获取CLIENT_ID
+     * @return
+     */
+    @SneakyThrows
+    public static String getClientId(ServerHttpRequest request) {
+        String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        return splitClient(header)[0];
+    }
+
+    @NotNull
+    private static String[] splitClient(String header) {
+        if (header == null || !header.startsWith(BASIC_)) {
+            throw new CheckedException("请求头中client信息为空");
+        }
+        byte[] base64Token = header.substring(6).getBytes(StandardCharsets.UTF_8);
+        byte[] decoded;
+        try {
+            decoded = Base64.decode(base64Token);
+        }
+        catch (IllegalArgumentException e) {
+            throw new CheckedException("Failed to decode basic authentication token");
+        }
+
+        String token = new String(decoded, StandardCharsets.UTF_8);
+
+        int delim = token.indexOf(":");
+
+        if (delim == -1) {
+            throw new CheckedException("Invalid basic authentication token");
+        }
+        return new String[] { token.substring(0, delim), token.substring(delim + 1) };
+    }
+
 }

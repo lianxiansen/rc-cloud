@@ -104,4 +104,24 @@ public class SecurityConstants
      * {noop} 加密的特征码
      */
     public static final String NOOP = "{noop}";
+
+    /**
+     * 默认登录URL
+     */
+    public static final String OAUTH_TOKEN_URL = "/oauth2/token";
+
+    /**
+     * grant_type
+     */
+    public static final String REFRESH_TOKEN = "refresh_token";
+
+    /**
+     * 短信登录 参数名称
+     */
+    public static final String SMS_PARAMETER_NAME = "mobile";
+
+    /**
+     * 验证码有效期,默认 60秒
+     */
+    public static final long CODE_TIME = 60;
 }

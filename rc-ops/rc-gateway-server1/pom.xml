@@ -78,6 +78,11 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-web</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

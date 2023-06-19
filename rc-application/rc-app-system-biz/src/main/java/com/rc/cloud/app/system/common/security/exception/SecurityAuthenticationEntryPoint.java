@@ -1,6 +1,5 @@
 package com.rc.cloud.app.system.common.security.exception;
 
-import com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants;
 import com.rc.cloud.common.core.util.json.JsonUtils;
 import com.rc.cloud.common.core.web.CodeResult;
 import org.springframework.http.HttpHeaders;

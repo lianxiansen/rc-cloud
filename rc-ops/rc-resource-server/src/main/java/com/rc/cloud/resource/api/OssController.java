@@ -8,7 +8,7 @@ import cn.hutool.http.HttpUtil;
 import com.rc.cloud.common.core.exception.ServiceException2;
 import com.rc.cloud.common.core.util.file.FileUtils;
 import com.rc.cloud.common.core.validate.QueryGroup;
-import com.rc.cloud.common.core.web.BaseController;
+import com.rc.cloud.common.web.BaseController;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.mybatis.page.PageQuery;
 import com.rc.cloud.common.mybatis.page.TableDataInfo;

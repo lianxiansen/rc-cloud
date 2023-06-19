@@ -5,7 +5,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.nimbusds.jose.JWSObject;
 import com.rc.cloud.common.core.constant.AuthConstants;
-import com.rc.cloud.common.core.web.constant.ResultCode;
+import com.rc.cloud.common.web.constant.ResultCode;
 import com.rc.cloud.common.redis.util.RedisUtils;
 import com.rc.cloud.ops.gateway.util.WebUtils;
 import lombok.SneakyThrows;

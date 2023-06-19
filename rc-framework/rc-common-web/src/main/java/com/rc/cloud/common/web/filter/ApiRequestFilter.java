@@ -1,4 +1,4 @@
-package com.rc.cloud.common.core.web.filter;
+package com.rc.cloud.common.web.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.rc.cloud.common.core.web.config.WebProperties;

@@ -1,4 +1,4 @@
-package com.rc.cloud.common.core.web;
+package com.rc.cloud.common.web;
 
 import com.rc.cloud.common.core.web.CodeResult;
 

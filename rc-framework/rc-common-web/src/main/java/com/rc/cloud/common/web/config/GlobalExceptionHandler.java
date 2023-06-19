@@ -1,4 +1,4 @@
-package com.rc.cloud.common.core.web.config;
+package com.rc.cloud.common.web.config;
 
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.web.CodeResult;

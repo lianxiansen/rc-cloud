@@ -1,6 +1,5 @@
 package com.rc.cloud.common.core.web;
 
-import com.rc.cloud.common.core.constant.Constants;
 import com.rc.cloud.common.core.exception.ErrorCode;
 import com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants;
 

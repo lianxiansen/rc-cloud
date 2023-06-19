@@ -1,4 +1,4 @@
-package com.rc.cloud.common.core.web.constant;
+package com.rc.cloud.common.web.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

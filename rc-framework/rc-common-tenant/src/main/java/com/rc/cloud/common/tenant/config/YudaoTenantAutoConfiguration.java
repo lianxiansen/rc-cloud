@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import com.rc.cloud.app.system.api.tenant.TenantApi;
 import com.rc.cloud.common.core.enums.WebFilterOrderEnum;
-import com.rc.cloud.common.core.web.config.GlobalExceptionHandler;
+import com.rc.cloud.common.web.config.GlobalExceptionHandler;
 import com.rc.cloud.common.core.web.config.WebProperties;
 import com.rc.cloud.common.job.core.handler.JobHandler;
 import com.rc.cloud.common.mybatis.core.util.MyBatisUtils;

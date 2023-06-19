@@ -1,4 +1,4 @@
-package com.rc.cloud.common.core.web.validator.group;
+package com.rc.cloud.common.web.validator.group;
 
 import javax.validation.GroupSequence;
 

@@ -4,7 +4,7 @@ import cn.hutool.core.util.ArrayUtil;
 import com.rc.cloud.ops.gateway.util.WebUtils;
 import com.rc.cloud.common.core.constant.AuthConstants;
 import com.rc.cloud.ops.gateway.security.AuthorizationManager;
-import com.rc.cloud.common.core.web.constant.ResultCode;
+import com.rc.cloud.common.web.constant.ResultCode;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

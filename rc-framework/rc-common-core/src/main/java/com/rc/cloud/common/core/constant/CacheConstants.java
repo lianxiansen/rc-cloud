@@ -22,4 +22,9 @@ public interface CacheConstants {
      * oauth 客户端信息
      */
     String CLIENT_DETAILS_KEY = "client:details";
+
+    /**
+     * 验证码前缀
+     */
+    String DEFAULT_CODE_KEY = "DEFAULT_CODE_KEY:";
 }
