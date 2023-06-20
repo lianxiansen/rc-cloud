@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="完善授权中心，完成网关">
+    <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="修复授权中心">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/constant/ServiceNameConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-framework/rc-common-core/src/main/java/com/rc/cloud/common/core/constant/ServiceNameConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-auth-server/src/main/java/com/rc/cloud/ops/auth/controller/TokenController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-ops/rc-gateway-server/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +117,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.SysServerApp">
+  <component name="RunManager" selected="Spring Boot.GatewayServerApp">
     <configuration name="admin in rc-app-system-biz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <option name="TEST_OBJECT" value="directory" />
@@ -218,9 +214,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.GatewayServerApp" />
         <item itemvalue="Spring Boot.SysServerApp" />
         <item itemvalue="Spring Boot.AuthServerApp" />
-        <item itemvalue="Spring Boot.GatewayServerApp" />
         <item itemvalue="JUnit.admin in rc-app-system-biz" />
         <item itemvalue="JUnit.service in rc-app-system-biz" />
       </list>
@@ -269,7 +265,8 @@
       <workItem from="1686972182143" duration="9959000" />
       <workItem from="1686994002708" duration="211000" />
       <workItem from="1687131503503" duration="2943000" />
-      <workItem from="1687137340672" duration="10883000" />
+      <workItem from="1687137340672" duration="11146000" />
+      <workItem from="1687219296150" duration="680000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -593,7 +590,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687133544330</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="修复授权中心">
+      <created>1687166843810</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1687166843810</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -629,7 +633,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="完成租户相关单元测试" />
     <MESSAGE value="完成租户套餐单元测试" />
     <MESSAGE value="完成菜单单元测试" />
     <MESSAGE value="删除自定义auth2" />
@@ -654,7 +657,8 @@
     <MESSAGE value="重命名原来的gateway，并新增gateway" />
     <MESSAGE value="sys不加资源服务器注解没问题，加了报错" />
     <MESSAGE value="完善授权中心，完成网关" />
-    <option name="LAST_COMMIT_MESSAGE" value="完善授权中心，完成网关" />
+    <MESSAGE value="修复授权中心" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复授权中心" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
