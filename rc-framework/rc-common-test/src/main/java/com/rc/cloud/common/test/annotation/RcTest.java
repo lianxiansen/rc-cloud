@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.common.test;
+package com.rc.cloud.common.test.annotation;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;

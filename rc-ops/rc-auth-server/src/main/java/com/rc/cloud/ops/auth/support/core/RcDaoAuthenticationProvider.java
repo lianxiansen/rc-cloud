@@ -83,7 +83,8 @@ public class RcDaoAuthenticationProvider extends AbstractUserDetailsAuthenticati
 				.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
 		}
 		String presentedPassword = authentication.getCredentials().toString();
-		if (!this.passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
+		String dbPassword = userDetails.getPassword();
+		if (!this.passwordEncoder.matches(presentedPassword, dbPassword)) {
 			this.logger.debug("Failed to authenticate since password does not match stored value");
 			throw new BadCredentialsException(this.messages
 				.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));

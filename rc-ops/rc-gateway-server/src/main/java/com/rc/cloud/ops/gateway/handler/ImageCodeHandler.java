@@ -42,7 +42,6 @@ public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
 
 		// 保存验证码信息
 		Optional<String> randomStr = serverRequest.queryParam("randomStr");
-		stringRedisTemplate.setKeySerializer(new StringRedisSerializer());
 		randomStr.ifPresent(s -> stringRedisTemplate.opsForValue()
 			.set(CacheConstants.DEFAULT_CODE_KEY + s, result, SecurityConstants.CODE_TIME, TimeUnit.SECONDS));
 

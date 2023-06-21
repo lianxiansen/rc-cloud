@@ -2,14 +2,23 @@ package com.rc.cloud.app.system.service.user;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.annotations.VisibleForTesting;
 import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
+import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
 import com.rc.cloud.app.system.api.dept.entity.SysUserPostDO;
+import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
+import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
+import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.common.datapermission.core.util.DataPermissionUtils;
 import com.rc.cloud.app.system.convert.user.UserConvert;
+import com.rc.cloud.app.system.mapper.dept.PostMapper;
 import com.rc.cloud.app.system.mapper.dept.UserPostMapper;
+import com.rc.cloud.app.system.mapper.permission.MenuMapper;
+import com.rc.cloud.app.system.mapper.permission.RoleMapper;
+import com.rc.cloud.app.system.mapper.permission.UserRoleMapper;
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.dept.PostService;
@@ -28,7 +37,6 @@ import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
@@ -62,14 +71,28 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Resource
     private PostService postService;
     @Resource
+    private PostMapper postMapper;
+    @Resource
     private PermissionService permissionService;
-    private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
+    @Resource
+    private PasswordEncoder passwordEncoder;
     @Resource
     @Lazy // 延迟，避免循环依赖报错
     private TenantService tenantService;
 
     @Resource
     private UserPostMapper userPostMapper;
+
+    @Resource
+    private RoleMapper roleMapper;
+
+    @Resource
+    private UserRoleMapper userRoleMapper;
+
+    @Resource
+    private MenuMapper menuMapper;
+
+
 
 //    @Resource
 //    private FileApi fileApi;
@@ -225,6 +248,36 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public SysUserDO getUserByUsername(String username) {
         return userMapper.selectByUsername(username);
+    }
+
+    /**
+     * 通过查用户的全部信息
+     * @param sysUser 用户
+     * @return
+     */
+    @Override
+    public UserInfo getUserInfo(SysUserDO sysUser) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setSysUser(sysUser);
+        // 设置角色列表
+        Set<Long> roleIds = userRoleMapper.selectRoleIdsByUserId(sysUser.getId());
+        List<SysRoleDO> roleList = roleMapper.listRolesByRoleIds(roleIds);
+        userInfo.setRoleList(roleList);
+        // 设置角色列表 （ID）
+        userInfo.setRoles(ArrayUtil.toArray(roleIds, Long.class));
+        // 设置岗位列表
+        Set<Long> postIds = userPostMapper.selectPostIdsByUserId(sysUser.getId());
+        List<SysPostDO> postList = postMapper.selectPostsByPostIds(postIds);
+        userInfo.setPostList(postList);
+        // 设置权限列表（menu.permission）
+        Set<String> permissions = roleIds.stream()
+                .map(menuMapper::selectListByRoleId)
+                .flatMap(Collection::stream)
+                .map(SysMenuDO::getPermission)
+                .filter(StrUtil::isNotBlank)
+                .collect(Collectors.toSet());
+        userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
+        return userInfo;
     }
 
     @Override
@@ -469,7 +522,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     public boolean isPasswordMatch(String rawPassword, String encodedPassword) {
-        return ENCODER.matches(rawPassword, encodedPassword);
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
     /**
@@ -479,7 +532,7 @@ public class AdminUserServiceImpl implements AdminUserService {
      * @return 加密后的密码
      */
     private String encodePassword(String password) {
-        return ENCODER.encode(password);
+        return passwordEncoder.encode(password);
     }
 
 }

@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Mapper
 public interface PostMapper extends BaseMapperX<SysPostDO> {
@@ -43,4 +44,8 @@ public interface PostMapper extends BaseMapperX<SysPostDO> {
         return selectOne(SysPostDO::getCode, code);
     }
 
+    default List<SysPostDO> selectPostsByPostIds(Set<Long> postIds) {
+        return selectList(new LambdaQueryWrapperX<SysPostDO>()
+                .inIfPresent(SysPostDO::getId, postIds));
+    }
 }

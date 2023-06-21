@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/client")
+@RequestMapping("/sys/client")
 @Tag(name = "客户端管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class OauthClientDetailsController {

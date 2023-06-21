@@ -1,5 +1,6 @@
 package com.rc.cloud.app.system.mapper.permission;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
 import com.rc.cloud.app.system.vo.permission.role.RoleExportReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RolePageReqVO;
@@ -12,6 +13,8 @@ import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper
 public interface RoleMapper extends BaseMapperX<SysRoleDO> {
@@ -45,4 +48,9 @@ public interface RoleMapper extends BaseMapperX<SysRoleDO> {
         return selectList(SysRoleDO::getStatus, statuses);
     }
 
+    default List<SysRoleDO> listRolesByRoleIds(Set<Long> roleIds) {
+        QueryWrapper<SysRoleDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().in(SysRoleDO::getId, roleIds);
+        return selectList(wrapper);
+    }
 }
