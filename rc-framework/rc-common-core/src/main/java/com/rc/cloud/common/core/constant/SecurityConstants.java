@@ -50,10 +50,6 @@ public class SecurityConstants
      * role
      */
     public static final String ROLE = "role";
-    /**
-     * bcrypt
-     */
-    public static final String BCRYPT = "bcrypt";
 
     /**
      * 内部
