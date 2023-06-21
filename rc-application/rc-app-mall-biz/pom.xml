@@ -63,11 +63,6 @@
             <scope>provided</scope> <!-- 设置为 provided，只有工具类需要使用到 -->
         </dependency>
         <dependency>
-            <groupId>com.rc.cloud</groupId>
-            <artifactId>rc-common-tenant</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.whvcse</groupId>
             <artifactId>easy-captcha</artifactId>
         </dependency>
