@@ -67,7 +67,7 @@ public interface RcUserDetailsService extends UserDetailsService, Ordered {
 
 		// 构造security用户
 		return new RcUser(user.getId(), user.getDeptId(), user.getUsername(),
-				SecurityConstants.BCRYPT + user.getPassword(), user.getMobile(), true, true, true,
+				user.getPassword(), user.getMobile(), true, true, true,
 				(user.getStatus().equals(CommonStatusEnum.ENABLE.getStatus())), authorities);
 	}
 

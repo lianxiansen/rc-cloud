@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxun.qlive.goods.mapper.ProductFullCouponMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.qxun.qlive.goods.model.ProductFullCoupon">
+        <result column="ID" property="id"></result>
+        <result column="CreateTime" property="createTime"></result>
+        <result column="ProductID" property="productID"></result>
+        <result column="FullAmount" property="fullAmount"></result>
+        <result column="ReduceAmount" property="reduceAmount"></result>
+        <result column="IsTimeLimit" property="isTimeLimit"></result>
+        <result column="BeginTime" property="beginTime"></result>
+        <result column="EndTime" property="endTime"></result>
+        <result column="IsDoubling" property="isDoubling"></result>
+    </resultMap>
+
+    <select id="getProductFullCouponList" resultMap="BaseResultMap">
+        SELECT [ID]
+        , [CreateTime]
+        , [ProductID]
+        , [FullAmount]
+        , [ReduceAmount]
+        , [IsTimeLimit]
+        , [BeginTime]
+        , [EndTime]
+        , [IsDoubling]
+        FROM ProductFullCoupon
+        <where>
+            
+        </where>
+    </select>
+</mapper>

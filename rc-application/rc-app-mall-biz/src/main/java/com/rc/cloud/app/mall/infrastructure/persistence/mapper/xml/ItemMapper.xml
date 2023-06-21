@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxun.qlive.goods.mapper.ItemMapper">
+    <resultMap id="BaseResultMap" type="com.qxun.qlive.goods.model.Item">
+        <result column="ID" property="id"></result>
+        <result column="CreateTime" property="createTime"></result>
+        <result column="ProductID" property="productID"></result>
+        <result column="WareHouseItemID" property="wareHouseItemID"></result>
+        <result column="Price" property="price"></result>
+        <result column="SupplyPrice" property="supplyPrice"></result>
+        <result column="PartnerPrice" property="partnerPrice"></result>
+        <result column="ImageUrl" property="imageUrl"></result>
+        <result column="Weight" property="weight"></result>
+        <result column="Inventory" property="inventory"></result>
+        <result column="IsLock" property="isLock"></result>
+        <result column="SpecificationCombinationID" property="specificationCombinationID"></result>
+        <result column="SpecificationCombinationName" property="specificationCombinationName"></result>
+        <result column="Number" property="number"></result>
+        <result column="CodeNumber" property="codeNumber"></result>
+        <result column="FromAlibabaSkuId" property="fromAlibabaSkuId"></result>
+        <result column="FromAlibabaSpecId" property="fromAlibabaSpecId"></result>
+        <result column="IsComplex" property="isComplex"></result>
+        <result column="FromAlibabaSpecNumber" property="fromAlibabaSpecNumber"></result>
+        <result column="IsPostageFree" property="isPostageFree"></result>
+    </resultMap>
+
+    <select id="getItemList" resultMap="BaseResultMap"  parameterType="java.util.List">
+        SELECT [ID]
+        , [CreateTime]
+        , [ProductID]
+        , [WareHouseItemID]
+        , [Price]
+        , [SupplyPrice]
+        , [PartnerPrice]
+        , [ImageUrl]
+        , [Weight]
+        , [Inventory]
+        , [IsLock]
+        , [SpecificationCombinationID]
+        , [SpecificationCombinationName]
+        , [Number]
+        , [CodeNumber]
+        , [FromAlibabaSkuId]
+        , [FromAlibabaSpecId]
+        , [IsComplex]
+        , [FromAlibabaSpecNumber]
+        , [IsPostageFree]
+        FROM Item
+        <where>
+            <if test="list!=null and list.size>0">
+                [ID] in
+                <foreach collection="list" open="(" close=")" item="pid" separator=",">
+                    #{pid}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <update id="updateInventory">
+        UPDATE Item
+        SET [Inventory]=[Inventory]+#{query.inv_plus}
+        WHERE ID=#{query.id}
+    </update>
+</mapper>

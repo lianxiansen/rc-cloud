@@ -1,7 +1,9 @@
 package com.rc.cloud.app.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
+import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
@@ -9,7 +11,11 @@ import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.user.user.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.security.annotation.Inner;
+import com.rc.cloud.common.security.utils.MsgUtils;
+import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +27,8 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.*;
 
+import static com.rc.cloud.app.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertList;
 import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertSet;
 
@@ -120,6 +128,23 @@ public class UserController {
         UserPageItemRespVO userPageItemRespVO = UserConvert.INSTANCE.convert(user);
         userPageItemRespVO.setDept(UserConvert.INSTANCE.convert(dept));
         return CodeResult.ok(userPageItemRespVO);
+    }
+
+    /**
+     * 获取指定用户全部信息
+     * @return 用户信息
+     */
+    @Inner
+    @GetMapping("/info/{username}")
+    public CodeResult<UserInfo> info(@PathVariable String username) {
+        // 硬编码设置租户ID
+        TenantContextHolder.setTenantId(1L);
+        SysUserDO user = userService.getUserByUsername(username);
+        if (user == null) {
+            throw exception(USER_NOT_EXISTS);
+        }
+        UserInfo userInfo = userService.getUserInfo(user);
+        return CodeResult.ok(userInfo);
     }
 
 //    @GetMapping("/export")

@@ -1,6 +1,7 @@
 package com.rc.cloud.app.system.service.user;
 
 import cn.hutool.core.collection.CollUtil;
+import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
@@ -98,6 +99,13 @@ public interface AdminUserService {
      * @return 用户对象信息
      */
     SysUserDO getUserByUsername(String username);
+
+    /**
+     * 查询用户信息
+     * @param sysUser 用户
+     * @return userInfo
+     */
+    UserInfo getUserInfo(SysUserDO sysUser);
 
     /**
      * 通过用户名查询用户Optional
