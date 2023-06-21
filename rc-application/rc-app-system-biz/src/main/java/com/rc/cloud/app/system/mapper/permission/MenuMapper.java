@@ -38,7 +38,7 @@ public interface MenuMapper extends BaseMapperX<SysMenuDO> {
     default List<SysMenuDO> selectListByRoleId(Long roleId) {
 
         return selectList(new LambdaQueryWrapperX<SysMenuDO>()
-                .inSql(SysMenuDO::getId, "SELECT menu_id FROM role_menu WHERE role_id = " + roleId));
+                .inSql(SysMenuDO::getId, "SELECT menu_id FROM sys_role_menu WHERE role_id = " + roleId));
     }
 
     /**

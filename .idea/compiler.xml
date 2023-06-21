@@ -45,6 +45,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="rc-app-mall-biz" target="1.8" />
       <module name="rc-common" target="1.8" />
       <module name="rc-common-captcha" target="1.8" />
       <module name="rc-ops (1)" target="1.8" />
