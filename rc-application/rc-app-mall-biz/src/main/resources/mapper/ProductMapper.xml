@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxun.qlive.goods.mapper.ProductMapper">
+    <resultMap id="BaseResultMap" type="com.qxun.qlive.goods.model.Product">
+        <result column="LowestBuy" property="lowestBuy"></result>
+        <result column="MerchantID" property="merchantID"></result>
+        <result column="CopartnerID" property="copartnerID"></result>
+        <result column="MerchantName" property="merchantName"></result>
+        <result column="ProductType" property="productType"></result>
+        <result column="ProductClassification" property="productClassification"></result>
+        <result column="ProductStatus" property="productStatus"></result>
+        <result column="IsShowPurchaseCountdown" property="isShowPurchaseCountdown"></result>
+        <result column="SurplusPercent" property="surplusPercent"></result>
+        <result column="IsOpenFreightCoupon" property="isOpenFreightCoupon"></result>
+        <result column="IsOpenFullCoupon" property="isOpenFullCoupon"></result>
+        <result column="IsOpenLimitCount" property="isOpenLimitCount"></result>
+        <result column="IsRefund" property="isRefund"></result>
+        <result column="LimitCount" property="limitCount"></result>
+        <result column="Name" property="name"></result>
+        <result column="PlaceOfOrigin" property="placeOfOrigin"></result>
+        <result column="Number" property="number"></result>
+        <result column="MasterImage" property="masterImage"></result>
+        <result column="Price" property="price"></result>
+        <result column="WareHouseProductID" property="wareHouseProductID"></result>
+        <result column="WareHouseID" property="wareHouseID"></result>
+        <result column="SupplyPrice" property="supplyPrice"></result>
+        <result column="MarkingPrice" property="markingPrice"></result>
+        <result column="Weight" property="weight"></result>
+        <result column="IsRecommend" property="isRecommend"></result>
+        <result column="IsOnShelf" property="isOnShelf"></result>
+        <result column="Detail" property="detail"></result>
+        <result column="ProductCategoryIDs" property="productCategoryIDs"></result>
+        <result column="ProductCategoryNames" property="productCategoryNames"></result>
+        <result column="FreightTemplateID" property="freightTemplateID"></result>
+        <result column="ChooseUniformFreight" property="chooseUniformFreight"></result>
+        <result column="UniformFreight" property="uniformFreight"></result>
+        <result column="ShareContent" property="shareContent"></result>
+        <result column="SEOTitle" property="seoTitle"></result>
+        <result column="SEOKeyword" property="seoKeyword"></result>
+        <result column="SEODescription" property="seoDescription"></result>
+        <result column="ShareTitle" property="shareTitle"></result>
+        <result column="ShareDesc" property="shareDesc"></result>
+        <result column="ShareIcon" property="shareIcon"></result>
+        <result column="IsDeleted" property="isDeleted"></result>
+        <result column="NoDeliveryTemplateID" property="noDeliveryTemplateID"></result>
+        <result column="StoreIsRecommend" property="storeIsRecommend"></result>
+        <result column="StoreSortID" property="storeSortID"></result>
+        <result column="DistributorAmount" property="distributorAmount"></result>
+        <result column="Sales" property="sales"></result>
+        <result column="BaseSales" property="baseSales"></result>
+        <result column="BrandID" property="brandID"></result>
+        <result column="VideoUrl" property="videoUrl"></result>
+        <result column="VideoImg" property="videoImg"></result>
+        <result column="MaterialText" property="materialText"></result>
+        <result column="GetIntegral" property="getIntegral"></result>
+        <result column="IsDistribution" property="isDistribution"></result>
+        <result column="IsRebate" property="isRebate"></result>
+        <result column="PopularizationAmountRate" property="popularizationAmountRate"></result>
+        <result column="BranchPerformanceRate" property="branchPerformanceRate"></result>
+        <result column="IsAlibabaSelected" property="isAlibabaSelected"></result>
+        <result column="FromAlibabaProductID" property="fromAlibabaProductID"></result>
+        <result column="FromAlibabaUpplierLoginId" property="fromAlibabaUpplierLoginId"></result>
+        <result column="IsFollowed" property="isFollowed"></result>
+        <result column="ManagerID" property="managerID"></result>
+        <result column="ManagerName" property="managerName"></result>
+        <result column="CheckStatus" property="checkStatus"></result>
+        <result column="CheckLoginName" property="checkLoginName"></result>
+        <result column="CheckLoginIp" property="checkLoginIp"></result>
+        <result column="RefundInfo" property="refundInfo"></result>
+        <result column="OffShelfTime" property="offShelfTime"></result>
+        <result column="UpdateTime" property="updateTime"></result>
+        <result column="IsQualityRecommend" property="isQualityRecommend"></result>
+        <result column="QualityRecommendReason" property="qualityRecommendReason"></result>
+        <result column="MaterImageFrame" property="materImageFrame"></result>
+        <result column="MaterImageFrameBeginTime" property="materImageFrameBeginTime"></result>
+        <result column="MaterImageFrameEndTime" property="materImageFrameEndTime"></result>
+        <result column="Keywords" property="keywords"></result>
+        <result column="TopCategory" property="topCategory"></result>
+        <result column="MultipleOrderCount" property="multipleOrderCount"></result>
+        <result column="FeedbackRate" property="feedbackRate"></result>
+        <result column="IsOpenStoreFullFreeShipping" property="isOpenStoreFullFreeShipping"></result>
+        <result column="SettedSimiliarProducts" property="settedSimiliarProducts"></result>
+        <result column="ProductSKU" property="productSKU"></result>
+        <result column="TicketRemark" property="ticketRemark"></result>
+        <result column="TicketType" property="ticketType"></result>
+        <result column="IsDeliveryRefund" property="isDeliveryRefund"></result>
+    </resultMap>
+
+    <select id="getProductPageListInAdmin" resultMap="BaseResultMap">
+        SELECT a.[ID]
+        ,a.[Name]
+        ,a.[ProductStatus]
+        ,a.[ProductCategoryNames]
+        ,a.[CheckStatus]
+        ,a.[ManagerName]
+        ,a.[CreateTime]
+        ,a.[MasterImage]
+        ,a.[IsDeleted]
+        ,a.[IsRecommend]
+        ,a.[MerchantName]
+        ,a.[MerchantId]
+        ,a.[Price]
+        ,a.[IsOnShelf]
+        ,a.[SortID]
+        ,b.[TotalInventory] AS MultipleOrderCount
+        ,CASE WHEN a.[UpdateTime] IS NOT NULL THEN a.[UpdateTime]
+        ELSE a.[CreateTime] END AS UpdateTime
+        FROM [Product] a
+        LEFT JOIN (SELECT [ProductID], SUM ([Inventory]) AS TotalInventory FROM Item GROUP BY [ProductID]) b ON a.[ID]=b.[ProductID]
+        <where>
+            <choose>
+                <when test="query.product_type==0">
+                    a.[IsDeleted]=0
+                </when>
+                <when test="query.product_type==1">
+                    a.[IsDeleted]=0 AND a.[IsOnShelf]=1
+                </when>
+                <when test="query.product_type==2">
+                    a.[IsDeleted]=0 AND a.[IsOnShelf]=0
+                </when>
+                <when test="query.product_type==3">
+                    a.[IsDeleted]=0 AND a.[IsOnShelf]=2
+                </when>
+                <when test="query.product_type==4">
+                    a.[IsRecommend]=1
+                </when>
+                <when test="query.product_type==5">
+                    a.[IsDeleted]=1
+                </when>
+            </choose>
+            <if test="query.begin_time!=null and query.begin_time!=''">
+                <![CDATA[ AND a.[CreateTime]>=#{begin_time}]]>
+            </if>
+            <if test="query.end_time!=null and query.end_time!=''">
+                <![CDATA[ AND a.[CreateTime]<=#{end_time}]]>
+            </if>
+            <if test="query.creator!=null and query.creator!=''">
+                AND a.[ManagerName]=#{creator}
+            </if>
+            <if test="query.check_status!=null">
+                AND a.[CheckStatus]=#{check_status}
+            </if>
+            <if test="query.keywords!=null and query.keywords!=''">
+                AND (a.[Name] LIKE '%' + #{query.keywords} + '%' OR a.[ProductCategoryNames] LIKE '%' + #{query.keywords} + '%' OR a.[MerchantName] LIKE '%' + #{query.keywords} + '%')
+            </if>
+            <if test="query.pid>0">
+                AND a.[ID]=#{query.pid}
+            </if>
+            <if test="query.product_category_id>0">
+                AND a.[ProductCategoryIDs] LIKE '%,' + #{query.product_category_id} + ',%'
+            </if>
+        </where>
+        <choose>
+            <when test="query.order_by=0">
+                order by [UpdateTime] desc,a.[ID] desc
+            </when>
+            <when test="query.order_by=1 and query.asc_type=0">
+                order by [MultipleOrderCount] asc,a.[ID] desc
+            </when>
+            <when test="query.order_by=1 and query.asc_type=1">
+                order by [MultipleOrderCount] desc,a.[ID] desc
+            </when>
+        </choose>
+    </select>
+
+    <select id="getNoDeliveryTemplateProductList" resultMap="BaseResultMap">
+        SELECT [ID]
+        ,[Name]
+        ,[MasterImage]
+        ,[NoDeliveryTemplateID]
+        ,[Price]
+        ,[ProductCategoryIDs]
+        ,[ProductCategoryNames]
+        FROM [Product]
+        <where>
+            <if test="query.id>0">
+                NoDeliveryTemplateID =#{query.id}
+            </if>
+            <if test="query.keyword!=null and query.keyword!=''">
+                AND Name like '%' + #{query.keyword} + '%'
+            </if>
+        </where>
+
+    </select>
+    
+    <select id="getSimiliarProductList" resultMap="BaseResultMap">
+        SELECT [ID]
+        ,[Name]
+        ,[MasterImage]
+        FROM [Product]
+        <where>
+            <if test="query.ids!=null and query.ids.size>0">
+                [ID] in
+                <foreach collection="query.ids" open="(" close=")" item="pid" separator=",">
+                    #{pid}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+    <select id="getProductList" resultMap="BaseResultMap">
+        SELECT  *
+        FROM [Product]
+        <where>
+            <if test="query.ids!=null and query.ids.size>0">
+                [ID] in
+                <foreach collection="query.ids" open="(" close=")" item="pid" separator=",">
+                    #{pid}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+    <resultMap id="BaseAdminResultMap" type="com.qxun.qlive.goods.model.dto.admin.AdminProductListDTO">
+        <result column="ID" property="id"></result>
+        <result column="IsOnShelf" property="is_on_shelf"></result>
+        <result column="IsRecommend" property="is_recommend"></result>
+        <result column="MasterImage" property="master_image"></result>
+        <result column="Name" property="name"></result>
+        <result column="Price" property="price"></result>
+        <result column="DistributorAmount" property="distributor_amount"></result>
+        <result column="ProductStatus" property="product_status"></result>
+        <result column="ProductCategoryNames" property="product_category_names"></result>
+        <result column="ShareTitle" property="share_title"></result>
+        <result column="ShareDesc" property="share_desc"></result>
+        <result column="SortID" property="sort_id"></result>
+        <result column="StoreSortID" property="store_sort_id"></result>
+        <result column="MerchantID" property="merchant_id"></result>
+        <result column="MerchantName" property="merchant_name"></result>
+        <result column="CreateTime" property="create_time"></result>
+<!--        <result column="LongCreateTime" property="long_create_time"></result>-->
+        <result column="IsDeleted" property="is_deleted"></result>
+        <result column="ManagerName" property="merchant_name"></result>
+        <result column="CopartnerID" property="copartner_id"></result>
+        <result column="OffShelfTime" property="off_shelf_time"></result>
+        <result column="Inventory" property="inventory"></result>
+        <result column="Collection" property="collection"></result>
+    </resultMap>
+    <select id="getAdminProductList" resultMap="BaseAdminResultMap">
+        SELECT
+        [ID],
+        [IsOnShelf],
+        [IsRecommend],
+        [MasterImage],
+        [Name],
+        [Price],
+        [DistributorAmount],
+        [ProductStatus],
+        [ProductCategoryNames],
+        [ShareTitle],
+        [ShareDesc],
+        [SortID],
+        [StoreSortID],
+        [MerchantID],
+        [MerchantName],
+        cast(DATEDIFF(S,'1970-01-01 08:00:00', TA.[CreateTime]) as varchar(20))+'000' AS CreateTime,
+        [IsDeleted],
+        [ManagerName],
+        [CopartnerID],
+        cast(DATEDIFF(S,'1970-01-01 08:00:00', [OffShelfTime]) as varchar(20))+'000' AS [OffShelfTime]
+        , ISNULL( (SELECT SUM(Inventory) FROM [Item] WHERE ProductID=[TA].[ID]),0)AS [Inventory]
+        , (SELECT COUNT(*) FROM [ProductCollection] WHERE ProductID=[TA].[ID]) AS [Collection]
+        from [Product] AS TA
+        <where>
+            <if test="query.keyword!=null and query.keyword!=''">
+                AND ([Name] like '%' + #{query.keyword} + '%' or
+                [ProductCategoryNames] like '%' + #{query.keyword} + '%' or
+                [MerchantName] like '%' + #{query.keyword} + '%')
+            </if>
+            <if test="query.merchant_id!=null and query.merchant_id>0">
+                AND [MerchantID]= #{query.keyword}
+            </if>
+            <if test="query.copartner_id!=null and query.copartner_id>0">
+                AND [CopartnerID]= #{query.copartner_id}
+            </if>
+            <if test="query.is_deleted!=null">
+                <if test="query.is_deleted==true">
+                    AND [IsDeleted]=1
+                </if>
+                <if test="query.is_deleted==false">
+                    AND [IsDeleted]=0
+                </if>
+            </if>
+            <if test="query.shelf!=null">
+                AND [IsOnShelf]= #{query.shelf}
+            </if>
+            <if test="query.is_recommend!=null">
+                <if test="query.is_recommend==true">
+                    AND [IsRecommend]=1
+                </if>
+                <if test="query.is_recommend==false">
+                    AND [IsRecommend]=0
+                </if>
+            </if>
+            <if test="query.product_status!=null and query.product_status>0">
+                AND [ProductStatus]= #{query.product_status}
+            </if>
+            <if test="query.manager_id!=null and query.manager_id!=0">
+                AND [ManagerID]= #{query.manager_id}
+            </if>
+            <if test="query.product_id!=null and query.product_id>0">
+                AND [TA].[ID]= #{query.product_id}
+            </if>
+            <if test="query.not_in_product_id!=null and query.not_in_product_id!=''">
+                AND [ID] NOT IN (#{query.not_in_product_id})
+            </if>
+            <if test="query.is_coupon_product!=null and query.is_coupon_product==true">
+                AND [ProductStatus]= 1
+            </if>
+            <if test="query.begin_time!=null and query.begin_time!='' and query.end_time!=null and query.end_time!=''">
+                <![CDATA[ AND TA.[CreateTime] <= #{query.end_time}
+                AND TA.[CreateTime] >= #{query.begin_time} ]]>
+            </if>
+            <if test="query.not_select_all_create_time!=null and query.not_select_all_create_time==true">
+                <![CDATA[ AND TA.[CreateTime] > DATEADD(YEAR,-3,GETDATE()) ]]>
+            </if>
+        </where>
+        <choose>
+            <when test="query.orderby==1">
+                order by [sortID] asc,[ID] desc
+            </when>
+            <when test="query.orderby==2">
+                order by [StoreSortID] asc,[ID] desc
+            </when>
+            <when test="query.orderby==3">
+                order by [OffShelfTime] desc,[ID] desc
+            </when>
+            <when test="query.orderby==4">
+                order by [Inventory] asc,[sortID] asc,[ID] desc
+            </when>
+            <when test="query.orderby==5">
+                order by [Inventory] asc,[StoreSortID] asc,[ID] desc
+            </when>
+            <when test="query.orderby==6">
+                order by [Inventory] desc,[sortID] asc,[ID] desc
+            </when>
+            <when test="query.orderby==7">
+                order by [Inventory] desc,[StoreSortID] asc,[ID] desc
+            </when>
+            <when test="query.orderby==8">
+                order by [sortID] asc,[ID] desc
+            </when>
+            <when test="query.orderby==9">
+                order by [StoreSortID] asc,[ID] desc
+            </when>
+        </choose>
+    </select>
+
+    <resultMap id="CopartnerProductResultMap" type="com.qxun.qlive.goods.model.dto.admin.AdminCopartnerProductDTO">
+        <result column="ID" property="id"></result>
+        <result column="Name" property="name"></result>
+        <result column="MasterImage" property="master_image"></result>
+        <result column="IsOnShelf" property="shelf"></result>
+        <result column="MerchantID" property="merchant_id"></result>
+        <result column="AllSales" property="all_sales"></result>
+        <result column="TodaySales" property="today_sales"></result>
+        <result column="MerchantName" property="merchant_name"></result>
+        <result column="CreateTime" property="create_time"></result>
+    </resultMap>
+    <select id="getCopartnerProductList" resultMap="CopartnerProductResultMap">
+        SELECT [ID],
+        [Name],
+        [MasterImage],
+        [IsOnShelf],
+        [MerchantID],
+        cast(DATEDIFF(S,'1970-01-01 08:00:00', [CreateTime])as varchar(20))+'000'
+        AS [CreateTime],
+        (SELECT [UserName]FROM [Merchant]where [ID]=[Product].[MerchantID]) AS [MerchantName],
+        (SELECT ISNULL(SUM (Quantity), 0) FROM [Order] LEFT JOIN [OrderItem] ON [Order].[ID] =[OrderItem].[OrderID]
+        WHERE [Order].[CopartnerID] = #{query.id} and DATEDIFF(day, [Order].[CreateTime], GETDATE()) = 0 and
+        [OrderItem].[RefundStatus] != 2 and [Order].[PaymentStatus] = 1
+        AND ProductID =[Product].[ID]) as [TodaySales],
+        (SELECT ISNULL(SUM (Quantity), 0) FROM [Order] LEFT JOIN [OrderItem] ON [Order].[ID] =[OrderItem].[OrderID]
+        WHERE [Order].[CopartnerID] = #{query.id} and [OrderItem].[RefundStatus] != 2 and [Order].[PaymentStatus] = 1
+        AND ProductID =[Product].[ID]) as [AllSales]
+        FROM [Product]
+        <where>
+            [CopartnerID] =#{query.id}
+
+            <if test="query.keyword!=null and query.keyword!=''">
+                AND ([WxNickName] like '%' + #{query.keyword} + '%' or [Mobile] like '%' + #{query.keyword} + '%' or
+                [QyyUserID] like '%' + #{query.keyword} + '%'or [UserName] like '%' + #{query.keyword} + '%')
+
+            </if>
+        </where>
+        <choose>
+            <when test="query.order_by==0 and query.desc==0">
+                order by [TodaySales] asc,[ID] desc
+            </when>
+            <when test="query.order_by==1 and query.desc==0">
+                order by [AllSales] asc,[ID] desc
+            </when>
+            <when test="query.order_by==0 and query.desc==1">
+                order by [TodaySales] desc,[ID] desc
+            </when>
+            <when test="query.order_by==1 and query.desc==1">
+                order by [AllSales] desc,[ID] desc
+            </when>
+        </choose>
+    </select>
+    
+    <select id="checkProductIsRefund" resultType="java.lang.Boolean">
+        SELECT [IsRefund]
+        FROM [Product]
+        <where>
+            [ID]=#{product_id}
+        </where>
+    </select>
+    <select id="checkProductIsDeliveryRefund" resultType="java.lang.Boolean">
+        SELECT [IsDeliveryRefund]
+        FROM [Product]
+        <where>
+            [ID]=#{product_id}
+        </where>
+    </select>
+</mapper>
