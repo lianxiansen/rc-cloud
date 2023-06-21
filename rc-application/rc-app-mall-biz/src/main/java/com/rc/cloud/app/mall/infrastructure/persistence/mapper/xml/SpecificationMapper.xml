@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxun.qlive.goods.mapper.SpecificationMapper">
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.qxun.qlive.goods.model.Specification">
+        <result column="ID" property="id"></result>
+        <result column="CreateTime" property="createTime"></result>
+        <result column="Title" property="title"></result>
+        <result column="SortID" property="sortID"></result>
+        <result column="MerchantID" property="merchantID"></result>
+        <result column="CopartnerID" property="copartnerID"></result>
+    </resultMap>
+
+    <select id="getSpecificationList" resultMap="BaseResultMap">
+        SELECT [ID]
+        , [CreateTime]
+        , [Title]
+        , [SortID]
+        , [MerchantID]
+        , [CopartnerID]
+        FROM Specification
+        <where>
+            
+        </where>
+    </select>
+</mapper>
