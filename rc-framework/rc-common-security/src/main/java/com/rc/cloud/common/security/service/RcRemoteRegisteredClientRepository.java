@@ -82,7 +82,7 @@ public class RcRemoteRegisteredClientRepository implements RegisteredClientRepos
 	 * @return
 	 */
 	@Override
-	@SneakyThrows
+//	@SneakyThrows
 	@Cacheable(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientId", unless = "#result == null")
 	public RegisteredClient findByClientId(String clientId) {
 
