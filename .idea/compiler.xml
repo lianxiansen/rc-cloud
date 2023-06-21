@@ -28,6 +28,7 @@
         <module name="rc-common-excel" />
         <module name="rc-app-system-biz" />
         <module name="rc-common-dict" />
+        <module name="rc-app-mall-biz" />
         <module name="rc-gateway-server" />
       </profile>
       <profile name="Annotation profile for rc-cloud" enabled="true">
@@ -35,9 +36,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="D:/maven_repository/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar" />
-          <entry name="D:/maven_repository/org/mapstruct/mapstruct-processor/1.4.1.Final/mapstruct-processor-1.4.1.Final.jar" />
-          <entry name="D:/maven_repository/org/mapstruct/mapstruct/1.4.1.Final/mapstruct-1.4.1.Final.jar" />
+          <entry name="$PROJECT_DIR$/../../../maven_repository/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar" />
+          <entry name="$PROJECT_DIR$/../../../maven_repository/org/mapstruct/mapstruct-processor/1.4.1.Final/mapstruct-processor-1.4.1.Final.jar" />
+          <entry name="$PROJECT_DIR$/../../../maven_repository/org/mapstruct/mapstruct/1.4.1.Final/mapstruct-1.4.1.Final.jar" />
         </processorPath>
         <module name="uid-generator-interface" />
         <module name="uid-generator" />

@@ -5,7 +5,100 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6d792ebb-7e6c-4a48-beb6-af45370c3678" name="Changes" comment="修复授权中心">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/channel/AppDistributorChannelController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/channel/vo/AppDistributorChannelBaseVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/channel/vo/AppDistributorChannelCreateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/channel/vo/AppDistributorChannelPageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/channel/vo/AppDistributorChannelRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/channel/vo/AppDistributorChannelUpdateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/distributor/AppDistributorController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/distributor/vo/AppDistributorBaseVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/distributor/vo/AppDistributorCreateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/distributor/vo/AppDistributorExcelVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/distributor/vo/AppDistributorExportReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/distributor/vo/AppDistributorPageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/distributor/vo/AppDistributorRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/distributor/vo/AppDistributorUpdateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/level/AppDistributorLevelController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/level/vo/AppDistributorLevelBaseVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/level/vo/AppDistributorLevelCreateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/level/vo/AppDistributorLevelPageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/level/vo/AppDistributorLevelRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/level/vo/AppDistributorLevelUpdateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/reputation/AppDistributorReputationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/reputation/vo/AppDistributorReputationBaseVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/reputation/vo/AppDistributorReputationCreateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/reputation/vo/AppDistributorReputationPageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/reputation/vo/AppDistributorReputationRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/reputation/vo/AppDistributorReputationUpdateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/source/AppDistributorSourceController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/source/vo/AppDistributorSourceBaseVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/source/vo/AppDistributorSourceCreateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/source/vo/AppDistributorSourcePageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/source/vo/AppDistributorSourceRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/controller/app/source/vo/AppDistributorSourceUpdateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/convert/channel/DistributorChannelConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/convert/distributor/DistributorConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/convert/level/DistributorLevelConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/convert/reputation/DistributorReputationConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/convert/source/DistributorSourceConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/dal/dataobject/channel/DistributorChannelDO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/dal/dataobject/distributor/DistributorDO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/dal/dataobject/level/DistributorLevelDO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/dal/dataobject/reputation/DistributorReputationDO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/dal/dataobject/source/DistributorSourceDO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/dal/mysql/channel/DistributorChannelMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/dal/mysql/distributor/DistributorMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/dal/mysql/level/DistributorLevelMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/dal/mysql/reputation/DistributorReputationMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/dal/mysql/source/DistributorSourceMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/service/channel/DistributorChannelService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/service/channel/DistributorChannelServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/service/distributor/DistributorService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/service/distributor/DistributorServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/service/level/DistributorLevelService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/service/level/DistributorLevelServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/service/reputation/DistributorReputationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/service/reputation/DistributorReputationServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/service/source/DistributorSourceService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/distributor/service/source/DistributorSourceServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/IProductAlbumService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/IProductCategoryRatationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/IProductCategoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/IProductCreateMaterialService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/IProductFreightCouponService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/IProductFullCouponService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/IProductService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/impl/ProductAlbumServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/impl/ProductCategoryRatationServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/impl/ProductCategoryServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/impl/ProductCreateMaterialServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/impl/ProductFreightCouponServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/impl/ProductFullCouponServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/application/service/impl/ProductServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/mapper/ProductAlbumMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/mapper/ProductCategoryMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/mapper/ProductCategoryRatationMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/mapper/ProductCreateMaterialMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/mapper/ProductFreightCouponMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/mapper/ProductFullCouponMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/mapper/ProductMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/po/Product.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/po/ProductAlbum.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/po/ProductCategory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/po/ProductCategoryRatation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/po/ProductCreateMaterial.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/po/ProductDetail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/po/ProductFreightCoupon.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product/infrastructure/persistence/po/ProductFullCoupon.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/resources/mapper/ProductAlbumMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/resources/mapper/ProductCategoryMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/resources/mapper/ProductCategoryRatationMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/resources/mapper/ProductCreateMaterialMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/resources/mapper/ProductFreightCouponMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/resources/mapper/ProductFullCouponMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/resources/mapper/ProductMapper.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +116,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -31,9 +125,9 @@
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="localRepository" value="D:\maven_repository" />
-        <option name="mavenHome" value="D:/soft/maven/apache-maven-3.3.9" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../tools/apache-maven-3.8.4" />
         <option name="useMavenConfig" value="true" />
-        <option name="userSettingsFile" value="D:\soft\maven\apache-maven-3.3.9\conf\settings.xml" />
+        <option name="userSettingsFile" value="D:\tools\apache-maven-3.8.4\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -46,38 +140,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8 (3)&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/project_code/rouchuan/rc-cloud/rc-ops/rc-gateway-server/src/main/java/com/rc/cloud/ops/gateway&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;535e707cdc22706ff1585b4bbfb60a46&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
-  },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;h2&quot;
-    ]
-  }
-}</component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/rc-application/rc-app-mall-biz/src/main/java/com/rc/cloud/app/product" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
   </component>
@@ -86,11 +159,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\wangjf\projects\rc-cloud\rc-application\rc-app-mall-biz\src\main\java\com\rc\cloud\app\product" />
+      <recent name="D:\wangjf\projects\rc-cloud\rc-application\rc-app-mall-biz\src\main\java\com\rc\cloud\app" />
       <recent name="E:\project_code\rouchuan\rc-cloud\rc-ops\rc-gateway-server\src\main\java\com\rc\cloud\ops\gateway" />
       <recent name="E:\project_code\rouchuan\rc-cloud\rc-ops\rc-gateway-server\src\main\resources" />
       <recent name="E:\project_code\rouchuan\rc-cloud\rc-ops\rc-auth-server\src\main\java\com\rc\cloud\ops\auth\support" />
-      <recent name="E:\project_code\rouchuan\rc-cloud\rc-ops\rc-auth-server\src\main\java\com\rc\cloud\ops\auth\support\base" />
-      <recent name="E:\project_code\rouchuan\rc-cloud\rc-application\rc-app-system-api\src\main\resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\project_code\rouchuan\rc-cloud\rc-framework\rc-common-web\src\main\resources" />
@@ -117,7 +190,20 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.GatewayServerApp">
+  <component name="RunManager" selected="Application.Generator">
+    <configuration name="Generator" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.rc.cloud.app.generator.Generator" />
+      <module name="rc-app-mall-biz" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rc.cloud.app.generator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="admin in rc-app-system-biz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
       <option name="TEST_OBJECT" value="directory" />
@@ -126,23 +212,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="service in rc-app-system-biz" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="rc-app-system-biz" />
-      <option name="TEST_OBJECT" value="directory" />
-      <dir value="$PROJECT_DIR$/rc-application/rc-app-system-biz/src/test/java/com/rc/cloud/app/system/service" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="AuthServerApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="rc-auth-server" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.ops.auth.AuthServerApp" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.rc.cloud.ops.auth.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.ops.auth.AuthServerApp" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -156,13 +234,13 @@
     </configuration>
     <configuration name="GatewayServerApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="rc-gateway-server" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.ops.gateway.GatewayServerApp" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.rc.cloud.ops.gateway.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.ops.gateway.GatewayServerApp" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -190,19 +268,18 @@
     </configuration>
     <configuration name="SysServerApp" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="rc-app-system-biz" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.app.system.SysServerApp" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.rc.cloud.app.system.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.rc.cloud.app.system.SysServerApp" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.service in rc-app-system-biz" />
       <item itemvalue="JUnit.admin in rc-app-system-biz" />
       <item itemvalue="Spring Boot.AuthServerApplication" />
       <item itemvalue="Spring Boot.GatewayServerApplication" />
@@ -211,14 +288,15 @@
       <item itemvalue="Spring Boot.GatewayServerApp" />
       <item itemvalue="Spring Boot.AuthServerApp" />
       <item itemvalue="Spring Boot.SysServerApp" />
+      <item itemvalue="Application.Generator" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Generator" />
         <item itemvalue="Spring Boot.GatewayServerApp" />
         <item itemvalue="Spring Boot.SysServerApp" />
         <item itemvalue="Spring Boot.AuthServerApp" />
         <item itemvalue="JUnit.admin in rc-app-system-biz" />
-        <item itemvalue="JUnit.service in rc-app-system-biz" />
       </list>
     </recent_temporary>
   </component>
@@ -267,6 +345,7 @@
       <workItem from="1687131503503" duration="2943000" />
       <workItem from="1687137340672" duration="11146000" />
       <workItem from="1687219296150" duration="680000" />
+      <workItem from="1687313855302" duration="12846000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1686037620097</created>
@@ -704,7 +783,7 @@
           <option name="timeStamp" value="85" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>jar://D:/maven_repository/com/baomidou/mybatis-plus-extension/3.5.3.1/mybatis-plus-extension-3.5.3.1-sources.jar!/com/baomidou/mybatisplus/extension/plugins/inner/TenantLineInnerInterceptor.java</url>
+          <url>jar://$PROJECT_DIR$/../../../maven_repository/com/baomidou/mybatis-plus-extension/3.5.3.1/mybatis-plus-extension-3.5.3.1-sources.jar!/com/baomidou/mybatisplus/extension/plugins/inner/TenantLineInnerInterceptor.java</url>
           <line>127</line>
           <option name="timeStamp" value="94" />
         </line-breakpoint>
@@ -837,6 +916,11 @@
           <url>file://$PROJECT_DIR$/rc-application/rc-app-system-biz/src/main/java/com/rc/cloud/app/system/controller/admin/oauthclient/OauthClientDetailsController.java</url>
           <line>106</line>
           <option name="timeStamp" value="151" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$PROJECT_DIR$/../../../maven_repository/com/baomidou/mybatis-plus-generator/3.5.3.1/mybatis-plus-generator-3.5.3.1.jar!/com/baomidou/mybatisplus/generator/engine/FreemarkerTemplateEngine.class</url>
+          <line>32</line>
+          <option name="timeStamp" value="152" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
