@@ -1,6 +1,5 @@
 package com.rc.cloud.app.mall.appearance.request;
 
-import com.qxun.qlive.common.base.AppApiVO;
 import lombok.Data;
 
 import javax.validation.constraints.Min;

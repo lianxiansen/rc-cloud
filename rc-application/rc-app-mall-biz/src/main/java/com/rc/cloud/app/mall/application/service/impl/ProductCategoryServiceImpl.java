@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.rc.cloud.app.mall.appearance.request.ProductCategorySaveVO;
 import com.rc.cloud.app.mall.appearance.request.ProductCategoryVO;
+import com.rc.cloud.app.mall.application.data.ProductShelfEnum;
 import com.rc.cloud.app.mall.application.service.IProductCategoryService;
 import com.rc.cloud.app.mall.infrastructure.config.RedisKey;
 import com.rc.cloud.app.mall.infrastructure.persistence.mapper.ProductCategoryMapper;
@@ -27,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.rc.cloud.app.mall.infrastructure.util.MapUtil.distinctByKey;
 
 
 /**

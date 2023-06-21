@@ -2,7 +2,6 @@ package com.rc.cloud.app.mall.infrastructure.persistence.po;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.qxun.qlive.common.base.BaseEntity;
 import lombok.Data;
 
 /**

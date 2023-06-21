@@ -1,6 +1,5 @@
 package com.rc.cloud.app.mall.application.data;
 
-import com.qxun.qlive.common.base.BaseQuery;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
