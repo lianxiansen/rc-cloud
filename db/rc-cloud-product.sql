@@ -180,8 +180,8 @@ CREATE TABLE `product_operate` (
 -- ----------------------------
 -- 商品详情
 -- ----------------------------
-DROP TABLE IF EXISTS `pro_product_detail`;
-CREATE TABLE `pro_product_detail` (
+DROP TABLE IF EXISTS `product_detail`;
+CREATE TABLE `product_detail` (
           `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
           `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
           `product_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品ID',
@@ -195,23 +195,26 @@ CREATE TABLE `pro_product_detail` (
 
 -- ----------------------------
 -- 商品属性表
---存储[
+-- 存储[
 -- {
 --             "attribute_name" : "尺码",
---             "attribute_value" : "42"
-
+--             "attribute_value" : "42",
+--             "sort_id" : 42
 --         },
 --         {
 --             "attribute_name" : "尺码",
---             "attribute_value" : "44"
+--             "attribute_value" : "44",
+--             "sort_id" : 42
 --         },
 --         {
 --             "attribute_name" : "颜色",
---             "attribute_value" : "卡其色"
+--             "attribute_value" : "卡其色",
+--             "sort_id" : 42
 --         },
 --         {
 --             "attribute_name" : "尺码",
---             "attribute_value" : "39"
+--             "attribute_value" : "39",
+--             "sort_id" : 42
 --         }
 --     ]
 -- ----------------------------
@@ -228,14 +231,16 @@ CREATE TABLE `product_attribute` (
 
 -- ----------------------------
 -- 商品SKU属性表
---存储[
+-- 存储[
 -- {
 --                     "attribute_name" : "颜色",
---                     "attribute_value" : "卡其色"
+--                     "attribute_value" : "卡其色",
+--                     "sort_id" : 42
 --                 },
 --                 {
 --                     "attribute_name" : "尺码",
---                     "attribute_value" : "44"
+--                     "attribute_value" : "44",
+--                     "sort_id" : 42
 --                 }
 --             ]
 -- ----------------------------
@@ -260,7 +265,7 @@ CREATE TABLE `product_image` (
              `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
              `product_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品ID',
              `url` varchar(128) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'URL',
-             `is_default` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否是默认',
+             `default_flag` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否是默认',
              `sort_id` int(11) DEFAULT NULL COMMENT '排序',
              PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='商品SPU图片表 ';
@@ -275,21 +280,25 @@ CREATE TABLE `product_item_image` (
           `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
           `product_sku_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品skuID',
           `url` varchar(128) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'URL',
-          `is_default` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否是默认',
+          `default_flag` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否是默认',
           `sort_id` int(11) DEFAULT NULL COMMENT '排序',
           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='商品SKU图片表';
 
 
 -- ----------------------------
--- 相关商品表
+-- 相关商品组表
 -- ----------------------------
-DROP TABLE IF EXISTS `product_related_`;
-CREATE TABLE `product_related` (
+DROP TABLE IF EXISTS `product_related_group`;
+CREATE TABLE `product_related_group` (
           `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+          `name` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品组名',
           `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
           `product_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '当前商品id',
           `related_product_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '相关商品id',
           `sort_id` int(11) DEFAULT NULL COMMENT '排序',
           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='商品相关表';
+
+
+
