@@ -4,9 +4,10 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.TemporalAccessorUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.rc.cloud.app.system.api.oauthclient.feign.RemoteClientDetailsService;
 import com.rc.cloud.app.system.api.oauthclient.entity.SysOauthClientDetailsDO;
+import com.rc.cloud.app.system.api.oauthclient.feign.RemoteClientDetailsService;
 import com.rc.cloud.app.system.api.token.vo.TokenVo;
 import com.rc.cloud.common.core.constant.CacheConstants;
 import com.rc.cloud.common.core.constant.CommonConstants;
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -68,7 +69,7 @@ public class TokenController {
 
 	private final RemoteClientDetailsService clientDetailsService;
 
-	private final RedisTemplate<String, Object> redisTemplate;
+	private final StringRedisTemplate stringRedisTemplate;
 
 	private final CacheManager cacheManager;
 
@@ -184,12 +185,12 @@ public class TokenController {
 		String key = String.format("%s::*", CacheConstants.PROJECT_OAUTH_ACCESS);
 		int current = MapUtil.getInt(params, CommonConstants.CURRENT);
 		int size = MapUtil.getInt(params, CommonConstants.SIZE);
-		Set<String> keys = redisTemplate.keys(key);
+		Set<String> keys = stringRedisTemplate.keys(key);
 		List<String> pages = keys.stream().skip((current - 1) * size).limit(size).collect(Collectors.toList());
 		Page result = new Page(current, size);
 
-		List<TokenVo> tokenVoList = redisTemplate.opsForValue().multiGet(pages).stream().map(obj -> {
-			OAuth2Authorization authorization = (OAuth2Authorization) obj;
+		List<TokenVo> tokenVoList = stringRedisTemplate.opsForValue().multiGet(pages).stream().map(objStr -> {
+			OAuth2Authorization authorization = JSONObject.parseObject(objStr, OAuth2Authorization.class);
 			TokenVo tokenVo = new TokenVo();
 			tokenVo.setClientId(authorization.getRegisteredClientId());
 			tokenVo.setId(authorization.getId());
