@@ -26,7 +26,7 @@ public class RcResourceServerConfiguration {
 
 	private final PermitAllUrlProperties permitAllUrl;
 
-	private final RcBearerTokenExtractor pigBearerTokenExtractor;
+	private final RcBearerTokenExtractor rcBearerTokenExtractor;
 
 	private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
@@ -42,7 +42,7 @@ public class RcResourceServerConfiguration {
 			.oauth2ResourceServer(
 					oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
 						.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
-						.bearerTokenResolver(pigBearerTokenExtractor))
+						.bearerTokenResolver(rcBearerTokenExtractor))
 			.headers()
 			.frameOptions()
 			.disable()

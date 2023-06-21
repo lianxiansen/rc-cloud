@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * 网关配置
@@ -41,8 +41,8 @@ public class GatewayConfiguration {
 
 	@Bean
 	public ValidateCodeGatewayFilter validateCodeGatewayFilter(GatewayConfigProperties configProperties,
-															   ObjectMapper objectMapper, RedisTemplate redisTemplate) {
-		return new ValidateCodeGatewayFilter(configProperties, objectMapper, redisTemplate);
+															   ObjectMapper objectMapper, StringRedisTemplate stringRedisTemplate) {
+		return new ValidateCodeGatewayFilter(configProperties, objectMapper, stringRedisTemplate);
 	}
 
 	@Bean
@@ -51,8 +51,8 @@ public class GatewayConfiguration {
 	}
 
 	@Bean
-	public ImageCodeHandler imageCodeHandler(RedisTemplate redisTemplate) {
-		return new ImageCodeHandler(redisTemplate);
+	public ImageCodeHandler imageCodeHandler(StringRedisTemplate stringRedisTemplate) {
+		return new ImageCodeHandler(stringRedisTemplate);
 	}
 
 }

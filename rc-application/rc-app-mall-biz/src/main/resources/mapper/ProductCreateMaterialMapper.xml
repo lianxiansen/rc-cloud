@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxun.qlive.goods.mapper.ProductCreateMaterialMapper">
+    <resultMap id="BaseResultMap" type="com.qxun.qlive.goods.model.ProductCreateMaterial">
+        <result column="ID" property="id"></result>
+        <result column="CreateTime" property="createTime"></result>
+        <result column="ProductID" property="productID"></result>
+        <result column="Image" property="image"></result>
+        <result column="Name" property="name"></result>
+        <result column="Remark" property="remark"></result>
+        <result column="IsDefault" property="isDefault"></result>
+    </resultMap>
+
+</mapper>

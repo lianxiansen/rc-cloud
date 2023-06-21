@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.common.cache;
 
 import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisCache {
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 默认过期时长为24小时，单位：秒
@@ -36,19 +36,19 @@ public class RedisCache {
      */
     public final static long NOT_EXPIRE = -1L;
 
-    public void set(String key, Object value, long expire) {
-        redisTemplate.opsForValue().set(key, value);
+    public void set(String key, String value, long expire) {
+        stringRedisTemplate.opsForValue().set(key, value);
         if (expire != NOT_EXPIRE) {
             expire(key, expire);
         }
     }
 
-    public void set(String key, Object value) {
+    public void set(String key, String value) {
         set(key, value, DEFAULT_EXPIRE);
     }
 
     public Object get(String key, long expire) {
-        Object value = redisTemplate.opsForValue().get(key);
+        Object value = stringRedisTemplate.opsForValue().get(key);
         if (expire != NOT_EXPIRE) {
             expire(key, expire);
         }
@@ -60,27 +60,27 @@ public class RedisCache {
     }
 
     public Long increment(String key) {
-        return redisTemplate.opsForValue().increment(key);
+        return stringRedisTemplate.opsForValue().increment(key);
     }
 
     public Boolean hasKey(String key) {
-        return redisTemplate.hasKey(key);
+        return stringRedisTemplate.hasKey(key);
     }
 
     public void delete(String key) {
-        redisTemplate.delete(key);
+        stringRedisTemplate.delete(key);
     }
 
     public void delete(Collection<String> keys) {
-        redisTemplate.delete(keys);
+        stringRedisTemplate.delete(keys);
     }
 
     public Object hGet(String key, String field) {
-        return redisTemplate.opsForHash().get(key, field);
+        return stringRedisTemplate.opsForHash().get(key, field);
     }
 
     public Map<String, Object> hGetAll(String key) {
-        HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
+        HashOperations<String, String, Object> hashOperations = stringRedisTemplate.opsForHash();
         return hashOperations.entries(key);
     }
 
@@ -89,7 +89,7 @@ public class RedisCache {
     }
 
     public void hMSet(String key, Map<String, Object> map, long expire) {
-        redisTemplate.opsForHash().putAll(key, map);
+        stringRedisTemplate.opsForHash().putAll(key, map);
 
         if (expire != NOT_EXPIRE) {
             expire(key, expire);
@@ -101,7 +101,7 @@ public class RedisCache {
     }
 
     public void hSet(String key, String field, Object value, long expire) {
-        redisTemplate.opsForHash().put(key, field, value);
+        stringRedisTemplate.opsForHash().put(key, field, value);
 
         if (expire != NOT_EXPIRE) {
             expire(key, expire);
@@ -109,19 +109,19 @@ public class RedisCache {
     }
 
     public void expire(String key, long expire) {
-        redisTemplate.expire(key, expire, TimeUnit.SECONDS);
+        stringRedisTemplate.expire(key, expire, TimeUnit.SECONDS);
     }
 
     public void hDel(String key, Object... fields) {
-        redisTemplate.opsForHash().delete(key, fields);
+        stringRedisTemplate.opsForHash().delete(key, fields);
     }
 
-    public void leftPush(String key, Object value) {
+    public void leftPush(String key, String value) {
         leftPush(key, value, DEFAULT_EXPIRE);
     }
 
-    public void leftPush(String key, Object value, long expire) {
-        redisTemplate.opsForList().leftPush(key, value);
+    public void leftPush(String key, String value, long expire) {
+        stringRedisTemplate.opsForList().leftPush(key, value);
 
         if (expire != NOT_EXPIRE) {
             expire(key, expire);
@@ -129,6 +129,6 @@ public class RedisCache {
     }
 
     public Object rightPop(String key) {
-        return redisTemplate.opsForList().rightPop(key);
+        return stringRedisTemplate.opsForList().rightPop(key);
     }
 }

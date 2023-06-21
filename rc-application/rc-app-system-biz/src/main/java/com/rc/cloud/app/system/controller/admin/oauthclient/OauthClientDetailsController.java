@@ -27,7 +27,7 @@ import java.util.List;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/client")
+@RequestMapping("/sys/client")
 @Tag(name = "客户端管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class OauthClientDetailsController {
@@ -104,8 +104,8 @@ public class OauthClientDetailsController {
 	@Inner
 	@GetMapping("/getClientDetailsById/{clientId}")
 	public CodeResult getClientDetailsById(@PathVariable String clientId) {
-		return CodeResult.ok(oauthClientDetailsService.getOne(
-				Wrappers.<SysOauthClientDetailsDO>lambdaQuery().eq(SysOauthClientDetailsDO::getClientId, clientId), false));
+		SysOauthClientDetailsDO sysOauthClientDetailsDO = oauthClientDetailsService.getOne(
+				Wrappers.<SysOauthClientDetailsDO>lambdaQuery().eq(SysOauthClientDetailsDO::getClientId, clientId), false);
+		return CodeResult.ok(sysOauthClientDetailsDO);
 	}
-
 }

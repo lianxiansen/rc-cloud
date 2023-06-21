@@ -1,5 +1,8 @@
 package com.rc.cloud.common.redis.config;
 
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -29,5 +32,4 @@ public class RcRedisAutoConfiguration {
         template.setHashValueSerializer(RedisSerializer.json());
         return template;
     }
-
 }

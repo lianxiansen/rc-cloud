@@ -22,6 +22,7 @@
     <modules>
         <module>rc-app-system-biz</module>
         <module>rc-app-system-api</module>
+        <module>rc-app-mall-biz</module>
     </modules>
 
 </project>

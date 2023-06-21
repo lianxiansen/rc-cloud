@@ -22,14 +22,14 @@ public interface RemoteClientDetailsService {
 	 * @param clientId 用户名
 	 * @return CodeResult
 	 */
-	@GetMapping(value = "/client/getClientDetailsById/{clientId}", headers = SecurityConstants.HEADER_FROM_IN)
+	@GetMapping(value = "/sys/client/getClientDetailsById/{clientId}", headers = SecurityConstants.HEADER_FROM_IN)
 	CodeResult<SysOauthClientDetailsDO> getClientDetailsById(@PathVariable("clientId") String clientId);
 
 	/**
 	 * 查询全部客户端
 	 * @return CodeResult
 	 */
-	@GetMapping(value = "/client/list", headers = SecurityConstants.HEADER_FROM_IN)
+	@GetMapping(value = "/sys/client/list", headers = SecurityConstants.HEADER_FROM_IN)
 	CodeResult<List<SysOauthClientDetailsDO>> listClientDetails();
 
 }

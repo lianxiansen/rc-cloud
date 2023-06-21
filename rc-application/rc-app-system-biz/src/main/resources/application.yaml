@@ -66,8 +66,7 @@ rc:
       - sys_tenant_package
       - sys_dict_data
       - sys_dict_type
-      - sys_error_code
-      - sys_oauth2_client
+      - sys_oauth_client_details
   jwt:
     header: "Authorization" # JWT 在 HTTP Header 中的 Header 名字
     prefix: "Bearer " # JWT 在 HTTP Header 中的值的前缀

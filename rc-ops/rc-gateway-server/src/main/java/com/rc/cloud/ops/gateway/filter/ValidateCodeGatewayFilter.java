@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -38,7 +38,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 
 	private final ObjectMapper objectMapper;
 
-	private final RedisTemplate<String, Object> redisTemplate;
+	private final StringRedisTemplate stringRedisTemplate;
 
 	@Override
 	public GatewayFilter apply(Object config) {
@@ -104,13 +104,13 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 
 		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
 
-		Object codeObj = redisTemplate.opsForValue().get(key);
+		Object codeObj = stringRedisTemplate.opsForValue().get(key);
 
 		if (ObjectUtil.isEmpty(codeObj) || !code.equals(codeObj)) {
 			throw new ValidateCodeException("验证码不合法");
 		}
 
-		redisTemplate.delete(key);
+		stringRedisTemplate.delete(key);
 	}
 
 }

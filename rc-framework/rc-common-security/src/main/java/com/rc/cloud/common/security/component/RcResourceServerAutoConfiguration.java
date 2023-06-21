@@ -33,7 +33,7 @@ public class RcResourceServerAutoConfiguration {
 	 * @return BearerTokenExtractor
 	 */
 	@Bean
-	public RcBearerTokenExtractor pigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
+	public RcBearerTokenExtractor rcBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
 		return new RcBearerTokenExtractor(urlProperties);
 	}
 
