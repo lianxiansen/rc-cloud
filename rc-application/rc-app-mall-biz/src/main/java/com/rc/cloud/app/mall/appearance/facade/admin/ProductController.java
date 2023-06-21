@@ -17,7 +17,7 @@ import com.rc.cloud.app.mall.infrastructure.persistence.po.*;
 import com.rc.cloud.app.mall.infrastructure.util.IpUtil;
 import com.rc.cloud.app.mall.infrastructure.util.SaltUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.math3.stat.descriptive.summary.Product;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.token.TokenService;
 import org.springframework.ui.ModelMap;

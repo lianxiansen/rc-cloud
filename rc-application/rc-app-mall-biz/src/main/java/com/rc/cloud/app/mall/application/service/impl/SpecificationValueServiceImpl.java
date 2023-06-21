@@ -2,7 +2,9 @@ package com.rc.cloud.app.mall.application.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rc.cloud.app.mall.application.service.ISpecificationValueService;
+import com.rc.cloud.app.mall.infrastructure.persistence.mapper.SpecificationValueMapper;
 import com.rc.cloud.app.mall.infrastructure.persistence.po.SpecificationValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class SpecificationValueServiceImpl extends ServiceImpl<SpecificationValu
      * @param specValueId 规格值ID
      * @return 规格值实例
      */
+    @Override
     public SpecificationValue getSpecificationValueByKeyIdAndValueId(int specId, int specValueId) {
         QueryWrapper<SpecificationValue> wrapper = new QueryWrapper<>();
         wrapper.eq("SpecificationID", specId);
@@ -37,6 +40,7 @@ public class SpecificationValueServiceImpl extends ServiceImpl<SpecificationValu
      * @param specificationValue 规格值实例
      * @return 规格值ID
      */
+    @Override
     public Integer saveSpecificationValue(SpecificationValue specificationValue) {
         if (specificationValue.getId() > 0) {
             QueryWrapper<SpecificationValue> wrapper = new QueryWrapper<>();

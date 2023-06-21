@@ -2,7 +2,6 @@ package com.rc.cloud.app.mall.infrastructure.config;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.StrUtil;
-import com.qxun.qlive.common.config.QyyLiveProp;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

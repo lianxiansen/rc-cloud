@@ -1,7 +1,7 @@
 package com.rc.cloud.app.mall.appearance.response;
 
 import com.alibaba.druid.util.StringUtils;
-import com.qxun.qlive.common.utils.InetAddressUtils;
+import com.rc.cloud.app.mall.infrastructure.util.InetAddressUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.MDC;
 import org.springframework.ui.ModelMap;

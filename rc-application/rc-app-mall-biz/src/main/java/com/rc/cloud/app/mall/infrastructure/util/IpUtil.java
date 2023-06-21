@@ -1,7 +1,7 @@
 package com.rc.cloud.app.mall.infrastructure.util;
 
 import cn.hutool.core.net.NetUtil;
-import com.qxun.qlive.common.config.WhiteListProp;
+import com.rc.cloud.app.mall.infrastructure.config.WhiteListProp;
 
 /**
  * @Author:chenjianxiang

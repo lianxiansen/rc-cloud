@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
+import com.rc.cloud.app.mall.infrastructure.persistence.po.BaseEntity;
 /**
 *
 * @Author taotianhong

@@ -9,6 +9,8 @@ import com.rc.cloud.app.mall.infrastructure.config.RedisKey;
 import com.rc.cloud.app.mall.infrastructure.persistence.mapper.ProductFullCouponMapper;
 import com.rc.cloud.app.mall.infrastructure.persistence.po.Product;
 import com.rc.cloud.app.mall.infrastructure.persistence.po.ProductFullCoupon;
+import com.rc.cloud.app.mall.infrastructure.persistence.po.SimpleProduct;
+import com.rc.cloud.app.mall.infrastructure.util.MapUtil;
 import com.rc.cloud.app.mall.infrastructure.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,8 +90,9 @@ public class ProductFullCouponServiceImpl extends ServiceImpl<ProductFullCouponM
                 saveProductFullCoupon(_productFullCoupon);
                 setProductFullCouponRedis(product.getId(), _productFullCoupon);
             } else {
-                if (ObjectUtil.isNotEmpty(_productFullCoupon))
+                if (ObjectUtil.isNotEmpty(_productFullCoupon)) {
                     delete(_productFullCoupon.getId());
+                }
                 removeProductFullCouponRedis(product.getId());
                 removeProductFullCouponListRedis(product.getId());
             }
@@ -121,6 +124,7 @@ public class ProductFullCouponServiceImpl extends ServiceImpl<ProductFullCouponM
      * @param productId 商品ID
      * @return 删除数量
      */
+    @Override
     public Integer removeProductFullCoupons(int productId) {
         QueryWrapper<ProductFullCoupon> wrapper = new QueryWrapper<>();
         wrapper.eq("ProductID", productId);
@@ -142,6 +146,7 @@ public class ProductFullCouponServiceImpl extends ServiceImpl<ProductFullCouponM
      * @param productId 商品ID
      * @return 商品满减信息
      */
+    @Override
     public ProductFullCoupon getProductFullCouponRedis(int productId) {
         return getProductFullCouponRedis(productId, false);
     }
@@ -158,8 +163,9 @@ public class ProductFullCouponServiceImpl extends ServiceImpl<ProductFullCouponM
         ProductFullCoupon productFullCoupon = redisUtil.getObjectFromHash(redisKey, productId, ProductFullCoupon.class);
         if (ObjectUtil.isEmpty(productFullCoupon) && isSyncFromDbWhenNull.equals(true)) {
             productFullCoupon = getProductFullCouponByProductId(productId);
-            if (ObjectUtil.isNotEmpty(productFullCoupon))
+            if (ObjectUtil.isNotEmpty(productFullCoupon)) {
                 setProductFullCouponRedis(productId, productFullCoupon);
+            }
         }
         return productFullCoupon;
     }
