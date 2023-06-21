@@ -2,13 +2,14 @@ package com.rc.cloud.common.security.service;
 
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
-import com.rc.cloud.app.system.api.oauthclient.feign.RemoteClientDetailsService;
+import com.alibaba.fastjson.JSONObject;
 import com.rc.cloud.app.system.api.oauthclient.entity.SysOauthClientDetailsDO;
+import com.rc.cloud.app.system.api.oauthclient.feign.RemoteClientDetailsService;
 import com.rc.cloud.common.core.constant.CacheConstants;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -32,6 +33,8 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 public class RcRemoteRegisteredClientRepository implements RegisteredClientRepository {
+
+	private final StringRedisTemplate stringRedisTemplate;
 
 	/**
 	 * 刷新令牌有效期默认 30 天
@@ -82,8 +85,7 @@ public class RcRemoteRegisteredClientRepository implements RegisteredClientRepos
 	 * @return
 	 */
 	@Override
-//	@SneakyThrows
-	@Cacheable(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientId", unless = "#result == null")
+	@SneakyThrows
 	public RegisteredClient findByClientId(String clientId) {
 
 		SysOauthClientDetailsDO clientDetails = clientDetailsService.getClientDetailsById(clientId)
@@ -118,17 +120,19 @@ public class RcRemoteRegisteredClientRepository implements RegisteredClientRepos
 				.filter(StrUtil::isNotBlank)
 				.forEach(builder::scope));
 
-		return builder
-			.tokenSettings(TokenSettings.builder()
-				.accessTokenFormat(OAuth2TokenFormat.REFERENCE)
-				.accessTokenTimeToLive(Duration.ofSeconds(
-						Optional.ofNullable(clientDetails.getAccessTokenValidity()).orElse(accessTokenValiditySeconds)))
-				.refreshTokenTimeToLive(Duration.ofSeconds(Optional.ofNullable(clientDetails.getRefreshTokenValidity())
-					.orElse(refreshTokenValiditySeconds)))
-				.build())
-			.clientSettings(ClientSettings.builder()
-				.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove()))
-				.build())
-			.build();
+		RegisteredClient registeredClient = builder
+				.tokenSettings(TokenSettings.builder()
+						.accessTokenFormat(OAuth2TokenFormat.REFERENCE)
+						.accessTokenTimeToLive(Duration.ofSeconds(
+								Optional.ofNullable(clientDetails.getAccessTokenValidity()).orElse(accessTokenValiditySeconds)))
+						.refreshTokenTimeToLive(Duration.ofSeconds(Optional.ofNullable(clientDetails.getRefreshTokenValidity())
+								.orElse(refreshTokenValiditySeconds)))
+						.build())
+				.clientSettings(ClientSettings.builder()
+						.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove()))
+						.build())
+				.build();
+		stringRedisTemplate.opsForValue().set(CacheConstants.CLIENT_DETAILS_KEY + ":" + clientId, JSONObject.toJSONString(registeredClient));
+		return registeredClient;
 	}
 }
