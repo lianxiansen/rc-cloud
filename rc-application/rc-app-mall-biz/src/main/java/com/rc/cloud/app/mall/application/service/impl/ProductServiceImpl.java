@@ -58,8 +58,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     @Autowired
     private IProductAlbumService iProductAlbumService;
 
-    @Autowired
-    private IMyPictureService iMyPictureService;
+//    @Autowired
+//    private IMyPictureService iMyPictureService;
 
     @Autowired
     private IProductFreightCouponService iProductFreightCouponService;
@@ -67,17 +67,17 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     @Autowired
     private IProductFullCouponService iProductFullCouponService;
 
-    @Autowired
-    private IMerchantService iMerchantService;
-
-    @Autowired
-    private IWareHouseService iWareHouseService;
+//    @Autowired
+//    private IMerchantService iMerchantService;
+//
+//    @Autowired
+//    private IWareHouseService iWareHouseService;
 
     @Autowired
     private IProductCreateMaterialService iProductCreateMaterialService;
 
-    @Autowired
-    private IStoreyCategoryProductService iStoreyCategoryProductService;
+//    @Autowired
+//    private IStoreyCategoryProductService iStoreyCategoryProductService;
 
     @Autowired
     private ISpecificationService iSpecificationService;
@@ -280,286 +280,287 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
      * @param oriNoDeliveryTemplateID 旧的不发货模板
      * @return 商品ID
      */
-    @Override
-    @Transactional(rollbackFor = {Exception.class} )
-    public Integer saveProduct(Product product, Merchant merchant, WareHouse wareHouse, List<ProductAlbum> productAlbums, List<ProductCreateMaterial> productCreateMaterials, List<GoodsItemSpecificationSaveDTO> goodsSpecs, List<GoodsSkuSaveDTO> goodsSkus, ProductFreightCoupon productFreightCoupon, ProductFullCoupon productFullCoupon, int oriNoDeliveryTemplateID) {
-        Integer result = 0;
-        try {
-            Boolean isUpdate = (product.getId() > 0);
-            // 1688自建商户和仓库
-            if (product.getIsAlibabaSelected()) {
-                if (iMerchantService.saveMerchant(merchant) < 1) return result;
-                wareHouse.setMerchantId(merchant.getId());
-                if (iWareHouseService.saveWareHouse(wareHouse) < 1) return result;
-                product.setMerchantID(merchant.getId());
-                product.setWareHouseID(wareHouse.getId());
-            }
-            // 商品
-            BigDecimal minPrice = BigDecimal.valueOf(goodsSkus.stream().mapToDouble(s -> s.getPrice().doubleValue()).min().getAsDouble());
-            product.setPrice(minPrice);
-            if (!saveOrUpdate(product)) {
-                log.debug(StrUtil.format("数据库保存商品失败：{}；方法：{}", product.getName(), "com.qxun.qlive.goods.service.impl.ProductServiceImpl.saveProduct"));
-                return result;
-            }
-            result = product.getId();
-            // 商品相册
-            iProductAlbumService.removeProductAlbums(product.getId());
-            List<MyPicture> myPictures = new ArrayList<>();
-            if (ObjectUtil.isNotNull(productAlbums) && ObjectUtil.isNotEmpty(productAlbums) && productAlbums.size() > 0) {
-                for (int i = 0; i < productAlbums.size(); i++) {
-                    productAlbums.get(i).setProductID(product.getId());
-                    MyPicture myPicture = iMyPictureService.getMyPictureNeedSave(product.getId(), productAlbums.get(i).getImage());
-                    if (ObjectUtil.isNotNull(myPicture)) {
-                        myPictures.add(myPicture);
-                    }
-                }
-                iProductAlbumService.saveProductAlbums(productAlbums);
-            }
-            // 商品素材
-            iProductCreateMaterialService.removeProductCreateMaterials(product.getId());
-            if (ObjectUtil.isNotNull(productCreateMaterials) && ObjectUtil.isNotEmpty(productCreateMaterials) && productCreateMaterials.size() > 0) {
-                for (int i = 0; i < productCreateMaterials.size(); i++) {
-                    productCreateMaterials.get(i).setProductID(product.getId());
-                    MyPicture myPicture = iMyPictureService.getMyPictureNeedSave(product.getId(), productCreateMaterials.get(i).getImage());
-                    if (ObjectUtil.isNotNull(myPicture)) {
-                        myPictures.add(myPicture);
-                    }
-                }
-                iProductCreateMaterialService.saveProductCreateMaterials(productCreateMaterials);
-            }
-            // 我的图片
-            if (ObjectUtil.isNotNull(myPictures) && ObjectUtil.isNotEmpty(myPictures) && myPictures.size() > 0) {
-                iMyPictureService.saveMyPictures(myPictures);
-            }
-            // 规格项
-            if (ObjectUtil.isNotNull(goodsSpecs) && ObjectUtil.isNotEmpty(goodsSpecs) && goodsSpecs.size() > 0) {
-                for (int i = 0; i < goodsSpecs.size(); i++) {
-                    GoodsItemSpecificationSaveDTO goodsSpec = goodsSpecs.get(i);
-                    if (product.getIsAlibabaSelected()) {
-                        if (goodsSpec.getSpecId() < 1) {
-                            Specification spec = iSpecificationService.getSpecificationBySpecNameFromAlibaba(goodsSpec.getSpecName());
-                            if (ObjectUtil.isNull(spec)) {
-                                spec = new Specification(goodsSpec.getSpecName(), 99, -1688);
-                                iSpecificationService.saveSpecification(spec);
-                                goodsSpec.setSpecId(spec.getId());
-                            }
-                        }
-                        for (GoodsItemSpecificationValueSaveDTO goodsSpecValue : goodsSpec.getSpecValues()) {
-                            SpecificationValue specValue = iSpecificationValueService.getSpecificationValueByKeyIdAndValueId(goodsSpec.getSpecId(), goodsSpecValue.getSpecValueId());
-                            if (ObjectUtil.isNull(specValue)) {
-                                specValue = new SpecificationValue(goodsSpecValue.getSpecValueName(), goodsSpec.getSpecId(), 99);
-                                iSpecificationValueService.saveSpecificationValue(specValue);
-                                goodsSpecValue.setSpecValueId(specValue.getId());
-                            }
-                        }
-                    } else {
-                        Specification spec = iSpecificationService.getSpecificationBySpecId(goodsSpec.getSpecId());
-                        if (ObjectUtil.isNull(spec)) {
-                            log.debug(StrUtil.format("商品(ID：{})保存成功，规格项保存失败：不存在的规格项：{}；方法：{}", product.getId(), goodsSpec.getSpecId(), "com.qxun.qlive.goods.service.impl.ProductServiceImpl.saveProduct"));
-                            return 0;
-                        }
-                        for (GoodsItemSpecificationValueSaveDTO goodsSpecValue : goodsSpec.getSpecValues()) {
-                            SpecificationValue specValue = iSpecificationValueService.getSpecificationValueByKeyIdAndValueId(goodsSpec.getSpecId(), goodsSpecValue.getSpecValueId());
-                            if (ObjectUtil.isNull(specValue)) {
-                                log.debug(StrUtil.format("商品(ID：{})保存成功，规格项保存失败：不存在的规格值：{}；方法：{}", product.getId(), goodsSpecValue.getSpecValueId(), "com.qxun.qlive.goods.service.impl.ProductServiceImpl.saveProduct"));
-                                return 0;
-                            }
-                        }
-                    }
-                }
-            }
-            // SKU
-            List<Item> oriItems = new ArrayList<>();
-            if (isUpdate) {
-                oriItems = iItemService.getItemList(product.getId());
-            }
-            List<Integer> newItemIds = new ArrayList<>();
-            List<Item> updateSkItems = new ArrayList<>();
-            List<ItemSpecification> itemSpecs = new ArrayList<>();
-            for (GoodsSkuSaveDTO sku : goodsSkus) {
-                Item item = null;
-                Boolean isItemUpdate = false;
-                if (sku.getId() > 0) {
-                    item = oriItems.stream().filter(i -> i.getId().equals(sku.getId())).findFirst().orElse(null);
-                    isItemUpdate = true;
-                }
-                if (ObjectUtil.isNull(item)) {
-                    item = new Item();
-                    item.setProductID(product.getId());
-                    item.setIsLock(false);
-                }
-                item.setNumber(sku.getCargoNumber());
-                item.setCodeNumber(sku.getCargoCode());
-                item.setPrice(sku.getPrice());
-                item.setSupplyPrice(sku.getSupplyPrice());
-                item.setWeight(sku.getWeight());
-                item.setPartnerPrice(sku.getPartnerPrice());
-                item.setInventory(sku.getInventory());
-                item.setImageUrl(sku.getImageUrl());
-
-                List<ItemSpecification> _itemSpecs = new ArrayList<>();
-                if (product.getIsAlibabaSelected()) {
-                    item.setFromAlibabaSkuId(sku.getFromAlibabaSkuId());
-                    item.setFromAlibabaSpecId(sku.getFromAlibabaSpecId());
-
-                    StringBuilder specCombIdStr = new StringBuilder(""), specCombNames = new StringBuilder("");
-                    for (GoodsSkuSpecKVPSaveDTO kvp : sku.getFromAlibabaSpecKeyValuePairs()) {
-                        GoodsItemSpecificationSaveDTO itemSpec = goodsSpecs.stream().filter(g -> g.getSpecName().equals(kvp.getSpecName())).findFirst().get();
-                        GoodsItemSpecificationValueSaveDTO itemSpecValue = itemSpec.getSpecValues().stream().filter(g -> g.getSpecValueName().equals(kvp.getSpecValueName())).findFirst().get();
-                        specCombIdStr.append(itemSpecValue.getSpecValueId() + ",");
-                        specCombNames.append(itemSpecValue.getSpecValueName() + "*");
-
-                        ItemSpecification itemSpecification = new ItemSpecification();
-                        itemSpecification.setItemID(item.getId());
-                        itemSpecification.setProductID(product.getId());
-                        itemSpecification.setSortID(itemSpecValue.getSpecValueSortId());
-                        itemSpecification.setSortIDForTitle(itemSpec.getSpecSortId());
-                        itemSpecification.setSpecificationID(itemSpec.getSpecId());
-                        itemSpecification.setSpecificationValueID(itemSpecValue.getSpecValueId());
-                        itemSpecification.setSpecificationTitle(itemSpec.getSpecName());
-                        itemSpecification.setSpecificationContent(itemSpecValue.getSpecValueName());
-                        itemSpecification.setIsAlibabaSelected(true);
-                        _itemSpecs.add(itemSpecification);
-                    }
-                    item.setSpecificationCombinationID(specCombIdStr.toString());
-                    item.setSpecificationCombinationName(specCombNames.toString());
-                } else {
-                    item.setWareHouseItemID(sku.getWareHouseItemID());
-                    item.setSpecificationCombinationID(sku.getSpecificationCombinationID());
-                    item.setSpecificationCombinationName(sku.getSpecificationCombinationName());
-
-                    List<String> specIds = StrUtil.split(item.getSpecificationCombinationID(), ',', true, true);
-                    List<String> specNames = StrUtil.split(item.getSpecificationCombinationName(), '*', true, true);
-                    for (int i = 0; i < specIds.size(); i++) {
-                        String _specId = specIds.get(i);
-                        GoodsItemSpecificationSaveDTO itemSpec = goodsSpecs.stream().filter(g -> g.getSpecValues().stream().filter(v -> v.getSpecValueId().equals(_specId)).count() > 0).findFirst().get();
-                        GoodsItemSpecificationValueSaveDTO itemSpecValue = itemSpec.getSpecValues().stream().filter(v -> v.getSpecValueId().equals(_specId)).findFirst().get();
-
-                        ItemSpecification itemSpecification = new ItemSpecification();
-                        itemSpecification.setItemID(item.getId());
-                        itemSpecification.setProductID(product.getId());
-                        itemSpecification.setSortID(itemSpecValue.getSpecValueSortId());
-                        itemSpecification.setSortIDForTitle(itemSpec.getSpecSortId());
-                        itemSpecification.setSpecificationID(itemSpec.getSpecId());
-                        itemSpecification.setSpecificationValueID(itemSpecValue.getSpecValueId());
-                        itemSpecification.setSpecificationTitle(itemSpec.getSpecName());
-                        itemSpecification.setSpecificationContent(itemSpecValue.getSpecValueName());
-                        itemSpecification.setIsAlibabaSelected(false);
-                        _itemSpecs.add(itemSpecification);
-                    }
-                }
-                iItemService.saveItem(item);
-                if (isItemUpdate)
-                    updateSkItems.add(item);
-                else {
-                    Integer itemId = item.getId();
-                    _itemSpecs.forEach(s -> s.setItemID(itemId));
-                }
-
-                newItemIds.add(item.getId());
-                itemSpecs.addAll(_itemSpecs);
-            }
-            List<Integer> delItemIds = oriItems.stream().filter(i -> newItemIds.stream().filter(n -> n.equals(i.getId())).count() < 1).map(n -> n.getId()).collect(Collectors.toList());
-            iItemService.removeByIds(delItemIds);
-            // SKU规格
-            iItemSpecificationService.removeItemSpecifications(product.getId());
-            iItemSpecificationService.saveItemSpecifications(itemSpecs);
-            // 商品满包邮
-            iProductFreightCouponService.removeProductFreightCoupons(product.getId());
-            if (product.getIsOpenFreightCoupon() && ObjectUtil.isNotNull(productFreightCoupon) && ObjectUtil.isNotEmpty(productFreightCoupon)) {
-                productFreightCoupon.setProductID(product.getId());
-                iProductFreightCouponService.saveProductFreightCoupon(productFreightCoupon);
-            }
-            // 商品满减
-            iProductFullCouponService.removeProductFullCoupons(product.getId());
-            if (product.getIsOpenFullCoupon() && ObjectUtil.isNotNull(productFullCoupon) && ObjectUtil.isNotEmpty(productFullCoupon)) {
-                productFullCoupon.setProductID(product.getId());
-                iProductFullCouponService.saveProductFullCoupon(productFullCoupon);
-            }
-            // 抢购
-//            List<SecKillProduct> needUpdateSkProducts = iSecKillProductService.getSecKillProductListByProductId(product.getId());
-//            if (ObjectUtil.isNotNull(needUpdateSkProducts) && ObjectUtil.isNotEmpty(needUpdateSkProducts) && needUpdateSkProducts.size() > 0) {
-//                for (int i = 0; i < needUpdateSkProducts.size(); i++) {
-//                    SecKillProduct skProduct = needUpdateSkProducts.get(i);
-//                    skProduct.setProductPrice(product.getPrice());
-//                    skProduct.setMasterImage(product.getMasterImage());
-//                    skProduct.setProductName(product.getName());
+//    @Override
+//    @Transactional(rollbackFor = {Exception.class} )
+//    public Integer saveProduct(Product product, Merchant merchant, WareHouse wareHouse, List<ProductAlbum> productAlbums, List<ProductCreateMaterial> productCreateMaterials, List<GoodsItemSpecificationSaveDTO> goodsSpecs, List<GoodsSkuSaveDTO> goodsSkus, ProductFreightCoupon productFreightCoupon, ProductFullCoupon productFullCoupon, int oriNoDeliveryTemplateID) {
+//        Integer result = 0;
+//        try {
+//            Boolean isUpdate = (product.getId() > 0);
+//            // 1688自建商户和仓库
+//            if (product.getIsAlibabaSelected()) {
+//                if (iMerchantService.saveMerchant(merchant) < 1) return result;
+//                wareHouse.setMerchantId(merchant.getId());
+//                if (iWareHouseService.saveWareHouse(wareHouse) < 1) return result;
+//                product.setMerchantID(merchant.getId());
+//                product.setWareHouseID(wareHouse.getId());
+//            }
+//            // 商品
+//            BigDecimal minPrice = BigDecimal.valueOf(goodsSkus.stream().mapToDouble(s -> s.getPrice().doubleValue()).min().getAsDouble());
+//            product.setPrice(minPrice);
+//            if (!saveOrUpdate(product)) {
+//                log.debug(StrUtil.format("数据库保存商品失败：{}；方法：{}", product.getName(), "com.qxun.qlive.goods.service.impl.ProductServiceImpl.saveProduct"));
+//                return result;
+//            }
+//            result = product.getId();
+//            // 商品相册
+//            iProductAlbumService.removeProductAlbums(product.getId());
+//            List<MyPicture> myPictures = new ArrayList<>();
+//            if (ObjectUtil.isNotNull(productAlbums) && ObjectUtil.isNotEmpty(productAlbums) && productAlbums.size() > 0) {
+//                for (int i = 0; i < productAlbums.size(); i++) {
+//                    productAlbums.get(i).setProductID(product.getId());
+//                    MyPicture myPicture = iMyPictureService.getMyPictureNeedSave(product.getId(), productAlbums.get(i).getImage());
+//                    if (ObjectUtil.isNotNull(myPicture)) {
+//                        myPictures.add(myPicture);
+//                    }
 //                }
-//                iSecKillProductService.saveSecKillProducts(needUpdateSkProducts);
-//
-//                if (ObjectUtil.isNotNull(updateSkItems) && ObjectUtil.isNotEmpty(updateSkItems) && updateSkItems.size() > 0) {
-//                    List<SecKillItemSpecification> skItemSpecs = iSecKillItemSpecificationService.getSecKillItemSpecificationListByProductId(product.getId());
-//                    List<SecKillItem> newSkItems = new ArrayList<>();
-//                    List<Integer> newSkItemSpecIds = new ArrayList<>();
-//                    for (Item item : updateSkItems) {
-//                        SecKillItem skItem = iSecKillItemService.getSecKillItemByItemId(item.getId());
-//                        if (ObjectUtil.isNotNull(skItem) && ObjectUtil.isNotEmpty(skItem)) {
-//                            skItem.setImageUrl(item.getImageUrl());
-//                            skItem.setSupplyPrice(item.getSupplyPrice());
-//                            skItem.setNumber(item.getNumber());
-//                            skItem.setCodeNumber(item.getCodeNumber());
-//                            skItem.setPartnerPrice(item.getPartnerPrice());
-//                            skItem.setItemPrice(item.getPrice());
-//                            iSecKillItemService.saveSecKillItem(skItem);
-//
-//                            List<ItemSpecification> thisItemSpecs = itemSpecs.stream().filter(i -> i.getItemID().equals(skItem.getItemID())).collect(Collectors.toList());
-//                            for (ItemSpecification itemSpec : thisItemSpecs) {
-//                                SecKillItemSpecification secKillItemSpec = skItemSpecs.stream().filter(s -> s.getItemID().equals(itemSpec.getItemID()) && s.getSpecificationID().equals(itemSpec.getSpecificationID())).findFirst().orElse(null);
-//                                if (ObjectUtil.isNull(secKillItemSpec)) {
-//                                    secKillItemSpec = new SecKillItemSpecification();
-//                                    secKillItemSpec.setItemID(skItem.getItemID());
-//                                    secKillItemSpec.setSecKillItemID(skItem.getId());
-//                                    secKillItemSpec.setProductID(product.getId());
-//                                    secKillItemSpec.setSecKillProductID(skItem.getSecKillProductID());
-//                                    secKillItemSpec.setSpecificationID(itemSpec.getSpecificationID());
-//                                }
-//                                secKillItemSpec.setSpecificationTitle(itemSpec.getSpecificationTitle());
-//                                secKillItemSpec.setSpecificationValueID(itemSpec.getSpecificationValueID());
-//                                secKillItemSpec.setSpecificationContent(itemSpec.getSpecificationContent());
-//                                secKillItemSpec.setSortID(itemSpec.getSortID());
-//                                secKillItemSpec.setSortIDForTitle(itemSpec.getSortIDForTitle());
-//                                secKillItemSpec.setIsAlibabaSelected(itemSpec.getIsAlibabaSelected());
-//                                iSecKillItemSpecificationService.saveSecKillItemSpecification(secKillItemSpec);
-//
-//                                newSkItemSpecIds.add(secKillItemSpec.getId());
+//                iProductAlbumService.saveProductAlbums(productAlbums);
+//            }
+//            // 商品素材
+//            iProductCreateMaterialService.removeProductCreateMaterials(product.getId());
+//            if (ObjectUtil.isNotNull(productCreateMaterials) && ObjectUtil.isNotEmpty(productCreateMaterials) && productCreateMaterials.size() > 0) {
+//                for (int i = 0; i < productCreateMaterials.size(); i++) {
+//                    productCreateMaterials.get(i).setProductID(product.getId());
+//                    MyPicture myPicture = iMyPictureService.getMyPictureNeedSave(product.getId(), productCreateMaterials.get(i).getImage());
+//                    if (ObjectUtil.isNotNull(myPicture)) {
+//                        myPictures.add(myPicture);
+//                    }
+//                }
+//                iProductCreateMaterialService.saveProductCreateMaterials(productCreateMaterials);
+//            }
+//            // 我的图片
+//            if (ObjectUtil.isNotNull(myPictures) && ObjectUtil.isNotEmpty(myPictures) && myPictures.size() > 0) {
+//                iMyPictureService.saveMyPictures(myPictures);
+//            }
+//            // 规格项
+//            if (ObjectUtil.isNotNull(goodsSpecs) && ObjectUtil.isNotEmpty(goodsSpecs) && goodsSpecs.size() > 0) {
+//                for (int i = 0; i < goodsSpecs.size(); i++) {
+//                    GoodsItemSpecificationSaveDTO goodsSpec = goodsSpecs.get(i);
+//                    if (product.getIsAlibabaSelected()) {
+//                        if (goodsSpec.getSpecId() < 1) {
+//                            Specification spec = iSpecificationService.getSpecificationBySpecNameFromAlibaba(goodsSpec.getSpecName());
+//                            if (ObjectUtil.isNull(spec)) {
+//                                spec = new Specification(goodsSpec.getSpecName(), 99, -1688);
+//                                iSpecificationService.saveSpecification(spec);
+//                                goodsSpec.setSpecId(spec.getId());
+//                            }
+//                        }
+//                        for (GoodsItemSpecificationValueSaveDTO goodsSpecValue : goodsSpec.getSpecValues()) {
+//                            SpecificationValue specValue = iSpecificationValueService.getSpecificationValueByKeyIdAndValueId(goodsSpec.getSpecId(), goodsSpecValue.getSpecValueId());
+//                            if (ObjectUtil.isNull(specValue)) {
+//                                specValue = new SpecificationValue(goodsSpecValue.getSpecValueName(), goodsSpec.getSpecId(), 99);
+//                                iSpecificationValueService.saveSpecificationValue(specValue);
+//                                goodsSpecValue.setSpecValueId(specValue.getId());
+//                            }
+//                        }
+//                    } else {
+//                        Specification spec = iSpecificationService.getSpecificationBySpecId(goodsSpec.getSpecId());
+//                        if (ObjectUtil.isNull(spec)) {
+//                            log.debug(StrUtil.format("商品(ID：{})保存成功，规格项保存失败：不存在的规格项：{}；方法：{}", product.getId(), goodsSpec.getSpecId(), "com.qxun.qlive.goods.service.impl.ProductServiceImpl.saveProduct"));
+//                            return 0;
+//                        }
+//                        for (GoodsItemSpecificationValueSaveDTO goodsSpecValue : goodsSpec.getSpecValues()) {
+//                            SpecificationValue specValue = iSpecificationValueService.getSpecificationValueByKeyIdAndValueId(goodsSpec.getSpecId(), goodsSpecValue.getSpecValueId());
+//                            if (ObjectUtil.isNull(specValue)) {
+//                                log.debug(StrUtil.format("商品(ID：{})保存成功，规格项保存失败：不存在的规格值：{}；方法：{}", product.getId(), goodsSpecValue.getSpecValueId(), "com.qxun.qlive.goods.service.impl.ProductServiceImpl.saveProduct"));
+//                                return 0;
 //                            }
 //                        }
 //                    }
-//                    if (newSkItemSpecIds.size() > 0) {
-//                        List<Integer> oriSkItemSpecIds = skItemSpecs.stream().map(s -> s.getId()).collect(Collectors.toList());
-//                        List<Integer> delSkItemSpecIds = oriSkItemSpecIds.stream().filter(i -> newSkItemSpecIds.stream().filter(n -> n.equals(i)).count() < 1).collect(Collectors.toList());
-//                        iSecKillItemSpecificationService.removeByIds(delSkItemSpecIds);
-//                    }
 //                }
 //            }
-            // 操作记录
-//            OperateRecord operateRecord = new OperateRecord();
-//            operateRecord.setTableName("Product");
-//            operateRecord.setIsUpdated(false);
-//            operateRecord.setOperateIP(NetUtil.getLocalhostStr());
-//            operateRecord.setOperateLoginName(tokenService.getUserName());
-//            if (isUpdate.equals(true)) {
-//                operateRecord.setBusinessName(OperateRecordBusinessEnum.ProductUpdate.name);
-//                operateRecord.setBusinessID(OperateRecordBusinessEnum.ProductUpdate.value);
-//            } else {
-//                operateRecord.setBusinessName(OperateRecordBusinessEnum.ProductAdd.name);
-//                operateRecord.setBusinessID(OperateRecordBusinessEnum.ProductAdd.value);
+//            // SKU
+//            List<Item> oriItems = new ArrayList<>();
+//            if (isUpdate) {
+//                oriItems = iItemService.getItemList(product.getId());
 //            }
-//            operateRecord.setEntityID(StrUtil.format(",{},", product.getId()));
-//            operateRecord.setState(CreateOrderNoUtil.StateNumberWithThreadID());
-//            iOperateRecordService.saveOrUpdate(operateRecord);
-        } catch (Exception ex) {
-            log.debug(ex.toString());
-        } finally {
-            return result;
-        }
-    }
+//            List<Integer> newItemIds = new ArrayList<>();
+//            List<Item> updateSkItems = new ArrayList<>();
+//            List<ItemSpecification> itemSpecs = new ArrayList<>();
+//            for (GoodsSkuSaveDTO sku : goodsSkus) {
+//                Item item = null;
+//                Boolean isItemUpdate = false;
+//                if (sku.getId() > 0) {
+//                    item = oriItems.stream().filter(i -> i.getId().equals(sku.getId())).findFirst().orElse(null);
+//                    isItemUpdate = true;
+//                }
+//                if (ObjectUtil.isNull(item)) {
+//                    item = new Item();
+//                    item.setProductID(product.getId());
+//                    item.setIsLock(false);
+//                }
+//                item.setNumber(sku.getCargoNumber());
+//                item.setCodeNumber(sku.getCargoCode());
+//                item.setPrice(sku.getPrice());
+//                item.setSupplyPrice(sku.getSupplyPrice());
+//                item.setWeight(sku.getWeight());
+//                item.setPartnerPrice(sku.getPartnerPrice());
+//                item.setInventory(sku.getInventory());
+//                item.setImageUrl(sku.getImageUrl());
+//
+//                List<ItemSpecification> _itemSpecs = new ArrayList<>();
+//                if (product.getIsAlibabaSelected()) {
+//                    item.setFromAlibabaSkuId(sku.getFromAlibabaSkuId());
+//                    item.setFromAlibabaSpecId(sku.getFromAlibabaSpecId());
+//
+//                    StringBuilder specCombIdStr = new StringBuilder(""), specCombNames = new StringBuilder("");
+//                    for (GoodsSkuSpecKVPSaveDTO kvp : sku.getFromAlibabaSpecKeyValuePairs()) {
+//                        GoodsItemSpecificationSaveDTO itemSpec = goodsSpecs.stream().filter(g -> g.getSpecName().equals(kvp.getSpecName())).findFirst().get();
+//                        GoodsItemSpecificationValueSaveDTO itemSpecValue = itemSpec.getSpecValues().stream().filter(g -> g.getSpecValueName().equals(kvp.getSpecValueName())).findFirst().get();
+//                        specCombIdStr.append(itemSpecValue.getSpecValueId() + ",");
+//                        specCombNames.append(itemSpecValue.getSpecValueName() + "*");
+//
+//                        ItemSpecification itemSpecification = new ItemSpecification();
+//                        itemSpecification.setItemID(item.getId());
+//                        itemSpecification.setProductID(product.getId());
+//                        itemSpecification.setSortID(itemSpecValue.getSpecValueSortId());
+//                        itemSpecification.setSortIDForTitle(itemSpec.getSpecSortId());
+//                        itemSpecification.setSpecificationID(itemSpec.getSpecId());
+//                        itemSpecification.setSpecificationValueID(itemSpecValue.getSpecValueId());
+//                        itemSpecification.setSpecificationTitle(itemSpec.getSpecName());
+//                        itemSpecification.setSpecificationContent(itemSpecValue.getSpecValueName());
+//                        itemSpecification.setIsAlibabaSelected(true);
+//                        _itemSpecs.add(itemSpecification);
+//                    }
+//                    item.setSpecificationCombinationID(specCombIdStr.toString());
+//                    item.setSpecificationCombinationName(specCombNames.toString());
+//                } else {
+//                    item.setWareHouseItemID(sku.getWareHouseItemID());
+//                    item.setSpecificationCombinationID(sku.getSpecificationCombinationID());
+//                    item.setSpecificationCombinationName(sku.getSpecificationCombinationName());
+//
+//                    List<String> specIds = StrUtil.split(item.getSpecificationCombinationID(), ',', true, true);
+//                    List<String> specNames = StrUtil.split(item.getSpecificationCombinationName(), '*', true, true);
+//                    for (int i = 0; i < specIds.size(); i++) {
+//                        String _specId = specIds.get(i);
+//                        GoodsItemSpecificationSaveDTO itemSpec = goodsSpecs.stream().filter(g -> g.getSpecValues().stream().filter(v -> v.getSpecValueId().equals(_specId)).count() > 0).findFirst().get();
+//                        GoodsItemSpecificationValueSaveDTO itemSpecValue = itemSpec.getSpecValues().stream().filter(v -> v.getSpecValueId().equals(_specId)).findFirst().get();
+//
+//                        ItemSpecification itemSpecification = new ItemSpecification();
+//                        itemSpecification.setItemID(item.getId());
+//                        itemSpecification.setProductID(product.getId());
+//                        itemSpecification.setSortID(itemSpecValue.getSpecValueSortId());
+//                        itemSpecification.setSortIDForTitle(itemSpec.getSpecSortId());
+//                        itemSpecification.setSpecificationID(itemSpec.getSpecId());
+//                        itemSpecification.setSpecificationValueID(itemSpecValue.getSpecValueId());
+//                        itemSpecification.setSpecificationTitle(itemSpec.getSpecName());
+//                        itemSpecification.setSpecificationContent(itemSpecValue.getSpecValueName());
+//                        itemSpecification.setIsAlibabaSelected(false);
+//                        _itemSpecs.add(itemSpecification);
+//                    }
+//                }
+//                iItemService.saveItem(item);
+//                if (isItemUpdate)
+//                    updateSkItems.add(item);
+//                else {
+//                    Integer itemId = item.getId();
+//                    _itemSpecs.forEach(s -> s.setItemID(itemId));
+//                }
+//
+//                newItemIds.add(item.getId());
+//                itemSpecs.addAll(_itemSpecs);
+//            }
+//            List<Integer> delItemIds = oriItems.stream().filter(i -> newItemIds.stream().filter(n -> n.equals(i.getId())).count() < 1).map(n -> n.getId()).collect(Collectors.toList());
+//            iItemService.removeByIds(delItemIds);
+//            // SKU规格
+//            iItemSpecificationService.removeItemSpecifications(product.getId());
+//            iItemSpecificationService.saveItemSpecifications(itemSpecs);
+//            // 商品满包邮
+//            iProductFreightCouponService.removeProductFreightCoupons(product.getId());
+//            if (product.getIsOpenFreightCoupon() && ObjectUtil.isNotNull(productFreightCoupon) && ObjectUtil.isNotEmpty(productFreightCoupon)) {
+//                productFreightCoupon.setProductID(product.getId());
+//                iProductFreightCouponService.saveProductFreightCoupon(productFreightCoupon);
+//            }
+//            // 商品满减
+//            iProductFullCouponService.removeProductFullCoupons(product.getId());
+//            if (product.getIsOpenFullCoupon() && ObjectUtil.isNotNull(productFullCoupon) && ObjectUtil.isNotEmpty(productFullCoupon)) {
+//                productFullCoupon.setProductID(product.getId());
+//                iProductFullCouponService.saveProductFullCoupon(productFullCoupon);
+//            }
+//            // 抢购
+////            List<SecKillProduct> needUpdateSkProducts = iSecKillProductService.getSecKillProductListByProductId(product.getId());
+////            if (ObjectUtil.isNotNull(needUpdateSkProducts) && ObjectUtil.isNotEmpty(needUpdateSkProducts) && needUpdateSkProducts.size() > 0) {
+////                for (int i = 0; i < needUpdateSkProducts.size(); i++) {
+////                    SecKillProduct skProduct = needUpdateSkProducts.get(i);
+////                    skProduct.setProductPrice(product.getPrice());
+////                    skProduct.setMasterImage(product.getMasterImage());
+////                    skProduct.setProductName(product.getName());
+////                }
+////                iSecKillProductService.saveSecKillProducts(needUpdateSkProducts);
+////
+////                if (ObjectUtil.isNotNull(updateSkItems) && ObjectUtil.isNotEmpty(updateSkItems) && updateSkItems.size() > 0) {
+////                    List<SecKillItemSpecification> skItemSpecs = iSecKillItemSpecificationService.getSecKillItemSpecificationListByProductId(product.getId());
+////                    List<SecKillItem> newSkItems = new ArrayList<>();
+////                    List<Integer> newSkItemSpecIds = new ArrayList<>();
+////                    for (Item item : updateSkItems) {
+////                        SecKillItem skItem = iSecKillItemService.getSecKillItemByItemId(item.getId());
+////                        if (ObjectUtil.isNotNull(skItem) && ObjectUtil.isNotEmpty(skItem)) {
+////                            skItem.setImageUrl(item.getImageUrl());
+////                            skItem.setSupplyPrice(item.getSupplyPrice());
+////                            skItem.setNumber(item.getNumber());
+////                            skItem.setCodeNumber(item.getCodeNumber());
+////                            skItem.setPartnerPrice(item.getPartnerPrice());
+////                            skItem.setItemPrice(item.getPrice());
+////                            iSecKillItemService.saveSecKillItem(skItem);
+////
+////                            List<ItemSpecification> thisItemSpecs = itemSpecs.stream().filter(i -> i.getItemID().equals(skItem.getItemID())).collect(Collectors.toList());
+////                            for (ItemSpecification itemSpec : thisItemSpecs) {
+////                                SecKillItemSpecification secKillItemSpec = skItemSpecs.stream().filter(s -> s.getItemID().equals(itemSpec.getItemID()) && s.getSpecificationID().equals(itemSpec.getSpecificationID())).findFirst().orElse(null);
+////                                if (ObjectUtil.isNull(secKillItemSpec)) {
+////                                    secKillItemSpec = new SecKillItemSpecification();
+////                                    secKillItemSpec.setItemID(skItem.getItemID());
+////                                    secKillItemSpec.setSecKillItemID(skItem.getId());
+////                                    secKillItemSpec.setProductID(product.getId());
+////                                    secKillItemSpec.setSecKillProductID(skItem.getSecKillProductID());
+////                                    secKillItemSpec.setSpecificationID(itemSpec.getSpecificationID());
+////                                }
+////                                secKillItemSpec.setSpecificationTitle(itemSpec.getSpecificationTitle());
+////                                secKillItemSpec.setSpecificationValueID(itemSpec.getSpecificationValueID());
+////                                secKillItemSpec.setSpecificationContent(itemSpec.getSpecificationContent());
+////                                secKillItemSpec.setSortID(itemSpec.getSortID());
+////                                secKillItemSpec.setSortIDForTitle(itemSpec.getSortIDForTitle());
+////                                secKillItemSpec.setIsAlibabaSelected(itemSpec.getIsAlibabaSelected());
+////                                iSecKillItemSpecificationService.saveSecKillItemSpecification(secKillItemSpec);
+////
+////                                newSkItemSpecIds.add(secKillItemSpec.getId());
+////                            }
+////                        }
+////                    }
+////                    if (newSkItemSpecIds.size() > 0) {
+////                        List<Integer> oriSkItemSpecIds = skItemSpecs.stream().map(s -> s.getId()).collect(Collectors.toList());
+////                        List<Integer> delSkItemSpecIds = oriSkItemSpecIds.stream().filter(i -> newSkItemSpecIds.stream().filter(n -> n.equals(i)).count() < 1).collect(Collectors.toList());
+////                        iSecKillItemSpecificationService.removeByIds(delSkItemSpecIds);
+////                    }
+////                }
+////            }
+//            // 操作记录
+////            OperateRecord operateRecord = new OperateRecord();
+////            operateRecord.setTableName("Product");
+////            operateRecord.setIsUpdated(false);
+////            operateRecord.setOperateIP(NetUtil.getLocalhostStr());
+////            operateRecord.setOperateLoginName(tokenService.getUserName());
+////            if (isUpdate.equals(true)) {
+////                operateRecord.setBusinessName(OperateRecordBusinessEnum.ProductUpdate.name);
+////                operateRecord.setBusinessID(OperateRecordBusinessEnum.ProductUpdate.value);
+////            } else {
+////                operateRecord.setBusinessName(OperateRecordBusinessEnum.ProductAdd.name);
+////                operateRecord.setBusinessID(OperateRecordBusinessEnum.ProductAdd.value);
+////            }
+////            operateRecord.setEntityID(StrUtil.format(",{},", product.getId()));
+////            operateRecord.setState(CreateOrderNoUtil.StateNumberWithThreadID());
+////            iOperateRecordService.saveOrUpdate(operateRecord);
+//        } catch (Exception ex) {
+//            log.debug(ex.toString());
+//        } finally {
+//            return result;
+//        }
+//    }
 
     /**
      * 仅保存商品
      * @param product 商品信息
      * @return 商品ID
      */
+    @Override
     public Integer saveProduct(Product product) {
         if (saveOrUpdate(product)) {
             setProductRedis(product, false);
@@ -584,8 +585,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
                 if (ObjectUtil.isNotEmpty(product)) {
                     product.setSortID(vo.getSort());
                     product.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-                    if (productMapper.update(product, wrapper) < 1)
+                    if (productMapper.update(product, wrapper) < 1) {
                         throw new Exception(StrUtil.format("商品(ID：{})排序保存失败", vo.getPid()));
+                    }
                 }
             }
             // 操作记录
@@ -624,8 +626,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
                 if (ObjectUtil.isNotEmpty(product)) {
                     product.setIsRecommend(isRecommend);
                     product.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-                    if (productMapper.update(product, wrapper) < 1)
+                    if (productMapper.update(product, wrapper) < 1) {
                         throw new Exception(StrUtil.format("商品(ID：{})排序保存失败", productId));
+                    }
                 }
             }
             // 操作记录
@@ -669,10 +672,12 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
                     product.setIsOnShelf(isOnShelf.equals(true) ? ProductShelfEnum.OnShelf.value : ProductShelfEnum.OffShelf.value);
                     product.setUpdateTime(new Timestamp(System.currentTimeMillis()));
                     product.setOffShelfTime(new Timestamp(System.currentTimeMillis()));
-                    if (isOnShelf.equals(true))
+                    if (isOnShelf.equals(true)) {
                         product.setIsRecommend(true);
-                    if (productMapper.update(product, wrapper) < 1)
+                    }
+                    if (1 > productMapper.update(product, wrapper)) {
                         throw new Exception(StrUtil.format("商品(ID：{})上下架保存失败", productId));
+                    }
                 }
             }
             // 操作记录
@@ -713,8 +718,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
             for (Product product : products) {
                 product.setCheckStatus(isCheck.equals(true) ? 1 : 2);
                 product.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-                if (productMapper.updateById(product) < 1)
+                if (productMapper.updateById(product) < 1) {
                     throw new Exception(StrUtil.format("商品(ID：{})审核保存失败", product.getId()));
+                }
             }
             result = Boolean.TRUE;
         } catch (Exception ex) {
@@ -748,8 +754,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
                     product.setIsOnShelf(0);
                 }
                 product.setUpdateTime(new Timestamp(System.currentTimeMillis()));
-                if (productMapper.updateById(product) < 1)
+                if (productMapper.updateById(product) < 1) {
                     throw new Exception(StrUtil.format("商品(ID：{})删除保存失败", product.getId()));
+                }
             }
             // 操作记录
 //            OperateRecord operateRecord = new OperateRecord();
@@ -781,7 +788,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
      */
     @Override
     public Boolean checkProductIsRefund(int productId) {
-        if (productId < 1) return false;
+        if (productId < 1) {
+            return false;
+        }
         return productMapper.checkProductIsRefund(productId);
     }
 
@@ -803,13 +812,17 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
      */
     @Override
     public void setProductRedis(Product product, Boolean isFreshOther) {
-        if (product == null) return;
+        if (product == null) {
+            return;
+        }
         //商品
         redisUtil.putHash(RedisKey.getProductHashKey(), product.getId(), product);
         redisUtil.putHash(RedisKey.getSimpleProductHashKey(), product.getId(), MapUtil.ChangeObject(product, SimpleProduct.class));
         //商品详情
         redisUtil.putHash(RedisKey.getProductDetailHashKey(), product.getId(), MapUtil.ChangeObject(product, ProductDetail.class));
-        if (!isFreshOther) return;
+        if (!isFreshOther) {
+            return;
+        }
         //规格
         iItemService.setItemsRedis(product.getId(), iItemService.getItemList(product.getId()), true);
         //相册
@@ -902,10 +915,11 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
                 redisUtil.putHash(productRedisKey, product.getId(), product);
 
                 SimpleProduct simpleProduct = redisUtil.getObjectFromHash(simProductRedisKey, product.getId(), SimpleProduct.class);
-                if (ObjectUtil.isEmpty(simpleProduct))
+                if (ObjectUtil.isEmpty(simpleProduct)) {
                     simpleProduct = MapUtil.ChangeObject(product, SimpleProduct.class);
-                else
+                } else {
                     simpleProduct.setIsOnShelf(product.getIsOnShelf());
+                }
                 redisUtil.putHash(simProductRedisKey, product.getId(), simpleProduct);
             }
         }
@@ -924,12 +938,13 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
             redisUtil.multiDeleteFromHash(RedisKey.getProductCreateMaterialsHashKey(), productIds);
             for (Integer productId : productIds) {
                 List<Item> items = redisUtil.getListFromHashList(RedisKey.getItemsProductIdHashKey(productId.toString()), Item.class);
-                if (CollUtil.isNotEmpty(items) && items.size() > 0)
+                if (CollUtil.isNotEmpty(items) && items.size() > 0) {
                     items.forEach(i -> redisUtil.deleteFromHash(RedisKey.getItemHashKey(), i.getId()));
+                }
                 redisUtil.deleteHash(RedisKey.getItemsProductIdHashKey(productId.toString()));
             }
             redisUtil.multiDeleteFromHash(RedisKey.getItemSpecificationKeyValusGroupsHashKey(), productIds);
-            iStoreyCategoryProductService.deleteByProductIds(productIds);
+//            iStoreyCategoryProductService.deleteByProductIds(productIds);
         } else {
             List<Product> products = getSimiliarProductList(productIds);
             if (CollUtil.isNotEmpty(products) && products.size() > 0) {

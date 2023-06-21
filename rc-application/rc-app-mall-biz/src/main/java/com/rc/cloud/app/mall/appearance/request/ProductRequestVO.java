@@ -1,7 +1,6 @@
 package com.rc.cloud.app.mall.appearance.request;
 
 import cn.hutool.core.date.DateUtil;
-import com.qxun.qlive.common.base.PageVO;
 import lombok.Data;
 
 import java.text.SimpleDateFormat;

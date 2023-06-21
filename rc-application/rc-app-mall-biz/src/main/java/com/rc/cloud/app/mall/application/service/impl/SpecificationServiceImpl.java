@@ -2,9 +2,10 @@ package com.rc.cloud.app.mall.application.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.qxun.qlive.goods.api.ISpecificationService;
-import com.qxun.qlive.goods.mapper.SpecificationMapper;
-import com.qxun.qlive.goods.model.Specification;
+
+import com.rc.cloud.app.mall.application.service.ISpecificationService;
+import com.rc.cloud.app.mall.infrastructure.persistence.mapper.SpecificationMapper;
+import com.rc.cloud.app.mall.infrastructure.persistence.po.Specification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +26,7 @@ public class SpecificationServiceImpl extends ServiceImpl<SpecificationMapper, S
      * @param specId 规格项ID
      * @return 规格项
      */
+    @Override
     public Specification getSpecificationBySpecId(int specId) {
         QueryWrapper<Specification> wrapper = new QueryWrapper<>();
         wrapper.eq("ID", specId);
@@ -36,6 +38,7 @@ public class SpecificationServiceImpl extends ServiceImpl<SpecificationMapper, S
      * @param specName 规格项名称
      * @return 规格项
      */
+    @Override
     public Specification getSpecificationBySpecNameFromAlibaba(String specName) {
         QueryWrapper<Specification> wrapper = new QueryWrapper<>();
         wrapper.eq("Title", specName);
@@ -47,6 +50,7 @@ public class SpecificationServiceImpl extends ServiceImpl<SpecificationMapper, S
      * 保存规格
      * @return 影响的行数
      */
+    @Override
     public Integer saveSpecification(Specification specification) {
         if (specification.getId() > 0) {
             QueryWrapper<Specification> wrapper = new QueryWrapper<>();

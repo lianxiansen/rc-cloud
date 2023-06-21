@@ -1,7 +1,5 @@
 package com.rc.cloud.app.mall.infrastructure.util;
 
-import com.qxun.qlive.common.annotations.CopySourceName;
-import com.qxun.qlive.common.enums.CopyBeanStrategyEnum;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.lang.Nullable;
@@ -114,7 +112,9 @@ public class CopyBeanUtils {
             Method writeMethod = targetPd.getWriteMethod();
             String name = targetPd.getName();
             String sourceName = copySourceNameMap.get(name);
-            if (sourceName != null) name = sourceName;
+            if (sourceName != null) {
+                name = sourceName;
+            }
             if (writeMethod != null && (ignoreList == null || !ignoreList.contains(name))) {
                 PropertyDescriptor sourcePd = BeanUtils.getPropertyDescriptor(source.getClass(), name);
                 if (sourcePd != null) {

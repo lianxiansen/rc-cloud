@@ -90,27 +90,33 @@ public class RedisUtil {
 
     public String getString(String redisKey, String hashKey) {
         Object redis = stringRedisTemplate.opsForHash().get(redisKey, hashKey);
-        if (ObjectUtil.isEmpty(redis))
+        if (ObjectUtil.isEmpty(redis)) {
             return "";
+        }
         return redis.toString();
     }
 
     public <T> T getObject(String redisKey, Class<T> clazz) {
         String redisString = stringRedisTemplate.opsForValue().get(redisKey);
-        if (StrUtil.isEmptyOrUndefined(redisString))
+        if (StrUtil.isEmptyOrUndefined(redisString)) {
             return null;
+        }
         return RedisJson.parseObject(redisString, clazz);
     }
 
     public <T> T getObjectFromHash(String redisKey, int id, Class<T> clazz) {
         Object obj = stringRedisTemplate.opsForHash().get(redisKey, String.valueOf(id));
-        if (ObjectUtil.isEmpty(obj)) return null;
+        if (ObjectUtil.isEmpty(obj)) {
+            return null;
+        }
         return RedisJson.parseObject(JSONUtil.toJsonStr(obj), clazz);
     }
 
     public <T> List<T> getListFromHash(String redisKey, int id, Class<T> clazz) {
         Object obj = stringRedisTemplate.opsForHash().get(redisKey, String.valueOf(id));
-        if (ObjectUtil.isEmpty(obj)) return null;
+        if (ObjectUtil.isEmpty(obj)) {
+            return null;
+        }
         return RedisJson.parseList(obj.toString(), clazz);
     }
 
@@ -283,11 +289,11 @@ public class RedisUtil {
      */
     public Boolean setLock(String lockKey, String value, long seconds) {
         return stringRedisTemplate.execute((RedisCallback<Boolean>) redisConnection -> {
-            Jedis jedis = (Jedis) redisConnection.getNativeConnection();
-            String result = jedis.set(lockKey, value, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, seconds);
-            if (LOCK_SUCCESS.equals(result)) {
-                return Boolean.TRUE;
-            }
+//            Jedis jedis = (Jedis) redisConnection.getNativeConnection();
+//            String result = jedis.set(lockKey, value, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, seconds);
+//            if (LOCK_SUCCESS.equals(result)) {
+//                return Boolean.TRUE;
+//            }
             return Boolean.FALSE;
         });
     }
