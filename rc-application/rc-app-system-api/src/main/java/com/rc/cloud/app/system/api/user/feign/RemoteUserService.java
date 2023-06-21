@@ -24,7 +24,7 @@ public interface RemoteUserService {
 	 * @param username 用户名
 	 * @return CodeResult
 	 */
-	@GetMapping(value = "/user/info/{username}", headers = SecurityConstants.HEADER_FROM_IN)
+	@GetMapping(value = "/sys/user/info/{username}", headers = SecurityConstants.HEADER_FROM_IN)
 	CodeResult<UserInfo> info(@PathVariable("username") String username);
 
 	/**
@@ -32,7 +32,7 @@ public interface RemoteUserService {
 	 * @param mobile 手机号码
 	 * @return R
 	 */
-	@GetMapping(value = "/app/info/{mobile}", headers = SecurityConstants.HEADER_FROM_IN)
+	@GetMapping(value = "/sys/app/info/{mobile}", headers = SecurityConstants.HEADER_FROM_IN)
 	CodeResult<UserInfo> infoByMobile(@PathVariable("mobile") String mobile);
 
 	/**
@@ -40,7 +40,7 @@ public interface RemoteUserService {
 	 * @param deptIds 部门id 集合
 	 * @return 用户 id 集合
 	 */
-	@GetMapping(value = "/user/ids", headers = SecurityConstants.HEADER_FROM_IN)
+	@GetMapping(value = "/sys/user/ids", headers = SecurityConstants.HEADER_FROM_IN)
 	CodeResult<List<Long>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Long> deptIds);
 
 }
