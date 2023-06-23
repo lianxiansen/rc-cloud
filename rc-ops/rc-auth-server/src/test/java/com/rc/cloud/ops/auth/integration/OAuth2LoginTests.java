@@ -2,40 +2,28 @@
  * @author oliveoil
  * date 2023-06-21 14:59
  */
-package com.rc.cloud.ops.auth.controller;
+package com.rc.cloud.ops.auth.integration;
 
 import com.alibaba.fastjson.JSONObject;
 import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.ops.auth.common.dto.CaptchaDTO;
 import com.rc.cloud.ops.auth.common.dto.LoginReturnDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 
 import static com.rc.cloud.common.core.constant.CacheConstants.DEFAULT_CODE_KEY;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RcTest
-public class OAuth2ControllerTests {
-
-    @Autowired
-    private WebApplicationContext context;
+public class OAuth2LoginTests {
 
     @Resource
     private RestTemplate restTemplate;
@@ -43,17 +31,8 @@ public class OAuth2ControllerTests {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
-    private MockMvc mvc;
-
-    @BeforeEach
-    public void setup() {
-        mvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .build();
-    }
-
     @Test
-    public void loginReturnUserInfo_success() throws Exception {
+    public void loginReturnToken_success() throws Exception {
         CaptchaDTO captchaDTO = this.createCaptcha();
         String url = "http://localhost:8020/auth/oauth2/token?randomStr="
                 + captchaDTO.getRandomStr()
