@@ -5,28 +5,21 @@
 package com.rc.cloud.app.system.contorller.admin.permission;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.common.cache.RedisCache;
-import com.rc.cloud.app.system.common.cache.RedisKeys;
-import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.app.system.controller.admin.permission.RoleController;
-//import com.rc.cloud.app.system.service.auth.AdminAuthService;
-//import com.rc.cloud.app.system.service.captcha.CaptchaService;
-import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
-import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.permission.role.RoleCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RoleUpdateReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RoleUpdateStatusReqVO;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
+import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.annotation.Resource;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -45,15 +38,6 @@ public class RoleControllerTests {
 
     private MockMvc mvc;
 
-//    @Resource
-//    private AdminAuthService authService;
-
-    @Resource
-    private RedisCache redisCache;
-
-//    @Resource
-//    private CaptchaService captchaService;
-
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
@@ -65,6 +49,7 @@ public class RoleControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void createRole_success() throws Exception {
         RoleCreateReqVO createReqVO = new RoleCreateReqVO();
         createReqVO.setName("测试角色");
@@ -75,7 +60,6 @@ public class RoleControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(createReqVO);
         mvc.perform(post("/sys/role/create")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -87,6 +71,7 @@ public class RoleControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void updateRole_success() throws Exception {
         RoleUpdateReqVO updateReqVO = new RoleUpdateReqVO();
         updateReqVO.setId(101L);
@@ -98,7 +83,6 @@ public class RoleControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(updateReqVO);
         mvc.perform(put("/sys/role/update")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -110,6 +94,7 @@ public class RoleControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void updateRoleStatus_success() throws Exception {
         RoleUpdateStatusReqVO updateStatusReqVO = new RoleUpdateStatusReqVO();
         updateStatusReqVO.setId(101L);
@@ -118,7 +103,6 @@ public class RoleControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(updateStatusReqVO);
         mvc.perform(put("/sys/role/update-status")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -130,9 +114,9 @@ public class RoleControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void deleteRole_success() throws Exception {
-        mvc.perform(delete("/sys/role/101")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(delete("/sys/role/101"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -141,9 +125,9 @@ public class RoleControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getRoleById_success() throws Exception {
-        mvc.perform(get("/sys/role/101")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/role/101"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -151,9 +135,9 @@ public class RoleControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getRolePage_success() throws Exception {
-        mvc.perform(get("/sys/role/page")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/role/page"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -165,9 +149,9 @@ public class RoleControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getRoleListAllSimple_success() throws Exception {
-        mvc.perform(get("/sys/role/list-all-simple")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/role/list-all-simple"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -175,27 +159,5 @@ public class RoleControllerTests {
                 .andExpect(jsonPath("$.data").isArray())
                 .andExpect(jsonPath("$.data").isNotEmpty())
                 .andExpect(jsonPath("$.data[0].name").value("测试账号"));
-    }
-
-    private AuthLoginRespVO getToken() {
-        AuthLoginReqVO login = new AuthLoginReqVO();
-        login.setUsername("admin");
-        login.setPassword("123456");
-//        String key = getCaptcha().getKey();
-        String key = "1234";
-        login.setKey(key);
-        String captchaCode = getCaptchaCode(key);
-        login.setCaptcha(captchaCode);
-//        return authService.login(login);
-        return null;
-    }
-
-//    private CaptchaVO getCaptcha() {
-//        return captchaService.generate();
-//    }
-
-    private String getCaptchaCode(String key) {
-        key = RedisKeys.getCaptchaKey(key);
-        return (String) redisCache.get(key);
     }
 }
