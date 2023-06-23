@@ -8,8 +8,6 @@ import com.rc.cloud.common.core.web.CodeResult;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,8 +25,6 @@ import javax.annotation.Resource;
 public class RcUserDetailsServiceImpl implements RcUserDetailsService {
 
 	private final RemoteUserService remoteUserService;
-
-	private final CacheManager cacheManager;
 
 	@Resource
 	private StringRedisTemplate stringRedisTemplate;
