@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,11 +20,10 @@ import java.sql.Timestamp;
  * @author chenjianxiang
  * @since 2021-02-19
  */
+@TableName("product")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
-@TableName("[Product]")
-public class Product extends BaseEntity<Product> {
+public class Product extends BaseDO {
 
     private static final long serialVersionUID = 1L;
 
@@ -661,12 +661,7 @@ public class Product extends BaseEntity<Product> {
         return offShelfTime;
     }
 
-    public Timestamp getUpdateTime() {
-        if(updateTime==null){
-            return new Timestamp(0);
-        }
-        return updateTime;
-    }
+
 
     public Boolean getIsQualityRecommend() {
         if(isQualityRecommend==null){
