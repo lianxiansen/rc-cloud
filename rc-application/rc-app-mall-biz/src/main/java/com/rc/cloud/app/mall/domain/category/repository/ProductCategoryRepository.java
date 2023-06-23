@@ -14,10 +14,10 @@ import java.util.List;
  * @Date 2021-03-28
  * @Description:
  */
-public interface ProductCategoryRepository extends IService<ProductCategory> {
+public interface ProductCategoryRepository{
     List<ProductCategoryEntry> getFirstList(ProductCategoryLocked locked, ProductCategoryLayer layer,ProductCategoryParent parent);
 
-
+    ProductCategoryId nextId();
 //    List<ProductCategory> getFirstList();
 
     //优惠券用到
@@ -63,5 +63,5 @@ public interface ProductCategoryRepository extends IService<ProductCategory> {
     //
     List<ProductCategory> getRedisList();
 
-    ProductCategoryId nextId();
+
 }

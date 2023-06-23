@@ -77,6 +77,10 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
         }
     }
 
+    @Override
+    public ProductCategoryId nextId(){
+        return new ProductCategoryId(remoteIdGeneratorService.uidGenerator());
+    }
     /**
      * 津贴用的。
      *
@@ -573,8 +577,5 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
        return redisUtil.getListFromHashList(RedisKey.getProductCategoryHashKey(),ProductCategory.class);
     }
 
-    @Override
-    public ProductCategoryId nextId(){
-        return new ProductCategoryId(remoteIdGeneratorService.uidGenerator());
-    }
+
 }
