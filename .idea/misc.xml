@@ -23,6 +23,7 @@
         <option value="$PROJECT_DIR$/uid-generator-boot/pom.xml" />
         <option value="$PROJECT_DIR$/rc-application/rc-sys-server/pom.xml" />
         <option value="$PROJECT_DIR$/rc-application/rc-sys-server-api/pom.xml" />
+        <option value="$PROJECT_DIR$/rc-application/demo/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
