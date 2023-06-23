@@ -51,6 +51,14 @@ rc:
   web:
     admin-ui:
       url: http://dashboard.rc.cn # Admin 管理后台 UI 的地址
+  swagger:
+    title: 芋道快速开发平台
+    description: 提供管理后台、用户 App 的所有功能
+    version: ${rc.info.version}
+    url: ${rc.web.admin-ui.url}
+    email: xingyu4j@vip.qq.com
+    license: MIT
+    license-url: https://gitee.com/zhijiantianya/ruoyi-vue-pro/blob/master/LICENSE
   tenant: # 多租户相关配置项
     ignore-urls:
       - /admin-api/system/tenant/get-id-by-name # 基于名字获取租户，不许带租户编号
