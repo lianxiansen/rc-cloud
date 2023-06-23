@@ -28,7 +28,6 @@ import java.util.List;
 @EnableSwagger2
 @Import({SwaggerBeanPostProcessor.class})
 public class Knife4jConfiguration {
-
     @Bean
     @ConditionalOnMissingBean
     public SwaggerProperties swaggerProperties() {

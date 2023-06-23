@@ -21,6 +21,8 @@ spring:
       password: nacos
       discovery:
         server-addr: 127.0.0.1:8848
+        enabled: false
+        register-enabled: false
 
 # Lock4j 配置项
 lock4j:

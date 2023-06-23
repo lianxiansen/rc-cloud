@@ -5,7 +5,7 @@ spring:
   autoconfigure:
     exclude:
       - com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure # 排除 Druid 的自动配置，使用 dynamic-datasource-spring-boot-starter 配置多数据源
-      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration # 排除积木报表带来的 MongoDB 的自动配置
+#      - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration # 排除积木报表带来的 MongoDB 的自动配置
   datasource:
     druid: # Druid 【监控】相关的全局配置
       web-stat-filter:
@@ -38,20 +38,26 @@ spring:
         test-while-idle: true
         test-on-borrow: false
         test-on-return: false
-      primary: master
+      primary: distributor
       datasource:
-        master:
-          name: rc-cloud-system
-          url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.dynamic.datasource.master.name}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+#        master:
+#          name: rc-cloud-system
+#          url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.dynamic.datasource.master.name}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+#          driver-class-name: com.mysql.cj.jdbc.Driver
+#          username: root
+#          password: root
+#        slave: # 模拟从库，可根据自己需要修改 # 模拟从库，可根据自己需要修改
+#          name: rc-cloud-system
+#          url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.dynamic.datasource.slave.name}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+#          driver-class-name: com.mysql.cj.jdbc.Driver
+#          username: root
+#          password: root
+        distributor:
+          name: rc-cloud-distributor
+          url: jdbc:mysql://127.0.0.1:3306/zx_ceshi?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: root
-          password: 123456
-        slave: # 模拟从库，可根据自己需要修改 # 模拟从库，可根据自己需要修改
-          name: rc-cloud-system
-          url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.dynamic.datasource.slave.name}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          username: root
-          password: 123456
+          password: root
   # Redis 配置。Redisson 默认的配置足够使用，一般不需要进行调优
   redis:
     host: 127.0.0.1 # 地址
