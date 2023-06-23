@@ -31,6 +31,12 @@
             <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-redis</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!--注册中心客户端-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -51,18 +57,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
-<!--        &lt;!&ndash;caffeine 替换LB 默认缓存实现&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.github.ben-manes.caffeine</groupId>-->
-<!--            <artifactId>caffeine</artifactId>-->
-<!--            <version>2.9.3</version>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash;验证码 源码： https://github.com/pig-mesh/easy-captcha &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.pig4cloud.plugin</groupId>-->
-<!--            <artifactId>captcha-spring-boot-starter</artifactId>-->
-<!--            <version>2.2.2</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-crypto</artifactId>
@@ -86,6 +80,12 @@
         <dependency>
             <groupId>com.github.whvcse</groupId>
             <artifactId>easy-captcha</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-test</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
