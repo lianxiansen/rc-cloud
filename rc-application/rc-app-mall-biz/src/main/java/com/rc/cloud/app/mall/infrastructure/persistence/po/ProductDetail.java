@@ -2,7 +2,9 @@ package com.rc.cloud.app.mall.infrastructure.persistence.po;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 商品详情
@@ -10,10 +12,29 @@ import lombok.Data;
  * @Date 2021/3/25
  * @Description:
  */
+@TableName("product_detail")
 @Data
-public class ProductDetail extends BaseEntity<ProductDetail> {
+@EqualsAndHashCode(callSuper = false)
+public class ProductDetail {
 
-    @TableField("Detail")
-    @JSONField(ordinal = 1, name = "Detail")
+
+    private static final long serialVersionUID = 34322L;
+
+    @TableField("id")
+    private Long Id;
+    /**
+     * 租户id
+     */
+    @TableField("tenant_id")
+    private Long tenantId;
+
+    /**
+     * 品牌ID
+     */
+    @TableField("product_id")
+    private Long productId;
+
+
+    @TableField("detail")
     private String detail;
 }

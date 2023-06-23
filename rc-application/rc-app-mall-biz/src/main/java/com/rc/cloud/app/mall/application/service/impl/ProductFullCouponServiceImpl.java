@@ -8,8 +8,6 @@ import com.rc.cloud.app.mall.application.service.IProductService;
 import com.rc.cloud.app.mall.infrastructure.config.RedisKey;
 import com.rc.cloud.app.mall.infrastructure.persistence.mapper.ProductFullCouponMapper;
 import com.rc.cloud.app.mall.infrastructure.persistence.po.Product;
-import com.rc.cloud.app.mall.infrastructure.persistence.po.ProductFullCoupon;
-import com.rc.cloud.app.mall.infrastructure.persistence.po.SimpleProduct;
 import com.rc.cloud.app.mall.infrastructure.util.MapUtil;
 import com.rc.cloud.app.mall.infrastructure.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;

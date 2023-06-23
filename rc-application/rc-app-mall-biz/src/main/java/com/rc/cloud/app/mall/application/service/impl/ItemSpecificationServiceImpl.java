@@ -10,7 +10,6 @@ import com.rc.cloud.app.mall.application.data.ItemSpecValueDTO;
 import com.rc.cloud.app.mall.application.service.IItemSpecificationService;
 import com.rc.cloud.app.mall.infrastructure.config.RedisKey;
 import com.rc.cloud.app.mall.infrastructure.persistence.mapper.ItemSpecificationMapper;
-import com.rc.cloud.app.mall.infrastructure.persistence.po.ItemSpecification;
 import com.rc.cloud.app.mall.infrastructure.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

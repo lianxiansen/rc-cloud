@@ -4,8 +4,12 @@ server:
 spring:
   main:
     web-application-type: reactive
+    allow-bean-definition-overriding: true
   application:
     name: rc-ops-gateway
+  # 激活环境配置
+  profiles:
+    active: dev
   cloud:
     nacos:
       username: nacos
@@ -52,7 +56,6 @@ spring:
             - Path=/v3/api-docs/**
           filters:
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/$\{path}/v3/api-docs
-
 gateway:
   encode-key: 'thanks,pig4cloud'
   ignore-clients:

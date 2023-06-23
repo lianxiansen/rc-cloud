@@ -11,7 +11,6 @@ import com.rc.cloud.app.mall.appearance.request.ProductCategorySaveVO;
 import com.rc.cloud.app.mall.appearance.request.ProductCategoryVO;
 import com.rc.cloud.app.mall.application.service.IProductCategoryService;
 import com.rc.cloud.app.mall.infrastructure.config.RedisKey;
-import com.rc.cloud.app.mall.infrastructure.persistence.po.CategoryFindGoods;
 import com.rc.cloud.app.mall.infrastructure.persistence.po.ProductCategory;
 import com.rc.cloud.app.mall.infrastructure.util.*;
 import lombok.extern.slf4j.Slf4j;

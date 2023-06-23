@@ -5,28 +5,21 @@
 package com.rc.cloud.app.system.contorller.admin.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.common.cache.RedisCache;
-import com.rc.cloud.app.system.common.cache.RedisKeys;
-import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.app.system.controller.admin.user.UserProfileController;
-//import com.rc.cloud.app.system.service.auth.AdminAuthService;
-//import com.rc.cloud.app.system.service.captcha.CaptchaService;
-import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
-import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
 import com.rc.cloud.common.core.enums.SexEnum;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
+import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.annotation.Resource;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -46,15 +39,6 @@ public class UserProfileControllerTests {
 
     private MockMvc mvc;
 
-//    @Resource
-//    private AdminAuthService authService;
-
-    @Resource
-    private RedisCache redisCache;
-
-//    @Resource
-//    private CaptchaService captchaService;
-
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
@@ -66,9 +50,9 @@ public class UserProfileControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getUserProfileById_success() throws Exception {
-        mvc.perform(get("/sys/user/profile/get")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/user/profile/get"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -77,6 +61,7 @@ public class UserProfileControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void updateUserProfile_success() throws Exception {
         UserProfileUpdateReqVO updateReqVO = new UserProfileUpdateReqVO();
         updateReqVO.setNickname("admin1");
@@ -87,7 +72,6 @@ public class UserProfileControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(updateReqVO);
         mvc.perform(put("/sys/user/profile/update")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -99,6 +83,7 @@ public class UserProfileControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void updatePassword_success() throws Exception {
         UserProfileUpdatePasswordReqVO updateReqVO = new UserProfileUpdatePasswordReqVO();
         updateReqVO.setOldPassword("123456");
@@ -107,7 +92,6 @@ public class UserProfileControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(updateReqVO);
         mvc.perform(put("/sys/user/profile/update-password")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -116,28 +100,5 @@ public class UserProfileControllerTests {
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data").isNotEmpty());
-    }
-
-
-    private AuthLoginRespVO getToken() {
-        AuthLoginReqVO login = new AuthLoginReqVO();
-        login.setUsername("admin");
-        login.setPassword("123456");
-//        String key = getCaptcha().getKey();
-        String key = "1234";
-        login.setKey(key);
-        String captchaCode = getCaptchaCode(key);
-        login.setCaptcha(captchaCode);
-//        return authService.login(login);
-        return null;
-    }
-
-//    private CaptchaVO getCaptcha() {
-//        return captchaService.generate();
-//    }
-
-    private String getCaptchaCode(String key) {
-        key = RedisKeys.getCaptchaKey(key);
-        return (String) redisCache.get(key);
     }
 }

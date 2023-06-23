@@ -38,6 +38,14 @@ public class SecurityUtils {
 		return null;
 	}
 
+	public String getUsername() {
+		Authentication authentication = getAuthentication();
+		if (authentication == null) {
+			return null;
+		}
+		return authentication.getName();
+	}
+
 	/**
 	 * 获取用户
 	 */

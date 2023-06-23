@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rc.cloud.app.mall.application.service.ISpecificationValueService;
 import com.rc.cloud.app.mall.infrastructure.persistence.mapper.SpecificationValueMapper;
-import com.rc.cloud.app.mall.infrastructure.persistence.po.SpecificationValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

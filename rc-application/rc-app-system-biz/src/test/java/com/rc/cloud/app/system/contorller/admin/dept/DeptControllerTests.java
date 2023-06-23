@@ -6,21 +6,17 @@ package com.rc.cloud.app.system.contorller.admin.dept;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.system.common.cache.RedisCache;
-import com.rc.cloud.app.system.common.cache.RedisKeys;
-import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.app.system.controller.admin.dept.DeptController;
-//import com.rc.cloud.app.system.service.auth.AdminAuthService;
-//import com.rc.cloud.app.system.service.captcha.CaptchaService;
-import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
-import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptUpdateReqVO;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
+import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -43,14 +39,6 @@ public class DeptControllerTests {
     private WebApplicationContext context;
 
     private MockMvc mvc;
-//    @Resource
-//    private AdminAuthService authService;
-
-    @Resource
-    private RedisCache redisCache;
-
-//    @Resource
-//    private CaptchaService captchaService;
 
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
@@ -63,9 +51,9 @@ public class DeptControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getDeptList_success() throws Exception {
-        mvc.perform(get("/sys/dept/list")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/dept/list"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -76,9 +64,9 @@ public class DeptControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getDeptById_success() throws Exception {
-        mvc.perform(get("/sys/dept/100")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/dept/100"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -86,9 +74,9 @@ public class DeptControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getDeptById_when_ParentExist_then_returnParentName() throws Exception {
-        mvc.perform(get("/sys/dept/101")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/dept/101"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -97,9 +85,9 @@ public class DeptControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getDeptByIdNotExist_then_throwNotFoundException() throws Exception {
-        mvc.perform(get("/sys/dept/9999999")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/dept/9999999"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(1002004002))
@@ -107,6 +95,7 @@ public class DeptControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void createDept_success() throws Exception {
         DeptCreateReqVO deptCreateReqVO = new DeptCreateReqVO();
         deptCreateReqVO.setName("测试项目组001");
@@ -119,7 +108,6 @@ public class DeptControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(deptCreateReqVO);
         mvc.perform(post("/sys/dept/create")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -133,6 +121,7 @@ public class DeptControllerTests {
     // TODO:: create dept sad path
 
     @Test
+    @WithMockUser("admin")
     public void updateDept_success() throws Exception {
         DeptUpdateReqVO deptUpdateReqVO = new DeptUpdateReqVO();
         deptUpdateReqVO.setId(105L);
@@ -144,7 +133,6 @@ public class DeptControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(deptUpdateReqVO);
         mvc.perform(put("/sys/dept/update")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -156,9 +144,9 @@ public class DeptControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void deleteDept_success() throws Exception {
-        mvc.perform(delete("/sys/dept/109")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(delete("/sys/dept/109"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -167,9 +155,9 @@ public class DeptControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void deleteDept_when_idNotExist_then_throwNotFoundException() throws Exception {
-        mvc.perform(delete("/sys/dept/999999")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(delete("/sys/dept/999999"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(1002004002))
@@ -178,9 +166,9 @@ public class DeptControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void deleteDept_when_childExist_then_throwNotFailedException() throws Exception {
-        mvc.perform(delete("/sys/dept/101")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(delete("/sys/dept/101"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(1002004003))
@@ -189,9 +177,9 @@ public class DeptControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void listDeptAllSimple_success() throws Exception {
-        mvc.perform(get("/sys/dept/list-all-simple")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/dept/list-all-simple"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -208,26 +196,4 @@ public class DeptControllerTests {
 //                .andExpect(jsonPath("$.code").value(10200))
 //                .andExpect(jsonPath("$.message").value("该机构下有用户，不能删除"));
 //    }
-
-    private AuthLoginRespVO getToken() {
-        AuthLoginReqVO login = new AuthLoginReqVO();
-        login.setUsername("admin");
-        login.setPassword("123456");
-//        String key = getCaptcha().getKey();
-        String key = "1234";
-        login.setKey(key);
-        String captchaCode = getCaptchaCode(key);
-        login.setCaptcha(captchaCode);
-//        return authService.login(login);
-        return null;
-    }
-
-//    private CaptchaVO getCaptcha() {
-//        return captchaService.generate();
-//    }
-
-    private String getCaptchaCode(String key) {
-        key = RedisKeys.getCaptchaKey(key);
-        return (String) redisCache.get(key);
-    }
 }
