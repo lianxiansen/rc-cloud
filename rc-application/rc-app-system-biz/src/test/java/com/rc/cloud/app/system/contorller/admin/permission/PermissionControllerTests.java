@@ -5,28 +5,21 @@
 package com.rc.cloud.app.system.contorller.admin.permission;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.common.cache.RedisCache;
-import com.rc.cloud.app.system.common.cache.RedisKeys;
-import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.app.system.controller.admin.permission.PermissionController;
-//import com.rc.cloud.app.system.service.auth.AdminAuthService;
-//import com.rc.cloud.app.system.service.captcha.CaptchaService;
-import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
-import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.permission.permission.PermissionAssignRoleDataScopeReqVO;
 import com.rc.cloud.app.system.vo.permission.permission.PermissionAssignRoleMenuReqVO;
 import com.rc.cloud.app.system.vo.permission.permission.PermissionAssignUserRoleReqVO;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
+import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.annotation.Resource;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -49,15 +42,6 @@ public class PermissionControllerTests {
 
     private MockMvc mvc;
 
-//    @Resource
-//    private AdminAuthService authService;
-
-    @Resource
-    private RedisCache redisCache;
-
-//    @Resource
-//    private CaptchaService captchaService;
-
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
@@ -69,9 +53,9 @@ public class PermissionControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void listRoleResources_success() throws Exception {
-        mvc.perform(get("/sys/permission/list-role-resources/1")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/permission/list-role-resources/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -81,6 +65,7 @@ public class PermissionControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void assignRoleMenu_success() throws Exception {
         PermissionAssignRoleMenuReqVO reqVO = new PermissionAssignRoleMenuReqVO();
         reqVO.setRoleId(101L);
@@ -93,7 +78,6 @@ public class PermissionControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(reqVO);
         mvc.perform(post("/sys/permission/assign-role-menu")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -105,6 +89,7 @@ public class PermissionControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void assignRoleDataScope_success() throws Exception {
         PermissionAssignRoleDataScopeReqVO reqVO = new PermissionAssignRoleDataScopeReqVO();
         reqVO.setRoleId(101L);
@@ -118,7 +103,6 @@ public class PermissionControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(reqVO);
         mvc.perform(post("/sys/permission/assign-role-data-scope")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -130,9 +114,9 @@ public class PermissionControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void listUserRoles_success() throws Exception {
-        mvc.perform(get("/sys/permission/list-user-roles/1")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/permission/list-user-roles/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -142,6 +126,7 @@ public class PermissionControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void assignUserRole_success() throws Exception {
         PermissionAssignUserRoleReqVO reqVO = new PermissionAssignUserRoleReqVO();
         reqVO.setUserId(1L);
@@ -154,7 +139,6 @@ public class PermissionControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(reqVO);
         mvc.perform(post("/sys/permission/assign-user-role")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -163,27 +147,5 @@ public class PermissionControllerTests {
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data").value(true));
-    }
-
-    private AuthLoginRespVO getToken() {
-        AuthLoginReqVO login = new AuthLoginReqVO();
-        login.setUsername("admin");
-        login.setPassword("123456");
-//        String key = getCaptcha().getKey();
-        String key = "1234";
-        login.setKey(key);
-        String captchaCode = getCaptchaCode(key);
-        login.setCaptcha(captchaCode);
-//        return authService.login(login);
-        return null;
-    }
-
-//    private CaptchaVO getCaptcha() {
-//        return captchaService.generate();
-//    }
-
-    private String getCaptchaCode(String key) {
-        key = RedisKeys.getCaptchaKey(key);
-        return (String) redisCache.get(key);
     }
 }
