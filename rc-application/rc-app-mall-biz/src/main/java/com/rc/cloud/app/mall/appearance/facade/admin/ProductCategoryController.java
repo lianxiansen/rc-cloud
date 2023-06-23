@@ -9,7 +9,9 @@ import com.rc.cloud.app.mall.appearance.response.ApiCodeEnum;
 import com.rc.cloud.app.mall.appearance.response.DataPack;
 import com.rc.cloud.app.mall.appearance.request.ProductCategorySaveVO;
 import com.rc.cloud.app.mall.appearance.request.ProductCategoryVO;
+import com.rc.cloud.app.mall.application.data.ProductCategoryData;
 import com.rc.cloud.app.mall.application.service.IProductCategoryService;
+import com.rc.cloud.app.mall.application.service.ProductCategoryService;
 import com.rc.cloud.app.mall.infrastructure.config.RedisKey;
 import com.rc.cloud.app.mall.infrastructure.persistence.po.ProductCategory;
 import com.rc.cloud.app.mall.infrastructure.util.*;
@@ -38,8 +40,10 @@ import java.util.Map;
 //@AdminAuthentication
 public class ProductCategoryController {
 
+//    @Autowired
+//    private IProductCategoryService iProductCategoryService;
     @Autowired
-    private IProductCategoryService iProductCategoryService;
+    private ProductCategoryService productCategoryService;
     @Autowired
     private RedisUtil redisUtil;
 
@@ -56,7 +60,7 @@ public class ProductCategoryController {
         if (param.get("idlist") != null) {
             idList = ListUtil.ToIntList(StringUtil.trim(param.get("idlist").toString(), Convert.toChar(",")));
         }
-        List<ProductCategory> arr = iProductCategoryService.getFirstList();
+        List<ProductCategoryData> arr = productCategoryService.getFirstList();
         if (arr == null) {
             return DataPack.packResult(ApiCodeEnum.CURD_NULL_ERROR);
         }
