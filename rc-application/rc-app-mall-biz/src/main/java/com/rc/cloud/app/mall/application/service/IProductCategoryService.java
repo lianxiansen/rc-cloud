@@ -3,7 +3,6 @@ package com.rc.cloud.app.mall.application.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rc.cloud.app.mall.appearance.request.ProductCategorySaveVO;
 import com.rc.cloud.app.mall.appearance.request.ProductCategoryVO;
-import com.rc.cloud.app.mall.infrastructure.persistence.po.CategoryFindGoods;
 import com.rc.cloud.app.mall.infrastructure.persistence.po.ProductCategory;
 
 import java.util.List;

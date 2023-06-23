@@ -2,7 +2,6 @@ package com.rc.cloud.app.mall.infrastructure.persistence.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.rc.cloud.app.mall.appearance.request.ItemUpdateInventoryQuery;
-import com.rc.cloud.app.mall.infrastructure.persistence.po.Item;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

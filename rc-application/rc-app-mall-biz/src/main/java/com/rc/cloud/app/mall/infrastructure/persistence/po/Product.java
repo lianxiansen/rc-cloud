@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class Product extends BaseDO {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 14345345L;
 
     /**
      * 租户id
@@ -159,6 +159,9 @@ public class Product extends BaseDO {
      */
     @TableField("seckill_flag")
     private Boolean seckillFlag;
+
+    @TableField("seckill_name")
+    private String seckillName;
 
     @TableField("seckill_master_image")
     private String seckillMasterImage;

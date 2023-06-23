@@ -1,37 +1,29 @@
 package com.rc.cloud.app.mall.infrastructure.persistence.po;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@TableName("product_category")
+@TableName("platform_product_category")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductCategory extends BaseDO {
+public class PlatformProductCategory extends BaseDO {
 
 
-    private static final long serialVersionUID = 2123435L;
+    private static final long serialVersionUID = 3452342L;
 
-    @TableField("tenant_id")
-    private Long tenantId;
+    @TableField("id")
+    private Long Id;
 
     @TableField("name")
     private String name;
 
-    @TableField("english_name")
-    private String englishName;
-
     @TableField("icon")
     private String icon;
-
-    @TableField("product_category_page_image")
-    private String productCategoryPageImage;
-
-    @TableField("product_list_page_image")
-    private String productListPageImage;
 
     @TableField("parent_id")
     private Integer parentId;
