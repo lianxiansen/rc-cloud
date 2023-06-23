@@ -5,27 +5,20 @@
 package com.rc.cloud.app.system.contorller.admin.dept;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.common.cache.RedisCache;
-import com.rc.cloud.app.system.common.cache.RedisKeys;
-import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.app.system.controller.admin.dept.PostController;
-//import com.rc.cloud.app.system.service.auth.AdminAuthService;
-//import com.rc.cloud.app.system.service.captcha.CaptchaService;
-import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
-import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.dept.post.PostCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostUpdateReqVO;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
+import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.annotation.Resource;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -44,15 +37,6 @@ public class PostControllerTests {
 
     private MockMvc mvc;
 
-//    @Resource
-//    private AdminAuthService authService;
-
-    @Resource
-    private RedisCache redisCache;
-
-//    @Resource
-//    private CaptchaService captchaService;
-
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
@@ -64,9 +48,9 @@ public class PostControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getPostPage_success() throws Exception {
-        mvc.perform(get("/sys/post/page")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/post/page"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -78,9 +62,9 @@ public class PostControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getPostListAllSimple_success() throws Exception {
-        mvc.perform(get("/sys/post/list-all-simple")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/post/list-all-simple"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -91,9 +75,9 @@ public class PostControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getPostByIdExist_then_success() throws Exception {
-        mvc.perform(get("/sys/post/1")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/post/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -105,9 +89,9 @@ public class PostControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getPostByIdNotExist_then_throwNotFoundException() throws Exception {
-        mvc.perform(get("/sys/post/9999999")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/post/9999999"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(1002005000))
@@ -116,6 +100,7 @@ public class PostControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void createPost_success() throws Exception {
         PostCreateReqVO postCreateReqVO = new PostCreateReqVO();
         postCreateReqVO.setName("测试职位");
@@ -126,7 +111,6 @@ public class PostControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(postCreateReqVO);
         mvc.perform(post("/sys/post/create")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -138,6 +122,7 @@ public class PostControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void updatePost_success() throws Exception {
         PostUpdateReqVO postUpdateReqVO = new PostUpdateReqVO();
         postUpdateReqVO.setId(2L);
@@ -149,7 +134,6 @@ public class PostControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(postUpdateReqVO);
         mvc.perform(put("/sys/post/update")
-                        .header("Authorization", "Bearer " +  getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -162,9 +146,9 @@ public class PostControllerTests {
 
     // 根据ID删除
     @Test
+    @WithMockUser("admin")
     public void deletePostById_success() throws Exception {
         mvc.perform(delete("/sys/post/" + 1)
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -187,26 +171,4 @@ public class PostControllerTests {
 //                .andExpect(jsonPath("$.code").value(0))
 //                .andExpect(jsonPath("$.message").value("success"));
 //    }
-
-    private AuthLoginRespVO getToken() {
-        AuthLoginReqVO login = new AuthLoginReqVO();
-        login.setUsername("admin");
-        login.setPassword("123456");
-//        String key = getCaptcha().getKey();
-        String key = "123456";
-        login.setKey(key);
-        String captchaCode = getCaptchaCode(key);
-        login.setCaptcha(captchaCode);
-//        return authService.login(login);
-        return null;
-    }
-
-//    private CaptchaVO getCaptcha() {
-//        return captchaService.generate();
-//    }
-
-    private String getCaptchaCode(String key) {
-        key = RedisKeys.getCaptchaKey(key);
-        return (String) redisCache.get(key);
-    }
 }
