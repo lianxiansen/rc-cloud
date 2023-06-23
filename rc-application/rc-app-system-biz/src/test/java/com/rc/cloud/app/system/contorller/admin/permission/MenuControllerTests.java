@@ -5,22 +5,19 @@
 package com.rc.cloud.app.system.contorller.admin.permission;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.common.cache.RedisCache;
-import com.rc.cloud.app.system.common.cache.RedisKeys;
-import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.app.system.controller.admin.permission.MenuController;
 import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
 import com.rc.cloud.app.system.service.permission.MenuService;
-import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
-import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuUpdateReqVO;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
+import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -44,15 +41,6 @@ public class MenuControllerTests {
 
     private MockMvc mvc;
 
-//    @Resource
-//    private AdminAuthService authService;
-
-    @Resource
-    private RedisCache redisCache;
-
-//    @Resource
-//    private CaptchaService captchaService;
-
     @Resource
     private MenuService menuService;
 
@@ -67,6 +55,7 @@ public class MenuControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void createDirMenu_success() throws Exception {
         // 添加目录
         MenuCreateReqVO menuCreateReqVO = new MenuCreateReqVO();
@@ -86,7 +75,6 @@ public class MenuControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(menuCreateReqVO);
         mvc.perform(post("/sys/menu/create")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -98,6 +86,7 @@ public class MenuControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void updateDictData_success() throws Exception {
         MenuUpdateReqVO menuUpdateReqVO = new MenuUpdateReqVO();
         menuUpdateReqVO.setId(1L);
@@ -110,7 +99,6 @@ public class MenuControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(menuUpdateReqVO);
         mvc.perform(put("/sys/menu/update")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -123,6 +111,7 @@ public class MenuControllerTests {
 
     // 根据ID删除
     @Test
+    @WithMockUser("admin")
     public void deleteMenuById_success() throws Exception {
         MenuCreateReqVO menuCreateReqVO = new MenuCreateReqVO();
         menuCreateReqVO.setName("测试目录");
@@ -139,7 +128,6 @@ public class MenuControllerTests {
         menuCreateReqVO.setAlwaysShow(true);
         Long menuId = menuService.createMenu(menuCreateReqVO);
         mvc.perform(delete("/sys/menu/" + menuId)
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -150,9 +138,9 @@ public class MenuControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getMenuList_success() throws Exception {
-        mvc.perform(get("/sys/menu/list")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/menu/list"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -162,9 +150,9 @@ public class MenuControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getMenuListAllSimple_success() throws Exception {
-        mvc.perform(get("/sys/menu/list-all-simple")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/menu/list-all-simple"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -174,34 +162,13 @@ public class MenuControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getMenuById_success() throws Exception {
-        mvc.perform(get("/sys/menu/get/" + 1)
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/menu/get/" + 1))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.name").value("系统管理"));
-    }
-
-    private AuthLoginRespVO getToken() {
-        AuthLoginReqVO login = new AuthLoginReqVO();
-        login.setUsername("admin");
-        login.setPassword("123456");
-        String key = "1234";
-        login.setKey(key);
-        String captchaCode = getCaptchaCode(key);
-        login.setCaptcha(captchaCode);
-//        return authService.login(login);
-        return null;
-    }
-
-//    private CaptchaVO getCaptcha() {
-//        return captchaService.generate();
-//    }
-
-    private String getCaptchaCode(String key) {
-        key = RedisKeys.getCaptchaKey(key);
-        return (String) redisCache.get(key);
     }
 }
