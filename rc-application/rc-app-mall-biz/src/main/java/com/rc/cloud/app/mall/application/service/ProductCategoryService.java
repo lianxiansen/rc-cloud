@@ -2,6 +2,7 @@ package com.rc.cloud.app.mall.application.service;
 
 import com.rc.cloud.app.mall.application.data.ProductCategoryData;
 import com.rc.cloud.app.mall.domain.category.repository.ProductCategoryRepository;
+import com.rc.cloud.app.mall.domain.category.service.GetFirstListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +18,11 @@ import java.util.List;
 @Service
 public class ProductCategoryService {
     @Autowired
-    private ProductCategoryRepository productCategoryRepository;
+    private GetFirstListService getFirstListService;
     public List<ProductCategoryData> getFirstList() {
+
         List<ProductCategoryData> list=new ArrayList<>();
-        productCategoryRepository.getFirstList().forEach(item->{
+        getFirstListService.getFirstList().forEach(item->{
             list.add(ProductCategoryData.from(item));
         });
         return list;

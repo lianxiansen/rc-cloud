@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.rc.cloud.app.mall.appearance.request.ProductCategorySaveVO;
 import com.rc.cloud.app.mall.appearance.request.ProductCategoryVO;
 import com.rc.cloud.app.mall.domain.category.entity.ProductCategoryEntry;
-import com.rc.cloud.app.mall.domain.category.valobj.ProductCategoryId;
+import com.rc.cloud.app.mall.domain.category.valobj.*;
 import com.rc.cloud.app.mall.infrastructure.persistence.po.ProductCategory;
 
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.List;
  * @Description:
  */
 public interface ProductCategoryRepository extends IService<ProductCategory> {
-    //优惠券用到
-    List<ProductCategoryEntry> getFirstList();
+    List<ProductCategoryEntry> getFirstList(ProductCategoryLocked locked, ProductCategoryLayer layer,ProductCategoryParent parent);
+
 
 //    List<ProductCategory> getFirstList();
 

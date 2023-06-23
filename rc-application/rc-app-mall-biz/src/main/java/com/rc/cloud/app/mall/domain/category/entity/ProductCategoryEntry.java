@@ -7,7 +7,7 @@ import com.rc.cloud.app.mall.domain.common.Entity;
  * @ClassName: ProductCategoryEntry
  * @Author: liandy
  * @Date: 2023/6/23 13:09
- * @Description: TODO
+ * @Description: 商品分类
  */
 public class ProductCategoryEntry extends Entity {
     private ProductCategoryId id;
@@ -17,6 +17,7 @@ public class ProductCategoryEntry extends Entity {
     private ProductCategoryParent productCategoryParent;
     private ProductCategoryLayer productCategoryLayer;
     private ProductCategoryEnable productCategoryEnable;
+    private ProductCategorySort productCategorySort;
     private ProductCategoryDeleted productCategoryDeleted;
     public ProductCategoryEntry(ProductCategoryId id){
         this.id = id;

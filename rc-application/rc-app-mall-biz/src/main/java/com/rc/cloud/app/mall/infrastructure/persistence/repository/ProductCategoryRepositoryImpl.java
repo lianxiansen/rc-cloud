@@ -11,7 +11,7 @@ import com.rc.cloud.app.mall.appearance.request.ProductCategoryVO;
 import com.rc.cloud.app.mall.application.data.ProductShelfEnum;
 import com.rc.cloud.app.mall.domain.category.entity.ProductCategoryEntry;
 import com.rc.cloud.app.mall.domain.category.repository.ProductCategoryRepository;
-import com.rc.cloud.app.mall.domain.category.valobj.ProductCategoryId;
+import com.rc.cloud.app.mall.domain.category.valobj.*;
 import com.rc.cloud.app.mall.infrastructure.config.RedisKey;
 import com.rc.cloud.app.mall.infrastructure.persistence.convert.ProductCategoryConvert;
 import com.rc.cloud.app.mall.infrastructure.persistence.mapper.ProductCategoryMapper;
@@ -59,12 +59,12 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
      * @return
      */
     @Override
-    public List<ProductCategoryEntry> getFirstList() {
+    public List<ProductCategoryEntry> getFirstList(ProductCategoryLocked locked, ProductCategoryLayer layer,ProductCategoryParent parent) {
         try {
             QueryWrapper<ProductCategory> wrapper = new QueryWrapper<>();
-            wrapper.eq("IsLock", false);
-            wrapper.eq("Layer", 1);
-            wrapper.eq("ParentID", 0);
+            wrapper.eq("IsLock", locked.getFlag());
+            wrapper.eq("Layer", layer.getLevel());
+            wrapper.eq("ParentID", parent.getId());
             wrapper.orderByAsc("SortID");
             List<ProductCategoryEntry> list=new ArrayList<>();
             productCategoryMapper.selectList(wrapper).forEach(item->{

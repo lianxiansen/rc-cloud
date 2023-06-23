@@ -1,5 +1,7 @@
 package com.rc.cloud.app.mall.domain.common;
 
+import com.rc.cloud.app.mall.domain.category.valobj.ProductCategorySort;
+
 import java.io.Serializable;
 
 
@@ -23,7 +25,7 @@ public abstract class AbstractId
 
         if (anObject != null && this.getClass() == anObject.getClass()) {
             AbstractId typedObject = (AbstractId) anObject;
-            equalObjects = this.id().equals(typedObject.id());
+            equalObjects = this.id().equals(typedObject.id(),new ProductCategorySort(0));
         }
 
         return equalObjects;
