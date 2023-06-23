@@ -5,29 +5,22 @@
 package com.rc.cloud.app.system.contorller.admin.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.common.cache.RedisCache;
-import com.rc.cloud.app.system.common.cache.RedisKeys;
-import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.app.system.controller.admin.user.UserController;
-//import com.rc.cloud.app.system.service.auth.AdminAuthService;
-//import com.rc.cloud.app.system.service.captcha.CaptchaService;
-import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
-import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.user.user.UserCreateReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserUpdateReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserUpdateStatusReqVO;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
+import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.annotation.Resource;
 
 import java.util.HashSet;
 
@@ -48,15 +41,6 @@ public class UserControllerTests {
 
     private MockMvc mvc;
 
-//    @Resource
-//    private AdminAuthService authService;
-
-    @Resource
-    private RedisCache redisCache;
-
-//    @Resource
-//    private CaptchaService captchaService;
-
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
@@ -68,6 +52,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void createUser_success() throws Exception {
         UserCreateReqVO createReqVO = new UserCreateReqVO();
         createReqVO.setUsername("testuser123");
@@ -84,7 +69,6 @@ public class UserControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(createReqVO);
         mvc.perform(post("/sys/user/create")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -96,6 +80,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void updateUser_success() throws Exception {
         UserUpdateReqVO updateReqVO = new UserUpdateReqVO();
         updateReqVO.setId(1L);
@@ -112,7 +97,6 @@ public class UserControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(updateReqVO);
         mvc.perform(put("/sys/user/update")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -124,9 +108,9 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void deleteUser_success() throws Exception {
-        mvc.perform(delete("/sys/user/1")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(delete("/sys/user/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -135,6 +119,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void updateUserPassword_success() throws Exception {
         UserUpdatePasswordReqVO updatePasswordReqVO = new UserUpdatePasswordReqVO();
         updatePasswordReqVO.setId(1L);
@@ -143,7 +128,6 @@ public class UserControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(updatePasswordReqVO);
         mvc.perform(put("/sys/user/update-password")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -155,6 +139,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void updateUserStatus_success() throws Exception {
         UserUpdateStatusReqVO updateStatusReqVO = new UserUpdateStatusReqVO();
         updateStatusReqVO.setId(1L);
@@ -163,7 +148,6 @@ public class UserControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(updateStatusReqVO);
         mvc.perform(put("/sys/user/update-status")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -175,9 +159,9 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getUserPage_success() throws Exception {
-        mvc.perform(get("/sys/user/page")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/user/page"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -189,9 +173,9 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getUserListAllSimple_success() throws Exception {
-        mvc.perform(get("/sys/user/list-all-simple")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/user/list-all-simple"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -202,36 +186,13 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getUserById_then_success() throws Exception {
-        mvc.perform(get("/sys/user/1")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/user/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.username").value("admin"));
-    }
-
-
-    private AuthLoginRespVO getToken() {
-        AuthLoginReqVO login = new AuthLoginReqVO();
-        login.setUsername("admin");
-        login.setPassword("123456");
-//        String key = getCaptcha().getKey();
-        String key = "1234";
-        login.setKey(key);
-        String captchaCode = getCaptchaCode(key);
-        login.setCaptcha(captchaCode);
-//        return authService.login(login);
-        return null;
-    }
-
-//    private CaptchaVO getCaptcha() {
-//        return captchaService.generate();
-//    }
-
-    private String getCaptchaCode(String key) {
-        key = RedisKeys.getCaptchaKey(key);
-        return (String) redisCache.get(key);
     }
 }
