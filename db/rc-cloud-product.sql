@@ -211,6 +211,7 @@ CREATE TABLE `product_sku` (
 -- ----------------------------
 -- 商品关联表
 -- ----------------------------
+DROP TABLE IF EXISTS `product_dict`;
 CREATE TABLE `product_dict` (
        `id` varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '主键',
        `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
@@ -227,6 +228,7 @@ CREATE TABLE `product_dict` (
 -- ----------------------------
 -- 商品操作记录表
 -- ----------------------------
+DROP TABLE IF EXISTS `product_operate`;
 CREATE TABLE `product_operate` (
        `id` varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '主键',
        `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
@@ -244,16 +246,15 @@ CREATE TABLE `product_operate` (
 -- ----------------------------
 -- 商品详情
 -- ----------------------------
+
 DROP TABLE IF EXISTS `product_detail`;
 CREATE TABLE `product_detail` (
-          `id` varchar(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+          `id` varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '主键',
           `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
           `product_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品ID',
           `detail` text COLLATE utf8mb4_bin DEFAULT NULL COMMENT '详情',
           PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='商品详情表 ';
-
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='商品详情表';
 
 
 
@@ -284,7 +285,7 @@ CREATE TABLE `product_detail` (
 -- ----------------------------
 DROP TABLE IF EXISTS `product_attribute`;
 CREATE TABLE `product_attribute` (
-         `id` varchar(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+         `id` varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '主键',
          `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
          `product_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品ID',
          `content` text COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'JSON',
@@ -310,7 +311,7 @@ CREATE TABLE `product_attribute` (
 -- ----------------------------
 DROP TABLE IF EXISTS `product_sku_attribute`;
 CREATE TABLE `product_sku_attribute` (
-          `id` varchar(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+          `id` varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '主键',
           `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
           `product_sku_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品skuID',
           `content` text COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'JSON',
@@ -325,7 +326,7 @@ CREATE TABLE `product_sku_attribute` (
 -- ----------------------------
 DROP TABLE IF EXISTS `product_image`;
 CREATE TABLE `product_image` (
-             `id` varchar(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+             `id` varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '主键',
              `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
              `product_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品ID',
              `url` varchar(128) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'URL',
@@ -340,7 +341,7 @@ CREATE TABLE `product_image` (
 -- ----------------------------
 DROP TABLE IF EXISTS `product_sku_image`;
 CREATE TABLE `product_item_image` (
-          `id` varchar(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+          `id` varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '主键',
           `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
           `product_sku_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品skuID',
           `url` varchar(128) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'URL',
@@ -355,7 +356,7 @@ CREATE TABLE `product_item_image` (
 -- ----------------------------
 DROP TABLE IF EXISTS `product_related_group`;
 CREATE TABLE `product_related_group` (
-          `id` varchar(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+          `id` varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '主键',
           `name` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品组名',
           `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
           `product_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '当前商品id',
