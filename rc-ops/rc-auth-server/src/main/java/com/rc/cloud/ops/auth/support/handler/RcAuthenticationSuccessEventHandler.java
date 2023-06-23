@@ -1,8 +1,6 @@
 package com.rc.cloud.ops.auth.support.handler;
 
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.StrUtil;
-import com.rc.cloud.common.core.constant.CommonConstants;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.security.service.RcUser;
 import lombok.SneakyThrows;
@@ -64,7 +62,7 @@ public class RcAuthenticationSuccessEventHandler implements AuthenticationSucces
 //				Long endTime = System.currentTimeMillis();
 //				logVo.setTime(endTime - startTime);
 //			}
-
+//
 //			logVo.setServiceId(accessTokenAuthentication.getRegisteredClient().getClientId());
 //			logVo.setCreateBy(userInfo.getName());
 //			logVo.setUpdateBy(userInfo.getName());
@@ -72,11 +70,11 @@ public class RcAuthenticationSuccessEventHandler implements AuthenticationSucces
 		}
 
 		// 输出token
-		sendAccessTokenResponse(request, response, authentication);
+		sendAccessTokenResponse(response, authentication);
 	}
 
-	private void sendAccessTokenResponse(HttpServletRequest request, HttpServletResponse response,
-			Authentication authentication) throws IOException {
+	private void sendAccessTokenResponse(HttpServletResponse response,
+										 Authentication authentication) throws IOException {
 
 		OAuth2AccessTokenAuthenticationToken accessTokenAuthentication = (OAuth2AccessTokenAuthenticationToken) authentication;
 

@@ -16,16 +16,23 @@ import com.rc.cloud.app.system.vo.user.profile.UserProfileRespVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.security.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
+import static com.rc.cloud.app.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 import static com.rc.cloud.common.core.web.util.WebFrameworkUtils.getLoginUserId;
 
 //import static com.rc.cloud.common.security.core.util.SecurityFrameworkUtils.getLoginUserId;
@@ -52,9 +59,11 @@ public class UserProfileController {
     @GetMapping("/get")
     @Operation(summary = "获得登录用户信息")
     @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
-    public CodeResult<UserProfileRespVO> profile() {
+    public CodeResult<UserProfileRespVO> profile(Authentication authentication) {
         // 获得用户基本信息
-        SysUserDO user = userService.getUser(getLoginUserId());
+        String username = SecurityUtils.getUsername();
+        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
         UserProfileRespVO resp = UserConvert.INSTANCE.convert03(user);
         // 获得用户角色
         List<SysRoleDO> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
@@ -75,14 +84,20 @@ public class UserProfileController {
     @PutMapping("/update")
     @Operation(summary = "修改用户个人信息")
     public CodeResult<Boolean> updateUserProfile(@Valid @RequestBody UserProfileUpdateReqVO reqVO) {
-        userService.updateUserProfile(getLoginUserId(), reqVO);
+        String username = SecurityUtils.getUsername();
+        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        userService.updateUserProfile(user.getId(), reqVO);
         return CodeResult.ok(true);
     }
 
     @PutMapping("/update-password")
     @Operation(summary = "修改用户个人密码")
     public CodeResult<Boolean> updateUserProfilePassword(@Valid @RequestBody UserProfileUpdatePasswordReqVO reqVO) {
-        userService.updateUserPassword(getLoginUserId(), reqVO);
+        String username = SecurityUtils.getUsername();
+        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        userService.updateUserPassword(user.getId(), reqVO);
         return CodeResult.ok(true);
     }
 
