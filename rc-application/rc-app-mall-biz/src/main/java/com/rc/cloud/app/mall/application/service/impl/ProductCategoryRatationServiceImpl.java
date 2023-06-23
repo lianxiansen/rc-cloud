@@ -3,7 +3,6 @@ package com.rc.cloud.app.mall.application.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rc.cloud.app.mall.application.service.IProductCategoryRatationService;
 import com.rc.cloud.app.mall.infrastructure.persistence.mapper.ProductCategoryRatationMapper;
-import com.rc.cloud.app.mall.infrastructure.persistence.po.ProductCategoryRatation;
 import org.springframework.stereotype.Service;
 
 /**

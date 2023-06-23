@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rc.cloud.app.mall.application.service.IProductCreateMaterialService;
 import com.rc.cloud.app.mall.infrastructure.config.RedisKey;
 import com.rc.cloud.app.mall.infrastructure.persistence.mapper.ProductCreateMaterialMapper;
-import com.rc.cloud.app.mall.infrastructure.persistence.po.ProductCreateMaterial;
 import com.rc.cloud.app.mall.infrastructure.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

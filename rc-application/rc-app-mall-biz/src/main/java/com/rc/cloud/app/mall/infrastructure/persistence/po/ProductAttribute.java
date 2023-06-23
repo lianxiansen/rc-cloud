@@ -1,40 +1,28 @@
 package com.rc.cloud.app.mall.infrastructure.persistence.po;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * 商品详情
- * @Author taotianhong
- * @Date 2021/3/25
- * @Description:
- */
-@TableName("product_detail")
+@TableName("product_attribute")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductDetail {
+public class ProductAttribute {
 
-
-    private static final long serialVersionUID = 34322L;
+    private static final long serialVersionUID = 245345L;
 
     @TableField("id")
     private Long Id;
-    /**
-     * 租户id
-     */
+
     @TableField("tenant_id")
     private Long tenantId;
 
-    /**
-     * 品牌ID
-     */
     @TableField("product_id")
     private Long productId;
 
+    @TableField("content")
+    private String content;
 
-    @TableField("detail")
-    private String detail;
 }

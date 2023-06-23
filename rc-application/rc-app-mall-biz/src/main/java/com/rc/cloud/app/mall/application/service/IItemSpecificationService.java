@@ -2,7 +2,6 @@ package com.rc.cloud.app.mall.application.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rc.cloud.app.mall.application.data.ItemSpecKeyValuesRedisDTO;
-import com.rc.cloud.app.mall.infrastructure.persistence.po.ItemSpecification;
 
 import java.util.List;
 

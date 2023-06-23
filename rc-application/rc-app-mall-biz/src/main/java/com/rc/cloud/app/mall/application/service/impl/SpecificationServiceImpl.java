@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.rc.cloud.app.mall.application.service.ISpecificationService;
 import com.rc.cloud.app.mall.infrastructure.persistence.mapper.SpecificationMapper;
-import com.rc.cloud.app.mall.infrastructure.persistence.po.Specification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

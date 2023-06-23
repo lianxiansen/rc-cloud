@@ -6,7 +6,6 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 
-import com.rc.cloud.app.mall.infrastructure.persistence.po.BaseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -18,7 +17,6 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Component;
-import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import java.util.*;
