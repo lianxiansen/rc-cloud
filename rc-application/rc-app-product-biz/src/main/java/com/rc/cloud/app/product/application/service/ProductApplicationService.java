@@ -7,7 +7,6 @@ import com.rc.cloud.app.product.domain.product.event.ProductCreatedEvent;
 import com.rc.cloud.app.product.domain.product.service.ProductSaveService;
 import com.rc.cloud.app.product.domain.product.service.ProductUpdateService;
 import com.rc.cloud.app.product.domain.product.valobj.*;
-import com.rc.cloud.app.product.domain.tenant.service.TenantService;
 import com.rc.cloud.app.product.domain.tenant.valobj.TenantId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ import java.util.List;
  * @Description: TODO
  */
 @Service
-public class ProductService {
+public class ProductApplicationService {
 
     @Autowired
     private ProductSaveService productSaveService;
