@@ -19,6 +19,9 @@ spring:
       config:
         server-addr: 127.0.0.1:8848
     gateway:
+      globalcors:
+        default-filters:
+          - DedupeResponseHeader=Vary Access-Control-Allow-Origin Access-Control-Allow-Headers Access-Control-Allow-Credentials,RETAIN_UNIQUE
       locator:
         enabled: true
       routes:
@@ -45,8 +48,8 @@ spring:
                 redis-rate-limiter.replenishRate: 100
                 redis-rate-limiter.burstCapacity: 200
         # 代码生成模块
-#        - id: pig-codegen
-#          uri: lb://pig-codegen
+#        - id: rc-codegen
+#          uri: lb://rc-codegen
 #          predicates:
 #            - Path=/gen/**
         # 固定路由转发配置 无修改
@@ -57,7 +60,7 @@ spring:
           filters:
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/$\{path}/v3/api-docs
 gateway:
-  encode-key: 'thanks,pig4cloud'
+  encode-key: 'thanks,rc'
   ignore-clients: # 不校验验证码的客户端
     - test
     - client
@@ -70,5 +73,5 @@ swagger:
   token-url: ${swagger.gateway}/auth/oauth2/token
   scope: server
   services:
-    pig-upms-biz: admin
-    pig-codegen: gen
+    rc-app-system-biz: admin
+    rc-codegen: gen

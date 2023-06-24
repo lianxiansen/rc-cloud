@@ -1075,7 +1075,7 @@ INSERT INTO `sys_oauth_client_details` VALUES ('app', NULL, 'app', 'server', 'ap
 INSERT INTO `sys_oauth_client_details` VALUES ('client', NULL, 'client', 'server', 'client_credentials', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL, b'0');
 INSERT INTO `sys_oauth_client_details` VALUES ('daemon', NULL, 'daemon', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL, b'0');
 INSERT INTO `sys_oauth_client_details` VALUES ('gen', NULL, 'gen', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL, b'0');
-INSERT INTO `sys_oauth_client_details` VALUES ('pig', NULL, 'pig', 'server', 'password,app,refresh_token,authorization_code,client_credentials', 'https://pigx.vip', NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL, b'0');
+INSERT INTO `sys_oauth_client_details` VALUES ('rc', NULL, 'rc', 'server', 'password,app,refresh_token,authorization_code,client_credentials', 'https://rc.com', NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL, b'0');
 INSERT INTO `sys_oauth_client_details` VALUES ('test', NULL, 'test', 'server', 'password,app,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL, b'0');
 
 -- ----------------------------

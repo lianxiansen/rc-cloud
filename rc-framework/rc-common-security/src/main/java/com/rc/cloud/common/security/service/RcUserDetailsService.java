@@ -73,11 +73,11 @@ public interface RcUserDetailsService extends UserDetailsService, Ordered {
 
 	/**
 	 * 通过用户实体查询
-	 * @param pigUser user
+	 * @param rcUser user
 	 * @return
 	 */
-	default UserDetails loadUserByUser(RcUser pigUser) {
-		return this.loadUserByUsername(pigUser.getUsername());
+	default UserDetails loadUserByUser(RcUser rcUser) {
+		return this.loadUserByUsername(rcUser.getUsername());
 	}
 
 }

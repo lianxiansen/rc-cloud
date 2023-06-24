@@ -97,20 +97,20 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 			throw new ValidateCodeException("验证码不能为空");
 		}
 
-		String randomStr = request.getQueryParams().getFirst("randomStr");
-		if (CharSequenceUtil.isBlank(randomStr)) {
-			randomStr = request.getQueryParams().getFirst(SecurityConstants.SMS_PARAMETER_NAME);
+		String key = request.getQueryParams().getFirst("key");
+		if (CharSequenceUtil.isBlank(key)) {
+			key = request.getQueryParams().getFirst(SecurityConstants.SMS_PARAMETER_NAME);
 		}
 
-		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
+		String cacheKey = CacheConstants.DEFAULT_CODE_KEY + key;
 
-		Object codeObj = stringRedisTemplate.opsForValue().get(key);
+		Object codeObj = stringRedisTemplate.opsForValue().get(cacheKey);
 
 		if (ObjectUtil.isEmpty(codeObj) || !code.equals(codeObj)) {
 			throw new ValidateCodeException("验证码不合法");
 		}
 
-		stringRedisTemplate.delete(key);
+		stringRedisTemplate.delete(cacheKey);
 	}
 
 }
