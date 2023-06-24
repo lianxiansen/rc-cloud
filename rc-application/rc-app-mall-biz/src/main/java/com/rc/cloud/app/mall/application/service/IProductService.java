@@ -33,7 +33,7 @@ public interface IProductService extends IService<Product> {
 
     boolean saveOrUpdate(Product product);
 
-//    Integer saveProduct(Product product, Merchant merchant, WareHouse wareHouse, List<ProductAlbum> productAlbums, List<ProductCreateMaterial> productCreateMaterials, List<GoodsItemSpecificationSaveDTO> goodsSpecs, List<GoodsSkuSaveDTO> goodsSkus, ProductFreightCoupon productFreightCoupon, ProductFullCoupon productFullCoupon, int oriNoDeliveryTemplateID);
+    Integer saveProduct(Product product, Merchant merchant, WareHouse wareHouse, List<ProductAlbum> productAlbums, List<ProductCreateMaterial> productCreateMaterials, List<GoodsItemSpecificationSaveDTO> goodsSpecs, List<GoodsSkuSaveDTO> goodsSkus, ProductFreightCoupon productFreightCoupon, ProductFullCoupon productFullCoupon, int oriNoDeliveryTemplateID);
 
     Integer saveProduct(Product product);
 

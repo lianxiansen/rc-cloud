@@ -25,7 +25,7 @@ public abstract class AbstractId
 
         if (anObject != null && this.getClass() == anObject.getClass()) {
             AbstractId typedObject = (AbstractId) anObject;
-            equalObjects = this.id().equals(typedObject.id(),new ProductCategorySort(0));
+            equalObjects = this.id().equals(typedObject.id());
         }
 
         return equalObjects;

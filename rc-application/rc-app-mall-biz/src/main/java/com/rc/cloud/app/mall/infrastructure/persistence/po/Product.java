@@ -27,7 +27,8 @@ import java.time.LocalDateTime;
 public class Product extends BaseDO {
 
     private static final long serialVersionUID = 14345345L;
-
+    @TableField("id")
+    private String Id;
     /**
      * 租户id
      */

@@ -1,4 +1,4 @@
-package com.rc.cloud.app.mall.domain.category.valobj;
+package com.rc.cloud.app.mall.domain.product.valobj;
 
 import com.rc.cloud.app.mall.domain.common.AssertionConcern;
 
@@ -8,9 +8,9 @@ import com.rc.cloud.app.mall.domain.common.AssertionConcern;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductCategorySort extends AssertionConcern {
+public class ProductImageSort extends AssertionConcern {
     private int value;
-    public ProductCategorySort(int value){
-        this.value = value;
+    public ProductImageSort(int value){
+        this.value=value;
     }
 }

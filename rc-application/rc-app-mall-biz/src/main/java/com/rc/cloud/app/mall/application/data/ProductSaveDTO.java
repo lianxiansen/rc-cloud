@@ -1,6 +1,6 @@
-package com.rc.cloud.app.mall.appearance.request;
+package com.rc.cloud.app.mall.application.data;
 
-import com.rc.cloud.app.mall.application.data.ProductSaveDTO;
+import com.rc.cloud.app.mall.appearance.request.*;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -9,8 +9,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
-public class ProductSaveVO {
-
+public class ProductSaveDTO {
     @Min(value = 0, message = "id不支持(范围：不小于0)")
     private int id;
 
@@ -174,8 +173,4 @@ public class ProductSaveVO {
 
     @Min(value = 0, message = "ticket_type不支持(范围：不小于0)")
     private int ticket_type;
-    public ProductSaveDTO toProductSaveDTO(){
-        //TODO
-        return null;
-    }
 }

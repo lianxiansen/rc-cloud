@@ -68,7 +68,7 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
             wrapper.orderByAsc("SortID");
             List<ProductCategoryEntry> list=new ArrayList<>();
             productCategoryMapper.selectList(wrapper).forEach(item->{
-                list.add(new ProductCategoryConvert(item).convertToProductCategoryEntry());
+                list.add(new ProductCategoryConvert().convertToProductCategoryEntry(item));
             });
             return list;
         } catch (Exception e) {

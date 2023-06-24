@@ -13,12 +13,10 @@ import java.util.List;
  * @Description: TODO
  */
 public class ProductCategoryConvert {
-    private ProductCategory productCategory;
-    public ProductCategoryConvert(ProductCategory productCategory){
-        this.productCategory=productCategory;
+    public ProductCategoryConvert(){
     }
 
-    public ProductCategoryEntry convertToProductCategoryEntry(){
+    public ProductCategoryEntry convertToProductCategoryEntry(ProductCategory productCategory){
         return new ProductCategoryEntry(new ProductCategoryId( productCategory.getId().toString()));
     }
 }
