@@ -46,7 +46,7 @@ public class SwaggerBasicGatewayFilter implements GlobalFilter {
 		else {
 			ServerHttpResponse response = exchange.getResponse();
 			response.setStatusCode(HttpStatus.UNAUTHORIZED);
-			response.getHeaders().add(HttpHeaders.WWW_AUTHENTICATE, "Basic Realm=\"pig\"");
+			response.getHeaders().add(HttpHeaders.WWW_AUTHENTICATE, "Basic Realm=\"rc\"");
 			return response.setComplete();
 		}
 	}

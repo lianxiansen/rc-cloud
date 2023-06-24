@@ -17,6 +17,8 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -48,10 +50,8 @@ public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
 		// 转换流信息写出
 		FastByteArrayOutputStream os = new FastByteArrayOutputStream();
 		captcha.out(os);
-
 		return ServerResponse.status(HttpStatus.OK)
 			.contentType(MediaType.IMAGE_JPEG)
 			.body(BodyInserters.fromResource(new ByteArrayResource(os.toByteArray())));
 	}
-
 }
