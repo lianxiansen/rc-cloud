@@ -25,7 +25,7 @@ public class ProductEntry extends Entity {
     private ProductType productType;
 
     private List<ProductImageEntry> productImages;
-    public ProductEntry(ProductId id, ProductType productType){
+    protected ProductEntry(ProductId id, ProductType productType){
         this.id = id;
         this.productType=productType;
     }

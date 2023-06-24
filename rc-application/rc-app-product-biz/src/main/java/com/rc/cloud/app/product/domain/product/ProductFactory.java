@@ -21,6 +21,7 @@ public class ProductFactory {
     @Autowired
     private TenantService tenantService;
     public ProductEntry createProduct(TenantId tenantId, ProductName productName, ProductRemark productRemark, ProductType productType, List<ProductImage> productImages){
+        validateTenantId(tenantId);
         ProductId productId = productRepository.nextProductId();
         ProductEntry productEntry=new ProductEntry(productId,new ProductType(0));
         productImages.forEach(item->{
@@ -35,7 +36,7 @@ public class ProductFactory {
         }
     }
 
-    public void addProductImage(ProductEntry productEntry,ProductImage productImage){
+    private void addProductImage(ProductEntry productEntry,ProductImage productImage){
         if(!productEntry.valid()){
             throw new RuntimeException("商品已失效");
         }
