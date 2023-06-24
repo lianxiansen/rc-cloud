@@ -46,8 +46,7 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
 
     @Autowired
     private RemoteIdGeneratorService remoteIdGeneratorService;
-    @Autowired
-    private RedisUtil redisUtil;
+
 
     /**
      * 津贴用的
