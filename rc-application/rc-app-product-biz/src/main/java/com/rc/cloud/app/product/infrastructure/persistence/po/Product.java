@@ -141,6 +141,12 @@ public class Product extends BaseDO {
     private BigDecimal popularizationAmountRate;
 
     /**
+     * 可获得积分数量
+     */
+    @TableField("get_integral")
+    private BigDecimal getIntegral;
+
+    /**
      * 是否参与分销 0否，1是
      */
     @TableField("distribution_flag")

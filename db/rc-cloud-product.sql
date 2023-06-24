@@ -153,6 +153,7 @@ CREATE TABLE `product` (
        `freight_type` int(11) COLLATE utf8mb4_bin DEFAULT 0 COMMENT '运费类型，0统一运费，1运费模板',
        `freight_template_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品使用运费模板',
        `freight_price` decimal(18,2) COLLATE utf8mb4_bin DEFAULT 0 COMMENT '运费价格',
+       `get_integral` decimal(18,2) COLLATE utf8mb4_bin DEFAULT 0 COMMENT '可获得积分',
        `lowest_buy` int(11) COLLATE utf8mb4_bin DEFAULT 1 COMMENT '最低起购量',
        `popularization_amount_rate` decimal(18,2) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '推广佣金比例',
        `distribution_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '是否参与分销 0否，1是',
