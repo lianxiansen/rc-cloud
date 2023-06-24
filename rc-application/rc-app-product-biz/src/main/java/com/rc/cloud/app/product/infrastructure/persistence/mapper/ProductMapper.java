@@ -6,6 +6,7 @@ import com.rc.cloud.app.product.appearance.request.ProductListVO;
 import com.rc.cloud.app.product.appearance.request.ProductRequestVO;
 import com.rc.cloud.app.product.application.data.*;
 import com.rc.cloud.app.product.infrastructure.persistence.po.Product;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * @Date 2021/2/8
  * @Description:
  */
+@Mapper
 public interface ProductMapper extends BaseMapper<Product> {
 
     List<Product> getProductPageListInAdmin(@Param("query") ProductListVO query);

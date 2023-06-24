@@ -2,7 +2,9 @@ package com.rc.cloud.app.product.domain.product;
 
 import com.rc.cloud.app.product.domain.DomainRegistry;
 import com.rc.cloud.app.product.domain.common.Deleted;
+import com.rc.cloud.app.product.domain.common.DomainEventPublisher;
 import com.rc.cloud.app.product.domain.common.Entity;
+import com.rc.cloud.app.product.domain.product.event.ProductCreatedEvent;
 import com.rc.cloud.app.product.domain.product.valobj.*;
 import com.rc.cloud.app.product.domain.tenant.valobj.TenantId;
 
@@ -28,6 +30,7 @@ public class ProductEntry extends Entity {
     protected ProductEntry(ProductId id, ProductType productType){
         this.id = id;
         this.productType=productType;
+        DomainEventPublisher.instance().publish(new ProductCreatedEvent(tenantId, "test"));
     }
     public boolean exists(){
         return deleted.result();

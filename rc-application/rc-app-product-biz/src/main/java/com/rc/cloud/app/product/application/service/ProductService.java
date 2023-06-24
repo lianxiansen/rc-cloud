@@ -1,6 +1,9 @@
 package com.rc.cloud.app.product.application.service;
 
 import com.rc.cloud.app.product.application.data.ProductSaveDTO;
+import com.rc.cloud.app.product.domain.common.DomainEventPublisher;
+import com.rc.cloud.app.product.domain.common.DomainEventSubscriber;
+import com.rc.cloud.app.product.domain.product.event.ProductCreatedEvent;
 import com.rc.cloud.app.product.domain.product.service.ProductSaveService;
 import com.rc.cloud.app.product.domain.product.service.ProductUpdateService;
 import com.rc.cloud.app.product.domain.product.valobj.*;
@@ -28,6 +31,17 @@ public class ProductService {
     private ProductUpdateService productUpdateService;
     @Transactional(rollbackFor = Exception.class)
     public void saveOrUpdateProduct(ProductSaveDTO productSaveDTO){
+        DomainEventPublisher.instance().reset();
+        DomainEventPublisher.instance().subscribe(new DomainEventSubscriber<ProductCreatedEvent>(){
+            @Override
+            public void handleEvent(ProductCreatedEvent aDomainEvent) {
+                //TODO 领域事件处理
+            }
+            @Override
+            public Class<ProductCreatedEvent> subscribedToEventType() {
+                return ProductCreatedEvent.class;
+            }
+        });
         TenantId tenantId=new TenantId(productSaveDTO.getMerchant_id()+"");
         ProductName productName=new ProductName(productSaveDTO.getName());
         List<ProductImage> productImages=new ArrayList<>();
