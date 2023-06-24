@@ -27,7 +27,7 @@ public class ProductService {
         if(productSaveDTO.getId()>0){
             productSaveService.execute(tenantId,productName,null,null);
         }else{
-            productUpdateService.execute(new ProductId(productSaveDTO.getId(),productName,null,null);
+            productUpdateService.execute(new ProductId(productSaveDTO.getId()+""),productName,null,null);
         }
 
 
