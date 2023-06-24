@@ -40,11 +40,6 @@
             <artifactId>mybatis-plus-extension</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.rc.cloud</groupId>
-            <artifactId>rc-common-swagger</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.yulichang</groupId>
             <artifactId>mybatis-plus-join-boot-starter</artifactId>
         </dependency>

@@ -22,6 +22,7 @@
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <io.swagger.version>1.6.2</io.swagger.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
+        <mybatis.version>3.5.10</mybatis.version>
         <joda-time.version>2.10.9</joda-time.version>
         <fastjson.version>1.2.79</fastjson.version>
         <aspectjrt.version>1.9.6</aspectjrt.version>
@@ -48,6 +49,7 @@
         <lombok.version>1.18.26</lombok.version>
         <mybatis-plus-join-boot-starter.version>1.4.3.2</mybatis-plus-join-boot-starter.version>
         <knife4j.version>4.1.0</knife4j.version>
+        <knife4j-spring-boot.version>4.1.0</knife4j-spring-boot.version>
         <guava.version>31.1-jre</guava.version>
         <easyexcel.version>3.3.1</easyexcel.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
@@ -215,7 +217,11 @@
 <!--                <artifactId>hibernate-entitymanager</artifactId>-->
 <!--                <version>${hibernate.version}</version>-->
 <!--            </dependency>-->
-
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.baomidou</groupId>

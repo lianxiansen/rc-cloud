@@ -19,6 +19,7 @@
         <module name="rc-gateway-server1" />
         <module name="rc-common-mybatis" />
         <module name="rc-common-tenant" />
+        <module name="demo" />
         <module name="rc-common-oss" />
         <module name="rc-common-job" />
         <module name="rc-common-swagger" />
@@ -28,7 +29,6 @@
         <module name="rc-common-excel" />
         <module name="rc-app-system-biz" />
         <module name="rc-common-dict" />
-        <module name="rc-app-mall-biz" />
         <module name="rc-gateway-server" />
       </profile>
       <profile name="Annotation profile for rc-cloud" enabled="true">
@@ -36,9 +36,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="D:/maven_repository/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar" />
-          <entry name="D:/maven_repository/org/mapstruct/mapstruct-processor/1.4.1.Final/mapstruct-processor-1.4.1.Final.jar" />
-          <entry name="D:/maven_repository/org/mapstruct/mapstruct/1.4.1.Final/mapstruct-1.4.1.Final.jar" />
+          <entry name="$PROJECT_DIR$/../../../maven_repository/org/projectlombok/lombok/1.18.20/lombok-1.18.20.jar" />
+          <entry name="$PROJECT_DIR$/../../../maven_repository/org/mapstruct/mapstruct-processor/1.4.1.Final/mapstruct-processor-1.4.1.Final.jar" />
+          <entry name="$PROJECT_DIR$/../../../maven_repository/org/mapstruct/mapstruct/1.4.1.Final/mapstruct-1.4.1.Final.jar" />
         </processorPath>
         <module name="uid-generator-interface" />
         <module name="uid-generator" />
@@ -46,6 +46,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="rc-app-mall-biz" target="8" />
       <module name="rc-common" target="1.8" />
       <module name="rc-common-captcha" target="1.8" />
       <module name="rc-ops (1)" target="1.8" />
@@ -55,6 +56,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="demo" options="-parameters" />
       <module name="rc-application" options="" />
       <module name="rc-auth-server1" options="" />
       <module name="rc-common-core" options="" />
