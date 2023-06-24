@@ -20,6 +20,9 @@ public class ProductImageEntry extends Entity {
     public ProductImageEntry(ProductImageId productImageId,ProductId productId,ProductImage productImage){
 
     }
+    public void setProductImageId(ProductImageId productImageId){
+
+    }
 
     public void setProductImageSort(ProductImageSort productImageSort){
 

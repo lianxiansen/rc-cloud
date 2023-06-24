@@ -9,6 +9,8 @@ import com.rc.cloud.app.product.domain.tenant.valobj.TenantId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @ClassName: ProductSaveOrUpdateService
  * @Author: liandy
@@ -21,10 +23,12 @@ public class ProductSaveService {
     private ProductRepository productRepository;
     @Autowired
     private TenantRepository tenantRepository;
+    @Autowired
+    private ProductFactory productFactory;
 
-    public void execute(TenantId tenantId,ProductName productName,ProductRemark productRemark, ProductType productType) {
-        ProductFactory productFactory=new ProductFactory(productRepository,tenantRepository);
-        ProductEntry productEntry= productFactory.createProduct(tenantId,productName,productRemark,productType);
+    public void execute(TenantId tenantId, ProductName productName, ProductRemark productRemark, ProductType productType,
+                        List<ProductImage> productImages) {
+        ProductEntry productEntry= productFactory.createProduct(tenantId,productName,productRemark,productType,productImages);
         productRepository.saveProductEntry(productEntry);
     }
 }

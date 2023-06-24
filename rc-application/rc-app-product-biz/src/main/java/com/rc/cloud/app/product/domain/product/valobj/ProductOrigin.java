@@ -9,12 +9,12 @@ import com.rc.cloud.app.product.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductMasterImage extends ValueObject {
-    private String value;
-    public ProductMasterImage(String value){
-        value=value;
+public class ProductOrigin extends ValueObject {
+    private int value;
+    public ProductOrigin(int value){
+        this.value = value;
     }
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
