@@ -15,9 +15,6 @@ public class ProductConvert {
     public ProductConvert(){
     }
 
-    public ProductEntry convertToProductEntry(Product product){
-        return new ProductEntry(new ProductId( product.getId()),new ProductType(product.getProductType()));
-    }
 
     public Product convertToProduct(ProductEntry productEntry){
         return null;

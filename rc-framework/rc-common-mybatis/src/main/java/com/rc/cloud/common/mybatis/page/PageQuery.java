@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.sql.SqlUtil;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -23,25 +23,25 @@ public class PageQuery implements Serializable {
     /**
      * 分页大小
      */
-    @ApiModelProperty("分页大小")
+    @Schema(description = "分页大小")
     private Integer pageSize;
 
     /**
      * 当前页数
      */
-    @ApiModelProperty("当前页数")
+    @Schema(description = "当前页数")
     private Integer pageNum;
 
     /**
      * 排序列
      */
-    @ApiModelProperty("排序列")
+    @Schema(description = "排序列")
     private String orderByColumn;
 
     /**
      * 排序的方向desc或者asc
      */
-    @ApiModelProperty(value = "排序的方向", example = "asc,desc")
+    @Schema(description = "排序的方向", example = "asc,desc")
     private String isAsc;
 
     /**

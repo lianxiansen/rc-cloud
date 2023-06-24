@@ -2,6 +2,7 @@ package com.rc.cloud.app.product.domain.category;
 
 import com.rc.cloud.app.product.domain.category.valobj.*;
 import com.rc.cloud.app.product.domain.common.Entity;
+import com.rc.cloud.app.product.domain.tenant.valobj.TenantId;
 
 /**
  * @ClassName: ProductCategoryEntry
@@ -11,7 +12,7 @@ import com.rc.cloud.app.product.domain.common.Entity;
  */
 public class ProductCategoryEntry extends Entity {
     private ProductCategoryId id;
-    private ProductCategoryTenant tenant;
+    private TenantId tenantId;
     private ProductCategoryIcon productCategoryIcon;
     private ProductCategoryPage productCategoryPage;
     private ProductCategoryParent productCategoryParent;

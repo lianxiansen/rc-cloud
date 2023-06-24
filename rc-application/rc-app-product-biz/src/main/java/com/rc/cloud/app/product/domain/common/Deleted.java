@@ -11,4 +11,8 @@ public class Deleted extends AssertionConcern {
     public boolean getFlag(){
         return flag;
     }
+
+    public boolean result(){
+        return flag;
+    }
 }

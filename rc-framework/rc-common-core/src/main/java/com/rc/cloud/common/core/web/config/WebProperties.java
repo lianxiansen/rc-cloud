@@ -14,8 +14,8 @@ import javax.validation.constraints.NotNull;
 
 @Validated
 @Data
-@Configuration
-@ConfigurationProperties(prefix = "rc.web")
+//@Configuration
+//@ConfigurationProperties(prefix = "rc.web")
 public class WebProperties {
 
     @NotNull(message = "APP API 不能为空")
