@@ -3,6 +3,7 @@ package com.rc.cloud.app.distributor.infrastructure.persistence.po;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.*;
 import com.baomidou.mybatisplus.annotation.*;
+import lombok.experimental.Accessors;
 
 /**
  * 经销商 DO
@@ -73,14 +74,6 @@ public class DistributorDO extends BaseDO {
      */
     private String remarks;
     /**
-     * 创建时间
-     */
-    private String createtime;
-    /**
-     * 数据添加人员
-     */
-    private String by;
-    /**
      * 管理员id
      */
     private Integer adminId;
@@ -95,7 +88,7 @@ public class DistributorDO extends BaseDO {
     /**
      * 获客方式id
      */
-    private Integer customers;
+    private Integer source;
     /**
      * 客户等级id
      */
@@ -107,7 +100,7 @@ public class DistributorDO extends BaseDO {
     /**
      * 成立时间
      */
-    private String chengli;
+    private String establishedTime;
     /**
      * 展厅地址
      */
@@ -144,10 +137,6 @@ public class DistributorDO extends BaseDO {
      * 仓库图片
      */
     private String ckImage;
-    /**
-     * 是否回收站, 1否, 2是
-     */
-    private Integer isdelete;
     /**
      * 是否锁定
      */

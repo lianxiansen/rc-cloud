@@ -18,7 +18,7 @@ public interface DistributorChannelMapper extends BaseMapperX<DistributorChannel
     default PageResult<DistributorChannelDO> selectPage(AppDistributorChannelPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<DistributorChannelDO>()
                 .likeIfPresent(DistributorChannelDO::getName, reqVO.getName())
-                .eqIfPresent(DistributorChannelDO::getExplain, reqVO.getExplain())
+                .eqIfPresent(DistributorChannelDO::getDescription, reqVO.getDescription())
                 .betweenIfPresent(DistributorChannelDO::getCreatetime, reqVO.getCreatetime())
                 .orderByDesc(DistributorChannelDO::getId));
     }

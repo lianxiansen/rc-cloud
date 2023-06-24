@@ -5,7 +5,7 @@ import com.rc.cloud.common.core.constant.AuthConstants;
 import com.rc.cloud.common.core.util.RequestUtils;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.redis.util.RedisUtils;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.TimeUnit;
 
 
-@Api(tags = "注销")
+@Schema(description = "注销")
 @RestController
 @RequestMapping("/oauth")
 @AllArgsConstructor

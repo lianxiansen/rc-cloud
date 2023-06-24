@@ -19,7 +19,6 @@
         <module>rc-common-mybatis</module>
         <module>rc-common-redis</module>
         <module>rc-common-log</module>
-        <module>rc-common-swagger</module>
         <module>rc-common-tenant</module>
         <module>rc-common-feign</module>
         <module>rc-common-oss</module>

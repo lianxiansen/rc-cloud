@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.appearance.resp;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import com.rc.cloud.common.excel.convert.EasyExcelLocalDateTimeConvert;
 import lombok.*;
-import java.util.*;
+import java.time.LocalDateTime;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 
@@ -53,11 +53,11 @@ public class AppDistributorExcelVO {
     @ExcelProperty("备注")
     private String remarks;
 
-    @ExcelProperty("创建时间")
-    private String createtime;
+    @ExcelProperty(value = "创建时间",converter = EasyExcelLocalDateTimeConvert.class)
+    private LocalDateTime createTime;
 
     @ExcelProperty("数据添加人员")
-    private String by;
+    private String creator;
 
     @ExcelProperty("管理员id")
     private Integer adminId;
@@ -69,7 +69,7 @@ public class AppDistributorExcelVO {
     private Integer channel;
 
     @ExcelProperty("获客方式id")
-    private Integer customers;
+    private Integer source;
 
     @ExcelProperty("客户等级id")
     private Integer level;
@@ -78,7 +78,7 @@ public class AppDistributorExcelVO {
     private Integer reputation;
 
     @ExcelProperty("成立时间")
-    private String chengli;
+    private String establishedTime;
 
     @ExcelProperty("展厅地址")
     private String ztAddress;
@@ -106,9 +106,6 @@ public class AppDistributorExcelVO {
 
     @ExcelProperty("仓库图片")
     private String ckImage;
-
-    @ExcelProperty("是否回收站, 1否, 2是")
-    private Integer isdelete;
 
     @ExcelProperty("是否锁定")
     private Integer locking;

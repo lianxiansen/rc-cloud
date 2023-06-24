@@ -16,7 +16,7 @@ public class AppDistributorSourceBaseVO {
     private String name;
 
     @Schema(description = "说明")
-    private String explain;
+    private String description;
 
     @Schema(description = "创建时间")
     private String createtime;

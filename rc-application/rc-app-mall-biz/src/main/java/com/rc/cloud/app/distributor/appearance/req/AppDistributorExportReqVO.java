@@ -48,10 +48,10 @@ public class AppDistributorExportReqVO {
 
     @Schema(description = "创建时间")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    private String[] createtime;
+    private String[] createTime;
 
     @Schema(description = "数据添加人员")
-    private String by;
+    private String creator;
 
     @Schema(description = "管理员id", example = "8530")
     private Integer adminId;
@@ -63,7 +63,7 @@ public class AppDistributorExportReqVO {
     private Integer channel;
 
     @Schema(description = "获客方式id")
-    private Integer customers;
+    private Integer source;
 
     @Schema(description = "客户等级id")
     private Integer level;
@@ -72,7 +72,7 @@ public class AppDistributorExportReqVO {
     private Integer reputation;
 
     @Schema(description = "成立时间")
-    private String chengli;
+    private String establishedTime;
 
     @Schema(description = "展厅地址")
     private String ztAddress;
@@ -101,8 +101,8 @@ public class AppDistributorExportReqVO {
     @Schema(description = "仓库图片")
     private String ckImage;
 
-    @Schema(description = "是否回收站, 1否, 2是")
-    private Integer isdelete;
+    @Schema(description = "是否删除")
+    private Boolean deleted;
 
     @Schema(description = "是否锁定")
     private Integer locking;

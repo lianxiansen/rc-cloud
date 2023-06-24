@@ -38,12 +38,8 @@
         </dependency>
         <dependency>
             <groupId>com.rc.cloud</groupId>
-            <artifactId>rc-common-swagger</artifactId>
+            <artifactId>rc-common-web</artifactId>
             <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>com.rc.cloud</groupId>

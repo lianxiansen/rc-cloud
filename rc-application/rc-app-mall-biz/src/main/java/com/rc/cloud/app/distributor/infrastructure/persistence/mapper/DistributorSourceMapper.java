@@ -18,7 +18,7 @@ public interface DistributorSourceMapper extends BaseMapperX<DistributorSourceDO
     default PageResult<DistributorSourceDO> selectPage(AppDistributorSourcePageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<DistributorSourceDO>()
                 .likeIfPresent(DistributorSourceDO::getName, reqVO.getName())
-                .eqIfPresent(DistributorSourceDO::getExplain, reqVO.getExplain())
+                .eqIfPresent(DistributorSourceDO::getDescription, reqVO.getDescription())
                 .betweenIfPresent(DistributorSourceDO::getCreatetime, reqVO.getCreatetime())
                 .orderByDesc(DistributorSourceDO::getId));
     }

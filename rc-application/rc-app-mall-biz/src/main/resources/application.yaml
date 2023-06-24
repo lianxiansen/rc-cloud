@@ -11,10 +11,6 @@ spring:
     active: dev
   # 文件编码 UTF8
   mandatory-file-encoding: UTF-8
-  mvc:
-#    # 404 交给异常处理器处理
-    throw-exception-if-no-handler-found: true
-    static-path-pattern: /statics/**
   cloud:
     nacos:
       username: nacos
@@ -41,6 +37,7 @@ mybatis-plus:
       #      id-type: ASSIGN_ID # 分配 ID，默认使用雪花算法。注意，Oracle、PostgreSQL、Kingbase、DB2、H2 数据库时，需要去除实体类上的 @KeySequence 注解
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+      logic-delete-field: deleted
 #  type-aliases-package: com.rc.cloud.app.mall.biz.mapper
 #  encryptor:
 #    password: XDV71a+xqStEA3WH # 加解密的秘钥，可使用 https://www.imaegoo.com/2020/aes-key-generator/ 网站生成

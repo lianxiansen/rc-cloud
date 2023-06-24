@@ -18,7 +18,7 @@ public interface DistributorLevelMapper extends BaseMapperX<DistributorLevelDO> 
     default PageResult<DistributorLevelDO> selectPage(AppDistributorLevelPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<DistributorLevelDO>()
                 .likeIfPresent(DistributorLevelDO::getName, reqVO.getName())
-                .eqIfPresent(DistributorLevelDO::getExplain, reqVO.getExplain())
+                .eqIfPresent(DistributorLevelDO::getDescription, reqVO.getDescription())
                 .betweenIfPresent(DistributorLevelDO::getCreatetime, reqVO.getCreatetime())
                 .orderByDesc(DistributorLevelDO::getId));
     }
