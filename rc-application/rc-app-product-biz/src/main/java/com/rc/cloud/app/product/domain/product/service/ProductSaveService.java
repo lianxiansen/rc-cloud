@@ -4,7 +4,7 @@ import com.rc.cloud.app.product.domain.product.ProductEntry;
 import com.rc.cloud.app.product.domain.product.ProductFactory;
 import com.rc.cloud.app.product.domain.product.ProductRepository;
 import com.rc.cloud.app.product.domain.product.valobj.*;
-import com.rc.cloud.app.product.domain.tenant.TenantRepository;
+import com.rc.cloud.app.product.domain.tenant.service.TenantService;
 import com.rc.cloud.app.product.domain.tenant.valobj.TenantId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @ClassName: ProductSaveOrUpdateService
+ * @ClassName: ProductSaveService
  * @Author: liandy
  * @Date: 2023/6/24 09:18
  * @Description: TODO
@@ -22,7 +22,7 @@ public class ProductSaveService {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
-    private TenantRepository tenantRepository;
+    private TenantService tenantService;
     @Autowired
     private ProductFactory productFactory;
 

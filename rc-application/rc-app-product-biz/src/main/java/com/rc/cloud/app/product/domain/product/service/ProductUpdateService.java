@@ -6,12 +6,12 @@ import com.rc.cloud.app.product.domain.product.valobj.ProductId;
 import com.rc.cloud.app.product.domain.product.valobj.ProductName;
 import com.rc.cloud.app.product.domain.product.valobj.ProductRemark;
 import com.rc.cloud.app.product.domain.product.valobj.ProductType;
-import com.rc.cloud.app.product.domain.tenant.TenantRepository;
+import com.rc.cloud.app.product.domain.tenant.service.TenantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @ClassName: ProductSaveOrUpdateService
+ * @ClassName: ProductUpdateService
  * @Author: liandy
  * @Date: 2023/6/24 09:18
  * @Description: TODO
@@ -21,7 +21,7 @@ public class ProductUpdateService {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
-    private TenantRepository tenantRepository;
+    private TenantService tenantRepository;
 
     public void execute(ProductId productId,ProductName productName, ProductRemark productRemark, ProductType productType) {
         ProductEntry productEntry= productRepository.getProduct(productId);

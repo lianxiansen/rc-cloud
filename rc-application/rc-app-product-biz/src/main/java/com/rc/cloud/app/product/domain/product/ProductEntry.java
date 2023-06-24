@@ -1,5 +1,6 @@
 package com.rc.cloud.app.product.domain.product;
 
+import com.rc.cloud.app.product.domain.DomainRegistry;
 import com.rc.cloud.app.product.domain.common.Deleted;
 import com.rc.cloud.app.product.domain.common.Entity;
 import com.rc.cloud.app.product.domain.product.valobj.*;
@@ -58,12 +59,7 @@ public class ProductEntry extends Entity {
         this.productRemark = productRemark;
     }
 
-    public void addProductImage(ProductRepository productRepository, ProductImage productImage){
-        if(!valid()){
-            throw new RuntimeException("商品已失效");
-        }
-        ProductImageEntry productImageEntry=new ProductImageEntry(productRepository.nextProductImageId(),
-            this.id,productImage);
+    public void addProductImage(ProductImageEntry productImageEntry){
         productImages.add(productImageEntry);
     }
 }

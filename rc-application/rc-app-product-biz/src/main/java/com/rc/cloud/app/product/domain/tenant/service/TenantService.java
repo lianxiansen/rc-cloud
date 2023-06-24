@@ -1,4 +1,4 @@
-package com.rc.cloud.app.product.domain.tenant;
+package com.rc.cloud.app.product.domain.tenant.service;
 
 import com.rc.cloud.app.product.domain.tenant.valobj.TenantId;
 
@@ -8,6 +8,6 @@ import com.rc.cloud.app.product.domain.tenant.valobj.TenantId;
  * @Date: 2023/6/24 09:22
  * @Description: TODO
  */
-public interface TenantRepository {
+public interface TenantService {
     boolean exists(TenantId tenantId);
 }
