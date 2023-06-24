@@ -11,10 +11,10 @@ spring:
     active: dev
   # 文件编码 UTF8
   mandatory-file-encoding: UTF-8
-  mvc:
-#    # 404 交给异常处理器处理
-    throw-exception-if-no-handler-found: true
-    static-path-pattern: /statics/**
+  messages:
+    basename: errors/messages
+    #指定编码格式
+    encoding: UTF-8
   cloud:
     nacos:
       username: nacos
@@ -58,17 +58,9 @@ rc:
     url: ${rc.web.admin-ui.url}
     email: xingyu4j@vip.qq.com
     license: MIT
-    license-url: https://gitee.com/zhijiantianya/ruoyi-vue-pro/blob/master/LICENSE
   tenant: # 多租户相关配置项
     ignore-urls:
       - /admin-api/system/tenant/get-id-by-name # 基于名字获取租户，不许带租户编号
-      - /admin-api/system/captcha/get # 获取图片验证码，和租户无关
-      - /admin-api/system/captcha/check # 校验图片验证码，和租户无关
-      - /admin-api/infra/file/*/get/** # 获取图片，和租户无关
-      - /admin-api/system/sms/callback/* # 短信回调接口，无法带上租户编号
-      - /admin-api/pay/notify/callback/* # 支付回调通知，不携带租户编号
-      - /jmreport/* # 积木报表，无法携带租户编号
-      - /admin-api/mp/open/** # 微信公众号开放平台，微信回调接口，无法携带租户编号
     ignore-tables:
       - sys_tenant
       - sys_tenant_package
@@ -129,3 +121,13 @@ justauth:
     timeout: 24h # 超时时长，目前只对 Redis 缓存生效，默认 3 分钟
 
 
+# 接口文档配置
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui
+knife4j:
+  enable: true
