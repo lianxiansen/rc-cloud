@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
  * @author wjf
  */
 @TableName("distributor")
-@KeySequence("distributor_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@KeySequence("id") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
@@ -23,7 +23,7 @@ public class DistributorDO extends BaseDO {
     /**
      * id
      */
-    @TableId
+    @TableId(type=IdType.ASSIGN_ID)
     private Integer id;
     /**
      * 企业名称
@@ -101,42 +101,7 @@ public class DistributorDO extends BaseDO {
      * 成立时间
      */
     private String establishedTime;
-    /**
-     * 展厅地址
-     */
-    private String ztAddress;
-    /**
-     * 展厅面积
-     */
-    private String ztMianji;
-    /**
-     * 展厅图片
-     */
-    private String ztImage;
-    /**
-     * 门店地址
-     */
-    private String mdAddress;
-    /**
-     * 门店面积
-     */
-    private String mdMianji;
-    /**
-     * 门店图片
-     */
-    private String mdImage;
-    /**
-     * 仓库地址
-     */
-    private String ckAddress;
-    /**
-     * 仓库面积
-     */
-    private String ckMianji;
-    /**
-     * 仓库图片
-     */
-    private String ckImage;
+
     /**
      * 是否锁定
      */

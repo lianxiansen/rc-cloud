@@ -10,4 +10,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @ToString(callSuper = true)
 public class AppDistributorCreateReqVO extends AppDistributorBaseVO {
 
+    @Schema(description = "经销商明细")
+    private String distributorDetail;
 }
