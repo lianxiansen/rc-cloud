@@ -10,8 +10,8 @@ import com.rc.cloud.app.product.domain.product.valobj.ProductImageId;
  * @Description: TODO
  */
 public interface ProductRepository {
-    void saveProductEntry(ProductEntry productEntry);
-    ProductEntry getProduct(ProductId productId);
+    void saveProductEntry(ProductEntity productEntry);
+    ProductEntity getProduct(ProductId productId);
     ProductId nextProductId();
     ProductImageId nextProductImageId();
 }

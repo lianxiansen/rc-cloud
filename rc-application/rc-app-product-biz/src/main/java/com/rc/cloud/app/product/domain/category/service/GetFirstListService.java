@@ -1,6 +1,6 @@
 package com.rc.cloud.app.product.domain.category.service;
 
-import com.rc.cloud.app.product.domain.category.ProductCategoryEntry;
+import com.rc.cloud.app.product.domain.category.ProductCategoryEntity;
 import com.rc.cloud.app.product.domain.category.ProductCategoryRepository;
 import com.rc.cloud.app.product.domain.category.valobj.ProductCategoryLayer;
 import com.rc.cloud.app.product.domain.category.valobj.ProductCategoryLocked;
@@ -20,7 +20,7 @@ import java.util.List;
 public class GetFirstListService {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
-    public List<ProductCategoryEntry> execute() {
+    public List<ProductCategoryEntity> execute() {
         return productCategoryRepository.getFirstList(new ProductCategoryLocked(false),new ProductCategoryLayer(1),
                new ProductCategoryParent("0"));
     }

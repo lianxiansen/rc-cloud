@@ -1,6 +1,5 @@
 package com.rc.cloud.app.product.domain.product;
 
-import com.rc.cloud.app.product.domain.DomainRegistry;
 import com.rc.cloud.app.product.domain.common.Deleted;
 import com.rc.cloud.app.product.domain.common.DomainEventPublisher;
 import com.rc.cloud.app.product.domain.common.Entity;
@@ -16,7 +15,7 @@ import java.util.List;
  * @Date: 2023/6/23 13:09
  * @Description: 商品
  */
-public class ProductEntry extends Entity {
+public class ProductEntity extends Entity {
     private ProductId id;
     private TenantId tenantId;
     private ProductName productName;
@@ -26,8 +25,8 @@ public class ProductEntry extends Entity {
     private ProductEnable productEnable;
     private ProductType productType;
 
-    private List<ProductImageEntry> productImages;
-    protected ProductEntry(ProductId id, ProductType productType){
+    private List<ProductImageEntity> productImages;
+    protected ProductEntity(ProductId id, ProductType productType){
         this.id = id;
         this.productType=productType;
         DomainEventPublisher.instance().publish(new ProductCreatedEvent(tenantId, "test"));
@@ -35,7 +34,7 @@ public class ProductEntry extends Entity {
     public boolean exists(){
         return deleted.result();
     }
-    public void setProductImages(List<ProductImageEntry> list){
+    public void setProductImages(List<ProductImageEntity> list){
         this.productImages = list;
     }
 
@@ -62,7 +61,7 @@ public class ProductEntry extends Entity {
         this.productRemark = productRemark;
     }
 
-    public void addProductImage(ProductImageEntry productImageEntry){
+    public void addProductImage(ProductImageEntity productImageEntry){
         productImages.add(productImageEntry);
     }
 }

@@ -1,6 +1,6 @@
 package com.rc.cloud.app.product.domain.product.service;
 
-import com.rc.cloud.app.product.domain.product.ProductEntry;
+import com.rc.cloud.app.product.domain.product.ProductEntity;
 import com.rc.cloud.app.product.domain.product.ProductRepository;
 import com.rc.cloud.app.product.domain.product.valobj.ProductId;
 import com.rc.cloud.app.product.domain.product.valobj.ProductName;
@@ -24,7 +24,7 @@ public class ProductUpdateService {
     private TenantService tenantRepository;
 
     public void execute(ProductId productId,ProductName productName, ProductRemark productRemark, ProductType productType) {
-        ProductEntry productEntry= productRepository.getProduct(productId);
+        ProductEntity productEntry= productRepository.getProduct(productId);
         productEntry.setProductName(productName);
         productEntry.setProductRemark(productRemark);
         productRepository.saveProductEntry(productEntry);
