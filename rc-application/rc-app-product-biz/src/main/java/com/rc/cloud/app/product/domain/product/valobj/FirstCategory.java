@@ -8,9 +8,9 @@ import com.rc.cloud.app.product.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductFirstCategory extends ValueObject {
+public class FirstCategory extends ValueObject {
     private String value;
-    public ProductFirstCategory(String value){
+    public FirstCategory(String value){
         this.value = value;
     }
     public String getValue() {

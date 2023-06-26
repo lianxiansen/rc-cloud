@@ -20,10 +20,10 @@ public class ProductFactory {
     private ProductRepository productRepository;
     @Autowired
     private TenantService tenantService;
-    public ProductEntity createProduct(TenantId tenantId, ProductName productName, ProductRemark productRemark, ProductType productType, List<ProductImage> productImages){
+    public ProductEntity createProduct(TenantId tenantId, Name productName, Remark productRemark, Type productType, List<Image> productImages){
         validateTenantId(tenantId);
-        ProductId productId = productRepository.nextProductId();
-        ProductEntity productEntry=new ProductEntity(productId,new ProductType(0));
+        Id productId = productRepository.nextProductId();
+        ProductEntity productEntry=new ProductEntity(productId,new Type(0));
         productImages.forEach(item->{
             addProductImage(productEntry,item);
         });
@@ -36,8 +36,8 @@ public class ProductFactory {
         }
     }
 
-    private void addProductImage(ProductEntity productEntry, ProductImage productImage){
-        if(!productEntry.valid()){
+    private void addProductImage(ProductEntity productEntry, Image productImage){
+        if(!productEntry.isEnable()){
             throw new RuntimeException("商品已失效");
         }
         ProductImageEntity productImageEntry=new ProductImageEntity(productRepository.nextProductImageId(),

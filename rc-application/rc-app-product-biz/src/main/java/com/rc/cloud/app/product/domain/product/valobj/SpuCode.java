@@ -8,12 +8,12 @@ import com.rc.cloud.app.product.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductOnshelfStatus extends ValueObject {
-    private int value;
-    public ProductOnshelfStatus(int value){
+public class SpuCode extends ValueObject {
+    private String value;
+    public SpuCode(String value){
         this.value = value;
     }
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 

@@ -1,6 +1,5 @@
 package com.rc.cloud.app.product.domain.product.valobj;
 
-import com.rc.cloud.app.product.domain.common.AssertionConcern;
 import com.rc.cloud.app.product.domain.common.ValueObject;
 
 /**
@@ -9,13 +8,18 @@ import com.rc.cloud.app.product.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductTag extends ValueObject {
+public class Remark extends ValueObject {
     private String value;
-    public ProductTag(String value){
-        value=value;
+    public Remark(String value){
+        this.setValue(value);
     }
     public String getValue() {
         return value;
     }
+    public void setValue(String value) {
+        if(value.length()>1000){
+            throw new IllegalArgumentException("");
+        }
 
+    }
 }

@@ -26,8 +26,8 @@ public class ProductSaveService {
     @Autowired
     private ProductFactory productFactory;
 
-    public void execute(TenantId tenantId, ProductName productName, ProductRemark productRemark, ProductType productType,
-                        List<ProductImage> productImages) {
+    public void execute(TenantId tenantId, Name productName, Remark productRemark, Type productType,
+                        List<Image> productImages) {
         ProductEntity productEntry= productFactory.createProduct(tenantId,productName,productRemark,productType,productImages);
         productRepository.saveProductEntry(productEntry);
     }

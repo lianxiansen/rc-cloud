@@ -5,12 +5,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.product.domain.product.ProductEntity;
 import com.rc.cloud.app.product.domain.product.ProductRepository;
-import com.rc.cloud.app.product.domain.product.valobj.ProductId;
-import com.rc.cloud.app.product.domain.product.valobj.ProductImageId;
+import com.rc.cloud.app.product.domain.product.valobj.Id;
+import com.rc.cloud.app.product.domain.product.valobj.ImageId;
 import com.rc.cloud.app.product.infrastructure.persistence.convert.ProductConvert;
 import com.rc.cloud.app.product.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.product.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.product.infrastructure.persistence.po.Product;
+import com.rc.cloud.app.product.infrastructure.persistence.po.ProductImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,31 +22,38 @@ import org.springframework.stereotype.Repository;
  * @Description: TODO
  */
 @Repository
-public class ProductRepositoryImpl extends ServiceImpl<ProductMapper, Product>  implements ProductRepository, IService<Product> {
+public class
+ProductRepositoryImpl extends ServiceImpl<ProductMapper, Product>  implements ProductRepository, IService<Product> {
     @Autowired
     private ProductMapper productMapper;
     @Autowired
     private ProductImageMapper productImageMapper;
     @Autowired
     private RemoteIdGeneratorService remoteIdGeneratorService;
-
+    @Autowired
+    private ProductImageRepositoryImpl productImageRepository;
     @Override
     public void saveProductEntry(ProductEntity productEntry) {
         Product product=  new ProductConvert().convertToProduct(productEntry);
         productMapper.insert(product);
+        productImageRepository.saveBatch(null);
     }
 
     @Override
-    public ProductEntity getProduct(ProductId productId) {
+    public ProductEntity getProduct(Id productId) {
         return null;
     }
     @Override
-    public ProductId nextProductId(){
-        return new ProductId(remoteIdGeneratorService.uidGenerator());
+    public Id nextProductId(){
+        return new Id(remoteIdGeneratorService.uidGenerator());
     }
 
     @Override
-    public ProductImageId nextProductImageId(){
-        return new ProductImageId(remoteIdGeneratorService.uidGenerator());
+    public ImageId nextProductImageId(){
+        return new ImageId(remoteIdGeneratorService.uidGenerator());
     }
+}
+@Repository
+class ProductImageRepositoryImpl  extends ServiceImpl<ProductImageMapper, ProductImage> implements IService<ProductImage> {
+
 }

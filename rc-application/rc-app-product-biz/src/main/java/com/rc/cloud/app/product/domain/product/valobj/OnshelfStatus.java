@@ -1,6 +1,5 @@
 package com.rc.cloud.app.product.domain.product.valobj;
 
-import com.rc.cloud.app.product.domain.common.AssertionConcern;
 import com.rc.cloud.app.product.domain.common.ValueObject;
 
 /**
@@ -9,12 +8,13 @@ import com.rc.cloud.app.product.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductImageDefault extends ValueObject {
+public class OnshelfStatus extends ValueObject {
     private int value;
-    public ProductImageDefault(int value){
-        this.value=value;
+    public OnshelfStatus(int value){
+        this.value = value;
     }
-    public ProductImageDefault(){
-        this.value=0;
+    public int getValue() {
+        return value;
     }
+
 }
