@@ -9,7 +9,7 @@ import com.rc.cloud.app.product.domain.tenant.valobj.TenantId;
  * @Date: 2023/6/24 09:04
  * @Description: TODO
  */
-public class TenantEntry extends Entity {
+public class TenantEntity extends Entity {
     private TenantId id;
 
 }

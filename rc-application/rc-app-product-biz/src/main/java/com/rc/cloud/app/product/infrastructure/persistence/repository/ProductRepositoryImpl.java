@@ -3,7 +3,7 @@ package com.rc.cloud.app.product.infrastructure.persistence.repository;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
-import com.rc.cloud.app.product.domain.product.ProductEntry;
+import com.rc.cloud.app.product.domain.product.ProductEntity;
 import com.rc.cloud.app.product.domain.product.ProductRepository;
 import com.rc.cloud.app.product.domain.product.valobj.ProductId;
 import com.rc.cloud.app.product.domain.product.valobj.ProductImageId;
@@ -13,7 +13,6 @@ import com.rc.cloud.app.product.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.product.infrastructure.persistence.po.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 /**
  * @ClassName: ProductRepositoryImpl
@@ -31,13 +30,13 @@ public class ProductRepositoryImpl extends ServiceImpl<ProductMapper, Product>  
     private RemoteIdGeneratorService remoteIdGeneratorService;
 
     @Override
-    public void saveProductEntry(ProductEntry productEntry) {
+    public void saveProductEntry(ProductEntity productEntry) {
         Product product=  new ProductConvert().convertToProduct(productEntry);
         productMapper.insert(product);
     }
 
     @Override
-    public ProductEntry getProduct(ProductId productId) {
+    public ProductEntity getProduct(ProductId productId) {
         return null;
     }
     @Override

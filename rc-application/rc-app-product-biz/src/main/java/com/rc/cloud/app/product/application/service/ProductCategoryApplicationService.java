@@ -15,7 +15,7 @@ import java.util.List;
  * @Description: TODO
  */
 @Service
-public class ProductCategoryService {
+public class ProductCategoryApplicationService {
     @Autowired
     private GetFirstListService getFirstListService;
     public List<ProductCategoryData> getFirstList() {

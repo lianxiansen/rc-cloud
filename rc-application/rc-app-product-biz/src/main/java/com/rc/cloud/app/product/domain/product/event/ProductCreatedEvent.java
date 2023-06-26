@@ -1,7 +1,6 @@
 package com.rc.cloud.app.product.domain.product.event;
 
 import com.rc.cloud.app.product.domain.common.DomainEvent;
-import com.rc.cloud.app.product.domain.tenant.TenantEntry;
 import com.rc.cloud.app.product.domain.tenant.valobj.TenantId;
 
 import java.util.Date;
