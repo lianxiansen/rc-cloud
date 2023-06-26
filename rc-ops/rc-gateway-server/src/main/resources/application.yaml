@@ -60,7 +60,7 @@ spring:
           filters:
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/$\{path}/v3/api-docs
 gateway:
-  encode-key: 'thanks,rc'
+  encode-key: 'thanks,pig4cloud'
   ignore-clients: # 不校验验证码的客户端
     - test
     - client
