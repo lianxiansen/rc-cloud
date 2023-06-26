@@ -2,6 +2,8 @@ package com.rc.cloud.app.distributor.appearance.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+
+import java.time.LocalDateTime;
 import java.util.*;
 import javax.validation.constraints.*;
 
@@ -19,6 +21,6 @@ public class AppDistributorSourceBaseVO {
     private String description;
 
     @Schema(description = "创建时间")
-    private String createtime;
+    private LocalDateTime createTime;
 
 }

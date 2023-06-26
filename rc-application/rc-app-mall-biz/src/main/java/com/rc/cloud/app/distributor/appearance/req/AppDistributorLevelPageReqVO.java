@@ -9,6 +9,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
+
 import static com.rc.cloud.common.core.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
 @Schema(description = "用户 APP - 经销商客户等级分页 Request VO")
@@ -25,6 +27,6 @@ public class AppDistributorLevelPageReqVO extends PageParam {
 
     @Schema(description = "创建时间")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    private String[] createtime;
+    private LocalDateTime[] createTime;
 
 }

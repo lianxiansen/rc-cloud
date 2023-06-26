@@ -19,7 +19,7 @@ public interface DistributorLevelMapper extends BaseMapperX<DistributorLevelDO> 
         return selectPage(reqVO, new LambdaQueryWrapperX<DistributorLevelDO>()
                 .likeIfPresent(DistributorLevelDO::getName, reqVO.getName())
                 .eqIfPresent(DistributorLevelDO::getDescription, reqVO.getDescription())
-                .betweenIfPresent(DistributorLevelDO::getCreatetime, reqVO.getCreatetime())
+                .betweenIfPresent(DistributorLevelDO::getCreateTime, reqVO.getCreateTime())
                 .orderByDesc(DistributorLevelDO::getId));
     }
 

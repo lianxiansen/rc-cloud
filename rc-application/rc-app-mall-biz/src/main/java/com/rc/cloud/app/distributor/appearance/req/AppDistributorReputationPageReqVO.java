@@ -2,6 +2,8 @@ package com.rc.cloud.app.distributor.appearance.req;
 
 import com.rc.cloud.common.core.pojo.PageParam;
 import lombok.*;
+
+import java.time.LocalDateTime;
 import java.util.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,6 +24,6 @@ public class AppDistributorReputationPageReqVO extends PageParam {
 
     @Schema(description = "创建时间")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    private String[] createtime;
+    private LocalDateTime[] createTime;
 
 }

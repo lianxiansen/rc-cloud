@@ -4,6 +4,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationCreat
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationUpdateReqVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorReputationConvert;
+import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationDO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorReputationMapper;
 import com.rc.cloud.app.distributor.application.service.DistributorReputationService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
@@ -32,6 +34,7 @@ public class DistributorReputationServiceImpl implements DistributorReputationSe
     public Integer createReputation(AppDistributorReputationCreateReqVO createReqVO) {
         // 插入
         DistributorReputationDO reputation = DistributorReputationConvert.INSTANCE.convert(createReqVO);
+        reputation.setCreateTime(LocalDateTime.now());
         reputationMapper.insert(reputation);
         // 返回
         return reputation.getId();
@@ -56,7 +59,7 @@ public class DistributorReputationServiceImpl implements DistributorReputationSe
 
     private void validateReputationExists(Integer id) {
         if (reputationMapper.selectById(id) == null) {
-            throw exception(new ErrorCode(4,"REPUTATION_NOT_EXISTS"));
+            throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_REPUTATION_NOT_EXISTS);
         }
     }
 

@@ -42,10 +42,10 @@ public class ProductApplicationService {
             }
         });
         TenantId tenantId=new TenantId(productSaveDTO.getMerchant_id()+"");
-        ProductName productName=new ProductName(productSaveDTO.getName());
-        List<ProductImage> productImages=new ArrayList<>();
+        Name productName=new Name(productSaveDTO.getName());
+        List<Image> productImages=new ArrayList<>();
         productSaveDTO.getAlbums().forEach(item->{
-            ProductImage image=new ProductImage(item.getImage());
+            Image image=new Image(item.getImage());
             productImages.add(image);
         });
         if(productSaveDTO.getId()>0){

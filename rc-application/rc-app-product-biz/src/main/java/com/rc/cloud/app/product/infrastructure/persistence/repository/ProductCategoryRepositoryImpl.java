@@ -11,6 +11,7 @@ import com.rc.cloud.app.product.infrastructure.persistence.mapper.ProductCategor
 import com.rc.cloud.app.product.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.product.infrastructure.persistence.po.ProductCategory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.List;
  * @Date 2021-03-28
  * @Description:
  */
-@Service
+@Repository
 public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMapper, ProductCategory> implements ProductCategoryRepository {
     @Autowired
     private ProductCategoryMapper productCategoryMapper;
