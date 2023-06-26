@@ -48,4 +48,7 @@ public interface DictDataMapper extends BaseMapperX<SysDictDataDO> {
                 .eqIfPresent(SysDictDataDO::getStatus, reqVO.getStatus()));
     }
 
+    default List<SysDictDataDO> selectListBySortAsc() {
+        return selectList(new LambdaQueryWrapperX<SysDictDataDO>().orderByAsc(SysDictDataDO::getSort));
+    }
 }

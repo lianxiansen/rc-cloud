@@ -1,9 +1,12 @@
 package com.rc.cloud.app.system.vo.permission.menu;
 
+import com.rc.cloud.common.core.util.tree.TreeNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Schema(description = "管理后台 - 菜单精简信息 Response VO")
 @Data
@@ -22,5 +25,7 @@ public class MenuSimpleRespVO {
 
     @Schema(description = "类型,参见 MenuTypeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer type;
+
+    private List<MenuSimpleRespVO> children;
 
 }

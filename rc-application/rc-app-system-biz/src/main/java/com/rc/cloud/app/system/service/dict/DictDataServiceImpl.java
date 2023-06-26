@@ -182,4 +182,9 @@ public class DictDataServiceImpl implements DictDataService {
         return dictDataMapper.selectByDictTypeAndLabel(dictType, label);
     }
 
+    @Override
+    public List<SysDictDataDO> selectListBySortAsc() {
+        return dictDataMapper.selectListBySortAsc();
+    }
+
 }

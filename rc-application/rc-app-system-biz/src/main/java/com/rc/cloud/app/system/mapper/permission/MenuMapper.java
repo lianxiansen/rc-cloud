@@ -55,4 +55,9 @@ public interface MenuMapper extends BaseMapperX<SysMenuDO> {
                 .filter(item -> !item.isEmpty())
                 .collect(Collectors.toSet());
     }
+
+    default List<SysMenuDO> selectPatentMenuList() {
+        return selectList(new LambdaQueryWrapperX<SysMenuDO>()
+                .eqIfPresent(SysMenuDO::getParentId, 0));
+    }
 }

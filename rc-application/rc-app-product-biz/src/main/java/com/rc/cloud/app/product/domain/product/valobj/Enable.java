@@ -1,6 +1,5 @@
 package com.rc.cloud.app.product.domain.product.valobj;
 
-import com.rc.cloud.app.product.domain.common.AssertionConcern;
 import com.rc.cloud.app.product.domain.common.ValueObject;
 
 /**
@@ -9,12 +8,16 @@ import com.rc.cloud.app.product.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductOrigin extends ValueObject {
-    private int value;
-    public ProductOrigin(int value){
-        this.value = value;
+public class Enable extends ValueObject {
+    private boolean value;
+    public Enable(){
+        this.value = true;
     }
-    public int getValue() {
+    public Enable(boolean flag){
+        this.value = flag;
+    }
+
+    public boolean result(){
         return value;
     }
 

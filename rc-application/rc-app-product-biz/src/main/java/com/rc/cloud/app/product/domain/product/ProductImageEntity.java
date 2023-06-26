@@ -11,23 +11,23 @@ import com.rc.cloud.app.product.domain.product.valobj.*;
  */
 public class ProductImageEntity extends Entity {
 
-    private ProductImageId productImageId;
-    private ProductId productId;
-    private ProductImage productImage;
+    private ImageId productImageId;
+    private Id productId;
+    private Image productImage;
 
-    private ProductImageSort productImageSort;
-    private ProductImageDefault productImageDefault;
-    public ProductImageEntity(ProductImageId productImageId, ProductId productId, ProductImage productImage){
-
-    }
-    public void setProductImageId(ProductImageId productImageId){
+    private ImageSort productImageSort;
+    private ImageDefault productImageDefault;
+    public ProductImageEntity(ImageId productImageId, Id productId, Image productImage){
 
     }
-
-    public void setProductImageSort(ProductImageSort productImageSort){
+    public void setProductImageId(ImageId productImageId){
 
     }
-    public void setProductImageDefault(ProductImageDefault productImageDefault){
+
+    public void setProductImageSort(ImageSort productImageSort){
+
+    }
+    public void setProductImageDefault(ImageDefault productImageDefault){
 
     }
 

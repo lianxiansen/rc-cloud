@@ -1,6 +1,5 @@
 package com.rc.cloud.app.product.domain.product.valobj;
 
-import com.rc.cloud.app.product.domain.common.AssertionConcern;
 import com.rc.cloud.app.product.domain.common.ValueObject;
 
 /**
@@ -9,9 +8,9 @@ import com.rc.cloud.app.product.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductType extends ValueObject {
+public class Type extends ValueObject {
     private Integer value;
-    public ProductType(Integer value){
+    public Type(Integer value){
         this.setValue(value);
     }
     public Integer getValue() {

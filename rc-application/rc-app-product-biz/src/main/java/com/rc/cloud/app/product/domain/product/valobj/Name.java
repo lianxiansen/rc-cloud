@@ -1,6 +1,5 @@
 package com.rc.cloud.app.product.domain.product.valobj;
 
-import com.rc.cloud.app.product.domain.common.AssertionConcern;
 import com.rc.cloud.app.product.domain.common.ValueObject;
 
 /**
@@ -9,17 +8,17 @@ import com.rc.cloud.app.product.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductRemark extends ValueObject {
+public class Name extends ValueObject {
     private String value;
-    public ProductRemark(String value){
+    public Name(String value){
         this.setValue(value);
     }
     public String getValue() {
         return value;
     }
     public void setValue(String value) {
-        if(value.length()>1000){
-            throw new IllegalArgumentException("");
+        if (value == null) {
+            throw new IllegalArgumentException("商品名称不为空");
         }
 
     }
