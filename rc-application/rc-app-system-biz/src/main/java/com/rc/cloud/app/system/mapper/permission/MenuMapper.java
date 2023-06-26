@@ -60,4 +60,6 @@ public interface MenuMapper extends BaseMapperX<SysMenuDO> {
         return selectList(new LambdaQueryWrapperX<SysMenuDO>()
                 .eqIfPresent(SysMenuDO::getParentId, 0));
     }
+
+
 }

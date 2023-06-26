@@ -3,6 +3,7 @@ package com.rc.cloud.app.system.controller.admin.permission;
 import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
+import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
 import com.rc.cloud.app.system.service.permission.MenuService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.permission.menu.*;
@@ -96,10 +97,25 @@ public class MenuController {
     }
 
     @GetMapping("/root-nav")
-    @Operation(summary = "获取根导航菜单", description = "用于【菜单管理】界面")
+    @Operation(summary = "获取根导航菜单")
     public CodeResult<List<MenuSimpleRespVO>> getRootNavMenuList() {
         List<SysMenuDO> list = menuService.getRootNavMenuList();
         return CodeResult.ok(MenuConvert.INSTANCE.convertList02(list));
+    }
+
+    @GetMapping("/child-nav/{parentId}")
+    @Operation(summary = "根据父菜单ID获取子导航菜单")
+    public CodeResult<List<MenuSimpleRespVO>> getChildNavMenuList(@PathVariable Long parentId) {
+        String username = SecurityUtils.getUsername();
+        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        List<SysMenuDO> list = menuService.getUserChildMenuList(user.getId(), parentId, MenuTypeEnum.MENU.getType());
+        List<MenuSimpleRespVO> result = MenuConvert.INSTANCE.convertList02(list);
+        result.forEach(item -> {
+            List<SysMenuDO> userChildMenuList = menuService.getUserChildMenuList(user.getId(), item.getId(), MenuTypeEnum.MENU.getType());
+            item.setChildren(MenuConvert.INSTANCE.convertList02(userChildMenuList));
+        });
+        return CodeResult.ok(result);
     }
 
     @GetMapping("/authority")
