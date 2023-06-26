@@ -3,6 +3,7 @@ package com.rc.cloud.app.system.controller.admin.dict;
 import com.rc.cloud.app.system.api.dict.entity.SysDictTypeDO;
 import com.rc.cloud.app.system.convert.dict.DictTypeConvert;
 import com.rc.cloud.app.system.service.dict.DictTypeService;
+import com.rc.cloud.app.system.vo.dict.SysDictVO;
 import com.rc.cloud.app.system.vo.dict.type.*;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -76,6 +77,13 @@ public class DictTypeController {
     public CodeResult<List<DictTypeSimpleRespVO>> getSimpleDictTypeList() {
         List<SysDictTypeDO> list = dictTypeService.getDictTypeList();
         return CodeResult.ok(DictTypeConvert.INSTANCE.convertList(list));
+    }
+
+    @GetMapping("/dict/all")
+    @Operation(summary = "全部字典数据")
+    public CodeResult<List<SysDictVO>> all() {
+        List<SysDictVO> dictList = dictTypeService.getDictList();
+        return CodeResult.ok(dictList);
     }
 
     @Operation(summary = "导出数据类型")
