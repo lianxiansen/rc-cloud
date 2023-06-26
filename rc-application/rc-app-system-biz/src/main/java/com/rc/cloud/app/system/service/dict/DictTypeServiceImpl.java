@@ -2,17 +2,21 @@ package com.rc.cloud.app.system.service.dict;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.common.annotations.VisibleForTesting;
+import com.rc.cloud.app.system.api.dict.entity.SysDictDataDO;
 import com.rc.cloud.app.system.api.dict.entity.SysDictTypeDO;
 import com.rc.cloud.app.system.convert.dict.DictTypeConvert;
 import com.rc.cloud.app.system.mapper.dict.DictTypeMapper;
+import com.rc.cloud.app.system.vo.dict.SysDictVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeExportReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypePageReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeUpdateReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
@@ -25,6 +29,7 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  * @author 芋道源码
  */
 @Service
+@Log4j2
 public class DictTypeServiceImpl implements DictTypeService {
 
     @Resource
@@ -89,6 +94,42 @@ public class DictTypeServiceImpl implements DictTypeService {
     @Override
     public List<SysDictTypeDO> getDictTypeList() {
         return dictTypeMapper.selectList();
+    }
+
+    @Override
+    public List<SysDictVO> getDictList() {
+        // 全部字典类型列表
+        List<SysDictTypeDO> typeList = dictTypeMapper.selectList();
+
+        // 全部字典数据列表
+        List<SysDictDataDO> dataList = dictDataService.selectListBySortAsc();
+
+        // 全部字典列表
+        List<SysDictVO> dictList = new ArrayList<>(typeList.size());
+        for (SysDictTypeDO type : typeList) {
+            SysDictVO dict = new SysDictVO();
+            dict.setType(type.getType());
+            for (SysDictDataDO data : dataList) {
+                if (type.getType().equals(data.getDictType())) {
+                    dict.getDataList().add(new SysDictVO.DictData(data.getLabel(), data.getValue(), data.getCssClass()));
+                }
+            }
+
+            // 数据来源动态SQL
+//            if (type.getDictSource() == DictSourceEnum.SQL.getValue()) {
+//                // 增加动态列表
+//                String sql = type.getDictSql();
+//                try {
+//                    dict.setDataList(sysDictDataRepository.getListForSql(sql));
+//                } catch (Exception e) {
+//                    log.error("增加动态字典异常: type=" + type, e);
+//                }
+//            }
+
+            dictList.add(dict);
+        }
+
+        return dictList;
     }
 
     private void validateDictTypeForCreateOrUpdate(Long id, String name, String type) {

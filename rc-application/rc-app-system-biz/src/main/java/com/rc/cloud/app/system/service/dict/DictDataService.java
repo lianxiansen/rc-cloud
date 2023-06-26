@@ -106,4 +106,7 @@ public interface DictDataService {
      * @return 字典数据
      */
     SysDictDataDO parseDictData(String dictType, String label);
+
+    List<SysDictDataDO> selectListBySortAsc();
+
 }
