@@ -10,7 +10,7 @@ import com.rc.cloud.app.product.domain.tenant.valobj.TenantId;
  * @Date: 2023/6/23 13:09
  * @Description: 商品分类
  */
-public class ProductCategoryEntry extends Entity {
+public class ProductCategoryEntity extends Entity {
     private ProductCategoryId id;
     private TenantId tenantId;
     private ProductCategoryIcon productCategoryIcon;
@@ -20,7 +20,7 @@ public class ProductCategoryEntry extends Entity {
     private ProductCategoryEnable productCategoryEnable;
     private ProductCategorySort productCategorySort;
     private ProductCategoryDeleted productCategoryDeleted;
-    public ProductCategoryEntry(ProductCategoryId id){
+    public ProductCategoryEntity(ProductCategoryId id){
         this.id = id;
     }
 }

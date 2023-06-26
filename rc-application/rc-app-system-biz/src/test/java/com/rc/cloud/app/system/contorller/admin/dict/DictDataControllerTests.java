@@ -5,23 +5,18 @@
 package com.rc.cloud.app.system.contorller.admin.dict;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.common.cache.RedisCache;
-import com.rc.cloud.app.system.common.cache.RedisKeys;
-import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.app.system.controller.admin.dict.DictDataController;
-//import com.rc.cloud.app.system.service.auth.AdminAuthService;
-//import com.rc.cloud.app.system.service.captcha.CaptchaService;
 import com.rc.cloud.app.system.service.dict.DictDataService;
-import com.rc.cloud.app.system.vo.auth.AuthLoginReqVO;
-import com.rc.cloud.app.system.vo.auth.AuthLoginRespVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataUpdateReqVO;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
+import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -45,15 +40,6 @@ public class DictDataControllerTests {
 
     private MockMvc mvc;
 
-//    @Resource
-//    private AdminAuthService authService;
-
-    @Resource
-    private RedisCache redisCache;
-
-//    @Resource
-//    private CaptchaService captchaService;
-
     @Resource
     private DictDataService dictDataService;
 
@@ -68,9 +54,9 @@ public class DictDataControllerTests {
     }
 
     @Test
+    @WithMockUser()
     public void getDictDataById_success() throws Exception {
-        mvc.perform(get("/sys/dict-data/" + 1)
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/dict-data/" + 1))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -78,11 +64,10 @@ public class DictDataControllerTests {
                 .andExpect(jsonPath("$.data.label").value("男"));
     }
 
-    // list-all-simple
     @Test
+    @WithMockUser("admin")
     public void listDictDataAllSimple_success() throws Exception {
-        mvc.perform(get("/sys/dict-data/list-all-simple")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/dict-data/list-all-simple"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -93,9 +78,9 @@ public class DictDataControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void getDictDataPage_success() throws Exception {
-        mvc.perform(get("/sys/dict-data/page")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken()))
+        mvc.perform(get("/sys/dict-data/page"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -107,6 +92,7 @@ public class DictDataControllerTests {
     }
 
     @Test
+    @WithMockUser("admin")
     public void createDictData_success() throws Exception {
         DictDataCreateReqVO dictDataCreateReqVO = new DictDataCreateReqVO();
         dictDataCreateReqVO.setSort(1);
@@ -120,7 +106,6 @@ public class DictDataControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dictDataCreateReqVO);
         mvc.perform(post("/sys/dict-data/create")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -133,6 +118,7 @@ public class DictDataControllerTests {
 
 
     @Test
+    @WithMockUser("admin")
     public void updateDictData_success() throws Exception {
         DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
         dictDataUpdateReqVO.setId(1L);
@@ -147,7 +133,6 @@ public class DictDataControllerTests {
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dictDataUpdateReqVO);
         mvc.perform(put("/sys/dict-data/update")
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -160,6 +145,7 @@ public class DictDataControllerTests {
 
     // 根据ID删除
     @Test
+    @WithMockUser("admin")
     public void deleteDictDataById_success() throws Exception {
         DictDataCreateReqVO dictDataCreateReqVO = new DictDataCreateReqVO();
         dictDataCreateReqVO.setSort(1);
@@ -171,7 +157,6 @@ public class DictDataControllerTests {
         dictDataCreateReqVO.setRemark("备注");
         Long dictDataId = dictDataService.createDictData(dictDataCreateReqVO);
         mvc.perform(delete("/sys/dict-data/" + dictDataId)
-                        .header("Authorization", "Bearer " + getToken().getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -179,28 +164,5 @@ public class DictDataControllerTests {
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data").value(true));
-    }
-
-
-    private AuthLoginRespVO getToken() {
-        AuthLoginReqVO login = new AuthLoginReqVO();
-        login.setUsername("admin");
-        login.setPassword("123456");
-//        String key = getCaptcha().getKey();
-        String key = "1234";
-        login.setKey(key);
-        String captchaCode = getCaptchaCode(key);
-        login.setCaptcha(captchaCode);
-//        return authService.login(login);
-        return null;
-    }
-
-//    private CaptchaVO getCaptcha() {
-//        return captchaService.generate();
-//    }
-
-    private String getCaptchaCode(String key) {
-        key = RedisKeys.getCaptchaKey(key);
-        return (String) redisCache.get(key);
     }
 }

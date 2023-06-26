@@ -1,8 +1,6 @@
 package com.rc.cloud.app.product.infrastructure.persistence.convert;
 
-import com.rc.cloud.app.product.domain.product.ProductEntry;
-import com.rc.cloud.app.product.domain.product.valobj.ProductId;
-import com.rc.cloud.app.product.domain.product.valobj.ProductType;
+import com.rc.cloud.app.product.domain.product.ProductEntity;
 import com.rc.cloud.app.product.infrastructure.persistence.po.Product;
 
 /**
@@ -16,7 +14,7 @@ public class ProductConvert {
     }
 
 
-    public Product convertToProduct(ProductEntry productEntry){
+    public Product convertToProduct(ProductEntity productEntry){
         return null;
     }
 }

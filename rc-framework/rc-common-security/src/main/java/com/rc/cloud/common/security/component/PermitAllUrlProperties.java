@@ -10,6 +10,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.condition.PathPatternsRequestCondition;
 import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -47,22 +48,16 @@ public class PermitAllUrlProperties implements InitializingBean {
 			// 获取方法上边的注解 替代path variable 为 *
 			Inner method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Inner.class);
 			Optional.ofNullable(method)
-				.ifPresent(inner -> {
-					PatternsRequestCondition pathPatternsCondition = info.getPatternsCondition();
-					Objects.requireNonNull(pathPatternsCondition)
-						.getPatterns()
-						.forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*")));
-				});
+					.ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
+							.getPatternValues()
+							.forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 
 			// 获取类上边的注解, 替代path variable 为 *
 			Inner controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Inner.class);
 			Optional.ofNullable(controller)
-				.ifPresent(inner -> {
-					PatternsRequestCondition pathPatternsCondition = info.getPatternsCondition();
-					Objects.requireNonNull(pathPatternsCondition)
-						.getPatterns()
-						.forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*")));
-				});
+					.ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
+							.getPatternValues()
+							.forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 		});
 	}
 

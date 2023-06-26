@@ -11,10 +11,6 @@ spring:
     active: dev
   # 文件编码 UTF8
   mandatory-file-encoding: UTF-8
-  messages:
-    basename: errors/messages
-    #指定编码格式
-    encoding: UTF-8
   cloud:
     nacos:
       username: nacos

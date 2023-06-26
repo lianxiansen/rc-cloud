@@ -9,7 +9,7 @@ import com.rc.cloud.app.product.domain.product.valobj.*;
  * @Date: 2023/6/23 17:02
  * @Description: TODO
  */
-public class ProductImageEntry extends Entity {
+public class ProductImageEntity extends Entity {
 
     private ProductImageId productImageId;
     private ProductId productId;
@@ -17,7 +17,7 @@ public class ProductImageEntry extends Entity {
 
     private ProductImageSort productImageSort;
     private ProductImageDefault productImageDefault;
-    public ProductImageEntry(ProductImageId productImageId,ProductId productId,ProductImage productImage){
+    public ProductImageEntity(ProductImageId productImageId, ProductId productId, ProductImage productImage){
 
     }
     public void setProductImageId(ProductImageId productImageId){

@@ -18,8 +18,10 @@ import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
@@ -27,6 +29,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +46,7 @@ import static com.rc.cloud.common.core.web.util.WebFrameworkUtils.getLoginUserId
 @RequestMapping("/sys/user/profile")
 @Validated
 @Slf4j
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class UserProfileController {
 
     @Resource
@@ -58,7 +62,8 @@ public class UserProfileController {
 
     @GetMapping("/get")
     @Operation(summary = "获得登录用户信息")
-    @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
+//    @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
+//    @PermitAll
     public CodeResult<UserProfileRespVO> profile(Authentication authentication) {
         // 获得用户基本信息
         String username = SecurityUtils.getUsername();

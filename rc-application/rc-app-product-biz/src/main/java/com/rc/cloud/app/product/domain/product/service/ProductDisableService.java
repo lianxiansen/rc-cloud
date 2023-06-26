@@ -1,6 +1,6 @@
 package com.rc.cloud.app.product.domain.product.service;
 
-import com.rc.cloud.app.product.domain.product.ProductEntry;
+import com.rc.cloud.app.product.domain.product.ProductEntity;
 import com.rc.cloud.app.product.domain.product.ProductRepository;
 import com.rc.cloud.app.product.domain.product.valobj.ProductId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class ProductDisableService {
     private ProductRepository productRepository;
 
     public void execute(ProductId productId) {
-        ProductEntry productEntry = productRepository.getProduct(productId);
+        ProductEntity productEntry = productRepository.getProduct(productId);
         productEntry.disable();
         productRepository.saveProductEntry(productEntry);
     }

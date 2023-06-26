@@ -1,6 +1,6 @@
 package com.rc.cloud.app.product.application.data;
 
-import com.rc.cloud.app.product.domain.category.ProductCategoryEntry;
+import com.rc.cloud.app.product.domain.category.ProductCategoryEntity;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 public class ProductCategoryData {
     private Date createTime;
-    public static ProductCategoryData from(ProductCategoryEntry productCategoryEntry){
+    public static ProductCategoryData from(ProductCategoryEntity productCategoryEntry){
         return new ProductCategoryData();
     }
 }
