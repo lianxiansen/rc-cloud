@@ -77,33 +77,6 @@ public class AppDistributorBaseVO {
     @Schema(description = "成立时间")
     private String establishedTime;
 
-    @Schema(description = "展厅地址")
-    private String ztAddress;
-
-    @Schema(description = "展厅面积")
-    private String ztMianji;
-
-    @Schema(description = "展厅图片")
-    private String ztImage;
-
-    @Schema(description = "门店地址")
-    private String mdAddress;
-
-    @Schema(description = "门店面积")
-    private String mdMianji;
-
-    @Schema(description = "门店图片")
-    private String mdImage;
-
-    @Schema(description = "仓库地址")
-    private String ckAddress;
-
-    @Schema(description = "仓库面积")
-    private String ckMianji;
-
-    @Schema(description = "仓库图片")
-    private String ckImage;
-
     @Schema(description = "是否删除")
     private Boolean deleted;
 

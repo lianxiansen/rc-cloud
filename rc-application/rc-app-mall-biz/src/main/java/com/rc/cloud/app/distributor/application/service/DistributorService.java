@@ -8,6 +8,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorExportReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailDO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 /**
@@ -46,6 +47,14 @@ public interface DistributorService {
      * @return 经销商
      */
     DistributorDO get(Integer id);
+
+    /**
+     * 获得经销商
+     *
+     * @param id 编号
+     * @return 经销商
+     */
+    DistributorDetailDO getDetail(Integer id);
 
     /**
      * 获得经销商列表

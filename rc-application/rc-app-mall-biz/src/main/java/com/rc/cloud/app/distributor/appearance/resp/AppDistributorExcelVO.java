@@ -80,33 +80,6 @@ public class AppDistributorExcelVO {
     @ExcelProperty("成立时间")
     private String establishedTime;
 
-    @ExcelProperty("展厅地址")
-    private String ztAddress;
-
-    @ExcelProperty("展厅面积")
-    private String ztMianji;
-
-    @ExcelProperty("展厅图片")
-    private String ztImage;
-
-    @ExcelProperty("门店地址")
-    private String mdAddress;
-
-    @ExcelProperty("门店面积")
-    private String mdMianji;
-
-    @ExcelProperty("门店图片")
-    private String mdImage;
-
-    @ExcelProperty("仓库地址")
-    private String ckAddress;
-
-    @ExcelProperty("仓库面积")
-    private String ckMianji;
-
-    @ExcelProperty("仓库图片")
-    private String ckImage;
-
     @ExcelProperty("是否锁定")
     private Integer locking;
 

@@ -16,4 +16,6 @@ public class AppDistributorUpdateReqVO extends AppDistributorBaseVO {
     @NotNull(message = "id不能为空")
     private Integer id;
 
+    @Schema(description = "经销商明细")
+    private String distributorDetail;
 }
