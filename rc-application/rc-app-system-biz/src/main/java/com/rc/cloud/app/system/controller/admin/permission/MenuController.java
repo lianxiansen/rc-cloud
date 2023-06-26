@@ -120,12 +120,12 @@ public class MenuController {
 
     @GetMapping("nav")
     @Operation(summary = "获取菜单导航", description = "用于前端动态路由")
-    public CodeResult<List<MenuSimpleRespVO>> getNav() {
+    public CodeResult<List<MenuRespVO>> getNav() {
         String username = SecurityUtils.getUsername();
         Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
         SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
         List<SysMenuDO> menuList = menuService.getUserMenuList(user.getId(), MenuTypeEnum.MENU.getType());
-        return CodeResult.ok(TreeUtil.build(MenuConvert.INSTANCE.convertList02(menuList)));
+        return CodeResult.ok(TreeUtil.build(MenuConvert.INSTANCE.convertList(menuList)));
     }
 
     @GetMapping("/authority")
