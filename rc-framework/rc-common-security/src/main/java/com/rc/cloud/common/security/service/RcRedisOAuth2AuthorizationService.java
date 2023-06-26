@@ -110,12 +110,13 @@ public class RcRedisOAuth2AuthorizationService implements OAuth2AuthorizationSer
 	public OAuth2Authorization findByToken(String token, @Nullable OAuth2TokenType tokenType) {
 		Assert.hasText(token, "token cannot be empty");
 		Assert.notNull(tokenType, "tokenType cannot be empty");
-		String oAuth2AuthorizationString = stringRedisTemplate.opsForValue().get(buildKey(tokenType.getValue(), token));
+		String key = buildKey(tokenType.getValue(), token);
+		String oAuth2AuthorizationString = stringRedisTemplate.opsForValue().get(key);
 		return JSONObject.parseObject(oAuth2AuthorizationString, OAuth2Authorization.class);
 	}
 
 	private String buildKey(String type, String id) {
-		return String.format("%s::%s::%s", AUTHORIZATION, type, id);
+		return String.format("%s:%s:%s", AUTHORIZATION, type, id);
 	}
 
 	private static boolean isState(OAuth2Authorization authorization) {
