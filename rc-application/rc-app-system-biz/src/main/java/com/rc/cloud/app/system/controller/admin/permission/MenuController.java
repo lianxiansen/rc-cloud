@@ -98,22 +98,22 @@ public class MenuController {
 
     @GetMapping("/root-nav")
     @Operation(summary = "获取根导航菜单")
-    public CodeResult<List<MenuSimpleRespVO>> getRootNavMenuList() {
+    public CodeResult<List<MenuRespVO>> getRootNavMenuList() {
         List<SysMenuDO> list = menuService.getRootNavMenuList();
-        return CodeResult.ok(MenuConvert.INSTANCE.convertList02(list));
+        return CodeResult.ok(MenuConvert.INSTANCE.convertList(list));
     }
 
     @GetMapping("/child-nav/{parentId}")
     @Operation(summary = "根据父菜单ID获取子导航菜单")
-    public CodeResult<List<MenuSimpleRespVO>> getChildNavMenuList(@PathVariable Long parentId) {
+    public CodeResult<List<MenuRespVO>> getChildNavMenuList(@PathVariable Long parentId) {
         String username = SecurityUtils.getUsername();
         Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
         SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
         List<SysMenuDO> list = menuService.getUserMenuList(user.getId(), parentId, MenuTypeEnum.MENU.getType());
-        List<MenuSimpleRespVO> result = MenuConvert.INSTANCE.convertList02(list);
+        List<MenuRespVO> result = MenuConvert.INSTANCE.convertList(list);
         result.forEach(item -> {
             List<SysMenuDO> userChildMenuList = menuService.getUserMenuList(user.getId(), item.getId(), MenuTypeEnum.MENU.getType());
-            item.setChildren(MenuConvert.INSTANCE.convertList02(userChildMenuList));
+            item.setChildren(MenuConvert.INSTANCE.convertList(userChildMenuList));
         });
         return CodeResult.ok(result);
     }
