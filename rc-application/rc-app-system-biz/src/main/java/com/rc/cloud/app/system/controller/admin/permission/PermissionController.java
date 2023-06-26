@@ -77,5 +77,4 @@ public class PermissionController {
         permissionService.assignUserRole(reqVO.getUserId(), reqVO.getRoleIds());
         return CodeResult.ok(true);
     }
-
 }

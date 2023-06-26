@@ -5,6 +5,8 @@ import lombok.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
+
 import static com.rc.cloud.common.core.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
 @Schema(description = "用户 APP - 经销商分页 Request VO")
@@ -51,7 +53,7 @@ public class AppDistributorPageReqVO extends PageParam {
 
     @Schema(description = "创建时间")
     @DateTimeFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND)
-    private String[] createTime;
+    private LocalDateTime[] createTime;
 
     @Schema(description = "数据添加人员")
     private String creator;

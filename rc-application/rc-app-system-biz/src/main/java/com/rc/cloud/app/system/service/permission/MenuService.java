@@ -4,10 +4,12 @@ package com.rc.cloud.app.system.service.permission;
 import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuListReqVO;
+import com.rc.cloud.app.system.vo.permission.menu.MenuSimpleRespVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuUpdateReqVO;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单 Service 接口
@@ -107,4 +109,13 @@ public interface MenuService {
      */
     SysMenuDO getMenu(Long id);
 
+    /**
+     * 获取根导航菜单列表
+     * @return 菜单列表
+     */
+    List<SysMenuDO> getRootNavMenuList();
+
+    Set<String> getUserAuthorityByUserId(Long userId);
+
+    List<SysMenuDO> getUserChildMenuList(Long userId, Long parentId, Integer type);
 }

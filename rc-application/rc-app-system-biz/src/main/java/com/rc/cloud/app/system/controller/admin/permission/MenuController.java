@@ -1,11 +1,16 @@
 package com.rc.cloud.app.system.controller.admin.permission;
 
 import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
+import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
 import com.rc.cloud.app.system.service.permission.MenuService;
+import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.permission.menu.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.security.service.RcUserDetailsService;
+import com.rc.cloud.common.security.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,6 +22,11 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import static com.rc.cloud.app.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
 
 @Tag(name = "管理后台 - 菜单")
@@ -27,6 +37,9 @@ public class MenuController {
 
     @Resource
     private MenuService menuService;
+
+    @Resource
+    private AdminUserService userService;
 
     @PostMapping("/create")
     @Operation(summary = "创建菜单")
@@ -83,4 +96,36 @@ public class MenuController {
         return CodeResult.ok(MenuConvert.INSTANCE.convert(menu));
     }
 
+    @GetMapping("/root-nav")
+    @Operation(summary = "获取根导航菜单")
+    public CodeResult<List<MenuSimpleRespVO>> getRootNavMenuList() {
+        List<SysMenuDO> list = menuService.getRootNavMenuList();
+        return CodeResult.ok(MenuConvert.INSTANCE.convertList02(list));
+    }
+
+    @GetMapping("/child-nav/{parentId}")
+    @Operation(summary = "根据父菜单ID获取子导航菜单")
+    public CodeResult<List<MenuSimpleRespVO>> getChildNavMenuList(@PathVariable Long parentId) {
+        String username = SecurityUtils.getUsername();
+        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        List<SysMenuDO> list = menuService.getUserChildMenuList(user.getId(), parentId, MenuTypeEnum.MENU.getType());
+        List<MenuSimpleRespVO> result = MenuConvert.INSTANCE.convertList02(list);
+        result.forEach(item -> {
+            List<SysMenuDO> userChildMenuList = menuService.getUserChildMenuList(user.getId(), item.getId(), MenuTypeEnum.MENU.getType());
+            item.setChildren(MenuConvert.INSTANCE.convertList02(userChildMenuList));
+        });
+        return CodeResult.ok(result);
+    }
+
+    @GetMapping("/authority")
+    @Operation(summary = "获取登录用户的权限列表")
+    public CodeResult<Set<String>> getUserAuthority() {
+        // 获取登录用户的ID
+        String username = SecurityUtils.getUsername();
+        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        Set<String> list = menuService.getUserAuthorityByUserId(user.getId());
+        return CodeResult.ok(list);
+    }
 }

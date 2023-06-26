@@ -4,6 +4,8 @@ import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.*;
 import com.baomidou.mybatisplus.annotation.*;
 
+import java.time.LocalDateTime;
+
 /**
  * 经销商来源 DO
  *
@@ -34,6 +36,6 @@ public class DistributorSourceDO {
     /**
      * 创建时间
      */
-    private String createtime;
+    private LocalDateTime createTime;
 
 }

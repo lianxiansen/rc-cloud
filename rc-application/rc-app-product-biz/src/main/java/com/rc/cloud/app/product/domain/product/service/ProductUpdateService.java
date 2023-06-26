@@ -2,10 +2,10 @@ package com.rc.cloud.app.product.domain.product.service;
 
 import com.rc.cloud.app.product.domain.product.ProductEntity;
 import com.rc.cloud.app.product.domain.product.ProductRepository;
-import com.rc.cloud.app.product.domain.product.valobj.ProductId;
-import com.rc.cloud.app.product.domain.product.valobj.ProductName;
-import com.rc.cloud.app.product.domain.product.valobj.ProductRemark;
-import com.rc.cloud.app.product.domain.product.valobj.ProductType;
+import com.rc.cloud.app.product.domain.product.valobj.Id;
+import com.rc.cloud.app.product.domain.product.valobj.Name;
+import com.rc.cloud.app.product.domain.product.valobj.Remark;
+import com.rc.cloud.app.product.domain.product.valobj.Type;
 import com.rc.cloud.app.product.domain.tenant.service.TenantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class ProductUpdateService {
     @Autowired
     private TenantService tenantRepository;
 
-    public void execute(ProductId productId,ProductName productName, ProductRemark productRemark, ProductType productType) {
+    public void execute(Id productId, Name productName, Remark productRemark, Type productType) {
         ProductEntity productEntry= productRepository.getProduct(productId);
         productEntry.setProductName(productName);
         productEntry.setProductRemark(productRemark);

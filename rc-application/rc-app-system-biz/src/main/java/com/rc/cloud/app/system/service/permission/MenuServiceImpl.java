@@ -2,23 +2,36 @@ package com.rc.cloud.app.system.service.permission;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
+import com.rc.cloud.app.system.mapper.permission.RoleMapper;
+import com.rc.cloud.app.system.mapper.permission.RoleMenuMapper;
+import com.rc.cloud.app.system.mapper.permission.UserRoleMapper;
 import com.rc.cloud.app.system.service.tenant.TenantService;
+import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.permission.menu.MenuCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuListReqVO;
+import com.rc.cloud.app.system.vo.permission.menu.MenuSimpleRespVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuUpdateReqVO;
 import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
+import com.rc.cloud.common.core.constant.CacheConstants;
+import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
+import com.rc.cloud.common.security.service.RcUserDetailsService;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -68,6 +81,12 @@ public class MenuServiceImpl implements MenuService {
     @Resource
     @Lazy // 延迟，避免循环依赖报错
     private TenantService tenantService;
+
+    @Resource
+    private UserRoleMapper userRoleMapper;
+
+    @Resource
+    private RoleMenuMapper roleMenuMapper;
 
 
 
@@ -210,6 +229,35 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public SysMenuDO getMenu(Long id) {
         return menuMapper.selectById(id);
+    }
+
+    @Override
+    public List<SysMenuDO> getRootNavMenuList() {
+        return menuMapper.selectPatentMenuList();
+    }
+
+    @Override
+    public Set<String> getUserAuthorityByUserId(Long userId) {
+        return permissionService.getPermissionListByUserId(userId);
+    }
+
+    @Override
+    public List<SysMenuDO> getUserChildMenuList(Long userId, Long parentId, Integer type) {
+        List<SysMenuDO> menuList;
+        // 从用户角色表中查询角色id
+        Set<Long> roleIds = userRoleMapper.selectRoleIdsByUserId(userId);
+        // 从角色菜单表中查询菜单id
+        Set<Long> menuIds = roleMenuMapper.getMenuIdsByRoleIds(roleIds);
+        // 从菜单表中查询菜单列表
+        QueryWrapper<SysMenuDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(SysMenuDO::getParentId, parentId);
+        wrapper.lambda().in(SysMenuDO::getId, menuIds);
+        if (type != null) {
+            wrapper.lambda().eq(SysMenuDO::getType, type);
+        }
+        wrapper.lambda().orderByAsc(SysMenuDO::getSort);
+        List<SysMenuDO> sysMenuDOList = menuMapper.selectList(wrapper);
+        return sysMenuDOList;
     }
 
     /**

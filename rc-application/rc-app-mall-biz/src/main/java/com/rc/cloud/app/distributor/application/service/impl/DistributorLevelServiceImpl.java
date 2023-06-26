@@ -1,5 +1,6 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
+import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelDO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorLevelMapper;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelCreateReqVO;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
@@ -32,6 +34,7 @@ public class DistributorLevelServiceImpl implements DistributorLevelService {
     public Integer createLevel(AppDistributorLevelCreateReqVO createReqVO) {
         // 插入
         DistributorLevelDO level = DistributorLevelConvert.INSTANCE.convert(createReqVO);
+        level.setCreateTime(LocalDateTime.now());
         levelMapper.insert(level);
         // 返回
         return level.getId();
@@ -56,7 +59,7 @@ public class DistributorLevelServiceImpl implements DistributorLevelService {
 
     private void validateLevelExists(Integer id) {
         if (levelMapper.selectById(id) == null) {
-            throw exception(new ErrorCode(3,"LEVEL_NOT_EXISTS"));
+            throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_LEVEL_NOT_EXISTS);
         }
     }
 
