@@ -5,6 +5,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourcePageReqVO
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceUpdateReqVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorSourceConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorSourceService;
+import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourceDO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorSourceMapper;
 import com.rc.cloud.common.core.exception.ErrorCode;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
@@ -32,6 +34,7 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     public Integer createSource(AppDistributorSourceCreateReqVO createReqVO) {
         // 插入
         DistributorSourceDO source = DistributorSourceConvert.INSTANCE.convert(createReqVO);
+        source.setCreateTime(LocalDateTime.now());
         sourceMapper.insert(source);
         // 返回
         return source.getId();
@@ -56,7 +59,7 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
 
     private void validateSourceExists(Integer id) {
         if (sourceMapper.selectById(id) == null) {
-            throw exception(new ErrorCode(5,"SOURCE_NOT_EXISTS"));
+            throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_SOURCE_EXISTS);
         }
     }
 

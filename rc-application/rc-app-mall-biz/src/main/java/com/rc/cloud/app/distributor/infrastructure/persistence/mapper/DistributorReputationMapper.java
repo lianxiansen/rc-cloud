@@ -19,7 +19,7 @@ public interface DistributorReputationMapper extends BaseMapperX<DistributorRepu
         return selectPage(reqVO, new LambdaQueryWrapperX<DistributorReputationDO>()
                 .likeIfPresent(DistributorReputationDO::getName, reqVO.getName())
                 .eqIfPresent(DistributorReputationDO::getDescription, reqVO.getDescription())
-                .betweenIfPresent(DistributorReputationDO::getCreatetime, reqVO.getCreatetime())
+                .betweenIfPresent(DistributorReputationDO::getCreateTime, reqVO.getCreateTime())
                 .orderByDesc(DistributorReputationDO::getId));
     }
 

@@ -5,6 +5,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorExportReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorConvert;
+import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorMapper;
 import com.rc.cloud.app.distributor.application.service.DistributorService;
@@ -58,7 +59,7 @@ public class DistributorServiceImpl implements DistributorService {
 
     private void validateExists(Integer id) {
         if (mapper.selectById(id) == null) {
-            throw exception(new ErrorCode(1,"不存在"));
+            throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_NOT_EXISTS);
         }
     }
 

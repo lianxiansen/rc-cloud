@@ -5,6 +5,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelPageReqV
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelUpdateReqVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorChannelConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorChannelService;
+import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelDO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorChannelMapper;
 import com.rc.cloud.common.core.exception.ErrorCode;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
@@ -32,6 +34,7 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
     public Integer createChannel(AppDistributorChannelCreateReqVO createReqVO) {
         // 插入
         DistributorChannelDO channel = DistributorChannelConvert.INSTANCE.convert(createReqVO);
+        channel.setCreateTime(LocalDateTime.now());
         channelMapper.insert(channel);
         // 返回
         return channel.getId();
@@ -56,7 +59,7 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
 
     private void validateChannelExists(Integer id) {
         if (channelMapper.selectById(id) == null) {
-            throw exception(new ErrorCode(2,"CHANNEL_NOT_EXISTS"));
+            throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_CHANNEL_NOT_EXISTS);
         }
     }
 
