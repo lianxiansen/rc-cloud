@@ -4,7 +4,6 @@ package com.rc.cloud.app.system.service.permission;
 import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuListReqVO;
-import com.rc.cloud.app.system.vo.permission.menu.MenuSimpleRespVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuUpdateReqVO;
 
 import java.util.Collection;
@@ -117,5 +116,7 @@ public interface MenuService {
 
     Set<String> getUserAuthorityByUserId(Long userId);
 
-    List<SysMenuDO> getUserChildMenuList(Long userId, Long parentId, Integer type);
+    List<SysMenuDO> getUserMenuList(Long userId, Long parentId, Integer type);
+
+    List<SysMenuDO> getUserMenuList(Long userId, Integer type);
 }

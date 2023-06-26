@@ -1,5 +1,6 @@
 package com.rc.cloud.app.system.vo.permission.menu;
 
+import com.rc.cloud.common.core.util.tree.TreeNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuSimpleRespVO {
+public class MenuSimpleRespVO extends TreeNode<MenuSimpleRespVO> {
 
     @Schema(description = "菜单编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private Long id;

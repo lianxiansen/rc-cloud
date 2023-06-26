@@ -242,22 +242,27 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<SysMenuDO> getUserChildMenuList(Long userId, Long parentId, Integer type) {
-        List<SysMenuDO> menuList;
+    public List<SysMenuDO> getUserMenuList(Long userId, Long parentId, Integer type) {
         // 从用户角色表中查询角色id
         Set<Long> roleIds = userRoleMapper.selectRoleIdsByUserId(userId);
         // 从角色菜单表中查询菜单id
         Set<Long> menuIds = roleMenuMapper.getMenuIdsByRoleIds(roleIds);
         // 从菜单表中查询菜单列表
         QueryWrapper<SysMenuDO> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(SysMenuDO::getParentId, parentId);
+        if (parentId != null) {
+            wrapper.lambda().eq(SysMenuDO::getParentId, parentId);
+        }
         wrapper.lambda().in(SysMenuDO::getId, menuIds);
         if (type != null) {
             wrapper.lambda().eq(SysMenuDO::getType, type);
         }
         wrapper.lambda().orderByAsc(SysMenuDO::getSort);
-        List<SysMenuDO> sysMenuDOList = menuMapper.selectList(wrapper);
-        return sysMenuDOList;
+        return menuMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<SysMenuDO> getUserMenuList(Long userId, Integer type) {
+        return getUserMenuList(userId, null, type);
     }
 
     /**

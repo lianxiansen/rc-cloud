@@ -8,8 +8,8 @@ import com.rc.cloud.app.system.service.permission.MenuService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.permission.menu.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
+import com.rc.cloud.common.core.util.tree.TreeUtil;
 import com.rc.cloud.common.core.web.CodeResult;
-import com.rc.cloud.common.security.service.RcUserDetailsService;
 import com.rc.cloud.common.security.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -109,13 +109,23 @@ public class MenuController {
         String username = SecurityUtils.getUsername();
         Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
         SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
-        List<SysMenuDO> list = menuService.getUserChildMenuList(user.getId(), parentId, MenuTypeEnum.MENU.getType());
+        List<SysMenuDO> list = menuService.getUserMenuList(user.getId(), parentId, MenuTypeEnum.MENU.getType());
         List<MenuSimpleRespVO> result = MenuConvert.INSTANCE.convertList02(list);
         result.forEach(item -> {
-            List<SysMenuDO> userChildMenuList = menuService.getUserChildMenuList(user.getId(), item.getId(), MenuTypeEnum.MENU.getType());
+            List<SysMenuDO> userChildMenuList = menuService.getUserMenuList(user.getId(), item.getId(), MenuTypeEnum.MENU.getType());
             item.setChildren(MenuConvert.INSTANCE.convertList02(userChildMenuList));
         });
         return CodeResult.ok(result);
+    }
+
+    @GetMapping("nav")
+    @Operation(summary = "获取菜单导航", description = "用于前端动态路由")
+    public CodeResult<List<MenuSimpleRespVO>> getNav() {
+        String username = SecurityUtils.getUsername();
+        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        List<SysMenuDO> menuList = menuService.getUserMenuList(user.getId(), MenuTypeEnum.MENU.getType());
+        return CodeResult.ok(TreeUtil.build(MenuConvert.INSTANCE.convertList02(menuList)));
     }
 
     @GetMapping("/authority")
