@@ -103,4 +103,9 @@ public class SysMenuDO extends BaseDO {
      */
     private Boolean alwaysShow;
 
+    /**
+     * 是否在新窗口打开
+     */
+    private Integer openStyle;
+
 }
