@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
-import com.rc.cloud.app.operate.domain.category.ProductCategoryEntity;
+import com.rc.cloud.app.operate.domain.category.ProductCategoryAggregation;
 import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategory;
 
@@ -14,7 +14,7 @@ public class ProductCategoryConvert {
     public ProductCategoryConvert(){
     }
 
-    public ProductCategoryEntity convertToProductCategoryEntry(ProductCategory productCategory){
-        return new ProductCategoryEntity(new ProductCategoryId( productCategory.getId().toString()));
+    public ProductCategoryAggregation convertToProductCategoryEntry(ProductCategory productCategory){
+        return new ProductCategoryAggregation(new ProductCategoryId( productCategory.getId().toString()));
     }
 }

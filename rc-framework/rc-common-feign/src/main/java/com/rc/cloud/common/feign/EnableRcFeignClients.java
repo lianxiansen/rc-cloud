@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 /**
  * 自定义feign注解
  * 添加basePackages路径
- * 
+ *
  * @author rc
  */
 @Target(ElementType.TYPE)
@@ -18,7 +18,7 @@ public @interface EnableRcFeignClients
 {
     String[] value() default {};
 
-    String[] basePackages() default { "com.rc" };
+    String[] basePackages() default { "com.rc","com.bowen" };
 
     Class<?>[] basePackageClasses() default {};
 

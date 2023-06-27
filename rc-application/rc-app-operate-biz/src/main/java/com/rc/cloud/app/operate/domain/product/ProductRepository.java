@@ -10,8 +10,8 @@ import com.rc.cloud.app.operate.domain.product.identifier.ImageId;
  * @Description: TODO
  */
 public interface ProductRepository {
-    void saveProductEntry(ProductEntity productEntry);
-    ProductEntity findById(ProductId productId);
+    void saveProductEntry(ProductAggregation productEntry);
+    ProductAggregation findById(ProductId productId);
     ProductId nextProductId();
     ImageId nextProductImageId();
 }

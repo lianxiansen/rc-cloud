@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
-import com.rc.cloud.app.operate.domain.product.ProductEntity;
+import com.rc.cloud.app.operate.domain.product.ProductAggregation;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.Product;
 
 /**
@@ -14,7 +14,7 @@ public class ProductConvert {
     }
 
 
-    public Product convertToProduct(ProductEntity productEntry){
+    public Product convertToProduct(ProductAggregation productEntry){
         return null;
     }
 }

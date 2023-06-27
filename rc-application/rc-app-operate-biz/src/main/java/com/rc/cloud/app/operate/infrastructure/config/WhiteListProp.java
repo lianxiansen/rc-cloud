@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class WhiteListProp {
     private static String whiteListAdmin;
 
-    @Value("${whiteList.admin}")
+//    @Value("${whiteList.admin}")
     public void setWhiteListAdmin(String whiteListAdmin) {
         this.whiteListAdmin = whiteListAdmin;
     }
