@@ -48,7 +48,7 @@ public class UserController {
 
     @PostMapping("/create")
     @Operation(summary = "新增用户")
-//    @PreAuthorize("@ss.hasPermission('system:user:create')")
+    @PreAuthorize("@pms.hasPermission('sys:user:create')")
     public CodeResult<Long> createUser(@Valid @RequestBody UserCreateReqVO reqVO) {
         Long id = userService.createUser(reqVO);
         return CodeResult.ok(id);
@@ -56,7 +56,7 @@ public class UserController {
 
     @PutMapping("update")
     @Operation(summary = "修改用户")
-//    @PreAuthorize("@ss.hasPermission('system:user:update')")
+    @PreAuthorize("@pms.hasPermission('sys:user:update')")
     public CodeResult<Boolean> updateUser(@Valid @RequestBody UserUpdateReqVO reqVO) {
         userService.updateUser(reqVO);
         return CodeResult.ok(true);
@@ -65,7 +65,7 @@ public class UserController {
     @DeleteMapping()
     @Operation(summary = "删除用户")
     @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
-//    @PreAuthorize("@ss.hasPermission('system:user:delete')")
+    @PreAuthorize("@pms.hasPermission('sys:user:delete')")
     public CodeResult<Boolean> deleteUser(@RequestBody List<Long> idList) {
         Long userId = SecurityUtils.getUser().getId();
         if (idList.contains(userId)) {
@@ -77,7 +77,7 @@ public class UserController {
 
     @PutMapping("/update-password")
     @Operation(summary = "重置用户密码")
-//    @PreAuthorize("@ss.hasPermission('system:user:update-password')")
+    @PreAuthorize("@pms.hasPermission('sys:user:update-password')")
     public CodeResult<Boolean> updateUserPassword(@Valid @RequestBody UserUpdatePasswordReqVO reqVO) {
         userService.updateUserPassword(reqVO.getId(), reqVO.getPassword());
         return CodeResult.ok(true);
@@ -85,7 +85,7 @@ public class UserController {
 
     @PutMapping("/update-status")
     @Operation(summary = "修改用户状态")
-//    @PreAuthorize("@ss.hasPermission('system:user:update')")
+    @PreAuthorize("@pms.hasPermission('sys:user:update')")
     public CodeResult<Boolean> updateUserStatus(@Valid @RequestBody UserUpdateStatusReqVO reqVO) {
         userService.updateUserStatus(reqVO.getId(), reqVO.getStatus());
         return CodeResult.ok(true);
@@ -93,7 +93,7 @@ public class UserController {
 
     @GetMapping("/page")
     @Operation(summary = "获得用户分页列表")
-//    @PreAuthorize("@ss.hasPermission('system:user:list')")
+    @PreAuthorize("@ss.hasPermission('sys:user:query')")
     public CodeResult<PageResult<UserPageItemRespVO>> getUserPage(@Valid UserPageReqVO reqVO) {
         // 获得用户分页列表
         PageResult<SysUserDO> pageResult = userService.getUserPage(reqVO);
@@ -126,7 +126,7 @@ public class UserController {
     @GetMapping("/{id}")
     @Operation(summary = "获得用户详情")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
-//    @PreAuthorize("@ss.hasPermission('system:user:query')")
+    @PreAuthorize("@ss.hasPermission('system:user:query')")
     public CodeResult<UserRespVO> getUser(@PathVariable("id") Long id) {
         SysUserDO user = userService.getUser(id);
         // 获得部门数据
