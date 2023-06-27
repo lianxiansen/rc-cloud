@@ -13,6 +13,6 @@ public class AppDistributorChannelUpdateReqVO extends AppDistributorChannelBaseV
 
     @Schema(description = "id", requiredMode = Schema.RequiredMode.REQUIRED, example = "7726")
     @NotNull(message = "id不能为空")
-    private Integer id;
+    private Long id;
 
 }

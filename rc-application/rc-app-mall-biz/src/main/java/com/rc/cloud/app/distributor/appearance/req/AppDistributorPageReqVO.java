@@ -19,7 +19,7 @@ public class AppDistributorPageReqVO extends PageParam {
     private String companyName;
 
     @Schema(description = "联系人")
-    private String contacts;
+    private String contact;
 
     @Schema(description = "联系手机")
     private String mobile;
@@ -59,22 +59,22 @@ public class AppDistributorPageReqVO extends PageParam {
     private String creator;
 
     @Schema(description = "管理员id", example = "8530")
-    private Integer adminId;
+    private Long adminId;
 
     @Schema(description = "联系电话")
     private String telephone;
 
     @Schema(description = "客户渠道id")
-    private Integer channel;
+    private Long channel;
 
     @Schema(description = "获客方式id")
-    private Integer source;
+    private Long source;
 
     @Schema(description = "客户等级id")
-    private Integer level;
+    private Long level;
 
     @Schema(description = "信誉等级")
-    private Integer reputation;
+    private Long reputation;
 
     @Schema(description = "成立时间")
     private String establishedTime;

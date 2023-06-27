@@ -24,8 +24,8 @@ public class DistributorLevelDO {
     /**
      * id
      */
-    @TableId
-    private Integer id;
+    @TableId(type=IdType.ASSIGN_ID)
+    private Long id;
     /**
      * 客户等级
      */

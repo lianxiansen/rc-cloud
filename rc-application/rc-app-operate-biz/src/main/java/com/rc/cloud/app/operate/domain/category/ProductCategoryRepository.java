@@ -12,7 +12,7 @@ import java.util.List;
  * @Description:
  */
 public interface ProductCategoryRepository{
-    List<ProductCategoryEntity> getFirstList(Locked locked, Layer layer, Parent parent);
+    List<ProductCategoryAggregation> getFirstList(Locked locked, Layer layer, Parent parent);
 
     ProductCategoryId nextId();
 

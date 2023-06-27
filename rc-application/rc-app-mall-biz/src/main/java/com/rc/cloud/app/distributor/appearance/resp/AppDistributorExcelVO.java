@@ -15,13 +15,13 @@ import com.alibaba.excel.annotation.ExcelProperty;
 public class AppDistributorExcelVO {
 
     @ExcelProperty("id")
-    private Integer id;
+    private Long id;
 
     @ExcelProperty("企业名称")
     private String companyName;
 
     @ExcelProperty("联系人")
-    private String contacts;
+    private String contact;
 
     @ExcelProperty("联系手机")
     private String mobile;
@@ -60,22 +60,22 @@ public class AppDistributorExcelVO {
     private String creator;
 
     @ExcelProperty("管理员id")
-    private Integer adminId;
+    private Long adminId;
 
     @ExcelProperty("联系电话")
     private String telephone;
 
     @ExcelProperty("客户渠道id")
-    private Integer channel;
+    private Long channel;
 
     @ExcelProperty("获客方式id")
-    private Integer source;
+    private Long source;
 
     @ExcelProperty("客户等级id")
-    private Integer level;
+    private Long level;
 
     @ExcelProperty("信誉等级")
-    private Integer reputation;
+    private Long reputation;
 
     @ExcelProperty("成立时间")
     private String establishedTime;

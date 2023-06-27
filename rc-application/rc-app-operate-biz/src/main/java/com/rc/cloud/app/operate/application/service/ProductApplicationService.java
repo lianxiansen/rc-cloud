@@ -4,13 +4,13 @@ import com.rc.cloud.app.operate.application.data.ProductSaveDTO;
 import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.common.DomainEventPublisher;
 import com.rc.cloud.app.operate.domain.common.DomainEventSubscriber;
-import com.rc.cloud.app.operate.domain.product.ProductEntity;
+import com.rc.cloud.app.operate.domain.product.ProductAggregation;
 import com.rc.cloud.app.operate.domain.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.product.event.ProductCreatedEvent;
 import com.rc.cloud.app.operate.domain.product.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.product.service.SaveProductService;
-import com.rc.cloud.app.operate.domain.product.service.UpdateProductService;
+import com.rc.cloud.app.operate.domain.product.service.SaveProductDomainService;
+import com.rc.cloud.app.operate.domain.product.service.UpdateProductDomainService;
 import com.rc.cloud.app.operate.domain.product.valobj.*;
 import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +30,10 @@ import java.util.List;
 public class ProductApplicationService {
 
     @Autowired
-    private SaveProductService saveProductService;
+    private SaveProductDomainService saveProductService;
 
     @Autowired
-    private UpdateProductService updateProductService;
+    private UpdateProductDomainService updateProductService;
 
     @Autowired
     private ProductRepository productRepository;
@@ -77,7 +77,7 @@ public class ProductApplicationService {
                     enable, video, masterImage, type, productImages);
         } else {
             ProductId productId = new ProductId(productSaveDTO.getId() + "");
-            ProductEntity productEntity = productRepository.findById(productId);
+            ProductAggregation productEntity = productRepository.findById(productId);
             if (null == name) {
                 name=productEntity.getName();
             }

@@ -17,7 +17,7 @@ import java.util.List;
  * @Date: 2023/6/23 13:09
  * @Description: 产品
  */
-public class ProductEntity extends Entity {
+public class ProductAggregation extends Entity {
 
     /**
      * 产品唯一标识
@@ -164,7 +164,7 @@ public class ProductEntity extends Entity {
     private Sort sort;
 
 
-    protected ProductEntity(ProductId id,TenantId tenantId, Name name,ProductCategoryId productCategoryId){
+    protected ProductAggregation(ProductId id, TenantId tenantId, Name name, ProductCategoryId productCategoryId){
         setId(id);
         setTenantId(tenantId);
         setName(name);

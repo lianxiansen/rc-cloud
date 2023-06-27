@@ -32,7 +32,7 @@ public class AppDistributorSourceController {
     @PostMapping("/create")
     @Operation(summary = "创建经销商来源")
 
-    public CodeResult<Integer> createSource(@Valid @RequestBody AppDistributorSourceCreateReqVO createReqVO) {
+    public CodeResult<Long> createSource(@Valid @RequestBody AppDistributorSourceCreateReqVO createReqVO) {
         return CodeResult.ok(sourceService.createSource(createReqVO));
     }
 
@@ -48,7 +48,7 @@ public class AppDistributorSourceController {
     @Operation(summary = "删除经销商来源")
     @Parameter(name = "id", description = "编号", required = true)
 
-    public CodeResult<Boolean> deleteSource(@RequestParam("id") Integer id) {
+    public CodeResult<Boolean> deleteSource(@RequestParam("id") Long id) {
         sourceService.deleteSource(id);
         return CodeResult.ok(true);
     }
@@ -57,7 +57,7 @@ public class AppDistributorSourceController {
     @Operation(summary = "获得经销商来源")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
-    public CodeResult<AppDistributorSourceRespVO> getSource(@RequestParam("id") Integer id) {
+    public CodeResult<AppDistributorSourceRespVO> getSource(@RequestParam("id") Long id) {
         DistributorSourceDO source = sourceService.getSource(id);
         return CodeResult.ok(DistributorSourceConvert.INSTANCE.convert(source));
     }
@@ -66,7 +66,7 @@ public class AppDistributorSourceController {
     @Operation(summary = "获得经销商来源列表")
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
-    public CodeResult<List<AppDistributorSourceRespVO>> getSourceList(@RequestParam("ids") Collection<Integer> ids) {
+    public CodeResult<List<AppDistributorSourceRespVO>> getSourceList(@RequestParam("ids") Collection<Long> ids) {
         List<DistributorSourceDO> list = sourceService.getSourceList(ids);
         return CodeResult.ok(DistributorSourceConvert.INSTANCE.convertList(list));
     }

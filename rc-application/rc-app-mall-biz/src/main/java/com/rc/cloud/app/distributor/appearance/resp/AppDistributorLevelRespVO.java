@@ -11,6 +11,6 @@ import lombok.*;
 public class AppDistributorLevelRespVO extends AppDistributorLevelBaseVO {
 
     @Schema(description = "id", requiredMode = Schema.RequiredMode.REQUIRED, example = "26972")
-    private Integer id;
+    private Long id;
 
 }

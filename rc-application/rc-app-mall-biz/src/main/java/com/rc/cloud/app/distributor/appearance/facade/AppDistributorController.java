@@ -1,13 +1,13 @@
 package com.rc.cloud.app.distributor.appearance.facade;
 
+import com.rc.cloud.app.distributor.appearance.req.*;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorDetailRespVO;
+import com.rc.cloud.app.distributor.appearance.vo.AppDistributorContactBaseVO;
+import com.rc.cloud.app.distributor.application.convert.DistributorContactConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorDetailConvert;
+import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorExportReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorExcelVO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorRespVO;
 import com.rc.cloud.app.distributor.application.service.DistributorService;
@@ -37,16 +37,18 @@ public class AppDistributorController {
     @Resource
     private DistributorService service;
 
+    @Resource
+    private DistributorContactService contactService;
+
     @PostMapping("/create")
     @Operation(summary = "创建经销商")
 
-    public CodeResult<Integer> create(@Valid @RequestBody AppDistributorCreateReqVO createReqVO) {
+    public CodeResult<Long> create(@Valid @RequestBody AppDistributorCreateReqVO createReqVO) {
         return CodeResult.ok(service.create(createReqVO));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新经销商")
-
     public CodeResult<Boolean> update(@Valid @RequestBody AppDistributorUpdateReqVO updateReqVO) {
         service.update(updateReqVO);
         return CodeResult.ok(true);
@@ -56,7 +58,7 @@ public class AppDistributorController {
     @Operation(summary = "删除经销商")
     @Parameter(name = "id", description = "编号", required = true)
 
-    public CodeResult<Boolean> delete(@RequestParam("id") Integer id) {
+    public CodeResult<Boolean> delete(@RequestParam("id") Long id) {
         service.delete(id);
         return CodeResult.ok(true);
     }
@@ -65,7 +67,7 @@ public class AppDistributorController {
     @Operation(summary = "获得经销商")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
-    public CodeResult<AppDistributorRespVO> get(@RequestParam("id") Integer id) {
+    public CodeResult<AppDistributorRespVO> get(@RequestParam("id") Long id) {
         DistributorDO distributorDO= service.get(id);
         return CodeResult.ok(DistributorConvert.INSTANCE.convert(distributorDO));
     }
@@ -74,7 +76,7 @@ public class AppDistributorController {
     @Operation(summary = "获得经销商详细信息")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
-    public CodeResult<AppDistributorDetailRespVO> getDetail(@RequestParam("id") Integer id) {
+    public CodeResult<AppDistributorDetailRespVO> getDetail(@RequestParam("id") Long id) {
         DistributorDetailDO distributorDetailDO= service.getDetail(id);
         return CodeResult.ok(DistributorDetailConvert.INSTANCE.convert(distributorDetailDO));
     }
@@ -83,7 +85,7 @@ public class AppDistributorController {
     @Operation(summary = "获得经销商列表")
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
-    public CodeResult<List<AppDistributorRespVO>> getList(@RequestParam("ids") Collection<Integer> ids) {
+    public CodeResult<List<AppDistributorRespVO>> getList(@RequestParam("ids") Collection<Long> ids) {
         List<DistributorDO> list = service.getList(ids);
         return CodeResult.ok(DistributorConvert.INSTANCE.convertList(list));
     }
@@ -106,4 +108,23 @@ public class AppDistributorController {
         ExcelUtils.write(response, "经销商.xls", "数据", AppDistributorExcelVO.class, datas);
     }
 
+    @PostMapping("/updateContactPassword")
+    @Operation(summary = "更新联系人密码")
+    public CodeResult<Boolean> updateContactPassword(@Valid @RequestBody AppDistributorContactUpdatePasswordReqVO updatePasswordReqVO) {
+        contactService.updatePassword(updatePasswordReqVO);
+        return CodeResult.ok(true);
+    }
+
+    @PostMapping("/resetContactPassword")
+    @Operation(summary = "重置联系人密码")
+    public CodeResult<Boolean> resetContactPassword(@RequestParam("id") Long id) {
+        contactService.resetPassword(id);
+        return CodeResult.ok(true);
+    }
+
+    @PostMapping("/getContacts")
+    @Operation(summary = "获取经销商联系人")
+    public CodeResult<List<AppDistributorContactBaseVO>> getContacts(@RequestParam("id") Long id) {
+        return CodeResult.ok(DistributorContactConvert.INSTANCE.convertList3(contactService.getByDistributorId(id)));
+    }
 }

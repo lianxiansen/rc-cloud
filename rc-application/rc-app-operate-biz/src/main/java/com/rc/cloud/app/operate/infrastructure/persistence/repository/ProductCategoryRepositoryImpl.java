@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
-import com.rc.cloud.app.operate.domain.category.ProductCategoryEntity;
+import com.rc.cloud.app.operate.domain.category.ProductCategoryAggregation;
 import com.rc.cloud.app.operate.domain.category.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.category.valobj.*;
@@ -41,14 +41,14 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
      * @return
      */
     @Override
-    public List<ProductCategoryEntity> getFirstList(Locked locked, Layer layer, Parent parent) {
+    public List<ProductCategoryAggregation> getFirstList(Locked locked, Layer layer, Parent parent) {
         try {
             QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
             wrapper.eq("IsLock", locked.getFlag());
             wrapper.eq("Layer", layer.getLevel());
             wrapper.eq("ParentID", parent.getId());
             wrapper.orderByAsc("SortID");
-            List<ProductCategoryEntity> list=new ArrayList<>();
+            List<ProductCategoryAggregation> list=new ArrayList<>();
             productCategoryMapper.selectList(wrapper).forEach(item->{
                 list.add(new ProductCategoryPOConvert().convertToProductCategoryEntry(item));
             });
