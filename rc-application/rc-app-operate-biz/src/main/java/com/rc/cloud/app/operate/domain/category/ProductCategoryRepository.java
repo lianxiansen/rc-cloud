@@ -1,6 +1,8 @@
 package com.rc.cloud.app.operate.domain.category;
 
+import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.category.valobj.*;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategory;
 
 import java.util.List;
 
@@ -10,8 +12,9 @@ import java.util.List;
  * @Description:
  */
 public interface ProductCategoryRepository{
-    List<ProductCategoryEntity> getFirstList(ProductCategoryLocked locked, ProductCategoryLayer layer, ProductCategoryParent parent);
+    List<ProductCategoryEntity> getFirstList(Locked locked, Layer layer, Parent parent);
 
     ProductCategoryId nextId();
 
+    ProductCategory findById(ProductCategoryId productCategoryId);
 }

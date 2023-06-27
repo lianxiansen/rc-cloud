@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.application.service;
 
 import com.rc.cloud.app.operate.application.data.ProductCategoryData;
-import com.rc.cloud.app.operate.domain.category.service.GetFirstListService;
+import com.rc.cloud.app.operate.domain.category.service.FirstProductCategoryListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class ProductCategoryApplicationService {
     @Autowired
-    private GetFirstListService getFirstListService;
+    private FirstProductCategoryListService getFirstListService;
     public List<ProductCategoryData> getFirstList() {
 
         List<ProductCategoryData> list=new ArrayList<>();

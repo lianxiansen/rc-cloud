@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.domain.category.valobj;
+package com.rc.cloud.app.operate.domain.category.identifier;
 
 import com.rc.cloud.app.operate.domain.common.AbstractId;
 

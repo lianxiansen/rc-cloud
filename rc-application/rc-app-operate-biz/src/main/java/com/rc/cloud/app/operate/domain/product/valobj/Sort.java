@@ -10,4 +10,12 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  */
 public class Sort extends ValueObject {
     private int value;
+    public Sort(){
+        setValue(0);
+    }
+
+    public void setValue(int value){
+        this.assertArgumentRange(value,0,100,"Sort is not in range(0,100)");
+        this.value=value;
+    }
 }

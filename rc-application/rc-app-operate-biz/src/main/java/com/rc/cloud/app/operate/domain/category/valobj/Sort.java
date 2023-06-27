@@ -8,9 +8,14 @@ import com.rc.cloud.app.operate.domain.common.AssertionConcern;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductCategorySort extends AssertionConcern {
+public class Sort extends AssertionConcern {
     private int value;
-    public ProductCategorySort(int value){
-        this.value = value;
+    public Sort(){
+        setValue(0);
+    }
+
+    public void setValue(int value){
+        this.assertArgumentRange(value,0,100,"Sort is not in range(0,100)");
+        this.value=value;
     }
 }

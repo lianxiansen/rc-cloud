@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
 import com.rc.cloud.app.operate.domain.category.ProductCategoryEntity;
-import com.rc.cloud.app.operate.domain.category.valobj.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategory;
 
 /**

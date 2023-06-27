@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.domain.product;
 
-import com.rc.cloud.app.operate.domain.product.valobj.Id;
-import com.rc.cloud.app.operate.domain.product.valobj.ImageId;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.product.identifier.ImageId;
 
 /**
  * @ClassName: ProductRepository
@@ -11,7 +11,7 @@ import com.rc.cloud.app.operate.domain.product.valobj.ImageId;
  */
 public interface ProductRepository {
     void saveProductEntry(ProductEntity productEntry);
-    ProductEntity getProduct(Id productId);
-    Id nextProductId();
+    ProductEntity findById(ProductId productId);
+    ProductId nextProductId();
     ImageId nextProductImageId();
 }

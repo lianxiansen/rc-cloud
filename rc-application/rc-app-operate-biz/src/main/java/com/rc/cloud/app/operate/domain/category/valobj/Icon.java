@@ -8,12 +8,6 @@ import com.rc.cloud.app.operate.domain.common.AssertionConcern;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductCategoryLayer extends AssertionConcern {
-    private int level;
-    public ProductCategoryLayer(int level){
-        this.level=level;
-    }
-    public int getLevel(){
-        return level;
-    }
+public class Icon extends AssertionConcern {
+    private String picture;
 }

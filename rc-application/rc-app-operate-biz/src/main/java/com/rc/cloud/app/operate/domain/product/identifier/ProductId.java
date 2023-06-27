@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.domain.product.valobj;
+package com.rc.cloud.app.operate.domain.product.identifier;
 
 import com.rc.cloud.app.operate.domain.common.AbstractId;
 
@@ -8,12 +8,12 @@ import com.rc.cloud.app.operate.domain.common.AbstractId;
  * @Date: 2023/6/23 13:15
  * @Description: TODO
  */
-public class Id extends AbstractId {
-    public Id(String id) {
+public class ProductId extends AbstractId {
+    public ProductId(String id) {
         super(id);
     }
 
-    protected Id() {
+    protected ProductId() {
         super();
     }
 

@@ -8,9 +8,9 @@ import com.rc.cloud.app.operate.domain.common.AssertionConcern;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductCategoryParent extends AssertionConcern {
+public class Parent extends AssertionConcern {
     private String id;
-    public ProductCategoryParent(String id){
+    public Parent(String id){
         this.id=id;
     }
     public String getId(){

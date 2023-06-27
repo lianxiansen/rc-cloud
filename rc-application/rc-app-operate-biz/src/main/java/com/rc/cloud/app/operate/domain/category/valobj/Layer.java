@@ -8,6 +8,12 @@ import com.rc.cloud.app.operate.domain.common.AssertionConcern;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ProductCategoryEnable extends AssertionConcern {
-    private boolean flag;
+public class Layer extends AssertionConcern {
+    private int level;
+    public Layer(int level){
+        this.level=level;
+    }
+    public int getLevel(){
+        return level;
+    }
 }

@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.domain.product.service;
 
 import com.rc.cloud.app.operate.domain.product.ProductEntity;
 import com.rc.cloud.app.operate.domain.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.product.valobj.Id;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
  * @Description: TODO
  */
 @Service
-public class ProductDisableService {
+public class DisableProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public void execute(Id productId) {
-        ProductEntity productEntry = productRepository.getProduct(productId);
+    public void execute(ProductId productId) {
+        ProductEntity productEntry = productRepository.findById(productId);
         productEntry.disable();
         productRepository.saveProductEntry(productEntry);
     }

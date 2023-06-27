@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.domain.product.ProductEntity;
 import com.rc.cloud.app.operate.domain.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.product.valobj.Id;
-import com.rc.cloud.app.operate.domain.product.valobj.ImageId;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.product.identifier.ImageId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
@@ -22,8 +22,7 @@ import org.springframework.stereotype.Repository;
  * @Description: TODO
  */
 @Repository
-public class
-ProductRepositoryImpl extends ServiceImpl<ProductMapper, Product>  implements ProductRepository, IService<Product> {
+public class ProductRepositoryImpl extends ServiceImpl<ProductMapper, Product>  implements ProductRepository, IService<Product> {
     @Autowired
     private ProductMapper productMapper;
     @Autowired
@@ -40,12 +39,12 @@ ProductRepositoryImpl extends ServiceImpl<ProductMapper, Product>  implements Pr
     }
 
     @Override
-    public ProductEntity getProduct(Id productId) {
+    public ProductEntity findById(ProductId productId) {
         return null;
     }
     @Override
-    public Id nextProductId(){
-        return new Id(remoteIdGeneratorService.uidGenerator());
+    public ProductId nextProductId(){
+        return new ProductId(remoteIdGeneratorService.uidGenerator());
     }
 
     @Override
@@ -53,6 +52,7 @@ ProductRepositoryImpl extends ServiceImpl<ProductMapper, Product>  implements Pr
         return new ImageId(remoteIdGeneratorService.uidGenerator());
     }
 }
+
 @Repository
 class ProductImageRepositoryImpl  extends ServiceImpl<ProductImageMapper, ProductImage> implements IService<ProductImage> {
 

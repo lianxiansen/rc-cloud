@@ -10,11 +10,15 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  */
 public class OnshelfStatus extends ValueObject {
     private int value;
-    public OnshelfStatus(int value){
-        this.value = value;
+    public OnshelfStatus(){
+        this.value = 0;
     }
     public int getValue() {
         return value;
+    }
+
+    public void setValue(int value){
+        this.value = value;
     }
 
 }

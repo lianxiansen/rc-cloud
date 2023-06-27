@@ -6,15 +6,15 @@ import com.rc.cloud.app.operate.domain.common.AssertionConcern;
  * @ClassName: TenantId
  * @Author: liandy
  * @Date: 2023/6/23 13:26
- * @Description: 分类名
+ * @Description:
  */
-public class ProductCategoryName extends AssertionConcern {
+public class Page extends AssertionConcern {
     /**
-     * 分类名（中文名）
+     * 商品分类页面图片URL
      */
-    private String ChName;
+    private String categoryImage;
     /**
-     * 分类名（英文名）
+     * 商品列表页面图片URL
      */
-    private String EnglishName;
+    private String listImage;
 }

@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.domain.product.valobj;
+package com.rc.cloud.app.operate.domain.product.identifier;
 
 import com.rc.cloud.app.operate.domain.common.ValueObject;
 
@@ -8,9 +8,9 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class FirstCategory extends ValueObject {
+public class BrandId extends ValueObject {
     private String value;
-    public FirstCategory(String value){
+    public BrandId(String value){
         this.value = value;
     }
     public String getValue() {

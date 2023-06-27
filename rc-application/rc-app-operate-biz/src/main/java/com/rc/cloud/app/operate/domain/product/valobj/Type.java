@@ -17,11 +17,10 @@ public class Type extends ValueObject {
         return value;
     }
     public void setValue(Integer value) {
-        if (value == null) {
-            throw new IllegalArgumentException("商品类型错误");
-        }
+        this.assertArgumentNotNull(value,"value must not be null");
         if(value.intValue() <0){
             throw new IllegalArgumentException("商品类型错误");
         }
+
     }
 }
