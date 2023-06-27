@@ -246,6 +246,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
+    public void deleteUsers(List<Long> idList) {
+        userMapper.deleteBatchIds(idList);
+    }
+
+    @Override
     public SysUserDO getUserByUsername(String username) {
         return userMapper.selectByUsername(username);
     }

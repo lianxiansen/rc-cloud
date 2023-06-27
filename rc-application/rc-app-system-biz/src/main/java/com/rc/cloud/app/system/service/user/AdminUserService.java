@@ -93,6 +93,13 @@ public interface AdminUserService {
     void deleteUser(Long id);
 
     /**
+     * 批量删除用户
+     *
+     * @param idList 用户编号列表
+     */
+    void deleteUsers(List<Long> idList);
+
+    /**
      * 通过用户名查询用户
      *
      * @param username 用户名
