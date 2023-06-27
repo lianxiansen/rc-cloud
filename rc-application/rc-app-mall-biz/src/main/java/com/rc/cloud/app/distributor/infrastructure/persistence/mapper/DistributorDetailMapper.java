@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface DistributorDetailMapper extends BaseMapperX<DistributorDetailDO> {
-    default DistributorDetailDO selectByDistributorId(Integer id){
+    default DistributorDetailDO selectByDistributorId(Long id){
         return selectOne(DistributorDetailDO::getDistributorId,id);
     }
 }

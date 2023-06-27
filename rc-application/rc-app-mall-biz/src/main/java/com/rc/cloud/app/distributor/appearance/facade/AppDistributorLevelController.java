@@ -32,7 +32,7 @@ public class AppDistributorLevelController {
     @PostMapping("/create")
     @Operation(summary = "创建经销商客户等级")
 
-    public CodeResult<Integer> createLevel(@Valid @RequestBody AppDistributorLevelCreateReqVO createReqVO) {
+    public CodeResult<Long> createLevel(@Valid @RequestBody AppDistributorLevelCreateReqVO createReqVO) {
         return CodeResult.ok(levelService.createLevel(createReqVO));
     }
 
@@ -48,7 +48,7 @@ public class AppDistributorLevelController {
     @Operation(summary = "删除经销商客户等级")
     @Parameter(name = "id", description = "编号", required = true)
 
-    public CodeResult<Boolean> deleteLevel(@RequestParam("id") Integer id) {
+    public CodeResult<Boolean> deleteLevel(@RequestParam("id") Long id) {
         levelService.deleteLevel(id);
         return CodeResult.ok(true);
     }
@@ -57,7 +57,7 @@ public class AppDistributorLevelController {
     @Operation(summary = "获得经销商客户等级")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
-    public CodeResult<AppDistributorLevelRespVO> getLevel(@RequestParam("id") Integer id) {
+    public CodeResult<AppDistributorLevelRespVO> getLevel(@RequestParam("id") Long id) {
         DistributorLevelDO level = levelService.getLevel(id);
         return CodeResult.ok(DistributorLevelConvert.INSTANCE.convert(level));
     }
@@ -66,7 +66,7 @@ public class AppDistributorLevelController {
     @Operation(summary = "获得经销商客户等级列表")
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
-    public CodeResult<List<AppDistributorLevelRespVO>> getLevelList(@RequestParam("ids") Collection<Integer> ids) {
+    public CodeResult<List<AppDistributorLevelRespVO>> getLevelList(@RequestParam("ids") Collection<Long> ids) {
         List<DistributorLevelDO> list = levelService.getLevelList(ids);
         return CodeResult.ok(DistributorLevelConvert.INSTANCE.convertList(list));
     }

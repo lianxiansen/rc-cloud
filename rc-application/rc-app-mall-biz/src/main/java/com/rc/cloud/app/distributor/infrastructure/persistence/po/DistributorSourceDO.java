@@ -23,8 +23,8 @@ public class DistributorSourceDO {
     /**
      * id
      */
-    @TableId
-    private Integer id;
+    @TableId(type=IdType.ASSIGN_ID)
+    private Long id;
     /**
      * 获客方式
      */

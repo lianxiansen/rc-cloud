@@ -23,9 +23,9 @@ public class DistributorDetailDO {
      * id
      */
     @TableId(type = IdType.ASSIGN_ID)
-    private Integer id;
+    private Long id;
 
-    private Integer distributorId;
+    private Long distributorId;
 
     private String distributorDetail;
 }

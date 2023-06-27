@@ -32,7 +32,7 @@ public class AppDistributorReputationController {
     @PostMapping("/create")
     @Operation(summary = "创建经销商客户信誉")
 
-    public CodeResult<Integer> createReputation(@Valid @RequestBody AppDistributorReputationCreateReqVO createReqVO) {
+    public CodeResult<Long> createReputation(@Valid @RequestBody AppDistributorReputationCreateReqVO createReqVO) {
         return CodeResult.ok(reputationService.createReputation(createReqVO));
     }
 
@@ -48,7 +48,7 @@ public class AppDistributorReputationController {
     @Operation(summary = "删除经销商客户信誉")
     @Parameter(name = "id", description = "编号", required = true)
 
-    public CodeResult<Boolean> deleteReputation(@RequestParam("id") Integer id) {
+    public CodeResult<Boolean> deleteReputation(@RequestParam("id") Long id) {
         reputationService.deleteReputation(id);
         return CodeResult.ok(true);
     }
@@ -57,7 +57,7 @@ public class AppDistributorReputationController {
     @Operation(summary = "获得经销商客户信誉")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
-    public CodeResult<AppDistributorReputationRespVO> getReputation(@RequestParam("id") Integer id) {
+    public CodeResult<AppDistributorReputationRespVO> getReputation(@RequestParam("id") Long id) {
         DistributorReputationDO reputation = reputationService.getReputation(id);
         return CodeResult.ok(DistributorReputationConvert.INSTANCE.convert(reputation));
     }
@@ -66,7 +66,7 @@ public class AppDistributorReputationController {
     @Operation(summary = "获得经销商客户信誉列表")
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
-    public CodeResult<List<AppDistributorReputationRespVO>> getReputationList(@RequestParam("ids") Collection<Integer> ids) {
+    public CodeResult<List<AppDistributorReputationRespVO>> getReputationList(@RequestParam("ids") Collection<Long> ids) {
         List<DistributorReputationDO> list = reputationService.getReputationList(ids);
         return CodeResult.ok(DistributorReputationConvert.INSTANCE.convertList(list));
     }

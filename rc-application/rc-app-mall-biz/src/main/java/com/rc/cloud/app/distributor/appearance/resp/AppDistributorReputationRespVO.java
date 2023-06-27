@@ -11,6 +11,6 @@ import lombok.*;
 public class AppDistributorReputationRespVO extends AppDistributorReputationBaseVO {
 
     @Schema(description = "id", requiredMode = Schema.RequiredMode.REQUIRED, example = "29766")
-    private Integer id;
+    private Long id;
 
 }

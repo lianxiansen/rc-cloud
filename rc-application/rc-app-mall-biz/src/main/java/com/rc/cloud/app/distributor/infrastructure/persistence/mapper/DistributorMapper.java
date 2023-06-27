@@ -21,8 +21,6 @@ public interface DistributorMapper extends BaseMapperX<DistributorDO> {
     default PageResult<DistributorDO> selectPage(AppDistributorPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<DistributorDO>()
                 .likeIfPresent(DistributorDO::getCompanyName, reqVO.getCompanyName())
-                .eqIfPresent(DistributorDO::getContacts, reqVO.getContacts())
-                .eqIfPresent(DistributorDO::getMobile, reqVO.getMobile())
                 .eqIfPresent(DistributorDO::getPassword, reqVO.getPassword())
                 .eqIfPresent(DistributorDO::getProvince, reqVO.getProvince())
                 .eqIfPresent(DistributorDO::getCity, reqVO.getCity())
@@ -49,9 +47,6 @@ public interface DistributorMapper extends BaseMapperX<DistributorDO> {
     default List<DistributorDO> selectList(AppDistributorExportReqVO reqVO) {
         return selectList(new LambdaQueryWrapperX<DistributorDO>()
                 .likeIfPresent(DistributorDO::getCompanyName, reqVO.getCompanyName())
-                .eqIfPresent(DistributorDO::getContacts, reqVO.getContacts())
-                .eqIfPresent(DistributorDO::getMobile, reqVO.getMobile())
-                .eqIfPresent(DistributorDO::getPassword, reqVO.getPassword())
                 .eqIfPresent(DistributorDO::getProvince, reqVO.getProvince())
                 .eqIfPresent(DistributorDO::getCity, reqVO.getCity())
                 .eqIfPresent(DistributorDO::getCounty, reqVO.getCounty())
