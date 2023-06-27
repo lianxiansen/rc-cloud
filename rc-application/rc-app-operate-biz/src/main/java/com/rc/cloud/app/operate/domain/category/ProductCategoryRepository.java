@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.domain.category;
 
 import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.category.valobj.*;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategory;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface ProductCategoryRepository{
 
     ProductCategoryId nextId();
 
-    ProductCategory findById(ProductCategoryId productCategoryId);
+    ProductCategoryDO findById(ProductCategoryId productCategoryId);
 }

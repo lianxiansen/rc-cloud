@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
 import com.rc.cloud.app.operate.domain.category.ProductCategoryEntity;
 import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategory;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
 
 /**
  * @ClassName: ProductCategoryConvert
@@ -10,11 +10,11 @@ import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategory;
  * @Date: 2023/6/23 14:16
  * @Description: TODO
  */
-public class ProductCategoryConvert {
-    public ProductCategoryConvert(){
+public class ProductCategoryPOConvert {
+    public ProductCategoryPOConvert(){
     }
 
-    public ProductCategoryEntity convertToProductCategoryEntry(ProductCategory productCategory){
+    public ProductCategoryEntity convertToProductCategoryEntry(ProductCategoryDO productCategory){
         return new ProductCategoryEntity(new ProductCategoryId( productCategory.getId().toString()));
     }
 }

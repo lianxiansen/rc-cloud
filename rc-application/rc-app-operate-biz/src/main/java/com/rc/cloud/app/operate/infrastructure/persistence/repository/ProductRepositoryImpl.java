@@ -7,11 +7,11 @@ import com.rc.cloud.app.operate.domain.product.ProductEntity;
 import com.rc.cloud.app.operate.domain.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.product.identifier.ImageId;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductConvert;
+import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductPOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.Product;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImage;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Repository;
  * @Description: TODO
  */
 @Repository
-public class ProductRepositoryImpl extends ServiceImpl<ProductMapper, Product>  implements ProductRepository, IService<Product> {
+public class ProductRepositoryImpl extends ServiceImpl<ProductMapper, ProductDO>  implements ProductRepository, IService<ProductDO> {
     @Autowired
     private ProductMapper productMapper;
     @Autowired
@@ -33,7 +33,7 @@ public class ProductRepositoryImpl extends ServiceImpl<ProductMapper, Product>  
     private ProductImageRepositoryImpl productImageRepository;
     @Override
     public void saveProductEntry(ProductEntity productEntry) {
-        Product product=  new ProductConvert().convertToProduct(productEntry);
+        ProductDO product=  new ProductPOConvert().convertToProduct(productEntry);
         productMapper.insert(product);
         productImageRepository.saveBatch(null);
     }
@@ -54,6 +54,6 @@ public class ProductRepositoryImpl extends ServiceImpl<ProductMapper, Product>  
 }
 
 @Repository
-class ProductImageRepositoryImpl  extends ServiceImpl<ProductImageMapper, ProductImage> implements IService<ProductImage> {
+class ProductImageRepositoryImpl  extends ServiceImpl<ProductImageMapper, ProductImageDO> implements IService<ProductImageDO> {
 
 }

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.rc.cloud.app.operate.appearance.request.ProductListVO;
 import com.rc.cloud.app.operate.appearance.request.ProductRequestVO;
 import com.rc.cloud.app.operate.application.data.*;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.Product;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,15 +17,15 @@ import java.util.List;
  * @Description:
  */
 @Mapper
-public interface ProductMapper extends BaseMapper<Product> {
+public interface ProductMapper extends BaseMapper<ProductDO> {
 
-    List<Product> getProductPageListInAdmin(@Param("query") ProductListVO query);
+    List<ProductDO> getProductPageListInAdmin(@Param("query") ProductListVO query);
 
-    List<Product> getNoDeliveryTemplateProductList(@Param("query") NoDeliveryTemplateQuery query);
+    List<ProductDO> getNoDeliveryTemplateProductList(@Param("query") NoDeliveryTemplateQuery query);
 
-    List<Product> getSimiliarProductList(@Param("query") SimiliarProductQuery query);
+    List<ProductDO> getSimiliarProductList(@Param("query") SimiliarProductQuery query);
 
-    List<Product> getProductList(@Param("query") SimiliarProductQuery query);
+    List<ProductDO> getProductList(@Param("query") SimiliarProductQuery query);
 
     List<AdminCopartnerProductDTO> getCopartnerProductList(@Param("query") BaseQuery query);
 

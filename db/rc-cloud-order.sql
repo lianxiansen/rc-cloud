@@ -129,7 +129,6 @@ CREATE TABLE `order_item` (
           `popularization_amount_rate` decimal(18,2) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '推广佣金比率',
           `use_integral` decimal(18,2) COLLATE utf8mb4_bin DEFAULT 0 COMMENT '下单时使用的积分',
           `get_integral` decimal(18,2) COLLATE utf8mb4_bin DEFAULT 0 COMMENT '可获得积分',
-          `out_product_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '外部商品ID',
           `deleted` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
           `creator` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
           `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -169,3 +168,5 @@ CREATE TABLE `order_item_express` (
           `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单运费表';
+
+

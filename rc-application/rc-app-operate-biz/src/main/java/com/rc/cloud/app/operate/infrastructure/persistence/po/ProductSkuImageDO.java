@@ -5,35 +5,34 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * 商品详情
- * @Author taotianhong
- * @Date 2021/3/25
- * @Description:
- */
-@TableName("product_detail")
+@TableName("product_attribute")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductDetail {
+public class ProductSkuImageDO {
 
 
-    private static final long serialVersionUID = 34322L;
+    private static final long serialVersionUID = 2213123L;
 
     @TableField("id")
     private Long Id;
-    /**
-     * 租户id
-     */
+
     @TableField("tenant_id")
     private Long tenantId;
 
+    @TableField("product_sku_id")
+    private Long productSkuId;
+
+    @TableField("url")
+    private String url;
+
     /**
-     * 品牌ID
+     * 是否是默认
      */
-    @TableField("product_id")
-    private Long productId;
+    @TableField("default_flag")
+    private Boolean defaultFlag;
 
 
-    @TableField("detail")
-    private String detail;
+    @TableField("sort_id")
+    private Integer sortId;
+
 }

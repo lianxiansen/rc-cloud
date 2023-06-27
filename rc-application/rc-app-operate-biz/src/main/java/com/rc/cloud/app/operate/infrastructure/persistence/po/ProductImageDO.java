@@ -1,32 +1,42 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.po;
 
+
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@TableName("attribute_value")
+@TableName("product_image")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductDict {
+public class ProductImageDO {
 
-    private static final long serialVersionUID = 55322L;
+
+    private static final long serialVersionUID = 23434L;
 
     @TableField("id")
     private Long Id;
-
+    /**
+     * 租户id
+     */
     @TableField("tenant_id")
     private Long tenantId;
 
     @TableField("product_id")
     private Long productId;
 
-    @TableField("key")
-    private String key;
 
-    @TableField("value")
-    private String value;
+    @TableField("url")
+    private String url;
+
+    /**
+     * 是否是默认
+     */
+    @TableField("default_flag")
+    private Boolean defaultFlag;
+
 
     @TableField("sort_id")
     private Integer sortId;
+
 }

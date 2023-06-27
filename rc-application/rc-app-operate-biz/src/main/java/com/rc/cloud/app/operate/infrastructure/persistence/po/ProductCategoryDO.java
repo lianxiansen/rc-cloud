@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @TableName("product_category")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductCategory extends BaseDO {
+public class ProductCategoryDO extends BaseDO {
 
 
     private static final long serialVersionUID = 2123435L;

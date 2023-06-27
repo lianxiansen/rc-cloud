@@ -8,10 +8,9 @@ import lombok.EqualsAndHashCode;
 @TableName("product_attribute")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductSkuImage {
+public class ProductSkuAttributeDO {
 
-
-    private static final long serialVersionUID = 2213123L;
+    private static final long serialVersionUID = 21231L;
 
     @TableField("id")
     private Long Id;
@@ -22,17 +21,7 @@ public class ProductSkuImage {
     @TableField("product_sku_id")
     private Long productSkuId;
 
-    @TableField("url")
-    private String url;
-
-    /**
-     * 是否是默认
-     */
-    @TableField("default_flag")
-    private Boolean defaultFlag;
-
-
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("content")
+    private String content;
 
 }
