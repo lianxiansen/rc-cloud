@@ -1,5 +1,6 @@
 package com.rc.cloud.app.system.vo.dept.dept;
 
+import com.rc.cloud.common.core.util.tree.TreeNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

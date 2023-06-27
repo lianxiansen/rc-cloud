@@ -5,6 +5,7 @@ import com.rc.cloud.app.system.convert.dept.DeptConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.vo.dept.dept.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
+import com.rc.cloud.common.core.util.tree.TreeUtil;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -58,7 +59,8 @@ public class DeptController {
     public CodeResult<List<DeptRespVO>> getDeptList(DeptListReqVO reqVO) {
         List<SysDeptDO> list = deptService.getDeptList(reqVO);
         list.sort(Comparator.comparing(SysDeptDO::getSort));
-        return CodeResult.ok(DeptConvert.INSTANCE.convertList(list));
+        List<DeptRespVO> deptRespVOS = DeptConvert.INSTANCE.convertList(list);
+        return CodeResult.ok(TreeUtil.build(deptRespVOS));
     }
 
     @GetMapping("/list-all-simple")
