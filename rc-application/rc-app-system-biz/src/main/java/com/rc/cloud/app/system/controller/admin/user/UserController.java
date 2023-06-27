@@ -15,11 +15,13 @@ import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.annotation.Inner;
 import com.rc.cloud.common.security.utils.MsgUtils;
+import com.rc.cloud.common.security.utils.SecurityUtils;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 //import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,12 +62,16 @@ public class UserController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping()
     @Operation(summary = "删除用户")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
 //    @PreAuthorize("@ss.hasPermission('system:user:delete')")
-    public CodeResult<Boolean> deleteUser(@PathVariable("id") Long id) {
-        userService.deleteUser(id);
+    public CodeResult<Boolean> deleteUser(@RequestBody List<Long> idList) {
+        Long userId = SecurityUtils.getUser().getId();
+        if (idList.contains(userId)) {
+            return CodeResult.fail("不能删除当前登录用户");
+        }
+        userService.deleteUsers(idList);
         return CodeResult.ok(true);
     }
 

@@ -1,10 +1,16 @@
 package com.rc.cloud.app.system.vo.user.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDateTime;
+
+import static com.rc.cloud.common.core.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
 @Schema(description = "管理后台 - 用户分页时的信息 Response VO,相比用户基本信息来说，会多部门信息")
 @Data
@@ -30,4 +36,7 @@ public class UserPageItemRespVO extends UserRespVO {
 
     }
 
+    @Schema(description = "创建时间", example = "2022-07-01 00:00:00")
+    @JsonFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND, timezone = "GMT+8")
+    private LocalDateTime createTime;
 }

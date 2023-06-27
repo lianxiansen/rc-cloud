@@ -70,6 +70,9 @@ public class MenuRespVO extends TreeNode<MenuRespVO> {
     @Schema(description = "是否总是显示", example = "false")
     private Boolean alwaysShow;
 
+    @Schema(description = "打开方式   0：内部   1：外部", example = "0")
+    private Integer openStyle;
+
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED, example = "时间戳格式")
     private LocalDateTime createTime;
 

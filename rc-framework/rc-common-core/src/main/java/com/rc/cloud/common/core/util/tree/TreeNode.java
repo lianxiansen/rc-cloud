@@ -26,7 +26,7 @@ public class TreeNode<T> implements Serializable {
      */
     @Schema(description = "上级ID")
     @NotNull(message = "上级ID不能为空")
-    private Long pid;
+    private Long parentId;
     /**
      * 子节点列表
      */
