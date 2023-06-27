@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @Description: TODO
  */
 @Service
-public class ContainsProductCategoryService {
+public class ContainsProductCategoryDomainService {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
     public boolean execute(ProductCategoryId productCategoryId) {

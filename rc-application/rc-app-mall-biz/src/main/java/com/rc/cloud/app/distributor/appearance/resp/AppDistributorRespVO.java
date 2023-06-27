@@ -11,6 +11,11 @@ import lombok.*;
 public class AppDistributorRespVO extends AppDistributorBaseVO {
 
     @Schema(description = "id", requiredMode = Schema.RequiredMode.REQUIRED, example = "3248")
-    private Integer id;
+    private Long id;
 
+    @Schema(description = "联系人")
+    private String contact;
+
+    @Schema(description = "联系手机")
+    private String mobile;
 }

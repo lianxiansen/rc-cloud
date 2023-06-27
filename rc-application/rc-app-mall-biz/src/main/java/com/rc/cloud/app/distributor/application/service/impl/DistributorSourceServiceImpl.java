@@ -31,7 +31,7 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     private DistributorSourceMapper sourceMapper;
 
     @Override
-    public Integer createSource(AppDistributorSourceCreateReqVO createReqVO) {
+    public Long createSource(AppDistributorSourceCreateReqVO createReqVO) {
         // 插入
         DistributorSourceDO source = DistributorSourceConvert.INSTANCE.convert(createReqVO);
         source.setCreateTime(LocalDateTime.now());
@@ -50,26 +50,26 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     }
 
     @Override
-    public void deleteSource(Integer id) {
+    public void deleteSource(Long id) {
         // 校验存在
         validateSourceExists(id);
         // 删除
         sourceMapper.deleteById(id);
     }
 
-    private void validateSourceExists(Integer id) {
+    private void validateSourceExists(Long id) {
         if (sourceMapper.selectById(id) == null) {
             throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_SOURCE_EXISTS);
         }
     }
 
     @Override
-    public DistributorSourceDO getSource(Integer id) {
+    public DistributorSourceDO getSource(Long id) {
         return sourceMapper.selectById(id);
     }
 
     @Override
-    public List<DistributorSourceDO> getSourceList(Collection<Integer> ids) {
+    public List<DistributorSourceDO> getSourceList(Collection<Long> ids) {
         return sourceMapper.selectBatchIds(ids);
     }
 

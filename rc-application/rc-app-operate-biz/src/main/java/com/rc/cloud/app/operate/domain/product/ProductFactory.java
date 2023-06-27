@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.domain.product;
 
 import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.category.service.ContainsProductCategoryService;
+import com.rc.cloud.app.operate.domain.category.service.ContainsProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.product.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.product.valobj.*;
@@ -25,14 +25,14 @@ public class ProductFactory {
     @Autowired
     private TenantService tenantService;
     @Autowired
-    private ContainsProductCategoryService productCategoryExistService;
-    public ProductEntity createProduct(TenantId tenantId, Name name, Remark remark,Tag tag,BrandId brandId,ProductCategoryId productCategoryId,
-                                       CustomClassification customClassification,Newest newest,Explosives explosives,Recommend recommend,Open open,
-                                       OnshelfStatus onshelfStatus,Enable enable,Video video,MasterImage masterImage,Type type, List<Image> productImages){
+    private ContainsProductCategoryDomainService productCategoryExistService;
+    public ProductAggregation createProduct(TenantId tenantId, Name name, Remark remark, Tag tag, BrandId brandId, ProductCategoryId productCategoryId,
+                                            CustomClassification customClassification, Newest newest, Explosives explosives, Recommend recommend, Open open,
+                                            OnshelfStatus onshelfStatus, Enable enable, Video video, MasterImage masterImage, Type type, List<Image> productImages){
         ProductId productId = productRepository.nextProductId();
         validateTenantId(tenantId);
         validateProductCategoryId(productCategoryId);
-        ProductEntity productEntry=new ProductEntity(productId,tenantId,name,productCategoryId);
+        ProductAggregation productEntry=new ProductAggregation(productId,tenantId,name,productCategoryId);
         productEntry.setCustomClassification(customClassification);
         productEntry.setNewest(newest);
         productEntry.setExplosives(explosives);
@@ -57,7 +57,7 @@ public class ProductFactory {
         }
     }
 
-    private void addProductImage(ProductEntity productEntry, Image productImage){
+    private void addProductImage(ProductAggregation productEntry, Image productImage){
         if(!productEntry.isEnable()){
             throw new RuntimeException("商品已失效");
         }

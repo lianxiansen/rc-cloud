@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: rc-app-product-biz
+    name: rc-app-operate-biz
   main:
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
   # 激活环境配置

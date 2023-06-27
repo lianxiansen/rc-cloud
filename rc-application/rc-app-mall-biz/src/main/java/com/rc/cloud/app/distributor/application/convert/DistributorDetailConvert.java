@@ -3,7 +3,6 @@ package com.rc.cloud.app.distributor.application.convert;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorDetailRespVO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailDO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

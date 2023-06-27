@@ -24,7 +24,7 @@ public interface DistributorService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Integer create(@Valid AppDistributorCreateReqVO createReqVO);
+    Long create(@Valid AppDistributorCreateReqVO createReqVO);
 
     /**
      * 更新经销商
@@ -38,7 +38,7 @@ public interface DistributorService {
      *
      * @param id 编号
      */
-    void delete(Integer id);
+    void delete(Long id);
 
     /**
      * 获得经销商
@@ -46,7 +46,7 @@ public interface DistributorService {
      * @param id 编号
      * @return 经销商
      */
-    DistributorDO get(Integer id);
+    DistributorDO get(Long id);
 
     /**
      * 获得经销商
@@ -54,7 +54,7 @@ public interface DistributorService {
      * @param id 编号
      * @return 经销商
      */
-    DistributorDetailDO getDetail(Integer id);
+    DistributorDetailDO getDetail(Long id);
 
     /**
      * 获得经销商列表
@@ -62,7 +62,7 @@ public interface DistributorService {
      * @param ids 编号
      * @return 经销商列表
      */
-    List<DistributorDO> getList(Collection<Integer> ids);
+    List<DistributorDO> getList(Collection<Long> ids);
 
     /**
      * 获得经销商分页

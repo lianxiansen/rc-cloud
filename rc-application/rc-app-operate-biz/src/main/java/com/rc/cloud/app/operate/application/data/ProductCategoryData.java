@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.application.data;
 
-import com.rc.cloud.app.operate.domain.category.ProductCategoryEntity;
+import com.rc.cloud.app.operate.domain.category.ProductCategoryAggregation;
 import lombok.Data;
 
 import java.util.Date;
@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 public class ProductCategoryData {
     private Date createTime;
-    public static ProductCategoryData from(ProductCategoryEntity productCategoryEntry){
+    public static ProductCategoryData from(ProductCategoryAggregation productCategoryEntry){
         return new ProductCategoryData();
     }
 }

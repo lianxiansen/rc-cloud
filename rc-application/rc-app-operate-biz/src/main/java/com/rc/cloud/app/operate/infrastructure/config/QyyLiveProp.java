@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class QyyLiveProp {
 
 
-    @Value("${qyy-live.domain.id}")
+//    @Value("${qyy-live.domain.id}")
     private  String domainId;
 
     public String getDomainId() {
@@ -25,10 +25,10 @@ public class QyyLiveProp {
         this.domainId = domainId;
     }
 
-    @Value("${qyy-live.gateway.h5}")
+//    @Value("${qyy-live.gateway.h5}")
     private String gateWay;
 
-    @Value("${qyy-live.gateway.api}")
+//    @Value("${qyy-live.gateway.api}")
     private String apiGateWay;
 
 }

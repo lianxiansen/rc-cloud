@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.domain.product.service;
 
 import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.product.ProductEntity;
+import com.rc.cloud.app.operate.domain.product.ProductAggregation;
 import com.rc.cloud.app.operate.domain.product.ProductFactory;
 import com.rc.cloud.app.operate.domain.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.product.identifier.BrandId;
@@ -20,7 +20,7 @@ import java.util.List;
  * @Description: TODO
  */
 @Service
-public class SaveProductService {
+public class SaveProductDomainService {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
@@ -31,7 +31,7 @@ public class SaveProductService {
     public void execute(TenantId tenantId, Name name, Remark remark, Tag tag, BrandId brandId, ProductCategoryId productCategoryId,
                         CustomClassification customClassification, Newest newest, Explosives explosives, Recommend recommend, Open open,
                         OnshelfStatus onshelfStatus, Enable enable, Video video, MasterImage masterImage, Type type, List<Image> productImages) {
-        ProductEntity productEntry= productFactory.createProduct(tenantId,name,remark,tag,brandId,productCategoryId,customClassification,newest,
+        ProductAggregation productEntry= productFactory.createProduct(tenantId,name,remark,tag,brandId,productCategoryId,customClassification,newest,
                 explosives,recommend,open,onshelfStatus,enable,video,masterImage,type,productImages);
         productRepository.saveProductEntry(productEntry);
     }

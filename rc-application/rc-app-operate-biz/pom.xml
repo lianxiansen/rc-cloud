@@ -170,7 +170,12 @@
             <artifactId>uid-generator-interface</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-security</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
 
 
     </dependencies>

@@ -14,5 +14,7 @@ public interface DistributorErrorCodeConstants {
     ErrorCode DISTRIBUTOR_CHANNEL_NOT_EXISTS = new ErrorCode(1002029001, "经销商渠道不存在");
     ErrorCode DISTRIBUTOR_LEVEL_NOT_EXISTS = new ErrorCode(1002029002, "经销商等级不存在");
     ErrorCode DISTRIBUTOR_SOURCE_EXISTS = new ErrorCode(1002029003, "经销商来源不存在");
-    ErrorCode DISTRIBUTOR_REPUTATION_NOT_EXISTS = new ErrorCode(1002029000, "经销商信誉不存在");
+    ErrorCode DISTRIBUTOR_REPUTATION_NOT_EXISTS = new ErrorCode(1002029004, "经销商信誉不存在");
+    ErrorCode DISTRIBUTOR_CONTACT_PHONE_DUPLICATE = new ErrorCode(1002029005, "联系方式重复");
+    ErrorCode DISTRIBUTOR_CONTACT_PHONE_EXIST = new ErrorCode(1002029006, "该联系方式已被绑定");
 }

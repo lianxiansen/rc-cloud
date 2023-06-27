@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.category.service;
 
-import com.rc.cloud.app.operate.domain.category.ProductCategoryEntity;
+import com.rc.cloud.app.operate.domain.category.ProductCategoryAggregation;
 import com.rc.cloud.app.operate.domain.category.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.category.valobj.Layer;
 import com.rc.cloud.app.operate.domain.category.valobj.Locked;
@@ -17,10 +17,10 @@ import java.util.List;
  * @Description: TODO
  */
 @Service
-public class FirstProductCategoryListService {
+public class FirstProductCategoryListDomainService {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
-    public List<ProductCategoryEntity> execute() {
+    public List<ProductCategoryAggregation> execute() {
         return productCategoryRepository.getFirstList(new Locked(false),new Layer(1),
                new Parent("0"));
     }
