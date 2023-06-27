@@ -72,7 +72,7 @@ public class MenuController {
     public CodeResult<List<MenuRespVO>> getMenuList(MenuListReqVO reqVO) {
         List<SysMenuDO> list = menuService.getMenuList(reqVO);
         list.sort(Comparator.comparing(SysMenuDO::getSort));
-        return CodeResult.ok(MenuConvert.INSTANCE.convertList(list));
+        return CodeResult.ok(TreeUtil.build(MenuConvert.INSTANCE.convertList(list)));
     }
 
     @GetMapping("/list-all-simple")
