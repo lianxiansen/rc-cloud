@@ -132,6 +132,23 @@ public class DictTypeServiceImpl implements DictTypeService {
         return dictList;
     }
 
+    @Override
+    public void deleteDictTypes(List<Long> idList) {
+        // 校验是否存在
+        for (Long id : idList) {
+            validateDictTypeExists(id);
+        }
+        // 校验是否有字典数据
+        for (Long id : idList) {
+            SysDictTypeDO dictType = dictTypeMapper.selectById(id);
+            if (dictDataService.countByDictType(dictType.getType()) > 0) {
+                throw exception(DICT_TYPE_HAS_CHILDREN);
+            }
+        }
+        // 删除字典类型
+        dictTypeMapper.deleteBatchIds(idList);
+    }
+
     private void validateDictTypeForCreateOrUpdate(Long id, String name, String type) {
         // 校验自己存在
         validateDictTypeExists(id);

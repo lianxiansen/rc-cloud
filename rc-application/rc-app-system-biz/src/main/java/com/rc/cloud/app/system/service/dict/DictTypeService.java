@@ -80,4 +80,10 @@ public interface DictTypeService {
     List<SysDictTypeDO> getDictTypeList();
 
     List<SysDictVO> getDictList();
+
+/**
+     * 批量删除字典类型
+     * @param idList 字典类型编号列表
+     */
+    void deleteDictTypes(List<Long> idList);
 }

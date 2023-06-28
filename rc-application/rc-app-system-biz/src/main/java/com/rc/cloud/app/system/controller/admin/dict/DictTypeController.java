@@ -46,10 +46,10 @@ public class DictTypeController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "删除字典类型")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
     @PreAuthorize("@pms.hasPermission('sys:dict:delete')")
-    public CodeResult<Boolean> deleteDictType(@PathVariable Long id) {
-        dictTypeService.deleteDictType(id);
+    public CodeResult<Boolean> deleteDictType(@RequestBody List<Long> idList) {
+        dictTypeService.deleteDictTypes(idList);
         return CodeResult.ok(true);
     }
 
