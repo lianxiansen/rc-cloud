@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
@@ -63,7 +64,6 @@ public class UserProfileController {
     @GetMapping("/get")
     @Operation(summary = "获得登录用户信息")
 //    @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
-//    @PermitAll
     public CodeResult<UserProfileRespVO> profile(Authentication authentication) {
         // 获得用户基本信息
         String username = SecurityUtils.getUsername();

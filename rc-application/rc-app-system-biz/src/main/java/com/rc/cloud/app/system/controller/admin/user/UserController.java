@@ -93,7 +93,7 @@ public class UserController {
 
     @GetMapping("/page")
     @Operation(summary = "获得用户分页列表")
-    @PreAuthorize("@ss.hasPermission('sys:user:query')")
+    @PreAuthorize("@pms.hasPermission('sys:user:query')")
     public CodeResult<PageResult<UserPageItemRespVO>> getUserPage(@Valid UserPageReqVO reqVO) {
         // 获得用户分页列表
         PageResult<SysUserDO> pageResult = userService.getUserPage(reqVO);
@@ -126,7 +126,7 @@ public class UserController {
     @GetMapping("/{id}")
     @Operation(summary = "获得用户详情")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
-    @PreAuthorize("@ss.hasPermission('system:user:query')")
+    @PreAuthorize("@pms.hasPermission('system:user:query')")
     public CodeResult<UserRespVO> getUser(@PathVariable("id") Long id) {
         SysUserDO user = userService.getUser(id);
         // 获得部门数据
