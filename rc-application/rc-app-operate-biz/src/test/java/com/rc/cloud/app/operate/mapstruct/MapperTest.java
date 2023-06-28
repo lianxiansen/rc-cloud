@@ -21,7 +21,6 @@ import java.security.SecureRandom;
  * @Description: TODO
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes= ApplicationTest.class)
 public class MapperTest {
     private  Source source;
     @Before
@@ -40,6 +39,7 @@ public class MapperTest {
     @Test
     public void deepMapper(){
         Target target= DeepMapper.INSTANCE.convert(source);
+        System.out.println(source.getName());
         Assert.assertEquals("属性转换错误",source.getName(),target.getName().getValue());
     }
 

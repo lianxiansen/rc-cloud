@@ -10,6 +10,7 @@ import com.rc.cloud.app.operate.domain.product.valobj.*;
 import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
 
 import java.util.List;
+import java.util.SortedSet;
 
 /**
  * @ClassName: ProductEntry
@@ -162,6 +163,11 @@ public class ProductAggregation extends Entity {
      * 排序
      */
     private Sort sort;
+
+
+    private List<ProductSkuEntity> skus;
+
+    private SortedSet<ProductAttributeEntity> productAttributes;
 
 
     protected ProductAggregation(ProductId id, TenantId tenantId, Name name, ProductCategoryId productCategoryId){
