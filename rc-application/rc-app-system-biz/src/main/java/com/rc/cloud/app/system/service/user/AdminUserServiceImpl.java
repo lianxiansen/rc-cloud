@@ -281,7 +281,18 @@ public class AdminUserServiceImpl implements AdminUserService {
                 .map(SysMenuDO::getPermission)
                 .filter(StrUtil::isNotBlank)
                 .collect(Collectors.toSet());
-        userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
+        // 如果是组合权限，进行拆解
+        Set<String> newPermissions = new HashSet<>();
+        for (String permission : permissions) {
+            if (StrUtil.contains(permission, ",")) {
+                List<String> split = StrUtil.split(permission, ",");
+                split = split.stream().filter(StrUtil::isNotBlank).collect(Collectors.toList());
+                newPermissions.addAll(split);
+            } else {
+                newPermissions.add(permission);
+            }
+        }
+        userInfo.setPermissions(ArrayUtil.toArray(newPermissions, String.class));
         return userInfo;
     }
 
