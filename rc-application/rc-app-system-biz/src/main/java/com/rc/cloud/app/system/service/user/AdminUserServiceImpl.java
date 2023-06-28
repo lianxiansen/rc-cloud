@@ -127,7 +127,23 @@ public class AdminUserServiceImpl implements AdminUserService {
                     })
             );
         }
+        // 插入角色
+        insertUserRole(reqVO, user.getId());
         return user.getId();
+    }
+
+    private void insertUserRole(UserCreateReqVO reqVO, Long userId) {
+        if (CollectionUtil.isEmpty(reqVO.getRoleIds())) {
+            return;
+        }
+        userRoleMapper.insertBatch(convertList(reqVO.getRoleIds(),
+                roleId -> {
+                    SysUserRoleDO userRoleDO = new SysUserRoleDO();
+                    userRoleDO.setUserId(userId);
+                    userRoleDO.setRoleId(roleId);
+                    return userRoleDO;
+                })
+        );
     }
 
     @Override
