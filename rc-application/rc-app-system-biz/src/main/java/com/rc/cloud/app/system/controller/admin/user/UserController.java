@@ -108,7 +108,6 @@ public class UserController {
         pageResult.getList().forEach(user -> {
             UserPageItemRespVO respVO = UserConvert.INSTANCE.convert(user);
             respVO.setDept(UserConvert.INSTANCE.convert(deptMap.get(user.getDeptId())));
-            respVO.setRoleIds(userService.getUserRoleIds(user.getId()));
             userList.add(respVO);
         });
         return CodeResult.ok(new PageResult<>(userList, pageResult.getTotal()));
@@ -133,6 +132,7 @@ public class UserController {
         SysDeptDO dept = deptService.getDept(user.getDeptId());
         UserPageItemRespVO userPageItemRespVO = UserConvert.INSTANCE.convert(user);
         userPageItemRespVO.setDept(UserConvert.INSTANCE.convert(dept));
+        userPageItemRespVO.setRoleIds(userService.getUserRoleIds(user.getId()));
         return CodeResult.ok(userPageItemRespVO);
     }
 
