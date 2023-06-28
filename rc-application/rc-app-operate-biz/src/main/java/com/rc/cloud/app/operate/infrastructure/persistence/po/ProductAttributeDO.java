@@ -2,16 +2,15 @@ package com.rc.cloud.app.operate.infrastructure.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@TableName("attribute")
+@TableName("product_attribute")
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class Attribute extends BaseDO {
+@EqualsAndHashCode(callSuper = false)
+public class ProductAttributeDO {
 
-    private static final long serialVersionUID = 2234345L;
+    private static final long serialVersionUID = 245345L;
 
     @TableField("id")
     private Long Id;
@@ -19,9 +18,10 @@ public class Attribute extends BaseDO {
     @TableField("tenant_id")
     private Long tenantId;
 
-    @TableField("name")
-    private String name;
+    @TableField("product_id")
+    private Long productId;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("content")
+    private String content;
+
 }

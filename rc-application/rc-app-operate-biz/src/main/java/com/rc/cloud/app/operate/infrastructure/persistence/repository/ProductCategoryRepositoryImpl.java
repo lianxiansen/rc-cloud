@@ -8,10 +8,10 @@ import com.rc.cloud.app.operate.domain.category.ProductCategoryAggregation;
 import com.rc.cloud.app.operate.domain.category.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.category.valobj.*;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductCategoryConvert;
+import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductCategoryPOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductCategoryMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategory;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * @Description:
  */
 @Repository
-public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMapper, ProductCategory> implements IService<ProductCategory>,ProductCategoryRepository {
+public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMapper, ProductCategoryDO> implements IService<ProductCategoryDO>,ProductCategoryRepository {
     @Autowired
     private ProductCategoryMapper productCategoryMapper;
     @Autowired
@@ -43,14 +43,14 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
     @Override
     public List<ProductCategoryAggregation> getFirstList(Locked locked, Layer layer, Parent parent) {
         try {
-            QueryWrapper<ProductCategory> wrapper = new QueryWrapper<>();
+            QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
             wrapper.eq("IsLock", locked.getFlag());
             wrapper.eq("Layer", layer.getLevel());
             wrapper.eq("ParentID", parent.getId());
             wrapper.orderByAsc("SortID");
             List<ProductCategoryAggregation> list=new ArrayList<>();
             productCategoryMapper.selectList(wrapper).forEach(item->{
-                list.add(new ProductCategoryConvert().convertToProductCategoryEntry(item));
+                list.add(new ProductCategoryPOConvert().convertToProductCategoryEntry(item));
             });
             return list;
         } catch (Exception e) {
@@ -64,8 +64,8 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
         return new ProductCategoryId(remoteIdGeneratorService.uidGenerator());
     }
     @Override
-    public ProductCategory findById(ProductCategoryId productCategoryId){
-        QueryWrapper<ProductCategory> wrapper = new QueryWrapper<>();
+    public ProductCategoryDO findById(ProductCategoryId productCategoryId){
+        QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
         wrapper.eq("id",productCategoryId.id());
         wrapper.eq("deleted", '0');
         return this.getOne(wrapper);

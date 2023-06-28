@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @TableName("product")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Product extends BaseDO {
+public class ProductDO extends BaseDO {
 
     private static final long serialVersionUID = 14345345L;
     @TableField("id")

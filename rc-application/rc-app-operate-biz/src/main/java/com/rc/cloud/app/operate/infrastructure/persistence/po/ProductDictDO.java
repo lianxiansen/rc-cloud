@@ -5,12 +5,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@TableName("product_attribute")
+@TableName("attribute_value")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductAttribute {
+public class ProductDictDO {
 
-    private static final long serialVersionUID = 245345L;
+    private static final long serialVersionUID = 55322L;
 
     @TableField("id")
     private Long Id;
@@ -21,7 +21,12 @@ public class ProductAttribute {
     @TableField("product_id")
     private Long productId;
 
-    @TableField("content")
-    private String content;
+    @TableField("key")
+    private String key;
 
+    @TableField("value")
+    private String value;
+
+    @TableField("sort_id")
+    private Integer sortId;
 }

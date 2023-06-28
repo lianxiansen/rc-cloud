@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@TableName("product_attribute")
+import java.time.LocalDateTime;
+
+@TableName("product_operate")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductSkuAttribute {
+public class ProductOperateDO {
 
-    private static final long serialVersionUID = 21231L;
+    private static final long serialVersionUID = 256345L;
 
     @TableField("id")
     private Long Id;
@@ -18,10 +20,16 @@ public class ProductSkuAttribute {
     @TableField("tenant_id")
     private Long tenantId;
 
-    @TableField("product_sku_id")
-    private Long productSkuId;
+    @TableField("product_id")
+    private Long productId;
 
-    @TableField("content")
-    private String content;
+    @TableField("name")
+    private String name;
+
+    @TableField("ip")
+    private String ip;
+
+    @TableField("operate_time")
+    private LocalDateTime operateTime;
 
 }
