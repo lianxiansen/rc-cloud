@@ -85,7 +85,7 @@ public class PostController {
 
     @GetMapping("/page")
     @Operation(summary = "获得岗位分页列表")
-//    @PreAuthorize("@pms.hasPermission('sys:post:page')")
+    @PreAuthorize("@pms.hasPermission('sys:post:query')")
     public CodeResult<PageResult<PostRespVO>> getPostPage(@Validated PostPageReqVO reqVO) {
         return CodeResult.ok(PostConvert.INSTANCE.convertPage(postService.getPostPage(reqVO)));
     }
