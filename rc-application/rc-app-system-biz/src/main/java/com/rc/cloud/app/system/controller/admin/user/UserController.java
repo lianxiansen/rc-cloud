@@ -1,7 +1,6 @@
 package com.rc.cloud.app.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
@@ -11,28 +10,27 @@ import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.user.user.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
-import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.annotation.Inner;
-import com.rc.cloud.common.security.utils.MsgUtils;
 import com.rc.cloud.common.security.utils.SecurityUtils;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertList;
-import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertSet;
 
 
 @Tag(name = "管理后台 - 用户")
