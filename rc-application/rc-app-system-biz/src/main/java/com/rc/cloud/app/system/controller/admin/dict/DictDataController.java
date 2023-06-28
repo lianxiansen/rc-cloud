@@ -42,12 +42,12 @@ public class DictDataController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping()
     @Operation(summary = "删除字典数据")
-    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
     @PreAuthorize("@pms.hasPermission('sys:dict:delete')")
-    public CodeResult<Boolean> deleteDictData(@PathVariable Long id) {
-        dictDataService.deleteDictData(id);
+    public CodeResult<Boolean> deleteDictData(@RequestBody List<Long> idList) {
+        dictDataService.deleteDictDatas(idList);
         return CodeResult.ok(true);
     }
 
