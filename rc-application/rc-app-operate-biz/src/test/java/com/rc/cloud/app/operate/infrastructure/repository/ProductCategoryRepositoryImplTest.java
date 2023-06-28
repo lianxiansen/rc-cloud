@@ -1,17 +1,19 @@
 package com.rc.cloud.app.operate.infrastructure.repository;
 
-import cn.hutool.core.util.ReflectUtil;
-import com.bowen.idgenerator.service.RemoteIdGeneratorService;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
+import com.rc.cloud.app.operate.ApplicationTest;
+import com.rc.cloud.app.operate.domain.category.ProductCategoryRepository;
+import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.infrastructure.persistence.repository.BrandRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCategoryRepositoryImpl;
-import com.rc.cloud.common.feign.EnableRcFeignClients;
-import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.context.annotation.Import;
 
-import javax.annotation.Resource;
-import javax.validation.Validation;
+import org.junit.Test;
+
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @ClassName: ProductCategoryRepositoryImplTest
@@ -19,38 +21,20 @@ import javax.validation.Validation;
  * @Date: 2023/6/27 16:55
  * @Description: TODO
  */
-@Import(ProductCategoryRepositoryImpl.class)
-public class ProductCategoryRepositoryImplTest extends BaseDbUnitTest {
-    @Resource
-    private ProductCategoryRepositoryImpl productCategoryRepositoryImpl;
-    @BeforeEach
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes= ApplicationTest.class)
+public class ProductCategoryRepositoryImplTest {
+
+    @Autowired
+    private ProductCategoryRepository productCategoryRepository;
     public void setUp() {
-        // 注入一个 Validator 对象
-        ReflectUtil.setFieldValue(productCategoryRepositoryImpl, "remoteIdGeneratorService",
-                new RemoteIdGeneratorServiceStub());
+
     }
     @Test
     public void test() {
-        ProductCategoryDO productCategory = new ProductCategoryDO();
-        productCategoryRepositoryImpl.save(productCategory);
+        System.out.println("aa");
+        productCategoryRepository.findById(new ProductCategoryId("a"));
     }
 
 
-    class RemoteIdGeneratorServiceStub implements RemoteIdGeneratorService {
-
-        @Override
-        public String uidGenerator() {
-            return null;
-        }
-
-        @Override
-        public String getUidByRedis() {
-            return null;
-        }
-
-        @Override
-        public Long getUidByLocal() {
-            return null;
-        }
-    }
 }
