@@ -2,8 +2,10 @@ package com.rc.cloud.app.system.mapper.permission;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.rc.cloud.app.system.api.dept.entity.SysUserPostDO;
 import com.rc.cloud.app.system.api.permission.entity.SysUserRoleDO;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
+import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Collection;
@@ -43,4 +45,9 @@ public interface UserRoleMapper extends BaseMapperX<SysUserRoleDO> {
         return selectList(SysUserRoleDO::getRoleId, roleIds);
     }
 
+    default void deleteBatchByUserIdAndRoleIds(Long userId, Collection<Long> roleIds) {
+        delete(new LambdaQueryWrapperX<SysUserRoleDO>()
+                .eq(SysUserRoleDO::getUserId, userId)
+                .in(SysUserRoleDO::getRoleId, roleIds));
+    }
 }

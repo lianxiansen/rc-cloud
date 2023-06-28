@@ -10,6 +10,7 @@ import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
 import com.rc.cloud.app.system.api.dept.entity.SysUserPostDO;
 import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
+import com.rc.cloud.app.system.api.permission.entity.SysUserRoleDO;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.common.datapermission.core.util.DataPermissionUtils;
@@ -140,6 +141,31 @@ public class AdminUserServiceImpl implements AdminUserService {
         userMapper.updateById(updateObj);
         // 更新岗位
         updateUserPost(reqVO, updateObj);
+        // 更新角色
+        updateUserRole(reqVO);
+    }
+
+    private void updateUserRole(UserUpdateReqVO reqVO) {
+        Long userId = reqVO.getId();
+        Set<Long> dbRoleIds = userRoleMapper.selectRoleIdsByUserId(userId);
+        // 计算新增和删除的角色编号
+        Set<Long> roleIds = reqVO.getRoleIds();
+        Collection<Long> createRoleIds = CollUtil.subtract(roleIds, dbRoleIds);
+        Collection<Long> deleteRoleIds = CollUtil.subtract(dbRoleIds, roleIds);
+        // 执行新增和删除。对于已经授权的菜单，不用做任何处理
+        if (!CollectionUtil.isEmpty(createRoleIds)) {
+            userRoleMapper.insertBatch(convertList(createRoleIds,
+                    roleId -> {
+                        SysUserRoleDO userRoleDO = new SysUserRoleDO();
+                        userRoleDO.setUserId(userId);
+                        userRoleDO.setRoleId(roleId);
+                        return userRoleDO;
+                    })
+            );
+        }
+        if (!CollectionUtil.isEmpty(deleteRoleIds)) {
+            userRoleMapper.deleteBatchByUserIdAndRoleIds(userId, deleteRoleIds);
+        }
     }
 
     private void updateUserPost(UserUpdateReqVO reqVO, SysUserDO updateObj) {
