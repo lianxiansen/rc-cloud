@@ -109,4 +109,5 @@ public interface DictDataService {
 
     List<SysDictDataDO> selectListBySortAsc();
 
+    void deleteDictDatas(List<Long> idList);
 }

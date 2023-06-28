@@ -187,4 +187,8 @@ public class DictDataServiceImpl implements DictDataService {
         return dictDataMapper.selectListBySortAsc();
     }
 
+    @Override
+    public void deleteDictDatas(List<Long> idList) {
+        dictDataMapper.deleteBatchIds(idList);
+    }
 }
