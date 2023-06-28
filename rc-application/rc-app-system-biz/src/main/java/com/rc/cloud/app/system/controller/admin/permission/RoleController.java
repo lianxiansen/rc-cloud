@@ -2,8 +2,10 @@ package com.rc.cloud.app.system.controller.admin.permission;
 
 import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
 import com.rc.cloud.app.system.convert.permission.RoleConvert;
+import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.service.permission.RoleService;
 import com.rc.cloud.app.system.vo.permission.role.*;
+import com.rc.cloud.app.system.vo.user.user.UserPageItemRespVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -73,8 +76,14 @@ public class RoleController {
     @GetMapping("/page")
     @Operation(summary = "获得角色分页")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
-    public CodeResult<PageResult<SysRoleDO>> getRolePage(RolePageReqVO reqVO) {
-        return CodeResult.ok(roleService.getRolePage(reqVO));
+    public CodeResult<PageResult<RoleRespVO>> getRolePage(RolePageReqVO reqVO) {
+        PageResult<SysRoleDO> pageResult = roleService.getRolePage(reqVO);
+        List<RoleRespVO> roleList = new ArrayList<>(pageResult.getList().size());
+        pageResult.getList().forEach(roleDO -> {
+            RoleRespVO respVO = RoleConvert.INSTANCE.convert(roleDO);
+            roleList.add(respVO);
+        });
+        return CodeResult.ok(new PageResult<>(roleList, pageResult.getTotal()));
     }
 
     @GetMapping("/list-all-simple")
