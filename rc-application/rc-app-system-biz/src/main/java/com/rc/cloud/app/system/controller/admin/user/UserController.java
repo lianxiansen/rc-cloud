@@ -102,11 +102,13 @@ public class UserController {
         // 获得拼接需要的数据
         Collection<Long> deptIds = convertList(pageResult.getList(), SysUserDO::getDeptId);
         Map<Long, SysDeptDO> deptMap = deptService.getDeptMap(deptIds);
+
         // 拼接结果返回
         List<UserPageItemRespVO> userList = new ArrayList<>(pageResult.getList().size());
         pageResult.getList().forEach(user -> {
             UserPageItemRespVO respVO = UserConvert.INSTANCE.convert(user);
             respVO.setDept(UserConvert.INSTANCE.convert(deptMap.get(user.getDeptId())));
+            respVO.setRoleIds(userService.getUserRoleIds(user.getId()));
             userList.add(respVO);
         });
         return CodeResult.ok(new PageResult<>(userList, pageResult.getTotal()));

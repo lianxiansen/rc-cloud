@@ -541,6 +541,11 @@ public class AdminUserServiceImpl implements AdminUserService {
         return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
+    @Override
+    public Set<Long> getUserRoleIds(Long id) {
+        return userRoleMapper.selectRoleIdsByUserId(id) == null ? new HashSet<>() : userRoleMapper.selectRoleIdsByUserId(id);
+    }
+
     /**
      * 对密码进行加密
      *

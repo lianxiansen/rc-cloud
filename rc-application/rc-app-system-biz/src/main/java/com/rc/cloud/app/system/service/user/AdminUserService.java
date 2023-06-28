@@ -234,4 +234,11 @@ public interface AdminUserService {
      */
     boolean isPasswordMatch(String rawPassword, String encodedPassword);
 
+    /**
+     * 获得用户的角色编号列表
+     *
+     * @param id 用户编号
+     * @return 角色编号列表
+     */
+    Set<Long> getUserRoleIds(Long id);
 }
