@@ -3,6 +3,7 @@ package com.rc.cloud.app.operate.domain.category;
 import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.category.valobj.*;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
