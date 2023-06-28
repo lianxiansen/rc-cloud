@@ -17,5 +17,9 @@ public interface ProductCategoryRepository{
 
     ProductCategoryId nextId();
 
-    ProductCategoryDO findById(ProductCategoryId productCategoryId);
+    ProductCategoryAggregation findById(ProductCategoryId productCategoryId);
+
+    List<ProductCategoryAggregation> findAll();
+
+    void save(ProductCategoryAggregation productCategoryAggregation);
 }

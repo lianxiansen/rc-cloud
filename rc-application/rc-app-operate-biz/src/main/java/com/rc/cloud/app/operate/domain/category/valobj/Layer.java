@@ -9,11 +9,20 @@ import com.rc.cloud.app.operate.domain.common.AssertionConcern;
  * @Description:
  */
 public class Layer extends AssertionConcern {
-    private int level;
-    public Layer(int level){
-        this.level=level;
+    private static final int MIN=1;
+    private int value;
+    public Layer(){
+        this.value =MIN;
     }
-    public int getLevel(){
-        return level;
+    public Layer(int level){
+        setValue(level);
+    }
+    public int getValue(){
+        return value;
+    }
+
+    public void setValue(int value){
+        this.assertArgumentRange(value,1,3,"the value of Layer is not in range(1,3)");
+        this.value=value;
     }
 }

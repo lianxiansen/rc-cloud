@@ -8,7 +8,7 @@ import com.rc.cloud.app.operate.domain.category.ProductCategoryAggregation;
 import com.rc.cloud.app.operate.domain.category.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.category.valobj.*;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductCategoryPOConvert;
+import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductCategoryMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
@@ -42,21 +42,17 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
      */
     @Override
     public List<ProductCategoryAggregation> getFirstList(Locked locked, Layer layer, Parent parent) {
-        try {
-            QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
-            wrapper.eq("IsLock", locked.getFlag());
-            wrapper.eq("Layer", layer.getLevel());
-            wrapper.eq("ParentID", parent.getId());
-            wrapper.orderByAsc("SortID");
-            List<ProductCategoryAggregation> list=new ArrayList<>();
-            productCategoryMapper.selectList(wrapper).forEach(item->{
-                list.add(new ProductCategoryPOConvert().convertToProductCategoryEntry(item));
-            });
-            return list;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw e;
-        }
+        QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
+        wrapper.eq("IsLock", locked.getFlag());
+        wrapper.eq("Layer", layer.getValue());
+        wrapper.eq("ParentID", parent.getId());
+        wrapper.eq("deleted", '0');
+        wrapper.orderByAsc("SortID");
+        List<ProductCategoryAggregation> list=new ArrayList<>();
+        productCategoryMapper.selectList(wrapper).forEach(item->{
+            list.add(new ProductCategoryConvert().convert2ProductCategoryDO(item));
+        });
+        return list;
     }
 
     @Override
@@ -64,12 +60,28 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
         return new ProductCategoryId(remoteIdGeneratorService.uidGenerator());
     }
     @Override
-    public ProductCategoryDO findById(ProductCategoryId productCategoryId){
+    public ProductCategoryAggregation findById(ProductCategoryId productCategoryId){
         QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
         wrapper.eq("id",productCategoryId.id());
         wrapper.eq("deleted", '0');
-        return this.getOne(wrapper);
+        return ProductCategoryConvert.INSTANCE.convert2ProductCategoryDO(this.getOne(wrapper));
+    }
+    @Override
+    public List<ProductCategoryAggregation> findAll(){
+        QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
+        wrapper.eq("deleted", '0');
+        List<ProductCategoryDO> list=  this.list(wrapper);
+        List<ProductCategoryAggregation> result=new ArrayList<>();
+        list.forEach(item->{
+            result.add(ProductCategoryConvert.INSTANCE.convert2ProductCategoryDO(item));
+        });
+        return result;
     }
 
+    @Override
+    public void save(ProductCategoryAggregation productCategoryAggregation){
+        ProductCategoryDO productCategoryDO=ProductCategoryConvert.INSTANCE.convert2ProductCategoryAggregation(productCategoryAggregation);
+        this.save(productCategoryDO);
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.domain.category.service;
 
+import com.rc.cloud.app.operate.domain.category.ProductCategoryAggregation;
 import com.rc.cloud.app.operate.domain.category.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
@@ -17,7 +18,7 @@ public class ContainsProductCategoryDomainService {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
     public boolean execute(ProductCategoryId productCategoryId) {
-        ProductCategoryDO productCategory= productCategoryRepository.findById(productCategoryId);
+        ProductCategoryAggregation productCategory= productCategoryRepository.findById(productCategoryId);
         if(null!=productCategory){
             return true;
         }

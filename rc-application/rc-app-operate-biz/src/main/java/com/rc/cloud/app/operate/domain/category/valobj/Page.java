@@ -17,4 +17,8 @@ public class Page extends AssertionConcern {
      * 商品列表页面图片URL
      */
     private String listImage;
+    public Page(String categoryImage,String listImage){
+        this.categoryImage=categoryImage;
+        this.listImage = listImage;
+    }
 }
