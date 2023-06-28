@@ -10,4 +10,10 @@ import com.rc.cloud.app.operate.domain.common.AssertionConcern;
  */
 public class Icon extends AssertionConcern {
     private String picture;
+    public Icon(String picture){
+        setPicture(picture);
+    }
+    public void setPicture(String picture){
+        this.assertArgumentNotNull(picture,"picture must not be null");
+    }
 }
