@@ -3,7 +3,7 @@ package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
-import com.rc.cloud.app.operate.domain.product.ProductEntity;
+import com.rc.cloud.app.operate.domain.product.ProductAggregation;
 import com.rc.cloud.app.operate.domain.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.product.identifier.ImageId;
@@ -32,14 +32,14 @@ public class ProductRepositoryImpl extends ServiceImpl<ProductMapper, ProductDO>
     @Autowired
     private ProductImageRepositoryImpl productImageRepository;
     @Override
-    public void saveProductEntry(ProductEntity productEntry) {
+    public void saveProductEntry(ProductAggregation productEntry) {
         ProductDO product=  new ProductPOConvert().convertToProduct(productEntry);
         productMapper.insert(product);
         productImageRepository.saveBatch(null);
     }
 
     @Override
-    public ProductEntity findById(ProductId productId) {
+    public ProductAggregation findById(ProductId productId) {
         return null;
     }
     @Override
