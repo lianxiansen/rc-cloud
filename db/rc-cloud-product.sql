@@ -136,7 +136,7 @@ CREATE TABLE `product` (
        `tag` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品标签',
        `master_image`  varchar(128) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '主图URL',
        `spu_code` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品code',
-       `product_origin` int(11) DEFAULT 0 COMMENT '商品来源，0：ffcat',
+       `product_origin` int(11) DEFAULT 0 COMMENT '商品来源，0：自营',
        `out_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '外部id',
        `product_type` int(11) COLLATE utf8mb4_bin DEFAULT 0 COMMENT '商品类型，0：普通商品',
        `enabled_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '状态 1-正常状态，0-未启用',
