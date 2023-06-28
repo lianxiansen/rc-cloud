@@ -111,7 +111,7 @@ public class DictTypeServiceImpl implements DictTypeService {
             dict.setType(type.getType());
             for (SysDictDataDO data : dataList) {
                 if (type.getType().equals(data.getDictType())) {
-                    dict.getDataList().add(new SysDictVO.DictData(data.getLabel(), data.getValue(), data.getCssClass()));
+                    dict.getDataList().add(new SysDictVO.DictData(data.getLabel(), data.getValue(), data.getCssClass(), data.getColorType()));
                 }
             }
 

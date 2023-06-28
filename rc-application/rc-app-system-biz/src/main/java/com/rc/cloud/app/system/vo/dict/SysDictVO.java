@@ -36,7 +36,10 @@ public class SysDictVO {
         @Schema(description = "字典值")
         private String value;
 
-        @Schema(description = "标签样式")
+        @Schema(description = "标签样式css")
         private String cssClass;
+
+        @Schema(description = "标签颜色类型")
+        private String colorType;
     }
 }
