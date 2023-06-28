@@ -1,14 +1,20 @@
 package com.rc.cloud.app.system.controller.admin.permission;
 
+import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
+import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.convert.permission.RoleConvert;
 import com.rc.cloud.app.system.convert.user.UserConvert;
+import com.rc.cloud.app.system.service.permission.MenuService;
 import com.rc.cloud.app.system.service.permission.RoleService;
+import com.rc.cloud.app.system.vo.permission.menu.MenuRespVO;
 import com.rc.cloud.app.system.vo.permission.role.*;
 import com.rc.cloud.app.system.vo.user.user.UserPageItemRespVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.core.util.tree.TreeUtil;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.security.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,6 +38,9 @@ public class RoleController {
 
     @Resource
     private RoleService roleService;
+
+    @Resource
+    private MenuService menuService;
 
     @PostMapping("/create")
     @Operation(summary = "创建角色")
@@ -94,6 +103,19 @@ public class RoleController {
         // 排序后，返回给前端
         list.sort(Comparator.comparing(SysRoleDO::getSort));
         return CodeResult.ok(RoleConvert.INSTANCE.convertList02(list));
+    }
+
+    @GetMapping("menu")
+    @Operation(summary = "获取角色菜单")
+    @PreAuthorize("@pms.hasPermission('sys:role:query')")
+    public CodeResult<List<MenuRespVO>> menu() {
+        Long userId = SecurityUtils.getUser().getId();
+        List<MenuRespVO> list = new ArrayList<>();
+        List<SysMenuDO> userMenuList = menuService.getUserMenuList(userId, null);
+        if (userMenuList != null && !userMenuList.isEmpty()) {
+            list = MenuConvert.INSTANCE.convertList(userMenuList);
+        }
+        return CodeResult.ok(TreeUtil.build(list));
     }
 
 //    @GetMapping("/export")
