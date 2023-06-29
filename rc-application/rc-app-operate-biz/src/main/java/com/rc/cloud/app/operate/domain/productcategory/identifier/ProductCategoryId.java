@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.domain.category.identifier;
+package com.rc.cloud.app.operate.domain.productcategory.identifier;
 
 import com.rc.cloud.app.operate.domain.common.AbstractId;
 

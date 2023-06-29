@@ -8,12 +8,12 @@ import com.rc.cloud.app.operate.domain.common.AbstractId;
  * @Date: 2023/6/23 13:15
  * @Description: TODO
  */
-public class ImageId extends AbstractId {
-    public ImageId(String id) {
+public class ProductImageId extends AbstractId {
+    public ProductImageId(String id) {
         super(id);
     }
 
-    protected ImageId() {
+    protected ProductImageId() {
         super();
     }
 

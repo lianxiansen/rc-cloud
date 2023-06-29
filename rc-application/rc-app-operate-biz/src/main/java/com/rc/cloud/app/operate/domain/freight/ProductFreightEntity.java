@@ -1,7 +1,4 @@
-package com.rc.cloud.app.operate.domain.product;
-
-import com.rc.cloud.app.operate.domain.common.ProductFreightTypeEnum;
-import org.apache.commons.lang3.Validate;
+package com.rc.cloud.app.operate.domain.freight;
 
 import java.math.BigDecimal;
 

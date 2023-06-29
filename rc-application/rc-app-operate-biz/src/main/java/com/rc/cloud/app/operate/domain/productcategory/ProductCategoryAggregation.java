@@ -1,9 +1,8 @@
-package com.rc.cloud.app.operate.domain.category;
+package com.rc.cloud.app.operate.domain.productcategory;
 
-import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.category.valobj.*;
+import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.common.Entity;
-import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
 
 /**

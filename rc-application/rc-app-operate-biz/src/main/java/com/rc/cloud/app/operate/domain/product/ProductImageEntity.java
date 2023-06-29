@@ -1,9 +1,11 @@
 package com.rc.cloud.app.operate.domain.product;
 
 import com.rc.cloud.app.operate.domain.common.Entity;
-import com.rc.cloud.app.operate.domain.product.identifier.ImageId;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.product.valobj.*;
+import com.rc.cloud.app.operate.domain.product.valobj.Image;
+import com.rc.cloud.app.operate.domain.product.valobj.ImageDefault;
+import com.rc.cloud.app.operate.domain.product.valobj.ImageSort;
 
 /**
  * @ClassName: ProductImageEntry
@@ -13,16 +15,16 @@ import com.rc.cloud.app.operate.domain.product.valobj.*;
  */
 public class ProductImageEntity extends Entity {
 
-    private ImageId productImageId;
+    private ProductImageId productImageId;
     private ProductId productId;
     private Image productImage;
 
     private ImageSort productImageSort;
     private ImageDefault productImageDefault;
-    public ProductImageEntity(ImageId productImageId, ProductId productId, Image productImage){
+    public ProductImageEntity(ProductImageId productImageId, ProductId productId, Image productImage){
 
     }
-    public void setProductImageId(ImageId productImageId){
+    public void setProductImageId(ProductImageId productImageId){
 
     }
 

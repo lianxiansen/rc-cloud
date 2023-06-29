@@ -1,8 +1,5 @@
 package com.rc.cloud.app.operate.domain.product.valobj;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 public class SeckillSku {

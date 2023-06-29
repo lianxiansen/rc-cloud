@@ -1,6 +1,5 @@
-package com.rc.cloud.app.operate.domain.category.valobj;
+package com.rc.cloud.app.operate.domain.productcategory.valobj;
 
-import com.rc.cloud.app.operate.domain.common.AssertionConcern;
 import com.rc.cloud.app.operate.domain.common.ValueObject;
 
 /**

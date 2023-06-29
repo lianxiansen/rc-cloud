@@ -1,34 +1,20 @@
 package com.rc.cloud.app.operate.infrastructure.repository;
 
 import cn.hutool.core.util.ReflectUtil;
-import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.ApplicationTest;
-import com.rc.cloud.app.operate.domain.category.ProductCategoryRepository;
-import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductCategoryMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.repository.BrandRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCategoryRepositoryImpl;
 
 import com.rc.cloud.app.operate.stub.RemoteIdGeneratorServiceStub;
-import org.apache.poi.hpsf.GUID;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
-import org.springframework.stereotype.Repository;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.UUID;
 
 /**
  * @ClassName: ProductCategoryRepositoryImplTest
