@@ -33,8 +33,11 @@ public class UserBaseVO {
     @Schema(description = "部门ID", example = "我是一个用户")
     private Long deptId;
 
-    @Schema(description = "岗位编号数组", example = "1")
+    @Schema(description = "岗位编号数组", example = "[1,2,3]")
     private Set<Long> postIds;
+
+    @Schema(description = "角色编号数组", example = "[1,2,3]")
+    private Set<Long> roleIds;
 
     @Schema(description = "用户邮箱", example = "yudao@iocoder.cn")
     @Email(message = "邮箱格式不正确")
@@ -50,5 +53,8 @@ public class UserBaseVO {
 
     @Schema(description = "用户头像", example = "https://www.iocoder.cn/xxx.png")
     private String avatar;
+
+    @Schema(description = "状态", example = "0")
+    private Integer status;
 
 }

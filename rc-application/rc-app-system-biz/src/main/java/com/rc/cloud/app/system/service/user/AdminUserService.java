@@ -1,14 +1,13 @@
 package com.rc.cloud.app.system.service.user;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
+import com.rc.cloud.app.system.vo.permission.role.RoleUserPageVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
-import com.rc.cloud.app.system.vo.user.user.UserCreateReqVO;
-import com.rc.cloud.app.system.vo.user.user.UserExportReqVO;
-import com.rc.cloud.app.system.vo.user.user.UserPageReqVO;
-import com.rc.cloud.app.system.vo.user.user.UserUpdateReqVO;
+import com.rc.cloud.app.system.vo.user.user.*;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 
@@ -234,4 +233,13 @@ public interface AdminUserService {
      */
     boolean isPasswordMatch(String rawPassword, String encodedPassword);
 
+    /**
+     * 获得用户的角色编号列表
+     *
+     * @param id 用户编号
+     * @return 角色编号列表
+     */
+    Set<Long> getUserRoleIds(Long id);
+
+    IPage<SysUserDO> roleUserPage(RoleUserPageVO pageVO);
 }

@@ -112,5 +112,4 @@ public class SysUserDO extends TenantBaseDO {
         }
         this.authoritySet = authorities.stream().map(Object::toString).collect(Collectors.toSet());
     }
-
 }

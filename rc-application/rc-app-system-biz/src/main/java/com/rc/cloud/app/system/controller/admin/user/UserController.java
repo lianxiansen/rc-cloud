@@ -1,7 +1,6 @@
 package com.rc.cloud.app.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
@@ -11,28 +10,27 @@ import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.user.user.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
-import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.annotation.Inner;
-import com.rc.cloud.common.security.utils.MsgUtils;
 import com.rc.cloud.common.security.utils.SecurityUtils;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertList;
-import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertSet;
 
 
 @Tag(name = "管理后台 - 用户")
@@ -48,7 +46,7 @@ public class UserController {
 
     @PostMapping("/create")
     @Operation(summary = "新增用户")
-//    @PreAuthorize("@ss.hasPermission('system:user:create')")
+    @PreAuthorize("@pms.hasPermission('sys:user:create')")
     public CodeResult<Long> createUser(@Valid @RequestBody UserCreateReqVO reqVO) {
         Long id = userService.createUser(reqVO);
         return CodeResult.ok(id);
@@ -56,7 +54,7 @@ public class UserController {
 
     @PutMapping("update")
     @Operation(summary = "修改用户")
-//    @PreAuthorize("@ss.hasPermission('system:user:update')")
+    @PreAuthorize("@pms.hasPermission('sys:user:update')")
     public CodeResult<Boolean> updateUser(@Valid @RequestBody UserUpdateReqVO reqVO) {
         userService.updateUser(reqVO);
         return CodeResult.ok(true);
@@ -65,7 +63,7 @@ public class UserController {
     @DeleteMapping()
     @Operation(summary = "删除用户")
     @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
-//    @PreAuthorize("@ss.hasPermission('system:user:delete')")
+    @PreAuthorize("@pms.hasPermission('sys:user:delete')")
     public CodeResult<Boolean> deleteUser(@RequestBody List<Long> idList) {
         Long userId = SecurityUtils.getUser().getId();
         if (idList.contains(userId)) {
@@ -77,7 +75,7 @@ public class UserController {
 
     @PutMapping("/update-password")
     @Operation(summary = "重置用户密码")
-//    @PreAuthorize("@ss.hasPermission('system:user:update-password')")
+    @PreAuthorize("@pms.hasPermission('sys:user:update-password')")
     public CodeResult<Boolean> updateUserPassword(@Valid @RequestBody UserUpdatePasswordReqVO reqVO) {
         userService.updateUserPassword(reqVO.getId(), reqVO.getPassword());
         return CodeResult.ok(true);
@@ -85,7 +83,7 @@ public class UserController {
 
     @PutMapping("/update-status")
     @Operation(summary = "修改用户状态")
-//    @PreAuthorize("@ss.hasPermission('system:user:update')")
+    @PreAuthorize("@pms.hasPermission('sys:user:update')")
     public CodeResult<Boolean> updateUserStatus(@Valid @RequestBody UserUpdateStatusReqVO reqVO) {
         userService.updateUserStatus(reqVO.getId(), reqVO.getStatus());
         return CodeResult.ok(true);
@@ -93,7 +91,7 @@ public class UserController {
 
     @GetMapping("/page")
     @Operation(summary = "获得用户分页列表")
-//    @PreAuthorize("@ss.hasPermission('system:user:list')")
+    @PreAuthorize("@pms.hasPermission('sys:user:query')")
     public CodeResult<PageResult<UserPageItemRespVO>> getUserPage(@Valid UserPageReqVO reqVO) {
         // 获得用户分页列表
         PageResult<SysUserDO> pageResult = userService.getUserPage(reqVO);
@@ -104,6 +102,7 @@ public class UserController {
         // 获得拼接需要的数据
         Collection<Long> deptIds = convertList(pageResult.getList(), SysUserDO::getDeptId);
         Map<Long, SysDeptDO> deptMap = deptService.getDeptMap(deptIds);
+
         // 拼接结果返回
         List<UserPageItemRespVO> userList = new ArrayList<>(pageResult.getList().size());
         pageResult.getList().forEach(user -> {
@@ -126,13 +125,14 @@ public class UserController {
     @GetMapping("/{id}")
     @Operation(summary = "获得用户详情")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
-//    @PreAuthorize("@ss.hasPermission('system:user:query')")
+    @PreAuthorize("@pms.hasPermission('sys:user:query')")
     public CodeResult<UserRespVO> getUser(@PathVariable("id") Long id) {
         SysUserDO user = userService.getUser(id);
         // 获得部门数据
         SysDeptDO dept = deptService.getDept(user.getDeptId());
         UserPageItemRespVO userPageItemRespVO = UserConvert.INSTANCE.convert(user);
         userPageItemRespVO.setDept(UserConvert.INSTANCE.convert(dept));
+        userPageItemRespVO.setRoleIds(userService.getUserRoleIds(user.getId()));
         return CodeResult.ok(userPageItemRespVO);
     }
 

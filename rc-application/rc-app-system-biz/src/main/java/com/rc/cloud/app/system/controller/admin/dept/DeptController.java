@@ -10,6 +10,7 @@ import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,7 @@ public class DeptController {
 
     @PostMapping("create")
     @Operation(summary = "创建部门")
-//    @PreAuthorize("@ss.hasPermission('system:dept:create')")
+    @PreAuthorize("@pms.hasPermission('sys:dept:create')")
     public CodeResult<Long> createDept(@Valid @RequestBody DeptCreateReqVO reqVO) {
         Long deptId = deptService.createDept(reqVO);
         return CodeResult.ok(deptId);
@@ -38,7 +39,7 @@ public class DeptController {
 
     @PutMapping("update")
     @Operation(summary = "更新部门")
-//    @PreAuthorize("@ss.hasPermission('system:dept:update')")
+    @PreAuthorize("@pms.hasPermission('sys:dept:update')")
     public CodeResult<Boolean> updateDept(@Valid @RequestBody DeptUpdateReqVO reqVO) {
         deptService.updateDept(reqVO);
         return CodeResult.ok(true);
@@ -47,7 +48,7 @@ public class DeptController {
     @DeleteMapping("/{id}")
     @Operation(summary = "删除部门")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
-//    @PreAuthorize("@ss.hasPermission('system:dept:delete')")
+    @PreAuthorize("@pms.hasPermission('sys:dept:delete')")
     public CodeResult<Boolean> deleteDept(@PathVariable("id") Long id) {
         deptService.deleteDept(id);
         return CodeResult.ok(true);
@@ -55,7 +56,7 @@ public class DeptController {
 
     @GetMapping("/list")
     @Operation(summary = "获取部门列表")
-//    @PreAuthorize("@ss.hasPermission('system:dept:query')")
+    @PreAuthorize("@pms.hasPermission('sys:dept:query')")
     public CodeResult<List<DeptRespVO>> getDeptList(DeptListReqVO reqVO) {
         List<SysDeptDO> list = deptService.getDeptList(reqVO);
         list.sort(Comparator.comparing(SysDeptDO::getSort));
@@ -78,7 +79,7 @@ public class DeptController {
     @GetMapping("/{id}")
     @Operation(summary = "获得部门信息")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
-//    @PreAuthorize("@ss.hasPermission('system:dept:query')")
+    @PreAuthorize("@pms.hasPermission('sys:dept:query')")
     public CodeResult<DeptRespVO> getDept(@PathVariable("id") Long id) {
         DeptRespVO deptRespVO = DeptConvert.INSTANCE.convert(deptService.getDept(id));
         Long parentId = deptRespVO.getParentId();

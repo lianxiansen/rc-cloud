@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.domain.product;
 
 import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.product.identifier.ImageId;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductImageId;
 
 /**
  * @ClassName: ProductRepository
@@ -13,5 +13,6 @@ public interface ProductRepository {
     void saveProductEntry(ProductAggregation productEntry);
     ProductAggregation findById(ProductId productId);
     ProductId nextProductId();
-    ImageId nextProductImageId();
+
+    ProductImageId nextProductImageId();
 }

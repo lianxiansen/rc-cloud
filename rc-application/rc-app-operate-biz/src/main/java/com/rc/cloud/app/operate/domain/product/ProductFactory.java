@@ -1,10 +1,10 @@
 package com.rc.cloud.app.operate.domain.product;
 
-import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.category.service.ContainsProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.product.identifier.BrandId;
-import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.product.valobj.*;
+import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.productcategory.service.ContainsProductCategoryDomainService;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
 import org.springframework.beans.factory.annotation.Autowired;

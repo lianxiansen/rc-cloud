@@ -14,7 +14,7 @@ import com.rc.cloud.common.security.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-//import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +43,7 @@ public class MenuController {
 
     @PostMapping("/create")
     @Operation(summary = "创建菜单")
-//    @PreAuthorize("@ss.hasPermission('system:menu:create')")
+    @PreAuthorize("@pms.hasPermission('sys:menu:create')")
     public CodeResult<Long> createMenu(@Valid @RequestBody MenuCreateReqVO reqVO) {
         Long menuId = menuService.createMenu(reqVO);
         return CodeResult.ok(menuId);
@@ -51,7 +51,7 @@ public class MenuController {
 
     @PutMapping("/update")
     @Operation(summary = "修改菜单")
-//    @PreAuthorize("@ss.hasPermission('system:menu:update')")
+    @PreAuthorize("@pms.hasPermission('sys:menu:update')")
     public CodeResult<Boolean> updateMenu(@Valid @RequestBody MenuUpdateReqVO reqVO) {
         menuService.updateMenu(reqVO);
         return CodeResult.ok(true);
@@ -60,7 +60,7 @@ public class MenuController {
     @DeleteMapping("/{id}")
     @Operation(summary = "删除菜单")
     @Parameter(name = "id", description = "角色编号", required= true, example = "1024")
-//    @PreAuthorize("@ss.hasPermission('system:menu:delete')")
+    @PreAuthorize("@pms.hasPermission('sys:menu:delete')")
     public CodeResult<Boolean> deleteMenu(@PathVariable("id") Long id) {
         menuService.deleteMenu(id);
         return CodeResult.ok(true);
@@ -68,7 +68,7 @@ public class MenuController {
 
     @GetMapping("/list")
     @Operation(summary = "获取菜单列表", description = "用于【菜单管理】界面")
-//    @PreAuthorize("@ss.hasPermission('system:menu:query')")
+    @PreAuthorize("@pms.hasPermission('sys:menu:query')")
     public CodeResult<List<MenuRespVO>> getMenuList(MenuListReqVO reqVO) {
         List<SysMenuDO> list = menuService.getMenuList(reqVO);
         list.sort(Comparator.comparing(SysMenuDO::getSort));
@@ -90,7 +90,7 @@ public class MenuController {
 
     @GetMapping("/get/{id}")
     @Operation(summary = "获取菜单信息")
-//    @PreAuthorize("@ss.hasPermission('system:menu:query')")
+    @PreAuthorize("@pms.hasPermission('sys:menu:query')")
     public CodeResult<MenuRespVO> getMenu(@PathVariable Long id) {
         SysMenuDO menu = menuService.getMenu(id);
         return CodeResult.ok(MenuConvert.INSTANCE.convert(menu));

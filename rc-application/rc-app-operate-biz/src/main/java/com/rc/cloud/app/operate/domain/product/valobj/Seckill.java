@@ -10,4 +10,8 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  */
 public class Seckill extends ValueObject {
     private boolean flag;
+
+
+
+
 }

@@ -1,12 +1,13 @@
 package com.rc.cloud.app.operate.domain.product;
 
-import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.product.valobj.*;
+import com.rc.cloud.app.operate.domain.brand.valobj.BrandId;
+import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.common.DomainEventPublisher;
 import com.rc.cloud.app.operate.domain.common.Entity;
+
 import com.rc.cloud.app.operate.domain.product.event.ProductCreatedEvent;
-import com.rc.cloud.app.operate.domain.product.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.product.valobj.*;
 import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
 
 import java.util.List;
@@ -162,6 +163,9 @@ public class ProductAggregation extends Entity {
      * 排序
      */
     private Sort sort;
+
+    private Detail detail;
+
 
 
     protected ProductAggregation(ProductId id, TenantId tenantId, Name name, ProductCategoryId productCategoryId){

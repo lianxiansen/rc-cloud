@@ -1,8 +1,8 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
-import com.rc.cloud.app.operate.domain.category.ProductCategoryAggregation;
-import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategory;
+import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
+import org.mapstruct.factory.Mappers;
 
 /**
  * @ClassName: ProductCategoryConvert
@@ -11,10 +11,14 @@ import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategory;
  * @Description: TODO
  */
 public class ProductCategoryConvert {
-    public ProductCategoryConvert(){
+    public static ProductCategoryConvert INSTANCE = Mappers.getMapper(ProductCategoryConvert.class);
+
+    public ProductCategoryAggregation convert2ProductCategoryDO(ProductCategoryDO a) {
+        return null;
     }
 
-    public ProductCategoryAggregation convertToProductCategoryEntry(ProductCategory productCategory){
-        return new ProductCategoryAggregation(new ProductCategoryId( productCategory.getId().toString()));
+
+    public ProductCategoryDO convert2ProductCategoryAggregation(ProductCategoryAggregation a) {
+        return null;
     }
 }

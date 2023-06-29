@@ -2,11 +2,10 @@ package com.rc.cloud.app.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
 import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
-import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
-import com.rc.cloud.app.system.common.datapermission.core.annotation.DataPermission;
-import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
+import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
+import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
@@ -23,22 +22,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
-import static com.rc.cloud.common.core.web.util.WebFrameworkUtils.getLoginUserId;
-
-//import static com.rc.cloud.common.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
 
 @Tag(name = "管理后台 - 用户个人中心")
@@ -63,7 +56,6 @@ public class UserProfileController {
     @GetMapping("/get")
     @Operation(summary = "获得登录用户信息")
 //    @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
-//    @PermitAll
     public CodeResult<UserProfileRespVO> profile(Authentication authentication) {
         // 获得用户基本信息
         String username = SecurityUtils.getUsername();

@@ -4,12 +4,15 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.annotations.VisibleForTesting;
 import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
 import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
 import com.rc.cloud.app.system.api.dept.entity.SysUserPostDO;
 import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
+import com.rc.cloud.app.system.api.permission.entity.SysUserRoleDO;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.common.datapermission.core.util.DataPermissionUtils;
@@ -24,16 +27,15 @@ import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.tenant.TenantService;
+import com.rc.cloud.app.system.vo.permission.role.RoleUserPageVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
-import com.rc.cloud.app.system.vo.user.user.UserCreateReqVO;
-import com.rc.cloud.app.system.vo.user.user.UserExportReqVO;
-import com.rc.cloud.app.system.vo.user.user.UserPageReqVO;
-import com.rc.cloud.app.system.vo.user.user.UserUpdateReqVO;
+import com.rc.cloud.app.system.vo.user.user.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
+import com.rc.cloud.common.mybatis.page.RcPage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -126,7 +128,23 @@ public class AdminUserServiceImpl implements AdminUserService {
                     })
             );
         }
+        // 插入角色
+        insertUserRole(reqVO, user.getId());
         return user.getId();
+    }
+
+    private void insertUserRole(UserCreateReqVO reqVO, Long userId) {
+        if (CollectionUtil.isEmpty(reqVO.getRoleIds())) {
+            return;
+        }
+        userRoleMapper.insertBatch(convertList(reqVO.getRoleIds(),
+                roleId -> {
+                    SysUserRoleDO userRoleDO = new SysUserRoleDO();
+                    userRoleDO.setUserId(userId);
+                    userRoleDO.setRoleId(roleId);
+                    return userRoleDO;
+                })
+        );
     }
 
     @Override
@@ -140,6 +158,31 @@ public class AdminUserServiceImpl implements AdminUserService {
         userMapper.updateById(updateObj);
         // 更新岗位
         updateUserPost(reqVO, updateObj);
+        // 更新角色
+        updateUserRole(reqVO);
+    }
+
+    private void updateUserRole(UserUpdateReqVO reqVO) {
+        Long userId = reqVO.getId();
+        Set<Long> dbRoleIds = userRoleMapper.selectRoleIdsByUserId(userId);
+        // 计算新增和删除的角色编号
+        Set<Long> roleIds = reqVO.getRoleIds();
+        Collection<Long> createRoleIds = CollUtil.subtract(roleIds, dbRoleIds);
+        Collection<Long> deleteRoleIds = CollUtil.subtract(dbRoleIds, roleIds);
+        // 执行新增和删除。对于已经授权的菜单，不用做任何处理
+        if (!CollectionUtil.isEmpty(createRoleIds)) {
+            userRoleMapper.insertBatch(convertList(createRoleIds,
+                    roleId -> {
+                        SysUserRoleDO userRoleDO = new SysUserRoleDO();
+                        userRoleDO.setUserId(userId);
+                        userRoleDO.setRoleId(roleId);
+                        return userRoleDO;
+                    })
+            );
+        }
+        if (!CollectionUtil.isEmpty(deleteRoleIds)) {
+            userRoleMapper.deleteBatchByUserIdAndRoleIds(userId, deleteRoleIds);
+        }
     }
 
     private void updateUserPost(UserUpdateReqVO reqVO, SysUserDO updateObj) {
@@ -281,7 +324,18 @@ public class AdminUserServiceImpl implements AdminUserService {
                 .map(SysMenuDO::getPermission)
                 .filter(StrUtil::isNotBlank)
                 .collect(Collectors.toSet());
-        userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
+        // 如果是组合权限，进行拆解
+        Set<String> newPermissions = new HashSet<>();
+        for (String permission : permissions) {
+            if (StrUtil.contains(permission, ",")) {
+                List<String> split = StrUtil.split(permission, ",");
+                split = split.stream().filter(StrUtil::isNotBlank).collect(Collectors.toList());
+                newPermissions.addAll(split);
+            } else {
+                newPermissions.add(permission);
+            }
+        }
+        userInfo.setPermissions(ArrayUtil.toArray(newPermissions, String.class));
         return userInfo;
     }
 
@@ -528,6 +582,37 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public boolean isPasswordMatch(String rawPassword, String encodedPassword) {
         return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
+    @Override
+    public Set<Long> getUserRoleIds(Long id) {
+        return userRoleMapper.selectRoleIdsByUserId(id) == null ? new HashSet<>() : userRoleMapper.selectRoleIdsByUserId(id);
+    }
+
+    @Override
+    public IPage<SysUserDO> roleUserPage(RoleUserPageVO pageVO) {
+        IPage<SysUserDO> pager = new RcPage<>(pageVO.getPageNo() - 1, pageVO.getPageSize());
+        // 通过角色id查询用户id列表
+        Set<Long> userIds = userRoleMapper.selectUserIdsByRoleId(pageVO.getRoleId());
+        // 通过用户ids，和其他条件查找用户列表
+        QueryWrapper<SysUserDO> wrapper = new QueryWrapper<>();
+        if (userIds.isEmpty()) {
+            return pager;
+        }
+        wrapper.lambda().in(SysUserDO::getId, userIds);
+        String username = pageVO.getUsername();
+        String mobile = pageVO.getMobile();
+        Integer sex = pageVO.getSex();
+        if (username != null && !"".equals(username.trim())) {
+            wrapper.lambda().like(SysUserDO::getUsername, username);
+        }
+        if (mobile != null && !"".equals(mobile.trim())) {
+            wrapper.lambda().like(SysUserDO::getMobile, mobile);
+        }
+        if (sex != null) {
+            wrapper.lambda().eq(SysUserDO::getSex, sex);
+        }
+        return userMapper.selectPage(pager, wrapper);
     }
 
     /**

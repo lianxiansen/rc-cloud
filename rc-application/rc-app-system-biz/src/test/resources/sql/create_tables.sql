@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS "sys_menu" (
     "visible" bit NOT NULL DEFAULT TRUE,
     "keep_alive" bit NOT NULL DEFAULT TRUE,
     "always_show" bit NOT NULL DEFAULT TRUE,
+    "open_style" int(4) NOT NULL DEFAULT 0,
     "creator" varchar(64) DEFAULT '',
     "create_time" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updater" varchar(64) DEFAULT '',
