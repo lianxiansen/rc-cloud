@@ -19,5 +19,5 @@ public interface ProductRepository {
 
     ProductImageId nextProductImageId();
 
-    List<ProductListDTO> get
+    //List<ProductListDTO> get
 }
