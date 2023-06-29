@@ -7,7 +7,6 @@ import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryRepository
 import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.productcategory.service.ContainsProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.productcategory.service.FirstProductCategoryListDomainService;
-import com.rc.cloud.app.operate.domain.productcategory.service.SaveProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.Icon;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.Name;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.Page;
@@ -34,8 +33,6 @@ public class ProductCategoryApplicationService {
 
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
-    @Autowired
-    SaveProductCategoryDomainService saveProductCategoryDomainService;
 
     public List<ProductCategoryData> getFirstList() {
         List<ProductCategoryData> list = new ArrayList<>();
@@ -54,7 +51,7 @@ public class ProductCategoryApplicationService {
         ProductCategoryAggregation productCategoryAggregation = new ProductCategoryAggregation(productCategoryId, tenantId, name);
         productCategoryAggregation.setIcon(icon);
         productCategoryAggregation.setPage(page);
-        saveProductCategoryDomainService.execute(productCategoryAggregation);
+        productCategoryRepository.save(productCategoryAggregation);
 
     }
 }

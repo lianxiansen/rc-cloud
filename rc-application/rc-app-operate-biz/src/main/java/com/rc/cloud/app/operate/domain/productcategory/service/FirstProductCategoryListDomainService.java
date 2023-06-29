@@ -2,12 +2,11 @@ package com.rc.cloud.app.operate.domain.productcategory.service;
 
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryRepository;
-import com.rc.cloud.app.operate.domain.productcategory.valobj.Layer;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.Locked;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.Parent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import com.rc.cloud.app.operate.domain.category.valobj.Layer;
 import java.util.List;
 
 /**
