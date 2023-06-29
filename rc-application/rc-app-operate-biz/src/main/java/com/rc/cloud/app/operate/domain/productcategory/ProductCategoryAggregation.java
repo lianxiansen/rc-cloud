@@ -1,9 +1,10 @@
 package com.rc.cloud.app.operate.domain.productcategory;
 
+import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
-import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.category.valobj.Layer;
 
 /**
  * @ClassName: ProductCategoryEntry
@@ -17,8 +18,8 @@ public class ProductCategoryAggregation extends Entity {
     private Name name;
     private Icon icon;
     private Page page;
-    private ProductCategoryId parentId;
     private Layer layer;
+    private ProductCategoryId parentId;
     private Enable enable;
     private Sort sort;
 
@@ -61,12 +62,9 @@ public class ProductCategoryAggregation extends Entity {
         return this.parentId;
     }
 
-    public void setLayer(Layer layer) {
-        this.assertArgumentNotNull(layer, "layer must not be null");
-        this.layer = layer;
-    }
-
-    public Layer getLayer() {
+    public Layer getLayer(){
         return this.layer;
     }
+
+
 }
