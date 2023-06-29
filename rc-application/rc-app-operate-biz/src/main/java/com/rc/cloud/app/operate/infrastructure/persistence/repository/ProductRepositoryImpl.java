@@ -54,8 +54,5 @@ public class ProductRepositoryImpl extends ServiceImpl<ProductMapper, ProductDO>
 }
 
 
-@Repository
-class ProductImageRepositoryImpl  extends ServiceImpl<ProductImageMapper, ProductImageDO> implements IService<ProductImageDO> {
 
-}
 

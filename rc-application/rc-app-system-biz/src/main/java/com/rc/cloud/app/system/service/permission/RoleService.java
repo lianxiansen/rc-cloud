@@ -140,4 +140,10 @@ public interface RoleService {
      */
     void validateRoleList(Collection<Long> ids);
 
+    /**
+     * 批量删除角色
+     *
+     * @param idList 角色编号数组
+     */
+    void deleteRoles(List<Long> idList);
 }

@@ -1,15 +1,20 @@
 package com.rc.cloud.app.system.controller.admin.permission;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.convert.permission.RoleConvert;
 import com.rc.cloud.app.system.convert.user.UserConvert;
+import com.rc.cloud.app.system.mapper.permission.UserRoleMapper;
 import com.rc.cloud.app.system.service.permission.MenuService;
+import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.permission.RoleService;
+import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.permission.menu.MenuRespVO;
 import com.rc.cloud.app.system.vo.permission.role.*;
-import com.rc.cloud.app.system.vo.user.user.UserPageItemRespVO;
+import com.rc.cloud.app.system.vo.user.user.UserRespVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.tree.TreeUtil;
@@ -42,6 +47,15 @@ public class RoleController {
     @Resource
     private MenuService menuService;
 
+    @Resource
+    private PermissionService permissionService;
+
+    @Resource
+    private AdminUserService userService;
+
+    @Resource
+    private UserRoleMapper userRoleMapper;
+
     @PostMapping("/create")
     @Operation(summary = "创建角色")
     @PreAuthorize("@pms.hasPermission('sys:role:create')")
@@ -65,12 +79,12 @@ public class RoleController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping()
     @Operation(summary = "删除角色")
-    @Parameter(name = "id", description = "角色编号", required = true, example = "1024")
+    @Parameter(name = "id", description = "角色编号", required = true, example = "[1024, 2048]")
     @PreAuthorize("@pms.hasPermission('sys:role:delete')")
-    public CodeResult<Boolean> deleteRole(@PathVariable("id") Long id) {
-        roleService.deleteRole(id);
+    public CodeResult<Boolean> deleteRole(@RequestBody List<Long> idList) {
+        roleService.deleteRoles(idList);
         return CodeResult.ok(true);
     }
 
@@ -79,7 +93,9 @@ public class RoleController {
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
     public CodeResult<RoleRespVO> getRole(@PathVariable("id") Long id) {
         SysRoleDO role = roleService.getRole(id);
-        return CodeResult.ok(RoleConvert.INSTANCE.convert(role));
+        RoleRespVO roleRespVO = RoleConvert.INSTANCE.convert(role);
+        roleRespVO.setMenuIds(permissionService.getRoleMenuIds(id));
+        return CodeResult.ok(roleRespVO);
     }
 
     @GetMapping("/page")
@@ -105,6 +121,19 @@ public class RoleController {
         return CodeResult.ok(RoleConvert.INSTANCE.convertList02(list));
     }
 
+    @GetMapping("/user/page")
+    @Operation(summary = "角色用户-分页")
+    @PreAuthorize("@pms.hasPermission('sys:role:update')")
+    public CodeResult<PageResult<UserRespVO>> userPage(@Valid RoleUserPageVO pageVO) {
+        IPage<SysUserDO> pageResult = userService.roleUserPage(pageVO);
+        List<UserRespVO> userList = new ArrayList<>(pageResult.getRecords().size());
+        pageResult.getRecords().forEach(userDO -> {
+            UserRespVO respVO = UserConvert.INSTANCE.convert(userDO);
+            userList.add(respVO);
+        });
+        return CodeResult.ok(new PageResult<>(userList, pageResult.getTotal()));
+    }
+
     @GetMapping("menu")
     @Operation(summary = "获取角色菜单")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
@@ -116,6 +145,22 @@ public class RoleController {
             list = MenuConvert.INSTANCE.convertList(userMenuList);
         }
         return CodeResult.ok(TreeUtil.build(list));
+    }
+
+    @PostMapping("user/{roleId}")
+    @Operation(summary = "分配角色给用户列表")
+    @PreAuthorize("hasAuthority('sys:role:update')")
+    public CodeResult<String> userSave(@PathVariable("roleId") Long roleId, @RequestBody List<Long> userIds) {
+        userRoleMapper.saveUserList(roleId, userIds);
+        return CodeResult.ok();
+    }
+
+    @DeleteMapping("user/{roleId}")
+    @Operation(summary = "删除角色用户")
+    @PreAuthorize("hasAuthority('sys:role:update')")
+    public CodeResult<String> userDelete(@PathVariable("roleId") Long roleId, @RequestBody List<Long> userIds) {
+        userRoleMapper.deleteByUserIds(roleId, userIds);
+        return CodeResult.ok();
     }
 
 //    @GetMapping("/export")
