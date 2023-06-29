@@ -4,7 +4,6 @@ import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.domain.category.valobj.Layer;
 
 /**
  * @ClassName: ProductCategoryEntry
@@ -64,6 +63,11 @@ public class ProductCategoryAggregation extends Entity {
 
     public Layer getLayer(){
         return this.layer;
+    }
+
+    public void setLayer(Layer layer) {
+        this.assertArgumentNotNull(layer, "layer must not be null");
+        this.layer = layer;
     }
 
 
