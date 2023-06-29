@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
-import com.rc.cloud.app.operate.domain.category.valobj.Layer;
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.productcategory.valobj.Layer;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.Locked;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.Parent;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductCategoryConvert;
@@ -85,13 +85,17 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
 
     @Override
     public void save(ProductCategoryAggregation productCategoryAggregation) {
+        Layer layer= null;
         ProductCategoryAggregation parentCategory = null;
         if (null != productCategoryAggregation.getParentId()) {
             parentCategory = this.findById(new ProductCategoryId(productCategoryAggregation.getParentId().id()));
             notNull(parentCategory, "父级商品分类id无效");
+            layer=parentCategory.getLayer().addLayer(new Layer(1));
+        }else{
+            layer=new Layer();
         }
+        productCategoryAggregation.setLayer(layer);
         ProductCategoryDO productCategoryDO = ProductCategoryConvert.INSTANCE.convert2ProductCategoryAggregation(productCategoryAggregation);
-        productCategoryDO.setLayer(null == parentCategory ? Layer.MIN : parentCategory.getLayer().getValue() + 1);
         this.save(productCategoryDO);
     }
 

@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.domain.category.valobj;
+package com.rc.cloud.app.operate.domain.productcategory.valobj;
 
 import com.rc.cloud.app.operate.domain.common.AssertionConcern;
 
@@ -24,5 +24,9 @@ public class Layer extends AssertionConcern {
     protected void setValue(int value){
         this.assertArgumentRange(value,1,3,"the value of Layer is not in range(1,3)");
         this.value=value;
+    }
+
+    public Layer addLayer(Layer layer){
+        return new Layer(this.value+layer.getValue());
     }
 }
