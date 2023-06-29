@@ -1,9 +1,9 @@
-package com.rc.cloud.app.operate.domain.category;
+package com.rc.cloud.app.operate.domain.productcategory;
 
-import com.rc.cloud.app.operate.domain.category.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.category.valobj.*;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
-import org.springframework.stereotype.Repository;
+import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.productcategory.valobj.Layer;
+import com.rc.cloud.app.operate.domain.productcategory.valobj.Locked;
+import com.rc.cloud.app.operate.domain.productcategory.valobj.Parent;
 
 import java.util.List;
 

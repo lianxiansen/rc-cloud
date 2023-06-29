@@ -1,9 +1,6 @@
 package com.rc.cloud.app.operate.domain.product.valobj;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.rc.cloud.app.operate.domain.common.ValueObject;
-
-import java.math.BigDecimal;
 
 /**
  * @ClassName: Refund

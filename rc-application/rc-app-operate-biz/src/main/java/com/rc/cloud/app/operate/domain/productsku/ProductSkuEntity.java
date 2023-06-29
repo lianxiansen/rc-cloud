@@ -1,10 +1,9 @@
-package com.rc.cloud.app.operate.domain.product;
+package com.rc.cloud.app.operate.domain.productsku;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.rc.cloud.app.operate.domain.common.Entity;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.product.valobj.*;
-
-import java.math.BigDecimal;
+import com.rc.cloud.app.operate.domain.common.Entity;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductSkuId;
 
 public class ProductSkuEntity extends Entity {
 

@@ -6,7 +6,7 @@ import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.domain.product.ProductAggregation;
 import com.rc.cloud.app.operate.domain.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.product.identifier.ImageId;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductPOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
@@ -46,14 +46,16 @@ public class ProductRepositoryImpl extends ServiceImpl<ProductMapper, ProductDO>
     public ProductId nextProductId(){
         return new ProductId(remoteIdGeneratorService.uidGenerator());
     }
-
     @Override
-    public ImageId nextProductImageId(){
-        return new ImageId(remoteIdGeneratorService.uidGenerator());
+    public ProductImageId nextProductImageId(){
+        return new ProductImageId(remoteIdGeneratorService.uidGenerator());
     }
+
 }
+
 
 @Repository
 class ProductImageRepositoryImpl  extends ServiceImpl<ProductImageMapper, ProductImageDO> implements IService<ProductImageDO> {
 
 }
+

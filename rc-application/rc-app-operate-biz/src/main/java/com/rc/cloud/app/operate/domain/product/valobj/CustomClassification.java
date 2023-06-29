@@ -2,8 +2,6 @@ package com.rc.cloud.app.operate.domain.product.valobj;
 
 import com.rc.cloud.app.operate.domain.common.ValueObject;
 
-import java.math.BigDecimal;
-
 /**
  * @ClassName: CustomClassification
  * @Author: liandy
