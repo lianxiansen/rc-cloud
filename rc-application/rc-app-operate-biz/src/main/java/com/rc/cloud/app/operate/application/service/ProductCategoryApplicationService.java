@@ -43,15 +43,7 @@ public class ProductCategoryApplicationService {
     }
 
     public void saveProductCategory(ProductCategoryDTO productCategoryDTO) {
-        ProductCategoryId productCategoryId = productCategoryRepository.nextId();
-        TenantId tenantId = new TenantId(productCategoryDTO.getTenantId());
-        Name name = new Name(productCategoryDTO.getName(), productCategoryDTO.getEnglishName());
-        Icon icon = new Icon(productCategoryDTO.getIcon());
-        Page page = new Page(productCategoryDTO.getProductCategoryPageImage(), productCategoryDTO.getProductListPageImage());
-        ProductCategoryAggregation productCategoryAggregation = new ProductCategoryAggregation(productCategoryId, tenantId, name);
-        productCategoryAggregation.setIcon(icon);
-        productCategoryAggregation.setPage(page);
-        productCategoryRepository.save(productCategoryAggregation);
+
 
     }
 }

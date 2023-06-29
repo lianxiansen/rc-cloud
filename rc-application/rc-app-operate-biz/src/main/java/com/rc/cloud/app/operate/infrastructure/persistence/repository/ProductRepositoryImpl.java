@@ -35,7 +35,6 @@ public class ProductRepositoryImpl extends ServiceImpl<ProductMapper, ProductDO>
     public void saveProductEntry(ProductAggregation productEntry) {
         ProductDO product=  new ProductPOConvert().convertToProduct(productEntry);
         productMapper.insert(product);
-        productImageRepository.saveBatch(null);
     }
 
     @Override

@@ -28,7 +28,7 @@ import static com.rc.cloud.common.core.util.AssertUtils.notNull;
  * @Description:
  */
 @Repository
-public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMapper, ProductCategoryDO> implements IService<ProductCategoryDO>, ProductCategoryRepository {
+public class ProductCategoryRepositoryImpl implements  ProductCategoryRepository {
     @Autowired
     private ProductCategoryMapper productCategoryMapper;
     @Autowired
@@ -37,62 +37,5 @@ public class ProductCategoryRepositoryImpl extends ServiceImpl<ProductCategoryMa
     @Autowired
     private RemoteIdGeneratorService remoteIdGeneratorService;
 
-
-    /**
-     * 津贴用的
-     *
-     * @return
-     */
-    @Override
-    public List<ProductCategoryAggregation> getFirstList(Locked locked, Layer layer, Parent parent) {
-        QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
-        wrapper.eq("IsLock", locked.getFlag());
-        wrapper.eq("Layer", layer.getValue());
-        wrapper.eq("ParentID", parent.getId());
-        wrapper.eq("deleted", '0');
-        wrapper.orderByAsc("SortID");
-        List<ProductCategoryAggregation> list = new ArrayList<>();
-        productCategoryMapper.selectList(wrapper).forEach(item -> {
-            list.add(new ProductCategoryConvert().convert2ProductCategoryDO(item));
-        });
-        return list;
-    }
-
-    @Override
-    public ProductCategoryId nextId() {
-        return new ProductCategoryId(remoteIdGeneratorService.uidGenerator());
-    }
-
-    @Override
-    public ProductCategoryAggregation findById(ProductCategoryId productCategoryId) {
-        QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
-        wrapper.eq("id", productCategoryId.id());
-        wrapper.eq("deleted", '0');
-        return ProductCategoryConvert.INSTANCE.convert2ProductCategoryDO(this.getOne(wrapper));
-    }
-
-    @Override
-    public List<ProductCategoryAggregation> findAll() {
-        QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
-        wrapper.eq("deleted", '0');
-        List<ProductCategoryDO> list = this.list(wrapper);
-        List<ProductCategoryAggregation> result = new ArrayList<>();
-        list.forEach(item -> {
-            result.add(ProductCategoryConvert.INSTANCE.convert2ProductCategoryDO(item));
-        });
-        return result;
-    }
-
-    @Override
-    public void save(ProductCategoryAggregation productCategoryAggregation) {
-        ProductCategoryAggregation parentCategory = null;
-        if (null != productCategoryAggregation.getParentId()) {
-            parentCategory = this.findById(new ProductCategoryId(productCategoryAggregation.getParentId().id()));
-            notNull(parentCategory, "父级商品分类id无效");
-        }
-        ProductCategoryDO productCategoryDO = ProductCategoryConvert.INSTANCE.convert2ProductCategoryAggregation(productCategoryAggregation);
-        productCategoryDO.setLayer(null == parentCategory ? Layer.MIN : parentCategory.getLayer().getValue() + 1);
-        this.save(productCategoryDO);
-    }
 
 }

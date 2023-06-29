@@ -8,16 +8,20 @@ import com.rc.cloud.app.operate.domain.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.BrandDOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.BrandMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.BrandDO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 
-@Repository
-public class BrandRepositoryImpl extends ServiceImpl<BrandMapper, BrandDO> implements BrandRepository, IService<BrandDO> {
+@Service
+public class BrandRepositoryImpl implements BrandRepository{
+
+    @Autowired
+    private  BrandMapper brandMapper;
     @Override
     public void saveBrand(BrandEntity brandEntity) {
         BrandDO brandDO=BrandDOConvert.toBrandPO(brandEntity);
-        this.save(brandDO);
-        //this.baseMapper.insert(brandDO);
+        brandMapper.insert(brandDO);
     }
 
     @Override
