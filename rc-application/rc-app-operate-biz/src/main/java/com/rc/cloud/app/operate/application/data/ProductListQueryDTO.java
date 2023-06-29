@@ -1,15 +1,34 @@
 package com.rc.cloud.app.operate.application.data;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.rc.cloud.common.core.pojo.PageParam;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
-public class ProductListQueryDTO {
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+public class ProductListQueryDTO extends PageParam {
 
 
-    private int pageNo;
+    private String name;
 
-    private int pageSize;
+    private String firstCategory;
+
+    private String secondCategory;
+
+    private String thirdCategory;
+    //租户id
+    private Long tenantId;
+
+
 
     private Long categoryId;
 

@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.appearance.request.ProductRequestVO;
 import com.rc.cloud.app.operate.application.data.*;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDetailDO;
+import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * @Description:
  */
 @Mapper
-public interface ProductDetailMapper extends BaseMapper<ProductDetailDO> {
+public interface ProductDetailMapper extends BaseMapperX<ProductDetailDO> {
 
     List<ProductDO> getProductPageListInAdmin(@Param("query") ProductListVO query);
 
