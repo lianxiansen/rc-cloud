@@ -1,5 +1,8 @@
 package com.rc.cloud.app.operate.application.service;
 
+import com.rc.cloud.app.operate.appearance.request.ProductListVO;
+import com.rc.cloud.app.operate.application.data.ProductListDTO;
+import com.rc.cloud.app.operate.application.data.ProductListQueryDTO;
 import com.rc.cloud.app.operate.application.data.ProductSaveDTO;
 import com.rc.cloud.app.operate.domain.product.ProductFactory;
 import com.rc.cloud.app.operate.domain.product.valobj.*;
@@ -89,5 +92,15 @@ public class ProductApplicationService {
 
     }
 
+
+    public List<ProductListDTO> getProductList(ProductListQueryDTO productListQueryDTO){
+
+        List<ProductListDTO> resList= new ArrayList<ProductListDTO>();
+
+        ProductListDTO res = new ProductListDTO();
+        //...
+        resList.add(res);
+        return resList;
+    }
 
 }

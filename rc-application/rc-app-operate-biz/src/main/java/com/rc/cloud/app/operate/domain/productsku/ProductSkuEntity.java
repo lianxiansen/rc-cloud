@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.domain.productsku;
 
 import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.product.valobj.*;
+import com.rc.cloud.app.operate.domain.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.product.identifier.ProductSkuId;
 
@@ -15,7 +15,6 @@ public class ProductSkuEntity extends Entity {
     private ProductId productId;
 
     private String skuCode;
-
 
     private SupplyPrice supplyPrice;
 
