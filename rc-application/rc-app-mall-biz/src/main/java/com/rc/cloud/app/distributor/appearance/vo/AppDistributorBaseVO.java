@@ -30,22 +30,16 @@ public class AppDistributorBaseVO {
     private String address;
 
     @Schema(description = "合作开始")
-    private String start;
+    private String startTime;
 
     @Schema(description = "合作结束")
-    private String end;
+    private String endTime;
 
     @Schema(description = "对接状态1未对接2已对接", example = "1")
     private Integer status;
 
     @Schema(description = "备注")
     private String remarks;
-
-    @Schema(description = "创建时间")
-    private LocalDateTime createTime;
-
-    @Schema(description = "数据添加人员")
-    private String creator;
 
     @Schema(description = "管理员id", example = "8530")
     private Long adminId;

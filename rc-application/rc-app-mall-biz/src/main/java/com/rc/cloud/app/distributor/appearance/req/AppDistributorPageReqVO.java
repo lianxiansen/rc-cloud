@@ -40,10 +40,10 @@ public class AppDistributorPageReqVO extends PageParam {
     private String address;
 
     @Schema(description = "合作开始")
-    private String start;
+    private String startTime;
 
     @Schema(description = "合作结束")
-    private String end;
+    private String endTime;
 
     @Schema(description = "对接状态1未对接2已对接", example = "1")
     private Integer status;

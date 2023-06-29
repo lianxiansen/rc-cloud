@@ -2,7 +2,6 @@ package com.rc.cloud.app.distributor.application.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorExportReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorPageReqVO;
@@ -10,6 +9,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorContactConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorDetailConvert;
+import com.rc.cloud.app.distributor.application.event.DistributorDeleteEvent;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorDetailMapper;
@@ -19,11 +19,11 @@ import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.Distributo
 import com.rc.cloud.app.distributor.application.service.DistributorService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailDO;
 import com.rc.cloud.app.distributor.infrastructure.util.CommonUtil;
+import com.rc.cloud.app.distributor.infrastructure.util.SpringContextHolder;
 import com.rc.cloud.common.core.pojo.PageResult;
-import com.rc.cloud.common.core.util.StringUtils;
-import com.rc.cloud.common.mybatis.core.query.QueryWrapperX;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -60,18 +60,19 @@ public class DistributorServiceImpl implements DistributorService {
     @Transactional
     public Long create(AppDistributorCreateReqVO createReqVO) {
         // 插入
-        DistributorDO distributorDO= DistributorConvert.INSTANCE.convert(createReqVO);
+        DistributorDO distributorDO = DistributorConvert.INSTANCE.convert(createReqVO);
 
-        DistributorDetailDO distributorDetailDO= DistributorDetailConvert.INSTANCE.convert(createReqVO);
+        DistributorDetailDO distributorDetailDO = DistributorDetailConvert.INSTANCE.convert(createReqVO);
         mapper.insert(distributorDO);
         distributorDetailDO.setDistributorId(distributorDO.getId());
+        //插入明细表
         detailMapper.insert(distributorDetailDO);
         List<DistributorContactDO> contactDOList = DistributorContactConvert.INSTANCE.convertList(createReqVO.getContacts());
-        contactDOList.forEach(x->{
+        contactDOList.forEach(x -> {
             x.setDistributorId(distributorDO.getId());
             x.setPassword(webPasswordEncoder.encode(CommonUtil.getFinalMobile(x.getMobile())));
         });
-        contactService.saveBatch(contactDOList);
+        contactService.updateContacts(distributorDO.getId(), contactDOList);
         // 返回
         return distributorDO.getId();
     }
@@ -83,21 +84,28 @@ public class DistributorServiceImpl implements DistributorService {
         validateExists(updateReqVO.getId());
 
         DistributorDO updateObj = DistributorConvert.INSTANCE.convert(updateReqVO);
-        DistributorDetailDO detailObj= DistributorDetailConvert.INSTANCE.convert(updateReqVO);
+        DistributorDetailDO detailObj = DistributorDetailConvert.INSTANCE.convert(updateReqVO);
         List<DistributorContactDO> contacts = DistributorContactConvert.INSTANCE.convertList2(updateReqVO.getContacts());
 
         // 更新主表
         mapper.updateById(updateObj);
 
-        Wrapper<DistributorDetailDO> detailDOQueryWrapper=new QueryWrapper<DistributorDetailDO>().lambda()
-                .eq(DistributorDetailDO::getDistributorId,updateReqVO.getId());
+        Wrapper<DistributorDetailDO> detailDOQueryWrapper = new QueryWrapper<DistributorDetailDO>().lambda()
+                .eq(DistributorDetailDO::getDistributorId, updateReqVO.getId());
         DistributorDetailDO detailDO = detailMapper.selectOne(detailDOQueryWrapper);
-        detailObj.setId(detailDO.getId());
-        //更新明细表
-        detailMapper.updateById(detailObj);
-
+        if (detailDO == null) {//如果存在原有记录
+            //插入明细表
+            detailObj = new DistributorDetailDO();
+            detailObj.setDistributorId(updateReqVO.getId());
+            detailObj.setDistributorDetail(updateReqVO.getDistributorDetail());
+            detailMapper.insert(detailObj);
+        } else {
+            detailObj.setId(detailDO.getId());
+            //更新明细表
+            detailMapper.updateById(detailObj);
+        }
         //更新联系人表
-        contactService.updateContacts(updateReqVO.getId(),contacts);
+        contactService.updateContacts(updateReqVO.getId(), contacts);
     }
 
     @Override
@@ -107,9 +115,8 @@ public class DistributorServiceImpl implements DistributorService {
         validateExists(id);
         // 删除
         mapper.deleteById(id);
-        //删除明细表
-        detailMapper.delete(new UpdateWrapper<DistributorDetailDO>().lambda().eq(DistributorDetailDO::getDistributorId,id));
-        contactService.remove(new QueryWrapperX<DistributorContactDO>().lambda().eq(x->x.getDistributorId(),id));
+        DistributorDeleteEvent deleteEvent=new DistributorDeleteEvent(id);
+        SpringContextHolder.publishEvent(deleteEvent);
     }
 
     private void validateExists(Long id) {
@@ -125,6 +132,8 @@ public class DistributorServiceImpl implements DistributorService {
 
     @Override
     public DistributorDetailDO getDetail(Long id) {
+        // 校验存在
+        validateExists(id);
         return detailMapper.selectByDistributorId(id);
     }
 
