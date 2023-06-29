@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static com.baomidou.mybatisplus.extension.toolkit.Db.saveBatch;
+
 @Mapper
 public interface UserRoleMapper extends BaseMapperX<SysUserRoleDO> {
 
@@ -25,6 +27,13 @@ public interface UserRoleMapper extends BaseMapperX<SysUserRoleDO> {
         wrapper.lambda().select(SysUserRoleDO::getRoleId);
         wrapper.lambda().eq(SysUserRoleDO::getUserId, userId);
         return selectList(wrapper).stream().map(SysUserRoleDO::getRoleId).collect(Collectors.toSet());
+    }
+
+    default Set<Long> selectUserIdsByRoleId(Long roleId) {
+        QueryWrapper<SysUserRoleDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().select(SysUserRoleDO::getUserId);
+        wrapper.lambda().eq(SysUserRoleDO::getRoleId, roleId);
+        return selectList(wrapper).stream().map(SysUserRoleDO::getUserId).collect(Collectors.toSet());
     }
 
     default void deleteListByUserIdAndRoleIdIds(Long userId, Collection<Long> roleIds) {
@@ -49,5 +58,21 @@ public interface UserRoleMapper extends BaseMapperX<SysUserRoleDO> {
         delete(new LambdaQueryWrapperX<SysUserRoleDO>()
                 .eq(SysUserRoleDO::getUserId, userId)
                 .in(SysUserRoleDO::getRoleId, roleIds));
+    }
+
+    default void saveUserList(Long roleId, List<Long> userIds) {
+        List<SysUserRoleDO> userRoleList = userIds.stream().map(userId -> {
+            SysUserRoleDO userRole = new SysUserRoleDO();
+            userRole.setRoleId(roleId);
+            userRole.setUserId(userId);
+            return userRole;
+        }).collect(Collectors.toList());
+        saveBatch(userRoleList);
+    }
+
+    default void deleteByUserIds(Long roleId, List<Long> userIds) {
+        delete(new LambdaQueryWrapperX<SysUserRoleDO>()
+                .eq(SysUserRoleDO::getRoleId, roleId)
+                .in(SysUserRoleDO::getUserId, userIds));
     }
 }

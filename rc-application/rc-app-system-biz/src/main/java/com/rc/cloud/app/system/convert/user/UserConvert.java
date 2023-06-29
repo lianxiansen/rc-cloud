@@ -9,6 +9,8 @@ import com.rc.cloud.app.system.vo.user.profile.UserProfileRespVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
 import com.rc.cloud.app.system.vo.user.user.*;
+import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.mybatis.page.RcPage;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -18,6 +20,8 @@ import java.util.List;
 public interface UserConvert {
 
     UserConvert INSTANCE = Mappers.getMapper(UserConvert.class);
+
+    PageResult<UserRespVO> toUserIPage(RcPage<SysUserDO> pager);
 
     UserPageItemRespVO convert(SysUserDO bean);
 
