@@ -89,6 +89,10 @@ public class RoleServiceImpl implements RoleService {
         role.setStatus(CommonStatusEnum.ENABLE.getStatus());
         role.setDataScope(DataScopeEnum.ALL.getScope()); // 默认可查看所有数据。原因是，可能一些项目不需要项目权限
         roleMapper.insert(role);
+        // 插入角色菜单关联关系
+        if (CollUtil.isNotEmpty(reqVO.getMenuIds())) {
+            permissionService.assignRoleMenu(role.getId(), reqVO.getMenuIds());
+        }
         // 发送刷新消息
 //        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
 //            @Override
@@ -110,6 +114,10 @@ public class RoleServiceImpl implements RoleService {
         // 更新到数据库
         SysRoleDO updateObj = RoleConvert.INSTANCE.convert(reqVO);
         roleMapper.updateById(updateObj);
+        // 插入角色菜单关联关系
+        if (CollUtil.isNotEmpty(reqVO.getMenuIds())) {
+            permissionService.assignRoleMenu(reqVO.getId(), reqVO.getMenuIds());
+        }
         // 发送刷新消息
 //        roleProducer.sendRoleRefreshMessage();
     }
@@ -276,5 +284,18 @@ public class RoleServiceImpl implements RoleService {
                 throw exception(ROLE_IS_DISABLE, role.getName());
             }
         });
+    }
+
+    @Override
+    public void deleteRoles(List<Long> idList) {
+        if (CollectionUtil.isEmpty(idList)) {
+            return;
+        }
+        // 校验是否可以更新
+        idList.forEach(this::validateRoleForUpdate);
+        // 标记删除
+        roleMapper.deleteBatchIds(idList);
+        // 删除相关数据
+        idList.forEach(id -> permissionService.processRoleDeleted(id));
     }
 }

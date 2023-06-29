@@ -4,12 +4,11 @@ import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.convert.permission.RoleConvert;
-import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.service.permission.MenuService;
+import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.permission.RoleService;
 import com.rc.cloud.app.system.vo.permission.menu.MenuRespVO;
 import com.rc.cloud.app.system.vo.permission.role.*;
-import com.rc.cloud.app.system.vo.user.user.UserPageItemRespVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.tree.TreeUtil;
@@ -42,6 +41,9 @@ public class RoleController {
     @Resource
     private MenuService menuService;
 
+    @Resource
+    private PermissionService permissionService;
+
     @PostMapping("/create")
     @Operation(summary = "创建角色")
     @PreAuthorize("@pms.hasPermission('sys:role:create')")
@@ -65,12 +67,12 @@ public class RoleController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping()
     @Operation(summary = "删除角色")
-    @Parameter(name = "id", description = "角色编号", required = true, example = "1024")
+    @Parameter(name = "id", description = "角色编号", required = true, example = "[1024, 2048]")
     @PreAuthorize("@pms.hasPermission('sys:role:delete')")
-    public CodeResult<Boolean> deleteRole(@PathVariable("id") Long id) {
-        roleService.deleteRole(id);
+    public CodeResult<Boolean> deleteRole(@RequestBody List<Long> idList) {
+        roleService.deleteRoles(idList);
         return CodeResult.ok(true);
     }
 
@@ -79,7 +81,9 @@ public class RoleController {
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
     public CodeResult<RoleRespVO> getRole(@PathVariable("id") Long id) {
         SysRoleDO role = roleService.getRole(id);
-        return CodeResult.ok(RoleConvert.INSTANCE.convert(role));
+        RoleRespVO roleRespVO = RoleConvert.INSTANCE.convert(role);
+        roleRespVO.setMenuIds(permissionService.getRoleMenuIds(id));
+        return CodeResult.ok(roleRespVO);
     }
 
     @GetMapping("/page")

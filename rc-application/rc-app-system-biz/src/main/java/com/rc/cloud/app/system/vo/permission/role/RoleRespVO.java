@@ -34,8 +34,10 @@ public class RoleRespVO extends RoleBaseVO {
     @Schema(description = "角色类型,参见 RoleTypeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer type;
 
+    @Schema(description = "角色拥有的菜单编号集合", example = "[1,2,3]")
+    private Set<Long> menuIds;
+
     @Schema(description = "创建时间", example = "2022-07-01 00:00:00")
     @JsonFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND, timezone = "GMT+8")
     private LocalDateTime createTime;
-
 }
