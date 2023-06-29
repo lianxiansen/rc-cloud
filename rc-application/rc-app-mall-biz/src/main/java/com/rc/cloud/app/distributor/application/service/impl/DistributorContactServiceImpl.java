@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +31,7 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
 @Service
 public class DistributorContactServiceImpl extends ServiceImpl<DistributorContactMapper,DistributorContactDO> implements DistributorContactService {
 
-    @Autowired
+    @Resource
     private DistributorContactMapper contactMapper;
 
     @Autowired
@@ -47,9 +48,9 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
             throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_CONTACT_PHONE_DUPLICATE);
         }
         //如果联系方式已被绑定，抛出异常
-        DistributorContactDO contactDO = contactMapper.selectOne(new QueryWrapper<DistributorContactDO>().lambda()
-                .in(DistributorContactDO::getMobile, newMobiles));
-        if (contactDO != null) {
+        if (contactMapper.exists(new LambdaQueryWrapperX<DistributorContactDO>()
+                .inIfPresent(DistributorContactDO::getMobile, newMobiles)
+                .and(wq -> wq.ne(DistributorContactDO::getDistributorId, distributorId)))) {
             throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_CONTACT_PHONE_EXIST);
         }
 
@@ -59,8 +60,8 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
 
         //删除旧联系人的数据
         List<String> olddata = ListUtils.subtract(oldMobiles, newMobiles);
-        contactMapper.delete(new QueryWrapper<DistributorContactDO>().lambda()
-                .in(DistributorContactDO::getMobile, olddata)
+        contactMapper.delete(new LambdaQueryWrapperX<DistributorContactDO>()
+                .inIfPresent(DistributorContactDO::getMobile, olddata)
                 .and(wq -> wq.eq(DistributorContactDO::getDistributorId, distributorId))
         );
 
@@ -69,6 +70,7 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
         List<DistributorContactDO> newlist = contactDOS.stream().filter(x -> newdata.contains(x.getMobile())).collect(Collectors.toList());
         newlist.forEach(x->{
             x.setPassword(encodePassword(CommonUtil.getFinalMobile(x.getMobile())));
+            x.setDistributorId(distributorId);
         });
         contactMapper.insertBatch(newlist);
     }
@@ -80,9 +82,10 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
 
     @Override
     public void updatePassword(AppDistributorContactUpdatePasswordReqVO updatePasswordReqVO) {
-        DistributorContactDO contactDO= contactMapper.selectOne(new QueryWrapperX<DistributorContactDO>().lambda().eq(DistributorContactDO::getId,updatePasswordReqVO.getId()));
+        DistributorContactDO contactDO= getBaseMapper().selectById(updatePasswordReqVO.getId());
+        System.out.println(contactDO==null);
         contactDO.setPassword(encodePassword(updatePasswordReqVO.getPassword()));
-        contactMapper.updateById(contactDO);
+        getBaseMapper().updateById(contactDO);
     }
 
     /*
@@ -90,7 +93,8 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
      */
     @Override
     public void resetPassword(Long id) {
-        DistributorContactDO contactDO= contactMapper.selectOne(new QueryWrapperX<DistributorContactDO>().lambda().eq(DistributorContactDO::getId,id));
+        DistributorContactDO contactDO= contactMapper.selectById(id);
+        System.out.println(contactDO==null);
         contactDO.setPassword(encodePassword(CommonUtil.getFinalMobile(contactDO.getMobile())));
         contactMapper.updateById(contactDO);
     }

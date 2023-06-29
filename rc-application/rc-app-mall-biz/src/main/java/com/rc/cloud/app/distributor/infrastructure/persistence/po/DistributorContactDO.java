@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author WJF
  * @create 2023-06-27 8:27
@@ -12,7 +14,7 @@ import lombok.Data;
  */
 @TableName("distributor_contact")
 @Data
-public class DistributorContactDO {
+public class DistributorContactDO implements Serializable {
     /**
      * id
      */

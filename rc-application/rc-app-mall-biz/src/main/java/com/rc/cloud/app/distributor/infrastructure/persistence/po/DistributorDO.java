@@ -31,10 +31,6 @@ public class DistributorDO extends BaseDO {
     private String companyName;
 
     /**
-     * 密码
-     */
-    private String password;
-    /**
      * 省
      */
     private String province;
@@ -53,11 +49,11 @@ public class DistributorDO extends BaseDO {
     /**
      * 合作开始
      */
-    private String start;
+    private String startTime;
     /**
      * 合作结束
      */
-    private String end;
+    private String endTime;
     /**
      * 对接状态1未对接2已对接
      */

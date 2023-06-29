@@ -19,8 +19,4 @@ public class AppDistributorSourceBaseVO {
 
     @Schema(description = "说明")
     private String description;
-
-    @Schema(description = "创建时间")
-    private LocalDateTime createTime;
-
 }
