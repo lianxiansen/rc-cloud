@@ -6,6 +6,9 @@ import com.rc.cloud.app.operate.appearance.request.ProductListVO;
 import com.rc.cloud.app.operate.appearance.request.ProductRequestVO;
 import com.rc.cloud.app.operate.application.data.*;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
+import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
+import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,21 +20,25 @@ import java.util.List;
  * @Description:
  */
 @Mapper
-public interface ProductMapper extends BaseMapper<ProductDO> {
+public interface ProductMapper extends BaseMapperX<ProductDO> {
 
-    List<ProductDO> getProductPageListInAdmin(@Param("query") ProductListVO query);
+    default PageResult<ProductDO> selectPage(ProductListQueryDTO queryDTO) {
+        return selectPage(queryDTO, new LambdaQueryWrapperX<ProductDO>()
+                .likeIfPresent(ProductDO::getName, queryDTO.getName())
+                .eqIfPresent(ProductDO::getFirstCategory, queryDTO.getFirstCategory())
+                .eqIfPresent(ProductDO::getSecondCategory, queryDTO.getSecondCategory())
+                .eqIfPresent(ProductDO::getThirdCategory, queryDTO.getThirdCategory())
+                .eqIfPresent(ProductDO::getTenantId,queryDTO.getTenantId())
+        );
+    }
 
-    List<ProductDO> getNoDeliveryTemplateProductList(@Param("query") NoDeliveryTemplateQuery query);
+    default List<ProductDO> selectList(ProductListQueryDTO queryDTO) {
+        return selectList(new LambdaQueryWrapperX<ProductDO>()
+                .likeIfPresent(ProductDO::getName, queryDTO.getName())
+                .eqIfPresent(ProductDO::getFirstCategory, queryDTO.getFirstCategory())
+                .eqIfPresent(ProductDO::getSecondCategory, queryDTO.getSecondCategory())
+                .eqIfPresent(ProductDO::getThirdCategory, queryDTO.getThirdCategory())
+                .orderByDesc(ProductDO::getId));
+    }
 
-    List<ProductDO> getSimiliarProductList(@Param("query") SimiliarProductQuery query);
-
-    List<ProductDO> getProductList(@Param("query") SimiliarProductQuery query);
-
-    List<AdminCopartnerProductDTO> getCopartnerProductList(@Param("query") BaseQuery query);
-
-    List<AdminProductListDTO> getAdminProductList(@Param("query") ProductRequestVO query);
-
-    Boolean checkProductIsRefund(@Param("product_id") int productId);
-
-    Boolean checkProductIsDeliveryRefund(@Param("product_id") int productId);
 }

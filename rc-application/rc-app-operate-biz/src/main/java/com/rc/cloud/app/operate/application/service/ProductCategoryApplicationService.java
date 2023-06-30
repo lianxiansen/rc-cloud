@@ -7,7 +7,6 @@ import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryRepository
 import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.productcategory.service.ContainsProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.productcategory.service.FirstProductCategoryListDomainService;
-import com.rc.cloud.app.operate.domain.productcategory.service.SaveProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.Icon;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.Name;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.Page;
@@ -34,8 +33,6 @@ public class ProductCategoryApplicationService {
 
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
-    @Autowired
-    SaveProductCategoryDomainService saveProductCategoryDomainService;
 
     public List<ProductCategoryData> getFirstList() {
         List<ProductCategoryData> list = new ArrayList<>();
@@ -46,15 +43,7 @@ public class ProductCategoryApplicationService {
     }
 
     public void saveProductCategory(ProductCategoryDTO productCategoryDTO) {
-        ProductCategoryId productCategoryId = productCategoryRepository.nextId();
-        TenantId tenantId = new TenantId(productCategoryDTO.getTenantId());
-        Name name = new Name(productCategoryDTO.getName(), productCategoryDTO.getEnglishName());
-        Icon icon = new Icon(productCategoryDTO.getIcon());
-        Page page = new Page(productCategoryDTO.getProductCategoryPageImage(), productCategoryDTO.getProductListPageImage());
-        ProductCategoryAggregation productCategoryAggregation = new ProductCategoryAggregation(productCategoryId, tenantId, name);
-        productCategoryAggregation.setIcon(icon);
-        productCategoryAggregation.setPage(page);
-        saveProductCategoryDomainService.execute(productCategoryAggregation);
+
 
     }
 }

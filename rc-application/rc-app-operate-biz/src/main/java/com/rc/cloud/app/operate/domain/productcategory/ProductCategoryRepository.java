@@ -12,14 +12,6 @@ import java.util.List;
  * @Date 2021-03-28
  * @Description:
  */
-public interface ProductCategoryRepository{
-    List<ProductCategoryAggregation> getFirstList(Locked locked, Layer layer, Parent parent);
+public interface ProductCategoryRepository {
 
-    ProductCategoryId nextId();
-
-    ProductCategoryAggregation findById(ProductCategoryId productCategoryId);
-
-    List<ProductCategoryAggregation> findAll();
-
-    void save(ProductCategoryAggregation productCategoryAggregation);
 }
