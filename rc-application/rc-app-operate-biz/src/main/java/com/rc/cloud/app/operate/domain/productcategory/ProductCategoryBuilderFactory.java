@@ -12,16 +12,21 @@ import static com.rc.cloud.common.core.util.AssertUtils.notNull;
  * @ClassName: ProductCategoryFactory
  * @Author: liandy
  * @Date: 2023/6/30 13:41
- * @Description: TODO
+ * @Description: 产品类目工厂
  */
 @Component
 public class ProductCategoryBuilderFactory {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
+
+
     public ProductCategoryBuilder create(ProductCategoryId id, TenantId tenantId, Name name){
-        return new ProductCategoryBuilder();
+        return new ProductCategoryBuilder(id,tenantId,name);
     }
 
+    /**
+     * 产品类目构造器
+     */
     public class ProductCategoryBuilder {
         private ProductCategoryId id;
         private TenantId tenantId;
@@ -29,11 +34,14 @@ public class ProductCategoryBuilderFactory {
         private Icon icon;
         private Page page;
         private Layer layer;
-        private ProductCategoryId parentId;
         private ProductCategoryAggregation parentCategory;
         private Enabled enabled;
         private Sort sort;
-
+        private ProductCategoryBuilder(ProductCategoryId id,TenantId tenantId,Name name){
+            this.id = id;
+            this.tenantId=tenantId;
+            this.name=name;
+        }
         public ProductCategoryBuilder icon(Icon icon){
             this.icon=icon;
             return this;
@@ -47,7 +55,6 @@ public class ProductCategoryBuilderFactory {
             if (null != parentId) {
                 parentCategory = productCategoryRepository.findById(new ProductCategoryId(parentId.id()));
                 notNull(parentCategory, "父级商品分类id无效");
-                this.parentId = parentId;
             }
             return this;
         }
@@ -66,7 +73,7 @@ public class ProductCategoryBuilderFactory {
             productCategoryAggregation.setPage(this.page);
             productCategoryAggregation.setSort(this.sort);
             productCategoryAggregation.setEnabled(this.enabled);
-            productCategoryAggregation.extendsFromParent(parentCategory);
+            productCategoryAggregation.extendsFromParent(this.parentCategory);
             return productCategoryAggregation;
         }
     }

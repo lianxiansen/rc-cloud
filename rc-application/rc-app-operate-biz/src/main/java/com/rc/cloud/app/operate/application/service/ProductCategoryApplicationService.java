@@ -52,6 +52,9 @@ public class ProductCategoryApplicationService {
         builder.enabled(new Enabled(productCategoryDTO.getEnabledFlag()));
         builder.page(new Page(productCategoryDTO.getProductCategoryPageImage(), productCategoryDTO.getProductListPageImage()));
         builder.sort(new Sort(productCategoryDTO.getSortId()));
+        if(null!=productCategoryDTO.getParentId()){
+            builder.parentId(new ProductCategoryId(productCategoryDTO.getParentId()));
+        }
         ProductCategoryAggregation productCategoryAggregation= builder.build();
         productCategoryRepository.save(productCategoryAggregation);
     }
