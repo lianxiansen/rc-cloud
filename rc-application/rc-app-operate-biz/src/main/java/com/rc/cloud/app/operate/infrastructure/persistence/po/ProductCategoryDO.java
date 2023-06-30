@@ -17,7 +17,7 @@ public class ProductCategoryDO extends BaseDO {
     @TableField("id")
     private String Id;
     @TableField("tenant_id")
-    private Long tenantId;
+    private String tenantId;
 
     @TableField("name")
     private String name;
@@ -35,7 +35,7 @@ public class ProductCategoryDO extends BaseDO {
     private String productListPageImage;
 
     @TableField("parent_id")
-    private Integer parentId;
+    private String parentId;
 
     @TableField("layer")
     private Integer layer;

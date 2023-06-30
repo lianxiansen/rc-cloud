@@ -2,7 +2,7 @@ package com.rc.cloud.ops.auth.support.handler;
 
 import cn.hutool.core.util.StrUtil;
 import com.rc.cloud.common.core.web.CodeResult;
-import com.rc.cloud.common.security.utils.MsgUtils;
+import com.rc.cloud.common.core.util.MsgUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

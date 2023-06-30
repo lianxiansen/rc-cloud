@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.productcategory.valobj;
 
-import com.rc.cloud.app.operate.domain.common.AssertionConcern;
+import com.rc.cloud.app.operate.domain.common.ValueObject;
 
 /**
  * @ClassName: Sort
@@ -8,14 +8,26 @@ import com.rc.cloud.app.operate.domain.common.AssertionConcern;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Sort extends AssertionConcern {
+public class Sort extends ValueObject {
     private int value;
     public Sort(){
-        setValue(0);
+        this(0);
+    }
+    public Sort(int value){
+        setValue(value);
     }
 
-    public void setValue(int value){
-        this.assertArgumentRange(value,0,100,"Sort is not in range(0,100)");
+    private void setValue(int value){
+        validate(value);
         this.value=value;
+
+    }
+
+    private void validate(int value){
+        this.assertArgumentRange(value,0,100,"Sort is not in range(0,100)");
+    }
+
+    public int getValue(){
+        return value;
     }
 }

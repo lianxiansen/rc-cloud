@@ -11,6 +11,7 @@ import com.google.common.collect.Multimap;
 import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
+import com.rc.cloud.app.system.enums.permission.RoleCodeEnum;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.mapper.permission.RoleMapper;
 import com.rc.cloud.app.system.mapper.permission.RoleMenuMapper;
@@ -87,6 +88,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Resource
     private RoleMenuMapper roleMenuMapper;
+
+    @Resource
+    private RoleMapper roleMapper;
 
 
 
@@ -245,8 +249,19 @@ public class MenuServiceImpl implements MenuService {
     public List<SysMenuDO> getUserMenuList(Long userId, Long parentId, Integer type) {
         // 从用户角色表中查询角色id
         Set<Long> roleIds = userRoleMapper.selectRoleIdsByUserId(userId);
-        // 从角色菜单表中查询菜单id
-        Set<Long> menuIds = roleMenuMapper.getMenuIdsByRoleIds(roleIds);
+        // 根据角色id列表，获取角色code
+        Set<String> roleCodes = roleMapper.selectCodesByIds(roleIds);
+        Set<Long> menuIds = new HashSet<>();
+        if(roleCodes.contains(RoleCodeEnum.SUPER_ADMIN.getCode())) {
+            // 超级管理员，返回所有菜单
+            menuIds = getMenuIdsByParentIdAndType(menuIds, parentId, type);
+        } else {
+            // 从角色菜单表中查询菜单id
+            menuIds = roleMenuMapper.getMenuIdsByRoleIds(roleIds);
+        }
+        if (menuIds.isEmpty()) {
+            return Collections.emptyList();
+        }
         // 从菜单表中查询菜单列表
         QueryWrapper<SysMenuDO> wrapper = new QueryWrapper<>();
         if (parentId != null) {
@@ -259,6 +274,26 @@ public class MenuServiceImpl implements MenuService {
         wrapper.lambda().orderByAsc(SysMenuDO::getSort);
         return menuMapper.selectList(wrapper);
     }
+
+    private Set<Long> getMenuIdsByParentIdAndType(Set<Long> result, Long parentId, Integer type) {
+        Set<Long> menuIds = menuMapper.getMenuIdsByParentIdAndType(parentId, type);
+        if (menuIds.isEmpty()) {
+            return Collections.emptySet();
+        }
+        result.addAll(menuIds);
+        for (Long menuId : menuIds) {
+            Set<Long> itemMenuIds = getMenuIdsByParentIdAndType(result, menuId, type);
+            result.addAll(itemMenuIds);
+        }
+        return result;
+    }
+
+//    @Override
+//    public List<SysMenuDO> getMenuList() {
+//        QueryWrapper<SysMenuDO> wrapper = new QueryWrapper<>();
+//        wrapper.lambda().orderByAsc(SysMenuDO::getSort);
+//        return menuMapper.selectList(wrapper);
+//    }
 
     @Override
     public List<SysMenuDO> getUserMenuList(Long userId, Integer type) {

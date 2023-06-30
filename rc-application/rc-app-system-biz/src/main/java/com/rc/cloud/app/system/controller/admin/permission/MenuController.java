@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
@@ -99,7 +96,10 @@ public class MenuController {
     @GetMapping("/root-nav")
     @Operation(summary = "获取根导航菜单")
     public CodeResult<List<MenuRespVO>> getRootNavMenuList() {
-        List<SysMenuDO> list = menuService.getRootNavMenuList();
+        String username = SecurityUtils.getUsername();
+        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        List<SysMenuDO> list = menuService.getUserMenuList(user.getId(), 0L, MenuTypeEnum.DIR.getType());
         return CodeResult.ok(MenuConvert.INSTANCE.convertList(list));
     }
 
@@ -109,7 +109,11 @@ public class MenuController {
         String username = SecurityUtils.getUsername();
         Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
         SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+
         List<SysMenuDO> list = menuService.getUserMenuList(user.getId(), parentId, MenuTypeEnum.MENU.getType());
+        if (list.isEmpty()) {
+            return CodeResult.ok(new ArrayList<>());
+        }
         List<MenuRespVO> result = MenuConvert.INSTANCE.convertList(list);
         result.forEach(item -> {
             List<SysMenuDO> userChildMenuList = menuService.getUserMenuList(user.getId(), item.getId(), MenuTypeEnum.MENU.getType());

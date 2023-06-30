@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Mapper
 public interface RoleMenuMapper extends BaseMapperX<SysRoleMenuDO> {
 
+
     @Repository
     class BatchInsertMapper extends ServiceImpl<RoleMenuMapper, SysRoleMenuDO> {
     }

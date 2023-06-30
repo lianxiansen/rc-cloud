@@ -16,7 +16,7 @@ import com.rc.cloud.common.security.annotation.Inner;
 import com.rc.cloud.common.security.utils.OAuth2EndpointUtils;
 import com.rc.cloud.common.security.utils.OAuth2ErrorCodesExpand;
 import com.rc.cloud.common.security.utils.OAuthClientException;
-import com.rc.cloud.common.security.utils.SpringContextHolder;
+import com.rc.cloud.common.core.util.SpringContextHolder;
 import com.rc.cloud.ops.auth.support.handler.RcAuthenticationFailureEventHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

@@ -1,8 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryRepository;
@@ -14,13 +12,12 @@ import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductCatego
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductCategoryMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
+import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.rc.cloud.common.core.util.AssertUtils.notNull;
 
 /**
  * @Author wangzhihao
@@ -53,7 +50,7 @@ public class ProductCategoryRepositoryImpl implements  ProductCategoryRepository
         wrapper.orderByAsc("SortID");
         List<ProductCategoryAggregation> list = new ArrayList<>();
         productCategoryMapper.selectList(wrapper).forEach(item -> {
-            list.add(new ProductCategoryConvert().convert2ProductCategoryDO(item));
+            list.add(ProductCategoryConvert.convert2ProductCategoryAggregation(item));
         });
         return list;
     }
@@ -65,38 +62,26 @@ public class ProductCategoryRepositoryImpl implements  ProductCategoryRepository
 
     @Override
     public ProductCategoryAggregation findById(ProductCategoryId productCategoryId) {
-        QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
-        wrapper.eq("id", productCategoryId.id());
-        wrapper.eq("deleted", '0');
-        return ProductCategoryConvert.INSTANCE.convert2ProductCategoryDO(this.getOne(wrapper));
+        LambdaQueryWrapperX<ProductCategoryDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductCategoryDO::getId, productCategoryId.id());
+        return ProductCategoryConvert.convert2ProductCategoryAggregation( this.productCategoryMapper.selectOne(wrapper));
     }
 
     @Override
     public List<ProductCategoryAggregation> findAll() {
-        QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
-        wrapper.eq("deleted", '0');
-        List<ProductCategoryDO> list = this.list(wrapper);
+        LambdaQueryWrapperX<ProductCategoryDO> wrapper = new LambdaQueryWrapperX<>();
+        List<ProductCategoryDO> list = this.productCategoryMapper.selectList(wrapper);;
         List<ProductCategoryAggregation> result = new ArrayList<>();
         list.forEach(item -> {
-            result.add(ProductCategoryConvert.INSTANCE.convert2ProductCategoryDO(item));
+            result.add(ProductCategoryConvert.convert2ProductCategoryAggregation(item));
         });
         return result;
     }
 
     @Override
     public void save(ProductCategoryAggregation productCategoryAggregation) {
-        Layer layer= null;
-        ProductCategoryAggregation parentCategory = null;
-        if (null != productCategoryAggregation.getParentId()) {
-            parentCategory = this.findById(new ProductCategoryId(productCategoryAggregation.getParentId().id()));
-            notNull(parentCategory, "父级商品分类id无效");
-            layer=parentCategory.getLayer().addLayer(new Layer(1));
-        }else{
-            layer=new Layer();
-        }
-        productCategoryAggregation.setLayer(layer);
-        ProductCategoryDO productCategoryDO = ProductCategoryConvert.INSTANCE.convert2ProductCategoryAggregation(productCategoryAggregation);
-        this.save(productCategoryDO);
+        ProductCategoryDO productCategoryDO = ProductCategoryConvert.convert2ProductCategoryDO(productCategoryAggregation);
+        this.productCategoryMapper.insert(productCategoryDO);
     }
 
 }

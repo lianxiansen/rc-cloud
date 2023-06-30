@@ -8,16 +8,23 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Enable extends ValueObject {
+public class Enabled extends ValueObject {
     private boolean value;
-    public Enable(){
-        this.value = true;
+    public Enabled(){
+        this.value = false;
     }
-    public Enable(boolean flag){
+    public Enabled(boolean flag){
         this.value = flag;
     }
 
-    public boolean result(){
+    public boolean isTrue(){
+        return value;
+    }
+    public boolean isFalse(){
+        return !value;
+    }
+
+    public boolean value(){
         return value;
     }
 

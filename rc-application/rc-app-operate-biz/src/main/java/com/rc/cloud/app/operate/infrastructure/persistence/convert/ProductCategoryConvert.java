@@ -2,7 +2,6 @@ package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
-import org.mapstruct.factory.Mappers;
 
 /**
  * @ClassName: ProductCategoryConvert
@@ -11,14 +10,25 @@ import org.mapstruct.factory.Mappers;
  * @Description: TODO
  */
 public class ProductCategoryConvert {
-    public static ProductCategoryConvert INSTANCE = Mappers.getMapper(ProductCategoryConvert.class);
 
-    public ProductCategoryAggregation convert2ProductCategoryDO(ProductCategoryDO a) {
+    public static ProductCategoryAggregation convert2ProductCategoryAggregation(ProductCategoryDO source) {
         return null;
     }
 
 
-    public ProductCategoryDO convert2ProductCategoryAggregation(ProductCategoryAggregation a) {
-        return null;
+    public static ProductCategoryDO convert2ProductCategoryDO(ProductCategoryAggregation source) {
+        ProductCategoryDO target=new ProductCategoryDO();
+        target.setId(source.getId().id());
+        target.setProductCategoryPageImage(source.getPage().getCategoryImage());
+        target.setProductListPageImage(source.getPage().getListImage());
+        target.setLayer(source.getLayer().getValue());
+        target.setEnabledFlag(source.getEnabled().value());
+        target.setIcon(source.getIcon().getPictureUrl());
+        target.setName(source.getName().getChName());
+        target.setEnglishName(source.getName().getEnName());
+        target.setParentId(source.getParentId()==null?null:source.getParentId().id());
+        target.setSortId(source.getSort().getValue());
+        target.setTenantId(source.getTenantId().id());
+        return target;
     }
 }
