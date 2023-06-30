@@ -1,4 +1,4 @@
-package com.rc.cloud.common.security.utils;
+package com.rc.cloud.common.core.util;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.context.MessageSource;

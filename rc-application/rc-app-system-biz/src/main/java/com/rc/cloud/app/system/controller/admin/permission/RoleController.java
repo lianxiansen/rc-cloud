@@ -135,12 +135,12 @@ public class RoleController {
     }
 
     @GetMapping("menu")
-    @Operation(summary = "获取角色菜单")
+    @Operation(summary = "获取菜单")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
     public CodeResult<List<MenuRespVO>> menu() {
         Long userId = SecurityUtils.getUser().getId();
         List<MenuRespVO> list = new ArrayList<>();
-        List<SysMenuDO> userMenuList = menuService.getUserMenuList(userId, null);
+        List<SysMenuDO> userMenuList = menuService.getMenuList();
         if (userMenuList != null && !userMenuList.isEmpty()) {
             list = MenuConvert.INSTANCE.convertList(userMenuList);
         }
