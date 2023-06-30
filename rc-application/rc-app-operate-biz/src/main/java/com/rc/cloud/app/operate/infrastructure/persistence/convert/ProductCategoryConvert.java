@@ -11,11 +11,6 @@ import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
  */
 public class ProductCategoryConvert {
 
-    public static ProductCategoryAggregation convert2ProductCategoryAggregation(ProductCategoryDO source) {
-        return null;
-    }
-
-
     public static ProductCategoryDO convert2ProductCategoryDO(ProductCategoryAggregation source) {
         ProductCategoryDO target=new ProductCategoryDO();
         target.setId(source.getId().id());

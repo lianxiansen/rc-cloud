@@ -22,7 +22,7 @@ public class ProductCategoryAggregation extends Entity {
     private Enabled enabled;
     private Sort sort;
 
-    public ProductCategoryAggregation(ProductCategoryId id, TenantId tenantId, Name name) {
+    ProductCategoryAggregation(ProductCategoryId id, TenantId tenantId, Name name) {
         setId(id);
         setTenantId(tenantId);
         setName(name);
@@ -123,8 +123,10 @@ public class ProductCategoryAggregation extends Entity {
         if(null!=parent){
             Layer layer= parent.getLayer().addLayer(new Layer(1));
             setLayer(layer);
+            this.parentId=parent.getId();
         }else{
             setLayer(new Layer(1));
+            this.parentId=null;
         }
 
     }
