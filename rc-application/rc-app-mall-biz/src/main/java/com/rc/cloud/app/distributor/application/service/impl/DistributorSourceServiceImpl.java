@@ -34,7 +34,6 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     public Long createSource(AppDistributorSourceCreateReqVO createReqVO) {
         // 插入
         DistributorSourceDO source = DistributorSourceConvert.INSTANCE.convert(createReqVO);
-        source.setCreateTime(LocalDateTime.now());
         sourceMapper.insert(source);
         // 返回
         return source.getId();

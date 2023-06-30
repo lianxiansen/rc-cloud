@@ -63,6 +63,9 @@ class DistributorContactServiceImplTest extends BaseDbUnitTest{
         // 断言
         assertEquals(2, contactDOList.size());
         assertPojoEquals(contact1, contactDOList.get(0));
+
+        assertEquals(true,webPasswordEncoder.matches("000998",contactDOList.get(0).getPassword()));
+
     }
 
     @Test

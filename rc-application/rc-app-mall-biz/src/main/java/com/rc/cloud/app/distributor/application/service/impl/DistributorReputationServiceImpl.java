@@ -34,7 +34,6 @@ public class DistributorReputationServiceImpl implements DistributorReputationSe
     public Long createReputation(AppDistributorReputationCreateReqVO createReqVO) {
         // 插入
         DistributorReputationDO reputation = DistributorReputationConvert.INSTANCE.convert(createReqVO);
-        reputation.setCreateTime(LocalDateTime.now());
         reputationMapper.insert(reputation);
         // 返回
         return reputation.getId();

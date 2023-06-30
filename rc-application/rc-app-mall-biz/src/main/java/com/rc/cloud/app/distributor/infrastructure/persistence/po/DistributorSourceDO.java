@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DistributorSourceDO implements Serializable {
+public class DistributorSourceDO extends BaseDO {
 
     /**
      * id
@@ -34,9 +34,4 @@ public class DistributorSourceDO implements Serializable {
      * 说明
      */
     private String description;
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
 }
