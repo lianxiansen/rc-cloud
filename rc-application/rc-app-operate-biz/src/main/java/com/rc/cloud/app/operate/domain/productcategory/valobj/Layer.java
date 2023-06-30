@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.productcategory.valobj;
 
-import com.rc.cloud.app.operate.domain.common.AssertionConcern;
+import com.rc.cloud.app.operate.domain.common.ValueObject;
 
 /**
  * @ClassName: TenantId
@@ -8,7 +8,7 @@ import com.rc.cloud.app.operate.domain.common.AssertionConcern;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Layer extends AssertionConcern {
+public class Layer extends ValueObject {
     public static final int MIN=1;
     private int value;
     public Layer(){

@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.productcategory.valobj;
 
-import com.rc.cloud.app.operate.domain.common.AssertionConcern;
+import com.rc.cloud.app.operate.domain.common.ValueObject;
 
 /**
  * @ClassName: TenantId
@@ -8,7 +8,7 @@ import com.rc.cloud.app.operate.domain.common.AssertionConcern;
  * @Date: 2023/6/23 13:26
  * @Description: 分类名
  */
-public class Name extends AssertionConcern {
+public class Name extends ValueObject {
     /**
      * 分类名（中文名）
      */
@@ -18,7 +18,7 @@ public class Name extends AssertionConcern {
      */
     private String enName;
 
-    public Name(String ChName){
+    public Name(String chName){
         setChName(chName);
     }
     public Name(String ChName,String EnglishName){
@@ -26,11 +26,19 @@ public class Name extends AssertionConcern {
         setEnName(enName);
     }
 
-    public void setChName(String chName){
+    private void setChName(String chName){
         this.assertArgumentNotNull(chName,"chName must not be null");
         this.chName =chName;
     }
-    public void setEnName(String enName){
+    private void setEnName(String enName){
         this.enName =enName;
+    }
+
+    public String getEnName() {
+        return this.enName;
+    }
+
+    public String getChName() {
+        return this.chName;
     }
 }

@@ -2,6 +2,13 @@ package com.rc.cloud.app.operate.infrastructure.repository;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.rc.cloud.app.operate.ApplicationTest;
+import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
+import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.productcategory.valobj.Icon;
+import com.rc.cloud.app.operate.domain.productcategory.valobj.Name;
+import com.rc.cloud.app.operate.domain.productcategory.valobj.Page;
+import com.rc.cloud.app.operate.domain.productcategory.valobj.Sort;
+import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductCategoryMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCategoryRepositoryImpl;
@@ -52,6 +59,18 @@ public class ProductCategoryRepositoryImplTest {
         if (length !=expectedLength) {
             throw new AssertionError(aMessage);
         }
+    }
+
+    @Test
+    public void save() {
+        ProductCategoryId id=productCategoryRepository.nextId();
+        TenantId tenantId =new TenantId("test");
+        Name name=new Name("极简风");
+        ProductCategoryAggregation productCategoryAggregation=new ProductCategoryAggregation(id,tenantId,name);
+        productCategoryAggregation.setIcon(new Icon("http://www.576zx.com/storage/uploads/20220707/2b454a34bb5934ea82e5602ef14006e8.jpg"));
+        productCategoryAggregation.setPage(new Page("http://www.576zx.com/storage/uploads/20220707/2b454a34bb5934ea82e5602ef14006e8.jpg","http://www.576zx.com/storage/uploads/20220707/2b454a34bb5934ea82e5602ef14006e8.jpg"));
+        productCategoryAggregation.setSort(new Sort(1));
+        productCategoryRepository.save(productCategoryAggregation);
     }
 
 
