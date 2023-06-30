@@ -96,4 +96,9 @@ public interface PostService {
      */
     void validatePostList(Collection<Long> ids);
 
+    /**
+     * 批量删除岗位
+     * @param idList 岗位编号数组
+     */
+    void deletePosts(List<Long> idList);
 }

@@ -149,4 +149,9 @@ public class PostServiceImpl implements PostService {
             }
         });
     }
+
+    @Override
+    public void deletePosts(List<Long> idList) {
+        postMapper.deleteBatchIds(idList);
+    }
 }
