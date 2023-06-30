@@ -3,11 +3,11 @@ package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
+import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryFactory;
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.productcategory.valobj.Layer;
-import com.rc.cloud.app.operate.domain.productcategory.valobj.Locked;
-import com.rc.cloud.app.operate.domain.productcategory.valobj.Parent;
+import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
+import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductCategoryMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
@@ -25,14 +25,15 @@ import java.util.List;
  * @Description:
  */
 @Repository
-public class ProductCategoryRepositoryImpl implements  ProductCategoryRepository {
+public class ProductCategoryRepositoryImpl implements ProductCategoryRepository {
     @Autowired
     private ProductCategoryMapper productCategoryMapper;
     @Autowired
     private ProductMapper productMapper;
-
     @Autowired
     private RemoteIdGeneratorService remoteIdGeneratorService;
+    @Autowired
+    private ProductCategoryFactory productCategoryBuilderFactory;
 
 
     /**
@@ -50,7 +51,7 @@ public class ProductCategoryRepositoryImpl implements  ProductCategoryRepository
         wrapper.orderByAsc("SortID");
         List<ProductCategoryAggregation> list = new ArrayList<>();
         productCategoryMapper.selectList(wrapper).forEach(item -> {
-            list.add(ProductCategoryConvert.convert2ProductCategoryAggregation(item));
+            list.add(convert2ProductCategoryAggregation(item));
         });
         return list;
     }
@@ -64,24 +65,45 @@ public class ProductCategoryRepositoryImpl implements  ProductCategoryRepository
     public ProductCategoryAggregation findById(ProductCategoryId productCategoryId) {
         LambdaQueryWrapperX<ProductCategoryDO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductCategoryDO::getId, productCategoryId.id());
-        return ProductCategoryConvert.convert2ProductCategoryAggregation( this.productCategoryMapper.selectOne(wrapper));
+        ProductCategoryDO productCategoryDO = this.productCategoryMapper.selectOne(wrapper);
+        return convert2ProductCategoryAggregation(productCategoryDO);
     }
 
     @Override
     public List<ProductCategoryAggregation> findAll() {
         LambdaQueryWrapperX<ProductCategoryDO> wrapper = new LambdaQueryWrapperX<>();
-        List<ProductCategoryDO> list = this.productCategoryMapper.selectList(wrapper);;
-        List<ProductCategoryAggregation> result = new ArrayList<>();
-        list.forEach(item -> {
-            result.add(ProductCategoryConvert.convert2ProductCategoryAggregation(item));
+        List<ProductCategoryDO> list = this.productCategoryMapper.selectList(wrapper);
+        List<ProductCategoryAggregation> resultList=new ArrayList<>();
+        list.forEach(productCategoryDO->{
+            resultList.add(convert2ProductCategoryAggregation(productCategoryDO));
         });
-        return result;
+        return resultList;
     }
 
     @Override
     public void save(ProductCategoryAggregation productCategoryAggregation) {
         ProductCategoryDO productCategoryDO = ProductCategoryConvert.convert2ProductCategoryDO(productCategoryAggregation);
         this.productCategoryMapper.insert(productCategoryDO);
+    }
+
+    /**
+     * 持久化对象转领域对象
+     * @param productCategoryDO
+     * @return
+     */
+    private ProductCategoryAggregation convert2ProductCategoryAggregation(ProductCategoryDO productCategoryDO ){
+        ProductCategoryId id = new ProductCategoryId(productCategoryDO.getId());
+        TenantId tenantId = new TenantId(productCategoryDO.getTenantId());
+        Name name = new Name(productCategoryDO.getName());
+        ProductCategoryFactory.ProductCategoryReBuilder rebuilder = productCategoryBuilderFactory.reBuilder(id, tenantId, name);
+        rebuilder.icon(new Icon(productCategoryDO.getIcon()));
+        rebuilder.enabled(new Enabled(productCategoryDO.getEnabledFlag()));
+        rebuilder.page(new Page(productCategoryDO.getProductCategoryPageImage(), productCategoryDO.getProductListPageImage()));
+        rebuilder.sort(new Sort(productCategoryDO.getSortId()));
+        if(null!=productCategoryDO.getParentId()){
+            rebuilder.parentId(new ProductCategoryId(productCategoryDO.getParentId()));
+        }
+        return rebuilder.rebuild();
     }
 
 }

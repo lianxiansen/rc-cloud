@@ -3,7 +3,7 @@ package com.rc.cloud.app.operate.infrastructure.repository;
 import cn.hutool.core.util.ReflectUtil;
 import com.rc.cloud.app.operate.ApplicationTest;
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryBuilderFactory;
+import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryFactory;
 import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
@@ -32,7 +32,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes= ApplicationTest.class)
 public class ProductCategoryRepositoryImplTest {
     @Autowired
-    private ProductCategoryBuilderFactory productCategoryBuilderFactory;
+    private ProductCategoryFactory productCategoryBuilderFactory;
     @InjectMocks
     private ProductCategoryRepositoryImpl productCategoryRepository=new ProductCategoryRepositoryImpl();
     @Mock
@@ -67,7 +67,7 @@ public class ProductCategoryRepositoryImplTest {
         ProductCategoryId id=productCategoryRepository.nextId();
         TenantId tenantId =new TenantId("test");
         Name name=new Name("极简风");
-        ProductCategoryBuilderFactory.ProductCategoryBuilder builder=productCategoryBuilderFactory.create(id,tenantId,name);
+        ProductCategoryFactory.ProductCategoryBuilder builder=productCategoryBuilderFactory.builder(id,tenantId,name);
         builder.icon(new Icon(imgUrl));
         builder.enabled(new Enabled(true));
         builder.page(new Page(imgUrl, imgUrl));

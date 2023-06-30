@@ -3,7 +3,7 @@ package com.rc.cloud.app.operate.application.service;
 import com.rc.cloud.app.operate.application.data.ProductCategoryDTO;
 import com.rc.cloud.app.operate.application.data.ProductCategoryData;
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryBuilderFactory;
+import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryFactory;
 import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.productcategory.service.ContainsProductCategoryDomainService;
@@ -33,7 +33,7 @@ public class ProductCategoryApplicationService {
     private ProductCategoryRepository productCategoryRepository;
 
     @Autowired
-    private ProductCategoryBuilderFactory productCategoryBuilderFactory;
+    private ProductCategoryFactory productCategoryBuilderFactory;
 
     public List<ProductCategoryData> getFirstList() {
         List<ProductCategoryData> list = new ArrayList<>();
@@ -47,7 +47,7 @@ public class ProductCategoryApplicationService {
         ProductCategoryId id = productCategoryRepository.nextId();
         TenantId tenantId = new TenantId(productCategoryDTO.getTenantId());
         Name name = new Name(productCategoryDTO.getName());
-        ProductCategoryBuilderFactory.ProductCategoryBuilder builder=productCategoryBuilderFactory.create(id,tenantId,name);
+        ProductCategoryFactory.ProductCategoryBuilder builder=productCategoryBuilderFactory.builder(id,tenantId,name);
         builder.icon(new Icon(productCategoryDTO.getIcon()));
         builder.enabled(new Enabled(productCategoryDTO.getEnabledFlag()));
         builder.page(new Page(productCategoryDTO.getProductCategoryPageImage(), productCategoryDTO.getProductListPageImage()));
@@ -61,8 +61,11 @@ public class ProductCategoryApplicationService {
 
 
     public void updateProductCategory(ProductCategoryDTO productCategoryDTO) {
-        productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getId()));
+        ProductCategoryAggregation productCategoryAggregation=productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getId()));
+        //TODO
+    }
 
-
+    public List<ProductCategoryAggregation> findAll(){
+        return productCategoryRepository.findAll();
     }
 }
