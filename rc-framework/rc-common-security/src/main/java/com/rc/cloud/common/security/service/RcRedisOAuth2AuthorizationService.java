@@ -1,6 +1,8 @@
 package com.rc.cloud.common.security.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.rc.cloud.common.core.constant.SecurityConstants;
+import com.rc.cloud.common.core.util.RequestUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -117,7 +119,11 @@ public class RcRedisOAuth2AuthorizationService implements OAuth2AuthorizationSer
 		Assert.hasText(token, "token cannot be empty");
 		Assert.notNull(tokenType, "tokenType cannot be empty");
 		redisTemplate.setValueSerializer(RedisSerializer.java());
-		return (OAuth2Authorization) redisTemplate.opsForValue().get(buildKey(tokenType.getValue(), token));
+		OAuth2Authorization oAuth2Authorization = (OAuth2Authorization) redisTemplate.opsForValue().get(buildKey(tokenType.getValue(), token));
+		if (oAuth2Authorization!=null) {
+			RequestUtils.getRequest().setAttribute(SecurityConstants.LOGIN_USERNAME, oAuth2Authorization.getPrincipalName());
+		}
+		return oAuth2Authorization;
 	}
 
 	private String buildKey(String type, String id) {

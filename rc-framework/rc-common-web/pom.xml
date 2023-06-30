@@ -34,7 +34,11 @@
             <artifactId>rc-common-core</artifactId>
             <version>1.0.0</version>
         </dependency>
-<!--        <dependency>-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>
+        <!--        <dependency>-->
 <!--            <groupId>com.github.xiaoymin</groupId>-->
 <!--            <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>-->
 <!--            <version>4.0.0</version>-->
