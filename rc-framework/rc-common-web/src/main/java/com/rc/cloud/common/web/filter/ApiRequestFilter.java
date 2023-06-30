@@ -3,8 +3,10 @@ package com.rc.cloud.common.web.filter;
 import cn.hutool.core.util.StrUtil;
 import com.rc.cloud.common.core.web.config.WebProperties;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 /**

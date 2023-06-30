@@ -1,6 +1,9 @@
 package com.rc.cloud.common.mybatis.core.handler;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.rc.cloud.common.core.constant.SecurityConstants;
+import com.rc.cloud.common.core.util.RequestUtils;
+import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.web.util.WebFrameworkUtils;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import org.apache.ibatis.reflection.MetaObject;
@@ -31,15 +34,18 @@ public class DefaultDBFieldHandler implements MetaObjectHandler {
             if (Objects.isNull(baseDO.getUpdateTime())) {
                 baseDO.setUpdateTime(current);
             }
-
-            Long userId = WebFrameworkUtils.getLoginUserId();
+            String username = StringUtils.EMPTY;
+            Object attribute = RequestUtils.getRequest().getAttribute(SecurityConstants.LOGIN_USERNAME);
+            if (attribute != null) {
+                username = attribute.toString();
+            }
             // 当前登录用户不为空，创建人为空，则当前登录用户为创建人
-            if (Objects.nonNull(userId) && Objects.isNull(baseDO.getCreator())) {
-                baseDO.setCreator(userId.toString());
+            if (Objects.nonNull(username) && Objects.isNull(baseDO.getCreator())) {
+                baseDO.setCreator(username);
             }
             // 当前登录用户不为空，更新人为空，则当前登录用户为更新人
-            if (Objects.nonNull(userId) && Objects.isNull(baseDO.getUpdater())) {
-                baseDO.setUpdater(userId.toString());
+            if (Objects.nonNull(username) && Objects.isNull(baseDO.getUpdater())) {
+                baseDO.setUpdater(username);
             }
         }
     }
@@ -54,9 +60,13 @@ public class DefaultDBFieldHandler implements MetaObjectHandler {
 
         // 当前登录用户不为空，更新人为空，则当前登录用户为更新人
         Object modifier = getFieldValByName("updater", metaObject);
-        Long userId = WebFrameworkUtils.getLoginUserId();
-        if (Objects.nonNull(userId) && Objects.isNull(modifier)) {
-            setFieldValByName("updater", userId.toString(), metaObject);
+        String username = StringUtils.EMPTY;
+        Object attribute = RequestUtils.getRequest().getAttribute(SecurityConstants.LOGIN_USERNAME);
+        if (attribute != null) {
+            username = attribute.toString();
+        }
+        if (Objects.nonNull(username) && Objects.isNull(modifier)) {
+            setFieldValByName("updater", username, metaObject);
         }
     }
 }
