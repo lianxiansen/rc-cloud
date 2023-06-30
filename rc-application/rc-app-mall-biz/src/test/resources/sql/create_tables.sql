@@ -32,7 +32,6 @@ CREATE TABLE IF NOT EXISTS "distributor"  (
                                 "end_time" varchar(25)  NULL DEFAULT '' COMMENT '合作结束',
                                 "status" int NULL DEFAULT 1 COMMENT '对接状态1未对接2已对接',
                                 "remarks" clob  NULL COMMENT '备注',
-                                "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',
                                 "admin_id" bigint NULL DEFAULT NULL COMMENT '管理员id',
                                 "telephone" varchar(255)  NULL DEFAULT '' COMMENT '联系电话',
                                 "channel" bigint NULL DEFAULT 0 COMMENT '客户渠道id',
@@ -42,6 +41,7 @@ CREATE TABLE IF NOT EXISTS "distributor"  (
                                 "established_time" varchar(255)  NULL DEFAULT '' COMMENT '成立时间',
                                 "deleted" int NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是',
                                 "locking" int NULL DEFAULT 0 COMMENT '是否锁定',
+                                "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',
                                 "update_time" timestamp NULL DEFAULT NULL COMMENT '更新时间',
                                 "updater" varchar(255)  NULL DEFAULT NULL COMMENT '更新人',
                                 "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间'
@@ -53,7 +53,11 @@ CREATE TABLE IF NOT EXISTS "distributor_channel"  (
                                 "id" bigint NOT NULL COMMENT 'id',
                                 "name" varchar(255)  NULL DEFAULT NULL COMMENT '渠道名称',
                                 "description" varchar(255)  NULL DEFAULT NULL COMMENT '说明',
-                                "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间'
+                                "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',
+                                "update_time" timestamp NULL DEFAULT NULL COMMENT '更新时间',
+                                "updater" varchar(255)  NULL DEFAULT NULL COMMENT '更新人',
+                                "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间',
+                                "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是'
 );
 -- -- ----------------------------
 -- -- Table structure for distributor_contact
@@ -83,7 +87,11 @@ CREATE TABLE IF NOT EXISTS "distributor_level"  (
                                       "id" bigint NOT NULL COMMENT 'id',
                                       "name" varchar(255)  NULL DEFAULT '' COMMENT '客户等级',
                                       "description" varchar(255)  NULL DEFAULT '' COMMENT '说明',
-                                      "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间'
+                                    "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',
+                                    "update_time" timestamp NULL DEFAULT NULL COMMENT '更新时间',
+                                    "updater" varchar(255)  NULL DEFAULT NULL COMMENT '更新人',
+                                    "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间',
+                                    "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是'
 );
 -- ----------------------------
 -- Table structure for distributor_reputation
@@ -92,7 +100,11 @@ CREATE TABLE IF NOT EXISTS "distributor_reputation"  (
                                            "id" bigint NOT NULL COMMENT 'id',
                                            "name" varchar(255)  NULL DEFAULT NULL COMMENT '信誉等级',
                                            "description" varchar(255)  NULL DEFAULT NULL COMMENT '说明',
-                                           "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间'
+                                            "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',
+                                            "update_time" timestamp NULL DEFAULT NULL COMMENT '更新时间',
+                                            "updater" varchar(255)  NULL DEFAULT NULL COMMENT '更新人',
+                                            "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间',
+                                            "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是'
 );
 -- ----------------------------
 -- Table structure for distributor_source
@@ -101,5 +113,9 @@ CREATE TABLE IF NOT EXISTS "distributor_source"  (
                                        "id" bigint NOT NULL COMMENT 'id',
                                        "name" varchar(255)  NULL DEFAULT '' COMMENT '获客方式',
                                        "description" varchar(255)  NULL DEFAULT '' COMMENT '说明',
-                                       "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间'
+                                        "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',
+                                        "update_time" timestamp NULL DEFAULT NULL COMMENT '更新时间',
+                                        "updater" varchar(255)  NULL DEFAULT NULL COMMENT '更新人',
+                                        "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间',
+                                        "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是'
 );

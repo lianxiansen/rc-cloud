@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DistributorReputationDO implements Serializable {
+public class DistributorReputationDO extends BaseDO {
 
     /**
      * id
@@ -34,9 +34,4 @@ public class DistributorReputationDO implements Serializable {
      * 说明
      */
     private String description;
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
 }

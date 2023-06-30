@@ -34,7 +34,6 @@ public class DistributorLevelServiceImpl implements DistributorLevelService {
     public Long createLevel(AppDistributorLevelCreateReqVO createReqVO) {
         // 插入
         DistributorLevelDO level = DistributorLevelConvert.INSTANCE.convert(createReqVO);
-        level.setCreateTime(LocalDateTime.now());
         levelMapper.insert(level);
         // 返回
         return level.getId();

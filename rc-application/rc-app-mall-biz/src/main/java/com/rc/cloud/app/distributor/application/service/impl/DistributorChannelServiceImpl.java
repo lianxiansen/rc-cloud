@@ -34,7 +34,6 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
     public Long createChannel(AppDistributorChannelCreateReqVO createReqVO) {
         // 插入
         DistributorChannelDO channel = DistributorChannelConvert.INSTANCE.convert(createReqVO);
-        channel.setCreateTime(LocalDateTime.now());
         channelMapper.insert(channel);
         // 返回
         return channel.getId();
