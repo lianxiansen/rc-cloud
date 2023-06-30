@@ -60,4 +60,13 @@ public interface MenuMapper extends BaseMapperX<SysMenuDO> {
         return selectList(new LambdaQueryWrapperX<SysMenuDO>()
                 .eqIfPresent(SysMenuDO::getParentId, 0));
     }
+
+    default Set<Long> getMenuIdsByParentIdAndType(java.lang.Long parentId, Integer type) {
+        return selectList(new LambdaQueryWrapperX<SysMenuDO>()
+                .eqIfPresent(SysMenuDO::getParentId, parentId)
+                .eqIfPresent(SysMenuDO::getType, type))
+                .stream()
+                .map(SysMenuDO::getId)
+                .collect(Collectors.toSet());
+    }
 }
