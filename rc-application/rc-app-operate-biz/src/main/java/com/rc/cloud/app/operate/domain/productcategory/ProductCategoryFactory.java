@@ -1,13 +1,12 @@
 package com.rc.cloud.app.operate.domain.productcategory;
 
+import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.service.FindProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import static com.rc.cloud.common.core.util.AssertUtils.notNull;
 
 /**
  * @ClassName: ProductCategoryFactory
@@ -67,8 +66,8 @@ public class ProductCategoryFactory {
         public ProductCategoryAggregation build() {
             ProductCategoryAggregation parentCategory=null;
             if (null != productCategoryAggregation.getParentId()) {
-                parentCategory = findProductCategoryDomainService.execute(productCategoryAggregation.getParentId());
-                notNull(parentCategory, "父级商品分类无效");
+                parentCategory = findProductCategoryDomainService.findById(productCategoryAggregation.getParentId());
+                throw new DomainException("父级商品分类无效："+productCategoryAggregation.getParentId().id());
             }
             productCategoryAggregation.extendsFromParent(productCategoryAggregation);
             return productCategoryAggregation;

@@ -19,7 +19,7 @@ public class FindProductCategoryDomainService {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
 
-    public ProductCategoryAggregation execute(ProductCategoryId productCategoryId){
+    public ProductCategoryAggregation findById(ProductCategoryId productCategoryId){
         notNull(productCategoryId, "父级商品分类唯一标识不为空");
         return productCategoryRepository.findById(productCategoryId);
     }
