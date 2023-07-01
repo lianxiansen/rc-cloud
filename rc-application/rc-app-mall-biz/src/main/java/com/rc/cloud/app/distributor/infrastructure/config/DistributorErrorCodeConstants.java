@@ -17,4 +17,6 @@ public interface DistributorErrorCodeConstants {
     ErrorCode DISTRIBUTOR_REPUTATION_NOT_EXISTS = new ErrorCode(1002029004, "经销商信誉不存在");
     ErrorCode DISTRIBUTOR_CONTACT_PHONE_DUPLICATE = new ErrorCode(1002029005, "联系方式重复");
     ErrorCode DISTRIBUTOR_CONTACT_PHONE_EXIST = new ErrorCode(1002029006, "该联系方式已被绑定");
+    // ========== 手机 1002030000 ==========
+    ErrorCode MOBILE_PATTERN_NOT_CORRECT = new ErrorCode(1002030001, "手机号格式不正确");
 }
