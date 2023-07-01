@@ -8,7 +8,6 @@ import com.rc.cloud.app.operate.domain.model.product.ProductAggregation;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductPOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
