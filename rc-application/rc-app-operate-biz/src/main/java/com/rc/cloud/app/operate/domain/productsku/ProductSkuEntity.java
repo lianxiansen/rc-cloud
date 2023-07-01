@@ -1,9 +1,7 @@
 package com.rc.cloud.app.operate.domain.productsku;
 
 import com.rc.cloud.app.operate.domain.productsku.valobj.ProductId;
-import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.common.Entity;
-import com.rc.cloud.app.operate.domain.product.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.productsku.valobj.Sort;
 

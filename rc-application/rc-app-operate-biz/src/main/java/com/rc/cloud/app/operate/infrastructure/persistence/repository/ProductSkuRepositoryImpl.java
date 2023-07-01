@@ -1,22 +1,18 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
-import com.rc.cloud.app.operate.domain.product.identifier.ProductSkuId;
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryFactory;
-import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.productsku.ProductSkuEntity;
 import com.rc.cloud.app.operate.domain.productsku.ProductSkuFactory;
 import com.rc.cloud.app.operate.domain.productsku.ProductSkuRepository;
 import com.rc.cloud.app.operate.domain.productsku.valobj.Price;
 import com.rc.cloud.app.operate.domain.productsku.valobj.ProductId;
+import com.rc.cloud.app.operate.domain.productsku.valobj.ProductSkuId;
 import com.rc.cloud.app.operate.domain.productsku.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;

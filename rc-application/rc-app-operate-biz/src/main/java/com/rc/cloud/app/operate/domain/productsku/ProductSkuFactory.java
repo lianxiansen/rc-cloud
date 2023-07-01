@@ -1,16 +1,10 @@
 
 package com.rc.cloud.app.operate.domain.productsku;
 
-import com.rc.cloud.app.operate.domain.product.identifier.ProductSkuId;
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
-import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.productsku.valobj.ProductId;
 import com.rc.cloud.app.operate.domain.productsku.valobj.*;
-import com.rc.cloud.app.operate.domain.productsku.valobj.TenantId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import static com.rc.cloud.common.core.util.AssertUtils.notNull;
 
 /**
  * @ClassName: ProductSkuFactory
