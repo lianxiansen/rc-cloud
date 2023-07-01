@@ -17,7 +17,7 @@ public class BrandRepositoryImpl implements BrandRepository{
     private  BrandMapper brandMapper;
     @Override
     public void saveBrand(BrandEntity brandEntity) {
-        BrandDO brandDO= BrandConvert.toBrandPO(brandEntity);
+        BrandDO brandDO= BrandConvert.convert2BrandPO(brandEntity);
         brandMapper.insert(brandDO);
     }
 

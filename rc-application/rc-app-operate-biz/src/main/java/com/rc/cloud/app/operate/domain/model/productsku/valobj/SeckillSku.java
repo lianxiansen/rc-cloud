@@ -6,13 +6,6 @@ import java.text.DecimalFormat;
 
 public class SeckillSku {
 
-
-    private ProductSkuEntity context;
-
-    public  SeckillSku(ProductSkuEntity context){
-        this.context=context;
-    }
-
     private LimitBuy seckillLimitBuy;
 
     private Price seckillPrice;
@@ -20,6 +13,39 @@ public class SeckillSku {
     private Inventory seckillInventory;
 
     private TotalInventory seckillTotalInventory;
+
+
+    public LimitBuy getSeckillLimitBuy() {
+        return seckillLimitBuy;
+    }
+
+    public void setSeckillLimitBuy(LimitBuy seckillLimitBuy) {
+        this.seckillLimitBuy = seckillLimitBuy;
+    }
+
+    public Price getSeckillPrice() {
+        return seckillPrice;
+    }
+
+    public void setSeckillPrice(Price seckillPrice) {
+        this.seckillPrice = seckillPrice;
+    }
+
+    public Inventory getSeckillInventory() {
+        return seckillInventory;
+    }
+
+    public void setSeckillInventory(Inventory seckillInventory) {
+        this.seckillInventory = seckillInventory;
+    }
+
+    public TotalInventory getSeckillTotalInventory() {
+        return seckillTotalInventory;
+    }
+
+    public void setSeckillTotalInventory(TotalInventory seckillTotalInventory) {
+        this.seckillTotalInventory = seckillTotalInventory;
+    }
 
     public String getSeckillBuyRate(){
         if(seckillInventory.getValue()>0 && seckillTotalInventory.getValue()>0){

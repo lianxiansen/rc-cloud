@@ -42,13 +42,13 @@ public class ProductSkuDO extends BaseDO {
     private BigDecimal weight;
 
     @TableField("out_id")
-    private BigDecimal outId;
+    private String outId;
 
     @TableField("has_image_flag")
     private Boolean hasImageFlag;
 
     @TableField("limit_buy")
-    private Integer limitBuy;
+    private int limitBuy;
 
     @TableField("price")
     private BigDecimal price;
@@ -57,19 +57,19 @@ public class ProductSkuDO extends BaseDO {
      * 库存
      */
     @TableField("inventory")
-    private Integer inventory;
+    private int inventory;
 
     @TableField("seckill_limit_buy")
-    private Integer seckillLimitBuy;
+    private int seckillLimitBuy;
 
     @TableField("seckill_price")
     private BigDecimal seckillPrice;
 
     @TableField("seckill_inventory")
-    private Integer seckillInventory;
+    private int seckillInventory;
 
     @TableField("seckill_total_inventory")
-    private Integer seckillTotalInventory;
+    private int seckillTotalInventory;
 
     @TableField("sort_id")
     private Integer sortId;

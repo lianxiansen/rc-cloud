@@ -12,6 +12,10 @@ public class Price extends ValueObject {
         this.value =MIN;
     }
 
+    public Price(BigDecimal price){
+        this.value =price;
+    }
+
     public BigDecimal getValue(){
         return value;
     }

@@ -1,22 +1,33 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuEntity;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.SeckillSku;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
+
 public class ProductSkuConvert {
 
 
-//    public static ProductSkuEntity convert2ProductCategoryDO(ProductSkuDO source) {
-//        ProductCategoryDO target=new ProductCategoryDO();
-//        target.setId(source.getId().id());
-//        target.setProductCategoryPageImage(source.getPage().getCategoryImage());
-//        target.setProductListPageImage(source.getPage().getListImage());
-//        target.setLayer(source.getLayer().getValue());
-//        target.setEnabledFlag(source.getEnabled().value());
-//        target.setIcon(source.getIcon().getPictureUrl());
-//        target.setName(source.getName().getChName());
-//        target.setEnglishName(source.getName().getEnName());
-//        target.setParentId(source.getParentId()==null?null:source.getParentId().id());
-//        target.setSortId(source.getSort().getValue());
-//        target.setTenantId(source.getTenantId().id());
-//        return target;
-//    }
+    public static ProductSkuDO convert2ProductSkuDO(ProductSkuEntity source) {
+        ProductSkuDO target=new ProductSkuDO();
+
+        target.setId(source.getId().id());
+        target.setProductId(source.getProductId().id());
+        target.setSkuCode(source.getSkuCode());
+        target.setPrice(source.getPrice().getValue());
+        target.setInventory(source.getInventory().getValue());
+        target.setLimitBuy(source.getLimitBuy().getValue());
+        target.setOutId(source.getOutId().getValue());
+        target.setHasImageFlag(source.isHasImageFlag());
+        target.setSupplyPrice(source.getSupplyPrice().getValue());
+        target.setWeight(source.getWeight().getValue());
+        SeckillSku seckillSku = source.getSeckillSku();
+        if(seckillSku!=null){
+            target.setSeckillInventory(seckillSku.getSeckillInventory().getValue());
+            target.setSeckillPrice(seckillSku.getSeckillPrice().getValue());
+            target.setSeckillLimitBuy(seckillSku.getSeckillLimitBuy().getValue());
+            target.setSeckillTotalInventory(seckillSku.getSeckillTotalInventory().getValue());
+        }
+        return target;
+    }
 
 }

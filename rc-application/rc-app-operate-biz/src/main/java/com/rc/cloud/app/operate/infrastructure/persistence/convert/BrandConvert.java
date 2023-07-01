@@ -5,7 +5,7 @@ import com.rc.cloud.app.operate.infrastructure.persistence.po.BrandDO;
 
 public  class BrandConvert {
 
-    public static BrandDO toBrandPO(BrandEntity brandEntity){
+    public static BrandDO convert2BrandPO(BrandEntity brandEntity){
         BrandDO brandDO=new BrandDO();
         brandDO.setId(brandEntity.getId()==null? 0 : brandEntity.getId().getValue());
         brandDO.setName(brandEntity.getName()==null? null : brandEntity.getName().getValue());

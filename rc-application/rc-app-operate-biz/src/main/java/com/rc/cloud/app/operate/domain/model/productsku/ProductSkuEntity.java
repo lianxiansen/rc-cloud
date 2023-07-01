@@ -156,4 +156,12 @@ public class ProductSkuEntity extends Entity {
     public void setSeckillSku(SeckillSku seckillSku) {
         this.seckillSku = seckillSku;
     }
+
+    public ProductId getProductId() {
+        return productId;
+    }
+
+    public void setProductId(ProductId productId) {
+        this.productId = productId;
+    }
 }
