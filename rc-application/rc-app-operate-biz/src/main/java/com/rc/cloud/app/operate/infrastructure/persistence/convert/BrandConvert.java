@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
-import com.rc.cloud.app.operate.domain.brand.BrandEntity;
+import com.rc.cloud.app.operate.domain.model.brand.BrandEntity;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.BrandDO;
 
 public  class BrandConvert {

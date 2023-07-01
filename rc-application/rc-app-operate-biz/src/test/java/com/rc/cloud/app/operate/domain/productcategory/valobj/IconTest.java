@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.domain.productcategory.valobj;
 
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Icon;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
 import org.junit.Assert;

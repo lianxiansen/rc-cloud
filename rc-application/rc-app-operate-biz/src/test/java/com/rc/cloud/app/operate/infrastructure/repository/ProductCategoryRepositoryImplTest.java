@@ -2,11 +2,11 @@ package com.rc.cloud.app.operate.infrastructure.repository;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.rc.cloud.app.operate.ApplicationTest;
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryFactory;
-import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
-import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryAggregation;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryFactory;
+import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductCategoryMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCategoryRepositoryImpl;

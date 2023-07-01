@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.infrastructure.service;
 
-import com.rc.cloud.app.operate.domain.tenant.service.TenantService;
-import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import org.springframework.stereotype.Service;
 
 /**

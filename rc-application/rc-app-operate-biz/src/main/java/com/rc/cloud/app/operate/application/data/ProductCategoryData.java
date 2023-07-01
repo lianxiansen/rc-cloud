@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.application.data;
 
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryAggregation;
 import lombok.Data;
 
 import java.util.Date;

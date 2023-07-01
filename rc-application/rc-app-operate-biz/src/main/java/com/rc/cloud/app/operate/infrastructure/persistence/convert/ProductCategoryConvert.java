@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryAggregation;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
 
 /**

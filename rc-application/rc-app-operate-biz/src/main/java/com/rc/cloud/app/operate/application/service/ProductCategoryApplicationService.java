@@ -1,12 +1,13 @@
 package com.rc.cloud.app.operate.application.service;
 
 import com.rc.cloud.app.operate.application.data.ProductCategoryDTO;
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryFactory;
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryRepository;
-import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
-import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryAggregation;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryFactory;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
+import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.service.ProductCategoryDomainServce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,8 @@ public class ProductCategoryApplicationService {
     @Autowired
     private ProductCategoryFactory productCategoryBuilderFactory;
 
-
+    @Autowired
+    private ProductCategoryDomainServce productCategoryDomainServce;
 
     public void createProductCategory(ProductCategoryDTO productCategoryDTO) {
         ProductCategoryId id = productCategoryRepository.nextId();
@@ -41,6 +43,7 @@ public class ProductCategoryApplicationService {
             builder.parentId(new ProductCategoryId(productCategoryDTO.getParentId()));
         }
         ProductCategoryAggregation productCategoryAggregation= builder.build();
+        productCategoryDomainServce.initialize(productCategoryAggregation);
         productCategoryRepository.save(productCategoryAggregation);
     }
 
