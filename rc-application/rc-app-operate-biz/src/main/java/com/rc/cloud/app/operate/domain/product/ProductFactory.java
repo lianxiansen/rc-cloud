@@ -3,7 +3,6 @@ package com.rc.cloud.app.operate.domain.product;
 import com.rc.cloud.app.operate.domain.product.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.product.valobj.*;
 import com.rc.cloud.app.operate.domain.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.productcategory.service.ContainsProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
@@ -24,14 +23,12 @@ public class ProductFactory {
     private ProductRepository productRepository;
     @Autowired
     private TenantService tenantService;
-    @Autowired
-    private ContainsProductCategoryDomainService productCategoryExistService;
     public ProductAggregation createProduct(TenantId tenantId, Name name, Remark remark, Tag tag, BrandId brandId, ProductCategoryId productCategoryId,
                                             CustomClassification customClassification, Newest newest, Explosives explosives, Recommend recommend, Open open,
                                             OnshelfStatus onshelfStatus, Enable enable, Video video, MasterImage masterImage, Type type, List<Image> productImages){
         ProductId productId = productRepository.nextProductId();
         validateTenantId(tenantId);
-        validateProductCategoryId(productCategoryId);
+//        validateProductCategoryId(productCategoryId);
         ProductAggregation productEntry=new ProductAggregation(productId,tenantId,name,productCategoryId);
         productEntry.setCustomClassification(customClassification);
         productEntry.setNewest(newest);
@@ -45,11 +42,11 @@ public class ProductFactory {
         return productEntry;
     }
 
-    private void validateProductCategoryId(ProductCategoryId productCategoryId){
-        if(!productCategoryExistService.execute(productCategoryId)){
-            throw new IllegalArgumentException("产品分类错误");
-        }
-    }
+//    private void validateProductCategoryId(ProductCategoryId productCategoryId){
+//        if(!productCategoryExistService.execute(productCategoryId)){
+//            throw new IllegalArgumentException("产品分类错误");
+//        }
+//    }
 
     private void validateTenantId(TenantId tenantId){
         if(!tenantService.exists(tenantId)){
