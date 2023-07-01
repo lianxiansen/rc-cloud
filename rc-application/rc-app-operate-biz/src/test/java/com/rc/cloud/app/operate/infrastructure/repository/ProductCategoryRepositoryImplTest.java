@@ -66,8 +66,9 @@ public class ProductCategoryRepositoryImplTest {
     public void save() {
         ProductCategoryId id=productCategoryRepository.nextId();
         TenantId tenantId =new TenantId("test");
-        Name name=new Name("极简风");
+        ChName name=new ChName("极简风");
         ProductCategoryFactory.ProductCategoryBuilder builder=productCategoryBuilderFactory.builder(id,tenantId,name);
+        builder.enName(new EnName("jjf"));
         builder.icon(new Icon(imgUrl));
         builder.enabled(new Enabled(true));
         builder.page(new Page(imgUrl, imgUrl));

@@ -4,6 +4,7 @@ import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.EnName;
 
 /**
  * @ClassName: ProductCategoryEntry
@@ -14,7 +15,8 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 public class ProductCategoryAggregation extends Entity {
     private ProductCategoryId id;
     private TenantId tenantId;
-    private Name name;
+    private ChName chName;
+    private EnName enName;
     private Icon icon;
     private Page page;
     private Layer layer;
@@ -22,19 +24,21 @@ public class ProductCategoryAggregation extends Entity {
     private Enabled enabled;
     private Sort sort;
 
-    ProductCategoryAggregation(ProductCategoryId id, TenantId tenantId, Name name) {
+    ProductCategoryAggregation(ProductCategoryId id, TenantId tenantId, ChName name) {
         setId(id);
         setTenantId(tenantId);
-        setName(name);
+        setChName(name);
         init();
     }
 
     private void init(){
+        enName=new EnName("");
         icon=new Icon();
         page = new Page();
         layer = new Layer();
         enabled=new Enabled();
         sort=new Sort();
+        setEnName(enName);
         setIcon(icon);
         setPage(page);
         setLayer(layer);
@@ -60,13 +64,22 @@ public class ProductCategoryAggregation extends Entity {
         return this.tenantId;
     }
 
-    public void setName(Name name) {
-        this.assertArgumentNotNull(name, "name must not be null");
-        this.name = name;
+    public void setChName(ChName chName) {
+        this.assertArgumentNotNull(chName, "name must not be null");
+        this.chName = chName;
     }
 
-    public Name getName() {
-        return this.name;
+    public ChName getChName() {
+        return this.chName;
+    }
+
+    public void setEnName(EnName enName) {
+        this.assertArgumentNotNull(enName, "name must not be null");
+        this.enName = enName;
+    }
+
+    public EnName getEnName() {
+        return this.enName;
     }
 
     public void setIcon(Icon icon) {

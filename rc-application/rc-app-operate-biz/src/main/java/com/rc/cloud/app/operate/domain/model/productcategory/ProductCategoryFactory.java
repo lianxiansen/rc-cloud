@@ -16,10 +16,10 @@ public class ProductCategoryFactory {
 
 
 
-    public ProductCategoryBuilder builder(ProductCategoryId id, TenantId tenantId, Name name) {
+    public ProductCategoryBuilder builder(ProductCategoryId id, TenantId tenantId, ChName name) {
         return new ProductCategoryBuilder(id, tenantId, name);
     }
-    public ProductCategoryReBuilder reBuilder(ProductCategoryId id, TenantId tenantId, Name name) {
+    public ProductCategoryReBuilder reBuilder(ProductCategoryId id, TenantId tenantId, ChName name) {
         return new ProductCategoryReBuilder(id, tenantId, name);
     }
 
@@ -29,8 +29,13 @@ public class ProductCategoryFactory {
     public class ProductCategoryBuilder {
 
         private ProductCategoryAggregation productCategoryAggregation;
-        private ProductCategoryBuilder(ProductCategoryId id, TenantId tenantId, Name name) {
+        private ProductCategoryBuilder(ProductCategoryId id, TenantId tenantId, ChName name) {
             productCategoryAggregation=new ProductCategoryAggregation(id,tenantId,name);
+        }
+
+        public ProductCategoryBuilder enName(EnName enName){
+            productCategoryAggregation.setEnName(enName);
+            return this;
         }
 
         public ProductCategoryBuilder icon(Icon icon) {
@@ -69,10 +74,13 @@ public class ProductCategoryFactory {
     public class ProductCategoryReBuilder {
         private ProductCategoryAggregation productCategoryAggregation;
 
-        private ProductCategoryReBuilder(ProductCategoryId id, TenantId tenantId, Name name) {
+        private ProductCategoryReBuilder(ProductCategoryId id, TenantId tenantId, ChName name) {
             productCategoryAggregation=new ProductCategoryAggregation(id,tenantId,name);
         }
-
+        public ProductCategoryReBuilder enName(EnName enName){
+            productCategoryAggregation.setEnName(enName);
+            return this;
+        }
         public ProductCategoryReBuilder icon(Icon icon) {
             productCategoryAggregation.setIcon(icon);
             return this;

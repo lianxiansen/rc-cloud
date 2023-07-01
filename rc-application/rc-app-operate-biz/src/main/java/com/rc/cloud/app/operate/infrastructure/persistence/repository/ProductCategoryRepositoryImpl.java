@@ -94,8 +94,9 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     private ProductCategoryAggregation convert2ProductCategoryAggregation(ProductCategoryDO productCategoryDO ){
         ProductCategoryId id = new ProductCategoryId(productCategoryDO.getId());
         TenantId tenantId = new TenantId(productCategoryDO.getTenantId());
-        Name name = new Name(productCategoryDO.getName());
+        ChName name = new ChName(productCategoryDO.getName());
         ProductCategoryFactory.ProductCategoryReBuilder rebuilder = productCategoryBuilderFactory.reBuilder(id, tenantId, name);
+        rebuilder.enName(new EnName(productCategoryDO.getEnglishName()));
         rebuilder.icon(new Icon(productCategoryDO.getIcon()));
         rebuilder.enabled(new Enabled(productCategoryDO.getEnabledFlag()));
         rebuilder.page(new Page(productCategoryDO.getProductCategoryPageImage(), productCategoryDO.getProductListPageImage()));

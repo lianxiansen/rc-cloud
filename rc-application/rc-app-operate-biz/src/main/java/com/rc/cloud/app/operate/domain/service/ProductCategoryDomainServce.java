@@ -25,4 +25,8 @@ public class ProductCategoryDomainServce {
         }
         productCategoryAggregation.inherit(productCategoryAggregation);
     }
+
+    public void update(ProductCategoryAggregation productCategoryAggregation){
+
+    }
 }

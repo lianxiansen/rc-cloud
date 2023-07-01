@@ -19,8 +19,8 @@ public class ProductCategoryConvert {
         target.setLayer(source.getLayer().getValue());
         target.setEnabledFlag(source.getEnabled().value());
         target.setIcon(source.getIcon().getPictureUrl());
-        target.setName(source.getName().getChName());
-        target.setEnglishName(source.getName().getEnName());
+        target.setName(source.getChName().value());
+        target.setEnglishName(source.getEnName().value());
         target.setParentId(source.getParentId()==null?null:source.getParentId().id());
         target.setSortId(source.getSort().getValue());
         target.setTenantId(source.getTenantId().id());
