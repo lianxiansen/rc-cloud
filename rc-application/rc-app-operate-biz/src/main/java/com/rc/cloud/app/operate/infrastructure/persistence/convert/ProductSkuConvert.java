@@ -1,10 +1,5 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
-import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryAggregation;
-import com.rc.cloud.app.operate.domain.productsku.ProductSkuEntity;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
-
 public class ProductSkuConvert {
 
 

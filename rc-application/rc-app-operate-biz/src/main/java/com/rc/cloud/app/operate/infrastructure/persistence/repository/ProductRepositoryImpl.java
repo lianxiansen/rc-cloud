@@ -4,21 +4,17 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.data.ProductListQueryDTO;
-import com.rc.cloud.app.operate.domain.product.ProductAggregation;
-import com.rc.cloud.app.operate.domain.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.product.identifier.ProductImageId;
+import com.rc.cloud.app.operate.domain.model.product.ProductAggregation;
+import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductPOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import javax.naming.ldap.PagedResultsControl;
-import java.util.List;
 
 /**
  * @ClassName: ProductRepositoryImpl

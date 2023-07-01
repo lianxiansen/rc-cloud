@@ -1,10 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rc.cloud.app.operate.domain.product.ProductImageRepository;
-import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
+import com.rc.cloud.app.operate.domain.model.product.ProductImageRepository;
 import org.springframework.stereotype.Repository;
 
 /**

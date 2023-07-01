@@ -1,13 +1,13 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
-import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.productsku.ProductSkuEntity;
-import com.rc.cloud.app.operate.domain.productsku.ProductSkuFactory;
-import com.rc.cloud.app.operate.domain.productsku.ProductSkuRepository;
-import com.rc.cloud.app.operate.domain.productsku.valobj.Price;
-import com.rc.cloud.app.operate.domain.productsku.valobj.ProductSkuId;
-import com.rc.cloud.app.operate.domain.productsku.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuEntity;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuFactory;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.Price;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
