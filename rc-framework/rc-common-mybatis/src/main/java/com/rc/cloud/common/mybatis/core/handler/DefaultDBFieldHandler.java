@@ -8,12 +8,13 @@ import com.rc.cloud.common.core.web.util.WebFrameworkUtils;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import org.apache.ibatis.reflection.MetaObject;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
  * 通用参数填充实现类
- *
+ * <p>
  * 如果没有显式的对通用参数进行赋值，这里会对通用参数进行填充、赋值
  *
  * @author hexiaowu
@@ -35,9 +36,9 @@ public class DefaultDBFieldHandler implements MetaObjectHandler {
                 baseDO.setUpdateTime(current);
             }
             String username = StringUtils.EMPTY;
-            Object attribute = RequestUtils.getRequest().getAttribute(SecurityConstants.LOGIN_USERNAME);
-            if (attribute != null) {
-                username = attribute.toString();
+            HttpServletRequest request = RequestUtils.getRequest();
+            if (request != null && request.getAttribute(SecurityConstants.LOGIN_USERNAME) != null) {
+                username = request.getAttribute(SecurityConstants.LOGIN_USERNAME).toString();
             }
             // 当前登录用户不为空，创建人为空，则当前登录用户为创建人
             if (Objects.nonNull(username) && Objects.isNull(baseDO.getCreator())) {
@@ -61,9 +62,9 @@ public class DefaultDBFieldHandler implements MetaObjectHandler {
         // 当前登录用户不为空，更新人为空，则当前登录用户为更新人
         Object modifier = getFieldValByName("updater", metaObject);
         String username = StringUtils.EMPTY;
-        Object attribute = RequestUtils.getRequest().getAttribute(SecurityConstants.LOGIN_USERNAME);
-        if (attribute != null) {
-            username = attribute.toString();
+        HttpServletRequest request = RequestUtils.getRequest();
+        if (request != null && request.getAttribute(SecurityConstants.LOGIN_USERNAME) != null) {
+            username = request.getAttribute(SecurityConstants.LOGIN_USERNAME).toString();
         }
         if (Objects.nonNull(username) && Objects.isNull(modifier)) {
             setFieldValByName("updater", username, metaObject);
