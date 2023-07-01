@@ -109,7 +109,7 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
             o.setId(distributorDO.getId());
             o.getContacts().forEach(x -> x.setMobile(
                     //生成随机手机号
-                    "13575" + String.format("%06d", random.nextInt(100)
+                    "13575" + String.format("%06d", random.nextInt(10000)
                     )));
         });
 
