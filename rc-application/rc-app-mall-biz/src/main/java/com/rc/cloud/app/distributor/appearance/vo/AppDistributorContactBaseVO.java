@@ -3,6 +3,8 @@ package com.rc.cloud.app.distributor.appearance.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.Size;
+
 /**
  * @author WJF
  * @create 2023-06-27 10:39
