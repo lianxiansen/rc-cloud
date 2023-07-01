@@ -13,17 +13,16 @@ import org.springframework.stereotype.Service;
  * @Description: TODO
  */
 @Service
-public class SaveProductCategoryDomainServce {
+public class ProductCategoryDomainServce {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
 
-    public void execute(ProductCategoryAggregation productCategoryAggregation){
+    public void initialize(ProductCategoryAggregation productCategoryAggregation){
         ProductCategoryAggregation parentCategory=null;
         if (null != productCategoryAggregation.getParentId()) {
             parentCategory = productCategoryRepository.findById(productCategoryAggregation.getParentId());
             throw new DomainException("父级商品分类无效："+productCategoryAggregation.getParentId().id());
         }
-        productCategoryAggregation.extendsFromParent(productCategoryAggregation);
-        productCategoryRepository.save(productCategoryAggregation);
+        productCategoryAggregation.inherit(productCategoryAggregation);
     }
 }

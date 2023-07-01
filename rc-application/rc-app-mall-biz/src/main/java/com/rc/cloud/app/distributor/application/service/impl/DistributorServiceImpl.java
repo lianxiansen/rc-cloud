@@ -21,6 +21,7 @@ import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDet
 import com.rc.cloud.app.distributor.infrastructure.util.CommonUtil;
 import com.rc.cloud.app.distributor.infrastructure.util.SpringContextHolder;
 import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.core.util.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -63,11 +64,18 @@ public class DistributorServiceImpl implements DistributorService {
         DistributorDO distributorDO = DistributorConvert.INSTANCE.convert(createReqVO);
 
         DistributorDetailDO distributorDetailDO = DistributorDetailConvert.INSTANCE.convert(createReqVO);
+        List<DistributorContactDO> contactDOList = DistributorContactConvert.INSTANCE.convertList(createReqVO.getContacts());
+
+        if (contactDOList.size()>0){
+            List<String> names = contactDOList.stream().map(x -> x.getName()).distinct().collect(Collectors.toList());
+            List<String> mobiles = contactDOList.stream().map(x -> x.getMobile()).distinct().collect(Collectors.toList());
+            distributorDO.setContact(StringUtils.join(names,","));
+            distributorDO.setMobile(StringUtils.join(mobiles,","));
+        }
         mapper.insert(distributorDO);
         distributorDetailDO.setDistributorId(distributorDO.getId());
         //插入明细表
         detailMapper.insert(distributorDetailDO);
-        List<DistributorContactDO> contactDOList = DistributorContactConvert.INSTANCE.convertList(createReqVO.getContacts());
         contactDOList.forEach(x -> {
             x.setDistributorId(distributorDO.getId());
             x.setPassword(webPasswordEncoder.encode(CommonUtil.getFinalMobile(x.getMobile())));
@@ -87,6 +95,12 @@ public class DistributorServiceImpl implements DistributorService {
         DistributorDetailDO detailObj = DistributorDetailConvert.INSTANCE.convert(updateReqVO);
         List<DistributorContactDO> contacts = DistributorContactConvert.INSTANCE.convertList2(updateReqVO.getContacts());
 
+        if (contacts.size()>0){
+            List<String> names = contacts.stream().map(x -> x.getName()).distinct().collect(Collectors.toList());
+            List<String> mobiles = contacts.stream().map(x -> x.getMobile()).distinct().collect(Collectors.toList());
+            updateObj.setContact(StringUtils.join(names,","));
+            updateObj.setMobile(StringUtils.join(mobiles,","));
+        }
         // 更新主表
         mapper.updateById(updateObj);
 

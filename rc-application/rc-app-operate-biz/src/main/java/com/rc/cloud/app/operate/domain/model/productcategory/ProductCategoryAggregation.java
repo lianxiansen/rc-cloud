@@ -119,7 +119,7 @@ public class ProductCategoryAggregation extends Entity {
     public Sort getSort() {
         return this.sort;
     }
-    public void extendsFromParent(ProductCategoryAggregation parent){
+    public void inherit(ProductCategoryAggregation parent){
         if(null!=parent){
             Layer layer= parent.getLayer().addLayer(new Layer(1));
             setLayer(layer);

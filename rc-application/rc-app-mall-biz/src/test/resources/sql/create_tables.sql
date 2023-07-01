@@ -23,6 +23,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 CREATE TABLE IF NOT EXISTS "distributor"  (
                                 "id" bigint NOT NULL COMMENT 'id',
                                 "company_name" varchar(255)  NULL DEFAULT '' COMMENT '企业名称',
+                                "contact" varchar(255)  NULL DEFAULT '' COMMENT '联系人，用逗号隔开',
+                                "mobile" varchar(1000)  NULL DEFAULT '' COMMENT '联系方式，用逗号隔开',
                                 "password" varchar(25)  NULL DEFAULT '' COMMENT '密码',
                                 "province" varchar(255)  NULL DEFAULT '' COMMENT '省',
                                 "city" varchar(255)  NULL DEFAULT '' COMMENT '市',

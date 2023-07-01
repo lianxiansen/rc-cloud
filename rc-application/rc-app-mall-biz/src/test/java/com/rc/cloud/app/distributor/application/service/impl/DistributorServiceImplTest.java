@@ -16,10 +16,13 @@ import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailDO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelDO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
+import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
+import com.rc.cloud.common.core.validation.Mobile;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.Assert;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 
@@ -28,11 +31,12 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import static com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants.DISTRIBUTOR_NOT_EXISTS;
 import static com.rc.cloud.common.test.core.util.AssertUtils.assertPojoEquals;
 import static com.rc.cloud.common.test.core.util.AssertUtils.assertServiceException;
-import static com.rc.cloud.common.test.core.util.RandomUtils.randomPojo;
+import static com.rc.cloud.common.test.core.util.RandomUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
@@ -43,7 +47,7 @@ import static org.mockito.Mockito.when;
  * @create 2023-06-28 15:45
  * @description TODO
  */
-@Import({DistributorServiceImpl.class,DistributorContactServiceImpl.class, DistributorAutoConfig.class})
+@Import({DistributorServiceImpl.class, DistributorContactServiceImpl.class, DistributorAutoConfig.class})
 class DistributorServiceImplTest extends BaseDbUnitTest {
 
     @Resource
@@ -64,14 +68,14 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
     @Test
     void create() {
         //mock对象
-        AppDistributorContactCreateReqVO reqVO1=randomPojo(AppDistributorContactCreateReqVO.class, o->{
+        AppDistributorContactCreateReqVO reqVO1 = randomPojo(AppDistributorContactCreateReqVO.class, o -> {
             o.setMobile("13700000111");
         });
-        AppDistributorContactCreateReqVO reqVO2=randomPojo(AppDistributorContactCreateReqVO.class, o->{
+        AppDistributorContactCreateReqVO reqVO2 = randomPojo(AppDistributorContactCreateReqVO.class, o -> {
             o.setMobile("13700000222");
         });
-        List<AppDistributorContactCreateReqVO> voList= Arrays.asList(reqVO1,reqVO2);
-        AppDistributorCreateReqVO reqVO=randomPojo(AppDistributorCreateReqVO.class,o->{
+        List<AppDistributorContactCreateReqVO> voList = Arrays.asList(reqVO1, reqVO2);
+        AppDistributorCreateReqVO reqVO = randomPojo(AppDistributorCreateReqVO.class, o -> {
             o.setContacts(voList);
             o.setLocking(0);
         });
@@ -81,7 +85,7 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
         DistributorDetailDO detailDO = detailMapper.selectOne(new LambdaQueryWrapperX<DistributorDetailDO>()
                 .eq(DistributorDetailDO::getDistributorId, id));
         //判断明细表
-        Assert.assertEquals(reqVO.getDistributorDetail(),detailDO.getDistributorDetail());
+        Assert.assertEquals(reqVO.getDistributorDetail(), detailDO.getDistributorDetail());
 
         List<DistributorContactDO> contactDOList = contactMapper.selectList(new LambdaQueryWrapperX<DistributorContactDO>()
                 .eq(DistributorContactDO::getDistributorId, id));
@@ -94,14 +98,19 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
     @Test
     void update() {
         // mock 数据
-        DistributorDO distributorDO = randomPojo(DistributorDO.class,o->{
+        DistributorDO distributorDO = randomPojo(DistributorDO.class, o -> {
 
         });
         distributorMapper.insert(distributorDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
+        Random random = new Random();
         AppDistributorUpdateReqVO reqVO = randomPojo(AppDistributorUpdateReqVO.class, o -> {
             // 设置更新的 ID
             o.setId(distributorDO.getId());
+            o.getContacts().forEach(x -> x.setMobile(
+                    //生成随机手机号
+                    "13575" + String.format("%06d", random.nextInt(10000)
+                    )));
         });
 
         // 调用
@@ -115,25 +124,29 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
             // 设置更新的 ID
             o.setId(distributorDO.getId());
             o.setDistributorDetail("");
+            o.getContacts().forEach(x -> x.setMobile(
+                    //生成随机手机号
+                    "13575" + String.format("%06d", random.nextInt(10000)
+            )));
         });
         // 调用
         distributorService.update(reqVO1);
         // 校验是否更新正确
-        DistributorDetailDO detailDO = detailMapper.selectOne(new LambdaQueryWrapperX<DistributorDetailDO>().eq(DistributorDetailDO::getDistributorId,distributorDO.getId()));
+        DistributorDetailDO detailDO = detailMapper.selectOne(new LambdaQueryWrapperX<DistributorDetailDO>().eq(DistributorDetailDO::getDistributorId, distributorDO.getId()));
         assertEquals("", detailDO.getDistributorDetail());
     }
 
     @Test
     void delete() {
         //mock对象
-        AppDistributorContactCreateReqVO reqVO1=randomPojo(AppDistributorContactCreateReqVO.class, o->{
+        AppDistributorContactCreateReqVO reqVO1 = randomPojo(AppDistributorContactCreateReqVO.class, o -> {
             o.setMobile("13700000111");
         });
-        AppDistributorContactCreateReqVO reqVO2=randomPojo(AppDistributorContactCreateReqVO.class, o->{
+        AppDistributorContactCreateReqVO reqVO2 = randomPojo(AppDistributorContactCreateReqVO.class, o -> {
             o.setMobile("13700000222");
         });
-        List<AppDistributorContactCreateReqVO> voList= Arrays.asList(reqVO1,reqVO2);
-        AppDistributorCreateReqVO reqVO=randomPojo(AppDistributorCreateReqVO.class,o->{
+        List<AppDistributorContactCreateReqVO> voList = Arrays.asList(reqVO1, reqVO2);
+        AppDistributorCreateReqVO reqVO = randomPojo(AppDistributorCreateReqVO.class, o -> {
             o.setContacts(voList);
             o.setLocking(0);
         });
@@ -146,7 +159,7 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
 
         //获取明细
         // 调用，并断言异常
-        assertServiceException(() ->distributorService.getDetail(id),DISTRIBUTOR_NOT_EXISTS);
+        assertServiceException(() -> distributorService.getDetail(id), DISTRIBUTOR_NOT_EXISTS);
 
     }
 

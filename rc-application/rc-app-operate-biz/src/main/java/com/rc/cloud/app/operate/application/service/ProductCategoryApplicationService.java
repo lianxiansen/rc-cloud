@@ -7,7 +7,7 @@ import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepo
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.domain.service.SaveProductCategoryDomainServce;
+import com.rc.cloud.app.operate.domain.service.ProductCategoryDomainServce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class ProductCategoryApplicationService {
     private ProductCategoryFactory productCategoryBuilderFactory;
 
     @Autowired
-    private SaveProductCategoryDomainServce saveProductCategoryDomainServce;
+    private ProductCategoryDomainServce productCategoryDomainServce;
 
     public void createProductCategory(ProductCategoryDTO productCategoryDTO) {
         ProductCategoryId id = productCategoryRepository.nextId();
@@ -43,7 +43,8 @@ public class ProductCategoryApplicationService {
             builder.parentId(new ProductCategoryId(productCategoryDTO.getParentId()));
         }
         ProductCategoryAggregation productCategoryAggregation= builder.build();
-        saveProductCategoryDomainServce.execute(productCategoryAggregation);
+        productCategoryDomainServce.initialize(productCategoryAggregation);
+        productCategoryRepository.save(productCategoryAggregation);
     }
 
 

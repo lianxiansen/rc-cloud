@@ -29,7 +29,14 @@ public class DistributorDO extends BaseDO {
      * 企业名称
      */
     private String companyName;
-
+    /**
+     * 联系人
+     */
+    private String contact;
+    /**
+     * 联系方式
+     */
+    private String mobile;
     /**
      * 省
      */
