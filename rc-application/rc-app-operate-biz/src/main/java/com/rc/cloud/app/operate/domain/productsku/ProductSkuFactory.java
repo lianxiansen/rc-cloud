@@ -1,8 +1,9 @@
 
 package com.rc.cloud.app.operate.domain.productsku;
 
-import com.rc.cloud.app.operate.domain.productsku.valobj.ProductId;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.productsku.valobj.*;
+import com.rc.cloud.app.operate.domain.service.ValidateProductDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,16 +15,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ProductSkuFactory {
+
     @Autowired
-    private ProductSkuRepository productCategoryRepository;
-
-
-    public ProductSkuBuilder builder(ProductSkuId id, ProductId productId,
-                                     com.rc.cloud.app.operate.domain.productsku.valobj.TenantId tenantId, Price price) {
+    private ValidateProductDomainService productValidateDomainService;
+    public ProductSkuBuilder builder(ProductSkuId id, ProductId productId, TenantId tenantId, Price price) {
         return new ProductSkuBuilder(id,productId, tenantId, price);
     }
-    public ProductSkuReBuilder reBuilder(ProductSkuId id, ProductId productId,
-                                         com.rc.cloud.app.operate.domain.productsku.valobj.TenantId tenantId, Price price) {
+    public ProductSkuReBuilder reBuilder(ProductSkuId id, ProductId productId,TenantId tenantId, Price price) {
         return new ProductSkuReBuilder(id,productId, tenantId, price);
     }
 
@@ -33,8 +31,8 @@ public class ProductSkuFactory {
     public class ProductSkuBuilder {
 
         private ProductSkuEntity productSkuEntity;
-        private ProductSkuBuilder(ProductSkuId id, com.rc.cloud.app.operate.domain.productsku.valobj.ProductId productId,
-                                  com.rc.cloud.app.operate.domain.productsku.valobj.TenantId tenantId, Price price) {
+        private ProductSkuBuilder(ProductSkuId id, ProductId productId,TenantId tenantId, Price price) {
+            productValidateDomainService.shouldExists(productId);
             productSkuEntity=new ProductSkuEntity(id,productId,tenantId,price);
         }
 
@@ -87,8 +85,7 @@ public class ProductSkuFactory {
     public class ProductSkuReBuilder {
         private ProductSkuEntity productSkuEntity;
 
-        private ProductSkuReBuilder(ProductSkuId id, ProductId productId,
-                                  com.rc.cloud.app.operate.domain.productsku.valobj.TenantId tenantId, Price price) {
+        private ProductSkuReBuilder(ProductSkuId id, ProductId productId,TenantId tenantId, Price price) {
             productSkuEntity=new ProductSkuEntity(id,productId,tenantId,price);
         }
 

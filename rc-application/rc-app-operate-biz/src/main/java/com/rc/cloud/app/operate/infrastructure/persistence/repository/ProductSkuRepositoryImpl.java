@@ -1,11 +1,11 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.productsku.ProductSkuEntity;
 import com.rc.cloud.app.operate.domain.productsku.ProductSkuFactory;
 import com.rc.cloud.app.operate.domain.productsku.ProductSkuRepository;
 import com.rc.cloud.app.operate.domain.productsku.valobj.Price;
-import com.rc.cloud.app.operate.domain.productsku.valobj.ProductId;
 import com.rc.cloud.app.operate.domain.productsku.valobj.ProductSkuId;
 import com.rc.cloud.app.operate.domain.productsku.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuMapper;
@@ -45,10 +45,8 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
             TenantId tenantId = new TenantId(productSkuDO.getTenantId());
             Price price=new Price();
             price.setValue(productSkuDO.getPrice());
-            ProductSkuFactory.ProductSkuBuilder builder=productSkuFactory.builder(id,productId,tenantId, price);
-
-
-            resList.add(builder.build());
+            ProductSkuFactory.ProductSkuReBuilder builder=productSkuFactory.reBuilder(id,productId,tenantId, price);
+            resList.add(builder.rebuild());
         }
         return resList;
     }

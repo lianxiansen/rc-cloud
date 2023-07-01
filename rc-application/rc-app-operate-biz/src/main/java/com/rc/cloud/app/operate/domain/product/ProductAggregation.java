@@ -297,7 +297,9 @@ public class ProductAggregation extends Entity {
     public boolean isEnable(){
         return this.enable.result();
     }
-
+    public boolean isNotEnable(){
+        return !this.enable.result();
+    }
 
 
     public void addProductImage(ProductImageEntity productImageEntry){
