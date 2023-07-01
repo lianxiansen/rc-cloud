@@ -1,24 +1,41 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
+import com.bowen.idgenerator.service.RemoteIdGeneratorService;
+import com.rc.cloud.app.operate.domain.product.identifier.ProductSkuId;
+import com.rc.cloud.app.operate.domain.productcategory.ProductCategoryFactory;
+import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.productsku.ProductSkuEntity;
+import com.rc.cloud.app.operate.domain.productsku.ProductSkuFactory;
 import com.rc.cloud.app.operate.domain.productsku.ProductSkuRepository;
+import com.rc.cloud.app.operate.domain.productsku.valobj.Price;
 import com.rc.cloud.app.operate.domain.productsku.valobj.ProductId;
+import com.rc.cloud.app.operate.domain.productsku.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Repository
 public class ProductSkuRepositoryImpl implements ProductSkuRepository{
 
-
+    @Autowired
+    private RemoteIdGeneratorService remoteIdGeneratorService;
     @Autowired
     ProductSkuMapper productSkuMapper;
+
+    @Autowired
+    private ProductSkuFactory productSkuFactory;
+
+    @Override
+    public ProductSkuId nextId() {
+        return new ProductSkuId(remoteIdGeneratorService.uidGenerator());
+    }
 
     @Override
     public List<ProductSkuEntity> getProductSkuListByProductId(ProductId productId) {
@@ -28,10 +45,14 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
 
         List<ProductSkuEntity> resList =new ArrayList<>();
         for (ProductSkuDO productSkuDO : productSkuDOList) {
-           // ProductSkuEntity productSkuEntity=new ProductSkuEntity();
+            ProductSkuId id = nextId();
+            TenantId tenantId = new TenantId(productSkuDO.getTenantId());
+            Price price=new Price();
+            price.setValue(productSkuDO.getPrice());
+            ProductSkuFactory.ProductSkuBuilder builder=productSkuFactory.builder(id,productId,tenantId, price);
 
 
-          //  resList.add(productSkuEntity);
+            resList.add(builder.build());
         }
         return resList;
     }

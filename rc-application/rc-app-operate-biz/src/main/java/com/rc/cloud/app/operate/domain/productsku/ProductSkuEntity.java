@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.productsku;
 
-import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.productsku.valobj.ProductId;
 import com.rc.cloud.app.operate.domain.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.product.identifier.ProductSkuId;
@@ -92,5 +92,71 @@ public class ProductSkuEntity extends Entity {
         return this.sort;
     }
 
+    public String getSkuCode() {
+        return skuCode;
+    }
 
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
+
+    public SupplyPrice getSupplyPrice() {
+        return supplyPrice;
+    }
+
+    public void setSupplyPrice(SupplyPrice supplyPrice) {
+        this.supplyPrice = supplyPrice;
+    }
+
+    public Weight getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Weight weight) {
+        this.weight = weight;
+    }
+
+    public OutId getOutId() {
+        return outId;
+    }
+
+    public void setOutId(OutId outId) {
+        this.outId = outId;
+    }
+
+    public boolean isHasImageFlag() {
+        return hasImageFlag;
+    }
+
+    public void setHasImageFlag(boolean hasImageFlag) {
+        this.hasImageFlag = hasImageFlag;
+    }
+
+    public LimitBuy getLimitBuy() {
+        return limitBuy;
+    }
+
+    public void setLimitBuy(LimitBuy limitBuy) {
+        this.limitBuy = limitBuy;
+    }
+
+    public Price getPrice() {
+        return price;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
+    public SeckillSku getSeckillSku() {
+        return seckillSku;
+    }
+
+    public void setSeckillSku(SeckillSku seckillSku) {
+        this.seckillSku = seckillSku;
+    }
 }
