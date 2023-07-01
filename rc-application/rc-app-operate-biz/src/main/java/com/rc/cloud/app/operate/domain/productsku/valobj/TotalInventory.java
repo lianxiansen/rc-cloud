@@ -1,8 +1,9 @@
 package com.rc.cloud.app.operate.domain.productsku.valobj;
 
-public class Inventory {
+public class TotalInventory {
 
-    public Inventory(int value){
+
+    public TotalInventory(int value){
         this.value=value;
     }
     private int value;
@@ -11,7 +12,8 @@ public class Inventory {
         return value;
     }
 
-    public Inventory setValue(int value) {
-        return new Inventory(value);
+    public TotalInventory setValue(int value) {
+        return new TotalInventory(value);
     }
+
 }

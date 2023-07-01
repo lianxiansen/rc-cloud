@@ -14,6 +14,8 @@
 
 package com.rc.cloud.app.operate.domain.common;
 
+import java.math.BigDecimal;
+
 public class AssertionConcern {
 
     protected AssertionConcern() {
@@ -60,6 +62,16 @@ public class AssertionConcern {
 
     protected void assertArgumentNotNull(Object anObject, String aMessage) {
         if (anObject == null) {
+            throw new IllegalArgumentException(aMessage);
+        }
+    }
+
+
+    protected void assertArgumentRange(BigDecimal aValue, double aMinimum, double aMaximum, String aMessage) {
+
+        BigDecimal baMinimum= BigDecimal.valueOf(aMinimum);
+        BigDecimal baMaximum= BigDecimal.valueOf(aMaximum);
+        if (aValue.compareTo(baMinimum)<=0 || aValue.compareTo(baMaximum)>0) {
             throw new IllegalArgumentException(aMessage);
         }
     }

@@ -9,7 +9,7 @@ import lombok.Data;
  * @Description: TODO
  */
 @Data
-public class ProductCategoryVO {
+public class ProductCategoryUpdateRequest {
     private String Id;
     private String tenantId;
 

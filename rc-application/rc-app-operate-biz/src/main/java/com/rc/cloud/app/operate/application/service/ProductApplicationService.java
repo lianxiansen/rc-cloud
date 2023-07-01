@@ -15,6 +15,8 @@ import com.rc.cloud.app.operate.domain.product.event.ProductCreatedEvent;
 import com.rc.cloud.app.operate.domain.product.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
+import com.rc.cloud.common.core.pojo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,14 +93,15 @@ public class ProductApplicationService {
     }
 
 
-    public List<ProductListDTO> getProductList(ProductListQueryDTO productListQueryDTO){
-
-        List<ProductListDTO> resList= new ArrayList<ProductListDTO>();
-
-        ProductListDTO res = new ProductListDTO();
-        //...
-        resList.add(res);
-        return resList;
-    }
+//    public List<ProductListDTO> getProductList(ProductListQueryDTO productListQueryDTO){
+//
+//        PageResult<ProductDO> productPageList = productRepository.getProductPageList(productListQueryDTO);
+//
+//
+//       // ProductListDTO res = new ProductListDTO();
+//        //...
+//        //resList.add(res);
+//        return productPageList;
+//    }
 
 }

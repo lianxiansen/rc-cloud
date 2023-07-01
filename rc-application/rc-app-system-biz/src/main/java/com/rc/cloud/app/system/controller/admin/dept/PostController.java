@@ -49,11 +49,12 @@ public class PostController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping()
     @Operation(summary = "删除岗位")
+    @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
     @PreAuthorize("@pms.hasPermission('sys:post:delete')")
-    public CodeResult<Boolean> deletePost(@PathVariable("id") Long id) {
-        postService.deletePost(id);
+    public CodeResult<Boolean> deletePost(@RequestBody List<Long> idList) {
+        postService.deletePosts(idList);
         return CodeResult.ok(true);
     }
 

@@ -1,14 +1,21 @@
 package com.rc.cloud.app.operate.domain.productsku.valobj;
 
-import com.rc.cloud.app.operate.domain.product.valobj.Inventory;
-import com.rc.cloud.app.operate.domain.product.valobj.LimitBuy;
-import com.rc.cloud.app.operate.domain.product.valobj.Price;
-import com.rc.cloud.app.operate.domain.product.valobj.TotalInventory;
+import com.rc.cloud.app.operate.domain.productsku.ProductSkuEntity;
+import com.rc.cloud.app.operate.domain.productsku.valobj.Inventory;
+import com.rc.cloud.app.operate.domain.productsku.valobj.LimitBuy;
+import com.rc.cloud.app.operate.domain.productsku.valobj.Price;
+import com.rc.cloud.app.operate.domain.productsku.valobj.TotalInventory;
 
 import java.text.DecimalFormat;
 
 public class SeckillSku {
 
+
+    private ProductSkuEntity context;
+
+    public  SeckillSku(ProductSkuEntity context){
+        this.context=context;
+    }
 
     private LimitBuy seckillLimitBuy;
 

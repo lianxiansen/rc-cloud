@@ -26,4 +26,6 @@ public class PageParam implements Serializable {
     @Max(value = 100, message = "每页条数最大值为 100")
     private Integer pageSize = PAGE_SIZE;
 
+
+
 }

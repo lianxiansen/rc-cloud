@@ -10,6 +10,7 @@ import lombok.ToString;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -18,7 +19,15 @@ import javax.validation.constraints.Pattern;
 public class ProductListQueryDTO extends PageParam {
 
 
+
+    public static final String ASC  = "ASC";
+    public static final String DESC = "DESC";
+    public static final String CREATE_TIME = "CREATE_TIME";
+    public static final String SORT_ID = "SORT_ID";
+
     private String name;
+
+    private String spuCode;
 
     private String firstCategory;
 
@@ -28,20 +37,25 @@ public class ProductListQueryDTO extends PageParam {
     //租户id
     private Long tenantId;
 
-
-
     private Long categoryId;
 
-    private String startModifyTime;
+    private LocalDateTime startTime;
 
-    private String endModifyTime;
+    private LocalDateTime endTime;
 
     private String productIds;
 
+    private Long BrandId;
+
+    private Integer onshelfStatus;
+
     /**
-     * 排序条件：CREATE_DATE,POST_DATE,MODIFY_DATE,APPROVED_DATE,EXPIRE_DATE,STATUS,ID,GROUP_ID,PRICE,SALE_QUANTITY
+     * 排序条件：CREATE_TIME,SORT_ID
      */
     private String orderByCondition;
+
+    private String orderByType;
+
 
 
     private Boolean needProductImages;
