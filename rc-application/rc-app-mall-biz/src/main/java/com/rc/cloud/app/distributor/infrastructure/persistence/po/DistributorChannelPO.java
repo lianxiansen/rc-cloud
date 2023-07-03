@@ -4,9 +4,6 @@ import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.*;
 import com.baomidou.mybatisplus.annotation.*;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 /**
  * 经销商渠道 DO
  *
@@ -19,7 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DistributorChannelDO extends BaseDO{
+public class DistributorChannelPO extends BaseDO{
 
     /**
      * id

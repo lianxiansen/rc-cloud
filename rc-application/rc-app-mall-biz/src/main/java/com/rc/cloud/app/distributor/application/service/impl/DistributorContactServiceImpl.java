@@ -1,16 +1,13 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorContactUpdatePasswordReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorContactMapper;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
 import com.rc.cloud.app.distributor.infrastructure.util.CommonUtil;
-import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
-import com.rc.cloud.common.mybatis.core.query.QueryWrapperX;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +26,7 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  * @description TODO
  */
 @Service
-public class DistributorContactServiceImpl extends ServiceImpl<DistributorContactMapper,DistributorContactDO> implements DistributorContactService {
+public class DistributorContactServiceImpl extends ServiceImpl<DistributorContactMapper, DistributorContactPO> implements DistributorContactService {
 
     @Resource
     private DistributorContactMapper contactMapper;
@@ -40,7 +37,7 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
     //批量更新经销商联系人
     // 执行新增和删除。对于已经绑定的联系人，不做任何处理
     @Transactional
-    public void updateContacts(Long distributorId, List<DistributorContactDO> contactDOS) {
+    public void updateContacts(Long distributorId, List<DistributorContactPO> contactDOS) {
         //需要更新的数据
         List<String> newMobiles = contactDOS.stream().map(x -> x.getMobile()).collect(Collectors.toList());
         //如果联系方式重复，则抛出异常
@@ -48,26 +45,26 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
             throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_CONTACT_PHONE_DUPLICATE);
         }
         //如果联系方式已被绑定，抛出异常
-        if (contactMapper.exists(new LambdaQueryWrapperX<DistributorContactDO>()
-                .inIfPresent(DistributorContactDO::getMobile, newMobiles)
-                .and(wq -> wq.ne(DistributorContactDO::getDistributorId, distributorId)))) {
+        if (contactMapper.exists(new LambdaQueryWrapperX<DistributorContactPO>()
+                .inIfPresent(DistributorContactPO::getMobile, newMobiles)
+                .and(wq -> wq.ne(DistributorContactPO::getDistributorId, distributorId)))) {
             throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_CONTACT_PHONE_EXIST);
         }
 
         //已存在的数据
-        List<DistributorContactDO> allDOList = contactMapper.selectList(DistributorContactDO::getDistributorId, distributorId);
+        List<DistributorContactPO> allDOList = contactMapper.selectList(DistributorContactPO::getDistributorId, distributorId);
         List<String> oldMobiles = allDOList.stream().map(x -> x.getMobile()).collect(Collectors.toList());
 
         //删除旧联系人的数据
         List<String> olddata = ListUtils.subtract(oldMobiles, newMobiles);
-        contactMapper.delete(new LambdaQueryWrapperX<DistributorContactDO>()
-                .inIfPresent(DistributorContactDO::getMobile, olddata)
-                .and(wq -> wq.eq(DistributorContactDO::getDistributorId, distributorId))
+        contactMapper.delete(new LambdaQueryWrapperX<DistributorContactPO>()
+                .inIfPresent(DistributorContactPO::getMobile, olddata)
+                .and(wq -> wq.eq(DistributorContactPO::getDistributorId, distributorId))
         );
 
         //新插入的数据，手机号设置成后6位
         List<String> newdata = ListUtils.subtract(newMobiles, oldMobiles);
-        List<DistributorContactDO> newlist = contactDOS.stream().filter(x -> newdata.contains(x.getMobile())).collect(Collectors.toList());
+        List<DistributorContactPO> newlist = contactDOS.stream().filter(x -> newdata.contains(x.getMobile())).collect(Collectors.toList());
         newlist.forEach(x->{
             x.setPassword(encodePassword(CommonUtil.getFinalMobile(x.getMobile())));
             x.setDistributorId(distributorId);
@@ -76,13 +73,13 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
     }
 
     @Override
-    public List<DistributorContactDO> getByDistributorId(Long distributorId) {
-        return contactMapper.selectList(new LambdaQueryWrapperX<DistributorContactDO>().eq(DistributorContactDO::getDistributorId,distributorId));
+    public List<DistributorContactPO> getByDistributorId(Long distributorId) {
+        return contactMapper.selectList(new LambdaQueryWrapperX<DistributorContactPO>().eq(DistributorContactPO::getDistributorId,distributorId));
     }
 
     @Override
     public void updatePassword(AppDistributorContactUpdatePasswordReqVO updatePasswordReqVO) {
-        DistributorContactDO contactDO= getBaseMapper().selectById(updatePasswordReqVO.getId());
+        DistributorContactPO contactDO= getBaseMapper().selectById(updatePasswordReqVO.getId());
         System.out.println(contactDO==null);
         contactDO.setPassword(encodePassword(updatePasswordReqVO.getPassword()));
         getBaseMapper().updateById(contactDO);
@@ -93,7 +90,7 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
      */
     @Override
     public void resetPassword(Long id) {
-        DistributorContactDO contactDO= contactMapper.selectById(id);
+        DistributorContactPO contactDO= contactMapper.selectById(id);
         System.out.println(contactDO==null);
         contactDO.setPassword(encodePassword(CommonUtil.getFinalMobile(contactDO.getMobile())));
         contactMapper.updateById(contactDO);

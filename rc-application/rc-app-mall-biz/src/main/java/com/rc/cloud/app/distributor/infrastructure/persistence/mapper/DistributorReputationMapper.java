@@ -1,6 +1,6 @@
 package com.rc.cloud.app.distributor.infrastructure.persistence.mapper;
 
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
@@ -13,14 +13,14 @@ import org.apache.ibatis.annotations.Mapper;
  * @author wjf
  */
 @Mapper
-public interface DistributorReputationMapper extends BaseMapperX<DistributorReputationDO> {
+public interface DistributorReputationMapper extends BaseMapperX<DistributorReputationPO> {
 
-    default PageResult<DistributorReputationDO> selectPage(AppDistributorReputationPageReqVO reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<DistributorReputationDO>()
-                .likeIfPresent(DistributorReputationDO::getName, reqVO.getName())
-                .eqIfPresent(DistributorReputationDO::getDescription, reqVO.getDescription())
-                .betweenIfPresent(DistributorReputationDO::getCreateTime, reqVO.getCreateTime())
-                .orderByDesc(DistributorReputationDO::getId));
+    default PageResult<DistributorReputationPO> selectPage(AppDistributorReputationPageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<DistributorReputationPO>()
+                .likeIfPresent(DistributorReputationPO::getName, reqVO.getName())
+                .eqIfPresent(DistributorReputationPO::getDescription, reqVO.getDescription())
+                .betweenIfPresent(DistributorReputationPO::getCreateTime, reqVO.getCreateTime())
+                .orderByDesc(DistributorReputationPO::getId));
     }
 
 

@@ -6,7 +6,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceCreateReq
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourcePageReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorSourceRespVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceUpdateReqVO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourceDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +58,7 @@ public class AppDistributorSourceController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
     public CodeResult<AppDistributorSourceRespVO> getSource(@RequestParam("id") Long id) {
-        DistributorSourceDO source = sourceService.getSource(id);
+        DistributorSourcePO source = sourceService.getSource(id);
         return CodeResult.ok(DistributorSourceConvert.INSTANCE.convert(source));
     }
 
@@ -67,7 +67,7 @@ public class AppDistributorSourceController {
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
     public CodeResult<List<AppDistributorSourceRespVO>> getSourceList(@RequestParam("ids") Collection<Long> ids) {
-        List<DistributorSourceDO> list = sourceService.getSourceList(ids);
+        List<DistributorSourcePO> list = sourceService.getSourceList(ids);
         return CodeResult.ok(DistributorSourceConvert.INSTANCE.convertList(list));
     }
 
@@ -75,7 +75,7 @@ public class AppDistributorSourceController {
     @Operation(summary = "获得经销商来源分页")
 
     public CodeResult<PageResult<AppDistributorSourceRespVO>> getSourcePage(@Valid AppDistributorSourcePageReqVO pageVO) {
-        PageResult<DistributorSourceDO> pageResult = sourceService.getSourcePage(pageVO);
+        PageResult<DistributorSourcePO> pageResult = sourceService.getSourcePage(pageVO);
         return CodeResult.ok(DistributorSourceConvert.INSTANCE.convertPage(pageResult));
     }
 

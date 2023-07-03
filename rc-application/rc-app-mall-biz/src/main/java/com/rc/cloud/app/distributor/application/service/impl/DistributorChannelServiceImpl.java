@@ -6,15 +6,13 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelUpdateRe
 import com.rc.cloud.app.distributor.application.convert.DistributorChannelConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorChannelService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorChannelMapper;
-import com.rc.cloud.common.core.exception.ErrorCode;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
@@ -33,7 +31,7 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
     @Override
     public Long createChannel(AppDistributorChannelCreateReqVO createReqVO) {
         // 插入
-        DistributorChannelDO channel = DistributorChannelConvert.INSTANCE.convert(createReqVO);
+        DistributorChannelPO channel = DistributorChannelConvert.INSTANCE.convert(createReqVO);
         channelMapper.insert(channel);
         // 返回
         return channel.getId();
@@ -44,7 +42,7 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
         // 校验存在
         validateChannelExists(updateReqVO.getId());
         // 更新
-        DistributorChannelDO updateObj = DistributorChannelConvert.INSTANCE.convert(updateReqVO);
+        DistributorChannelPO updateObj = DistributorChannelConvert.INSTANCE.convert(updateReqVO);
         channelMapper.updateById(updateObj);
     }
 
@@ -63,17 +61,17 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
     }
 
     @Override
-    public DistributorChannelDO getChannel(Long id) {
+    public DistributorChannelPO getChannel(Long id) {
         return channelMapper.selectById(id);
     }
 
     @Override
-    public List<DistributorChannelDO> getChannelList(Collection<Long> ids) {
+    public List<DistributorChannelPO> getChannelList(Collection<Long> ids) {
         return channelMapper.selectBatchIds(ids);
     }
 
     @Override
-    public PageResult<DistributorChannelDO> getChannelPage(AppDistributorChannelPageReqVO pageReqVO) {
+    public PageResult<DistributorChannelPO> getChannelPage(AppDistributorChannelPageReqVO pageReqVO) {
         return channelMapper.selectPage(pageReqVO);
     }
 

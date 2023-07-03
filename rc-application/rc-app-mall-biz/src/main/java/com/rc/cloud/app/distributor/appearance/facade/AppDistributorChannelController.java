@@ -6,7 +6,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelCreateRe
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelPageReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorChannelRespVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelUpdateReqVO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +59,7 @@ public class AppDistributorChannelController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
     public CodeResult<AppDistributorChannelRespVO> getChannel(@RequestParam("id") Long id) {
-        DistributorChannelDO channel = channelService.getChannel(id);
+        DistributorChannelPO channel = channelService.getChannel(id);
         return CodeResult.ok(DistributorChannelConvert.INSTANCE.convert(channel));
     }
 
@@ -68,7 +68,7 @@ public class AppDistributorChannelController {
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
     public CodeResult<List<AppDistributorChannelRespVO>> getChannelList(@RequestParam("ids") Collection<Long> ids) {
-        List<DistributorChannelDO> list = channelService.getChannelList(ids);
+        List<DistributorChannelPO> list = channelService.getChannelList(ids);
         return CodeResult.ok(DistributorChannelConvert.INSTANCE.convertList(list));
     }
 
@@ -76,7 +76,7 @@ public class AppDistributorChannelController {
     @Operation(summary = "获得经销商渠道分页")
 
     public CodeResult<PageResult<AppDistributorChannelRespVO>> getChannelPage(@Valid AppDistributorChannelPageReqVO pageVO) {
-        PageResult<DistributorChannelDO> pageResult = channelService.getChannelPage(pageVO);
+        PageResult<DistributorChannelPO> pageResult = channelService.getChannelPage(pageVO);
         return CodeResult.ok(DistributorChannelConvert.INSTANCE.convertPage(pageResult));
     }
 }

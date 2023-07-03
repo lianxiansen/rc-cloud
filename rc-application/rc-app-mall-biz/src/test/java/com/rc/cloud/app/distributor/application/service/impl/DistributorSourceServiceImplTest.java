@@ -5,7 +5,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourcePageReqVO
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorSourceService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorSourceMapper;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourceDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.collection.ArrayUtils;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
@@ -44,14 +44,14 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
         // 断言
         assertNotNull(sourceId);
         // 校验记录的属性是否正确
-        DistributorSourceDO sourceDO = sourceMapper.selectById(sourceId);
+        DistributorSourcePO sourceDO = sourceMapper.selectById(sourceId);
         assertPojoEquals(reqVO, sourceDO);
     }
 
     @Test
     void updateSource() {
         // mock 数据
-        DistributorSourceDO sourceDO = randomDistributorSourceDO();
+        DistributorSourcePO sourceDO = randomDistributorSourcePO();
         sourceMapper.insert(sourceDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
         AppDistributorSourceUpdateReqVO reqVO = randomPojo(AppDistributorSourceUpdateReqVO.class, o -> {
@@ -62,14 +62,14 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
         // 调用
         sourceService.updateSource(reqVO);
         // 校验是否更新正确
-        DistributorSourceDO source = sourceMapper.selectById(reqVO.getId());
+        DistributorSourcePO source = sourceMapper.selectById(reqVO.getId());
         assertPojoEquals(reqVO, source);
     }
 
     @Test
     void deleteSource() {
         // mock 数据
-        DistributorSourceDO postDO =  randomDistributorSourceDO();
+        DistributorSourcePO postDO =  randomDistributorSourcePO();
         sourceMapper.insert(postDO);
         // 准备参数
         Long id = postDO.getId();
@@ -82,12 +82,12 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
     @Test
     void getSource() {
         // mock 数据
-        DistributorSourceDO sourceDO = randomDistributorSourceDO();
+        DistributorSourcePO sourceDO = randomDistributorSourcePO();
         sourceMapper.insert(sourceDO);
         // 准备参数
         Long id = sourceDO.getId();
         // 调用
-        DistributorSourceDO source = sourceService.getSource(id);
+        DistributorSourcePO source = sourceService.getSource(id);
         // 断言
         assertNotNull(source);
         assertPojoEquals(sourceDO, source);
@@ -96,16 +96,16 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
     @Test
     void getSourceList() {
         // mock 数据
-        DistributorSourceDO postDO01 = randomDistributorSourceDO();
+        DistributorSourcePO postDO01 = randomDistributorSourcePO();
         sourceMapper.insert(postDO01);
 
-        DistributorSourceDO postDO02 = randomDistributorSourceDO();
+        DistributorSourcePO postDO02 = randomDistributorSourcePO();
         sourceMapper.insert(postDO02);
         // 准备参数
         List<Long> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
 
         // 调用
-        List<DistributorSourceDO> list = sourceService.getSourceList(ids);
+        List<DistributorSourcePO> list = sourceService.getSourceList(ids);
         // 断言
         assertEquals(2, list.size());
         assertPojoEquals(postDO01, list.get(0));
@@ -114,7 +114,7 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
     @Test
     void getSourcePage() {
         // mock 数据
-        DistributorSourceDO sourceDO = randomPojo(DistributorSourceDO.class, o -> {
+        DistributorSourcePO sourceDO = randomPojo(DistributorSourcePO.class, o -> {
             o.setName("码仔");
         });
         sourceMapper.insert(sourceDO);
@@ -127,17 +127,17 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
         reqVO.setName("码");
 
         // 调用
-        PageResult<DistributorSourceDO> pageResult = sourceService.getSourcePage(reqVO);
+        PageResult<DistributorSourcePO> pageResult = sourceService.getSourcePage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(sourceDO, pageResult.getList().get(0));
     }
     @SafeVarargs
-    private static DistributorSourceDO randomDistributorSourceDO(Consumer<DistributorSourceDO>... consumers) {
-        Consumer<DistributorSourceDO> consumer = (o) -> {
+    private static DistributorSourcePO randomDistributorSourcePO(Consumer<DistributorSourcePO>... consumers) {
+        Consumer<DistributorSourcePO> consumer = (o) -> {
             //o.set(randomCommonStatus()); // 保证 status 的范围
         };
-        return randomPojo(DistributorSourceDO.class, ArrayUtils.append(consumer, consumers));
+        return randomPojo(DistributorSourcePO.class, ArrayUtils.append(consumer, consumers));
     }
 }

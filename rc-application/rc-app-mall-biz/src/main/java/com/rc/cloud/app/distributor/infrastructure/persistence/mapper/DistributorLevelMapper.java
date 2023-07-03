@@ -1,6 +1,6 @@
 package com.rc.cloud.app.distributor.infrastructure.persistence.mapper;
 
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
@@ -13,14 +13,14 @@ import org.apache.ibatis.annotations.Mapper;
  * @author wjf
  */
 @Mapper
-public interface DistributorLevelMapper extends BaseMapperX<DistributorLevelDO> {
+public interface DistributorLevelMapper extends BaseMapperX<DistributorLevelPO> {
 
-    default PageResult<DistributorLevelDO> selectPage(AppDistributorLevelPageReqVO reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<DistributorLevelDO>()
-                .likeIfPresent(DistributorLevelDO::getName, reqVO.getName())
-                .eqIfPresent(DistributorLevelDO::getDescription, reqVO.getDescription())
-                .betweenIfPresent(DistributorLevelDO::getCreateTime, reqVO.getCreateTime())
-                .orderByDesc(DistributorLevelDO::getId));
+    default PageResult<DistributorLevelPO> selectPage(AppDistributorLevelPageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<DistributorLevelPO>()
+                .likeIfPresent(DistributorLevelPO::getName, reqVO.getName())
+                .eqIfPresent(DistributorLevelPO::getDescription, reqVO.getDescription())
+                .betweenIfPresent(DistributorLevelPO::getCreateTime, reqVO.getCreateTime())
+                .orderByDesc(DistributorLevelPO::getId));
     }
 
 }

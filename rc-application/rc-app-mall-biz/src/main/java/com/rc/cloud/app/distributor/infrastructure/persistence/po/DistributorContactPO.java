@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @TableName("distributor_contact")
 @Data
-public class DistributorContactDO implements Serializable {
+public class DistributorContactPO implements Serializable {
     /**
      * id
      */

@@ -4,23 +4,19 @@ import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.*;
 import com.baomidou.mybatisplus.annotation.*;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-
 /**
- * 经销商客户等级 DO
+ * 经销商客户信誉 DO
  *
  * @author wjf
  */
-@TableName("distributor_level")
-@KeySequence("distributor_level_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
+@TableName("distributor_reputation")
+@KeySequence("distributor_reputation_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
 @Data
 @ToString(callSuper = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DistributorLevelDO extends BaseDO {
+public class DistributorReputationPO extends BaseDO {
 
     /**
      * id
@@ -28,7 +24,7 @@ public class DistributorLevelDO extends BaseDO {
     @TableId(type=IdType.ASSIGN_ID)
     private Long id;
     /**
-     * 客户等级
+     * 信誉等级
      */
     private String name;
     /**

@@ -5,7 +5,7 @@ import javax.validation.*;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationUpdateReqVO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 /**
@@ -43,7 +43,7 @@ public interface DistributorReputationService {
      * @param id 编号
      * @return 经销商客户信誉
      */
-    DistributorReputationDO getReputation(Long id);
+    DistributorReputationPO getReputation(Long id);
 
     /**
      * 获得经销商客户信誉列表
@@ -51,7 +51,7 @@ public interface DistributorReputationService {
      * @param ids 编号
      * @return 经销商客户信誉列表
      */
-    List<DistributorReputationDO> getReputationList(Collection<Long> ids);
+    List<DistributorReputationPO> getReputationList(Collection<Long> ids);
 
     /**
      * 获得经销商客户信誉分页
@@ -59,6 +59,6 @@ public interface DistributorReputationService {
      * @param pageReqVO 分页查询
      * @return 经销商客户信誉分页
      */
-    PageResult<DistributorReputationDO> getReputationPage(AppDistributorReputationPageReqVO pageReqVO);
+    PageResult<DistributorReputationPO> getReputationPage(AppDistributorReputationPageReqVO pageReqVO);
 
 }

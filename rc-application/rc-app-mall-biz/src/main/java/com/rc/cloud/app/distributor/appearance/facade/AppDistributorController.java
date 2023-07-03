@@ -7,11 +7,11 @@ import com.rc.cloud.app.distributor.application.convert.DistributorContactConver
 import com.rc.cloud.app.distributor.application.convert.DistributorConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorDetailConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorExcelVO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorRespVO;
 import com.rc.cloud.app.distributor.application.service.DistributorService;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.excel.util.ExcelUtils;
@@ -68,8 +68,8 @@ public class AppDistributorController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
     public CodeResult<AppDistributorRespVO> get(@RequestParam("id") Long id) {
-        DistributorDO distributorDO= service.get(id);
-        return CodeResult.ok(DistributorConvert.INSTANCE.convert(distributorDO));
+        DistributorPO distributorPO = service.get(id);
+        return CodeResult.ok(DistributorConvert.INSTANCE.convert(distributorPO));
     }
 
     @GetMapping("/getDetail")
@@ -77,8 +77,8 @@ public class AppDistributorController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
     public CodeResult<AppDistributorDetailRespVO> getDetail(@RequestParam("id") Long id) {
-        DistributorDetailDO distributorDetailDO= service.getDetail(id);
-        return CodeResult.ok(DistributorDetailConvert.INSTANCE.convert(distributorDetailDO));
+        DistributorDetailPO distributorDetailPO = service.getDetail(id);
+        return CodeResult.ok(DistributorDetailConvert.INSTANCE.convert(distributorDetailPO));
     }
 
     @GetMapping("/list")
@@ -86,7 +86,7 @@ public class AppDistributorController {
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
     public CodeResult<List<AppDistributorRespVO>> getList(@RequestParam("ids") Collection<Long> ids) {
-        List<DistributorDO> list = service.getList(ids);
+        List<DistributorPO> list = service.getList(ids);
         return CodeResult.ok(DistributorConvert.INSTANCE.convertList(list));
     }
 
@@ -94,7 +94,7 @@ public class AppDistributorController {
     @Operation(summary = "获得经销商分页")
 
     public CodeResult<PageResult<AppDistributorRespVO>> getPage(@Valid AppDistributorPageReqVO pageVO) {
-        PageResult<DistributorDO> pageResult = service.getPage(pageVO);
+        PageResult<DistributorPO> pageResult = service.getPage(pageVO);
         return CodeResult.ok(DistributorConvert.INSTANCE.convertPage(pageResult));
     }
 
@@ -102,7 +102,7 @@ public class AppDistributorController {
     @Operation(summary = "导出经销商 Excel")
     public void exportExcel(@Valid AppDistributorExportReqVO exportReqVO,
               HttpServletResponse response) throws IOException {
-        List<DistributorDO> list = service.getList(exportReqVO);
+        List<DistributorPO> list = service.getList(exportReqVO);
         // 导出 Excel
         List<AppDistributorExcelVO> datas = DistributorConvert.INSTANCE.convertList02(list);
         ExcelUtils.write(response, "经销商.xls", "数据", AppDistributorExcelVO.class, datas);
