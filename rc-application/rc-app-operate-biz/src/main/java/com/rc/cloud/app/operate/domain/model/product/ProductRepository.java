@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
-import com.rc.cloud.app.operate.application.data.ProductListQueryDTO;
+import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;

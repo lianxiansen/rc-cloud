@@ -1,16 +1,11 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-
-import com.rc.cloud.app.operate.appearance.request.ProductListVO;
-import com.rc.cloud.app.operate.appearance.request.ProductRequestVO;
-import com.rc.cloud.app.operate.application.data.*;
+import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
