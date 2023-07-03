@@ -1,22 +1,19 @@
 package com.rc.cloud.app.operate.appearance.facade.admin;
 
-import com.rc.cloud.app.operate.appearance.request.ProductSaveVO;
-import com.rc.cloud.app.operate.application.data.ProductSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductSaveVO;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
-import com.rc.cloud.common.core.enums.CommonStatusEnum;
-import com.rc.cloud.common.core.util.tree.TreeUtil;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.Comparator;
-import java.util.List;
 
 
 @Tag(name = "产品")

@@ -1,8 +1,8 @@
 package com.rc.cloud.app.operate.appearance.facade.admin;
 
 import com.rc.cloud.app.operate.appearance.assemble.ProductCategoryAssemble;
-import com.rc.cloud.app.operate.appearance.request.ProductCategoryCreateRequest;
-import com.rc.cloud.app.operate.appearance.request.ProductCategoryUpdateRequest;
+import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
+import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
 import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,7 +28,7 @@ public class ProductCategoryController {
 
     @PostMapping("create")
     @Operation(summary = "创建产品类目")
-    public CodeResult<Long> create(@Valid @RequestBody ProductCategoryCreateRequest productCategoryCreateRequest) {
+    public CodeResult<Long> create(@Valid @RequestBody ProductCategoryCreateDTO productCategoryCreateRequest) {
         productCategoryApplicationService.createProductCategory(ProductCategoryAssemble.INSTANCE.convert2ProductCategoryDTO(productCategoryCreateRequest));
         return CodeResult.ok();
     }
@@ -36,7 +36,7 @@ public class ProductCategoryController {
 
     @PostMapping("update")
     @Operation(summary = "更新产品类目")
-    public CodeResult<Long> update(@Valid @RequestBody ProductCategoryUpdateRequest productCategoryUpdateRequest) {
+    public CodeResult<Long> update(@Valid @RequestBody ProductCategoryUpdateDTO productCategoryUpdateRequest) {
         return CodeResult.ok();
     }
 
