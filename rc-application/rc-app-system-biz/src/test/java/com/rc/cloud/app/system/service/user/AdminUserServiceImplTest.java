@@ -83,6 +83,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         UserCreateReqVO reqVO = randomPojo(UserCreateReqVO.class, o -> {
             o.setSex(RandomUtil.randomEle(SexEnum.values()).getSex());
             o.setMobile(randomString());
+            o.setStatus(randomEle(CommonStatusEnum.values()).getStatus());
             o.setPostIds(asSet(1L, 2L));
         });
         // mock 账户额度充足
@@ -113,7 +114,6 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         SysUserDO user = userMapper.selectById(userId);
         assertPojoEquals(reqVO, user, "password");
         assertEquals("yudaoyuanma", user.getPassword());
-        assertEquals(CommonStatusEnum.ENABLE.getStatus(), user.getStatus());
         // 断言关联岗位
         List<SysUserPostDO> userPosts = userPostMapper.selectListByUserId(user.getId());
         assertEquals(1L, userPosts.get(0).getPostId());
