@@ -13,11 +13,11 @@ import com.rc.cloud.app.distributor.application.event.DistributorDeleteEvent;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorDetailMapper;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactDO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorMapper;
 import com.rc.cloud.app.distributor.application.service.DistributorService;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailPO;
 import com.rc.cloud.app.distributor.infrastructure.util.CommonUtil;
 import com.rc.cloud.app.distributor.infrastructure.util.SpringContextHolder;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -31,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
@@ -61,28 +60,28 @@ public class DistributorServiceImpl implements DistributorService {
     @Transactional
     public Long create(AppDistributorCreateReqVO createReqVO) {
         // 插入
-        DistributorDO distributorDO = DistributorConvert.INSTANCE.convert(createReqVO);
+        DistributorPO distributorPO = DistributorConvert.INSTANCE.convert(createReqVO);
 
-        DistributorDetailDO distributorDetailDO = DistributorDetailConvert.INSTANCE.convert(createReqVO);
-        List<DistributorContactDO> contactDOList = DistributorContactConvert.INSTANCE.convertList(createReqVO.getContacts());
+        DistributorDetailPO distributorDetailPO = DistributorDetailConvert.INSTANCE.convert(createReqVO);
+        List<DistributorContactPO> contactDOList = DistributorContactConvert.INSTANCE.convertList(createReqVO.getContacts());
 
         if (contactDOList.size()>0){
             List<String> names = contactDOList.stream().map(x -> x.getName()).distinct().collect(Collectors.toList());
             List<String> mobiles = contactDOList.stream().map(x -> x.getMobile()).distinct().collect(Collectors.toList());
-            distributorDO.setContact(StringUtils.join(names,","));
-            distributorDO.setMobile(StringUtils.join(mobiles,","));
+            distributorPO.setContact(StringUtils.join(names,","));
+            distributorPO.setMobile(StringUtils.join(mobiles,","));
         }
-        mapper.insert(distributorDO);
-        distributorDetailDO.setDistributorId(distributorDO.getId());
+        mapper.insert(distributorPO);
+        distributorDetailPO.setDistributorId(distributorPO.getId());
         //插入明细表
-        detailMapper.insert(distributorDetailDO);
+        detailMapper.insert(distributorDetailPO);
         contactDOList.forEach(x -> {
-            x.setDistributorId(distributorDO.getId());
+            x.setDistributorId(distributorPO.getId());
             x.setPassword(webPasswordEncoder.encode(CommonUtil.getFinalMobile(x.getMobile())));
         });
-        contactService.updateContacts(distributorDO.getId(), contactDOList);
+        contactService.updateContacts(distributorPO.getId(), contactDOList);
         // 返回
-        return distributorDO.getId();
+        return distributorPO.getId();
     }
 
     @Override
@@ -91,9 +90,9 @@ public class DistributorServiceImpl implements DistributorService {
         // 校验存在
         validateExists(updateReqVO.getId());
 
-        DistributorDO updateObj = DistributorConvert.INSTANCE.convert(updateReqVO);
-        DistributorDetailDO detailObj = DistributorDetailConvert.INSTANCE.convert(updateReqVO);
-        List<DistributorContactDO> contacts = DistributorContactConvert.INSTANCE.convertList2(updateReqVO.getContacts());
+        DistributorPO updateObj = DistributorConvert.INSTANCE.convert(updateReqVO);
+        DistributorDetailPO detailObj = DistributorDetailConvert.INSTANCE.convert(updateReqVO);
+        List<DistributorContactPO> contacts = DistributorContactConvert.INSTANCE.convertList2(updateReqVO.getContacts());
 
         if (contacts.size()>0){
             List<String> names = contacts.stream().map(x -> x.getName()).distinct().collect(Collectors.toList());
@@ -104,12 +103,12 @@ public class DistributorServiceImpl implements DistributorService {
         // 更新主表
         mapper.updateById(updateObj);
 
-        Wrapper<DistributorDetailDO> detailDOQueryWrapper = new QueryWrapper<DistributorDetailDO>().lambda()
-                .eq(DistributorDetailDO::getDistributorId, updateReqVO.getId());
-        DistributorDetailDO detailDO = detailMapper.selectOne(detailDOQueryWrapper);
+        Wrapper<DistributorDetailPO> detailDOQueryWrapper = new QueryWrapper<DistributorDetailPO>().lambda()
+                .eq(DistributorDetailPO::getDistributorId, updateReqVO.getId());
+        DistributorDetailPO detailDO = detailMapper.selectOne(detailDOQueryWrapper);
         if (detailDO == null) {//如果存在原有记录
             //插入明细表
-            detailObj = new DistributorDetailDO();
+            detailObj = new DistributorDetailPO();
             detailObj.setDistributorId(updateReqVO.getId());
             detailObj.setDistributorDetail(updateReqVO.getDistributorDetail());
             detailMapper.insert(detailObj);
@@ -140,29 +139,29 @@ public class DistributorServiceImpl implements DistributorService {
     }
 
     @Override
-    public DistributorDO get(Long id) {
+    public DistributorPO get(Long id) {
         return mapper.selectById(id);
     }
 
     @Override
-    public DistributorDetailDO getDetail(Long id) {
+    public DistributorDetailPO getDetail(Long id) {
         // 校验存在
         validateExists(id);
         return detailMapper.selectByDistributorId(id);
     }
 
     @Override
-    public List<DistributorDO> getList(Collection<Long> ids) {
+    public List<DistributorPO> getList(Collection<Long> ids) {
         return mapper.selectBatchIds(ids);
     }
 
     @Override
-    public PageResult<DistributorDO> getPage(AppDistributorPageReqVO pageReqVO) {
+    public PageResult<DistributorPO> getPage(AppDistributorPageReqVO pageReqVO) {
         return mapper.selectPage(pageReqVO);
     }
 
     @Override
-    public List<DistributorDO> getList(AppDistributorExportReqVO exportReqVO) {
+    public List<DistributorPO> getList(AppDistributorExportReqVO exportReqVO) {
         return mapper.selectList(exportReqVO);
     }
 

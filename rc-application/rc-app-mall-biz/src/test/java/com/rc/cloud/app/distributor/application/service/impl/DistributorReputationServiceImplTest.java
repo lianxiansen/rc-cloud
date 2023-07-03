@@ -5,7 +5,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationPageR
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorReputationService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorReputationMapper;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.collection.ArrayUtils;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
@@ -43,14 +43,14 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
         // 断言
         assertNotNull(reputationId);
         // 校验记录的属性是否正确
-        DistributorReputationDO reputationDO = reputationMapper.selectById(reputationId);
+        DistributorReputationPO reputationDO = reputationMapper.selectById(reputationId);
         assertPojoEquals(reqVO, reputationDO);
     }
 
     @Test
     void updateReputation() {
         // mock 数据
-        DistributorReputationDO reputationDO = randomDistributorReputationDO();
+        DistributorReputationPO reputationDO = randomDistributorReputationPO();
         reputationMapper.insert(reputationDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
         AppDistributorReputationUpdateReqVO reqVO = randomPojo(AppDistributorReputationUpdateReqVO.class, o -> {
@@ -61,14 +61,14 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
         // 调用
         reputationService.updateReputation(reqVO);
         // 校验是否更新正确
-        DistributorReputationDO reputation = reputationMapper.selectById(reqVO.getId());
+        DistributorReputationPO reputation = reputationMapper.selectById(reqVO.getId());
         assertPojoEquals(reqVO, reputation);
     }
 
     @Test
     void deleteReputation() {
         // mock 数据
-        DistributorReputationDO postDO =  randomDistributorReputationDO();
+        DistributorReputationPO postDO =  randomDistributorReputationPO();
         reputationMapper.insert(postDO);
         // 准备参数
         Long id = postDO.getId();
@@ -81,12 +81,12 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
     @Test
     void getReputation() {
         // mock 数据
-        DistributorReputationDO reputationDO = randomDistributorReputationDO();
+        DistributorReputationPO reputationDO = randomDistributorReputationPO();
         reputationMapper.insert(reputationDO);
         // 准备参数
         Long id = reputationDO.getId();
         // 调用
-        DistributorReputationDO reputation = reputationService.getReputation(id);
+        DistributorReputationPO reputation = reputationService.getReputation(id);
         // 断言
         assertNotNull(reputation);
         assertPojoEquals(reputationDO, reputation);
@@ -95,16 +95,16 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
     @Test
     void getReputationList() {
         // mock 数据
-        DistributorReputationDO postDO01 = randomDistributorReputationDO();
+        DistributorReputationPO postDO01 = randomDistributorReputationPO();
         reputationMapper.insert(postDO01);
 
-        DistributorReputationDO postDO02 = randomDistributorReputationDO();
+        DistributorReputationPO postDO02 = randomDistributorReputationPO();
         reputationMapper.insert(postDO02);
         // 准备参数
         List<Long> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
 
         // 调用
-        List<DistributorReputationDO> list = reputationService.getReputationList(ids);
+        List<DistributorReputationPO> list = reputationService.getReputationList(ids);
         // 断言
         assertEquals(2, list.size());
         assertPojoEquals(postDO01, list.get(0));
@@ -113,7 +113,7 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
     @Test
     void getReputationPage() {
         // mock 数据
-        DistributorReputationDO reputationDO = randomPojo(DistributorReputationDO.class, o -> {
+        DistributorReputationPO reputationDO = randomPojo(DistributorReputationPO.class, o -> {
             o.setName("码仔");
         });
         reputationMapper.insert(reputationDO);
@@ -126,17 +126,17 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
         reqVO.setName("码");
 
         // 调用
-        PageResult<DistributorReputationDO> pageResult = reputationService.getReputationPage(reqVO);
+        PageResult<DistributorReputationPO> pageResult = reputationService.getReputationPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
         assertPojoEquals(reputationDO, pageResult.getList().get(0));
     }
     @SafeVarargs
-    private static DistributorReputationDO randomDistributorReputationDO(Consumer<DistributorReputationDO>... consumers) {
-        Consumer<DistributorReputationDO> consumer = (o) -> {
+    private static DistributorReputationPO randomDistributorReputationPO(Consumer<DistributorReputationPO>... consumers) {
+        Consumer<DistributorReputationPO> consumer = (o) -> {
             //o.set(randomCommonStatus()); // 保证 status 的范围
         };
-        return randomPojo(DistributorReputationDO.class, ArrayUtils.append(consumer, consumers));
+        return randomPojo(DistributorReputationPO.class, ArrayUtils.append(consumer, consumers));
     }
 }

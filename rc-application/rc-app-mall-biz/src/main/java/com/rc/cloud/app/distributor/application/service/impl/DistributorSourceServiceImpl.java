@@ -6,15 +6,13 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceUpdateReq
 import com.rc.cloud.app.distributor.application.convert.DistributorSourceConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorSourceService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourceDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorSourceMapper;
-import com.rc.cloud.common.core.exception.ErrorCode;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
@@ -33,7 +31,7 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     @Override
     public Long createSource(AppDistributorSourceCreateReqVO createReqVO) {
         // 插入
-        DistributorSourceDO source = DistributorSourceConvert.INSTANCE.convert(createReqVO);
+        DistributorSourcePO source = DistributorSourceConvert.INSTANCE.convert(createReqVO);
         sourceMapper.insert(source);
         // 返回
         return source.getId();
@@ -44,7 +42,7 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
         // 校验存在
         validateSourceExists(updateReqVO.getId());
         // 更新
-        DistributorSourceDO updateObj = DistributorSourceConvert.INSTANCE.convert(updateReqVO);
+        DistributorSourcePO updateObj = DistributorSourceConvert.INSTANCE.convert(updateReqVO);
         sourceMapper.updateById(updateObj);
     }
 
@@ -63,17 +61,17 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     }
 
     @Override
-    public DistributorSourceDO getSource(Long id) {
+    public DistributorSourcePO getSource(Long id) {
         return sourceMapper.selectById(id);
     }
 
     @Override
-    public List<DistributorSourceDO> getSourceList(Collection<Long> ids) {
+    public List<DistributorSourcePO> getSourceList(Collection<Long> ids) {
         return sourceMapper.selectBatchIds(ids);
     }
 
     @Override
-    public PageResult<DistributorSourceDO> getSourcePage(AppDistributorSourcePageReqVO pageReqVO) {
+    public PageResult<DistributorSourcePO> getSourcePage(AppDistributorSourcePageReqVO pageReqVO) {
         return sourceMapper.selectPage(pageReqVO);
     }
 

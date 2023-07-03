@@ -3,7 +3,7 @@ package com.rc.cloud.app.distributor.application.service;
 import java.util.*;
 import javax.validation.*;
 
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelUpdateReqVO;
@@ -44,7 +44,7 @@ public interface DistributorLevelService {
      * @param id 编号
      * @return 经销商客户等级
      */
-    DistributorLevelDO getLevel(Long id);
+    DistributorLevelPO getLevel(Long id);
 
     /**
      * 获得经销商客户等级列表
@@ -52,7 +52,7 @@ public interface DistributorLevelService {
      * @param ids 编号
      * @return 经销商客户等级列表
      */
-    List<DistributorLevelDO> getLevelList(Collection<Long> ids);
+    List<DistributorLevelPO> getLevelList(Collection<Long> ids);
 
     /**
      * 获得经销商客户等级分页
@@ -60,6 +60,6 @@ public interface DistributorLevelService {
      * @param pageReqVO 分页查询
      * @return 经销商客户等级分页
      */
-    PageResult<DistributorLevelDO> getLevelPage(AppDistributorLevelPageReqVO pageReqVO);
+    PageResult<DistributorLevelPO> getLevelPage(AppDistributorLevelPageReqVO pageReqVO);
 
 }

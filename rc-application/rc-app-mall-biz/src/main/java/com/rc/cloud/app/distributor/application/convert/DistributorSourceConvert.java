@@ -4,7 +4,7 @@ import java.util.*;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorSourceRespVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceUpdateReqVO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourceDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -19,14 +19,14 @@ public interface DistributorSourceConvert {
 
     DistributorSourceConvert INSTANCE = Mappers.getMapper(DistributorSourceConvert.class);
 
-    DistributorSourceDO convert(AppDistributorSourceCreateReqVO bean);
+    DistributorSourcePO convert(AppDistributorSourceCreateReqVO bean);
 
-    DistributorSourceDO convert(AppDistributorSourceUpdateReqVO bean);
+    DistributorSourcePO convert(AppDistributorSourceUpdateReqVO bean);
 
-    AppDistributorSourceRespVO convert(DistributorSourceDO bean);
+    AppDistributorSourceRespVO convert(DistributorSourcePO bean);
 
-    List<AppDistributorSourceRespVO> convertList(List<DistributorSourceDO> list);
+    List<AppDistributorSourceRespVO> convertList(List<DistributorSourcePO> list);
 
-    PageResult<AppDistributorSourceRespVO> convertPage(PageResult<DistributorSourceDO> page);
+    PageResult<AppDistributorSourceRespVO> convertPage(PageResult<DistributorSourcePO> page);
 
 }

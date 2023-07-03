@@ -5,7 +5,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorLevelService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorLevelMapper;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.collection.ArrayUtils;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
@@ -44,14 +44,14 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(levelId);
         // 校验记录的属性是否正确
-        DistributorLevelDO levelDO = levelMapper.selectById(levelId);
+        DistributorLevelPO levelDO = levelMapper.selectById(levelId);
         assertPojoEquals(reqVO, levelDO);
     }
 
     @Test
     void updateLevel() {
         // mock 数据
-        DistributorLevelDO levelDO = randomDistributorLevelDO();
+        DistributorLevelPO levelDO = randomDistributorLevelPO();
         levelMapper.insert(levelDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
         AppDistributorLevelUpdateReqVO reqVO = randomPojo(AppDistributorLevelUpdateReqVO.class, o -> {
@@ -62,14 +62,14 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
         // 调用
         levelService.updateLevel(reqVO);
         // 校验是否更新正确
-        DistributorLevelDO level = levelMapper.selectById(reqVO.getId());
+        DistributorLevelPO level = levelMapper.selectById(reqVO.getId());
         assertPojoEquals(reqVO, level);
     }
 
     @Test
     void deleteLevel() {
         // mock 数据
-        DistributorLevelDO postDO =  randomDistributorLevelDO();
+        DistributorLevelPO postDO =  randomDistributorLevelPO();
         levelMapper.insert(postDO);
         // 准备参数
         Long id = postDO.getId();
@@ -82,12 +82,12 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
     @Test
     void getLevel() {
         // mock 数据
-        DistributorLevelDO levelDO = randomDistributorLevelDO();
+        DistributorLevelPO levelDO = randomDistributorLevelPO();
         levelMapper.insert(levelDO);
         // 准备参数
         Long id = levelDO.getId();
         // 调用
-        DistributorLevelDO level = levelService.getLevel(id);
+        DistributorLevelPO level = levelService.getLevel(id);
         // 断言
         assertNotNull(level);
         assertPojoEquals(levelDO, level);
@@ -96,16 +96,16 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
     @Test
     void getLevelList() {
         // mock 数据
-        DistributorLevelDO postDO01 = randomDistributorLevelDO();
+        DistributorLevelPO postDO01 = randomDistributorLevelPO();
         levelMapper.insert(postDO01);
 
-        DistributorLevelDO postDO02 = randomDistributorLevelDO();
+        DistributorLevelPO postDO02 = randomDistributorLevelPO();
         levelMapper.insert(postDO02);
         // 准备参数
         List<Long> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
 
         // 调用
-        List<DistributorLevelDO> list = levelService.getLevelList(ids);
+        List<DistributorLevelPO> list = levelService.getLevelList(ids);
         // 断言
         assertEquals(2, list.size());
         assertPojoEquals(postDO01, list.get(0));
@@ -114,7 +114,7 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
     @Test
     void getLevelPage() {
         // mock 数据
-        DistributorLevelDO levelDO = randomPojo(DistributorLevelDO.class, o -> {
+        DistributorLevelPO levelDO = randomPojo(DistributorLevelPO.class, o -> {
             o.setName("码仔");
         });
         levelMapper.insert(levelDO);
@@ -127,7 +127,7 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
         reqVO.setName("码");
 
         // 调用
-        PageResult<DistributorLevelDO> pageResult = levelService.getLevelPage(reqVO);
+        PageResult<DistributorLevelPO> pageResult = levelService.getLevelPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -135,10 +135,10 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
     }
 
     @SafeVarargs
-    private static DistributorLevelDO randomDistributorLevelDO(Consumer<DistributorLevelDO>... consumers) {
-        Consumer<DistributorLevelDO> consumer = (o) -> {
+    private static DistributorLevelPO randomDistributorLevelPO(Consumer<DistributorLevelPO>... consumers) {
+        Consumer<DistributorLevelPO> consumer = (o) -> {
             //o.set(randomCommonStatus()); // 保证 status 的范围
         };
-        return randomPojo(DistributorLevelDO.class, ArrayUtils.append(consumer, consumers));
+        return randomPojo(DistributorLevelPO.class, ArrayUtils.append(consumer, consumers));
     }
 }

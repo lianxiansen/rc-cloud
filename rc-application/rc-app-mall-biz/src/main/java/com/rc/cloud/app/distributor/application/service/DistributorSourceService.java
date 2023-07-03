@@ -5,7 +5,7 @@ import javax.validation.*;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourcePageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceUpdateReqVO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourceDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 /**
@@ -43,7 +43,7 @@ public interface DistributorSourceService {
      * @param id 编号
      * @return 经销商来源
      */
-    DistributorSourceDO getSource(Long id);
+    DistributorSourcePO getSource(Long id);
 
     /**
      * 获得经销商来源列表
@@ -51,7 +51,7 @@ public interface DistributorSourceService {
      * @param ids 编号
      * @return 经销商来源列表
      */
-    List<DistributorSourceDO> getSourceList(Collection<Long> ids);
+    List<DistributorSourcePO> getSourceList(Collection<Long> ids);
 
     /**
      * 获得经销商来源分页
@@ -59,6 +59,6 @@ public interface DistributorSourceService {
      * @param pageReqVO 分页查询
      * @return 经销商来源分页
      */
-    PageResult<DistributorSourceDO> getSourcePage(AppDistributorSourcePageReqVO pageReqVO);
+    PageResult<DistributorSourcePO> getSourcePage(AppDistributorSourcePageReqVO pageReqVO);
 
 }

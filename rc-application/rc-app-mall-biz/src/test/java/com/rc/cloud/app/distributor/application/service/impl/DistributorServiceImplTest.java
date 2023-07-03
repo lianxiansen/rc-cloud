@@ -2,33 +2,24 @@ package com.rc.cloud.app.distributor.application.service.impl;
 
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorContactCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelUpdateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
-import com.rc.cloud.app.distributor.application.convert.DistributorContactConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.application.service.DistributorService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorAutoConfig;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorContactMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorDetailMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorMapper;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactDO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailDO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelDO;
-import com.rc.cloud.common.core.enums.CommonStatusEnum;
-import com.rc.cloud.common.core.util.StringUtils;
-import com.rc.cloud.common.core.util.collection.CollectionUtils;
-import com.rc.cloud.common.core.validation.Mobile;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.Assert;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -39,8 +30,6 @@ import static com.rc.cloud.common.test.core.util.AssertUtils.assertServiceExcept
 import static com.rc.cloud.common.test.core.util.RandomUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.isNull;
-import static org.mockito.Mockito.when;
 
 /**
  * @author WJF
@@ -82,13 +71,13 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
         Long id = distributorService.create(reqVO);
         //断言
         Assert.assertNotNull(id);
-        DistributorDetailDO detailDO = detailMapper.selectOne(new LambdaQueryWrapperX<DistributorDetailDO>()
-                .eq(DistributorDetailDO::getDistributorId, id));
+        DistributorDetailPO detailDO = detailMapper.selectOne(new LambdaQueryWrapperX<DistributorDetailPO>()
+                .eq(DistributorDetailPO::getDistributorId, id));
         //判断明细表
         Assert.assertEquals(reqVO.getDistributorDetail(), detailDO.getDistributorDetail());
 
-        List<DistributorContactDO> contactDOList = contactMapper.selectList(new LambdaQueryWrapperX<DistributorContactDO>()
-                .eq(DistributorContactDO::getDistributorId, id));
+        List<DistributorContactPO> contactDOList = contactMapper.selectList(new LambdaQueryWrapperX<DistributorContactPO>()
+                .eq(DistributorContactPO::getDistributorId, id));
         //判断联系人
         assertEquals("13700000111", contactDOList.get(0).getMobile());
         assertNotNull(contactDOList.get(0).getPassword());
@@ -98,15 +87,15 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
     @Test
     void update() {
         // mock 数据
-        DistributorDO distributorDO = randomPojo(DistributorDO.class, o -> {
+        DistributorPO distributorPO = randomPojo(DistributorPO.class, o -> {
 
         });
-        distributorMapper.insert(distributorDO);// @Sql: 先插入出一条存在的数据
+        distributorMapper.insert(distributorPO);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Random random = new Random();
         AppDistributorUpdateReqVO reqVO = randomPojo(AppDistributorUpdateReqVO.class, o -> {
             // 设置更新的 ID
-            o.setId(distributorDO.getId());
+            o.setId(distributorPO.getId());
             o.getContacts().forEach(x -> x.setMobile(
                     //生成随机手机号
                     "13575" + String.format("%06d", random.nextInt(10000)
@@ -116,13 +105,13 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
         // 调用
         distributorService.update(reqVO);
         // 校验是否更新正确
-        DistributorDO distributorDO1 = distributorMapper.selectById(reqVO.getId());
-        assertPojoEquals(reqVO, distributorDO1);
+        DistributorPO distributorPO1 = distributorMapper.selectById(reqVO.getId());
+        assertPojoEquals(reqVO, distributorPO1);
 
         //检验插入明细为空
         AppDistributorUpdateReqVO reqVO1 = randomPojo(AppDistributorUpdateReqVO.class, o -> {
             // 设置更新的 ID
-            o.setId(distributorDO.getId());
+            o.setId(distributorPO.getId());
             o.setDistributorDetail("");
             o.getContacts().forEach(x -> x.setMobile(
                     //生成随机手机号
@@ -132,7 +121,7 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
         // 调用
         distributorService.update(reqVO1);
         // 校验是否更新正确
-        DistributorDetailDO detailDO = detailMapper.selectOne(new LambdaQueryWrapperX<DistributorDetailDO>().eq(DistributorDetailDO::getDistributorId, distributorDO.getId()));
+        DistributorDetailPO detailDO = detailMapper.selectOne(new LambdaQueryWrapperX<DistributorDetailPO>().eq(DistributorDetailPO::getDistributorId, distributorPO.getId()));
         assertEquals("", detailDO.getDistributorDetail());
     }
 
@@ -154,8 +143,8 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
 
         //删除
         distributorService.delete(id);
-        DistributorDO distributorDO = distributorMapper.selectById(id);
-        assertNull(distributorDO);
+        DistributorPO distributorPO = distributorMapper.selectById(id);
+        assertNull(distributorPO);
 
         //获取明细
         // 调用，并断言异常

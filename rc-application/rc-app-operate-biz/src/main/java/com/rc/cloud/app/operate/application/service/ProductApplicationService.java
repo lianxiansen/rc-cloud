@@ -1,16 +1,16 @@
 package com.rc.cloud.app.operate.application.service;
 
-import com.rc.cloud.app.operate.application.data.ProductSaveDTO;
-import com.rc.cloud.app.operate.domain.model.product.ProductFactory;
-import com.rc.cloud.app.operate.domain.model.product.valobj.*;
-import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
 import com.rc.cloud.app.operate.domain.common.DomainEventPublisher;
 import com.rc.cloud.app.operate.domain.common.DomainEventSubscriber;
 import com.rc.cloud.app.operate.domain.model.product.ProductAggregation;
+import com.rc.cloud.app.operate.domain.model.product.ProductFactory;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.event.ProductCreatedEvent;
 import com.rc.cloud.app.operate.domain.model.product.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.*;
+import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,16 +88,5 @@ public class ProductApplicationService {
 
     }
 
-
-//    public List<ProductListDTO> getProductList(ProductListQueryDTO productListQueryDTO){
-//
-//        PageResult<ProductDO> productPageList = productRepository.getProductPageList(productListQueryDTO);
-//
-//
-//       // ProductListDTO res = new ProductListDTO();
-//        //...
-//        //resList.add(res);
-//        return productPageList;
-//    }
 
 }

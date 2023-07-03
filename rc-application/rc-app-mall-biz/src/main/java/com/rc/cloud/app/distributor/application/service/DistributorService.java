@@ -7,8 +7,8 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorExportReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 /**
@@ -46,7 +46,7 @@ public interface DistributorService {
      * @param id 编号
      * @return 经销商
      */
-    DistributorDO get(Long id);
+    DistributorPO get(Long id);
 
     /**
      * 获得经销商
@@ -54,7 +54,7 @@ public interface DistributorService {
      * @param id 编号
      * @return 经销商
      */
-    DistributorDetailDO getDetail(Long id);
+    DistributorDetailPO getDetail(Long id);
 
     /**
      * 获得经销商列表
@@ -62,7 +62,7 @@ public interface DistributorService {
      * @param ids 编号
      * @return 经销商列表
      */
-    List<DistributorDO> getList(Collection<Long> ids);
+    List<DistributorPO> getList(Collection<Long> ids);
 
     /**
      * 获得经销商分页
@@ -70,7 +70,7 @@ public interface DistributorService {
      * @param pageReqVO 分页查询
      * @return 经销商分页
      */
-    PageResult<DistributorDO> getPage(AppDistributorPageReqVO pageReqVO);
+    PageResult<DistributorPO> getPage(AppDistributorPageReqVO pageReqVO);
 
-    List<DistributorDO> getList(AppDistributorExportReqVO exportReqVO) ;
+    List<DistributorPO> getList(AppDistributorExportReqVO exportReqVO) ;
 }

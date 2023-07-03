@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.appearance.assemble;
 
-import com.rc.cloud.app.operate.appearance.request.ProductCategoryCreateRequest;
-import com.rc.cloud.app.operate.application.data.ProductCategoryDTO;
+import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
+import com.rc.cloud.app.operate.application.dto.ProductCategoryDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -9,8 +9,8 @@ import org.mapstruct.factory.Mappers;
 public interface ProductCategoryAssemble {
     ProductCategoryAssemble INSTANCE = Mappers.getMapper(ProductCategoryAssemble.class);
 
-    ProductCategoryDTO convert2ProductCategoryDTO(ProductCategoryCreateRequest source);
+    ProductCategoryDTO convert2ProductCategoryDTO(ProductCategoryCreateDTO source);
 
 
-    ProductCategoryCreateRequest convert2ProductCategoryVO(ProductCategoryDTO source);
+    ProductCategoryCreateDTO convert2ProductCategoryVO(ProductCategoryDTO source);
 }

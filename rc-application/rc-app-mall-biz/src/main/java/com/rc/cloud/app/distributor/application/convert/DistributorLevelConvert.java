@@ -2,7 +2,7 @@ package com.rc.cloud.app.distributor.application.convert;
 
 import java.util.*;
 
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorLevelRespVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelUpdateReqVO;
@@ -20,14 +20,14 @@ public interface DistributorLevelConvert {
 
     DistributorLevelConvert INSTANCE = Mappers.getMapper(DistributorLevelConvert.class);
 
-    DistributorLevelDO convert(AppDistributorLevelCreateReqVO bean);
+    DistributorLevelPO convert(AppDistributorLevelCreateReqVO bean);
 
-    DistributorLevelDO convert(AppDistributorLevelUpdateReqVO bean);
+    DistributorLevelPO convert(AppDistributorLevelUpdateReqVO bean);
 
-    AppDistributorLevelRespVO convert(DistributorLevelDO bean);
+    AppDistributorLevelRespVO convert(DistributorLevelPO bean);
 
-    List<AppDistributorLevelRespVO> convertList(List<DistributorLevelDO> list);
+    List<AppDistributorLevelRespVO> convertList(List<DistributorLevelPO> list);
 
-    PageResult<AppDistributorLevelRespVO> convertPage(PageResult<DistributorLevelDO> page);
+    PageResult<AppDistributorLevelRespVO> convertPage(PageResult<DistributorLevelPO> page);
 
 }
