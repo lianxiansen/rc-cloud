@@ -72,6 +72,7 @@ public class ProductApplicationService {
             ProductAggregation productEntry= productFactory.createProduct(tenantId,name,remark,tag,brandId,productCategoryId,customClassification,newest,
                     explosives,recommend,open,onshelfStatus,enable,video,masterImage,type,productImages);
             productRepository.saveProductEntry(productEntry);
+
         } else {
             ProductId productId = new ProductId(productSaveDTO.getId() + "");
             ProductAggregation productEntity = productRepository.findById(productId);

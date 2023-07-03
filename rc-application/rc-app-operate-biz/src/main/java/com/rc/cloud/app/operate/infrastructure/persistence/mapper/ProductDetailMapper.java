@@ -20,19 +20,5 @@ import java.util.List;
 @Mapper
 public interface ProductDetailMapper extends BaseMapperX<ProductDetailDO> {
 
-    List<ProductDO> getProductPageListInAdmin(@Param("query") ProductListVO query);
 
-    List<ProductDO> getNoDeliveryTemplateProductList(@Param("query") NoDeliveryTemplateQuery query);
-
-    List<ProductDO> getSimiliarProductList(@Param("query") SimiliarProductQuery query);
-
-    List<ProductDO> getProductList(@Param("query") SimiliarProductQuery query);
-
-    List<AdminCopartnerProductDTO> getCopartnerProductList(@Param("query") BaseQuery query);
-
-    List<AdminProductListDTO> getAdminProductList(@Param("query") ProductRequestVO query);
-
-    Boolean checkProductIsRefund(@Param("product_id") int productId);
-
-    Boolean checkProductIsDeliveryRefund(@Param("product_id") int productId);
 }

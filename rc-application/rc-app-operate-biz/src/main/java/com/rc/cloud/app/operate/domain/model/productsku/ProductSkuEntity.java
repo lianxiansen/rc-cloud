@@ -35,6 +35,7 @@ public class ProductSkuEntity extends Entity {
     private SeckillSku seckillSku;
 
 
+
     /**
      * 排序
      */

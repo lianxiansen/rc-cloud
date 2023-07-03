@@ -5,6 +5,30 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+
+//-- 存储[
+//        -- {
+//        --             "attribute_name" : "尺码",
+//        --             "attribute_value" : "42",
+//        --             "sort_id" : 42
+//        --         },
+//        --         {
+//        --             "attribute_name" : "尺码",
+//        --             "attribute_value" : "44",
+//        --             "sort_id" : 42
+//        --         },
+//        --         {
+//        --             "attribute_name" : "颜色",
+//        --             "attribute_value" : "卡其色",
+//        --             "sort_id" : 42
+//        --         },
+//        --         {
+//        --             "attribute_name" : "尺码",
+//        --             "attribute_value" : "39",
+//        --             "sort_id" : 42
+//        --         }
+//        --     ]
+//        -- ----------------------------
 @TableName("product_attribute")
 @Data
 @EqualsAndHashCode(callSuper = false)
