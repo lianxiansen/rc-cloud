@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -71,7 +72,7 @@ public class TokenController {
 
 	private final StringRedisTemplate stringRedisTemplate;
 
-	private final CacheManager cacheManager;
+	private final RedisTemplate<String, Object> redisTemplate;
 
 	/**
 	 * 认证页面
@@ -164,7 +165,10 @@ public class TokenController {
 			return CodeResult.ok();
 		}
 		// 清空用户信息
-		cacheManager.getCache(CacheConstants.USER_DETAILS).evict(authorization.getPrincipalName());
+//		cacheManager.getCache(CacheConstants.USER_DETAILS).evict(authorization.getPrincipalName());
+		String userDetailsKey = CacheConstants.USER_DETAILS + ":" + authorization.getPrincipalName();
+		redisTemplate.delete(userDetailsKey);
+
 		// 清空access token
 		authorizationService.remove(authorization);
 		// 处理自定义退出事件，保存相关日志
