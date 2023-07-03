@@ -25,7 +25,7 @@ public class ProductSaveProductSkusVO {
 
     @Valid
     @NotEmpty(message = "ali_spec_kvps集合不能为空")
-    private List<ProductSaveSpecKeyValuePairsVO> ali_spec_kvps;
+    private List<ProductSkuAttributeSaveDTO> skuAttributes;
 
     private String ali_sku_id;
 

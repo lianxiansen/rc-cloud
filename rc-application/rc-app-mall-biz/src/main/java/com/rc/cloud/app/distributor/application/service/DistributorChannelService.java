@@ -5,7 +5,7 @@ import javax.validation.*;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelUpdateReqVO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 /**
@@ -43,7 +43,7 @@ public interface DistributorChannelService {
      * @param id 编号
      * @return 经销商渠道
      */
-    DistributorChannelDO getChannel(Long id);
+    DistributorChannelPO getChannel(Long id);
 
     /**
      * 获得经销商渠道列表
@@ -51,7 +51,7 @@ public interface DistributorChannelService {
      * @param ids 编号
      * @return 经销商渠道列表
      */
-    List<DistributorChannelDO> getChannelList(Collection<Long> ids);
+    List<DistributorChannelPO> getChannelList(Collection<Long> ids);
 
     /**
      * 获得经销商渠道分页
@@ -59,6 +59,6 @@ public interface DistributorChannelService {
      * @param pageReqVO 分页查询
      * @return 经销商渠道分页
      */
-    PageResult<DistributorChannelDO> getChannelPage(AppDistributorChannelPageReqVO pageReqVO);
+    PageResult<DistributorChannelPO> getChannelPage(AppDistributorChannelPageReqVO pageReqVO);
 
 }

@@ -10,4 +10,8 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  */
 public class Open extends ValueObject {
     private boolean flag;
+
+    public Open(boolean flag){
+        this.flag=flag;
+    }
 }

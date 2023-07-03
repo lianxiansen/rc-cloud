@@ -5,7 +5,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelPageReqV
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorChannelService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorChannelMapper;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.collection.ArrayUtils;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
@@ -45,14 +45,14 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(channelId);
         // 校验记录的属性是否正确
-        DistributorChannelDO channelDO = channelMapper.selectById(channelId);
+        DistributorChannelPO channelDO = channelMapper.selectById(channelId);
         assertPojoEquals(reqVO, channelDO);
     }
 
     @Test
     void updateChannel() {
         // mock 数据
-        DistributorChannelDO channelDO = randomDistributorChannelDO();
+        DistributorChannelPO channelDO = randomDistributorChannelPO();
         channelMapper.insert(channelDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
         AppDistributorChannelUpdateReqVO reqVO = randomPojo(AppDistributorChannelUpdateReqVO.class, o -> {
@@ -63,14 +63,14 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
         // 调用
         channelService.updateChannel(reqVO);
         // 校验是否更新正确
-        DistributorChannelDO channel = channelMapper.selectById(reqVO.getId());
+        DistributorChannelPO channel = channelMapper.selectById(reqVO.getId());
         assertPojoEquals(reqVO, channel);
     }
 
     @Test
     void deleteChannel() {
         // mock 数据
-        DistributorChannelDO postDO =  randomDistributorChannelDO();
+        DistributorChannelPO postDO =  randomDistributorChannelPO();
         channelMapper.insert(postDO);
         // 准备参数
         Long id = postDO.getId();
@@ -83,12 +83,12 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
     @Test
     void getChannel() {
         // mock 数据
-        DistributorChannelDO channelDO = randomDistributorChannelDO();
+        DistributorChannelPO channelDO = randomDistributorChannelPO();
         channelMapper.insert(channelDO);
         // 准备参数
         Long id = channelDO.getId();
         // 调用
-        DistributorChannelDO channel = channelService.getChannel(id);
+        DistributorChannelPO channel = channelService.getChannel(id);
         // 断言
         assertNotNull(channel);
         assertPojoEquals(channelDO, channel);
@@ -97,16 +97,16 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
     @Test
     void getChannelList() {
         // mock 数据
-        DistributorChannelDO postDO01 = randomDistributorChannelDO();
+        DistributorChannelPO postDO01 = randomDistributorChannelPO();
         channelMapper.insert(postDO01);
 
-        DistributorChannelDO postDO02 = randomDistributorChannelDO();
+        DistributorChannelPO postDO02 = randomDistributorChannelPO();
         channelMapper.insert(postDO02);
         // 准备参数
         List<Long> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
 
         // 调用
-        List<DistributorChannelDO> list = channelService.getChannelList(ids);
+        List<DistributorChannelPO> list = channelService.getChannelList(ids);
         // 断言
         assertEquals(2, list.size());
         assertPojoEquals(postDO01, list.get(0));
@@ -115,7 +115,7 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
     @Test
     void getChannelPage() {
         // mock 数据
-        DistributorChannelDO channelDO = randomPojo(DistributorChannelDO.class, o -> {
+        DistributorChannelPO channelDO = randomPojo(DistributorChannelPO.class, o -> {
             o.setName("码仔");
         });
         channelMapper.insert(channelDO);
@@ -128,7 +128,7 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
         reqVO.setName("码");
 
         // 调用
-        PageResult<DistributorChannelDO> pageResult = channelService.getChannelPage(reqVO);
+        PageResult<DistributorChannelPO> pageResult = channelService.getChannelPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -136,10 +136,10 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
     }
 
     @SafeVarargs
-    private static DistributorChannelDO randomDistributorChannelDO(Consumer<DistributorChannelDO>... consumers) {
-        Consumer<DistributorChannelDO> consumer = (o) -> {
+    private static DistributorChannelPO randomDistributorChannelPO(Consumer<DistributorChannelPO>... consumers) {
+        Consumer<DistributorChannelPO> consumer = (o) -> {
             //o.set(randomCommonStatus()); // 保证 status 的范围
         };
-        return randomPojo(DistributorChannelDO.class, ArrayUtils.append(consumer, consumers));
+        return randomPojo(DistributorChannelPO.class, ArrayUtils.append(consumer, consumers));
     }
 }

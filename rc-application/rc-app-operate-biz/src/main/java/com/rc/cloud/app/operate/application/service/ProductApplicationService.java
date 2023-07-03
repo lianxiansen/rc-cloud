@@ -47,22 +47,26 @@ public class ProductApplicationService {
                 return ProductCreatedEvent.class;
             }
         });
-        TenantId tenantId = new TenantId(productSaveDTO.getMerchant_id() + "");
+        TenantId tenantId = new TenantId(productSaveDTO.getTenantId() + "");
         Name name = new Name(productSaveDTO.getName());
-        Remark remark = null;
-        Tag tag = null;
-        BrandId brandId = null;
-        ProductCategoryId productCategoryId = null;
-        CustomClassification customClassification = null;
-        Newest newest = null;
+        Remark remark = new Remark(productSaveDTO.getRemark());
+        Tag tag = new Tag(productSaveDTO.getTag());
+        BrandId brandId = new BrandId(productSaveDTO.getBrandId());
+        CategoryName firstCategory = new CategoryName(productSaveDTO.getFirstCategory());
+        CategoryName secondCategory = new CategoryName(productSaveDTO.getSecondCategory());
+        CategoryName thirdCategory = new CategoryName(productSaveDTO.getThirdCategory());
+        //CustomClassification customClassification = null;
+        Newest newest = new Newest(productSaveDTO.isNewFlag());
         Explosives explosives = null;
-        Recommend recommend = null;
-        Open open = null;
-        OnshelfStatus onshelfStatus = null;
-        Enable enable = null;
-        Video video = null;
-        MasterImage masterImage = null;
-        Type type = null;
+        if(productSaveDTO.isExplosivesFlag()){
+            explosives= new Explosives(productSaveDTO.isExplosivesFlag(),productSaveDTO.getExplosivesImage());
+        }
+        Recommend recommend = new Recommend(productSaveDTO.isRecommendFlag());
+        Open open = new Open(productSaveDTO.isPublicFlag());
+        OnshelfStatus onshelfStatus = new OnshelfStatus(productSaveDTO.getOnShelfStatus());
+        Enable enable = new Enable(productSaveDTO.isEnabledFlag());
+        Video video = new Video(productSaveDTO.getVideoUrl(),productSaveDTO.getVideoImg()
+        ,productSaveDTO.getInstallVideoUrl(),productSaveDTO.getInstallVideoImg());
         List<Image> productImages = new ArrayList<>();
         productSaveDTO.getAlbums().forEach(item -> {
             Image image = new Image(item.getImage());
@@ -72,6 +76,7 @@ public class ProductApplicationService {
             ProductAggregation productEntry= productFactory.createProduct(tenantId,name,remark,tag,brandId,productCategoryId,customClassification,newest,
                     explosives,recommend,open,onshelfStatus,enable,video,masterImage,type,productImages);
             productRepository.saveProductEntry(productEntry);
+
         } else {
             ProductId productId = new ProductId(productSaveDTO.getId() + "");
             ProductAggregation productEntity = productRepository.findById(productId);

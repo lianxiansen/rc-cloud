@@ -3,7 +3,6 @@ package com.rc.cloud.app.distributor.infrastructure.persistence.po;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.*;
 import com.baomidou.mybatisplus.annotation.*;
-import lombok.experimental.Accessors;
 
 /**
  * 经销商 DO
@@ -18,7 +17,7 @@ import lombok.experimental.Accessors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DistributorDO extends BaseDO {
+public class DistributorPO extends BaseDO {
 
     /**
      * id

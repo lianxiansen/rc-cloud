@@ -10,4 +10,7 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  */
 public class Recommend extends ValueObject {
     private boolean flag;
+    public Recommend(boolean flag){
+        this.flag=flag;
+    }
 }

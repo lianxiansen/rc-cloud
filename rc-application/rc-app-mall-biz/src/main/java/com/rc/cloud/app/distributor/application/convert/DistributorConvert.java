@@ -6,7 +6,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorExcelVO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorRespVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -20,15 +20,15 @@ public interface DistributorConvert {
 
     DistributorConvert INSTANCE = Mappers.getMapper(DistributorConvert.class);
 
-    DistributorDO convert(AppDistributorCreateReqVO bean);
+    DistributorPO convert(AppDistributorCreateReqVO bean);
 
-    DistributorDO convert(AppDistributorUpdateReqVO bean);
+    DistributorPO convert(AppDistributorUpdateReqVO bean);
 
-    AppDistributorRespVO convert(DistributorDO bean);
+    AppDistributorRespVO convert(DistributorPO bean);
 
-    List<AppDistributorRespVO> convertList(List<DistributorDO> list);
+    List<AppDistributorRespVO> convertList(List<DistributorPO> list);
 
-    PageResult<AppDistributorRespVO> convertPage(PageResult<DistributorDO> page);
+    PageResult<AppDistributorRespVO> convertPage(PageResult<DistributorPO> page);
 
-    List<AppDistributorExcelVO> convertList02(List<DistributorDO> list);
+    List<AppDistributorExcelVO> convertList02(List<DistributorPO> list);
 }

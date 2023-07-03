@@ -1,7 +1,7 @@
 package com.rc.cloud.app.distributor.infrastructure.persistence.mapper;
 
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourcePageReqVO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourceDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
@@ -13,13 +13,13 @@ import org.apache.ibatis.annotations.Mapper;
  * @author wjf
  */
 @Mapper
-public interface DistributorSourceMapper extends BaseMapperX<DistributorSourceDO> {
+public interface DistributorSourceMapper extends BaseMapperX<DistributorSourcePO> {
 
-    default PageResult<DistributorSourceDO> selectPage(AppDistributorSourcePageReqVO reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<DistributorSourceDO>()
-                .likeIfPresent(DistributorSourceDO::getName, reqVO.getName())
-                .eqIfPresent(DistributorSourceDO::getDescription, reqVO.getDescription())
-                .betweenIfPresent(DistributorSourceDO::getCreateTime, reqVO.getCreateTime())
-                .orderByDesc(DistributorSourceDO::getId));
+    default PageResult<DistributorSourcePO> selectPage(AppDistributorSourcePageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<DistributorSourcePO>()
+                .likeIfPresent(DistributorSourcePO::getName, reqVO.getName())
+                .eqIfPresent(DistributorSourcePO::getDescription, reqVO.getDescription())
+                .betweenIfPresent(DistributorSourcePO::getCreateTime, reqVO.getCreateTime())
+                .orderByDesc(DistributorSourcePO::getId));
     }
 }

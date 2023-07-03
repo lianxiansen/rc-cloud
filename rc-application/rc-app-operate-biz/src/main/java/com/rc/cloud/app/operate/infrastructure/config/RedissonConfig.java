@@ -1,4 +1,4 @@
-//package com.rc.cloud.app.mall.infrastructure.config;
+//package com.rc.cloud.app.operate.infrastructure.config;
 //
 //import cn.hutool.core.util.StrUtil;
 //import org.redisson.Redisson;
@@ -16,13 +16,13 @@
 //@Configuration
 //public class RedissonConfig {
 //
-//    @Value("${spring.redis.main.host}")
+//    @Value("${spring.redis.host}")
 //    private String host;
 //
-//    @Value("${spring.redis.main.port}")
+//    @Value("${spring.redis.port}")
 //    private String port;
 //
-//    @Value("${spring.redis.main.password}")
+//    @Value("${spring.redis.password}")
 //    private String password;
 //
 //

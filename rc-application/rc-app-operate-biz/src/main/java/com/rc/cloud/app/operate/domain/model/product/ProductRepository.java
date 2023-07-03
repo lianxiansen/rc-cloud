@@ -4,7 +4,11 @@ import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
 import com.rc.cloud.common.core.pojo.PageResult;
+
+import java.util.List;
 
 /**
  * @ClassName: ProductRepository
@@ -20,5 +24,9 @@ public interface ProductRepository {
     ProductImageId nextProductImageId();
 
     PageResult<ProductDO> getProductPageList(ProductListQueryDTO productListQueryDTO);
+
+    List<ProductDictDO> getProductDictByProductId(ProductId productId);
+
+    List<ProductImageDO> getProductImageByProductId(ProductId productId);
 
 }

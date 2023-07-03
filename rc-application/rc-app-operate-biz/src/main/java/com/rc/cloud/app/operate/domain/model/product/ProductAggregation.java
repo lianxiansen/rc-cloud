@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
@@ -37,7 +38,11 @@ public class ProductAggregation extends Entity {
     /**
      * 产品分类标识
      */
-    private ProductCategoryId productCategoryId;
+    private String firstCategory;
+
+    private String secondCategory;
+
+    private String thirdCategory;
 
     /**
      * 产品简介
@@ -103,6 +108,12 @@ public class ProductAggregation extends Entity {
      * 产品相册
      */
     private List<ProductImageEntity> productImages;
+
+
+    /**
+     * K-V
+     */
+    private List<ProductDictEntity> productDicts;
 
     /**
      * 商品code
@@ -173,6 +184,8 @@ public class ProductAggregation extends Entity {
         setTenantId(tenantId);
         setName(name);
         setProductCategoryId(productCategoryId);
+
+        this.type=new Type(0);
         DomainEventPublisher.instance().publish(new ProductCreatedEvent(tenantId, "test"));
     }
 
@@ -197,7 +210,7 @@ public class ProductAggregation extends Entity {
 
     public void setProductCategoryId(ProductCategoryId productCategoryId){
         this.assertArgumentNotNull(productCategoryId,"ProductCategoryId must not be null");
-        this.productCategoryId = productCategoryId;
+       // this.productCategoryId = productCategoryId;
     }
     public void setRemark(Remark remark){
         this.remark = remark;

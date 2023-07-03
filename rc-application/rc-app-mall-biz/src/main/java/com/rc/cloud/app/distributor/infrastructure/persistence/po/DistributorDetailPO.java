@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DistributorDetailDO implements Serializable {
+public class DistributorDetailPO implements Serializable {
 
     /**
      * id

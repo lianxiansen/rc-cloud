@@ -2,7 +2,7 @@ package com.rc.cloud.app.distributor.application.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorContactUpdatePasswordReqVO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
 
 import java.util.List;
 
@@ -12,12 +12,12 @@ import java.util.List;
  * @description TODO
  */
 
-public interface DistributorContactService extends IService<DistributorContactDO>{
+public interface DistributorContactService extends IService<DistributorContactPO>{
     void updatePassword(AppDistributorContactUpdatePasswordReqVO updatePasswordReqVO);
 
     void resetPassword(Long id);
 
-    void updateContacts(Long distributorId, List<DistributorContactDO> contactDOS);
+    void updateContacts(Long distributorId, List<DistributorContactPO> contactDOS);
 
-    List<DistributorContactDO> getByDistributorId(Long distributorId);
+    List<DistributorContactPO> getByDistributorId(Long distributorId);
 }

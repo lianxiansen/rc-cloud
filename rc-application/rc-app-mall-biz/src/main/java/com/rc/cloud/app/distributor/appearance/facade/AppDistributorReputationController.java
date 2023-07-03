@@ -4,7 +4,7 @@ import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationPageR
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationUpdateReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.AppDistributorReputationRespVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorReputationConvert;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
 import com.rc.cloud.app.distributor.application.service.DistributorReputationService;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationCreateReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -58,7 +58,7 @@ public class AppDistributorReputationController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
     public CodeResult<AppDistributorReputationRespVO> getReputation(@RequestParam("id") Long id) {
-        DistributorReputationDO reputation = reputationService.getReputation(id);
+        DistributorReputationPO reputation = reputationService.getReputation(id);
         return CodeResult.ok(DistributorReputationConvert.INSTANCE.convert(reputation));
     }
 
@@ -67,7 +67,7 @@ public class AppDistributorReputationController {
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
     public CodeResult<List<AppDistributorReputationRespVO>> getReputationList(@RequestParam("ids") Collection<Long> ids) {
-        List<DistributorReputationDO> list = reputationService.getReputationList(ids);
+        List<DistributorReputationPO> list = reputationService.getReputationList(ids);
         return CodeResult.ok(DistributorReputationConvert.INSTANCE.convertList(list));
     }
 
@@ -75,7 +75,7 @@ public class AppDistributorReputationController {
     @Operation(summary = "获得经销商客户信誉分页")
 
     public CodeResult<PageResult<AppDistributorReputationRespVO>> getReputationPage(@Valid AppDistributorReputationPageReqVO pageVO) {
-        PageResult<DistributorReputationDO> pageResult = reputationService.getReputationPage(pageVO);
+        PageResult<DistributorReputationPO> pageResult = reputationService.getReputationPage(pageVO);
         return CodeResult.ok(DistributorReputationConvert.INSTANCE.convertPage(pageResult));
     }
 }

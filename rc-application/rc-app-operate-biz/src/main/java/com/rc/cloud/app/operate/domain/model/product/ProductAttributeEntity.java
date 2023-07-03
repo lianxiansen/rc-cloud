@@ -2,6 +2,9 @@ package com.rc.cloud.app.operate.domain.model.product;
 
 import java.util.SortedSet;
 
+/**
+ *
+ */
 public class ProductAttributeEntity  implements Comparable<ProductAttributeEntity>{
 
     private String attribute;
@@ -9,9 +12,6 @@ public class ProductAttributeEntity  implements Comparable<ProductAttributeEntit
     private SortedSet<ProductAttributeValueEntity> values;
 
     private  Integer sortId;
-
-
-
 
     public ProductAttributeEntity(String attribute, SortedSet<ProductAttributeValueEntity> values, Integer sortId) {
         this.attribute = attribute;

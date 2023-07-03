@@ -2,7 +2,7 @@ package com.rc.cloud.app.distributor.appearance.facade;
 
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelUpdateReqVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorLevelConvert;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelDO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;
 import com.rc.cloud.app.distributor.application.service.DistributorLevelService;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelPageReqVO;
@@ -58,7 +58,7 @@ public class AppDistributorLevelController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
     public CodeResult<AppDistributorLevelRespVO> getLevel(@RequestParam("id") Long id) {
-        DistributorLevelDO level = levelService.getLevel(id);
+        DistributorLevelPO level = levelService.getLevel(id);
         return CodeResult.ok(DistributorLevelConvert.INSTANCE.convert(level));
     }
 
@@ -67,7 +67,7 @@ public class AppDistributorLevelController {
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
     public CodeResult<List<AppDistributorLevelRespVO>> getLevelList(@RequestParam("ids") Collection<Long> ids) {
-        List<DistributorLevelDO> list = levelService.getLevelList(ids);
+        List<DistributorLevelPO> list = levelService.getLevelList(ids);
         return CodeResult.ok(DistributorLevelConvert.INSTANCE.convertList(list));
     }
 
@@ -75,7 +75,7 @@ public class AppDistributorLevelController {
     @Operation(summary = "获得经销商客户等级分页")
 
     public CodeResult<PageResult<AppDistributorLevelRespVO>> getLevelPage(@Valid AppDistributorLevelPageReqVO pageVO) {
-        PageResult<DistributorLevelDO> pageResult = levelService.getLevelPage(pageVO);
+        PageResult<DistributorLevelPO> pageResult = levelService.getLevelPage(pageVO);
         return CodeResult.ok(DistributorLevelConvert.INSTANCE.convertPage(pageResult));
     }
 

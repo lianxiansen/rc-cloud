@@ -10,7 +10,7 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  */
 public class Newest extends ValueObject {
     private boolean flag;
-    public Newest(){
-        this.flag=false;
+    public Newest(boolean flag){
+        this.flag=flag;
     }
 }
