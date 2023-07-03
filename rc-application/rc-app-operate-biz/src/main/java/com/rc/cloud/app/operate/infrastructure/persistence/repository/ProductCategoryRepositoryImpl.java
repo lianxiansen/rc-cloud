@@ -35,6 +35,14 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     @Autowired
     private ProductCategoryFactory productCategoryBuilderFactory;
 
+    public void saveList(List<ProductCategoryAggregation> all){
+        List<ProductCategoryDO> list=new ArrayList<>();
+        all.forEach(item->{
+            ProductCategoryDO productCategoryDO = ProductCategoryConvert.convert2ProductCategoryDO(item);
+            list.add(productCategoryDO);
+        });
+        productCategoryMapper.updateBatch(list,list.size());
+    }
 
     /**
      * 津贴用的

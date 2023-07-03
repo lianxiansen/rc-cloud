@@ -46,8 +46,7 @@ public class ProductCategoryApplicationService {
         if (null != productCategoryDTO.getParentId()) {
             builder.parentId(new ProductCategoryId(productCategoryDTO.getParentId()));
         }
-        ProductCategoryAggregation productCategoryAggregation = builder.build();
-        productCategoryDomainServce.initialize(productCategoryAggregation);
+        ProductCategoryAggregation productCategoryAggregation = productCategoryDomainServce.createProductCategory(builder);
         productCategoryRepository.save(productCategoryAggregation);
     }
 
@@ -56,7 +55,8 @@ public class ProductCategoryApplicationService {
         ProductCategoryAggregation productCategoryAggregation = productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getId()));
         notNull(productCategoryAggregation, "Id无效");
         if (null != productCategoryDTO.getParentId()) {
-            productCategoryAggregation.setParentId(new ProductCategoryId(productCategoryDTO.getParentId()));
+            ProductCategoryAggregation parent = productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getParentId()));
+            productCategoryDomainServce.reInherit(productCategoryAggregation,parent);
         }
         if (StringUtils.isNotEmpty(productCategoryDTO.getName())) {
             productCategoryAggregation.setChName(new ChName(productCategoryDTO.getName()));
@@ -67,7 +67,6 @@ public class ProductCategoryApplicationService {
         if (StringUtils.isNotEmpty(productCategoryDTO.getIcon())) {
             productCategoryAggregation.setIcon(new Icon(productCategoryDTO.getIcon()));
         }
-        productCategoryDomainServce.update(productCategoryAggregation);
         productCategoryRepository.save(productCategoryAggregation);
     }
 

@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.productcategory;
 
+import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
@@ -132,6 +133,7 @@ public class ProductCategoryAggregation extends Entity {
     public Sort getSort() {
         return this.sort;
     }
+
     public void inherit(ProductCategoryAggregation parent){
         if(null!=parent){
             Layer layer= parent.getLayer().addLayer(new Layer(1));
@@ -141,7 +143,15 @@ public class ProductCategoryAggregation extends Entity {
             setLayer(new Layer(1));
             this.parentId=null;
         }
+    }
 
+    public void reInherit(ProductCategoryAggregation parent){
+        if(null!=parent){
+            if(this.id.equals(parent.getId())){
+                throw new DomainException("不能指定上级分类为当前分类");
+            }
+        }
+        inherit(parent);
     }
 
 }

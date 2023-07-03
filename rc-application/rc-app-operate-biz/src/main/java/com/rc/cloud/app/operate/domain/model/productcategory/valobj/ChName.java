@@ -13,7 +13,7 @@ public class ChName extends ValueObject {
      * 分类名（中文名）
      */
     private String value;
-    public ChName(String ChName){
+    public ChName(String value){
         setValue(value);
     }
 
