@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.application.data;
+package com.rc.cloud.app.operate.application.dto;
 
 public class ProductAttributeSaveDTO {
 

@@ -10,8 +10,9 @@ import java.util.List;
 @Data
 public class ProductSaveDTO {
 
-    private int id;
+    private String id;
 
+    //默认普通商品
     private int productType;
 
     private String firstCategory;
@@ -20,7 +21,7 @@ public class ProductSaveDTO {
 
     private String thirdCategory;
 
-    private int brandId;
+    private String brandId;
 
     private String name;
 
@@ -53,17 +54,29 @@ public class ProductSaveDTO {
 
     private boolean  explosivesFlag;
 
+    private String explosivesImage;
+
     private boolean  publicFlag;
 
     private boolean  recommendFlag;
 
-    private int tenantId;
+    private String tenantId;
 
     private int sortId;
 
     private List<ProductAttributeSaveDTO> attributes;
 
     private List<ProductSkuSaveDTO> skus;
+
+    private int onShelfStatus;
+
+    private boolean enabledFlag;
+
+
+    private String videoUrl;
+    private String videoImg;
+    private String installVideoUrl;
+    private String installVideoImg;
 
 
 }

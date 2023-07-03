@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.application.data;
+package com.rc.cloud.app.operate.application.dto;
 
 import com.rc.cloud.app.operate.appearance.request.ProductSaveSpecKeyValuePairsVO;
 

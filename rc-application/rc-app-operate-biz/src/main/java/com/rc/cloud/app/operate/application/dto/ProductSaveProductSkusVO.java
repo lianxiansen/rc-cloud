@@ -1,6 +1,5 @@
 package com.rc.cloud.app.operate.application.dto;
 
-import com.rc.cloud.app.operate.application.data.ProductSkuAttributeSaveDTO;
 import lombok.Data;
 
 import javax.validation.Valid;

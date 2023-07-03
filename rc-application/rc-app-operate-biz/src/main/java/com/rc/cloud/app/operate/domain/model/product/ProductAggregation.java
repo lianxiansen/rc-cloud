@@ -184,6 +184,8 @@ public class ProductAggregation extends Entity {
         setTenantId(tenantId);
         setName(name);
         setProductCategoryId(productCategoryId);
+
+        this.type=new Type(0);
         DomainEventPublisher.instance().publish(new ProductCreatedEvent(tenantId, "test"));
     }
 
