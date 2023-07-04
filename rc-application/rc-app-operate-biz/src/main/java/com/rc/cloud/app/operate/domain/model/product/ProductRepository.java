@@ -17,8 +17,11 @@ import java.util.List;
  * @Description: TODO
  */
 public interface ProductRepository {
-    void saveProductEntry(ProductAggregation productEntry);
-    ProductAggregation findById(ProductId productId);
+    void saveProductEntry(Product productEntry);
+    Product findById(ProductId productId);
+
+    boolean exist(ProductId productId);
+
     ProductId nextProductId();
 
     ProductImageId nextProductImageId();
