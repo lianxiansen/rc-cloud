@@ -1,7 +1,7 @@
 package com.rc.cloud.app.distributor;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorPageReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
@@ -26,7 +26,7 @@ class DistributorApplicationTests {
     @Test
     void contextLoads() {
         // MyBatis Plus 关联表 查询
-        AppDistributorPageReqVO reqVO =new AppDistributorPageReqVO();
+        DistributorPageReqVO reqVO =new DistributorPageReqVO();
         reqVO.setCompanyName("7");
 
         IPage<DistributorPO> mpPage = MyBatisUtils.buildPage(reqVO);

@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorLevelCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorLevelPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorLevelUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorLevelService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorLevelMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;
@@ -38,7 +38,7 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
     private DistributorLevelMapper levelMapper;
     @Test
     void createLevel() {
-        AppDistributorLevelCreateReqVO reqVO = randomPojo(AppDistributorLevelCreateReqVO.class, o -> {});
+        DistributorLevelCreateReqVO reqVO = randomPojo(DistributorLevelCreateReqVO.class, o -> {});
         // 调用
         Long levelId = levelService.createLevel(reqVO);
         // 断言
@@ -54,7 +54,7 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
         DistributorLevelPO levelDO = randomDistributorLevelPO();
         levelMapper.insert(levelDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        AppDistributorLevelUpdateReqVO reqVO = randomPojo(AppDistributorLevelUpdateReqVO.class, o -> {
+        DistributorLevelUpdateReqVO reqVO = randomPojo(DistributorLevelUpdateReqVO.class, o -> {
             // 设置更新的 ID
             o.setId(levelDO.getId());
         });
@@ -123,7 +123,7 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         levelMapper.insert(cloneIgnoreId(levelDO, o -> o.setName("程序员2")));
         // 准备参数
-        AppDistributorLevelPageReqVO reqVO = new AppDistributorLevelPageReqVO();
+        DistributorLevelPageReqVO reqVO = new DistributorLevelPageReqVO();
         reqVO.setName("码");
 
         // 调用

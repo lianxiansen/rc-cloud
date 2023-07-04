@@ -2,9 +2,9 @@ package com.rc.cloud.app.distributor.application.service;
 
 import java.util.*;
 import javax.validation.*;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorChannelCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorChannelPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorChannelUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
@@ -21,14 +21,14 @@ public interface DistributorChannelService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long createChannel(@Valid AppDistributorChannelCreateReqVO createReqVO);
+    Long createChannel(@Valid DistributorChannelCreateReqVO createReqVO);
 
     /**
      * 更新经销商渠道
      *
      * @param updateReqVO 更新信息
      */
-    void updateChannel(@Valid AppDistributorChannelUpdateReqVO updateReqVO);
+    void updateChannel(@Valid DistributorChannelUpdateReqVO updateReqVO);
 
     /**
      * 删除经销商渠道
@@ -59,6 +59,6 @@ public interface DistributorChannelService {
      * @param pageReqVO 分页查询
      * @return 经销商渠道分页
      */
-    PageResult<DistributorChannelPO> getChannelPage(AppDistributorChannelPageReqVO pageReqVO);
+    PageResult<DistributorChannelPO> getChannelPage(DistributorChannelPageReqVO pageReqVO);
 
 }

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorContactUpdatePasswordReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorContactUpdatePasswordReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorContactMapper;
@@ -78,7 +78,7 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
     }
 
     @Override
-    public void updatePassword(AppDistributorContactUpdatePasswordReqVO updatePasswordReqVO) {
+    public void updatePassword(DistributorContactUpdatePasswordReqVO updatePasswordReqVO) {
         DistributorContactPO contactDO= getBaseMapper().selectById(updatePasswordReqVO.getId());
         System.out.println(contactDO==null);
         contactDO.setPassword(encodePassword(updatePasswordReqVO.getPassword()));

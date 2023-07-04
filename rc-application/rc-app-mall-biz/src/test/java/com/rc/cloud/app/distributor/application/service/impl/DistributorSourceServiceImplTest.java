@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourcePageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorSourceCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorSourcePageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorSourceUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorSourceService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorSourceMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;
@@ -38,7 +38,7 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
     
     @Test
     void createSource() {
-        AppDistributorSourceCreateReqVO reqVO = randomPojo(AppDistributorSourceCreateReqVO.class, o -> {});
+        DistributorSourceCreateReqVO reqVO = randomPojo(DistributorSourceCreateReqVO.class, o -> {});
         // 调用
         Long sourceId = sourceService.createSource(reqVO);
         // 断言
@@ -54,7 +54,7 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
         DistributorSourcePO sourceDO = randomDistributorSourcePO();
         sourceMapper.insert(sourceDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        AppDistributorSourceUpdateReqVO reqVO = randomPojo(AppDistributorSourceUpdateReqVO.class, o -> {
+        DistributorSourceUpdateReqVO reqVO = randomPojo(DistributorSourceUpdateReqVO.class, o -> {
             // 设置更新的 ID
             o.setId(sourceDO.getId());
         });
@@ -123,7 +123,7 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
         // 测试 status 不匹配
         sourceMapper.insert(cloneIgnoreId(sourceDO, o -> o.setName("程序员2")));
         // 准备参数
-        AppDistributorSourcePageReqVO reqVO = new AppDistributorSourcePageReqVO();
+        DistributorSourcePageReqVO reqVO = new DistributorSourcePageReqVO();
         reqVO.setName("码");
 
         // 调用

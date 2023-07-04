@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.convert;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
-import com.rc.cloud.app.distributor.appearance.resp.AppDistributorDetailRespVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.resp.DistributorDetailRespVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailPO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,12 +18,12 @@ public interface DistributorDetailConvert {
 
     DistributorDetailConvert INSTANCE = Mappers.getMapper(DistributorDetailConvert.class);
 
-    AppDistributorDetailRespVO convert(DistributorDetailPO bean);
+    DistributorDetailRespVO convert(DistributorDetailPO bean);
 
     @Mapping(source = "id",target = "distributorId")
     @Mapping(target = "id",ignore=true)
-    DistributorDetailPO convert(AppDistributorUpdateReqVO bean);
+    DistributorDetailPO convert(DistributorUpdateReqVO bean);
 
     @Mapping(target = "id",ignore=true)
-    DistributorDetailPO convert(AppDistributorCreateReqVO bean);
+    DistributorDetailPO convert(DistributorCreateReqVO bean);
 }

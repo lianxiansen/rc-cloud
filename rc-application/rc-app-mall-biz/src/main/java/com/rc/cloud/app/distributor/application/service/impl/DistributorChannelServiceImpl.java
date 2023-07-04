@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorChannelCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorChannelPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorChannelUpdateReqVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorChannelConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorChannelService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
@@ -29,7 +29,7 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
     private DistributorChannelMapper channelMapper;
 
     @Override
-    public Long createChannel(AppDistributorChannelCreateReqVO createReqVO) {
+    public Long createChannel(DistributorChannelCreateReqVO createReqVO) {
         // 插入
         DistributorChannelPO channel = DistributorChannelConvert.INSTANCE.convert(createReqVO);
         channelMapper.insert(channel);
@@ -38,7 +38,7 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
     }
 
     @Override
-    public void updateChannel(AppDistributorChannelUpdateReqVO updateReqVO) {
+    public void updateChannel(DistributorChannelUpdateReqVO updateReqVO) {
         // 校验存在
         validateChannelExists(updateReqVO.getId());
         // 更新
@@ -71,7 +71,7 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
     }
 
     @Override
-    public PageResult<DistributorChannelPO> getChannelPage(AppDistributorChannelPageReqVO pageReqVO) {
+    public PageResult<DistributorChannelPO> getChannelPage(DistributorChannelPageReqVO pageReqVO) {
         return channelMapper.selectPage(pageReqVO);
     }
 

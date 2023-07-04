@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorReputationService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorReputationMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
@@ -37,7 +37,7 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
     
     @Test
     void createReputation() {
-        AppDistributorReputationCreateReqVO reqVO = randomPojo(AppDistributorReputationCreateReqVO.class, o -> {});
+        DistributorReputationCreateReqVO reqVO = randomPojo(DistributorReputationCreateReqVO.class, o -> {});
         // 调用
         Long reputationId = reputationService.createReputation(reqVO);
         // 断言
@@ -53,7 +53,7 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
         DistributorReputationPO reputationDO = randomDistributorReputationPO();
         reputationMapper.insert(reputationDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        AppDistributorReputationUpdateReqVO reqVO = randomPojo(AppDistributorReputationUpdateReqVO.class, o -> {
+        DistributorReputationUpdateReqVO reqVO = randomPojo(DistributorReputationUpdateReqVO.class, o -> {
             // 设置更新的 ID
             o.setId(reputationDO.getId());
         });
@@ -122,7 +122,7 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
         // 测试 status 不匹配
         reputationMapper.insert(cloneIgnoreId(reputationDO, o -> o.setName("程序员2")));
         // 准备参数
-        AppDistributorReputationPageReqVO reqVO = new AppDistributorReputationPageReqVO();
+        DistributorReputationPageReqVO reqVO = new DistributorReputationPageReqVO();
         reqVO.setName("码");
 
         // 调用

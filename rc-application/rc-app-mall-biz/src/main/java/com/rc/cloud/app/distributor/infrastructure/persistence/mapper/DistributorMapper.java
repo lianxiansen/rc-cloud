@@ -2,8 +2,8 @@ package com.rc.cloud.app.distributor.infrastructure.persistence.mapper;
 
 import java.util.*;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorExportReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorExportReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorPageReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
@@ -18,7 +18,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DistributorMapper extends BaseMapperX<DistributorPO> {
 
-    default PageResult<DistributorPO> selectPage(AppDistributorPageReqVO reqVO) {
+    default PageResult<DistributorPO> selectPage(DistributorPageReqVO reqVO) {
 
         // MyBatis Plus 关联表 查询
 //        IPage<DistributorPO> mpPage = MyBatisUtils.buildPage(reqVO);
@@ -77,7 +77,7 @@ public interface DistributorMapper extends BaseMapperX<DistributorPO> {
                 .orderByDesc(DistributorPO::getId));
     }
 
-    default List<DistributorPO> selectList(AppDistributorExportReqVO reqVO) {
+    default List<DistributorPO> selectList(DistributorExportReqVO reqVO) {
         return selectList(new LambdaQueryWrapperX<DistributorPO>()
                 .likeIfPresent(DistributorPO::getCompanyName, reqVO.getCompanyName())
                 .likeIfPresent(DistributorPO::getMobile, reqVO.getMobile())

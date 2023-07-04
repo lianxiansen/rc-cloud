@@ -1,6 +1,6 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorContactUpdatePasswordReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorContactUpdatePasswordReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorAutoConfig;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorContactMapper;
@@ -97,7 +97,7 @@ class DistributorContactServiceImplTest extends BaseDbUnitTest{
 
     @Test
     void updatePassword() {
-        AppDistributorContactUpdatePasswordReqVO reqVO=randomPojo(AppDistributorContactUpdatePasswordReqVO.class, o->{
+        DistributorContactUpdatePasswordReqVO reqVO=randomPojo(DistributorContactUpdatePasswordReqVO.class, o->{
             o.setId(1L);
         });
         System.out.println(reqVO.toString());

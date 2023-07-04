@@ -2,9 +2,9 @@ package com.rc.cloud.app.distributor.application.service;
 
 import java.util.*;
 import javax.validation.*;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourcePageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorSourceCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorSourcePageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorSourceUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
@@ -21,14 +21,14 @@ public interface DistributorSourceService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long createSource(@Valid AppDistributorSourceCreateReqVO createReqVO);
+    Long createSource(@Valid DistributorSourceCreateReqVO createReqVO);
 
     /**
      * 更新经销商来源
      *
      * @param updateReqVO 更新信息
      */
-    void updateSource(@Valid AppDistributorSourceUpdateReqVO updateReqVO);
+    void updateSource(@Valid DistributorSourceUpdateReqVO updateReqVO);
 
     /**
      * 删除经销商来源
@@ -59,6 +59,6 @@ public interface DistributorSourceService {
      * @param pageReqVO 分页查询
      * @return 经销商来源分页
      */
-    PageResult<DistributorSourcePO> getSourcePage(AppDistributorSourcePageReqVO pageReqVO);
+    PageResult<DistributorSourcePO> getSourcePage(DistributorSourcePageReqVO pageReqVO);
 
 }
