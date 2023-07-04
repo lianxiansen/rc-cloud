@@ -13,7 +13,7 @@ import com.rc.cloud.app.operate.domain.model.productcategory.valobj.EnName;
  * @Date: 2023/6/23 13:09
  * @Description: 商品分类
  */
-public class ProductCategoryAggregation extends Entity {
+public class ProductCategory extends Entity {
     private ProductCategoryId id;
     private TenantId tenantId;
     private ChName chName;
@@ -25,7 +25,7 @@ public class ProductCategoryAggregation extends Entity {
     private Enabled enabled;
     private Sort sort;
 
-    ProductCategoryAggregation(ProductCategoryId id, TenantId tenantId, ChName name) {
+    public ProductCategory(ProductCategoryId id, TenantId tenantId, ChName name) {
         setId(id);
         setTenantId(tenantId);
         setChName(name);
@@ -65,52 +65,58 @@ public class ProductCategoryAggregation extends Entity {
         return this.tenantId;
     }
 
-    public void setChName(ChName chName) {
+    public ProductCategory setChName(ChName chName) {
         this.assertArgumentNotNull(chName, "name must not be null");
         this.chName = chName;
+        return this;
     }
 
     public ChName getChName() {
         return this.chName;
     }
 
-    public void setEnName(EnName enName) {
+    public ProductCategory setEnName(EnName enName) {
         this.assertArgumentNotNull(enName, "name must not be null");
         this.enName = enName;
+        return this;
     }
 
     public EnName getEnName() {
         return this.enName;
     }
 
-    public void setIcon(Icon icon) {
+    public ProductCategory setIcon(Icon icon) {
         this.assertArgumentNotNull(icon, "icon must not be null");
         this.icon = icon;
+        return this;
     }
 
     public Icon getIcon() {
         return this.icon;
     }
 
-    public void setPage(Page page) {
+    public ProductCategory setPage(Page page) {
         this.assertArgumentNotNull(page, "page must not be null");
         this.page = page;
+        return this;
     }
     public Page getPage() {
         return this.page;
     }
 
-    public void setParentId(ProductCategoryId parentId) {
+    public ProductCategory setParentId(ProductCategoryId parentId) {
         this.parentId = parentId;
+        return this;
     }
 
     public ProductCategoryId getParentId() {
         return this.parentId;
     }
 
-    public void setEnabled(Enabled enabled){
+    public ProductCategory setEnabled(Enabled enabled){
         this.assertArgumentNotNull(enabled, "enabled must not be null");
         this.enabled =enabled;
+        return this;
     }
 
     public Enabled getEnabled(){
@@ -118,9 +124,10 @@ public class ProductCategoryAggregation extends Entity {
     }
 
 
-    public void setLayer(Layer layer) {
+    public ProductCategory setLayer(Layer layer) {
         this.assertArgumentNotNull(layer, "layer must not be null");
         this.layer = layer;
+        return this;
     }
     public Layer getLayer(){
         return this.layer;
@@ -134,7 +141,7 @@ public class ProductCategoryAggregation extends Entity {
         return this.sort;
     }
 
-    public void inherit(ProductCategoryAggregation parent){
+    public void inherit(ProductCategory parent){
         if(null!=parent){
             Layer layer= parent.getLayer().addLayer(new Layer(1));
             setLayer(layer);
@@ -145,7 +152,7 @@ public class ProductCategoryAggregation extends Entity {
         }
     }
 
-    public void reInherit(ProductCategoryAggregation parent){
+    public void reInherit(ProductCategory parent){
         if(null!=parent){
             if(this.id.equals(parent.getId())){
                 throw new DomainException("不能指定上级分类为当前分类");

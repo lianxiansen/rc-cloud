@@ -1,13 +1,13 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuEntity;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.SeckillSku;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 
 public class ProductSkuConvert {
 
 
-    public static ProductSkuDO convert2ProductSkuDO(ProductSkuEntity source) {
+    public static ProductSkuDO convert2ProductSkuDO(ProductSku source) {
         ProductSkuDO target=new ProductSkuDO();
 
         target.setId(source.getId().id());

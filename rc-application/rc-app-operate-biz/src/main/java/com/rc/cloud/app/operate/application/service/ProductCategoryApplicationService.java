@@ -1,8 +1,7 @@
 package com.rc.cloud.app.operate.application.service;
 
 import com.rc.cloud.app.operate.application.dto.ProductCategoryDTO;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryAggregation;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryFactory;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
@@ -27,8 +26,7 @@ public class ProductCategoryApplicationService {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
 
-    @Autowired
-    private ProductCategoryFactory productCategoryBuilderFactory;
+
 
     @Autowired
     private ProductCategoryDomainServce productCategoryDomainServce;
@@ -37,25 +35,25 @@ public class ProductCategoryApplicationService {
         ProductCategoryId id = productCategoryRepository.nextId();
         TenantId tenantId = new TenantId(productCategoryDTO.getTenantId());
         ChName name = new ChName(productCategoryDTO.getName());
-        ProductCategoryFactory.ProductCategoryBuilder builder = productCategoryBuilderFactory.builder(id, tenantId, name);
-        builder.enName(new EnName(productCategoryDTO.getEnglishName()));
-        builder.icon(new Icon(productCategoryDTO.getIcon()));
-        builder.enabled(new Enabled(productCategoryDTO.getEnabledFlag()));
-        builder.page(new Page(productCategoryDTO.getProductCategoryPageImage(), productCategoryDTO.getProductListPageImage()));
-        builder.sort(new Sort(productCategoryDTO.getSortId()));
+        ProductCategory productCategory = new ProductCategory(id, tenantId, name);
+        productCategory.setEnName(new EnName(productCategoryDTO.getEnglishName()));
+        productCategory.setIcon(new Icon(productCategoryDTO.getIcon()));
+        productCategory.setEnabled(new Enabled(productCategoryDTO.getEnabledFlag()));
+        productCategory.setPage(new Page(productCategoryDTO.getProductCategoryPageImage(), productCategoryDTO.getProductListPageImage()));
+        productCategory.setSort(new Sort(productCategoryDTO.getSortId()));
         if (null != productCategoryDTO.getParentId()) {
-            builder.parentId(new ProductCategoryId(productCategoryDTO.getParentId()));
+            productCategory.setParentId(new ProductCategoryId(productCategoryDTO.getParentId()));
         }
-        ProductCategoryAggregation productCategoryAggregation = productCategoryDomainServce.createProductCategory(builder);
+        ProductCategory productCategoryAggregation = productCategoryDomainServce.createProductCategory(productCategory);
         productCategoryRepository.save(productCategoryAggregation);
     }
 
 
     public void updateProductCategory(ProductCategoryDTO productCategoryDTO) {
-        ProductCategoryAggregation productCategoryAggregation = productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getId()));
+        ProductCategory productCategoryAggregation = productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getId()));
         notNull(productCategoryAggregation, "Id无效");
         if (null != productCategoryDTO.getParentId()) {
-            ProductCategoryAggregation parent = productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getParentId()));
+            ProductCategory parent = productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getParentId()));
             productCategoryDomainServce.reInherit(productCategoryAggregation,parent);
         }
         if (StringUtils.isNotEmpty(productCategoryDTO.getName())) {
@@ -70,7 +68,7 @@ public class ProductCategoryApplicationService {
         productCategoryRepository.save(productCategoryAggregation);
     }
 
-    public List<ProductCategoryAggregation> findAll() {
+    public List<ProductCategory> findAll() {
         return productCategoryRepository.findAll();
     }
 }
