@@ -52,12 +52,13 @@ public class ProductApplicationService {
         CategoryName firstCategory = new CategoryName(productSaveDTO.getFirstCategory());
         CategoryName secondCategory = new CategoryName(productSaveDTO.getSecondCategory());
         CategoryName thirdCategory = new CategoryName(productSaveDTO.getThirdCategory());
-        //CustomClassification customClassification = null;
+        CustomClassification customClassification = new CustomClassification(productSaveDTO.getCustomClassificationId());
         Newest newest = new Newest(productSaveDTO.isNewFlag());
         Explosives explosives = null;
         if(productSaveDTO.isExplosivesFlag()){
             explosives= new Explosives(productSaveDTO.isExplosivesFlag(),productSaveDTO.getExplosivesImage());
         }
+
         Recommend recommend = new Recommend(productSaveDTO.isRecommendFlag());
         Open open = new Open(productSaveDTO.isPublicFlag());
         OnshelfStatus onshelfStatus = new OnshelfStatus(productSaveDTO.getOnShelfStatus());

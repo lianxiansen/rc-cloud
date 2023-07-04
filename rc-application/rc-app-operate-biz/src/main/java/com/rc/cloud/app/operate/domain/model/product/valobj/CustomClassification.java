@@ -9,8 +9,13 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Description: 自定义分类
  */
 public class CustomClassification extends ValueObject {
-    private String name;
-    public CustomClassification(){
 
+    private String id;
+    public CustomClassification(String id){
+        this.id=id;
+    }
+
+    public String getId() {
+        return id;
     }
 }
