@@ -67,6 +67,7 @@ public class AssertionConcern {
     }
 
 
+
     protected void assertArgumentRange(BigDecimal aValue, double aMinimum, double aMaximum, String aMessage) {
 
         BigDecimal baMinimum= BigDecimal.valueOf(aMinimum);

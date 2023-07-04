@@ -15,24 +15,47 @@ import com.rc.cloud.app.operate.domain.model.product.valobj.ImageSort;
  */
 public class ProductImageEntity extends Entity {
 
-    private ProductImageId productImageId;
+    private ProductImageId id;
     private ProductId productId;
-    private Image productImage;
+    private String url;
+    private int sort;
+    private boolean defaultFlag;
 
-    private ImageSort productImageSort;
-    private ImageDefault productImageDefault;
-    public ProductImageEntity(ProductImageId productImageId, ProductId productId, Image productImage){
-
+    public ProductImageEntity(ProductId productId){
+        this.productId=productId;
     }
-    public void setProductImageId(ProductImageId productImageId){
-
-    }
-
-    public void setProductImageSort(ImageSort productImageSort){
-
-    }
-    public void setProductImageDefault(ImageDefault productImageDefault){
-
+    public ProductId getProductId() {
+        return productId;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public ProductImageEntity setUrl(String url) {
+        this.assertArgumentNotNull(url, "url must not be null");
+        this.url =url;
+        return this;
+    }
+
+    public int getSort() {
+        return sort;
+    }
+
+    public ProductImageEntity setSort(int sort) {
+        this.assertArgumentNotNull(sort, "sort must not be null");
+        this.sort = sort;
+        return this;
+    }
+
+    public boolean isDefaultFlag() {
+        return defaultFlag;
+    }
+
+    public ProductImageEntity setDefaultFlag(boolean defaultFlag) {
+
+        this.assertArgumentNotNull(defaultFlag, "defaultFlag must not be null");
+        this.defaultFlag = defaultFlag;
+        return this;
+    }
 }

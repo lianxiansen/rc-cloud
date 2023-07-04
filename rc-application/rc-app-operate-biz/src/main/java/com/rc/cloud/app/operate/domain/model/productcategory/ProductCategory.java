@@ -133,9 +133,10 @@ public class ProductCategory extends Entity {
     public Layer getLayer(){
         return this.layer;
     }
-    public void setSort(Sort sort){
+    public ProductCategory setSort(Sort sort){
         this.assertArgumentNotNull(sort, "sort must not be null");
         this.sort = sort;
+        return this;
     }
 
     public Sort getSort() {

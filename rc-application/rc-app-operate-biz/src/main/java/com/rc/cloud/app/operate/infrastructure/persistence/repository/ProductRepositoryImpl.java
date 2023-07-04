@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
-import com.rc.cloud.app.operate.domain.model.product.ProductAggregation;
+import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
@@ -42,14 +42,23 @@ public class ProductRepositoryImpl implements  ProductRepository {
     @Autowired
     private ProductImageRepositoryImpl productImageRepository;
     @Override
-    public void saveProductEntry(ProductAggregation productEntry) {
+    public void saveProductEntry(Product productEntry) {
 
     }
 
     @Override
-    public ProductAggregation findById(ProductId productId) {
-        return null;
+    public Product findById(ProductId productId) {
+        LambdaQueryWrapperX<ProductDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDO::getId, productId.id());
+        return this.productMapper.selectOne(wrapper);
     }
+
+    public boolean exist(ProductId productId) {
+        LambdaQueryWrapperX<ProductDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDO::getId, productId.id());
+        return this.productMapper.exists(wrapper);
+    }
+
     @Override
     public ProductId nextProductId(){
         return new ProductId(remoteIdGeneratorService.uidGenerator());

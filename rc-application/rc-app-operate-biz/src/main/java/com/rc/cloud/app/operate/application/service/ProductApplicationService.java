@@ -1,13 +1,12 @@
 package com.rc.cloud.app.operate.application.service;
 
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
-import com.rc.cloud.app.operate.domain.common.DomainEventPublisher;
-import com.rc.cloud.app.operate.domain.common.DomainEventSubscriber;
-import com.rc.cloud.app.operate.domain.model.product.ProductFactory;
+import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.model.product.event.ProductCreatedEvent;
 import com.rc.cloud.app.operate.domain.model.product.identifier.BrandId;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
+import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,22 +27,19 @@ public class ProductApplicationService {
     @Autowired
     private ProductRepository productRepository;
 
+
     @Autowired
-    private ProductFactory productFactory;
+    private TenantService tenantService;
+
+    private void validateTenantId(TenantId tenantId){
+        if(!tenantService.exists(tenantId)){
+            throw new IllegalArgumentException("所属租户错误");
+        }
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public void saveOrUpdateProduct(ProductSaveDTO productSaveDTO) {
-        DomainEventPublisher.instance().reset();
-        DomainEventPublisher.instance().subscribe(new DomainEventSubscriber<ProductCreatedEvent>() {
-            @Override
-            public void handleEvent(ProductCreatedEvent aDomainEvent) {
-                //TODO 领域事件处理
-            }
-            @Override
-            public Class<ProductCreatedEvent> subscribedToEventType() {
-                return ProductCreatedEvent.class;
-            }
-        });
+
         TenantId tenantId = new TenantId(productSaveDTO.getTenantId() + "");
         Name name = new Name(productSaveDTO.getName());
         Remark remark = new Remark(productSaveDTO.getRemark());
@@ -70,22 +66,25 @@ public class ProductApplicationService {
             Image image = new Image(item.getImage());
             productImages.add(image);
         });
-//        if (productSaveDTO.getId() > 0) {
-//            ProductAggregation productEntry= productFactory.createProduct(tenantId,name,remark,tag,brandId,productCategoryId,customClassification,newest,
-//                    explosives,recommend,open,onshelfStatus,enable,video,masterImage,type,productImages);
-//            productRepository.saveProductEntry(productEntry);
-//
-//        } else {
-//            ProductId productId = new ProductId(productSaveDTO.getId() + "");
-//            ProductAggregation productEntity = productRepository.findById(productId);
-//            if (null == name) {
-//                name=productEntity.getName();
-//            }
-//
-//            ProductAggregation productEntry= productRepository.findById(productId);
-//            //TODO 应用层产品修改逻辑
-//
-//        }
+
+
+        boolean exist = productRepository.exist(new ProductId(productSaveDTO.getId()));
+        Product product= null;
+        if (!exist) {
+
+            ProductId productId = productRepository.nextProductId();
+            validateTenantId(tenantId);
+            product=new Product(productId,tenantId,name);
+//            return productEntry;
+
+
+            productRepository.saveProductEntry(productEntry);
+
+        } else {
+
+            product = productRepository.findById(new ProductId(productSaveDTO.getId()));
+
+        }
 
 
     }

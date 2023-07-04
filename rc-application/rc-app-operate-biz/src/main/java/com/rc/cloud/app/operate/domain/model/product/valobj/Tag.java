@@ -11,6 +11,7 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
 public class Tag extends ValueObject {
     private String value;
     public Tag(String value){
+        //检验标签是否合法
         value=value;
     }
     public String getValue() {
