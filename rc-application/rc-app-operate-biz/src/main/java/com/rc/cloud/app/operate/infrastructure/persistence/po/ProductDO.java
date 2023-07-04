@@ -30,13 +30,13 @@ public class ProductDO extends BaseDO {
      * 租户id
      */
     @TableField("tenant_id")
-    private Long tenantId;
+    private String tenantId;
 
     /**
      * 品牌ID
      */
     @TableField("brand_id")
-    private Long brandId;
+    private String brandId;
 
     /**
      * 商品名

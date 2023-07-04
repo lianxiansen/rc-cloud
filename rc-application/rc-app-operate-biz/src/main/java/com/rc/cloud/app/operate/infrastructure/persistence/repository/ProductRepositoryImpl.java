@@ -6,18 +6,21 @@ import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
-import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
+import com.rc.cloud.app.operate.domain.model.product.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductDictMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,7 +53,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
     public Product findById(ProductId productId) {
         LambdaQueryWrapperX<ProductDO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductDO::getId, productId.id());
-        return this.productMapper.selectOne(wrapper);
+        return convert2Product(this.productMapper.selectOne(wrapper)) ;
     }
 
     public boolean exist(ProductId productId) {
@@ -91,10 +94,31 @@ public class ProductRepositoryImpl implements  ProductRepository {
         return this.productImageMapper.selectList(wrapper);
     }
 
-    @Override
-    public boolean existsByProductCategoryId(ProductCategoryId productCategoryId) {
-        return false;
+    /**
+     * ProductDO 转领域模型
+     * @param productDO
+     * @return
+     */
+    private Product convert2Product(ProductDO productDO){
+        ProductId productId=new ProductId(productDO.getId());
+        TenantId tenantId = new TenantId(productDO.getTenantId());
+
+        Product product=new Product(productId,tenantId,new Name(productDO.getName()));
+
+        List<ProductImageDO> productImageByProductIds = getProductImageByProductId(productId);
+        List<String> urls=new ArrayList<>();
+        for (ProductImageDO productImageByProductId : productImageByProductIds) {
+            urls.add(productImageByProductId.getUrl());
+        }
+        //商品图片
+        product.setProductImage(urls);
+
+
+        return product;
     }
+
+
+
 
 }
 

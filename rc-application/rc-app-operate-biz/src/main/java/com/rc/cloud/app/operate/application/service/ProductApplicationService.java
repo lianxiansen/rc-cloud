@@ -74,11 +74,11 @@ public class ProductApplicationService {
 
             ProductId productId = productRepository.nextProductId();
             validateTenantId(tenantId);
-            product=new Product(productId,tenantId,name);
+           // product=new Product(productId,tenantId,name);
 //            return productEntry;
 
 
-            productRepository.saveProductEntry(productEntry);
+         //   productRepository.saveProductEntry(productEntry);
 
         } else {
 

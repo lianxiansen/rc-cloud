@@ -1,7 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.productcategory.stub;
 
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
-import com.rc.cloud.app.operate.domain.model.product.ProductAggregation;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
