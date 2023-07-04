@@ -31,11 +31,11 @@ public class OAuth2LoginTests {
     private StringRedisTemplate stringRedisTemplate;
 
     /**
-     * 可能因为网络问题，导致验证码生成延迟，导致测试失败，可以多试几次
+     * 可能在取redis中的验证码的时候redis中还没生成，导致测试失败，可以多试几次
      * @throws Exception
      */
     @Test
-    public void loginReturnToken_success() throws Exception {
+    public void loginByPassword_success_then_returnToken() throws Exception {
         String key = this.createCaptcha();
         String code = stringRedisTemplate.opsForValue().get(DEFAULT_CODE_KEY + key);
         String url = "http://localhost:8020/auth/oauth2/token?key="
