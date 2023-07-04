@@ -5,7 +5,6 @@
 package com.rc.cloud.app.system.contorller.admin.dept;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.common.cache.RedisCache;
 import com.rc.cloud.app.system.controller.admin.dept.DeptController;
 import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptUpdateReqVO;
@@ -20,8 +19,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import javax.annotation.Resource;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -51,7 +48,7 @@ public class DeptControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
     public void getDeptList_success() throws Exception {
         mvc.perform(get("/sys/dept/list"))
                 .andDo(print())
@@ -60,11 +57,11 @@ public class DeptControllerTests {
                 .andExpect(jsonPath("$.success").value("true"))
                 .andExpect(jsonPath("$.data").isArray())
                 .andExpect(jsonPath("$.data").isNotEmpty())
-                .andExpect(jsonPath("$.data[1].name").value("黄岩总公司"));
+                .andExpect(jsonPath("$.data[0].name").value("柔川信息"));
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
     public void getDeptById_success() throws Exception {
         mvc.perform(get("/sys/dept/100"))
                 .andDo(print())
@@ -74,7 +71,7 @@ public class DeptControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
     public void getDeptById_when_ParentExist_then_returnParentName() throws Exception {
         mvc.perform(get("/sys/dept/101"))
                 .andDo(print())
@@ -85,7 +82,7 @@ public class DeptControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
     public void getDeptByIdNotExist_then_throwNotFoundException() throws Exception {
         mvc.perform(get("/sys/dept/9999999"))
                 .andDo(print())
@@ -95,7 +92,7 @@ public class DeptControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dept:create"})
     public void createDept_success() throws Exception {
         DeptCreateReqVO deptCreateReqVO = new DeptCreateReqVO();
         deptCreateReqVO.setName("测试项目组001");
@@ -121,7 +118,7 @@ public class DeptControllerTests {
     // TODO:: create dept sad path
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dept:update"})
     public void updateDept_success() throws Exception {
         DeptUpdateReqVO deptUpdateReqVO = new DeptUpdateReqVO();
         deptUpdateReqVO.setId(105L);
@@ -144,9 +141,9 @@ public class DeptControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
     public void deleteDept_success() throws Exception {
-        mvc.perform(delete("/sys/dept/109"))
+        mvc.perform(delete("/sys/dept?id=112"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -155,9 +152,9 @@ public class DeptControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
     public void deleteDept_when_idNotExist_then_throwNotFoundException() throws Exception {
-        mvc.perform(delete("/sys/dept/999999"))
+        mvc.perform(delete("/sys/dept?id=999999"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(1002004002))
@@ -166,9 +163,9 @@ public class DeptControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
     public void deleteDept_when_childExist_then_throwNotFailedException() throws Exception {
-        mvc.perform(delete("/sys/dept/101"))
+        mvc.perform(delete("/sys/dept?id=100"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(1002004003))
@@ -177,7 +174,7 @@ public class DeptControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin")
     public void listDeptAllSimple_success() throws Exception {
         mvc.perform(get("/sys/dept/list-all-simple"))
                 .andDo(print())
