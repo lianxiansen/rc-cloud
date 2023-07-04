@@ -1,16 +1,18 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.common.DomainEventPublisher;
 import com.rc.cloud.app.operate.domain.common.Entity;
 
 import com.rc.cloud.app.operate.domain.model.product.event.ProductCreatedEvent;
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Layer;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ import java.util.List;
  * @Date: 2023/6/23 13:09
  * @Description: 产品
  */
-public class ProductAggregation extends Entity {
+public class Product extends Entity {
 
     /**
      * 产品唯一标识
@@ -38,31 +40,73 @@ public class ProductAggregation extends Entity {
     /**
      * 产品分类标识
      */
-    private String firstCategory;
+    private CategoryName firstCategory;
 
-    private String secondCategory;
+    private CategoryName secondCategory;
 
-    private String thirdCategory;
+    private CategoryName thirdCategory;
+
+    /**
+     * 如果只有两
+     * @param firstCategory
+     * @param secondCategory
+     * @param thirdCategory
+     */
+    public Product setCategory(CategoryName firstCategory, CategoryName secondCategory,CategoryName thirdCategory){
+        this.assertArgumentNotNull(firstCategory, "firstCategory must not be null");
+        this.firstCategory=firstCategory;
+        this.secondCategory=secondCategory;
+        this.thirdCategory=thirdCategory;
+        return this;
+    }
 
     /**
      * 产品简介
      */
     private Remark remark;
 
+    public Product setRemark(Remark remark){
+        this.assertArgumentNotNull(remark, "remark must not be null");
+        this.remark= remark;
+        return this;
+    }
+
     /**
      * 产品标签
+     * 多个标签可以用逗号分割
      */
     private Tag tag;
 
+    public Product setTag(Tag tag){
+        this.assertArgumentNotNull(tag, "tag must not be null");
+        this.tag = tag;
+        return this;
+    }
     /**
      * 品牌ID
      */
     private BrandId brandId;
 
+
+    public Product setBrandId(BrandId brandId){
+        this.assertArgumentNotNull(brandId, "brandId must not be null");
+        this.brandId = brandId;
+        return this;
+    }
+
     /**
      * 自定义标识
      */
     private CustomClassification customClassification;
+
+
+
+    public Product setCustomClassification(CustomClassification customClassification){
+        this.assertArgumentNotNull(customClassification, "customClassification must not be null");
+        this.customClassification = customClassification;
+        return this;
+    }
+
 
     /**
      * 新品
@@ -99,15 +143,45 @@ public class ProductAggregation extends Entity {
      */
     private Video video;
 
-    /**
-     * 主图
-     */
-    private MasterImage masterImage;
+    public void setVideo(Video video){
+
+        this.video = video;
+
+    }
+
+
 
     /**
      * 产品相册
      */
+    private MasterImage masterImage;
+
     private List<ProductImageEntity> productImages;
+
+    /**
+     * 添加相册
+     * @param urls 图片地址
+     * @return
+     */
+    public Product setProductImage(List<String> urls){
+        if(productImages==null || productImages.size()<= 0){
+            throw new IllegalArgumentException("productImages must not be null");
+        }
+        this.customClassification = customClassification;
+        this.masterImage= new MasterImage(urls.get(0));
+        int pos=1;
+        productImages =new ArrayList<>();
+        for (String url : urls) {
+            ProductImageEntity entity=new ProductImageEntity(this.getId());
+            entity.setUrl(url)
+                    .setDefaultFlag(pos==1?true:false)
+                    .setSort(pos);
+            pos++;
+            productImages.add(entity);
+        }
+        return this;
+    }
+
 
 
     /**
@@ -177,16 +251,29 @@ public class ProductAggregation extends Entity {
 
     private Detail detail;
 
+    public Product setDetail(Detail detail) {
+        this.assertArgumentNotNull(detail, "detail must not be null");
+        this.detail = detail;
+        return this;
+    }
 
 
-    protected ProductAggregation(ProductId id, TenantId tenantId, Name name, ProductCategoryId productCategoryId){
+    public Layer getLayer(){
+        return this.layer;
+    }
+
+
+
+    protected Product(ProductId id, TenantId tenantId, Name name){
+        init();
         setId(id);
         setTenantId(tenantId);
         setName(name);
-        setProductCategoryId(productCategoryId);
-
         this.type=new Type(0);
-        DomainEventPublisher.instance().publish(new ProductCreatedEvent(tenantId, "test"));
+    }
+
+    private void init(){
+        this.sort=new Sort(99);
     }
 
     public void setId(ProductId id){
@@ -208,26 +295,7 @@ public class ProductAggregation extends Entity {
     }
 
 
-    public void setProductCategoryId(ProductCategoryId productCategoryId){
-        this.assertArgumentNotNull(productCategoryId,"ProductCategoryId must not be null");
-       // this.productCategoryId = productCategoryId;
-    }
-    public void setRemark(Remark remark){
-        this.remark = remark;
-    }
 
-
-    public void setTag(Tag tag){
-        this.tag = tag;
-    }
-
-    public void setBrandId(BrandId brandId){
-        this.brandId = brandId;
-    }
-
-    public void setCustomClassification(CustomClassification customClassification){
-        this.customClassification = customClassification;
-    }
 
     public void setNewest(Newest newest){
         this.newest = newest;
@@ -283,13 +351,6 @@ public class ProductAggregation extends Entity {
         this.enable =new Enable(true);
     }
 
-    public void setVideo(Video video){
-        this.video = video;
-    }
-
-    public void setMasterImage(MasterImage masterImage){
-        this.masterImage = masterImage;
-    }
 
 
     public void setType(Type type){
