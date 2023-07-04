@@ -114,7 +114,7 @@ public class AdminUserServiceImpl implements AdminUserService {
                 reqVO.getDeptId(), reqVO.getPostIds());
         // 插入用户
         SysUserDO user = UserConvert.INSTANCE.convert(reqVO);
-        if (reqVO.getStatus().equals(CommonStatusEnum.DISABLE.getStatus())) {
+        if (reqVO.getStatus() == null || reqVO.getStatus().equals(CommonStatusEnum.DISABLE.getStatus())) {
             user.setStatus(CommonStatusEnum.DISABLE.getStatus());
         } else {
             user.setStatus(CommonStatusEnum.ENABLE.getStatus());

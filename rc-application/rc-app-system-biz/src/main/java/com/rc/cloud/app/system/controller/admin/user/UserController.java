@@ -12,6 +12,7 @@ import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.annotation.Inner;
+import com.rc.cloud.common.security.service.RcUser;
 import com.rc.cloud.common.security.utils.SecurityUtils;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,9 +66,12 @@ public class UserController {
     @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
     @PreAuthorize("@pms.hasPermission('sys:user:delete')")
     public CodeResult<Boolean> deleteUser(@RequestBody List<Long> idList) {
-        Long userId = SecurityUtils.getUser().getId();
-        if (idList.contains(userId)) {
-            return CodeResult.fail("不能删除当前登录用户");
+        RcUser user = SecurityUtils.getUser();
+        if (user != null) {
+            Long userId = user.getId();
+            if (idList.contains(userId)) {
+                return CodeResult.fail("不能删除当前登录用户");
+            }
         }
         userService.deleteUsers(idList);
         return CodeResult.ok(true);

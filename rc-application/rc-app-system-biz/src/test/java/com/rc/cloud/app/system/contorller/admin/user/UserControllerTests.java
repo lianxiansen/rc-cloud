@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -52,8 +54,10 @@ public class UserControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:user:create"})
     public void createUser_success() throws Exception {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication.getPrincipal());
         UserCreateReqVO createReqVO = new UserCreateReqVO();
         createReqVO.setUsername("testuser123");
         createReqVO.setNickname("test_nickname");
@@ -62,7 +66,7 @@ public class UserControllerTests {
         createReqVO.setDeptId(100L);
         createReqVO.setPostIds(new HashSet<Long>() {{add(1L); add(2L);}});
         createReqVO.setEmail("123232@qq.com");
-        createReqVO.setMobile("13777777777");
+        createReqVO.setMobile("13777777766");
         createReqVO.setSex(1);
         createReqVO.setPassword("123456");
         ObjectMapper mapper = new ObjectMapper();
@@ -80,18 +84,19 @@ public class UserControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:user:update"})
     public void updateUser_success() throws Exception {
         UserUpdateReqVO updateReqVO = new UserUpdateReqVO();
         updateReqVO.setId(1L);
-        updateReqVO.setUsername("testuser123");
+        updateReqVO.setUsername("testuser12377");
         updateReqVO.setNickname("test_nickname");
         updateReqVO.setAvatar("www.baidu.com");
         updateReqVO.setRemark("备注");
         updateReqVO.setDeptId(100L);
         updateReqVO.setPostIds(new HashSet<Long>() {{add(1L); add(2L);}});
         updateReqVO.setEmail("123232@qq.com");
-        updateReqVO.setMobile("13777777777");
+        updateReqVO.setMobile("13777777789");
+        updateReqVO.setRoleIds(new HashSet<Long>() {{add(1L); add(2L);}});
         updateReqVO.setSex(1);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
@@ -108,9 +113,12 @@ public class UserControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:user:delete"})
     public void deleteUser_success() throws Exception {
-        mvc.perform(delete("/sys/user/1"))
+        mvc.perform(delete("/sys/user")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("[1,2]")
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -119,7 +127,7 @@ public class UserControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:user:update-password"})
     public void updateUserPassword_success() throws Exception {
         UserUpdatePasswordReqVO updatePasswordReqVO = new UserUpdatePasswordReqVO();
         updatePasswordReqVO.setId(1L);
@@ -139,7 +147,7 @@ public class UserControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:user:update"})
     public void updateUserStatus_success() throws Exception {
         UserUpdateStatusReqVO updateStatusReqVO = new UserUpdateStatusReqVO();
         updateStatusReqVO.setId(1L);
@@ -159,21 +167,21 @@ public class UserControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:user:query"})
     public void getUserPage_success() throws Exception {
         mvc.perform(get("/sys/user/page"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.total").value(9))
+                .andExpect(jsonPath("$.data.total").value(2))
                 .andExpect(jsonPath("$.data.list").isArray())
                 .andExpect(jsonPath("$.data.list").isNotEmpty())
-                .andExpect(jsonPath("$.data.list[0].username").value("goudan"));
+                .andExpect(jsonPath("$.data.list[0].username").value("hqftest123"));
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin")
     public void getUserListAllSimple_success() throws Exception {
         mvc.perform(get("/sys/user/list-all-simple"))
                 .andDo(print())
@@ -182,11 +190,11 @@ public class UserControllerTests {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data").isArray())
                 .andExpect(jsonPath("$.data").isNotEmpty())
-                .andExpect(jsonPath("$.data[0].nickname").value("芋道源码"));
+                .andExpect(jsonPath("$.data[0].nickname").value("rc"));
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:user:query"})
     public void getUserById_then_success() throws Exception {
         mvc.perform(get("/sys/user/1"))
                 .andDo(print())
