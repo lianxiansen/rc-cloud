@@ -5,7 +5,6 @@
 package com.rc.cloud.app.system.contorller.admin.dict;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.common.cache.RedisCache;
 import com.rc.cloud.app.system.controller.admin.dict.DictTypeController;
 import com.rc.cloud.app.system.service.dict.DictTypeService;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeCreateReqVO;
@@ -42,9 +41,6 @@ public class DictTypeControllerTests {
     private MockMvc mvc;
 
     @Resource
-    private RedisCache redisCache;
-
-    @Resource
     private DictTypeService dictTypeService;
 
     @Qualifier("springSecurityFilterChain")
@@ -58,9 +54,9 @@ public class DictTypeControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dict:query"})
     public void getDictTypeById_success() throws Exception {
-        mvc.perform(get("/sys/dict-type/" + 1))
+        mvc.perform(get("/sys/dict-type/" + 170))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -70,7 +66,7 @@ public class DictTypeControllerTests {
 
     // list-all-simple
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin")
     public void listDictTypeAllSimple_success() throws Exception {
         mvc.perform(get("/sys/dict-type/list-all-simple"))
                 .andDo(print())
@@ -83,21 +79,21 @@ public class DictTypeControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dict:query"})
     public void getDictTypePage_success() throws Exception {
         mvc.perform(get("/sys/dict-type/page"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.total").value(56))
+                .andExpect(jsonPath("$.data.total").value(2))
                 .andExpect(jsonPath("$.data.list").isArray())
                 .andExpect(jsonPath("$.data.list").isNotEmpty())
-                .andExpect(jsonPath("$.data.list[0].name").value("公众号自动回复的请求关键字匹配模式"));
+                .andExpect(jsonPath("$.data.list[0].name").value("通用状态"));
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dict:create"})
     public void createDictType_success() throws Exception {
         DictTypeCreateReqVO dictTypeCreateReqVO = new DictTypeCreateReqVO();
         dictTypeCreateReqVO.setName("测试字段类型");
@@ -119,10 +115,10 @@ public class DictTypeControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
     public void updateDictType_success() throws Exception {
         DictTypeUpdateReqVO dictTypeUpdateReqVO = new DictTypeUpdateReqVO();
-        dictTypeUpdateReqVO.setId(1L);
+        dictTypeUpdateReqVO.setId(170L);
         dictTypeUpdateReqVO.setName("测试字段类型");
         dictTypeUpdateReqVO.setStatus(0);
         dictTypeUpdateReqVO.setRemark("备注");
@@ -142,7 +138,7 @@ public class DictTypeControllerTests {
 
     // 根据ID删除
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:dict:delete"})
     public void deleteDictTypeById_success() throws Exception {
         DictTypeCreateReqVO dictTypeCreateReqVO = new DictTypeCreateReqVO();
         dictTypeCreateReqVO.setName("测试字段类型");
@@ -150,8 +146,9 @@ public class DictTypeControllerTests {
         dictTypeCreateReqVO.setRemark("备注");
         dictTypeCreateReqVO.setType("test_type");
         Long dictTypeId = dictTypeService.createDictType(dictTypeCreateReqVO);
-        mvc.perform(delete("/sys/dict-type/" + dictTypeId)
+        mvc.perform(delete("/sys/dict-type")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .content("[" + dictTypeId + "]")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

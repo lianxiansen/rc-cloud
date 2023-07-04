@@ -41,7 +41,7 @@ INSERT INTO `sys_dict_data` VALUES (1240, 1, '停用', '1', 'common_status', 0, 
 -- ----------------------------
 -- Records of sys_dict_type
 -- ----------------------------
-INSERT INTO `sys_dict_type` VALUES (170, '性别', 'user_sex', 0, '用户管理', NULL, '2023-06-28 14:00:25', NULL, '2023-06-28 14:00:25', '0');
+INSERT INTO `sys_dict_type` VALUES (170, '用户性别', 'user_sex', 0, '用户管理', NULL, '2023-06-28 14:00:25', NULL, '2023-06-28 14:00:25', '0');
 INSERT INTO `sys_dict_type` VALUES (171, '通用状态', 'common_status', 0, '通用状态', NULL, '2023-06-28 15:18:51', NULL, '2023-06-28 15:18:51', '0');
 
 
@@ -121,7 +121,7 @@ INSERT INTO `sys_oauth_client_details` VALUES ('test', NULL, 'test', 'server', '
 -- ----------------------------
 INSERT INTO `sys_post` VALUES (1, 'ceo', '董事长', 1, 0, '', 'admin', '2021-01-06 17:03:48', '1', '2023-02-11 15:19:04', '0', 1);
 INSERT INTO `sys_post` VALUES (2, 'se', '项目经理', 2, 0, '', 'admin', '2021-01-05 17:03:48', '1', '2021-12-12 10:47:47', '0', 1);
-INSERT INTO `sys_post` VALUES (4, 'user', '普通员工7770', 4, 0, '111', 'admin', '2021-01-05 17:03:48', 'admin', '2023-06-30 16:53:53', '0', 1);
+INSERT INTO `sys_post` VALUES (4, 'user', '普通员工', 4, 0, '111', 'admin', '2021-01-05 17:03:48', 'admin', '2023-06-30 16:53:53', '0', 1);
 INSERT INTO `sys_post` VALUES (5, 'test001', '测试001', 0, 0, NULL, 'admin', '2023-06-30 17:06:09', 'admin', '2023-06-30 17:10:43', '1', 1);
 
 
