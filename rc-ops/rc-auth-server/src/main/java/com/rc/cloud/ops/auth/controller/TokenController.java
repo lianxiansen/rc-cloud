@@ -165,7 +165,6 @@ public class TokenController {
 			return CodeResult.ok();
 		}
 		// 清空用户信息
-//		cacheManager.getCache(CacheConstants.USER_DETAILS).evict(authorization.getPrincipalName());
 		String userDetailsKey = CacheConstants.USER_DETAILS + ":" + authorization.getPrincipalName();
 		redisTemplate.delete(userDetailsKey);
 

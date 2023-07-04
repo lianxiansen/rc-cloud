@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
+import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,9 @@ public class ProductCategoryDomainServce {
         ProductCategory parentCategory = null;
         if (null != productCategory.getParentId()) {
             parentCategory = productCategoryRepository.findById(productCategory.getParentId());
-            throw new DomainException("父级商品分类无效：" + productCategory.getParentId().id());
+            if(ObjectUtils.isNull(parentCategory)){
+                throw new DomainException("父级商品分类无效：" + productCategory.getParentId().id());
+            }
         }
         productCategory.inherit(parentCategory);
         return productCategory;
