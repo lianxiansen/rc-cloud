@@ -29,6 +29,9 @@ public class ProductSaveDTO {
 
     private String tag;
 
+    //外部系统关联使用
+    private String customClassificationId;
+
 
     @Valid
     private List<ProductImageSaveDTO> albums;

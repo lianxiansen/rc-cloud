@@ -22,11 +22,25 @@ public class Layer extends ValueObject {
     }
 
     private void setValue(int value){
-        this.assertArgumentRange(value,1,3,"the value of Layer is not in range(1,3)");
+        this.assertArgumentRange(value,1,10,"the value of Layer is not in range(1,3)");
         this.value=value;
     }
 
     public Layer addLayer(Layer layer){
         return new Layer(this.value+layer.getValue());
+    }
+
+    public Layer addLayer(int value){
+        return new Layer(this.value+value);
+    }
+
+    @Override
+    public boolean equals(Object anObject) {
+        boolean equalObjects = false;
+
+        if (anObject != null && this.getClass() == anObject.getClass()) {
+            equalObjects= this.value == ((Layer)anObject).value;
+        }
+        return equalObjects;
     }
 }

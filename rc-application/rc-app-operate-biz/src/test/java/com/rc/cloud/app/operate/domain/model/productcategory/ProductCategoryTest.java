@@ -3,6 +3,7 @@ package com.rc.cloud.app.operate.domain.model.productcategory;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 import com.rc.cloud.app.operate.ApplicationTest;
+import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -96,11 +97,23 @@ public class ProductCategoryTest {
         ProductCategory newParent = allList.get(parentIndex);
         productCategoryDomainServce.reInherit(sub,newParent);
         AssertUtils.equals(sub.getParentId(), newParent.getId(), "父级分类的id错误");
-        AssertUtils.equals(sub.getLayer().addLayer(new Layer(1)), newParent.getLayer(), "分类层级错误");
+        AssertUtils.equals(sub.getLayer(), newParent.getLayer().addLayer(new Layer(1)), "分类层级错误");
         List<ProductCategory> subList=productCategoryDomainServce.findSubList(allList,sub);
         subList.forEach(item->{
-            AssertUtils.equals(item.getLayer().addLayer(new Layer(1)), sub.getLayer(), "子级分类层级错误");
+            AssertUtils.equals(item.getLayer(), sub.getLayer().addLayer(new Layer(1)), "子级分类层级错误");
         });
+    }
+
+
+    @Test(expected = DomainException.class)
+    public void reInheritProductCategoryMyself() {
+        List<ProductCategory> allList = mockAllList();
+        //将sub00继承root0修改为root1
+        int subIndex = 1;
+        int parentIndex = 1;
+        ProductCategory sub = allList.get(subIndex);
+        ProductCategory newParent = allList.get(parentIndex);
+        productCategoryDomainServce.reInherit(sub,newParent);
     }
 
 
