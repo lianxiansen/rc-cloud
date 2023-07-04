@@ -10,7 +10,7 @@ import com.rc.cloud.app.operate.domain.common.Entity;
 
 import com.rc.cloud.app.operate.domain.model.product.event.ProductCreatedEvent;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Layer;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.TenantId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -258,13 +258,8 @@ public class Product extends Entity {
     }
 
 
-    public Layer getLayer(){
-        return this.layer;
-    }
 
-
-
-    protected Product(ProductId id, TenantId tenantId, Name name){
+    public Product(ProductId id, TenantId tenantId, Name name){
         init();
         setId(id);
         setTenantId(tenantId);

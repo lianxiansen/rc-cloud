@@ -15,15 +15,15 @@ public class ProductImageDO {
     private static final long serialVersionUID = 23434L;
 
     @TableField("id")
-    private Long Id;
+    private String Id;
     /**
      * 租户id
      */
     @TableField("tenant_id")
-    private Long tenantId;
+    private String tenantId;
 
     @TableField("product_id")
-    private Long productId;
+    private String productId;
 
 
     @TableField("url")

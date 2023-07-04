@@ -1,9 +1,9 @@
 package com.rc.cloud.app.operate.application.service;
 
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
+import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.model.product.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
@@ -74,11 +74,11 @@ public class ProductApplicationService {
 
             ProductId productId = productRepository.nextProductId();
             validateTenantId(tenantId);
-            product=new Product(productId,tenantId,name);
+           // product=new Product(productId,tenantId,name);
 //            return productEntry;
 
 
-            productRepository.saveProductEntry(productEntry);
+         //   productRepository.saveProductEntry(productEntry);
 
         } else {
 
