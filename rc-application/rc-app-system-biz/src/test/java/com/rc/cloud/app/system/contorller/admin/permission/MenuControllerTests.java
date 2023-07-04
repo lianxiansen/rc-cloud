@@ -55,7 +55,7 @@ public class MenuControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:menu:create"})
     public void createDirMenu_success() throws Exception {
         // 添加目录
         MenuCreateReqVO menuCreateReqVO = new MenuCreateReqVO();
@@ -86,10 +86,10 @@ public class MenuControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:menu:update"})
     public void updateDictData_success() throws Exception {
         MenuUpdateReqVO menuUpdateReqVO = new MenuUpdateReqVO();
-        menuUpdateReqVO.setId(1L);
+        menuUpdateReqVO.setId(2162L);
         menuUpdateReqVO.setName("系统管理2");
         menuUpdateReqVO.setParentId(0L);
         menuUpdateReqVO.setStatus(0);
@@ -111,7 +111,7 @@ public class MenuControllerTests {
 
     // 根据ID删除
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:menu:delete"})
     public void deleteMenuById_success() throws Exception {
         MenuCreateReqVO menuCreateReqVO = new MenuCreateReqVO();
         menuCreateReqVO.setName("测试目录");
@@ -127,7 +127,7 @@ public class MenuControllerTests {
         menuCreateReqVO.setKeepAlive(true);
         menuCreateReqVO.setAlwaysShow(true);
         Long menuId = menuService.createMenu(menuCreateReqVO);
-        mvc.perform(delete("/sys/menu/" + menuId)
+        mvc.perform(delete("/sys/menu?id=" + menuId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -138,7 +138,7 @@ public class MenuControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:menu:query"})
     public void getMenuList_success() throws Exception {
         mvc.perform(get("/sys/menu/list"))
                 .andDo(print())
@@ -150,7 +150,7 @@ public class MenuControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser()
     public void getMenuListAllSimple_success() throws Exception {
         mvc.perform(get("/sys/menu/list-all-simple"))
                 .andDo(print())
@@ -162,13 +162,13 @@ public class MenuControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:menu:query"})
     public void getMenuById_success() throws Exception {
-        mvc.perform(get("/sys/menu/get/" + 1))
+        mvc.perform(get("/sys/menu/get/" + 2162))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.name").value("系统管理"));
+                .andExpect(jsonPath("$.data.name").value("产品"));
     }
 }

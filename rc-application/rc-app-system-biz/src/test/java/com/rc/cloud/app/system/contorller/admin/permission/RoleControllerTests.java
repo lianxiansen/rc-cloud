@@ -49,7 +49,7 @@ public class RoleControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:role:create"})
     public void createRole_success() throws Exception {
         RoleCreateReqVO createReqVO = new RoleCreateReqVO();
         createReqVO.setName("测试角色");
@@ -71,7 +71,7 @@ public class RoleControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:role:update"})
     public void updateRole_success() throws Exception {
         RoleUpdateReqVO updateReqVO = new RoleUpdateReqVO();
         updateReqVO.setId(101L);
@@ -94,7 +94,7 @@ public class RoleControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:role:update"})
     public void updateRoleStatus_success() throws Exception {
         RoleUpdateStatusReqVO updateStatusReqVO = new RoleUpdateStatusReqVO();
         updateStatusReqVO.setId(101L);
@@ -114,9 +114,13 @@ public class RoleControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:role:delete"})
+
     public void deleteRole_success() throws Exception {
-        mvc.perform(delete("/sys/role/101"))
+        mvc.perform(delete("/sys/role")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("[101]")
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -125,7 +129,7 @@ public class RoleControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:role:query"})
     public void getRoleById_success() throws Exception {
         mvc.perform(get("/sys/role/101"))
                 .andDo(print())
@@ -135,7 +139,7 @@ public class RoleControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:role:query"})
     public void getRolePage_success() throws Exception {
         mvc.perform(get("/sys/role/page"))
                 .andDo(print())
@@ -149,7 +153,7 @@ public class RoleControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser()
     public void getRoleListAllSimple_success() throws Exception {
         mvc.perform(get("/sys/role/list-all-simple"))
                 .andDo(print())

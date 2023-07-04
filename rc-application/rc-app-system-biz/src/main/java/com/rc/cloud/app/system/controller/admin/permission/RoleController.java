@@ -123,7 +123,7 @@ public class RoleController {
 
     @GetMapping("/user/page")
     @Operation(summary = "角色用户-分页")
-    @PreAuthorize("@pms.hasPermission('sys:role:update')")
+    @PreAuthorize("@pms.hasPermission('sys:role:query')")
     public CodeResult<PageResult<UserRespVO>> userPage(@Valid RoleUserPageVO pageVO) {
         IPage<SysUserDO> pageResult = userService.roleUserPage(pageVO);
         List<UserRespVO> userList = new ArrayList<>(pageResult.getRecords().size());
