@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@TableName("attribute_value")
+@TableName("product_dict")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ProductDictDO {

@@ -31,7 +31,7 @@ public interface ProductRepository {
 
     List<ProductDictDO> getProductDictByProductId(ProductId productId);
 
-    List<ProductImageDO> getProductImageByProductId(ProductId productId);
+    List<ProductImageEntity> getProductImageByProductId(ProductId productId);
 
     boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
 

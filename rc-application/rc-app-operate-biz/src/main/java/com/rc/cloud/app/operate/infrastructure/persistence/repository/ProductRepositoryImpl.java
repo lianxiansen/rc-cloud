@@ -2,19 +2,19 @@ package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
+import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
+import com.rc.cloud.app.operate.domain.model.product.ProductImageEntity;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
-import com.rc.cloud.app.operate.domain.model.product.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductDictMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,11 +87,24 @@ public class ProductRepositoryImpl implements  ProductRepository {
 
 
     @Override
-    public List<ProductImageDO> getProductImageByProductId(ProductId productId){
+    public List<ProductImageEntity> getProductImageByProductId(ProductId productId){
         LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductImageDO>();
         LambdaQueryWrapperX<ProductImageDO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductImageDO::getProductId, productId.id());
-        return this.productImageMapper.selectList(wrapper);
+        return convert2ProductImage(this.productImageMapper.selectList(wrapper));
+    }
+
+    private List<ProductImageEntity> convert2ProductImage(List<ProductImageDO> productImageDOList){
+        List<ProductImageEntity> urls=new ArrayList<>();
+        for (ProductImageDO productImage : productImageDOList) {
+
+            ProductImageEntity productImageEntity=new ProductImageEntity(new ProductId(productImage.getProductId()));
+            productImageEntity.setUrl(productImage.getUrl());
+            productImageEntity.setSort(productImage.getSortId());
+            productImageEntity.setDefaultFlag(productImage.getDefaultFlag());
+            urls.add(productImageEntity);
+        }
+        return urls;
     }
 
     /**
@@ -102,16 +115,37 @@ public class ProductRepositoryImpl implements  ProductRepository {
     private Product convert2Product(ProductDO productDO){
         ProductId productId=new ProductId(productDO.getId());
         TenantId tenantId = new TenantId(productDO.getTenantId());
-
         Product product=new Product(productId,tenantId,new Name(productDO.getName()));
 
-        List<ProductImageDO> productImageByProductIds = getProductImageByProductId(productId);
-        List<String> urls=new ArrayList<>();
-        for (ProductImageDO productImageByProductId : productImageByProductIds) {
-            urls.add(productImageByProductId.getUrl());
+        List<ProductImageEntity> urls = getProductImageByProductId(productId);
+        product.setProductImages(urls);
+
+        product.setId(productId);
+
+        Remark remark = new Remark(productDO.getRemark());
+        Tag tag = new Tag(productDO.getTag());
+        BrandId brandId = new BrandId(productDO.getBrandId());
+        CategoryName firstCategory = new CategoryName(productDO.getFirstCategory());
+        CategoryName secondCategory = new CategoryName(productDO.getSecondCategory());
+        CategoryName thirdCategory = new CategoryName(productDO.getThirdCategory());
+        CustomClassification customClassification = new CustomClassification(productDO.getCustomClassificationId());
+        Newest newest = new Newest(productDO.getNewFlag());
+        Explosives explosives = null;
+        if(productDO.getExplosivesFlag()){
+            explosives= new Explosives(productDO.getExplosivesFlag(),productDO.getExplosivesImage());
         }
-        //商品图片
-        product.setProductImage(urls);
+
+        Recommend recommend = new Recommend(productDO.getRecommendFlag());
+        Open open = new Open(productDO.getPublicFlag());
+        OnshelfStatus onshelfStatus = new OnshelfStatus(productDO.getOnshelfStatus());
+        Enable enable = new Enable(productDO.getEnabledFlag());
+        Video video = new Video(productDO.getVideoUrl(),productDO.getVideoImg()
+                ,productDO.getInstallVideoUrl(),productDO.getInstallVideoImg());
+
+        product.setRemark(remark);
+        product.setTag(tag);
+        product.setBrandId(brandId);
+        product.setRecommend(recommend);
 
 
         return product;

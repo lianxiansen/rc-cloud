@@ -197,5 +197,6 @@ public class ProductDO extends BaseDO {
     @TableField("sort_id")
     private Integer sortId;
 
-
+    @TableField("custom_classification_id")
+    private String customClassificationId;
 }
