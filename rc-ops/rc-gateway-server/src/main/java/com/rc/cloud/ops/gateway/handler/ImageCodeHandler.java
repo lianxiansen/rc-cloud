@@ -43,8 +43,8 @@ public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
 		String result = captcha.text();
 
 		// 保存验证码信息
-		Optional<String> randomStr = serverRequest.queryParam("randomStr");
-		randomStr.ifPresent(s -> stringRedisTemplate.opsForValue()
+		Optional<String> key = serverRequest.queryParam("key");
+		key.ifPresent(s -> stringRedisTemplate.opsForValue()
 			.set(CacheConstants.DEFAULT_CODE_KEY + s, result, SecurityConstants.CODE_TIME, TimeUnit.SECONDS));
 
 		// 转换流信息写出
