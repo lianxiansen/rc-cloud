@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorContactCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorContactCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.application.service.DistributorService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorAutoConfig;
@@ -57,14 +57,14 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
     @Test
     void create() {
         //mock对象
-        AppDistributorContactCreateReqVO reqVO1 = randomPojo(AppDistributorContactCreateReqVO.class, o -> {
+        DistributorContactCreateReqVO reqVO1 = randomPojo(DistributorContactCreateReqVO.class, o -> {
             o.setMobile("13700000111");
         });
-        AppDistributorContactCreateReqVO reqVO2 = randomPojo(AppDistributorContactCreateReqVO.class, o -> {
+        DistributorContactCreateReqVO reqVO2 = randomPojo(DistributorContactCreateReqVO.class, o -> {
             o.setMobile("13700000222");
         });
-        List<AppDistributorContactCreateReqVO> voList = Arrays.asList(reqVO1, reqVO2);
-        AppDistributorCreateReqVO reqVO = randomPojo(AppDistributorCreateReqVO.class, o -> {
+        List<DistributorContactCreateReqVO> voList = Arrays.asList(reqVO1, reqVO2);
+        DistributorCreateReqVO reqVO = randomPojo(DistributorCreateReqVO.class, o -> {
             o.setContacts(voList);
             o.setLocking(0);
         });
@@ -93,7 +93,7 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
         distributorMapper.insert(distributorPO);// @Sql: 先插入出一条存在的数据
         // 准备参数
         Random random = new Random();
-        AppDistributorUpdateReqVO reqVO = randomPojo(AppDistributorUpdateReqVO.class, o -> {
+        DistributorUpdateReqVO reqVO = randomPojo(DistributorUpdateReqVO.class, o -> {
             // 设置更新的 ID
             o.setId(distributorPO.getId());
             o.getContacts().forEach(x -> x.setMobile(
@@ -109,7 +109,7 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
         assertPojoEquals(reqVO, distributorPO1);
 
         //检验插入明细为空
-        AppDistributorUpdateReqVO reqVO1 = randomPojo(AppDistributorUpdateReqVO.class, o -> {
+        DistributorUpdateReqVO reqVO1 = randomPojo(DistributorUpdateReqVO.class, o -> {
             // 设置更新的 ID
             o.setId(distributorPO.getId());
             o.setDistributorDetail("");
@@ -128,14 +128,14 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
     @Test
     void delete() {
         //mock对象
-        AppDistributorContactCreateReqVO reqVO1 = randomPojo(AppDistributorContactCreateReqVO.class, o -> {
+        DistributorContactCreateReqVO reqVO1 = randomPojo(DistributorContactCreateReqVO.class, o -> {
             o.setMobile("13700000111");
         });
-        AppDistributorContactCreateReqVO reqVO2 = randomPojo(AppDistributorContactCreateReqVO.class, o -> {
+        DistributorContactCreateReqVO reqVO2 = randomPojo(DistributorContactCreateReqVO.class, o -> {
             o.setMobile("13700000222");
         });
-        List<AppDistributorContactCreateReqVO> voList = Arrays.asList(reqVO1, reqVO2);
-        AppDistributorCreateReqVO reqVO = randomPojo(AppDistributorCreateReqVO.class, o -> {
+        List<DistributorContactCreateReqVO> voList = Arrays.asList(reqVO1, reqVO2);
+        DistributorCreateReqVO reqVO = randomPojo(DistributorCreateReqVO.class, o -> {
             o.setContacts(voList);
             o.setLocking(0);
         });

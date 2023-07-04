@@ -3,9 +3,9 @@ package com.rc.cloud.app.distributor.application.service.impl;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorLevelMapper;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorLevelCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorLevelPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorLevelUpdateReqVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorLevelConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorLevelService;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -29,7 +29,7 @@ public class DistributorLevelServiceImpl implements DistributorLevelService {
     private DistributorLevelMapper levelMapper;
 
     @Override
-    public Long createLevel(AppDistributorLevelCreateReqVO createReqVO) {
+    public Long createLevel(DistributorLevelCreateReqVO createReqVO) {
         // 插入
         DistributorLevelPO level = DistributorLevelConvert.INSTANCE.convert(createReqVO);
         levelMapper.insert(level);
@@ -38,7 +38,7 @@ public class DistributorLevelServiceImpl implements DistributorLevelService {
     }
 
     @Override
-    public void updateLevel(AppDistributorLevelUpdateReqVO updateReqVO) {
+    public void updateLevel(DistributorLevelUpdateReqVO updateReqVO) {
         // 校验存在
         validateLevelExists(updateReqVO.getId());
         // 更新
@@ -71,7 +71,7 @@ public class DistributorLevelServiceImpl implements DistributorLevelService {
     }
 
     @Override
-    public PageResult<DistributorLevelPO> getLevelPage(AppDistributorLevelPageReqVO pageReqVO) {
+    public PageResult<DistributorLevelPO> getLevelPage(DistributorLevelPageReqVO pageReqVO) {
         return levelMapper.selectPage(pageReqVO);
     }
 

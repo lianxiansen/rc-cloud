@@ -2,9 +2,9 @@ package com.rc.cloud.app.distributor.application.service;
 
 import java.util.*;
 import javax.validation.*;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
@@ -21,14 +21,14 @@ public interface DistributorReputationService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long createReputation(@Valid AppDistributorReputationCreateReqVO createReqVO);
+    Long createReputation(@Valid DistributorReputationCreateReqVO createReqVO);
 
     /**
      * 更新经销商客户信誉
      *
      * @param updateReqVO 更新信息
      */
-    void updateReputation(@Valid AppDistributorReputationUpdateReqVO updateReqVO);
+    void updateReputation(@Valid DistributorReputationUpdateReqVO updateReqVO);
 
     /**
      * 删除经销商客户信誉
@@ -59,6 +59,6 @@ public interface DistributorReputationService {
      * @param pageReqVO 分页查询
      * @return 经销商客户信誉分页
      */
-    PageResult<DistributorReputationPO> getReputationPage(AppDistributorReputationPageReqVO pageReqVO);
+    PageResult<DistributorReputationPO> getReputationPage(DistributorReputationPageReqVO pageReqVO);
 
 }

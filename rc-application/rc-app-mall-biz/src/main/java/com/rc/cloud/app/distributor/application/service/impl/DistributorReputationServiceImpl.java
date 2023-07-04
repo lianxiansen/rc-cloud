@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationUpdateReqVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorReputationConvert;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
@@ -29,7 +29,7 @@ public class DistributorReputationServiceImpl implements DistributorReputationSe
     private DistributorReputationMapper reputationMapper;
 
     @Override
-    public Long createReputation(AppDistributorReputationCreateReqVO createReqVO) {
+    public Long createReputation(DistributorReputationCreateReqVO createReqVO) {
         // 插入
         DistributorReputationPO reputation = DistributorReputationConvert.INSTANCE.convert(createReqVO);
         reputationMapper.insert(reputation);
@@ -38,7 +38,7 @@ public class DistributorReputationServiceImpl implements DistributorReputationSe
     }
 
     @Override
-    public void updateReputation(AppDistributorReputationUpdateReqVO updateReqVO) {
+    public void updateReputation(DistributorReputationUpdateReqVO updateReqVO) {
         // 校验存在
         validateReputationExists(updateReqVO.getId());
         // 更新
@@ -71,7 +71,7 @@ public class DistributorReputationServiceImpl implements DistributorReputationSe
     }
 
     @Override
-    public PageResult<DistributorReputationPO> getReputationPage(AppDistributorReputationPageReqVO pageReqVO) {
+    public PageResult<DistributorReputationPO> getReputationPage(DistributorReputationPageReqVO pageReqVO) {
         return reputationMapper.selectPage(pageReqVO);
     }
 

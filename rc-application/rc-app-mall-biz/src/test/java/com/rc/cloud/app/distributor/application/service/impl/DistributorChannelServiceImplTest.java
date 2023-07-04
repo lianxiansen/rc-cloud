@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorChannelCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorChannelPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorChannelUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorChannelService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorChannelMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
@@ -39,7 +39,7 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
 
     @Test
     void createChannel() {
-        AppDistributorChannelCreateReqVO reqVO = randomPojo(AppDistributorChannelCreateReqVO.class, o -> {});
+        DistributorChannelCreateReqVO reqVO = randomPojo(DistributorChannelCreateReqVO.class, o -> {});
         // 调用
         Long channelId = channelService.createChannel(reqVO);
         // 断言
@@ -55,7 +55,7 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
         DistributorChannelPO channelDO = randomDistributorChannelPO();
         channelMapper.insert(channelDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        AppDistributorChannelUpdateReqVO reqVO = randomPojo(AppDistributorChannelUpdateReqVO.class, o -> {
+        DistributorChannelUpdateReqVO reqVO = randomPojo(DistributorChannelUpdateReqVO.class, o -> {
             // 设置更新的 ID
             o.setId(channelDO.getId());
         });
@@ -124,7 +124,7 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         channelMapper.insert(cloneIgnoreId(channelDO, o -> o.setName("程序员2")));
         // 准备参数
-        AppDistributorChannelPageReqVO reqVO = new AppDistributorChannelPageReqVO();
+        DistributorChannelPageReqVO reqVO = new DistributorChannelPageReqVO();
         reqVO.setName("码");
 
         // 调用

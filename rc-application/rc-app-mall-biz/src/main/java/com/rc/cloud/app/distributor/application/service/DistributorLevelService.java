@@ -4,9 +4,9 @@ import java.util.*;
 import javax.validation.*;
 
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorLevelUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorLevelCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorLevelPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorLevelUpdateReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 /**
@@ -22,14 +22,14 @@ public interface DistributorLevelService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long createLevel(@Valid AppDistributorLevelCreateReqVO createReqVO);
+    Long createLevel(@Valid DistributorLevelCreateReqVO createReqVO);
 
     /**
      * 更新经销商客户等级
      *
      * @param updateReqVO 更新信息
      */
-    void updateLevel(@Valid AppDistributorLevelUpdateReqVO updateReqVO);
+    void updateLevel(@Valid DistributorLevelUpdateReqVO updateReqVO);
 
     /**
      * 删除经销商客户等级
@@ -60,6 +60,6 @@ public interface DistributorLevelService {
      * @param pageReqVO 分页查询
      * @return 经销商客户等级分页
      */
-    PageResult<DistributorLevelPO> getLevelPage(AppDistributorLevelPageReqVO pageReqVO);
+    PageResult<DistributorLevelPO> getLevelPage(DistributorLevelPageReqVO pageReqVO);
 
 }

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.distributor.infrastructure.persistence.mapper;
 
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
@@ -15,7 +15,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DistributorReputationMapper extends BaseMapperX<DistributorReputationPO> {
 
-    default PageResult<DistributorReputationPO> selectPage(AppDistributorReputationPageReqVO reqVO) {
+    default PageResult<DistributorReputationPO> selectPage(DistributorReputationPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<DistributorReputationPO>()
                 .likeIfPresent(DistributorReputationPO::getName, reqVO.getName())
                 .eqIfPresent(DistributorReputationPO::getDescription, reqVO.getDescription())

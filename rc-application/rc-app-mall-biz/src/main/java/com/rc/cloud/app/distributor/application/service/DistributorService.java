@@ -3,10 +3,10 @@ package com.rc.cloud.app.distributor.application.service;
 import java.util.*;
 import javax.validation.*;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorExportReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorExportReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailPO;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -24,14 +24,14 @@ public interface DistributorService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long create(@Valid AppDistributorCreateReqVO createReqVO);
+    Long create(@Valid DistributorCreateReqVO createReqVO);
 
     /**
      * 更新经销商
      *
      * @param updateReqVO 更新信息
      */
-    void update(@Valid AppDistributorUpdateReqVO updateReqVO);
+    void update(@Valid DistributorUpdateReqVO updateReqVO);
 
     /**
      * 删除经销商
@@ -70,7 +70,7 @@ public interface DistributorService {
      * @param pageReqVO 分页查询
      * @return 经销商分页
      */
-    PageResult<DistributorPO> getPage(AppDistributorPageReqVO pageReqVO);
+    PageResult<DistributorPO> getPage(DistributorPageReqVO pageReqVO);
 
-    List<DistributorPO> getList(AppDistributorExportReqVO exportReqVO) ;
+    List<DistributorPO> getList(DistributorExportReqVO exportReqVO) ;
 }

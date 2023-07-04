@@ -2,10 +2,10 @@ package com.rc.cloud.app.distributor.application.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorExportReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorExportReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorPageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorUpdateReqVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorContactConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorDetailConvert;
@@ -58,7 +58,7 @@ public class DistributorServiceImpl implements DistributorService {
 
     @Override
     @Transactional
-    public Long create(AppDistributorCreateReqVO createReqVO) {
+    public Long create(DistributorCreateReqVO createReqVO) {
         // 插入
         DistributorPO distributorPO = DistributorConvert.INSTANCE.convert(createReqVO);
 
@@ -86,7 +86,7 @@ public class DistributorServiceImpl implements DistributorService {
 
     @Override
     @Transactional
-    public void update(AppDistributorUpdateReqVO updateReqVO) {
+    public void update(DistributorUpdateReqVO updateReqVO) {
         // 校验存在
         validateExists(updateReqVO.getId());
 
@@ -156,12 +156,12 @@ public class DistributorServiceImpl implements DistributorService {
     }
 
     @Override
-    public PageResult<DistributorPO> getPage(AppDistributorPageReqVO pageReqVO) {
+    public PageResult<DistributorPO> getPage(DistributorPageReqVO pageReqVO) {
         return mapper.selectPage(pageReqVO);
     }
 
     @Override
-    public List<DistributorPO> getList(AppDistributorExportReqVO exportReqVO) {
+    public List<DistributorPO> getList(DistributorExportReqVO exportReqVO) {
         return mapper.selectList(exportReqVO);
     }
 

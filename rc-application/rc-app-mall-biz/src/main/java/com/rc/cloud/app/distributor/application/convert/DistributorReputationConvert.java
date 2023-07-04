@@ -3,9 +3,9 @@ package com.rc.cloud.app.distributor.application.convert;
 import java.util.*;
 
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.resp.AppDistributorReputationRespVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorReputationUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.resp.DistributorReputationRespVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorReputationUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.mapstruct.Mapper;
@@ -21,14 +21,14 @@ public interface DistributorReputationConvert {
 
     DistributorReputationConvert INSTANCE = Mappers.getMapper(DistributorReputationConvert.class);
 
-    DistributorReputationPO convert(AppDistributorReputationCreateReqVO bean);
+    DistributorReputationPO convert(DistributorReputationCreateReqVO bean);
 
-    DistributorReputationPO convert(AppDistributorReputationUpdateReqVO bean);
+    DistributorReputationPO convert(DistributorReputationUpdateReqVO bean);
 
-    AppDistributorReputationRespVO convert(DistributorReputationPO bean);
+    DistributorReputationRespVO convert(DistributorReputationPO bean);
 
-    List<AppDistributorReputationRespVO> convertList(List<DistributorReputationPO> list);
+    List<DistributorReputationRespVO> convertList(List<DistributorReputationPO> list);
 
-    PageResult<AppDistributorReputationRespVO> convertPage(PageResult<DistributorReputationPO> page);
+    PageResult<DistributorReputationRespVO> convertPage(PageResult<DistributorReputationPO> page);
 
 }

@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.convert;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.resp.AppDistributorChannelRespVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorChannelUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorChannelCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.resp.DistributorChannelRespVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorChannelUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.mapstruct.Mapper;
@@ -20,14 +20,14 @@ public interface DistributorChannelConvert {
 
     DistributorChannelConvert INSTANCE = Mappers.getMapper(DistributorChannelConvert.class);
 
-    DistributorChannelPO convert(AppDistributorChannelCreateReqVO bean);
+    DistributorChannelPO convert(DistributorChannelCreateReqVO bean);
 
-    DistributorChannelPO convert(AppDistributorChannelUpdateReqVO bean);
+    DistributorChannelPO convert(DistributorChannelUpdateReqVO bean);
 
-    AppDistributorChannelRespVO convert(DistributorChannelPO bean);
+    DistributorChannelRespVO convert(DistributorChannelPO bean);
 
-    List<AppDistributorChannelRespVO> convertList(List<DistributorChannelPO> list);
+    List<DistributorChannelRespVO> convertList(List<DistributorChannelPO> list);
 
-    PageResult<AppDistributorChannelRespVO> convertPage(PageResult<DistributorChannelPO> page);
+    PageResult<DistributorChannelRespVO> convertPage(PageResult<DistributorChannelPO> page);
 
 }

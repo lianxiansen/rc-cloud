@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourcePageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.AppDistributorSourceUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorSourceCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorSourcePageReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorSourceUpdateReqVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorSourceConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorSourceService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
@@ -29,7 +29,7 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     private DistributorSourceMapper sourceMapper;
 
     @Override
-    public Long createSource(AppDistributorSourceCreateReqVO createReqVO) {
+    public Long createSource(DistributorSourceCreateReqVO createReqVO) {
         // 插入
         DistributorSourcePO source = DistributorSourceConvert.INSTANCE.convert(createReqVO);
         sourceMapper.insert(source);
@@ -38,7 +38,7 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     }
 
     @Override
-    public void updateSource(AppDistributorSourceUpdateReqVO updateReqVO) {
+    public void updateSource(DistributorSourceUpdateReqVO updateReqVO) {
         // 校验存在
         validateSourceExists(updateReqVO.getId());
         // 更新
@@ -71,7 +71,7 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     }
 
     @Override
-    public PageResult<DistributorSourcePO> getSourcePage(AppDistributorSourcePageReqVO pageReqVO) {
+    public PageResult<DistributorSourcePO> getSourcePage(DistributorSourcePageReqVO pageReqVO) {
         return sourceMapper.selectPage(pageReqVO);
     }
 
