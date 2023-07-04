@@ -2,10 +2,11 @@ package com.rc.cloud.app.operate.domain.model.productcategory;
 
 import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.common.Entity;
+import com.rc.cloud.app.operate.domain.model.productcategory.event.ProductCategoryRefreshEvent;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.EnName;
+import com.rc.cloud.common.core.util.SpringContextHolder;
 
 /**
  * @ClassName: ProductCategoryEntry
@@ -150,6 +151,7 @@ public class ProductCategory extends Entity {
             setLayer(new Layer(1));
             this.parentId=null;
         }
+        refresh();
     }
 
     public void reInherit(ProductCategory parent){
@@ -159,6 +161,15 @@ public class ProductCategory extends Entity {
             }
         }
         inherit(parent);
+        refresh();
+    }
+
+    /**
+     * 刷新资源库领域对象
+     */
+    public void refresh(){
+        ProductCategoryRefreshEvent event=new ProductCategoryRefreshEvent(this);
+        SpringContextHolder.publishEvent(event);
     }
 
 }

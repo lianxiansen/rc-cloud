@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.domain.service;
 
 import com.rc.cloud.app.operate.domain.common.DomainException;
+import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.common.core.util.AssertUtils;
@@ -22,6 +23,9 @@ public class ProductCategoryDomainServce {
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     public ProductCategory createProductCategory(ProductCategory productCategory) {
         ProductCategory parentCategory = null;
         if (null != productCategory.getParentId()) {
@@ -37,7 +41,16 @@ public class ProductCategoryDomainServce {
         List<ProductCategory> allList = productCategoryRepository.findAll();
         sub.reInherit(parent);
         reInheritCascade(allList, sub);
+    }
 
+    public void remove(ProductCategory productCategory){
+        if(productRepository.existsByProductCategoryId(productCategory.getId())){
+            throw new DomainException("已关联产品,删除失败");
+        }
+        if(productCategoryRepository.existsChild(productCategory.getId())){
+            throw new DomainException("已关联子分类，删除失败");
+        }
+        productCategoryRepository.remove(productCategory);
     }
 
     private void reInheritCascade(List<ProductCategory> allList, ProductCategory parent) {
@@ -47,7 +60,6 @@ public class ProductCategoryDomainServce {
         }
         subList.forEach(item -> {
             item.reInherit(parent);
-            productCategoryRepository.save(item);
             List<ProductCategory> itemSubList = findSubList(allList, item);
             reInheritCascade(allList, item);
         });

@@ -32,14 +32,7 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     @Autowired
     private RemoteIdGeneratorService remoteIdGeneratorService;
 
-    public void saveList(List<ProductCategory> all){
-        List<ProductCategoryDO> list=new ArrayList<>();
-        all.forEach(item->{
-            ProductCategoryDO productCategoryDO = ProductCategoryConvert.convert2ProductCategoryDO(item);
-            list.add(productCategoryDO);
-        });
-        productCategoryMapper.updateBatch(list,list.size());
-    }
+
 
     /**
      * 津贴用的
@@ -86,9 +79,26 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     }
 
     @Override
-    public void save(ProductCategory productCategoryAggregation) {
-        ProductCategoryDO productCategoryDO = ProductCategoryConvert.convert2ProductCategoryDO(productCategoryAggregation);
+    public void save(ProductCategory productCategory) {
+        ProductCategoryDO productCategoryDO = ProductCategoryConvert.convert2ProductCategoryDO(productCategory);
         this.productCategoryMapper.insert(productCategoryDO);
+    }
+
+    @Override
+    public void remove(ProductCategory productCategory) {
+        removeById(productCategory.getId());
+    }
+
+    @Override
+    public void removeById(ProductCategoryId productCategoryId) {
+        this.productCategoryMapper.deleteById(productCategoryId.id());
+    }
+
+    @Override
+    public boolean existsChild(ProductCategoryId productCategoryId) {
+        LambdaQueryWrapperX<ProductCategoryDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductCategoryDO::getParentId, productCategoryId.id());
+        return this.productCategoryMapper.exists(wrapper);
     }
 
     /**

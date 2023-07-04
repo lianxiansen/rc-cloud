@@ -1,20 +1,18 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.product.ProductAggregation;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
+import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductDictMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,10 +60,12 @@ public class ProductRepositoryImpl implements  ProductRepository {
     }
 
 
+    @Override
     public  PageResult<ProductDO> getProductPageList(ProductListQueryDTO productListQueryDTO){
         return productMapper.selectPage(productListQueryDTO);
     }
 
+    @Override
     public List<ProductDictDO> getProductDictByProductId(ProductId productId){
         LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductDictDO>();
         LambdaQueryWrapperX<ProductDictDO> wrapper = new LambdaQueryWrapperX<>();
@@ -74,11 +74,17 @@ public class ProductRepositoryImpl implements  ProductRepository {
     }
 
 
+    @Override
     public List<ProductImageDO> getProductImageByProductId(ProductId productId){
         LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductImageDO>();
         LambdaQueryWrapperX<ProductImageDO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductImageDO::getProductId, productId.id());
         return this.productImageMapper.selectList(wrapper);
+    }
+
+    @Override
+    public boolean existsByProductCategoryId(ProductCategoryId productCategoryId) {
+        return false;
     }
 
 }
