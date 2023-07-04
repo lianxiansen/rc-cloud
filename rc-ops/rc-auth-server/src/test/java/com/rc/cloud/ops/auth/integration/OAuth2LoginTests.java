@@ -31,11 +31,44 @@ public class OAuth2LoginTests {
     private StringRedisTemplate stringRedisTemplate;
 
     /**
-     * 可能在取redis中的验证码的时候redis中还没生成，导致测试失败，可以多试几次
-     * @throws Exception
+     * 可能在取redis中的验证码的时候redis中还没生成，导致测试失败，debug调试
      */
     @Test
     public void loginByPassword_success_then_returnToken() throws Exception {
+        LoginReturnDTO loginReturnDTO = login();
+        assertNotNull(loginReturnDTO);
+        assertNotNull(loginReturnDTO.getAccess_token());
+        assertNotNull(loginReturnDTO.getRefresh_token());
+    }
+
+    /**
+     * 通过refresh_token刷新token
+     * 可能在取redis中的验证码的时候redis中还没生成，导致测试失败，debug调试
+     * @throws Exception
+     */
+    @Test
+    public void refreshToken_success() throws Exception {
+        // 根据用户名密码获取token
+        LoginReturnDTO loginReturnDTO = login();
+        assertNotNull(loginReturnDTO);
+        assertNotNull(loginReturnDTO.getAccess_token());
+        assertNotNull(loginReturnDTO.getRefresh_token());
+
+        // 根据refresh_token刷新token
+        String url = "http://localhost:8020/auth/oauth2/token?grant_type=refresh_token&scope=server&refresh_token=" + loginReturnDTO.getRefresh_token();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Basic cmM6cmM=");
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<>(1);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+        String loginReturnStr = restTemplate.postForObject(url, request, String.class);
+        assertNotNull(loginReturnStr);
+        loginReturnDTO = JSONObject.parseObject(loginReturnStr, LoginReturnDTO.class);
+        assertNotNull(loginReturnDTO.getAccess_token());
+        assertNotNull(loginReturnDTO.getRefresh_token());
+    }
+
+    private LoginReturnDTO login() throws Exception {
         String key = this.createCaptcha();
         String code = stringRedisTemplate.opsForValue().get(DEFAULT_CODE_KEY + key);
         String url = "http://localhost:8020/auth/oauth2/token?key="
@@ -50,13 +83,14 @@ public class OAuth2LoginTests {
         map.add("password", "YehdBPev");
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
         String loginReturnStr = restTemplate.postForObject(url, request, String.class);
-        assertNotNull(loginReturnStr);
-        LoginReturnDTO loginReturnDTO = JSONObject.parseObject(loginReturnStr, LoginReturnDTO.class);
-        assertNotNull(loginReturnDTO.getAccess_token());
-        assertNotNull(loginReturnDTO.getRefresh_token());
+        LoginReturnDTO loginReturnDTO = null;
+        if (loginReturnStr != null) {
+            loginReturnDTO = JSONObject.parseObject(loginReturnStr, LoginReturnDTO.class);
+        }
+        return loginReturnDTO;
     }
 
-    public String createCaptcha() {
+    private String createCaptcha() {
         String key = "26711687158751595";
         String url = "http://localhost:8020/code?key=" + key;
         restTemplate.getForObject(url, String.class);
