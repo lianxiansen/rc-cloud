@@ -3,14 +3,11 @@ package com.rc.cloud.app.operate.application.service;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
 import com.rc.cloud.app.operate.domain.common.DomainEventPublisher;
 import com.rc.cloud.app.operate.domain.common.DomainEventSubscriber;
-import com.rc.cloud.app.operate.domain.model.product.ProductAggregation;
 import com.rc.cloud.app.operate.domain.model.product.ProductFactory;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.event.ProductCreatedEvent;
 import com.rc.cloud.app.operate.domain.model.product.identifier.BrandId;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
-import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,12 +52,13 @@ public class ProductApplicationService {
         CategoryName firstCategory = new CategoryName(productSaveDTO.getFirstCategory());
         CategoryName secondCategory = new CategoryName(productSaveDTO.getSecondCategory());
         CategoryName thirdCategory = new CategoryName(productSaveDTO.getThirdCategory());
-        //CustomClassification customClassification = null;
+        CustomClassification customClassification = new CustomClassification(productSaveDTO.getCustomClassificationId());
         Newest newest = new Newest(productSaveDTO.isNewFlag());
         Explosives explosives = null;
         if(productSaveDTO.isExplosivesFlag()){
             explosives= new Explosives(productSaveDTO.isExplosivesFlag(),productSaveDTO.getExplosivesImage());
         }
+
         Recommend recommend = new Recommend(productSaveDTO.isRecommendFlag());
         Open open = new Open(productSaveDTO.isPublicFlag());
         OnshelfStatus onshelfStatus = new OnshelfStatus(productSaveDTO.getOnShelfStatus());
@@ -72,22 +70,22 @@ public class ProductApplicationService {
             Image image = new Image(item.getImage());
             productImages.add(image);
         });
-        if (productSaveDTO.getId() > 0) {
-            ProductAggregation productEntry= productFactory.createProduct(tenantId,name,remark,tag,brandId,productCategoryId,customClassification,newest,
-                    explosives,recommend,open,onshelfStatus,enable,video,masterImage,type,productImages);
-            productRepository.saveProductEntry(productEntry);
-
-        } else {
-            ProductId productId = new ProductId(productSaveDTO.getId() + "");
-            ProductAggregation productEntity = productRepository.findById(productId);
-            if (null == name) {
-                name=productEntity.getName();
-            }
-
-            ProductAggregation productEntry= productRepository.findById(productId);
-            //TODO 应用层产品修改逻辑
-
-        }
+//        if (productSaveDTO.getId() > 0) {
+//            ProductAggregation productEntry= productFactory.createProduct(tenantId,name,remark,tag,brandId,productCategoryId,customClassification,newest,
+//                    explosives,recommend,open,onshelfStatus,enable,video,masterImage,type,productImages);
+//            productRepository.saveProductEntry(productEntry);
+//
+//        } else {
+//            ProductId productId = new ProductId(productSaveDTO.getId() + "");
+//            ProductAggregation productEntity = productRepository.findById(productId);
+//            if (null == name) {
+//                name=productEntity.getName();
+//            }
+//
+//            ProductAggregation productEntry= productRepository.findById(productId);
+//            //TODO 应用层产品修改逻辑
+//
+//        }
 
 
     }

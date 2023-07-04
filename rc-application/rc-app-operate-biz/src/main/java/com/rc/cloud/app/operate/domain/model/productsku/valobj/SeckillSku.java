@@ -1,7 +1,5 @@
 package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuEntity;
-
 import java.text.DecimalFormat;
 
 public class SeckillSku {

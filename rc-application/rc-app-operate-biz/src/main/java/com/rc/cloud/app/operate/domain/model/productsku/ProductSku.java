@@ -4,7 +4,7 @@ import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
 
-public class ProductSkuEntity extends Entity {
+public class ProductSku extends Entity {
 
 
     private ProductSkuId id;
@@ -42,8 +42,8 @@ public class ProductSkuEntity extends Entity {
     private Sort sort;
 
 
-    ProductSkuEntity(ProductSkuId id, ProductId productId,
-                     TenantId tenantId, Price price) {
+    public ProductSku(ProductSkuId id, ProductId productId,
+               TenantId tenantId, Price price) {
         init();
         setId(id);
         setTenantId(tenantId);

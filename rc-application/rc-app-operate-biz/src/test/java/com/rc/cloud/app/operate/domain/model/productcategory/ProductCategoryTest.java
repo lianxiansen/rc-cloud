@@ -3,6 +3,7 @@ package com.rc.cloud.app.operate.domain.model.productcategory;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 import com.rc.cloud.app.operate.ApplicationTest;
+import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -18,7 +19,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -51,8 +51,6 @@ public class ProductCategoryTest {
     private ProductCategoryMapper productCategoryMapper;
     @Mock
     private ProductMapper productMapper;
-    @Autowired
-    private ProductCategoryFactory productCategoryBuilderFactory;
 
     @InjectMocks
     private ProductCategoryDomainServce productCategoryDomainServce;
@@ -70,7 +68,7 @@ public class ProductCategoryTest {
      */
     @Test
     public void createRootProductCategoryTest() {
-        ProductCategoryAggregation root = createRootProductCategory();
+        ProductCategory root = createRootProductCategory();
         Assert.equals(root.getLayer().getValue(), 1);
     }
 
@@ -79,8 +77,8 @@ public class ProductCategoryTest {
      */
     @Test
     public void createSubProductCategoryTest() {
-        ProductCategoryAggregation root = createRootProductCategory();
-        ProductCategoryAggregation sub = createSubProductCategory(root);
+        ProductCategory root = createRootProductCategory();
+        ProductCategory sub = createSubProductCategory(root);
         AssertUtils.equals(sub.getLayer().getValue(), root.getLayer().getValue() + 1, "产品类目层级错误");
         AssertUtils.equals(root.getId(), sub.getParentId(), "产品子类目的上级类目id错误");
     }
@@ -91,57 +89,69 @@ public class ProductCategoryTest {
      */
     @Test
     public void reInheritProductCategory() {
-        List<ProductCategoryAggregation> allList = mockAllList();
+        List<ProductCategory> allList = mockAllList();
         //将sub00继承root0修改为root1
         int subIndex = 1;
         int parentIndex = 5;
-        ProductCategoryAggregation sub = allList.get(subIndex);
-        ProductCategoryAggregation newParent = allList.get(parentIndex);
+        ProductCategory sub = allList.get(subIndex);
+        ProductCategory newParent = allList.get(parentIndex);
         productCategoryDomainServce.reInherit(sub,newParent);
         AssertUtils.equals(sub.getParentId(), newParent.getId(), "父级分类的id错误");
-        AssertUtils.equals(sub.getLayer().addLayer(new Layer(1)), newParent.getLayer(), "分类层级错误");
-        List<ProductCategoryAggregation> subList=productCategoryDomainServce.findSubList(allList,sub);
+        AssertUtils.equals(sub.getLayer(), newParent.getLayer().addLayer(new Layer(1)), "分类层级错误");
+        List<ProductCategory> subList=productCategoryDomainServce.findSubList(allList,sub);
         subList.forEach(item->{
-            AssertUtils.equals(item.getLayer().addLayer(new Layer(1)), sub.getLayer(), "子级分类层级错误");
+            AssertUtils.equals(item.getLayer(), sub.getLayer().addLayer(new Layer(1)), "子级分类层级错误");
         });
     }
 
 
+    @Test(expected = DomainException.class)
+    public void reInheritProductCategoryMyself() {
+        List<ProductCategory> allList = mockAllList();
+        //将sub00继承root0修改为root1
+        int subIndex = 1;
+        int parentIndex = 1;
+        ProductCategory sub = allList.get(subIndex);
+        ProductCategory newParent = allList.get(parentIndex);
+        productCategoryDomainServce.reInherit(sub,newParent);
+    }
 
-    private ProductCategoryAggregation createRootProductCategory() {
+
+
+    private ProductCategory createRootProductCategory() {
         ProductCategoryId id = productCategoryRepository.nextId();
         TenantId tenantId = new TenantId(RandomUtils.randomString());
         ChName name = new ChName(RandomUtils.randomString());
         ;
-        ProductCategoryFactory.ProductCategoryBuilder builder = productCategoryBuilderFactory.builder(id, tenantId, name);
-        builder.enName(new EnName(RandomUtils.randomString()));
-        builder.icon(new Icon(imgUrl));
-        builder.enabled(new Enabled(true));
-        builder.page(new Page(imgUrl, imgUrl));
-        builder.sort(new Sort(1));
-        ProductCategoryAggregation productCategoryAggregation =productCategoryDomainServce.createProductCategory(builder);
+        ProductCategory productCategory = new ProductCategory(id, tenantId, name);
+        productCategory.setEnName(new EnName(RandomUtils.randomString()));
+        productCategory.setIcon(new Icon(imgUrl));
+        productCategory.setEnabled(new Enabled(true));
+        productCategory.setPage(new Page(imgUrl, imgUrl));
+        productCategory.setSort(new Sort(1));
+        ProductCategory productCategoryAggregation =productCategoryDomainServce.createProductCategory(productCategory);
         return productCategoryAggregation;
     }
 
-    private ProductCategoryAggregation createSubProductCategory(ProductCategoryAggregation parentProductAggregation) {
-        ProductCategoryAggregation productCategoryAggregation = createRootProductCategory();
+    private ProductCategory createSubProductCategory(ProductCategory parentProductAggregation) {
+        ProductCategory productCategoryAggregation = createRootProductCategory();
         productCategoryAggregation.inherit(parentProductAggregation);
         return productCategoryAggregation;
     }
 
-    private List<ProductCategoryAggregation> mockAllList() {
-        List<ProductCategoryAggregation> allList = new ArrayList<>();
-        ProductCategoryAggregation root0 = createRootProductCategory();
-        ProductCategoryAggregation sub00 = createSubProductCategory(root0);
-        ProductCategoryAggregation sub01 = createSubProductCategory(root0);
-        ProductCategoryAggregation sub000 = createSubProductCategory(sub00);
-        ProductCategoryAggregation sub001 = createSubProductCategory(sub00);
+    private List<ProductCategory> mockAllList() {
+        List<ProductCategory> allList = new ArrayList<>();
+        ProductCategory root0 = createRootProductCategory();
+        ProductCategory sub00 = createSubProductCategory(root0);
+        ProductCategory sub01 = createSubProductCategory(root0);
+        ProductCategory sub000 = createSubProductCategory(sub00);
+        ProductCategory sub001 = createSubProductCategory(sub00);
 
-        ProductCategoryAggregation root1 = createRootProductCategory();
-        ProductCategoryAggregation sub10 = createSubProductCategory(root1);
-        ProductCategoryAggregation sub11 = createSubProductCategory(root1);
-        ProductCategoryAggregation sub100 = createSubProductCategory(sub10);
-        ProductCategoryAggregation sub101 = createSubProductCategory(sub10);
+        ProductCategory root1 = createRootProductCategory();
+        ProductCategory sub10 = createSubProductCategory(root1);
+        ProductCategory sub11 = createSubProductCategory(root1);
+        ProductCategory sub100 = createSubProductCategory(sub10);
+        ProductCategory sub101 = createSubProductCategory(sub10);
         allList.add(root0);
         allList.add(sub00);
         allList.add(sub01);

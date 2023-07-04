@@ -2,8 +2,7 @@ package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryAggregation;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryFactory;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
@@ -32,10 +31,8 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     private ProductMapper productMapper;
     @Autowired
     private RemoteIdGeneratorService remoteIdGeneratorService;
-    @Autowired
-    private ProductCategoryFactory productCategoryBuilderFactory;
 
-    public void saveList(List<ProductCategoryAggregation> all){
+    public void saveList(List<ProductCategory> all){
         List<ProductCategoryDO> list=new ArrayList<>();
         all.forEach(item->{
             ProductCategoryDO productCategoryDO = ProductCategoryConvert.convert2ProductCategoryDO(item);
@@ -50,14 +47,14 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
      * @return
      */
     @Override
-    public List<ProductCategoryAggregation> getFirstList(Locked locked, Layer layer, Parent parent) {
+    public List<ProductCategory> getFirstList(Locked locked, Layer layer, Parent parent) {
         QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
         wrapper.eq("IsLock", locked.getFlag());
         wrapper.eq("Layer", layer.getValue());
         wrapper.eq("ParentID", parent.getId());
         wrapper.eq("deleted", '0');
         wrapper.orderByAsc("SortID");
-        List<ProductCategoryAggregation> list = new ArrayList<>();
+        List<ProductCategory> list = new ArrayList<>();
         productCategoryMapper.selectList(wrapper).forEach(item -> {
             list.add(convert2ProductCategoryAggregation(item));
         });
@@ -70,7 +67,7 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     }
 
     @Override
-    public ProductCategoryAggregation findById(ProductCategoryId productCategoryId) {
+    public ProductCategory findById(ProductCategoryId productCategoryId) {
         LambdaQueryWrapperX<ProductCategoryDO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductCategoryDO::getId, productCategoryId.id());
         ProductCategoryDO productCategoryDO = this.productCategoryMapper.selectOne(wrapper);
@@ -78,10 +75,10 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     }
 
     @Override
-    public List<ProductCategoryAggregation> findAll() {
+    public List<ProductCategory> findAll() {
         LambdaQueryWrapperX<ProductCategoryDO> wrapper = new LambdaQueryWrapperX<>();
         List<ProductCategoryDO> list = this.productCategoryMapper.selectList(wrapper);
-        List<ProductCategoryAggregation> resultList=new ArrayList<>();
+        List<ProductCategory> resultList=new ArrayList<>();
         list.forEach(productCategoryDO->{
             resultList.add(convert2ProductCategoryAggregation(productCategoryDO));
         });
@@ -89,7 +86,7 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     }
 
     @Override
-    public void save(ProductCategoryAggregation productCategoryAggregation) {
+    public void save(ProductCategory productCategoryAggregation) {
         ProductCategoryDO productCategoryDO = ProductCategoryConvert.convert2ProductCategoryDO(productCategoryAggregation);
         this.productCategoryMapper.insert(productCategoryDO);
     }
@@ -99,20 +96,20 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
      * @param productCategoryDO
      * @return
      */
-    private ProductCategoryAggregation convert2ProductCategoryAggregation(ProductCategoryDO productCategoryDO ){
+    private ProductCategory convert2ProductCategoryAggregation(ProductCategoryDO productCategoryDO ){
         ProductCategoryId id = new ProductCategoryId(productCategoryDO.getId());
         TenantId tenantId = new TenantId(productCategoryDO.getTenantId());
         ChName name = new ChName(productCategoryDO.getName());
-        ProductCategoryFactory.ProductCategoryReBuilder rebuilder = productCategoryBuilderFactory.reBuilder(id, tenantId, name);
-        rebuilder.enName(new EnName(productCategoryDO.getEnglishName()));
-        rebuilder.icon(new Icon(productCategoryDO.getIcon()));
-        rebuilder.enabled(new Enabled(productCategoryDO.getEnabledFlag()));
-        rebuilder.page(new Page(productCategoryDO.getProductCategoryPageImage(), productCategoryDO.getProductListPageImage()));
-        rebuilder.sort(new Sort(productCategoryDO.getSortId()));
+        ProductCategory productCategory = new ProductCategory(id, tenantId, name);
+        productCategory.setEnName(new EnName(productCategoryDO.getEnglishName()));
+        productCategory.setIcon(new Icon(productCategoryDO.getIcon()));
+        productCategory.setEnabled(new Enabled(productCategoryDO.getEnabledFlag()));
+        productCategory.setPage(new Page(productCategoryDO.getProductCategoryPageImage(), productCategoryDO.getProductListPageImage()));
+        productCategory.setSort(new Sort(productCategoryDO.getSortId()));
         if(null!=productCategoryDO.getParentId()){
-            rebuilder.parentId(new ProductCategoryId(productCategoryDO.getParentId()));
+            productCategory.setParentId(new ProductCategoryId(productCategoryDO.getParentId()));
         }
-        return rebuilder.rebuild();
+        return productCategory;
     }
 
 }

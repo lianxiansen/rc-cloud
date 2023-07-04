@@ -22,5 +22,8 @@ public abstract class ValueObject extends AssertionConcern {
     }
 
 
-
+    @Override
+    public boolean equals(Object anObject) {
+        return this.equals(anObject);
+    }
 }
