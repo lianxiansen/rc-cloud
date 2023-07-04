@@ -25,7 +25,7 @@ spring:
       locator:
         enabled: true
       routes:
-        # 认证中心
+        # auth 模块
         - id: rc-ops-auth
           uri: lb://rc-ops-auth
           predicates:
@@ -35,7 +35,7 @@ spring:
             - ValidateCodeGatewayFilter
             # 前端密码解密
             - PasswordDecoderFilter
-        #UPMS 模块
+        # system 模块
         - id: rc-app-system-biz
           uri: lb://rc-app-system-biz
           predicates:
@@ -47,6 +47,11 @@ spring:
                 key-resolver: '#{@remoteAddrKeyResolver}'
                 redis-rate-limiter.replenishRate: 100
                 redis-rate-limiter.burstCapacity: 200
+        # 经销商 模块
+        - id: rc-app-mall-biz
+          uri: lb://rc-app-mall-biz
+          predicates:
+            - Path=/mall/**
         # 代码生成模块
 #        - id: rc-codegen
 #          uri: lb://rc-codegen

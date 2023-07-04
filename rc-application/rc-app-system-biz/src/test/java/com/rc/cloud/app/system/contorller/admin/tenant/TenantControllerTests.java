@@ -55,7 +55,7 @@ public class TenantControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser
     public void getIdByName_success() throws Exception {
         mvc.perform(get("/sys/tenant/get-id-by-name?name=柔川信息"))
                 .andDo(print())
@@ -66,7 +66,7 @@ public class TenantControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:tenant:create"})
     public void createTenant_success() throws Exception {
         TenantCreateReqVO tenantCreateReqVO = new TenantCreateReqVO();
         tenantCreateReqVO.setUsername("testuser123");
@@ -94,7 +94,7 @@ public class TenantControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:tenant:update"})
     public void updateTenant_success() throws Exception {
         TenantUpdateReqVO tenantUpdateReqVO = new TenantUpdateReqVO();
         tenantUpdateReqVO.setId(121L);
@@ -121,7 +121,7 @@ public class TenantControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:tenant:delete"})
     public void deleteTenantById_success() throws Exception {
         TenantCreateReqVO tenantCreateReqVO = new TenantCreateReqVO();
         tenantCreateReqVO.setUsername("testuser123");
@@ -146,7 +146,7 @@ public class TenantControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:tenant:query"})
     public void getTenantById_success() throws Exception {
         mvc.perform(get("/sys/tenant/get/" + 1))
                 .andDo(print())
@@ -157,7 +157,7 @@ public class TenantControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:tenant:query"})
     public void getTenantPage_success() throws Exception {
         mvc.perform(get("/sys/tenant/page"))
                 .andDo(print())

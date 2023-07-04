@@ -4,21 +4,19 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ReflectUtil;
 import com.rc.cloud.app.operate.ApplicationTest;
 import com.rc.cloud.app.operate.domain.common.DomainException;
+import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.model.productcategory.stub.ProductCategoryRepositoryStub;
+import com.rc.cloud.app.operate.domain.model.productcategory.stub.ProductRepositoryStub;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.domain.service.ProductCategoryDomainServce;
-import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductCategoryMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCategoryRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
-import com.rc.cloud.app.operate.stub.RemoteIdGeneratorServiceStub;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -36,31 +34,33 @@ import java.util.List;
  */
 
 /**
- * 1.新增一级产品类目
- * 2.新增子级产品类目
- * 3.修改上级类目时，（更新当前分类所有子类目层级）
- * 4.修改上级类目时，不可将自己指定为上级类目
+ *  1.新增一级产品类目
+ *  2.新增子级产品类目
+ *  3.修改上级类目时，（更新当前分类所有子类目层级）
+ *  4.修改上级类目时，不可将自己指定为上级类目
+ *  5.删除产品分类
+ *      5.1删除的产品分类
+ *      5.2删除的产品分类有产品关联该类目，阻止删除 TODO
+ *      5.3删除的产品分类有子类目，阻止删除失败 TODO
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ApplicationTest.class)
 @ActiveProfiles(value = "test")
 public class ProductCategoryTest {
-    @InjectMocks
-    private ProductCategoryRepositoryImpl productCategoryRepository = new ProductCategoryRepositoryImpl();
-    @Mock
-    private ProductCategoryMapper productCategoryMapper;
-    @Mock
-    private ProductMapper productMapper;
-
-    @InjectMocks
+    private ProductCategoryRepository productCategoryRepository;
+    private ProductRepository productRepository;
+    @Autowired
     private ProductCategoryDomainServce productCategoryDomainServce;
+
 
     private static final String imgUrl = "https://t7.baidu.com/it/u=3556773076,803642467&fm=3031&app=3031&size=f242,150&n=0&f=JPEG&fmt=auto?s=A51064321779538A505174D6020010B0&sec=1688490000&t=4ef579bd316ebdc454ab321a8676bbdf";
 
     @Before
     public void setUp() {
-        ReflectUtil.setFieldValue(productCategoryRepository, "remoteIdGeneratorService", new RemoteIdGeneratorServiceStub());
-        ReflectUtil.setFieldValue(productCategoryDomainServce, "productCategoryRepository", productCategoryRepository);
+        productCategoryRepository=new ProductCategoryRepositoryStub();
+        productRepository=new ProductRepositoryStub();
+        ReflectUtil.setFieldValue(productCategoryDomainServce, "productCategoryRepository",productCategoryRepository);
+        ReflectUtil.setFieldValue(productCategoryDomainServce, "productRepository",productRepository);
     }
 
     /**
@@ -110,13 +110,33 @@ public class ProductCategoryTest {
         List<ProductCategory> allList = mockAllList();
         //将sub00继承root0修改为root1
         int subIndex = 1;
-        int parentIndex = 1;
+        int parentIndex =subIndex;
         ProductCategory sub = allList.get(subIndex);
         ProductCategory newParent = allList.get(parentIndex);
         productCategoryDomainServce.reInherit(sub,newParent);
     }
+    @Test
+    public void removeProductCategory(){
+        List<ProductCategory> allList = mockAllList();
+        ProductCategory productCategory=allList.get(4);
+        productCategoryDomainServce.remove(productCategory);
+    }
 
+    @Test(expected = DomainException.class)
+    public void removeProductCategoryIfProductExists(){
+        List<ProductCategory> allList = mockAllList();
+        ProductCategory productCategory=allList.get(4);
+        productCategoryDomainServce.remove(productCategory);
+        setUp();
+    }
 
+    @Test(expected = DomainException.class)
+    public void removeProductCategoryIfSubProductCategoryExists(){
+        List<ProductCategory> allList = mockAllList();
+        ProductCategory productCategory=allList.get(1);
+        productCategoryDomainServce.remove(productCategory);
+        setUp();
+    }
 
     private ProductCategory createRootProductCategory() {
         ProductCategoryId id = productCategoryRepository.nextId();

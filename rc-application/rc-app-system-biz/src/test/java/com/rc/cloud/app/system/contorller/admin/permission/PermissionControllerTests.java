@@ -53,7 +53,7 @@ public class PermissionControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:permission:assign-role-menu"})
     public void listRoleResources_success() throws Exception {
         mvc.perform(get("/sys/permission/list-role-resources/1"))
                 .andDo(print())
@@ -65,7 +65,7 @@ public class PermissionControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:permission:assign-role-menu"})
     public void assignRoleMenu_success() throws Exception {
         PermissionAssignRoleMenuReqVO reqVO = new PermissionAssignRoleMenuReqVO();
         reqVO.setRoleId(101L);
@@ -89,7 +89,7 @@ public class PermissionControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:permission:assign-role-data-scope"})
     public void assignRoleDataScope_success() throws Exception {
         PermissionAssignRoleDataScopeReqVO reqVO = new PermissionAssignRoleDataScopeReqVO();
         reqVO.setRoleId(101L);
@@ -114,7 +114,7 @@ public class PermissionControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:permission:assign-user-role"})
     public void listUserRoles_success() throws Exception {
         mvc.perform(get("/sys/permission/list-user-roles/1"))
                 .andDo(print())
@@ -126,7 +126,7 @@ public class PermissionControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:permission:assign-user-role"})
     public void assignUserRole_success() throws Exception {
         PermissionAssignUserRoleReqVO reqVO = new PermissionAssignUserRoleReqVO();
         reqVO.setUserId(1L);

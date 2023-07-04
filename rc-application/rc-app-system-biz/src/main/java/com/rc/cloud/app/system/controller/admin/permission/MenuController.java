@@ -54,11 +54,11 @@ public class MenuController {
         return CodeResult.ok(true);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping()
     @Operation(summary = "删除菜单")
     @Parameter(name = "id", description = "角色编号", required= true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:menu:delete')")
-    public CodeResult<Boolean> deleteMenu(@PathVariable("id") Long id) {
+    public CodeResult<Boolean> deleteMenu(@RequestParam Long id) {
         menuService.deleteMenu(id);
         return CodeResult.ok(true);
     }

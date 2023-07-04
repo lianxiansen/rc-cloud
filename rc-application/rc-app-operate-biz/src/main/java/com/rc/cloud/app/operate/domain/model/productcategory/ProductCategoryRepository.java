@@ -21,5 +21,10 @@ public interface ProductCategoryRepository {
 
     List<ProductCategory> findAll();
 
-    void save(ProductCategory productCategoryAggregation);
+    void save(ProductCategory productCategory);
+    void remove(ProductCategory productCategory);
+
+    void removeById(ProductCategoryId productCategoryId);
+
+    boolean existsChild(ProductCategoryId productCategoryId);
 }

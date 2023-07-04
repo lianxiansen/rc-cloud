@@ -10,7 +10,7 @@ import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-//import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,14 +30,14 @@ public class TenantPackageController {
 
     @PostMapping("/create")
     @Operation(summary = "创建租户套餐")
-//    @PreAuthorize("@ss.hasPermission('system:tenant-package:create')")
+    @PreAuthorize("@pms.hasPermission('sys:tenant-package:create')")
     public CodeResult<Long> createTenantPackage(@Valid @RequestBody TenantPackageCreateReqVO createReqVO) {
         return CodeResult.ok(tenantPackageService.createTenantPackage(createReqVO));
     }
 
     @PutMapping("/update")
     @Operation(summary = "更新租户套餐")
-//    @PreAuthorize("@ss.hasPermission('system:tenant-package:update')")
+    @PreAuthorize("@pms.hasPermission('sys:tenant-package:update')")
     public CodeResult<Boolean> updateTenantPackage(@Valid @RequestBody TenantPackageUpdateReqVO updateReqVO) {
         tenantPackageService.updateTenantPackage(updateReqVO);
         return CodeResult.ok(true);
@@ -46,7 +46,7 @@ public class TenantPackageController {
     @DeleteMapping("/{id}")
     @Operation(summary = "删除租户套餐")
     @Parameter(name = "id", description = "编号", required = true)
-//    @PreAuthorize("@ss.hasPermission('system:tenant-package:delete')")
+    @PreAuthorize("@pms.hasPermission('sys:tenant-package:delete')")
     public CodeResult<Boolean> deleteTenantPackage(@PathVariable("id") Long id) {
         tenantPackageService.deleteTenantPackage(id);
         return CodeResult.ok(true);
@@ -55,7 +55,7 @@ public class TenantPackageController {
     @GetMapping("/get/{id}")
     @Operation(summary = "获得租户套餐")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
-//    @PreAuthorize("@ss.hasPermission('system:tenant-package:query')")
+    @PreAuthorize("@pms.hasPermission('sys:tenant-package:query')")
     public CodeResult<TenantPackageRespVO> getTenantPackage(@PathVariable("id") Long id) {
         SysTenantPackageDO tenantPackage = tenantPackageService.getTenantPackage(id);
         return CodeResult.ok(TenantPackageConvert.INSTANCE.convert(tenantPackage));
@@ -63,7 +63,7 @@ public class TenantPackageController {
 
     @GetMapping("/page")
     @Operation(summary = "获得租户套餐分页")
-//    @PreAuthorize("@ss.hasPermission('system:tenant-package:query')")
+    @PreAuthorize("@pms.hasPermission('sys:tenant-package:query')")
     public CodeResult<PageResult<TenantPackageRespVO>> getTenantPackagePage(@Valid TenantPackagePageReqVO pageVO) {
         PageResult<SysTenantPackageDO> pageResult = tenantPackageService.getTenantPackagePage(pageVO);
         return CodeResult.ok(TenantPackageConvert.INSTANCE.convertPage(pageResult));

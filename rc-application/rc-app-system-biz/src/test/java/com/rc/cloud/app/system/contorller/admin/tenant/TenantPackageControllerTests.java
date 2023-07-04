@@ -56,7 +56,7 @@ public class TenantPackageControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:tenant-package:create"})
     public void createTenantPackage_success() throws Exception {
         TenantPackageCreateReqVO createReqVO = new TenantPackageCreateReqVO();
         createReqVO.setName("test_tenant_name");
@@ -83,23 +83,21 @@ public class TenantPackageControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:tenant-package:update"})
     public void updateTenantPackage_success() throws Exception {
         TenantPackageUpdateReqVO updateReqVO = new TenantPackageUpdateReqVO();
-        updateReqVO.setId(2L);
+        updateReqVO.setId(111L);
         updateReqVO.setName("test_tenant_name");
         updateReqVO.setStatus(0);
         updateReqVO.setRemark("test_tenant_remark");
         Set<Long> menuIds = new HashSet<>();
-        menuIds.add(1L);
-        menuIds.add(2L);
-        menuIds.add(5L);
+        menuIds.add(2162L);
         updateReqVO.setMenuIds(menuIds);
 
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(updateReqVO);
-        mvc.perform(post("/sys/tenant-package/create")
+        mvc.perform(put("/sys/tenant-package/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -111,7 +109,7 @@ public class TenantPackageControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:tenant-package:delete"})
     public void deleteTenantPackageById_success() throws Exception {
         TenantPackageCreateReqVO createReqVO = new TenantPackageCreateReqVO();
         createReqVO.setName("test_tenant_name");
@@ -134,7 +132,7 @@ public class TenantPackageControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:tenant-package:query"})
     public void getTenantPackageById_success() throws Exception {
         mvc.perform(get("/sys/tenant-package/get/" + 111))
                 .andDo(print())
@@ -145,7 +143,7 @@ public class TenantPackageControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:tenant-package:query"})
     public void getTenantPackagePage_success() throws Exception {
         mvc.perform(get("/sys/tenant-package/page"))
                 .andDo(print())

@@ -48,7 +48,7 @@ public class PostControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:post:query"})
     public void getPostPage_success() throws Exception {
         mvc.perform(get("/sys/post/page"))
                 .andDo(print())
@@ -62,7 +62,7 @@ public class PostControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin")
     public void getPostListAllSimple_success() throws Exception {
         mvc.perform(get("/sys/post/list-all-simple"))
                 .andDo(print())
@@ -75,7 +75,7 @@ public class PostControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:post:query"})
     public void getPostByIdExist_then_success() throws Exception {
         mvc.perform(get("/sys/post/1"))
                 .andDo(print())
@@ -89,7 +89,7 @@ public class PostControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:post:query"})
     public void getPostByIdNotExist_then_throwNotFoundException() throws Exception {
         mvc.perform(get("/sys/post/9999999"))
                 .andDo(print())
@@ -100,7 +100,7 @@ public class PostControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:post:create"})
     public void createPost_success() throws Exception {
         PostCreateReqVO postCreateReqVO = new PostCreateReqVO();
         postCreateReqVO.setName("测试职位");
@@ -122,7 +122,7 @@ public class PostControllerTests {
     }
 
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:post:update"})
     public void updatePost_success() throws Exception {
         PostUpdateReqVO postUpdateReqVO = new PostUpdateReqVO();
         postUpdateReqVO.setId(2L);
@@ -146,10 +146,11 @@ public class PostControllerTests {
 
     // 根据ID删除
     @Test
-    @WithMockUser("admin")
+    @WithMockUser(username = "admin", authorities = {"sys:post:delete"})
     public void deletePostById_success() throws Exception {
-        mvc.perform(delete("/sys/post/" + 1)
+        mvc.perform(delete("/sys/post")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .content("[1]")
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

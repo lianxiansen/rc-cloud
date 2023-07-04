@@ -1,15 +1,16 @@
-package com.rc.cloud.app.operate.application.dto;
+package com.rc.cloud.app.operate.appearance.vo;
 
+import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import lombok.Data;
 
 /**
- * @ClassName: ProductCategoryDTO
+ * @ClassName: ProductCategoryUpdateRequest
  * @Author: liandy
- * @Date: 2023/6/28 15:00
+ * @Date: 2023/7/3 09:26
  * @Description: TODO
  */
 @Data
-public class ProductCategoryDTO {
+public class ProductCategoryVO {
     private String Id;
     private String tenantId;
 
@@ -28,4 +29,9 @@ public class ProductCategoryDTO {
     private Boolean enabledFlag;
 
     private Integer sortId;
+
+    public static ProductCategoryVO from(ProductCategoryBO productCategory){
+        return new ProductCategoryVO();
+    }
+
 }
