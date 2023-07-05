@@ -51,7 +51,7 @@ import static org.mockito.Mockito.when;
         ProductRepositoryImpl.class,
         ProductImageRepositoryImpl.class,
         ProductCategoryRefreshListener.class})
-public class ProductCategoryDomainServceTest extends BaseDbUnitTest {
+public class ProductCategoryDomainServiceTest extends BaseDbUnitTest {
 
     @Autowired
     private ProductCategoryDomainServce productCategoryDomainServce;
