@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.mapstruct.data;
+package com.rc.cloud.app.operate.exploratory.mapstruct.data;
 
 import lombok.Data;
 

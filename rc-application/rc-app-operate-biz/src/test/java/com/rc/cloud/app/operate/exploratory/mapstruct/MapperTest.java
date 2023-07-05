@@ -1,15 +1,13 @@
-package com.rc.cloud.app.operate.mapstruct;
+package com.rc.cloud.app.operate.exploratory.mapstruct;
 
-import com.rc.cloud.app.operate.ApplicationTest;
-import com.rc.cloud.app.operate.mapstruct.data.Source;
-import com.rc.cloud.app.operate.mapstruct.data.Target;
-import com.rc.cloud.app.operate.mapstruct.mapper.DeepMapper;
-import com.rc.cloud.app.operate.mapstruct.mapper.SimpleMapper;
+import com.rc.cloud.app.operate.exploratory.mapstruct.data.Source;
+import com.rc.cloud.app.operate.exploratory.mapstruct.data.Target;
+import com.rc.cloud.app.operate.exploratory.mapstruct.mapper.DeepMapper;
+import com.rc.cloud.app.operate.exploratory.mapstruct.mapper.SimpleMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.security.SecureRandom;
@@ -22,7 +20,7 @@ import java.security.SecureRandom;
  */
 @RunWith(SpringRunner.class)
 public class MapperTest {
-    private  Source source;
+    private Source source;
     @Before
     public void doBefore() {
         int randomInt = new SecureRandom().nextInt();
