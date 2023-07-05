@@ -2,8 +2,9 @@ package com.bowen.remote;
 
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.bowen.service.UidGenService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
 
 /**
  * create hqf@rc 2022-04-26
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RemoteIdGeneratorServiceImpl implements RemoteIdGeneratorService {
 
-    @Autowired
+    @Resource
     private UidGenService uidGenService;
 
     /**

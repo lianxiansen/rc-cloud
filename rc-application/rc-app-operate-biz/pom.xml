@@ -182,6 +182,12 @@
             <groupId>uk.co.jemos.podam</groupId> <!-- 单元测试，随机生成 POJO 类 -->
             <artifactId>podam</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-test</artifactId>
+            <version>1.0.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

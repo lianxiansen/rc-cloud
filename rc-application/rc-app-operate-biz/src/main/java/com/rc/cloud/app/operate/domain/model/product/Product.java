@@ -194,14 +194,14 @@ public class Product extends Entity {
         this.masterImage= new MasterImage(urls.get(0));
         int pos=1;
         productImages =new ArrayList<>();
-        for (String url : urls) {
-            ProductImageEntity entity=new ProductImageEntity(this.getId());
-            entity.setUrl(url)
-                    .setDefaultFlag(pos==1?true:false)
-                    .setSort(pos);
-            pos++;
-            productImages.add(entity);
-        }
+//        for (String url : urls) {
+//            ProductImageEntity entity=new ProductImageEntity(this.getId());
+//            entity.setUrl(url)
+//                    .setDefaultFlag(pos==1?true:false)
+//                    .setSort(pos);
+//            pos++;
+//            productImages.add(entity);
+//        }
         return this;
     }
 

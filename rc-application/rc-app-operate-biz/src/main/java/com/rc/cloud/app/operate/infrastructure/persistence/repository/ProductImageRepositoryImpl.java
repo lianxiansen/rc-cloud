@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * @Description: TODO
  */
 @Repository
-class ProductImageRepositoryImpl  implements ProductImageRepository {
+public class ProductImageRepositoryImpl  implements ProductImageRepository {
 
 }

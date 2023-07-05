@@ -12,6 +12,8 @@ import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.collection.ArrayUtils;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 

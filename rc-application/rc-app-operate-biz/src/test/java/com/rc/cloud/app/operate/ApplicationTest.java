@@ -1,9 +1,7 @@
 package com.rc.cloud.app.operate;
 
-import com.rc.cloud.common.feign.EnableRcFeignClients;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.boot.test.context.SpringBootTest;
 
 /**
  * 测试启动类
@@ -11,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author haoxin
  * @date 2021-04-25
  **/
-@SpringBootApplication
+@SpringBootTest
 public class ApplicationTest {
 
     public static void main(String[] args) {

@@ -1,6 +1,5 @@
 package com.rc.cloud.app.operate.domain.model.product.service;
 
-import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,8 @@ public class DisableProductDomainService {
     private ProductRepository productRepository;
 
     public void execute(ProductId productId) {
-        Product productEntry = productRepository.findById(productId);
-        productEntry.disable();
-        productRepository.saveProductEntry(productEntry);
+//        Product productEntry = productRepository.findById(productId);
+//        productEntry.disable();
+//        productRepository.saveProductEntry(productEntry);
     }
 }
