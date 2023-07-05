@@ -3,11 +3,13 @@ package com.rc.cloud.common.tenant.core.service;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.rc.cloud.app.system.api.tenant.TenantApi;
+import com.rc.cloud.app.system.api.tenant.feign.RemoteTenantService;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.cache.CacheUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
+import javax.annotation.Resource;
 import java.time.Duration;
 import java.util.List;
 
@@ -21,7 +23,9 @@ public class TenantFrameworkServiceImpl implements TenantFrameworkService {
 
     private static final ServiceException SERVICE_EXCEPTION_NULL = new ServiceException();
 
-    private final TenantApi tenantApi;
+//    private final TenantApi tenantApi;
+
+    private final RemoteTenantService remoteTenantService;
 
     /**
      * 针对 {@link #getTenantIds()} 的缓存
@@ -32,7 +36,7 @@ public class TenantFrameworkServiceImpl implements TenantFrameworkService {
 
                 @Override
                 public List<Long> load(Object key) {
-                    return tenantApi.getTenantIdList();
+                    return remoteTenantService.getTenantIdList().getData();
                 }
 
             });
@@ -47,7 +51,7 @@ public class TenantFrameworkServiceImpl implements TenantFrameworkService {
                 @Override
                 public ServiceException load(Long id) {
                     try {
-                        tenantApi.validateTenant(id);
+                        remoteTenantService.validateTenant(id);
                         return SERVICE_EXCEPTION_NULL;
                     } catch (ServiceException ex) {
                         return ex;

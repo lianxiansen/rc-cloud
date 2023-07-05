@@ -1,7 +1,7 @@
-package com.rc.cloud.app.operate.mapstruct.mapper;
+package com.rc.cloud.app.operate.exploratory.mapstruct.mapper;
 
-import com.rc.cloud.app.operate.mapstruct.data.Source;
-import com.rc.cloud.app.operate.mapstruct.data.Target;
+import com.rc.cloud.app.operate.exploratory.mapstruct.data.Source;
+import com.rc.cloud.app.operate.exploratory.mapstruct.data.Target;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

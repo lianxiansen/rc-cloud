@@ -30,7 +30,6 @@ spring:
     host: 127.0.0.1 # 地址
     port: 6379 # 端口
     database: 11 # 数据库索引 （单元测试，使用 11 号）
-    password: 6665508a # 密码，建议生产环境开启
   h2:
     console:
       enabled: true
