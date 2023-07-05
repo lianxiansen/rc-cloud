@@ -16,17 +16,11 @@ import com.rc.cloud.app.operate.domain.model.product.valobj.ImageSort;
 public class ProductImageEntity extends Entity {
 
     private ProductImageId id;
-    private ProductId productId;
+
     private String url;
     private int sort;
     private boolean defaultFlag;
 
-    public ProductImageEntity(ProductId productId){
-        this.productId=productId;
-    }
-    public ProductId getProductId() {
-        return productId;
-    }
 
     public String getUrl() {
         return url;

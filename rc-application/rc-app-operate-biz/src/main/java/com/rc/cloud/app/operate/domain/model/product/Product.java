@@ -3,14 +3,8 @@ package com.rc.cloud.app.operate.domain.model.product;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.common.DomainEventPublisher;
 import com.rc.cloud.app.operate.domain.common.Entity;
-
-import com.rc.cloud.app.operate.domain.model.product.event.ProductCreatedEvent;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Layer;
-import com.rc.cloud.app.operate.domain.model.product.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 import java.util.ArrayList;
 import java.util.List;

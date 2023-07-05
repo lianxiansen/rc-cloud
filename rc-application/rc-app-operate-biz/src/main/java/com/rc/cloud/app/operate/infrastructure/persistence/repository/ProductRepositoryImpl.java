@@ -10,6 +10,7 @@ import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductDictMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
@@ -124,7 +125,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         List<ProductImageEntity> urls=new ArrayList<>();
         for (ProductImageDO productImage : productImageDOList) {
 
-            ProductImageEntity productImageEntity=new ProductImageEntity(new ProductId(productImage.getProductId()));
+            ProductImageEntity productImageEntity=new ProductImageEntity();
             productImageEntity.setUrl(productImage.getUrl());
             productImageEntity.setSort(productImage.getSortId());
             productImageEntity.setDefaultFlag(productImage.getDefaultFlag());
