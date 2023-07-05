@@ -1,25 +1,12 @@
 package com.rc.cloud.app.operate.application.dto;
 
+import lombok.Data;
+
+@Data
 public class ProductImageSaveDTO {
 
     private String url;
 
-    private int sort;
+    private Integer sort;
 
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public int getSort() {
-        return sort;
-    }
-
-    public void setSort(int sort) {
-        this.sort = sort;
-    }
 }

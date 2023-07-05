@@ -43,8 +43,6 @@ public class ProductRepositoryImpl implements  ProductRepository {
     private ProductDictMapper productDictMapper;
 
     @Autowired
-    private RemoteIdGeneratorService remoteIdGeneratorService;
-    @Autowired
     private ProductImageRepositoryImpl productImageRepository;
     @Override
     public void saveProductEntry(Product productEntry) {
@@ -66,15 +64,6 @@ public class ProductRepositoryImpl implements  ProductRepository {
         LambdaQueryWrapperX<ProductDO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductDO::getId, productId.id());
         return this.productMapper.exists(wrapper);
-    }
-
-    @Override
-    public ProductId nextProductId(){
-        return new ProductId(remoteIdGeneratorService.uidGenerator());
-    }
-    @Override
-    public ProductImageId nextProductImageId(){
-        return new ProductImageId(remoteIdGeneratorService.uidGenerator());
     }
 
 

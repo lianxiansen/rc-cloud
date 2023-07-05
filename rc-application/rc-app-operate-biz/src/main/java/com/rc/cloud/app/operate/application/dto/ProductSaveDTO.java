@@ -65,10 +65,15 @@ import java.util.List;
 @Data
 public class ProductSaveDTO {
 
+    /**
+     * 传入ADD EDIT
+     */
+    private String action;
+
     private String id;
 
     //默认普通商品
-    private int productType;
+    private Integer productType;
 
     private String firstCategory;
 
@@ -104,31 +109,31 @@ public class ProductSaveDTO {
 
     private String popularizationAmountRate;
 
-    private int lowestBuy;
+    private Integer lowestBuy;
 
-    private int getIntegral;
+    private Integer getIntegral;
 
-    private boolean  newFlag;
+    private Boolean  newFlag;
 
-    private boolean  explosivesFlag;
+    private Boolean  explosivesFlag;
 
     private String explosivesImage;
 
-    private boolean  publicFlag;
+    private Boolean  publicFlag;
 
-    private boolean  recommendFlag;
+    private Boolean  recommendFlag;
 
     private String tenantId;
 
-    private int sort;
+    private Integer sort;
 
     private List<ProductAttributeSaveDTO> attributes;
 
     private List<ProductSkuSaveDTO> skus;
 
-    private int onShelfStatus;
+    private Integer onShelfStatus;
 
-    private boolean enabledFlag;
+    private Boolean enabledFlag;
 
 
     private String videoUrl;

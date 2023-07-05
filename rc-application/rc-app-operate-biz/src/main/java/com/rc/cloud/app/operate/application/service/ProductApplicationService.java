@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.application.service;
 
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.dto.*;
+import com.rc.cloud.app.operate.domain.common.OperateActionEnum;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.*;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
@@ -43,6 +44,7 @@ public class ProductApplicationService {
     @Autowired
     private TenantService tenantService;
 
+
     @Autowired
     private RemoteIdGeneratorService remoteIdGeneratorService;
 
@@ -59,7 +61,27 @@ public class ProductApplicationService {
     @Transactional(rollbackFor = Exception.class)
     public void saveOrUpdateProduct(ProductSaveDTO productSaveDTO) {
 
-        ProductId productId=new ProductId(productSaveDTO.getId());
+        //添加
+        if(OperateActionEnum.ADD.value.equals(productSaveDTO.getAction())){
+            long id = remoteIdGeneratorService.getUidByLocal().longValue();
+
+
+        }else if(OperateActionEnum.EDIT.value.equals(productSaveDTO.getAction())){
+            ProductId productId=new ProductId(productSaveDTO.getId());
+            //修改
+            boolean exist = productRepository.exist(new ProductId(productSaveDTO.getId()));
+            Product product= null;
+            if (!exist) {
+                throw new IllegalArgumentException("未找到当前商品");
+            } else {
+                product = productRepository.findById(productId);
+            }
+
+        }else{
+            throw new IllegalArgumentException("action 不能为空");
+        }
+
+
         TenantId tenantId = new TenantId(productSaveDTO.getTenantId() + "");
         Name name = new Name(productSaveDTO.getName());
         Remark remark = new Remark(productSaveDTO.getRemark());
@@ -89,18 +111,7 @@ public class ProductApplicationService {
             productImageEntity.setSort(item.getSort());
             productImages.add(productImageEntity);
         });
-        boolean exist = productRepository.exist(new ProductId(productSaveDTO.getId()));
-        Product product= null;
-        if (!exist) {
-            productId = productRepository.nextProductId();
-            validateTenantId(tenantId);
-            product=new Product(productId,tenantId,name);
 
-        } else {
-
-            product = productRepository.findById(productId);
-
-        }
 
 
         product.setRemark(remark);
@@ -187,6 +198,12 @@ public class ProductApplicationService {
         }
 
     }
+
+
+    public void addProduct(){
+
+    }
+
 
 
 }
