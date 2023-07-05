@@ -2,24 +2,24 @@ package com.rc.cloud.app.operate.application.dto;
 
 public class ProductImageSaveDTO {
 
-    private String image;
+    private String url;
 
-    private int sortId;
+    private int sort;
 
-    public String getImage() {
-        return image;
+
+    public String getUrl() {
+        return url;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public int getSortId() {
-        return sortId;
+    public int getSort() {
+        return sort;
     }
 
-    public void setSortId(int sortId) {
-        this.sortId = sortId;
+    public void setSort(int sort) {
+        this.sort = sort;
     }
-
 }

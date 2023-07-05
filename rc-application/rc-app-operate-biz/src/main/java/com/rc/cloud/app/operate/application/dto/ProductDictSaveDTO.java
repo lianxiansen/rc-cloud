@@ -7,7 +7,7 @@ public class ProductDictSaveDTO {
 
     private String value;
 
-    private Integer sortId;
+    private Integer sort;
 
 
     public String getKey() {
@@ -26,11 +26,11 @@ public class ProductDictSaveDTO {
         this.value = value;
     }
 
-    public Integer getSortId() {
-        return sortId;
+    public Integer getSort() {
+        return sort;
     }
 
-    public void setSortId(Integer sortId) {
-        this.sortId = sortId;
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

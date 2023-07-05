@@ -52,6 +52,10 @@ public class ProductApplicationService {
         }
     }
 
+    /**
+     *
+     * @param productSaveDTO
+     */
     @Transactional(rollbackFor = Exception.class)
     public void saveOrUpdateProduct(ProductSaveDTO productSaveDTO) {
 
@@ -81,8 +85,8 @@ public class ProductApplicationService {
         List<ProductImageEntity> productImages = new ArrayList<>();
         productSaveDTO.getAlbums().forEach(item -> {
             ProductImageEntity productImageEntity=new ProductImageEntity();
-            productImageEntity.setUrl(item.getImage());
-            productImageEntity.setSort(item.getSortId());
+            productImageEntity.setUrl(item.getUrl());
+            productImageEntity.setSort(item.getSort());
             productImages.add(productImageEntity);
         });
         boolean exist = productRepository.exist(new ProductId(productSaveDTO.getId()));
@@ -118,7 +122,7 @@ public class ProductApplicationService {
                 ProductDictEntity entity=new ProductDictEntity();
                 entity.setKey(dict.getKey());
                 entity.setValue(dict.getValue());
-                entity.setSortId(dict.getSortId());
+                entity.setSortId(dict.getSort());
                 productDictEntities.add(entity);
             }
         }
