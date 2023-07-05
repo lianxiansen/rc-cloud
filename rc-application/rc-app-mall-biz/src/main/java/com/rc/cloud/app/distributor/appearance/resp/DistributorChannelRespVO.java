@@ -17,4 +17,13 @@ public class DistributorChannelRespVO extends DistributorChannelBaseVO {
 
     @Schema(description = "创建时间")
     private LocalDateTime createTime;
+
+    @Schema(description = "修改时间")
+    private LocalDateTime updateTime;
+
+    @Schema(description = "创建人")
+    private String creator;
+
+    @Schema(description = "修改人")
+    private String updater;
 }

@@ -11,11 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @description TODO
  */
 @Configuration
-public class DistributorAutoConfig {
+public class DistributorAutoConfig{
 
     @Bean(value = "webPasswordEncoder")
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
 }
