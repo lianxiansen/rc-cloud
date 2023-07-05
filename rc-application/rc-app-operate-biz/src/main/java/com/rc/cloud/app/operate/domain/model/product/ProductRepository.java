@@ -27,9 +27,9 @@ public interface ProductRepository {
 
     ProductImageId nextProductImageId();
 
-    PageResult<ProductDO> getProductPageList(ProductListQueryDTO productListQueryDTO);
+    PageResult<Product> getProductPageList(ProductListQueryDTO productListQueryDTO);
 
-    List<ProductDictDO> getProductDictByProductId(ProductId productId);
+    List<ProductDictEntity> getProductDictByProductId(ProductId productId);
 
     List<ProductImageEntity> getProductImageByProductId(ProductId productId);
 
