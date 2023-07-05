@@ -3,14 +3,8 @@ package com.rc.cloud.app.operate.domain.model.product;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.common.DomainEventPublisher;
 import com.rc.cloud.app.operate.domain.common.Entity;
-
-import com.rc.cloud.app.operate.domain.model.product.event.ProductCreatedEvent;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Layer;
-import com.rc.cloud.app.operate.domain.model.product.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,15 +122,45 @@ public class Product extends Entity {
      */
     private Open open;
 
+    public void setNewest(Newest newest){
+        this.newest = newest;
+    }
+
+    public void setExplosives(Explosives explosives){
+        this.explosives = explosives;
+    }
+
+    public void setRecommend(Recommend recommend){
+        this.recommend = recommend;
+    }
+
+    public void setOpen(Open open){
+        this.open = open;
+    }
+
+
     /**
      * 上架状态 0-上架初始，1-上架中，2-下架中
      */
     private OnshelfStatus onshelfStatus;
 
+    public void setOnshelfStatus(OnshelfStatus onshelfStatus){
+
+        this.onshelfStatus = onshelfStatus;
+
+    }
+
+
+
     /**
      * 状态 1-正常状态，0-未启用
      */
     private Enable enable;
+
+    public void setEnable(Enable enable){
+        this.enable = enable;
+    }
+
 
     /**
      * 视频
@@ -148,7 +172,6 @@ public class Product extends Entity {
         this.video = video;
 
     }
-
 
 
     /**
@@ -188,6 +211,14 @@ public class Product extends Entity {
      * K-V
      */
     private List<ProductDictEntity> productDicts;
+
+    public Product setProductDict(List<ProductDictEntity> productDicts){
+        if(productDicts==null || productDicts.size()<= 0){
+            throw new IllegalArgumentException("productDicts must not be null");
+        }
+        this.productDicts=productDicts;
+        return this;
+    }
 
     /**
      * 商品code
@@ -292,21 +323,7 @@ public class Product extends Entity {
 
 
 
-    public void setNewest(Newest newest){
-        this.newest = newest;
-    }
 
-    public void setExplosives(Explosives explosives){
-        this.explosives = explosives;
-    }
-
-    public void setRecommend(Recommend recommend){
-        this.recommend = recommend;
-    }
-
-    public void setOpen(Open open){
-        this.open = open;
-    }
 
     /**
      * 上架
@@ -363,15 +380,4 @@ public class Product extends Entity {
 
 
 
-    public boolean isEnable(){
-        return this.enable.result();
-    }
-    public boolean isNotEnable(){
-        return !this.enable.result();
-    }
-
-
-    public void addProductImage(ProductImageEntity productImageEntry){
-        productImages.add(productImageEntry);
-    }
 }

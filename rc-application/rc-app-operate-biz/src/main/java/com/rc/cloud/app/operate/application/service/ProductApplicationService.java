@@ -1,8 +1,11 @@
 package com.rc.cloud.app.operate.application.service;
 
+import com.rc.cloud.app.operate.application.dto.ProductDictSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
+import com.rc.cloud.app.operate.domain.model.product.ProductDictEntity;
+import com.rc.cloud.app.operate.domain.model.product.ProductImageEntity;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
@@ -61,24 +64,21 @@ public class ProductApplicationService {
         Enable enable = new Enable(productSaveDTO.isEnabledFlag());
         Video video = new Video(productSaveDTO.getVideoUrl(),productSaveDTO.getVideoImg()
         ,productSaveDTO.getInstallVideoUrl(),productSaveDTO.getInstallVideoImg());
-        List<Image> productImages = new ArrayList<>();
+        //设置相册
+        List<ProductImageEntity> productImages = new ArrayList<>();
         productSaveDTO.getAlbums().forEach(item -> {
-            Image image = new Image(item.getImage());
-            productImages.add(image);
+            ProductImageEntity productImageEntity=new ProductImageEntity();
+            productImageEntity.setUrl(item.getImage());
+            productImageEntity.setSort(item.getSortId());
+            productImages.add(productImageEntity);
         });
-
-
         boolean exist = productRepository.exist(new ProductId(productSaveDTO.getId()));
         Product product= null;
         if (!exist) {
 
             ProductId productId = productRepository.nextProductId();
             validateTenantId(tenantId);
-           // product=new Product(productId,tenantId,name);
-//            return productEntry;
-
-
-         //   productRepository.saveProductEntry(productEntry);
+            product=new Product(productId,tenantId,name);
 
         } else {
 
@@ -86,6 +86,34 @@ public class ProductApplicationService {
 
         }
 
+
+        product.setRemark(remark);
+        product.setTag(tag);
+        product.setBrandId(brandId);
+        product.setCategory(firstCategory,secondCategory,thirdCategory);
+        product.setCustomClassification(customClassification);
+        product.setNewest(newest);
+        product.setExplosives(explosives);
+        product.setRecommend(recommend);
+        product.setOpen(open);
+        product.setOnshelfStatus(onshelfStatus);
+        product.setEnable(enable);
+        product.setVideo(video);
+
+        List<ProductDictEntity> productDictEntities = new ArrayList<>();
+        if(productSaveDTO.getDicts()!=null){
+            for (ProductDictSaveDTO dict : productSaveDTO.getDicts()) {
+                ProductDictEntity entity=new ProductDictEntity();
+                entity.setKey(dict.getKey());
+                entity.setValue(dict.getValue());
+                entity.setSortId(dict.getSortId());
+                productDictEntities.add(entity);
+            }
+        }
+        //设置字典
+        product.setProductDict(productDictEntities);
+        //保存
+        productRepository.saveProductEntry(product);
 
     }
 

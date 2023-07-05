@@ -4,11 +4,13 @@ import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
+import com.rc.cloud.app.operate.domain.model.product.ProductDictEntity;
 import com.rc.cloud.app.operate.domain.model.product.ProductImageEntity;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductDictMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
@@ -73,18 +75,43 @@ public class ProductRepositoryImpl implements  ProductRepository {
 
 
     @Override
-    public  PageResult<ProductDO> getProductPageList(ProductListQueryDTO productListQueryDTO){
-        return productMapper.selectPage(productListQueryDTO);
+    public  PageResult<Product> getProductPageList(ProductListQueryDTO productListQueryDTO){
+
+        PageResult<Product> productPageResult=new PageResult<>();
+
+        PageResult<ProductDO> productDOPageResult = productMapper.selectPage(productListQueryDTO);
+        productPageResult.setTotal(productDOPageResult.getTotal());
+        List<ProductDO> list = productDOPageResult.getList();
+        List<Product> productList=new ArrayList<>();
+        for (ProductDO productDO : list) {
+            Product product= convert2Product(productDO);
+            productList.add(product);
+        }
+        productPageResult.setList(productList);
+        return productPageResult;
     }
 
     @Override
-    public List<ProductDictDO> getProductDictByProductId(ProductId productId){
+    public List<ProductDictEntity> getProductDictByProductId(ProductId productId){
         LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductDictDO>();
         LambdaQueryWrapperX<ProductDictDO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductDictDO::getProductId, productId.id());
-        return this.productDictMapper.selectList(wrapper);
+        return convert2ProductDict(this.productDictMapper.selectList(wrapper));
     }
 
+    private List<ProductDictEntity> convert2ProductDict(List<ProductDictDO> productDictDOList){
+        List<ProductDictEntity> arr=new ArrayList<>();
+        for (ProductDictDO productDictDO : productDictDOList) {
+
+            ProductDictEntity productDictEntity=new ProductDictEntity();
+            productDictEntity.setKey(productDictDO.getKey());
+            productDictEntity.setValue(productDictDO.getValue());
+            productDictEntity.setSortId(productDictDO.getSortId());
+            arr.add(productDictEntity);
+        }
+        return arr;
+
+    }
 
     @Override
     public List<ProductImageEntity> getProductImageByProductId(ProductId productId){
@@ -98,7 +125,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         List<ProductImageEntity> urls=new ArrayList<>();
         for (ProductImageDO productImage : productImageDOList) {
 
-            ProductImageEntity productImageEntity=new ProductImageEntity(new ProductId(productImage.getProductId()));
+            ProductImageEntity productImageEntity=new ProductImageEntity();
             productImageEntity.setUrl(productImage.getUrl());
             productImageEntity.setSort(productImage.getSortId());
             productImageEntity.setDefaultFlag(productImage.getDefaultFlag());
@@ -116,7 +143,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         ProductId productId=new ProductId(productDO.getId());
         TenantId tenantId = new TenantId(productDO.getTenantId());
         Product product=new Product(productId,tenantId,new Name(productDO.getName()));
-
+        //设置相册
         List<ProductImageEntity> urls = getProductImageByProductId(productId);
         product.setProductImages(urls);
 
@@ -145,9 +172,18 @@ public class ProductRepositoryImpl implements  ProductRepository {
         product.setRemark(remark);
         product.setTag(tag);
         product.setBrandId(brandId);
+        product.setCategory(firstCategory,secondCategory,thirdCategory);
+        product.setCustomClassification(customClassification);
+        product.setNewest(newest);
+        product.setExplosives(explosives);
         product.setRecommend(recommend);
+        product.setOpen(open);
+        product.setOnshelfStatus(onshelfStatus);
+        product.setEnable(enable);
+        product.setVideo(video);
 
-
+        //设置字典
+        product.setProductDict(getProductDictByProductId(productId));
         return product;
     }
 
