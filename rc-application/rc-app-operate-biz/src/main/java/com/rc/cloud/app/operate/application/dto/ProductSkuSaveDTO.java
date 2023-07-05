@@ -1,12 +1,13 @@
 package com.rc.cloud.app.operate.application.dto;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class ProductSkuSaveDTO {
 
-
-
-    private int id;
+    private String id;
 
     private String skuCode;
 
@@ -14,65 +15,20 @@ public class ProductSkuSaveDTO {
 
     private String weight;
 
-    private boolean hasImageFlag;
+    private Boolean hasImageFlag;
+
+    private Boolean enabledFlag;
 
     private List<ProductSkuImageSaveDTO> albums;
 
+    /**
+     * "attributes":[{"name":"颜色","value":"红","sort":9},{"name":"尺寸","value":"X","sort":9}]
+     */
     private List<ProductSkuAttributeSaveDTO> attributes;
 
-    public int getId() {
-        return id;
-    }
+    private Integer inventory;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    private Integer sort;
 
-    public String getSkuCode() {
-        return skuCode;
-    }
 
-    public void setSkuCode(String skuCode) {
-        this.skuCode = skuCode;
-    }
-
-    public String getSupplyPrice() {
-        return supplyPrice;
-    }
-
-    public void setSupplyPrice(String supplyPrice) {
-        this.supplyPrice = supplyPrice;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
-
-    public boolean isHasImageFlag() {
-        return hasImageFlag;
-    }
-
-    public void setHasImageFlag(boolean hasImageFlag) {
-        this.hasImageFlag = hasImageFlag;
-    }
-
-    public List<ProductSkuAttributeSaveDTO> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(List<ProductSkuAttributeSaveDTO> attributes) {
-        this.attributes = attributes;
-    }
-
-    public List<ProductSkuImageSaveDTO> getAlbums() {
-        return albums;
-    }
-
-    public void setAlbums(List<ProductSkuImageSaveDTO> albums) {
-        this.albums = albums;
-    }
 }

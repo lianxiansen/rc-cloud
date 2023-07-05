@@ -2,10 +2,13 @@ package com.rc.cloud.common.tenant.config;
 
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+import com.rc.cloud.app.system.api.tenant.feign.RemoteTenantService;
 import com.rc.cloud.common.core.enums.WebFilterOrderEnum;
 import com.rc.cloud.common.mybatis.core.util.MyBatisUtils;
 import com.rc.cloud.common.tenant.core.aop.TenantIgnoreAspect;
 import com.rc.cloud.common.tenant.core.db.TenantDatabaseInterceptor;
+import com.rc.cloud.common.tenant.core.service.TenantFrameworkService;
+import com.rc.cloud.common.tenant.core.service.TenantFrameworkServiceImpl;
 import com.rc.cloud.common.tenant.core.web.TenantContextWebFilter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -13,18 +16,20 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.Resource;
+
 @Configuration
 @ConditionalOnProperty(prefix = "rc.tenant", value = "enable", matchIfMissing = true) // 允许使用 rc.tenant.enable=false 禁用多租户
 @EnableConfigurationProperties(TenantProperties.class)
 public class YudaoTenantAutoConfiguration {
 
-//    @Resource
-//    private TenantApi tenantApi;
+    @Resource
+    private RemoteTenantService remoteTenantService;
 
-//    @Bean
-//    public TenantFrameworkService tenantFrameworkService() {
-//        return new TenantFrameworkServiceImpl(tenantApi);
-//    }
+    @Bean
+    public TenantFrameworkService tenantFrameworkService() {
+        return new TenantFrameworkServiceImpl(remoteTenantService);
+    }
 
     // ========== AOP ==========
 

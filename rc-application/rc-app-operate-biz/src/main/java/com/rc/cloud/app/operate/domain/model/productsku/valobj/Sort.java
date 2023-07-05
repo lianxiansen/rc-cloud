@@ -10,8 +10,8 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  */
 public class Sort extends ValueObject {
     private int value;
-    public Sort(){
-        setValue(99);
+    public Sort(int value){
+        this.value= value;
     }
 
     public void setValue(int value){

@@ -35,7 +35,8 @@ public class ProductCategoryControllerTest {
     @Autowired
     private WebApplicationContext context;
 
-    private MockMvc mvc;
+    private
+    MockMvc mvc;
     @Autowired
     private ProductCategoryApplicationService productCategoryApplicationService;
 

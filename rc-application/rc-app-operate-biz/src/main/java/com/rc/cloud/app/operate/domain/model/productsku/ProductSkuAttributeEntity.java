@@ -17,11 +17,56 @@ package com.rc.cloud.app.operate.domain.model.productsku;
 //        --             ]
 
 
-public class ProductSkuAttributeEntity {
+import com.rc.cloud.app.operate.domain.model.product.ProductAttributeValueEntity;
+
+public class ProductSkuAttributeEntity  implements Comparable<ProductSkuAttributeEntity> {
 
     private String attribute;
 
     private String attributeValue;
 
-    private  Integer sortId;
+    private  Integer sort;
+
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public String getAttributeValue() {
+        return attributeValue;
+    }
+
+    public void setAttributeValue(String attributeValue) {
+        this.attributeValue = attributeValue;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getAttribute().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    @Override
+    public int compareTo(ProductSkuAttributeEntity o) {
+        if(o.sort<this.sort){
+            return 1;
+        }else{
+            return -1;
+        }
+    }
 }

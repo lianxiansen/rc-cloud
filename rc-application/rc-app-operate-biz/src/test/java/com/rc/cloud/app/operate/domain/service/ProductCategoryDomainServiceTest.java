@@ -13,16 +13,20 @@ import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductIma
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
-import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
+import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
 
@@ -41,17 +45,19 @@ import static org.mockito.Mockito.when;
  * 3.修改上级类目时，（更新当前分类所有子类目层级）
  * 4.修改上级类目时，不可将自己指定为上级类目
  * 5.删除产品分类
- * 5.1删除的产品分类
- * 5.2删除的产品分类有产品关联该类目，阻止删除 TODO
- * 5.3删除的产品分类有子类目，阻止删除失败 TODO
+     * 5.1删除的产品分类
+     * 5.2删除的产品分类有产品关联该类目，阻止删除 TODO
+     * 5.3删除的产品分类有子类目，阻止删除失败 TODO
  */
+
+@ExtendWith({SpringExtension.class})
 @Import({ProductCategoryDomainServce.class,
         ProductCategoryRepositoryImpl.class,
         ProductCategoryDomainServce.class,
         ProductRepositoryImpl.class,
         ProductImageRepositoryImpl.class,
         ProductCategoryRefreshListener.class})
-public class ProductCategoryDomainServiceTest extends BaseDbUnitTest {
+public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
 
     @Autowired
     private ProductCategoryDomainServce productCategoryDomainServce;
@@ -63,6 +69,14 @@ public class ProductCategoryDomainServiceTest extends BaseDbUnitTest {
     private ProductRepository productRepositoryMock;
     @MockBean
     private ProductCategoryRepository productCategoryRepositoryMock;
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Test
+    void contextLoads() {
+        System.out.println(applicationContext.getBeanDefinitionCount());
+        Stream.of(applicationContext.getBeanDefinitionNames()).forEach(System.out::println);
+    }
 
     /**
      * 创建根产品类目
@@ -70,7 +84,7 @@ public class ProductCategoryDomainServiceTest extends BaseDbUnitTest {
     @Test
     public void createRootProductCategoryTest() {
         ProductCategory root = createRootProductCategory();
-        Assertions.assertTrue(root.getLayer().getValue() == 1 && !ObjectUtils.isNull(root),"创建根级产品分类失败");
+        Assertions.assertTrue(root.getLayer().getValue() == 1 && !ObjectUtils.isNull(root), "创建根级产品分类失败");
     }
 
     /**
@@ -80,8 +94,7 @@ public class ProductCategoryDomainServiceTest extends BaseDbUnitTest {
     public void createSubProductCategoryTest() {
         ProductCategory root = createRootProductCategory();
         ProductCategory sub = createSubProductCategory(root);
-        Assertions.assertTrue((sub.getLayer().getValue() == root.getLayer().getValue() + 1)
-                && root.getId().equals(sub.getParentId()),"创建子产品分类失败");
+        Assertions.assertTrue((sub.getLayer().getValue() == root.getLayer().getValue() + 1) && root.getId().equals(sub.getParentId()), "创建子产品分类失败");
     }
 
 
@@ -98,7 +111,7 @@ public class ProductCategoryDomainServiceTest extends BaseDbUnitTest {
         ProductCategory newParent = allList.get(parentIndex);
         when(productCategoryRepositoryMock.findAll()).thenReturn(allList);
         productCategoryDomainServce.reInherit(sub, newParent);
-        Assertions.assertEquals(sub.getParentId(),newParent.getId(),"父级分类的id错误");
+        Assertions.assertEquals(sub.getParentId(), newParent.getId(), "父级分类的id错误");
         Assertions.assertEquals(sub.getLayer(), newParent.getLayer().addLayer(new Layer(1)), "分类层级错误");
         List<ProductCategory> subList = productCategoryDomainServce.findSubList(allList, sub);
         subList.forEach(item -> {
@@ -126,7 +139,7 @@ public class ProductCategoryDomainServiceTest extends BaseDbUnitTest {
         List<ProductCategory> allList = mockAllList();
         ProductCategory productCategory = allList.get(4);
         when(productCategoryRepositoryMock.remove(productCategory)).thenReturn(true);
-        Assertions.assertTrue(productCategoryDomainServce.remove(productCategory),"删除产品分类失败");
+        Assertions.assertTrue(productCategoryDomainServce.remove(productCategory), "删除产品分类失败");
     }
 
     @Test

@@ -91,7 +91,6 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         productSku.setInventory(new Inventory(productSkuDO.getInventory()));
         productSku.setHasImageFlag(productSkuDO.getHasImageFlag());
         productSku.setLimitBuy(new LimitBuy(productSkuDO.getLimitBuy()));
-        productSku.setSkuCode(productSkuDO.getSkuCode());
         productSku.setOutId(new OutId(productSkuDO.getOutId()));
         productSku.setSupplyPrice(new SupplyPrice(productSkuDO.getSupplyPrice()));
         productSku.setWeight(new Weight(productSkuDO.getWeight()));
