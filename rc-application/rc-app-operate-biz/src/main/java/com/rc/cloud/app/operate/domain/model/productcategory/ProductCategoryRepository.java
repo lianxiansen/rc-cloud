@@ -21,10 +21,10 @@ public interface ProductCategoryRepository {
 
     List<ProductCategory> findAll();
 
-    void save(ProductCategory productCategory);
-    void remove(ProductCategory productCategory);
+    boolean save(ProductCategory productCategory);
+    boolean remove(ProductCategory productCategory);
 
-    void removeById(ProductCategoryId productCategoryId);
+    boolean removeById(ProductCategoryId productCategoryId);
 
     boolean existsChild(ProductCategoryId productCategoryId);
 }

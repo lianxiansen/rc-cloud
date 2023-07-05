@@ -12,9 +12,9 @@ import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductCategor
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +25,11 @@ import java.util.List;
  */
 @Repository
 public class ProductCategoryRepositoryImpl implements ProductCategoryRepository {
-    @Autowired
+    @Resource
     private ProductCategoryMapper productCategoryMapper;
-    @Autowired
+    @Resource
     private ProductMapper productMapper;
-    @Autowired
+    @Resource
     private RemoteIdGeneratorService remoteIdGeneratorService;
 
 
@@ -79,19 +79,25 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     }
 
     @Override
-    public void save(ProductCategory productCategory) {
+    public boolean save(ProductCategory productCategory) {
         ProductCategoryDO productCategoryDO = ProductCategoryConvert.convert2ProductCategoryDO(productCategory);
-        this.productCategoryMapper.insert(productCategoryDO);
+        if(this.productCategoryMapper.insert(productCategoryDO)>0){
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void remove(ProductCategory productCategory) {
-        removeById(productCategory.getId());
+    public boolean remove(ProductCategory productCategory) {
+        return removeById(productCategory.getId());
     }
 
     @Override
-    public void removeById(ProductCategoryId productCategoryId) {
-        this.productCategoryMapper.deleteById(productCategoryId.id());
+    public boolean removeById(ProductCategoryId productCategoryId) {
+        if(this.productCategoryMapper.deleteById(productCategoryId.id())>0){
+            return true;
+        }
+        return false;
     }
 
     @Override

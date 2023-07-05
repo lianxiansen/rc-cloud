@@ -3,6 +3,7 @@ package com.rc.cloud.app.operate.domain.model.productsku;
 import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 public class ProductSku extends Entity {
 

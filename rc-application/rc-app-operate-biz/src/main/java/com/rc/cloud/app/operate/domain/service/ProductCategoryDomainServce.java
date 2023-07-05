@@ -7,9 +7,9 @@ import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepo
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,13 +21,13 @@ import java.util.List;
  */
 @Service
 public class ProductCategoryDomainServce {
-    @Autowired
+    @Resource
     private ProductCategoryRepository productCategoryRepository;
 
-    @Autowired
+    @Resource
     private ProductRepository productRepository;
 
-    public ProductCategory createProductCategory(ProductCategory productCategory) {
+    public void initialize(ProductCategory productCategory) {
         ProductCategory parentCategory = null;
         if (null != productCategory.getParentId()) {
             parentCategory = productCategoryRepository.findById(productCategory.getParentId());
@@ -36,7 +36,6 @@ public class ProductCategoryDomainServce {
             }
         }
         productCategory.inherit(parentCategory);
-        return productCategory;
     }
 
 
@@ -46,14 +45,14 @@ public class ProductCategoryDomainServce {
         reInheritCascade(allList, sub);
     }
 
-    public void remove(ProductCategory productCategory){
+    public boolean remove(ProductCategory productCategory){
         if(productRepository.existsByProductCategoryId(productCategory.getId())){
             throw new DomainException("已关联产品,删除失败");
         }
         if(productCategoryRepository.existsChild(productCategory.getId())){
             throw new DomainException("已关联子分类，删除失败");
         }
-        productCategoryRepository.remove(productCategory);
+        return productCategoryRepository.remove(productCategory);
     }
 
     private void reInheritCascade(List<ProductCategory> allList, ProductCategory parent) {

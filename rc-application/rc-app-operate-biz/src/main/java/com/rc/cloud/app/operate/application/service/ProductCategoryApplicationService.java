@@ -11,10 +11,10 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.domain.service.ProductCategoryDomainServce;
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +28,11 @@ import static com.rc.cloud.common.core.util.AssertUtils.notNull;
  */
 @Service
 public class ProductCategoryApplicationService {
-    @Autowired
+    @Resource
     private ProductCategoryRepository productCategoryRepository;
 
 
-    @Autowired
+    @Resource
     private ProductCategoryDomainServce productCategoryDomainServce;
 
     public void createProductCategory(ProductCategoryCreateDTO productCategoryDTO) {
@@ -48,7 +48,7 @@ public class ProductCategoryApplicationService {
         if (null != productCategoryDTO.getParentId()) {
             productCategory.setParentId(new ProductCategoryId(productCategoryDTO.getParentId()));
         }
-        productCategoryDomainServce.createProductCategory(productCategory);
+        productCategoryDomainServce.initialize(productCategory);
     }
 
 
