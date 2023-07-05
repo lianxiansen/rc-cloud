@@ -35,8 +35,8 @@ public class RcUserDetailsServiceImpl implements RcUserDetailsService {
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String username) {
 		String userDetailsKey = CacheConstants.USER_DETAILS + ":" + username;
+		redisTemplate.setValueSerializer(RedisSerializer.java());
 		RcUser rcUser = (RcUser)redisTemplate.opsForValue().get(userDetailsKey);
-
 		if (rcUser != null && rcUser.getUsername() != null) {
 			return rcUser;
 		}
