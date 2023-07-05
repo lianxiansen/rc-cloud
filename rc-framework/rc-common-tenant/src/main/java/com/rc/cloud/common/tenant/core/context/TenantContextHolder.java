@@ -2,7 +2,6 @@ package com.rc.cloud.common.tenant.core.context;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 
-import static com.rc.cloud.app.system.enums.ErrorCodeConstants.TENANT_NOT_EXISTS;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
 /**
@@ -39,7 +38,7 @@ public class TenantContextHolder {
     public static Long getRequiredTenantId() {
         Long tenantId = getTenantId();
         if (tenantId == null) {
-            throw exception(TENANT_NOT_EXISTS);
+            throw exception(1002015000, "租户编号不存在");
         }
         return tenantId;
     }
