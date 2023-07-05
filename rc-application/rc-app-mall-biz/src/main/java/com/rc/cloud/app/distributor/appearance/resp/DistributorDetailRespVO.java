@@ -1,6 +1,9 @@
 package com.rc.cloud.app.distributor.appearance.resp;
 
 import com.rc.cloud.app.distributor.appearance.vo.DistributorDetailBaseVO;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.time.LocalDateTime;
 
 /**
  * @author WJF
@@ -9,4 +12,5 @@ import com.rc.cloud.app.distributor.appearance.vo.DistributorDetailBaseVO;
  */
 
 public class DistributorDetailRespVO extends DistributorDetailBaseVO {
+
 }
