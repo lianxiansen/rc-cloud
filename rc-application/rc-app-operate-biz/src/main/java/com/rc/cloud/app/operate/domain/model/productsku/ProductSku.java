@@ -2,39 +2,124 @@ package com.rc.cloud.app.operate.domain.model.productsku;
 
 import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Enabled;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class ProductSku extends Entity {
 
 
     private ProductSkuId id;
-
     private TenantId tenantId;
-
     private ProductId productId;
+    private Price price;
+
+    public ProductSku(ProductSkuId id, ProductId productId,
+                      TenantId tenantId, Price price) {
+        init();
+        setId(id);
+        setTenantId(tenantId);
+        setPrice(price);
+    }
+
 
     /**
      * sku货号，可以为空，为空商品的货号做为它的货号
      */
     private String skuCode;
 
+
+    public ProductSku skuCode(String skuCode){
+        this.assertArgumentNotNull(skuCode, "skuCode must not be null");
+        this.skuCode =skuCode;
+        return this;
+    }
+
+
+    public String getSkuCode(){
+        return this.skuCode;
+    }
+
+    /**
+     * 供货价
+     */
     private SupplyPrice supplyPrice;
 
+    public ProductSku supplyPrice(SupplyPrice supplyPrice){
+        this.assertArgumentNotNull(supplyPrice, "supplyPrice must not be null");
+        this.supplyPrice =supplyPrice;
+        return this;
+    }
+
+
+    /**
+     * 重量
+     */
     private Weight weight;
 
+    public ProductSku weight(Weight weight){
+        this.assertArgumentNotNull(weight, "weight must not be null");
+        this.weight =weight;
+        return this;
+    }
+
+    /**
+     * 外部id
+     */
     private OutId outId;
 
-    private boolean hasImageFlag;
+    public ProductSku outId(OutId outId){
+        this.assertArgumentNotNull(outId, "outId must not be null");
+        this.outId =outId;
+        return this;
+    }
 
+    /**
+     * 图片
+     */
+    private boolean hasImageFlag;
+    private List<ProductSkuImageEntity> skuImageList;
+
+    public ProductSku skuImageList(List<ProductSkuImageEntity> skuImageList){
+        this.assertArgumentNotNull(hasImageFlag, "hasImageFlag must not be null");
+        if(skuImageList!=null && skuImageList.size()>0){
+            this.hasImageFlag =true;
+            skuImageList =skuImageList;
+        }
+        return this;
+    }
+
+    /**
+     * 限购
+     */
     private LimitBuy limitBuy;
 
-    private Price price;
+    public ProductSku limitBuy(LimitBuy limitBuy){
+        this.assertArgumentNotNull(limitBuy, "limitBuy must not be null");
+        this.limitBuy =limitBuy;
+        return this;
+    }
 
+    /**
+     * 库存
+     */
     private Inventory inventory;
 
-    private SeckillSku seckillSku;
+    public ProductSku inventory(Inventory inventory){
+        this.assertArgumentNotNull(inventory, "inventory must not be null");
+        this.inventory =inventory;
+        return this;
+    }
 
+    /**
+     * 暂时不考虑
+     */
+    private SeckillSku seckillSku;
 
 
     /**
@@ -42,13 +127,17 @@ public class ProductSku extends Entity {
      */
     private Sort sort;
 
+    public ProductSku sort(Sort sort){
+        this.assertArgumentNotNull(sort, "sort must not be null");
+        this.sort =sort;
+        return this;
+    }
 
-    public ProductSku(ProductSkuId id, ProductId productId,
-               TenantId tenantId, Price price) {
-        init();
-        setId(id);
-        setTenantId(tenantId);
-        setPrice(price);
+    private boolean enabledFlag;
+    public ProductSku enabledFlag(boolean enabledFlag){
+        this.assertArgumentNotNull(enabledFlag, "enabledFlag must not be null");
+        this.enabledFlag =enabledFlag;
+        return this;
     }
 
 
@@ -77,9 +166,11 @@ public class ProductSku extends Entity {
     }
 
     private void init(){
-        sort=new Sort();
+        sort=new Sort(99);
         setSort(sort);
         inventory =new Inventory(0);
+        hasImageFlag=false;
+        skuAttributes=new TreeSet<>();
     }
 
     public void setSort(Sort sort){
@@ -91,13 +182,6 @@ public class ProductSku extends Entity {
         return this.sort;
     }
 
-    public String getSkuCode() {
-        return skuCode;
-    }
-
-    public void setSkuCode(String skuCode) {
-        this.skuCode = skuCode;
-    }
 
     public SupplyPrice getSupplyPrice() {
         return supplyPrice;
@@ -165,5 +249,15 @@ public class ProductSku extends Entity {
 
     public void setProductId(ProductId productId) {
         this.productId = productId;
+    }
+
+    private SortedSet<ProductSkuAttributeEntity> skuAttributes;
+
+    public void addSkuAttribute(String name, String value, int sort){
+        ProductSkuAttributeEntity productSkuAttributeEntity=new ProductSkuAttributeEntity();
+        productSkuAttributeEntity.setAttribute(name);
+        productSkuAttributeEntity.setAttributeValue(value);
+        productSkuAttributeEntity.setSort(sort);
+        skuAttributes.add(productSkuAttributeEntity);
     }
 }

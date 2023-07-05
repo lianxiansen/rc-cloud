@@ -7,7 +7,7 @@ public class ProductSkuAttributeSaveDTO {
 
     private String value;
 
-    private int sortId;
+    private int sort;
 
 
     public String getName() {
@@ -26,11 +26,11 @@ public class ProductSkuAttributeSaveDTO {
         this.value = value;
     }
 
-    public int getSortId() {
-        return sortId;
+    public int getSort() {
+        return sort;
     }
 
-    public void setSortId(int sortId) {
-        this.sortId = sortId;
+    public void setSort(int sort) {
+        this.sort = sort;
     }
 }

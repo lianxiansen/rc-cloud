@@ -4,9 +4,15 @@ import java.util.List;
 
 public class ProductSkuSaveDTO {
 
+    private String id;
 
+    public String getId() {
+        return id;
+    }
 
-    private int id;
+    public void setId(String id) {
+        this.id = id;
+    }
 
     private String skuCode;
 
@@ -16,16 +22,41 @@ public class ProductSkuSaveDTO {
 
     private boolean hasImageFlag;
 
+    private boolean enabledFlag;
+
     private List<ProductSkuImageSaveDTO> albums;
 
+    /**
+     * "attributes":[{"name":"颜色","value":"红","sort":9},{"name":"尺寸","value":"X","sort":9}]
+     */
     private List<ProductSkuAttributeSaveDTO> attributes;
 
-    public int getId() {
-        return id;
+    private int inventory;
+
+    private int sort;
+
+    public boolean isEnabledFlag() {
+        return enabledFlag;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setEnabledFlag(boolean enabledFlag) {
+        this.enabledFlag = enabledFlag;
+    }
+
+    public int getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(int inventory) {
+        this.inventory = inventory;
+    }
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
     }
 
     public String getSkuCode() {
@@ -60,19 +91,19 @@ public class ProductSkuSaveDTO {
         this.hasImageFlag = hasImageFlag;
     }
 
-    public List<ProductSkuAttributeSaveDTO> getAttributes() {
-        return attributes;
-    }
-
-    public void setAttributes(List<ProductSkuAttributeSaveDTO> attributes) {
-        this.attributes = attributes;
-    }
-
     public List<ProductSkuImageSaveDTO> getAlbums() {
         return albums;
     }
 
     public void setAlbums(List<ProductSkuImageSaveDTO> albums) {
         this.albums = albums;
+    }
+
+    public List<ProductSkuAttributeSaveDTO> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<ProductSkuAttributeSaveDTO> attributes) {
+        this.attributes = attributes;
     }
 }

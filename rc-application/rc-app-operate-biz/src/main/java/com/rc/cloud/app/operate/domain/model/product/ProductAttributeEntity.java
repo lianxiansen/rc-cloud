@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  *
@@ -13,15 +14,13 @@ public class ProductAttributeEntity  implements Comparable<ProductAttributeEntit
 
     private  Integer sortId;
 
-    public ProductAttributeEntity(String attribute, SortedSet<ProductAttributeValueEntity> values, Integer sortId) {
-        this.attribute = attribute;
-        this.values = values;
-        this.sortId = sortId;
+    public ProductAttributeEntity(){
+        this.values=new TreeSet<>();
+
     }
 
-    public ProductAttributeEntity(String attribute, Integer sortId) {
-        this.attribute = attribute;
-        this.sortId = sortId;
+    public void addValue(ProductAttributeValueEntity productAttributeValueEntity){
+        this.values.add(productAttributeValueEntity);
     }
 
     public String getAttribute() {
@@ -51,7 +50,7 @@ public class ProductAttributeEntity  implements Comparable<ProductAttributeEntit
 
     @Override
     public int hashCode() {
-        return this.getSortId();
+        return this.getAttribute().hashCode();
     }
 
 

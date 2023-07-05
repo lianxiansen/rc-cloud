@@ -35,7 +35,7 @@ public class ProductAttributeValueEntity implements Comparable<ProductAttributeV
 
     @Override
     public int hashCode() {
-        return this.getSortId();
+        return this.getAttributeValue().hashCode();
     }
 
     @Override

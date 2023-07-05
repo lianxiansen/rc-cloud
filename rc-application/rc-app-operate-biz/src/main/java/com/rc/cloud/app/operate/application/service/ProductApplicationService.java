@@ -1,20 +1,27 @@
 package com.rc.cloud.app.operate.application.service;
 
-import com.rc.cloud.app.operate.application.dto.ProductDictSaveDTO;
-import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
+import com.bowen.idgenerator.service.RemoteIdGeneratorService;
+import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
-import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductDictEntity;
-import com.rc.cloud.app.operate.domain.model.product.ProductImageEntity;
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
+import com.rc.cloud.app.operate.domain.model.product.*;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImageEntity;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.Inventory;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.Price;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.Sort;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.SupplyPrice;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.Weight;
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +37,14 @@ public class ProductApplicationService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ProductSkuRepository productSkuRepository;
 
     @Autowired
     private TenantService tenantService;
+
+    @Autowired
+    private RemoteIdGeneratorService remoteIdGeneratorService;
 
     private void validateTenantId(TenantId tenantId){
         if(!tenantService.exists(tenantId)){
@@ -43,6 +55,7 @@ public class ProductApplicationService {
     @Transactional(rollbackFor = Exception.class)
     public void saveOrUpdateProduct(ProductSaveDTO productSaveDTO) {
 
+        ProductId productId=new ProductId(productSaveDTO.getId());
         TenantId tenantId = new TenantId(productSaveDTO.getTenantId() + "");
         Name name = new Name(productSaveDTO.getName());
         Remark remark = new Remark(productSaveDTO.getRemark());
@@ -75,14 +88,13 @@ public class ProductApplicationService {
         boolean exist = productRepository.exist(new ProductId(productSaveDTO.getId()));
         Product product= null;
         if (!exist) {
-
-            ProductId productId = productRepository.nextProductId();
+            productId = productRepository.nextProductId();
             validateTenantId(tenantId);
             product=new Product(productId,tenantId,name);
 
         } else {
 
-            product = productRepository.findById(new ProductId(productSaveDTO.getId()));
+            product = productRepository.findById(productId);
 
         }
 
@@ -112,8 +124,63 @@ public class ProductApplicationService {
         }
         //设置字典
         product.setProductDict(productDictEntities);
-        //保存
+
+        //设置属性
+        /**
+         * "attributes":[
+         *     {"name":"颜色","value":"红","sort":9},
+         *     {"name":"颜色","value":"黄","sort":9},
+         *     {"name":"颜色","value":"蓝","sort":9},
+         *     {"name":"尺寸","value":"X","sort":9},
+         *     {"name":"尺寸","value":"XL","sort":9}
+         * ]
+         */
+        for (ProductAttributeSaveDTO attribute : productSaveDTO.getAttributes()) {
+            product.addAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
+        }
+        //保存spu
         productRepository.saveProductEntry(product);
+        //保存sku
+        List<ProductSkuSaveDTO> skus = productSaveDTO.getSkus();
+
+        for (ProductSkuSaveDTO productSkuSaveDTO : skus) {
+            boolean exist2 = productSkuRepository.exist(new ProductSkuId(productSkuSaveDTO.getId()));
+            ProductSku productSku=null;
+            if (!exist2) {
+                long id= remoteIdGeneratorService.getUidByLocal().longValue();
+                productSku=new ProductSku(new ProductSkuId(String.valueOf(id)),productId,tenantId,new Price(BigDecimal.ZERO));
+            } else {
+                productSku = productSkuRepository.findById(new ProductSkuId(productSkuSaveDTO.getId()));
+            }
+            productSku.enabledFlag(productSkuSaveDTO.isEnabledFlag())
+                    .inventory(new Inventory(productSkuSaveDTO.getInventory()))
+                    .sort(new Sort(productSkuSaveDTO.getSort()))
+                    .weight(new Weight(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getWeight()))))
+                    .setSupplyPrice(new SupplyPrice(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getSupplyPrice())))
+
+                    );
+            //sku图片
+            List<ProductSkuImageEntity> productSkuImageEntityList=new ArrayList<>();
+            int pos=1;
+            for (ProductSkuImageSaveDTO album : productSkuSaveDTO.getAlbums()) {
+                ProductSkuImageEntity productSkuImageEntity=new ProductSkuImageEntity();
+                productSkuImageEntity.setSort(album.getSort());
+                productSkuImageEntity.setUrl(album.getUrl());
+                productSkuImageEntity.setDefaultFlag(pos==1?true:false);
+                pos++;
+                productSkuImageEntityList.add(productSkuImageEntity);
+            }
+            productSku.skuImageList(productSkuImageEntityList);
+
+            //设置sku 属性
+            /**
+             * "attributes":[{"name":"颜色","value":"红","sort":9},{"name":"尺寸","value":"X","sort":9}]
+             */
+            for (ProductSkuAttributeSaveDTO attribute : productSkuSaveDTO.getAttributes()) {
+                productSku.addSkuAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
+            }
+            productSkuRepository.saveProductSku(productSku);
+        }
 
     }
 
