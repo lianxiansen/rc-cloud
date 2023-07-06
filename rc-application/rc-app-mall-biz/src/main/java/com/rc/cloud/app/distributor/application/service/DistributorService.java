@@ -48,8 +48,6 @@ public interface DistributorService {
      */
     DistributorPO get(Long id);
 
-    List<DistributorPO> getAll();
-
     /**
      * 获得经销商
      *

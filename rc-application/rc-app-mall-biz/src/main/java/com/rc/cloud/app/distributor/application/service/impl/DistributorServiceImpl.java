@@ -144,11 +144,6 @@ public class DistributorServiceImpl implements DistributorService {
     }
 
     @Override
-    public List<DistributorPO> getAll() {
-        return mapper.selectList();
-    }
-
-    @Override
     public DistributorDetailPO getDetail(Long id) {
         // 校验存在
         validateExists(id);
