@@ -30,32 +30,26 @@
         <dependency>
             <groupId>com.rc.cloud</groupId>
             <artifactId>rc-common-core</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.rc.cloud</groupId>
             <artifactId>rc-common-log</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.rc.cloud</groupId>
             <artifactId>rc-common-web</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.rc.cloud</groupId>
             <artifactId>rc-common-mybatis</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.rc.cloud</groupId>
             <artifactId>rc-common-excel</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.rc.cloud</groupId>
             <artifactId>rc-app-system-api</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -65,7 +59,6 @@
         <dependency>
             <groupId>com.rc.cloud</groupId>
             <artifactId>rc-common-tenant</artifactId>
-            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.whvcse</groupId>
@@ -76,7 +69,6 @@
         <dependency>
             <groupId>com.rc.cloud</groupId>
             <artifactId>rc-common-test</artifactId>
-            <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -131,7 +123,6 @@
         <dependency>
             <groupId>com.rc.cloud</groupId>
             <artifactId>rc-common-security</artifactId>
-            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
         <!-- 用于测试 -->

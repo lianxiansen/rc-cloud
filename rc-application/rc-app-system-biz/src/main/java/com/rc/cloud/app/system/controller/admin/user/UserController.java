@@ -163,7 +163,7 @@ public class UserController {
      */
 //    @Inner
     @GetMapping("/info-by-id/{id}")
-    public CodeResult<UserInfo> infoByUserId(@PathVariable Long id) {
+    public CodeResult<UserInfo> infoById(@PathVariable Long id) {
         // 硬编码设置租户ID
         TenantContextHolder.setTenantId(1L);
         SysUserDO user = userService.getUser(id);
@@ -172,6 +172,24 @@ public class UserController {
         }
         UserInfo userInfo = userService.getUserInfo(user);
         return CodeResult.ok(userInfo);
+    }
+
+    /**
+     * 获取指定用户全部信息
+     * @return 用户信息
+     */
+//    @Inner
+    @PostMapping("/info-by-ids")
+    public CodeResult<List<UserInfo>> infoByIds(@RequestBody List<Long> ids) {
+        // 硬编码设置租户ID
+        TenantContextHolder.setTenantId(1L);
+        List<SysUserDO> users = userService.getUserList(ids);
+        List<UserInfo> userInfos = new ArrayList<>();
+        users.forEach(user -> {
+            UserInfo userInfo = userService.getUserInfo(user);
+            userInfos.add(userInfo);
+        });
+        return CodeResult.ok(userInfos);
     }
 
 //    @GetMapping("/export")
