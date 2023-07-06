@@ -127,3 +127,8 @@ springdoc:
     path: /swagger-ui
 knife4j:
   enable: true
+
+security:
+  oauth2:
+    ignore:
+      urls: "/sys/user/info-by-id/**" # 忽略的 URL 地址，多个逗号分隔
