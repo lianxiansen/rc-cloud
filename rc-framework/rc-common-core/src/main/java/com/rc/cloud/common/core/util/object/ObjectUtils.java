@@ -63,4 +63,9 @@ public class ObjectUtils {
     {
         return object == null;
     }
+
+    public static boolean isNotNull(Object object)
+    {
+        return !(object == null);
+    }
 }

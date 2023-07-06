@@ -9,10 +9,10 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Description:
  */
 public class Layer extends ValueObject {
-    public static final int MIN=1;
+    public static final int ROOT =1;
     private int value;
     public Layer(){
-        this.value =MIN;
+        this.value = ROOT;
     }
     public Layer(int level){
         setValue(level);
@@ -28,6 +28,10 @@ public class Layer extends ValueObject {
 
     public Layer addLayer(Layer layer){
         return new Layer(this.value+layer.getValue());
+    }
+
+    public Layer increment(){
+        return new Layer(this.value+1);
     }
 
     public Layer addLayer(int value){

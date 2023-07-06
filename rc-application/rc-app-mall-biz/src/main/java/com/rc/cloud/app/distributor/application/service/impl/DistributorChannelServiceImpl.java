@@ -10,10 +10,13 @@ import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorCha
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorChannelMapper;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
+
 import org.springframework.validation.annotation.Validated;
 
 import java.util.*;
+
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
 /**
@@ -63,6 +66,11 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
     @Override
     public DistributorChannelPO getChannel(Long id) {
         return channelMapper.selectById(id);
+    }
+
+    @Override
+    public List<DistributorChannelPO> getAll() {
+        return channelMapper.selectList();
     }
 
     @Override

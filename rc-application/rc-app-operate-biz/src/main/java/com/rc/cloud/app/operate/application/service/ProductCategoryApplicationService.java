@@ -9,6 +9,7 @@ import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductC
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.domain.service.ProductCategoryDomainServce;
+import com.rc.cloud.common.core.exception.ApplicationException;
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.stereotype.Service;
@@ -42,13 +43,23 @@ public class ProductCategoryApplicationService {
         ProductCategory productCategory = new ProductCategory(id, tenantId, name);
         productCategory.setEnName(new EnName(productCategoryDTO.getEnglishName()));
         productCategory.setIcon(new Icon(productCategoryDTO.getIcon()));
-        productCategory.setEnabled(new Enabled(productCategoryDTO.getEnabledFlag()));
-        productCategory.setPage(new Page(productCategoryDTO.getProductCategoryPageImage(), productCategoryDTO.getProductListPageImage()));
-        productCategory.setSort(new Sort(productCategoryDTO.getSortId()));
-        if (null != productCategoryDTO.getParentId()) {
-            productCategory.setParentId(new ProductCategoryId(productCategoryDTO.getParentId()));
+        if(!ObjectUtils.isNull(productCategoryDTO.getEnabledFlag())){
+            productCategory.setEnabled(new Enabled(productCategoryDTO.getEnabledFlag()));
         }
-        productCategoryDomainServce.initialize(productCategory);
+        productCategory.setPage(new Page(productCategoryDTO.getProductCategoryPageImage(), productCategoryDTO.getProductListPageImage()));
+        if(!ObjectUtils.isNotNull(productCategoryDTO.getSortId())){
+            productCategory.setSort(new Sort(productCategoryDTO.getSortId()));
+        }
+        if(!StringUtils.isEmpty(productCategoryDTO.getParentId())){
+            ProductCategoryId parentId= new ProductCategoryId(productCategoryDTO.getParentId());
+            ProductCategory parentCategory = productCategoryRepository.findById(parentId);
+            if(ObjectUtils.isNull(parentCategory)){
+                throw new ApplicationException("父级商品分类无效：" + productCategory.getParentId().id());
+            }
+            productCategory.inherit(parentCategory);
+        }
+        productCategory.publishSaveEvent();
+
     }
 
 
@@ -56,29 +67,36 @@ public class ProductCategoryApplicationService {
     public void updateProductCategory(ProductCategoryUpdateDTO productCategoryDTO) {
         ProductCategory productCategory = productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getId()));
         notNull(productCategory, "产品分类唯一标识无效");
-        if (null != productCategoryDTO.getParentId()) {
-            ProductCategory parent = productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getParentId()));
-            productCategoryDomainServce.reInherit(productCategory, parent);
+        if (ObjectUtils.isNotNull(productCategoryDTO.getParentId()) ) {
+            if(StringUtils.isEmpty(productCategoryDTO.getParentId())){
+                productCategory.root();
+            }else{
+                ProductCategoryId parentId= new ProductCategoryId(productCategoryDTO.getParentId());
+                if(!parentId.equals(productCategory.getParentId())){
+                    ProductCategory parent = productCategoryRepository.findById(parentId);
+                    productCategoryDomainServce.reInherit(productCategory, parent);
+                }
+            }
         }
-        if (StringUtils.isNotEmpty(productCategoryDTO.getName())) {
+        if (ObjectUtils.isNotNull(productCategoryDTO.getName())) {
             productCategory.setChName(new ChName(productCategoryDTO.getName()));
         }
-        if (StringUtils.isNotEmpty(productCategoryDTO.getEnglishName())) {
+        if (ObjectUtils.isNotNull(productCategoryDTO.getEnglishName())) {
             productCategory.setEnName(new EnName(productCategoryDTO.getEnglishName()));
         }
-        if (StringUtils.isNotEmpty(productCategoryDTO.getIcon())) {
+        if (ObjectUtils.isNotNull(productCategoryDTO.getIcon())) {
             productCategory.setIcon(new Icon(productCategoryDTO.getIcon()));
         }
-        if (StringUtils.isNotEmpty(productCategoryDTO.getProductCategoryPageImage())) {
+        if (ObjectUtils.isNotNull(productCategoryDTO.getProductCategoryPageImage())) {
             productCategory.setPage(new Page(productCategoryDTO.getProductCategoryPageImage(), productCategory.getPage().getListImage()));
         }
-        if (StringUtils.isNotEmpty(productCategoryDTO.getProductListPageImage())) {
+        if (ObjectUtils.isNotNull(productCategoryDTO.getProductListPageImage())) {
             productCategory.setPage(new Page(productCategory.getPage().getCategoryImage(), productCategoryDTO.getProductListPageImage()));
         }
-        if (ObjectUtils.isNull(productCategoryDTO.getSortId())) {
+        if (ObjectUtils.isNotNull(productCategoryDTO.getSortId())) {
             productCategory.setSort(new Sort(productCategoryDTO.getSortId()));
         }
-        productCategory.refresh();
+        productCategory.publishSaveEvent();
     }
 
     public void remove(String id){

@@ -6,7 +6,6 @@ import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,25 +26,19 @@ public class ProductCategoryDomainServce {
     @Resource
     private ProductRepository productRepository;
 
-    public void initialize(ProductCategory productCategory) {
-        ProductCategory parentCategory = null;
-        if (null != productCategory.getParentId()) {
-            parentCategory = productCategoryRepository.findById(productCategory.getParentId());
-            if(ObjectUtils.isNull(parentCategory)){
-                throw new DomainException("父级商品分类无效：" + productCategory.getParentId().id());
-            }
-        }
-        productCategory.inherit(parentCategory);
-    }
+
 
 
     public void reInherit(ProductCategory sub, ProductCategory parent) {
+        AssertUtils.notNull(sub, "sub must not be null");
+        AssertUtils.notNull(parent, "parent must not be null");
         List<ProductCategory> allList = productCategoryRepository.findAll();
         sub.reInherit(parent);
         reInheritCascade(allList, sub);
     }
 
     public boolean remove(ProductCategory productCategory){
+        AssertUtils.notNull(productCategory, "productCategory must not be null");
         if(productRepository.existsByProductCategoryId(productCategory.getId())){
             throw new DomainException("已关联产品,删除失败");
         }
@@ -62,6 +55,7 @@ public class ProductCategoryDomainServce {
         }
         subList.forEach(item -> {
             item.reInherit(parent);
+            item.publishSaveEvent();
             List<ProductCategory> itemSubList = findSubList(allList, item);
             reInheritCascade(allList, item);
         });
@@ -69,7 +63,8 @@ public class ProductCategoryDomainServce {
     }
 
     public List<ProductCategory> findSubList(List<ProductCategory> allList, ProductCategory parent) {
-        AssertUtils.notNull(allList, "列表不为空");
+        AssertUtils.notNull(allList, "allList must not be null");
+        AssertUtils.notNull(parent, "parent must not be null");
         List<ProductCategory> list = new ArrayList<>();
         allList.forEach(item -> {
             if (parent.getId().equals(item.getParentId())) {

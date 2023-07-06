@@ -24,6 +24,7 @@ import com.rc.cloud.app.system.vo.permission.menu.MenuSimpleRespVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuUpdateReqVO;
 import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
 import com.rc.cloud.common.core.constant.CacheConstants;
+import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import com.rc.cloud.common.security.service.RcUserDetailsService;
@@ -236,17 +237,21 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<SysMenuDO> getRootNavMenuList() {
-        return menuMapper.selectPatentMenuList();
-    }
-
-    @Override
     public Set<String> getUserAuthorityByUserId(Long userId) {
         return permissionService.getPermissionListByUserId(userId);
     }
 
     @Override
+    public List<SysMenuDO> getUsableUserMenuList(Long userId, Long parentId, Integer type) {
+        return getUserMenuListByStatus(userId, parentId, type, CommonStatusEnum.ENABLE);
+    }
+
+    @Override
     public List<SysMenuDO> getUserMenuList(Long userId, Long parentId, Integer type) {
+        return getUserMenuListByStatus(userId, parentId, type, null);
+    }
+
+    private List<SysMenuDO> getUserMenuListByStatus(Long userId, Long parentId, Integer type, CommonStatusEnum status) {
         // 从用户角色表中查询角色id
         Set<Long> roleIds = userRoleMapper.selectRoleIdsByUserId(userId);
         // 根据角色id列表，获取角色code
@@ -270,6 +275,9 @@ public class MenuServiceImpl implements MenuService {
         wrapper.lambda().in(SysMenuDO::getId, menuIds);
         if (type != null) {
             wrapper.lambda().eq(SysMenuDO::getType, type);
+        }
+        if (status != null) {
+            wrapper.lambda().eq(SysMenuDO::getStatus, status);
         }
         wrapper.lambda().orderByAsc(SysMenuDO::getSort);
         return menuMapper.selectList(wrapper);

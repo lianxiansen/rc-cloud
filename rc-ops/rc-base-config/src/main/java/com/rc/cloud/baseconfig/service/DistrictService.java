@@ -8,5 +8,7 @@ package com.rc.cloud.baseconfig.service;
 
 public interface DistrictService {
 
-    Object getAllProvinceCity();
+    Object getAllProvince();
+
+    Object getByParentCode(String adcode);
 }

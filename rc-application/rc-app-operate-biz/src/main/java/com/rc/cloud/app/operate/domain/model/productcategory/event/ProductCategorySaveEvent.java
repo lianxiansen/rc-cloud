@@ -8,10 +8,10 @@ import org.springframework.context.ApplicationEvent;
  * @Date: 2023/6/24 15:54
  * @Description: TODO
  */
-public class ProductCategoryRefreshEvent extends ApplicationEvent {
+public class ProductCategorySaveEvent extends ApplicationEvent {
 
 
-    public ProductCategoryRefreshEvent(Object source) {
+    public ProductCategorySaveEvent(Object source) {
         super(source);
     }
 }
