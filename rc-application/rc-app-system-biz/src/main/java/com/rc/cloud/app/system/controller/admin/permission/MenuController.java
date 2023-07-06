@@ -99,7 +99,7 @@ public class MenuController {
         String username = SecurityUtils.getUsername();
         Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
         SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
-        List<SysMenuDO> list = menuService.getUserMenuList(user.getId(), 0L, MenuTypeEnum.DIR.getType());
+        List<SysMenuDO> list = menuService.getUsableUserMenuList(user.getId(), 0L, MenuTypeEnum.DIR.getType());
         return CodeResult.ok(MenuConvert.INSTANCE.convertList(list));
     }
 
@@ -110,13 +110,13 @@ public class MenuController {
         Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
         SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
 
-        List<SysMenuDO> list = menuService.getUserMenuList(user.getId(), parentId, MenuTypeEnum.MENU.getType());
+        List<SysMenuDO> list = menuService.getUsableUserMenuList(user.getId(), parentId, MenuTypeEnum.MENU.getType());
         if (list.isEmpty()) {
             return CodeResult.ok(new ArrayList<>());
         }
         List<MenuRespVO> result = MenuConvert.INSTANCE.convertList(list);
         result.forEach(item -> {
-            List<SysMenuDO> userChildMenuList = menuService.getUserMenuList(user.getId(), item.getId(), MenuTypeEnum.MENU.getType());
+            List<SysMenuDO> userChildMenuList = menuService.getUsableUserMenuList(user.getId(), item.getId(), MenuTypeEnum.MENU.getType());
             item.setChildren(MenuConvert.INSTANCE.convertList(userChildMenuList));
         });
         return CodeResult.ok(result);
@@ -128,7 +128,7 @@ public class MenuController {
         String username = SecurityUtils.getUsername();
         Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
         SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
-        List<SysMenuDO> menuList = menuService.getUserMenuList(user.getId(), MenuTypeEnum.MENU.getType());
+        List<SysMenuDO> menuList = menuService.getUsableUserMenuList(user.getId(), null, MenuTypeEnum.MENU.getType());
         return CodeResult.ok(TreeUtil.build(MenuConvert.INSTANCE.convertList(menuList)));
     }
 

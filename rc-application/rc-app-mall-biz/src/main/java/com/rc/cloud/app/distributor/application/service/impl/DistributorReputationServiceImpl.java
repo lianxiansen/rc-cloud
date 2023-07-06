@@ -66,6 +66,11 @@ public class DistributorReputationServiceImpl implements DistributorReputationSe
     }
 
     @Override
+    public List<DistributorReputationPO> getAll() {
+        return reputationMapper.selectList();
+    }
+
+    @Override
     public List<DistributorReputationPO> getReputationList(Collection<Long> ids) {
         return reputationMapper.selectBatchIds(ids);
     }

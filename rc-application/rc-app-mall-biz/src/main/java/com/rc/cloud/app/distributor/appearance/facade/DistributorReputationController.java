@@ -3,7 +3,10 @@ package com.rc.cloud.app.distributor.appearance.facade;
 import com.rc.cloud.app.distributor.appearance.req.DistributorReputationPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.DistributorReputationUpdateReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.DistributorReputationRespVO;
+import com.rc.cloud.app.distributor.appearance.resp.DistributorRespVO;
+import com.rc.cloud.app.distributor.application.convert.DistributorConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorReputationConvert;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
 import com.rc.cloud.app.distributor.application.service.DistributorReputationService;
 import com.rc.cloud.app.distributor.appearance.req.DistributorReputationCreateReqVO;
@@ -60,6 +63,13 @@ public class DistributorReputationController {
     public CodeResult<DistributorReputationRespVO> getReputation(@RequestParam("id") Long id) {
         DistributorReputationPO reputation = reputationService.getReputation(id);
         return CodeResult.ok(DistributorReputationConvert.INSTANCE.convert(reputation));
+    }
+
+    @GetMapping("/getAll")
+    @Operation(summary = "获得所有经销商信誉")
+    public CodeResult<List<DistributorReputationRespVO>> getAll() {
+        List<DistributorReputationPO> poList = reputationService.getAll();
+        return CodeResult.ok(DistributorReputationConvert.INSTANCE.convertList(poList));
     }
 
     @GetMapping("/list")

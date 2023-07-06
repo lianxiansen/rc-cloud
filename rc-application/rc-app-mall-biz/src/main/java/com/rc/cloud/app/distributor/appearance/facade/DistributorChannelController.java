@@ -1,12 +1,15 @@
 package com.rc.cloud.app.distributor.appearance.facade;
 
+import com.rc.cloud.app.distributor.appearance.resp.DistributorRespVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorChannelConvert;
+import com.rc.cloud.app.distributor.application.convert.DistributorConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorChannelService;
 import com.rc.cloud.app.distributor.appearance.req.DistributorChannelCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.DistributorChannelPageReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.DistributorChannelRespVO;
 import com.rc.cloud.app.distributor.appearance.req.DistributorChannelUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import org.springframework.web.bind.annotation.*;
@@ -70,6 +73,13 @@ public class DistributorChannelController {
     public CodeResult<List<DistributorChannelRespVO>> getChannelList(@RequestParam("ids") Collection<Long> ids) {
         List<DistributorChannelPO> list = channelService.getChannelList(ids);
         return CodeResult.ok(DistributorChannelConvert.INSTANCE.convertList(list));
+    }
+
+    @GetMapping("/getAll")
+    @Operation(summary = "获得所有经销商渠道")
+    public CodeResult<List<DistributorChannelRespVO>> getAll() {
+        List<DistributorChannelPO> poList = channelService.getAll();
+        return CodeResult.ok(DistributorChannelConvert.INSTANCE.convertList(poList));
     }
 
     @GetMapping("/page")
