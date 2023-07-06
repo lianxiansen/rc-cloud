@@ -18,6 +18,7 @@
         <module>rc-resource-server</module>
         <module>rc-auth-server</module>
         <module>rc-gateway-server</module>
+        <module>rc-base-config</module>
     </modules>
     <dependencies>
         <!--监控-->
