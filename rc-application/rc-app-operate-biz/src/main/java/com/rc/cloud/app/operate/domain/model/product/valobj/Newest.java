@@ -14,4 +14,8 @@ public class Newest extends ValueObject {
     public Newest(boolean flag){
         this.flag=flag;
     }
+
+    public boolean getValue() {
+        return flag;
+    }
 }

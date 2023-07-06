@@ -11,6 +11,8 @@ public class ProductSkuSaveDTO {
 
     private String skuCode;
 
+    private String price;
+
     private String supplyPrice;
 
     private String weight;

@@ -2,9 +2,9 @@ package com.rc.cloud.app.operate.application.service;
 
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.dto.*;
-import com.rc.cloud.app.operate.domain.common.OperateActionEnum;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.*;
+import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class ProductApplicationService {
     private TenantService tenantService;
 
 
-    @Autowired
+    @Resource
     private RemoteIdGeneratorService remoteIdGeneratorService;
 
     private void validateTenantId(TenantId tenantId){
@@ -58,27 +59,62 @@ public class ProductApplicationService {
     @Transactional(rollbackFor = Exception.class)
     public void createProduct(ProductSaveDTO productSaveDTO){
 
+        ProductId productId=new ProductId(remoteIdGeneratorService.getUidByRedis());
         TenantId tenantId = new TenantId(productSaveDTO.getTenantId() + "");
         Name name = new Name(productSaveDTO.getName());
+        //定义商品
+        Product product= null;
+        product =new Product(productId,tenantId,name);
         Remark remark = new Remark(productSaveDTO.getRemark());
+        product.setRemark(remark);
         Tag tag = new Tag(productSaveDTO.getTag());
+        product.setTag(tag);
         BrandId brandId = new BrandId(productSaveDTO.getBrandId());
+        product.setBrandId(brandId);
         CategoryName firstCategory = new CategoryName(productSaveDTO.getFirstCategory());
         CategoryName secondCategory = new CategoryName(productSaveDTO.getSecondCategory());
         CategoryName thirdCategory = new CategoryName(productSaveDTO.getThirdCategory());
-        CustomClassification customClassification = new CustomClassification(productSaveDTO.getCustomClassificationId());
-        Newest newest = new Newest(productSaveDTO.getNewFlag());
-        Explosives explosives = null;
-        if(productSaveDTO.isExplosivesFlag()){
-            explosives= new Explosives(productSaveDTO.isExplosivesFlag(),productSaveDTO.getExplosivesImage());
+        product.setCategory(firstCategory,secondCategory,thirdCategory);
+        CustomClassificationId customClassificationId = new CustomClassificationId(productSaveDTO.getCustomClassificationId());
+        product.setCustomClassificationId(customClassificationId);
+        if(productSaveDTO.getNewFlag()!=null){
+            Newest newest = new Newest(productSaveDTO.getNewFlag());
+            product.setNewest(newest);
         }
-
-        Recommend recommend = new Recommend(productSaveDTO.isRecommendFlag());
-        Open open = new Open(productSaveDTO.isPublicFlag());
-        OnshelfStatus onshelfStatus = new OnshelfStatus(productSaveDTO.getOnShelfStatus());
-        Enable enable = new Enable(productSaveDTO.isEnabledFlag());
+        //是否有爆品图片
+        if(productSaveDTO.getExplosivesFlag()!=null){
+            Explosives explosives = null;
+            if(productSaveDTO.getExplosivesFlag()){
+                explosives= new Explosives(productSaveDTO.getExplosivesFlag(),productSaveDTO.getExplosivesImage());
+            }else{
+                explosives= new Explosives(productSaveDTO.getExplosivesFlag(),null);
+            }
+            product.setExplosives(explosives);
+        }
+        //是否推荐
+        if(productSaveDTO.getRecommendFlag()!=null){
+            Recommend recommend = new Recommend(productSaveDTO.getRecommendFlag());
+            product.setRecommend(recommend);
+        }
+        //是否公开
+        if(productSaveDTO.getPublicFlag()!=null){
+            Open open = new Open(productSaveDTO.getPublicFlag());
+            product.setOpen(open);
+        }
+        //上架状态
+        if(productSaveDTO.getOnShelfStatus()!=null){
+            OnshelfStatus onshelfStatus = new OnshelfStatus(productSaveDTO.getOnShelfStatus());
+            product.setOnshelfStatus(onshelfStatus);
+        }
+        //启用状态
+        if(productSaveDTO.getEnabledFlag()!=null){
+            Enable enable = new Enable(productSaveDTO.getEnabledFlag());
+            product.setEnable(enable);
+        }
+        //视频
         Video video = new Video(productSaveDTO.getVideoUrl(),productSaveDTO.getVideoImg()
                 ,productSaveDTO.getInstallVideoUrl(),productSaveDTO.getInstallVideoImg());
+        product.setVideo(video);
         //设置相册
         List<ProductImageEntity> productImages = new ArrayList<>();
         productSaveDTO.getAlbums().forEach(item -> {
@@ -87,22 +123,8 @@ public class ProductApplicationService {
             productImageEntity.setSort(item.getSort());
             productImages.add(productImageEntity);
         });
-
-
-
-        product.setRemark(remark);
-        product.setTag(tag);
-        product.setBrandId(brandId);
-        product.setCategory(firstCategory,secondCategory,thirdCategory);
-        product.setCustomClassification(customClassification);
-        product.setNewest(newest);
-        product.setExplosives(explosives);
-        product.setRecommend(recommend);
-        product.setOpen(open);
-        product.setOnshelfStatus(onshelfStatus);
-        product.setEnable(enable);
-        product.setVideo(video);
-
+        product.setProductImages(productImages);
+        //设置字典
         List<ProductDictEntity> productDictEntities = new ArrayList<>();
         if(productSaveDTO.getDicts()!=null){
             for (ProductDictSaveDTO dict : productSaveDTO.getDicts()) {
@@ -113,9 +135,7 @@ public class ProductApplicationService {
                 productDictEntities.add(entity);
             }
         }
-        //设置字典
         product.setProductDict(productDictEntities);
-
         //设置属性
         /**
          * "attributes":[
@@ -130,26 +150,32 @@ public class ProductApplicationService {
             product.addAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
         }
         //保存spu
-        productRepository.saveProductEntry(product);
+        productRepository.insertProductEntry(product);
         //保存sku
         List<ProductSkuSaveDTO> skus = productSaveDTO.getSkus();
-
-        for (ProductSkuSaveDTO productSkuSaveDTO : skus) {
-            boolean exist2 = productSkuRepository.exist(new ProductSkuId(productSkuSaveDTO.getId()));
-            ProductSku productSku=null;
-            if (!exist2) {
-                long id= remoteIdGeneratorService.getUidByLocal().longValue();
-                productSku=new ProductSku(new ProductSkuId(String.valueOf(id)),productId,tenantId,new Price(BigDecimal.ZERO));
-            } else {
-                productSku = productSkuRepository.findById(new ProductSkuId(productSkuSaveDTO.getId()));
+        if(skus==null || skus.size()<=0){
+            throw  new IllegalArgumentException("sku不能为空");
+        }
+        for (ProductSkuSaveDTO productSkuSaveDTO : skus){
+            ProductSkuId productSkuId=new ProductSkuId(remoteIdGeneratorService.getUidByRedis());
+            ProductSku productSku=new ProductSku(productSkuId,productId,tenantId,new Price(
+                    BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getPrice()))
+            ));
+            if(productSkuSaveDTO.getEnabledFlag()!=null){
+                productSku.setEnabledFlag(productSkuSaveDTO.getEnabledFlag());
             }
-            productSku.enabledFlag(productSkuSaveDTO.isEnabledFlag())
-                    .inventory(new Inventory(productSkuSaveDTO.getInventory()))
-                    .sort(new Sort(productSkuSaveDTO.getSort()))
-                    .weight(new Weight(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getWeight()))))
-                    .setSupplyPrice(new SupplyPrice(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getSupplyPrice())))
-
-                    );
+            if(productSkuSaveDTO.getInventory()!=null){
+                productSku.setInventory(new Inventory(productSkuSaveDTO.getInventory()));
+            }
+            if(productSkuSaveDTO.getSort()!=null){
+                productSku.setSort(new Sort(productSkuSaveDTO.getSort()));
+            }
+            if(productSkuSaveDTO.getWeight()!=null){
+                productSku.setWeight(new Weight(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getWeight()))));
+            }
+            if(productSkuSaveDTO.getSupplyPrice()!=null){
+                productSku.setSupplyPrice(new SupplyPrice(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getSupplyPrice()))));
+            }
             //sku图片
             List<ProductSkuImageEntity> productSkuImageEntityList=new ArrayList<>();
             int pos=1;
@@ -157,7 +183,6 @@ public class ProductApplicationService {
                 ProductSkuImageEntity productSkuImageEntity=new ProductSkuImageEntity();
                 productSkuImageEntity.setSort(album.getSort());
                 productSkuImageEntity.setUrl(album.getUrl());
-                productSkuImageEntity.setDefaultFlag(pos==1?true:false);
                 pos++;
                 productSkuImageEntityList.add(productSkuImageEntity);
             }
@@ -170,7 +195,7 @@ public class ProductApplicationService {
             for (ProductSkuAttributeSaveDTO attribute : productSkuSaveDTO.getAttributes()) {
                 productSku.addSkuAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
             }
-            productSkuRepository.saveProductSku(productSku);
+            productSkuRepository.insertProductSku(productSku);
         }
 
     }
@@ -179,126 +204,168 @@ public class ProductApplicationService {
 
         ProductId productId=new ProductId(productSaveDTO.getId());
         //修改
-        boolean exist = productRepository.exist(new ProductId(productSaveDTO.getId()));
-        Product product= null;
-        if (!exist) {
+        Product product = productRepository.findById(productId);;
+        if (null==product) {
             throw new IllegalArgumentException("未找到当前商品");
-        } else {
-            product = productRepository.findById(productId);
         }
-        TenantId tenantId = new TenantId(productSaveDTO.getTenantId() + "");
-        Name name = new Name(productSaveDTO.getName());
-        Remark remark = new Remark(productSaveDTO.getRemark());
-        Tag tag = new Tag(productSaveDTO.getTag());
-        BrandId brandId = new BrandId(productSaveDTO.getBrandId());
-        CategoryName firstCategory = new CategoryName(productSaveDTO.getFirstCategory());
-        CategoryName secondCategory = new CategoryName(productSaveDTO.getSecondCategory());
-        CategoryName thirdCategory = new CategoryName(productSaveDTO.getThirdCategory());
-        CustomClassification customClassification = new CustomClassification(productSaveDTO.getCustomClassificationId());
-        Newest newest = new Newest(productSaveDTO.isNewFlag());
-        Explosives explosives = null;
-        if(productSaveDTO.isExplosivesFlag()){
-            explosives= new Explosives(productSaveDTO.isExplosivesFlag(),productSaveDTO.getExplosivesImage());
+        if(productSaveDTO.getName()!=null){
+            Name name = new Name(productSaveDTO.getName());
+            product.setName(name);
         }
-
-        Recommend recommend = new Recommend(productSaveDTO.isRecommendFlag());
-        Open open = new Open(productSaveDTO.isPublicFlag());
-        OnshelfStatus onshelfStatus = new OnshelfStatus(productSaveDTO.getOnShelfStatus());
-        Enable enable = new Enable(productSaveDTO.isEnabledFlag());
-        Video video = new Video(productSaveDTO.getVideoUrl(),productSaveDTO.getVideoImg()
-                ,productSaveDTO.getInstallVideoUrl(),productSaveDTO.getInstallVideoImg());
-        //设置相册
-        List<ProductImageEntity> productImages = new ArrayList<>();
-        productSaveDTO.getAlbums().forEach(item -> {
-            ProductImageEntity productImageEntity=new ProductImageEntity();
-            productImageEntity.setUrl(item.getUrl());
-            productImageEntity.setSort(item.getSort());
-            productImages.add(productImageEntity);
-        });
-
-
-
-        product.setRemark(remark);
-        product.setTag(tag);
-        product.setBrandId(brandId);
-        product.setCategory(firstCategory,secondCategory,thirdCategory);
-        product.setCustomClassification(customClassification);
-        product.setNewest(newest);
-        product.setExplosives(explosives);
-        product.setRecommend(recommend);
-        product.setOpen(open);
-        product.setOnshelfStatus(onshelfStatus);
-        product.setEnable(enable);
-        product.setVideo(video);
-
-        List<ProductDictEntity> productDictEntities = new ArrayList<>();
-        if(productSaveDTO.getDicts()!=null){
-            for (ProductDictSaveDTO dict : productSaveDTO.getDicts()) {
-                ProductDictEntity entity=new ProductDictEntity();
-                entity.setKey(dict.getKey());
-                entity.setValue(dict.getValue());
-                entity.setSortId(dict.getSort());
-                productDictEntities.add(entity);
+        if(productSaveDTO.getRemark()!=null){
+            Remark remark = new Remark(productSaveDTO.getRemark());
+            product.setRemark(remark);
+        }
+        if(productSaveDTO.getTag()!=null){
+            Tag tag = new Tag(productSaveDTO.getTag());
+            product.setTag(tag);
+        }
+        if(productSaveDTO.getBrandId()!=null){
+            BrandId brandId = new BrandId(productSaveDTO.getBrandId());
+            product.setBrandId(brandId);
+        }
+        if(productSaveDTO.getFirstCategory()!=null || productSaveDTO.getSecondCategory()!=null
+                || productSaveDTO.getThirdCategory()!=null
+        ){
+            CategoryName firstCategory = new CategoryName(productSaveDTO.getFirstCategory());
+            CategoryName secondCategory = new CategoryName(productSaveDTO.getSecondCategory());
+            CategoryName thirdCategory = new CategoryName(productSaveDTO.getThirdCategory());
+            product.setCategory(firstCategory,secondCategory,thirdCategory);
+        }
+        if(productSaveDTO.getCustomClassificationId()!=null){
+            CustomClassificationId customClassificationId = new CustomClassificationId(productSaveDTO.getCustomClassificationId());
+            product.setCustomClassificationId(customClassificationId);
+        }
+        if(productSaveDTO.getNewFlag()!=null){
+            Newest newest = new Newest(productSaveDTO.getNewFlag());
+            product.setNewest(newest);
+        }
+        //是否有爆品图片
+        if(productSaveDTO.getExplosivesFlag()!=null){
+            Explosives explosives = null;
+            if(productSaveDTO.getExplosivesFlag()){
+                explosives= new Explosives(productSaveDTO.getExplosivesFlag(),productSaveDTO.getExplosivesImage());
+            }else{
+                explosives= new Explosives(productSaveDTO.getExplosivesFlag(),null);
             }
+            product.setExplosives(explosives);
         }
-        //设置字典
-        product.setProductDict(productDictEntities);
-
+        //是否推荐
+        if(productSaveDTO.getRecommendFlag()!=null){
+            Recommend recommend = new Recommend(productSaveDTO.getRecommendFlag());
+            product.setRecommend(recommend);
+        }
+        //是否公开
+        if(productSaveDTO.getPublicFlag()!=null){
+            Open open = new Open(productSaveDTO.getPublicFlag());
+            product.setOpen(open);
+        }
+        //上架状态
+        if(productSaveDTO.getOnShelfStatus()!=null){
+            OnshelfStatus onshelfStatus = new OnshelfStatus(productSaveDTO.getOnShelfStatus());
+            product.setOnshelfStatus(onshelfStatus);
+        }
+        //启用状态
+        if(productSaveDTO.getEnabledFlag()!=null){
+            Enable enable = new Enable(productSaveDTO.getEnabledFlag());
+            product.setEnable(enable);
+        }
+        if(productSaveDTO.getVideoUrl()!=null || productSaveDTO.getVideoImg()!=null
+                || productSaveDTO.getInstallVideoUrl()!=null ||productSaveDTO.getInstallVideoImg()!=null){
+            Video video = new Video(productSaveDTO.getVideoUrl(),productSaveDTO.getVideoImg()
+                    ,productSaveDTO.getInstallVideoUrl(),productSaveDTO.getInstallVideoImg());
+            product.setVideo(video);
+        }
+        if(productSaveDTO.getAlbums()!=null){
+            List<ProductImageEntity> productImages = new ArrayList<>();
+            productSaveDTO.getAlbums().forEach(item -> {
+                ProductImageEntity productImageEntity=new ProductImageEntity();
+                productImageEntity.setUrl(item.getUrl());
+                productImageEntity.setSort(item.getSort());
+                productImages.add(productImageEntity);
+            });
+            product.setProductImages(productImages);
+        }
+        if(productSaveDTO.getDicts()!=null){
+            List<ProductDictEntity> productDictEntities = new ArrayList<>();
+            if(productSaveDTO.getDicts()!=null){
+                for (ProductDictSaveDTO dict : productSaveDTO.getDicts()) {
+                    ProductDictEntity entity=new ProductDictEntity();
+                    entity.setKey(dict.getKey());
+                    entity.setValue(dict.getValue());
+                    entity.setSortId(dict.getSort());
+                    productDictEntities.add(entity);
+                }
+            }
+            //设置字典
+            product.setProductDict(productDictEntities);
+        }
         //设置属性
-        /**
-         * "attributes":[
-         *     {"name":"颜色","value":"红","sort":9},
-         *     {"name":"颜色","value":"黄","sort":9},
-         *     {"name":"颜色","value":"蓝","sort":9},
-         *     {"name":"尺寸","value":"X","sort":9},
-         *     {"name":"尺寸","value":"XL","sort":9}
-         * ]
-         */
-        for (ProductAttributeSaveDTO attribute : productSaveDTO.getAttributes()) {
-            product.addAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
+        if(productSaveDTO.getAttributes()!=null){
+            product.clearAttribute();
+            for (ProductAttributeSaveDTO attribute : productSaveDTO.getAttributes()) {
+                product.addAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
+            }
         }
         //保存spu
-        productRepository.saveProductEntry(product);
-        //保存sku
-        List<ProductSkuSaveDTO> skus = productSaveDTO.getSkus();
+        productRepository.updateProductEntry(product);
 
-        for (ProductSkuSaveDTO productSkuSaveDTO : skus) {
-            boolean exist2 = productSkuRepository.exist(new ProductSkuId(productSkuSaveDTO.getId()));
-            ProductSku productSku=null;
-            if (!exist2) {
-                long id= remoteIdGeneratorService.getUidByLocal().longValue();
-                productSku=new ProductSku(new ProductSkuId(String.valueOf(id)),productId,tenantId,new Price(BigDecimal.ZERO));
-            } else {
-                productSku = productSkuRepository.findById(new ProductSkuId(productSkuSaveDTO.getId()));
-            }
-            productSku.enabledFlag(productSkuSaveDTO.isEnabledFlag())
-                    .inventory(new Inventory(productSkuSaveDTO.getInventory()))
-                    .sort(new Sort(productSkuSaveDTO.getSort()))
-                    .weight(new Weight(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getWeight()))))
-                    .setSupplyPrice(new SupplyPrice(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getSupplyPrice())))
+        if(productSaveDTO.getSkus()!=null){
 
-                    );
-            //sku图片
-            List<ProductSkuImageEntity> productSkuImageEntityList=new ArrayList<>();
-            int pos=1;
-            for (ProductSkuImageSaveDTO album : productSkuSaveDTO.getAlbums()) {
-                ProductSkuImageEntity productSkuImageEntity=new ProductSkuImageEntity();
-                productSkuImageEntity.setSort(album.getSort());
-                productSkuImageEntity.setUrl(album.getUrl());
-                productSkuImageEntity.setDefaultFlag(pos==1?true:false);
-                pos++;
-                productSkuImageEntityList.add(productSkuImageEntity);
-            }
-            productSku.skuImageList(productSkuImageEntityList);
+            //保存sku
+            List<ProductSkuSaveDTO> skus = productSaveDTO.getSkus();
 
-            //设置sku 属性
-            /**
-             * "attributes":[{"name":"颜色","value":"红","sort":9},{"name":"尺寸","value":"X","sort":9}]
-             */
-            for (ProductSkuAttributeSaveDTO attribute : productSkuSaveDTO.getAttributes()) {
-                productSku.addSkuAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
+            for (ProductSkuSaveDTO productSkuSaveDTO : skus) {
+                boolean exist = productSkuRepository.exist(new ProductSkuId(productSkuSaveDTO.getId()));
+                ProductSku productSku=null;
+                if (!exist) {
+                    throw new IllegalArgumentException("skuid有误");
+                } else {
+                    productSku = productSkuRepository.findById(new ProductSkuId(productSkuSaveDTO.getId()));
+                }
+                if(productSkuSaveDTO.getPrice()!=null){
+                    productSku.setPrice(new Price(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getPrice())) ));
+                }
+                if(productSkuSaveDTO.getEnabledFlag()!=null){
+                    productSku.setEnabledFlag(productSkuSaveDTO.getEnabledFlag());
+                }
+                if(productSkuSaveDTO.getInventory()!=null){
+                    productSku.setInventory(new Inventory(productSkuSaveDTO.getInventory()));
+                }
+                if(productSkuSaveDTO.getSort()!=null){
+                    productSku.setSort(new Sort(productSkuSaveDTO.getSort()));
+                }
+                if(productSkuSaveDTO.getWeight()!=null){
+                    productSku.setWeight(new Weight(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getWeight()))));
+                }
+                if(productSkuSaveDTO.getSupplyPrice()!=null){
+                    productSku.setSupplyPrice(new SupplyPrice(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getSupplyPrice()))));
+                }
+                //sku图片
+                if( productSkuSaveDTO.getAlbums()!=null){
+                    List<ProductSkuImageEntity> productSkuImageEntityList=new ArrayList<>();
+                    int pos=1;
+                    for (ProductSkuImageSaveDTO album : productSkuSaveDTO.getAlbums()) {
+                        ProductSkuImageEntity productSkuImageEntity=new ProductSkuImageEntity();
+                        productSkuImageEntity.setSort(album.getSort());
+                        productSkuImageEntity.setUrl(album.getUrl());
+                        pos++;
+                        productSkuImageEntityList.add(productSkuImageEntity);
+                    }
+                    productSku.skuImageList(productSkuImageEntityList);
+                }
+                //sku属性
+                if( productSkuSaveDTO.getAttributes()!=null){
+                    for (ProductSkuAttributeSaveDTO attribute : productSkuSaveDTO.getAttributes()) {
+                        productSku.addSkuAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
+                    }
+                    productSkuRepository.updateProductSku(productSku);
+                }
+
             }
-            productSkuRepository.saveProductSku(productSku);
         }
+
+
+
     }
 }

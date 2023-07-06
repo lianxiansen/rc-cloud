@@ -1,16 +1,11 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 
-import com.rc.cloud.app.operate.domain.model.product.valobj.CustomClassification;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.CustomClassificationMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.CustomClassificationDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.stylesheets.LinkStyle;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

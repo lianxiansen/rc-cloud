@@ -15,8 +15,6 @@ public class ProductSkuImageEntity extends Entity {
 
     private String url;
     private int sort;
-    private boolean defaultFlag;
-
 
     public String getUrl() {
         return url;
@@ -35,17 +33,6 @@ public class ProductSkuImageEntity extends Entity {
     public ProductSkuImageEntity setSort(int sort) {
         this.assertArgumentNotNull(sort, "sort must not be null");
         this.sort = sort;
-        return this;
-    }
-
-    public boolean isDefaultFlag() {
-        return defaultFlag;
-    }
-
-    public ProductSkuImageEntity setDefaultFlag(boolean defaultFlag) {
-
-        this.assertArgumentNotNull(defaultFlag, "defaultFlag must not be null");
-        this.defaultFlag = defaultFlag;
         return this;
     }
 }

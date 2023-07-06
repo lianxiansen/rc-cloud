@@ -14,9 +14,6 @@ public class CategoryName  extends ValueObject {
     }
 
     public void setValue(String value) {
-        if (value == null) {
-            throw new IllegalArgumentException("商品名称不为空");
-        }
         this.value=value;
     }
 }
