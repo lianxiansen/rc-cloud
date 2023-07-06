@@ -1,4 +1,4 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
-public class ProductConvert {
+public class ProductImageDOConvert {
 }

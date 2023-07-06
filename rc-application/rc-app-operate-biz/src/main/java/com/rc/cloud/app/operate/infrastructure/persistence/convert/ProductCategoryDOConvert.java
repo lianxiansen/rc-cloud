@@ -9,7 +9,7 @@ import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
  * @Date: 2023/6/23 14:16
  * @Description: TODO
  */
-public class ProductCategoryConvert {
+public class ProductCategoryDOConvert {
 
     public static ProductCategoryDO convert2ProductCategoryDO(ProductCategory source) {
         ProductCategoryDO target=new ProductCategoryDO();

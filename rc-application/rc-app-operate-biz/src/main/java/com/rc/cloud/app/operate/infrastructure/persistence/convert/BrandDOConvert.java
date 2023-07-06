@@ -3,7 +3,7 @@ package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 import com.rc.cloud.app.operate.domain.model.brand.BrandEntity;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.BrandDO;
 
-public  class BrandConvert {
+public  class BrandDOConvert {
 
     public static BrandDO convert2BrandPO(BrandEntity brandEntity){
         BrandDO brandDO=new BrandDO();

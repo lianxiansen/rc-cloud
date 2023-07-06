@@ -32,8 +32,8 @@ public class ProductImageDO {
     /**
      * 是否是默认
      */
-    @TableField("default_flag")
-    private Boolean defaultFlag;
+    //@TableField("default_flag")
+    //private Boolean defaultFlag;
 
 
     @TableField("sort_id")

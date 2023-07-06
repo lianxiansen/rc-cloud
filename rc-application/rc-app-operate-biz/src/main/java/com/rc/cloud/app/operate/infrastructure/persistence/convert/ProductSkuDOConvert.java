@@ -4,7 +4,7 @@ import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.SeckillSku;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 
-public class ProductSkuConvert {
+public class ProductSkuDOConvert {
 
 
     public static ProductSkuDO convert2ProductSkuDO(ProductSku source) {

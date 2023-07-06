@@ -360,7 +360,7 @@ CREATE TABLE `product_image` (
              `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
              `product_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品ID',
              `url` varchar(128) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'URL',
-             `default_flag` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否是默认',
+            -- `default_flag` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否是默认',
              `sort_id` int(11) DEFAULT 99 COMMENT '排序',
              PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='商品SPU图片表 ';
@@ -375,7 +375,7 @@ CREATE TABLE `product_item_image` (
           `tenant_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
           `product_sku_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品skuID',
           `url` varchar(128) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'URL',
-          `default_flag` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否是默认',
+         -- `default_flag` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否是默认',
           `sort_id` int(11) DEFAULT 99 COMMENT '排序',
           PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='商品SKU图片表';

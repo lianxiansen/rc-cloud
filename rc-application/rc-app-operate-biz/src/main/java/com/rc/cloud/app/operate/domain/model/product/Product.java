@@ -415,7 +415,131 @@ public class Product extends Entity {
         }
     }
 
+    public TenantId getTenantId() {
+        return tenantId;
+    }
 
+    public CategoryName getFirstCategory() {
+        return firstCategory;
+    }
 
+    public CategoryName getSecondCategory() {
+        return secondCategory;
+    }
 
+    public CategoryName getThirdCategory() {
+        return thirdCategory;
+    }
+
+    public Remark getRemark() {
+        return remark;
+    }
+
+    public Tag getTag() {
+        return tag;
+    }
+
+    public BrandId getBrandId() {
+        return brandId;
+    }
+
+    public CustomClassificationId getCustomClassificationId() {
+        return customClassificationId;
+    }
+
+    public Newest getNewest() {
+        return newest;
+    }
+
+    public Explosives getExplosives() {
+        return explosives;
+    }
+
+    public Recommend getRecommend() {
+        return recommend;
+    }
+
+    public Open getOpen() {
+        return open;
+    }
+
+    public OnshelfStatus getOnshelfStatus() {
+        return onshelfStatus;
+    }
+
+    public Enable getEnable() {
+        return enable;
+    }
+
+    public Video getVideo() {
+        return video;
+    }
+
+    public MasterImage getMasterImage() {
+        return masterImage;
+    }
+
+    public List<ProductImageEntity> getProductImages() {
+        return productImages;
+    }
+
+    public List<ProductDictEntity> getProductDicts() {
+        return productDicts;
+    }
+
+    public SpuCode getSpuCode() {
+        return spuCode;
+    }
+
+    public Origin getOrigin() {
+        return origin;
+    }
+
+    public OutId getOutid() {
+        return outid;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public FreeShipping getFreeShipping() {
+        return freeShipping;
+    }
+
+    public Freight getFreight() {
+        return freight;
+    }
+
+    public LowestBuy getLowestBuy() {
+        return lowestBuy;
+    }
+
+    public Popularization getPopularization() {
+        return popularization;
+    }
+
+    public Distribution getDistribution() {
+        return distribution;
+    }
+
+    public Refund getRefund() {
+        return refund;
+    }
+
+    public Seckill getSeckill() {
+        return seckill;
+    }
+
+    public Sort getSort() {
+        return sort;
+    }
+
+    public Detail getDetail() {
+        return detail;
+    }
+
+    public SortedSet<ProductAttributeEntity> getAttributes() {
+        return attributes;
+    }
 }

@@ -7,7 +7,7 @@ import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepo
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductCategoryConvert;
+import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductCategoryDOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductCategoryMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
@@ -80,7 +80,7 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
 
     @Override
     public boolean save(ProductCategory productCategory) {
-        ProductCategoryDO productCategoryDO = ProductCategoryConvert.convert2ProductCategoryDO(productCategory);
+        ProductCategoryDO productCategoryDO = ProductCategoryDOConvert.convert2ProductCategoryDO(productCategory);
         if(this.productCategoryMapper.insert(productCategoryDO)>0){
             return true;
         }

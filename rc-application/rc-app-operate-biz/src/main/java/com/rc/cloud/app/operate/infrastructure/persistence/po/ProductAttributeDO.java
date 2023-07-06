@@ -37,13 +37,13 @@ public class ProductAttributeDO {
     private static final long serialVersionUID = 245345L;
 
     @TableField("id")
-    private Long Id;
+    private String Id;
 
     @TableField("tenant_id")
-    private Long tenantId;
+    private String tenantId;
 
     @TableField("product_id")
-    private Long productId;
+    private String productId;
 
     @TableField("content")
     private String content;

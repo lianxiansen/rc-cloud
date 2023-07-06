@@ -20,7 +20,7 @@ public class ProductImageEntity extends Entity {
 
     private String url;
     private int sort;
-    private boolean defaultFlag;
+    //private boolean defaultFlag;
 
     public String getUrl() {
         return url;
@@ -32,7 +32,7 @@ public class ProductImageEntity extends Entity {
             throw new IllegalArgumentException("http地址无效");
         }
         this.url =url;
-        this.defaultFlag=false;//暂时没有用
+        //this.defaultFlag=false;//暂时没有用
         return this;
     }
 

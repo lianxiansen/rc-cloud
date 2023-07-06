@@ -32,5 +32,7 @@ public class Explosives extends ValueObject {
         return image;
     }
 
-
+    public boolean isFlag() {
+        return flag;
+    }
 }

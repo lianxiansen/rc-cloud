@@ -33,5 +33,19 @@ public class Video extends ValueObject {
         this.installVideoImg = installVideoImg;
     }
 
+    public String getVideoUrl() {
+        return videoUrl;
+    }
 
+    public String getVideoImg() {
+        return videoImg;
+    }
+
+    public String getInstallVideoUrl() {
+        return installVideoUrl;
+    }
+
+    public String getInstallVideoImg() {
+        return installVideoImg;
+    }
 }

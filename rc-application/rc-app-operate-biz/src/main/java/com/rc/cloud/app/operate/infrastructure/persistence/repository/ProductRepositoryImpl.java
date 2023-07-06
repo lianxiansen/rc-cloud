@@ -45,20 +45,12 @@ public class ProductRepositoryImpl implements  ProductRepository {
     private ProductImageRepositoryImpl productImageRepository;
     @Override
     public void insertProductEntry(Product productEntry) {
-        if(exist(productEntry.getId())){
 
-        }else{
-
-        }
     }
 
     @Override
     public void updateProductEntry(Product productEntry) {
-        if(exist(productEntry.getId())){
 
-        }else{
-
-        }
     }
 
 
@@ -108,7 +100,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
             ProductDictEntity productDictEntity=new ProductDictEntity();
             productDictEntity.setKey(productDictDO.getKey());
             productDictEntity.setValue(productDictDO.getValue());
-            productDictEntity.setSortId(productDictDO.getSortId());
+            productDictEntity.setSort(productDictDO.getSortId());
             arr.add(productDictEntity);
         }
         return arr;
@@ -130,7 +122,6 @@ public class ProductRepositoryImpl implements  ProductRepository {
             ProductImageEntity productImageEntity=new ProductImageEntity();
             productImageEntity.setUrl(productImage.getUrl());
             productImageEntity.setSort(productImage.getSortId());
-            productImageEntity.setDefaultFlag(productImage.getDefaultFlag());
             urls.add(productImageEntity);
         }
         return urls;
@@ -175,7 +166,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         product.setTag(tag);
         product.setBrandId(brandId);
         product.setCategory(firstCategory,secondCategory,thirdCategory);
-        product.setCustomClassification(customClassificationId);
+        product.setCustomClassificationId(customClassificationId);
         product.setNewest(newest);
         product.setExplosives(explosives);
         product.setRecommend(recommend);

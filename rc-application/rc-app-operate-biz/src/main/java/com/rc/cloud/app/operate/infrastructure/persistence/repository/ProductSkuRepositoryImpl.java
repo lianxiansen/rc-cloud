@@ -6,7 +6,7 @@ import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductSkuConvert;
+import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductSkuDOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
@@ -49,7 +49,7 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
     @Override
     public void insertProductSku(ProductSku productSkuEntity) {
 
-        ProductSkuDO productSkuDO= ProductSkuConvert.convert2ProductSkuDO(productSkuEntity);
+        ProductSkuDO productSkuDO= ProductSkuDOConvert.convert2ProductSkuDO(productSkuEntity);
         if(exist(productSkuEntity.getId())){
             LambdaQueryWrapperX<ProductSkuDO> wrapper = new LambdaQueryWrapperX<>();
             wrapper.eq(ProductSkuDO::getId, productSkuEntity.getId());
@@ -62,7 +62,7 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
     @Override
     public void updateProductSku(ProductSku productSkuEntity) {
 
-        ProductSkuDO productSkuDO= ProductSkuConvert.convert2ProductSkuDO(productSkuEntity);
+        ProductSkuDO productSkuDO= ProductSkuDOConvert.convert2ProductSkuDO(productSkuEntity);
         if(exist(productSkuEntity.getId())){
             LambdaQueryWrapperX<ProductSkuDO> wrapper = new LambdaQueryWrapperX<>();
             wrapper.eq(ProductSkuDO::getId, productSkuEntity.getId());

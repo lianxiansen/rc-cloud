@@ -8,7 +8,7 @@ public class ProductDictEntity {
 
     private String value;
 
-    private Integer sortId;
+    private int sort;
 
     public String getKey() {
         return key;
@@ -26,11 +26,11 @@ public class ProductDictEntity {
         this.value = value;
     }
 
-    public Integer getSortId() {
-        return sortId;
+    public int getSort() {
+        return sort;
     }
 
-    public void setSortId(Integer sortId) {
-        this.sortId = sortId;
+    public void setSort(int sort) {
+        this.sort = sort;
     }
 }

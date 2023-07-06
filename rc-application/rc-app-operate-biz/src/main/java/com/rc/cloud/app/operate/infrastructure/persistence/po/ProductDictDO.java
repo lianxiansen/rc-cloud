@@ -13,13 +13,13 @@ public class ProductDictDO {
     private static final long serialVersionUID = 55322L;
 
     @TableField("id")
-    private Long Id;
+    private String Id;
 
     @TableField("tenant_id")
-    private Long tenantId;
+    private String tenantId;
 
     @TableField("product_id")
-    private Long productId;
+    private String productId;
 
     @TableField("key")
     private String key;
