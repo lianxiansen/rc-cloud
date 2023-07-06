@@ -29,13 +29,13 @@ public class ProductSkuAttributeDO {
     private static final long serialVersionUID = 21231L;
 
     @TableField("id")
-    private Long Id;
+    private String Id;
 
     @TableField("tenant_id")
-    private Long tenantId;
+    private String tenantId;
 
     @TableField("product_sku_id")
-    private Long productSkuId;
+    private String productSkuId;
 
     @TableField("content")
     private String content;

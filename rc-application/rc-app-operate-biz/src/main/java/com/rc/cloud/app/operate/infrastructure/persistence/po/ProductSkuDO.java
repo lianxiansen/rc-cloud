@@ -44,9 +44,6 @@ public class ProductSkuDO extends BaseDO {
     @TableField("out_id")
     private String outId;
 
-    @TableField("has_image_flag")
-    private Boolean hasImageFlag;
-
     @TableField("limit_buy")
     private int limitBuy;
 

@@ -14,22 +14,16 @@ public class ProductSkuImageDO {
     private static final long serialVersionUID = 2213123L;
 
     @TableField("id")
-    private Long Id;
+    private String Id;
 
     @TableField("tenant_id")
-    private Long tenantId;
+    private String tenantId;
 
     @TableField("product_sku_id")
-    private Long productSkuId;
+    private String productSkuId;
 
     @TableField("url")
     private String url;
-
-    /**
-     * 是否是默认
-     */
-    @TableField("default_flag")
-    private Boolean defaultFlag;
 
 
     @TableField("sort_id")

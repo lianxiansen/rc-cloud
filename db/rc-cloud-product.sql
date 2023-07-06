@@ -218,7 +218,6 @@ CREATE TABLE `product_sku` (
         `sku_code` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '货号',
         `supply_price` decimal(18,2) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '供货价',
         `weight` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '重量',
-        `has_image_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '是否有图片 0无图片，1有图片',
         `out_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '外部ID',
         `limit_buy` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '限购',
         `price` decimal(18,2) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '价格',
