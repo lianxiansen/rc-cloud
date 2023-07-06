@@ -1,6 +1,7 @@
 package com.rc.cloud.app.system.api.user.feign;
 
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
+import com.rc.cloud.app.system.api.user.vo.SysUserVO;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.constant.ServiceNameConstants;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -26,7 +27,7 @@ public interface RemoteUserService {
 	 * @return CodeResult
 	 */
 	@PostMapping(value = "/sys/user/info-by-ids", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<UserInfo> infoByIds(@RequestParam("ids") List<Long> ids);
+	CodeResult<SysUserVO> infoByIds(@RequestParam("ids") List<Long> ids);
 
 	/**
 	 * 通过用户ID查询用户信息
@@ -34,7 +35,7 @@ public interface RemoteUserService {
 	 * @return CodeResult
 	 */
 	@GetMapping(value = "/sys/user/info-by-id/{id}", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<UserInfo> infoById(@PathVariable("id") Long id);
+	CodeResult<SysUserVO> infoById(@PathVariable("id") Long id);
 
 	/**
 	 * 通过用户名查询用户、角色信息
