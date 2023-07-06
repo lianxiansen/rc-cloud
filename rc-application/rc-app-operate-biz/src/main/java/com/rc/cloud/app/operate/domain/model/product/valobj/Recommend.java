@@ -13,4 +13,8 @@ public class Recommend extends ValueObject {
     public Recommend(boolean flag){
         this.flag=flag;
     }
+
+    public boolean getValue(){
+        return flag;
+    }
 }

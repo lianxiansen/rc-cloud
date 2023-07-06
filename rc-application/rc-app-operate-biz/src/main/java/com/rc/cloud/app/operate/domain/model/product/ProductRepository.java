@@ -18,7 +18,8 @@ import java.util.List;
  * @Description: TODO
  */
 public interface ProductRepository {
-    void saveProductEntry(Product productEntry);
+    void insertProductEntry(Product productEntry);
+    void updateProductEntry(Product productEntry);
     Product findById(ProductId productId);
 
     boolean exist(ProductId productId);

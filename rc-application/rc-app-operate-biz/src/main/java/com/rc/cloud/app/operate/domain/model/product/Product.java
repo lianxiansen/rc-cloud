@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
+import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
@@ -90,13 +91,13 @@ public class Product extends Entity {
     /**
      * 自定义标识
      */
-    private CustomClassification customClassification;
+    private CustomClassificationId customClassificationId;
 
 
 
-    public Product setCustomClassification(CustomClassification customClassification){
-        this.assertArgumentNotNull(customClassification, "customClassification must not be null");
-        this.customClassification = customClassification;
+    public Product setCustomClassificationId(CustomClassificationId customClassificationId){
+        this.assertArgumentNotNull(customClassificationId, "customClassification must not be null");
+        this.customClassificationId = customClassificationId;
         return this;
     }
 
@@ -189,18 +190,17 @@ public class Product extends Entity {
         if(productImages==null || productImages.size()<= 0){
             throw new IllegalArgumentException("productImages must not be null");
         }
-        this.customClassification = customClassification;
         this.masterImage= new MasterImage(urls.get(0));
         int pos=1;
         productImages =new ArrayList<>();
-//        for (String url : urls) {
-//            ProductImageEntity entity=new ProductImageEntity(this.getId());
-//            entity.setUrl(url)
-//                    .setDefaultFlag(pos==1?true:false)
-//                    .setSort(pos);
-//            pos++;
-//            productImages.add(entity);
-//        }
+        for (String url : urls) {
+            ProductImageEntity entity=new ProductImageEntity();
+            entity.setUrl(url)
+                    .setDefaultFlag(pos==1?true:false)
+                    .setSort(pos);
+            pos++;
+            productImages.add(entity);
+        }
         return this;
     }
 
@@ -372,6 +372,10 @@ public class Product extends Entity {
 
     public void setProductImages(List<ProductImageEntity> list){
         this.productImages = list;
+        if(list!=null){
+            ProductImageEntity productImageEntity = this.productImages.get(0);
+            this.masterImage=new MasterImage(productImageEntity.getUrl());
+        }
     }
 
     public ProductId getId(){
@@ -387,6 +391,9 @@ public class Product extends Entity {
 //        }
 //    }
 
+    public void clearAttribute(){
+        this.attributes.clear();
+    }
     /**
      * 添加产品的属性
      * @param attribute 颜色

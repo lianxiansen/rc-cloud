@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.util.StringUtils;
 
 /**
  * @ClassName: TenantId
@@ -17,7 +18,7 @@ public class Name extends ValueObject {
         return value;
     }
     public void setValue(String value) {
-        if (value == null) {
+        if (StringUtils.isEmpty(value)) {
             throw new IllegalArgumentException("商品名称不为空");
         }
 

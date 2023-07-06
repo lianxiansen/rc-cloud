@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Image;
 import com.rc.cloud.app.operate.domain.model.product.valobj.ImageDefault;
 import com.rc.cloud.app.operate.domain.model.product.valobj.ImageSort;
+import com.rc.cloud.common.core.util.StringUtils;
 
 /**
  * @ClassName: ProductImageEntry
@@ -21,14 +22,17 @@ public class ProductImageEntity extends Entity {
     private int sort;
     private boolean defaultFlag;
 
-
     public String getUrl() {
         return url;
     }
 
     public ProductImageEntity setUrl(String url) {
         this.assertArgumentNotNull(url, "url must not be null");
+        if(!StringUtils.ishttp(url)){
+            throw new IllegalArgumentException("http地址无效");
+        }
         this.url =url;
+        this.defaultFlag=false;//暂时没有用
         return this;
     }
 
@@ -42,14 +46,10 @@ public class ProductImageEntity extends Entity {
         return this;
     }
 
-    public boolean isDefaultFlag() {
-        return defaultFlag;
-    }
-
     public ProductImageEntity setDefaultFlag(boolean defaultFlag) {
 
         this.assertArgumentNotNull(defaultFlag, "defaultFlag must not be null");
-        this.defaultFlag = defaultFlag;
+
         return this;
     }
 }

@@ -47,7 +47,7 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
     }
 
     @Override
-    public void saveProductSku(ProductSku productSkuEntity) {
+    public void insertProductSku(ProductSku productSkuEntity) {
 
         ProductSkuDO productSkuDO= ProductSkuConvert.convert2ProductSkuDO(productSkuEntity);
         if(exist(productSkuEntity.getId())){
@@ -58,6 +58,20 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
             productSkuMapper.insert(productSkuDO);
         }
     }
+
+    @Override
+    public void updateProductSku(ProductSku productSkuEntity) {
+
+        ProductSkuDO productSkuDO= ProductSkuConvert.convert2ProductSkuDO(productSkuEntity);
+        if(exist(productSkuEntity.getId())){
+            LambdaQueryWrapperX<ProductSkuDO> wrapper = new LambdaQueryWrapperX<>();
+            wrapper.eq(ProductSkuDO::getId, productSkuEntity.getId());
+            productSkuMapper.update(productSkuDO,wrapper);
+        }else{
+            productSkuMapper.insert(productSkuDO);
+        }
+    }
+
 
     @Override
     public List<ProductSku> getProductSkuListByProductId(ProductId productId) {

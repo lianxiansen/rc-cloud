@@ -99,22 +99,11 @@ public class ProductSku extends Entity {
      */
     private LimitBuy limitBuy;
 
-    public ProductSku limitBuy(LimitBuy limitBuy){
-        this.assertArgumentNotNull(limitBuy, "limitBuy must not be null");
-        this.limitBuy =limitBuy;
-        return this;
-    }
-
     /**
      * 库存
      */
     private Inventory inventory;
 
-    public ProductSku inventory(Inventory inventory){
-        this.assertArgumentNotNull(inventory, "inventory must not be null");
-        this.inventory =inventory;
-        return this;
-    }
 
     /**
      * 暂时不考虑
@@ -127,19 +116,8 @@ public class ProductSku extends Entity {
      */
     private Sort sort;
 
-    public ProductSku sort(Sort sort){
-        this.assertArgumentNotNull(sort, "sort must not be null");
-        this.sort =sort;
-        return this;
-    }
 
     private boolean enabledFlag;
-    public ProductSku enabledFlag(boolean enabledFlag){
-        this.assertArgumentNotNull(enabledFlag, "enabledFlag must not be null");
-        this.enabledFlag =enabledFlag;
-        return this;
-    }
-
 
     public void setId(ProductSkuId id) {
         this.assertArgumentNotNull(id, "id must not be null");
@@ -259,5 +237,17 @@ public class ProductSku extends Entity {
         productSkuAttributeEntity.setAttributeValue(value);
         productSkuAttributeEntity.setSort(sort);
         skuAttributes.add(productSkuAttributeEntity);
+    }
+
+    public void setSkuCode(String skuCode) {
+        this.skuCode = skuCode;
+    }
+
+    public boolean isEnabledFlag() {
+        return enabledFlag;
+    }
+
+    public void setEnabledFlag(boolean enabledFlag) {
+        this.enabledFlag = enabledFlag;
     }
 }

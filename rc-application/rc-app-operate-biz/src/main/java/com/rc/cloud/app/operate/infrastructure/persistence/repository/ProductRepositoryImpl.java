@@ -1,14 +1,13 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
-import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductDictEntity;
 import com.rc.cloud.app.operate.domain.model.product.ProductImageEntity;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
+import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductDictMapper;
@@ -45,13 +44,23 @@ public class ProductRepositoryImpl implements  ProductRepository {
     @Autowired
     private ProductImageRepositoryImpl productImageRepository;
     @Override
-    public void saveProductEntry(Product productEntry) {
+    public void insertProductEntry(Product productEntry) {
         if(exist(productEntry.getId())){
 
         }else{
 
         }
     }
+
+    @Override
+    public void updateProductEntry(Product productEntry) {
+        if(exist(productEntry.getId())){
+
+        }else{
+
+        }
+    }
+
 
     @Override
     public Product findById(ProductId productId) {
@@ -148,7 +157,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         CategoryName firstCategory = new CategoryName(productDO.getFirstCategory());
         CategoryName secondCategory = new CategoryName(productDO.getSecondCategory());
         CategoryName thirdCategory = new CategoryName(productDO.getThirdCategory());
-        CustomClassification customClassification = new CustomClassification(productDO.getCustomClassificationId());
+        CustomClassificationId customClassificationId = new CustomClassificationId(productDO.getCustomClassificationId());
         Newest newest = new Newest(productDO.getNewFlag());
         Explosives explosives = null;
         if(productDO.getExplosivesFlag()){
@@ -166,7 +175,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         product.setTag(tag);
         product.setBrandId(brandId);
         product.setCategory(firstCategory,secondCategory,thirdCategory);
-        product.setCustomClassification(customClassification);
+        product.setCustomClassification(customClassificationId);
         product.setNewest(newest);
         product.setExplosives(explosives);
         product.setRecommend(recommend);

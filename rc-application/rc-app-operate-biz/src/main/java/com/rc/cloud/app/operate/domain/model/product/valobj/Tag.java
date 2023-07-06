@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.util.StringUtils;
 
 /**
  * @ClassName: TenantId
@@ -12,10 +13,17 @@ public class Tag extends ValueObject {
     private String value;
     public Tag(String value){
         //检验标签是否合法
-        value=value;
+       setValue(value);
     }
     public String getValue() {
         return value;
+    }
+
+    public void setValue(String value) {
+        if(StringUtils.isNotEmpty(value) && value.length()>1000){
+            throw new IllegalArgumentException(" The tag length cannot be greater than 1000");
+        }
+
     }
 
 }

@@ -27,4 +27,10 @@ public class Explosives extends ValueObject {
             this.assertArgumentNotNull(image,"image must not be null.");
         }
     }
+
+    public String getImage() {
+        return image;
+    }
+
+
 }

@@ -12,7 +12,9 @@ public interface ProductSkuRepository {
 
     List<ProductSku> getProductSkuListByProductId(ProductId productId);
 
-    void saveProductSku(ProductSku productSkuEntity);
+    void insertProductSku(ProductSku productSkuEntity);
+
+    void updateProductSku(ProductSku productSkuEntity);
 
     boolean exist(ProductSkuId productSkuId);
 

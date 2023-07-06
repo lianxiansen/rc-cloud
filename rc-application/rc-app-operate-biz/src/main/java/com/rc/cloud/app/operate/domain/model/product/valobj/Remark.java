@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.util.StringUtils;
 
 /**
  * @ClassName: TenantId
@@ -17,8 +18,8 @@ public class Remark extends ValueObject {
         return value;
     }
     public void setValue(String value) {
-        if(value.length()>1000){
-            throw new IllegalArgumentException("");
+        if(StringUtils.isNotEmpty(value) && value.length()>1000){
+            throw new IllegalArgumentException(" The remark length cannot be greater than 1000");
         }
 
     }

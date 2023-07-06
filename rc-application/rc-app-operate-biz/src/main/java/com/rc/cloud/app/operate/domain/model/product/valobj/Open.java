@@ -14,4 +14,8 @@ public class Open extends ValueObject {
     public Open(boolean flag){
         this.flag=flag;
     }
+
+    public boolean getValue(){
+        return flag;
+    }
 }
