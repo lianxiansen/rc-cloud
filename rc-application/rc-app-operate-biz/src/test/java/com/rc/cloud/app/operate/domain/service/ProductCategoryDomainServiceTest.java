@@ -21,13 +21,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Stream;
 
 import static org.mockito.Mockito.when;
 
@@ -46,9 +44,9 @@ import static org.mockito.Mockito.when;
  * 3.修改上级分类时，（更新当前分类所有子分类层级）
  * 4.修改上级分类时，不可将自己指定为上级分类
  * 5.删除产品分类
- * 5.1删除的产品分类
- * 5.2删除的产品分类有产品关联该分类，阻止删除 TODO
- * 5.3删除的产品分类有子分类，阻止删除失败 TODO
+ *  5.1删除的产品分类
+ *  5.2删除的产品分类有产品关联该分类，阻止删除
+ *  5.3删除的产品分类有子分类，阻止删除失败
  */
 
 @ExtendWith({SpringExtension.class})
@@ -66,36 +64,52 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     private ProductRepository productRepositoryMock;
     @MockBean
     private ProductCategoryRepository productCategoryRepositoryMock;
-    @Autowired
-    private ApplicationContext applicationContext;
 
     private List<ProductCategory> mockAllList;
-
-
-    @Test
-    @DisplayName("统计spring容器bean")
-    public void contextLoads() {
-        System.out.println(applicationContext.getBeanDefinitionCount());
-        Stream.of(applicationContext.getBeanDefinitionNames()).forEach(System.out::println);
-    }
-
 
     @Test
     @DisplayName("创建根产品分类")
     public void createRootProductCategoryTest() {
         ProductCategory root = createRootProductCategory();
-        Assertions.assertTrue(root.getLayer().getValue() == 1 && !ObjectUtils.isNull(root.getId()), "创建根级产品分类失败");
+        Assertions.assertTrue(ObjectUtils.isNotNull(root.getId()) &&
+                ObjectUtils.isNotNull(root.getId()) &&
+                ObjectUtils.isNotNull(root.getLayer()) &&
+                ObjectUtils.isNotNull(root.getChName()) &&
+                ObjectUtils.isNotNull(root.getEnabled()) &&
+                ObjectUtils.isNotNull(root.getEnName()) &&
+                ObjectUtils.isNotNull(root.getIcon()) &&
+                ObjectUtils.isNotNull(root.getSort()) &&
+                ObjectUtils.isNotNull(root.getTenantId()) &&
+                ObjectUtils.isNull(root.getParentId()) &&
+                root.getLayer().getValue() == Layer.ROOT, "创建根级产品分类失败");
     }
 
 
     @Test
-    @DisplayName("创建子产品分类")
-    public void createSubProductCategoryTest() {
+    @DisplayName("创建产品分类指定父产品分类")
+    public void createSubProductCategoryIfParentValidTest() {
         ProductCategory root = createRootProductCategory();
         ProductCategory sub = createSubProductCategory(root);
-        Assertions.assertTrue((sub.getLayer().getValue() == root.getLayer().getValue() + 1) && root.getId().equals(sub.getParentId()) && !ObjectUtils.isNull(sub.getId()), "创建子产品分类失败");
+        Assertions.assertTrue(ObjectUtils.isNotNull(root.getId()) &&
+                        ObjectUtils.isNotNull(sub.getId()) &&
+                        ObjectUtils.isNotNull(sub.getLayer()) &&
+                        sub.getLayer().equals(root.getLayer().addLayer(1)) &&
+                        ObjectUtils.isNotNull(sub.getChName()) &&
+                        ObjectUtils.isNotNull(sub.getEnabled()) &&
+                        ObjectUtils.isNotNull(sub.getEnName()) &&
+                        ObjectUtils.isNotNull(sub.getIcon()) &&
+                        ObjectUtils.isNotNull(sub.getSort()) &&
+                        ObjectUtils.isNotNull(sub.getTenantId()) &&
+                        ObjectUtils.isNotNull(sub.getParentId())&&
+                        sub.getParentId().equals(root.getId()), "创建子产品分类失败");
     }
-
+    @Test
+    @DisplayName("创建产品分类并指定无效的父产品分类，创建失败")
+    public void createSubProductCategoryIfParentInvalidTest() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            ProductCategory sub = createSubProductCategory(null);
+        });
+    }
 
     @Test
     @DisplayName("产品分类重新继承其它分类")
@@ -116,6 +130,23 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
         });
     }
 
+    @Test
+    @DisplayName("产品分类重新继承不存在的父级产品分类")
+    public void reInheritProductCategoryIfParentNotExist() {
+        List<ProductCategory> allList = mockAllList();
+        //将sub00继承root0修改为root1
+        int subIndex = 1;
+        int parentIndex = 5;
+        ProductCategory sub = allList.get(subIndex);
+        ProductCategory newParent = allList.get(parentIndex);
+        when(productCategoryRepositoryMock.findAll()).thenReturn(allList);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            productCategoryDomainServce.reInherit(sub, null);
+        });
+
+
+    }
+
 
     @Test
     @DisplayName("产品分类重新继承本身")
@@ -133,7 +164,7 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
-    @DisplayName("产品分类重新继承本身")
+    @DisplayName("删除产品分类")
     public void removeProductCategory() {
         List<ProductCategory> allList = mockAllList();
         ProductCategory productCategory = allList.get(4);
@@ -178,14 +209,14 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
         productCategory.setEnabled(new Enabled(true));
         productCategory.setPage(new Page(imgUrl, imgUrl));
         productCategory.setSort(new Sort(1));
-        productCategoryDomainServce.initialize(productCategory);
+        productCategory.root();
         return productCategory;
     }
 
-    private ProductCategory createSubProductCategory(ProductCategory parentProductAggregation) {
-        ProductCategory productCategoryAggregation = createRootProductCategory();
-        productCategoryAggregation.inherit(parentProductAggregation);
-        return productCategoryAggregation;
+    private ProductCategory createSubProductCategory(ProductCategory parentCategory) {
+        ProductCategory productCategory =createRootProductCategory();
+        productCategory.inherit(parentCategory);
+        return productCategory;
     }
 
     private List<ProductCategory> mockAllList() {
@@ -193,7 +224,7 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     }
 
     @BeforeAll
-    public void beforeAll(){
+    public void beforeAll() {
         ProductCategory root0 = createRootProductCategory();
         ProductCategory sub00 = createSubProductCategory(root0);
         ProductCategory sub01 = createSubProductCategory(root0);

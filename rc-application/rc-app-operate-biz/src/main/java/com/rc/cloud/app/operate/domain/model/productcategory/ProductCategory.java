@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.domain.model.productcategory;
 
 import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.common.Entity;
-import com.rc.cloud.app.operate.domain.model.productcategory.event.ProductCategoryRefreshEvent;
+import com.rc.cloud.app.operate.domain.model.productcategory.event.ProductCategorySaveEvent;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -144,32 +144,30 @@ public class ProductCategory extends Entity {
     }
 
     public void inherit(ProductCategory parent){
-        if(null!=parent){
-            Layer layer= parent.getLayer().addLayer(new Layer(1));
-            setLayer(layer);
-            this.parentId=parent.getId();
-        }else{
-            setLayer(new Layer(1));
-            this.parentId=null;
-        }
-        refresh();
+        this.assertArgumentNotNull(parent, "parent must not be null");
+        Layer layer= parent.getLayer().increment();
+        setLayer(layer);
+        this.parentId=parent.getId();
     }
 
     public void reInherit(ProductCategory parent){
-        if(null!=parent){
-            if(this.id.equals(parent.getId())){
-                throw new DomainException("不能指定上级分类为当前分类");
-            }
+        this.assertArgumentNotNull(parent, "parent must not be null");
+        if(this.id.equals(parent.getId())){
+            throw new DomainException("不能指定上级分类为当前分类");
         }
         inherit(parent);
-        refresh();
+    }
+
+    public void root(){
+        this.parentId=null;
+        this.setLayer(new Layer(Layer.ROOT));
     }
 
     /**
      * 刷新资源库领域对象
      */
-    public void refresh(){
-        ProductCategoryRefreshEvent event=new ProductCategoryRefreshEvent(this);
+    public void publishSaveEvent(){
+        ProductCategorySaveEvent event=new ProductCategorySaveEvent(this);
         SpringContextHolder.publishEvent(event);
     }
 
