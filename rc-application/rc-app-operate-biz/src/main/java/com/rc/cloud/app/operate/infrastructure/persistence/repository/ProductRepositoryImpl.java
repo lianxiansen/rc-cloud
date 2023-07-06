@@ -210,11 +210,6 @@ public class ProductRepositoryImpl implements  ProductRepository {
         return convert2ProductImage(this.productImageMapper.selectList(wrapper));
     }
 
-    @Override
-    public boolean existsByProductCategoryId(ProductCategoryId id) {
-        //TODO
-        return false;
-    }
 
     private List<ProductImageEntity> convert2ProductImage(List<ProductImageDO> productImageDOList){
         List<ProductImageEntity> urls=new ArrayList<>();
