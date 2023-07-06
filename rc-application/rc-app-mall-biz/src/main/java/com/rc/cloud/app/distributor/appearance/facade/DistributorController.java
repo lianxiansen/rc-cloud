@@ -12,9 +12,13 @@ import com.rc.cloud.app.distributor.appearance.resp.DistributorExcelVO;
 import com.rc.cloud.app.distributor.appearance.resp.DistributorRespVO;
 import com.rc.cloud.app.distributor.application.service.DistributorService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailPO;
+import com.rc.cloud.app.system.api.user.feign.RemoteUserService;
+import com.rc.cloud.app.system.api.user.vo.SysUserVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.excel.util.ExcelUtils;
+//import com.rc.cloud.common.security.service.RcUser;
+//import com.rc.cloud.common.security.utils.SecurityUtils;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +31,10 @@ import javax.validation.*;
 import javax.servlet.http.*;
 import java.util.*;
 import java.io.IOException;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import static com.rc.cloud.common.core.web.CodeResult.SUCCESS;
 
 @Tag(name = "用户 APP - 经销商")
 @RestController
@@ -38,12 +46,16 @@ public class DistributorController {
     private DistributorService service;
 
     @Resource
+    private RemoteUserService userService;
+
+    @Resource
     private DistributorContactService contactService;
 
     @PostMapping("/create")
     @Operation(summary = "创建经销商")
-
     public CodeResult<Long> create(@Valid @RequestBody DistributorCreateReqVO createReqVO) {
+//        RcUser user = SecurityUtils.getUser();
+//        createReqVO.setAdminId(user.getId());
         return CodeResult.ok(service.create(createReqVO));
     }
 
@@ -92,10 +104,21 @@ public class DistributorController {
 
     @GetMapping("/page")
     @Operation(summary = "获得经销商分页")
-
     public CodeResult<PageResult<DistributorRespVO>> getPage(@Valid DistributorPageReqVO pageVO) {
         PageResult<DistributorPO> pageResult = service.getPage(pageVO);
-        return CodeResult.ok(DistributorConvert.INSTANCE.convertPage(pageResult));
+        List<Long> userIds = pageResult.getList().stream().map(x -> x.getAdminId()).distinct().collect(Collectors.toList());
+        PageResult<DistributorRespVO> distributorRespVOPageResult = DistributorConvert.INSTANCE.convertPage(pageResult);
+        CodeResult<List<SysUserVO>> sysUserVOCodeResult = userService.infoByIds(userIds);
+
+        if(SUCCESS.getCode().equals(sysUserVOCodeResult.getCode())){
+            Map<Long, SysUserVO> sysUserVOMap = sysUserVOCodeResult.getData().stream().collect(Collectors.toMap(SysUserVO::getId, Function.identity()));
+            distributorRespVOPageResult.getList().forEach(x->{
+                if(sysUserVOMap.containsKey(x.getAdminId())){
+                    x.setAdminName(sysUserVOMap.get(x.getAdminId()).getUsername());
+                }
+            });
+        }
+        return CodeResult.ok(distributorRespVOPageResult);
     }
 
     @GetMapping("/export-excel")

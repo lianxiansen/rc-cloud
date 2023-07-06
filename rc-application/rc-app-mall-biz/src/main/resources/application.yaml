@@ -2,6 +2,10 @@ server:
   port: 8030
 
 spring:
+  security:
+    user:
+      name: admin
+      password: "{bcrypt}$2a$10$3EqFTg5lyyBkNTXqTpe5xeGwU6QSgBxzxSBc16fZARDZ.NYIk7w0W"
   application:
     name: rc-app-mall-biz
   main:
@@ -16,9 +20,9 @@ spring:
       username: nacos
       password: nacos
       discovery:
-        server-addr: 127.0.0.1:8848
-        enabled: false
-        register-enabled: false
+        server-addr: hqf:8848
+        enabled: true
+        register-enabled: true
 
 # Lock4j 配置项
 lock4j:

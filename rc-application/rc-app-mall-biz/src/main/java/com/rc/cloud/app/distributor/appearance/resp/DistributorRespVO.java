@@ -32,4 +32,7 @@ public class DistributorRespVO extends DistributorBaseVO {
 
     @Schema(description = "修改人")
     private String updater;
+
+    @Schema(description = "管理员姓名", example = "admin")
+    private String adminName;
 }

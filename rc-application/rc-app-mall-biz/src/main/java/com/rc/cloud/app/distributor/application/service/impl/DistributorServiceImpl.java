@@ -143,6 +143,7 @@ public class DistributorServiceImpl implements DistributorService {
         return mapper.selectById(id);
     }
 
+
     @Override
     public DistributorDetailPO getDetail(Long id) {
         // 校验存在
