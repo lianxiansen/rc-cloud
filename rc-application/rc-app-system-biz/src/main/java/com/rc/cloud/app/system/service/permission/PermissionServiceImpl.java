@@ -10,7 +10,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
 import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
-import com.rc.cloud.app.system.api.user.entity.SysUserDO;
+import com.rc.cloud.app.system.model.user.entity.SysUserDO;
 import com.rc.cloud.app.system.common.datapermission.core.annotation.DataPermission;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.mapper.permission.RoleMenuMapper;

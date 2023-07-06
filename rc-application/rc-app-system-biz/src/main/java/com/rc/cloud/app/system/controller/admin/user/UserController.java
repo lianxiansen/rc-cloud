@@ -3,8 +3,7 @@ package com.rc.cloud.app.system.controller.admin.user;
 import cn.hutool.core.collection.CollUtil;
 import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
-import com.rc.cloud.app.system.api.user.entity.SysUserDO;
-import com.rc.cloud.app.system.api.user.vo.SysUserVO;
+import com.rc.cloud.app.system.model.user.entity.SysUserDO;
 import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
@@ -165,14 +164,14 @@ public class UserController {
      */
 //    @Inner
     @GetMapping("/info-by-id/{id}")
-    public CodeResult<SysUserVO> infoById(@PathVariable Long id) {
+    public CodeResult<com.rc.cloud.app.system.api.user.vo.SysUserVO> infoById(@PathVariable Long id) {
         // 硬编码设置租户ID
         TenantContextHolder.setTenantId(1L);
         SysUserDO user = userService.getUser(id);
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
-        SysUserVO sysUserVO = new SysUserVO();
+        com.rc.cloud.app.system.api.user.vo.SysUserVO sysUserVO = new com.rc.cloud.app.system.api.user.vo.SysUserVO();
         BeanUtils.copyProperties(user, sysUserVO);
         return CodeResult.ok(sysUserVO);
     }
@@ -183,13 +182,13 @@ public class UserController {
      */
 //    @Inner
     @PostMapping("/info-by-ids")
-    public CodeResult<List<SysUserVO>> infoByIds(@RequestBody List<Long> ids) {
+    public CodeResult<List<com.rc.cloud.app.system.api.user.vo.SysUserVO>> infoByIds(@RequestBody List<Long> ids) {
         // 硬编码设置租户ID
         TenantContextHolder.setTenantId(1L);
         List<SysUserDO> users = userService.getUserList(ids);
-        List<SysUserVO> sysUserVOS = new ArrayList<>();
+        List<com.rc.cloud.app.system.api.user.vo.SysUserVO> sysUserVOS = new ArrayList<>();
         users.forEach(user -> {
-            SysUserVO sysUserVO = new SysUserVO();
+            com.rc.cloud.app.system.api.user.vo.SysUserVO sysUserVO = new com.rc.cloud.app.system.api.user.vo.SysUserVO();
             BeanUtils.copyProperties(user, sysUserVO);
             sysUserVOS.add(sysUserVO);
         });

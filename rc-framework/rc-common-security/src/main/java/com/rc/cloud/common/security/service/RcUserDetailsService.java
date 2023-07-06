@@ -2,7 +2,7 @@ package com.rc.cloud.common.security.service;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
-import com.rc.cloud.app.system.api.user.entity.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserVO;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -63,7 +63,7 @@ public interface RcUserDetailsService extends UserDetailsService, Ordered {
 
 		Collection<GrantedAuthority> authorities = AuthorityUtils
 				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
-		SysUserDO user = userInfo.getSysUser();
+		SysUserVO user = userInfo.getSysUser();
 
 		// 构造security用户
 		return new RcUser(user.getId(), user.getDeptId(), user.getUsername(),

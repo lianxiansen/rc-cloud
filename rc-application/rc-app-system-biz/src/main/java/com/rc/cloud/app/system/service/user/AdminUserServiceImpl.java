@@ -14,7 +14,8 @@ import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
 import com.rc.cloud.app.system.api.permission.entity.SysUserRoleDO;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
-import com.rc.cloud.app.system.api.user.entity.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserVO;
+import com.rc.cloud.app.system.model.user.entity.SysUserDO;
 import com.rc.cloud.app.system.common.datapermission.core.util.DataPermissionUtils;
 import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.mapper.dept.PostMapper;
@@ -37,6 +38,7 @@ import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import com.rc.cloud.common.mybatis.page.RcPage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -310,7 +312,9 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public UserInfo getUserInfo(SysUserDO sysUser) {
         UserInfo userInfo = new UserInfo();
-        userInfo.setSysUser(sysUser);
+        SysUserVO sysUserVO = new SysUserVO();
+        BeanUtils.copyProperties(sysUser, sysUserVO);
+        userInfo.setSysUser(sysUserVO);
         // 设置角色列表
         Set<Long> roleIds = userRoleMapper.selectRoleIdsByUserId(sysUser.getId());
         List<SysRoleDO> roleList = roleMapper.listRolesByRoleIds(roleIds);

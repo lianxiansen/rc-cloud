@@ -2,35 +2,36 @@ package com.rc.cloud.app.distributor.appearance.facade;
 
 import com.rc.cloud.app.distributor.appearance.req.*;
 import com.rc.cloud.app.distributor.appearance.resp.DistributorDetailRespVO;
+import com.rc.cloud.app.distributor.appearance.resp.DistributorExcelVO;
+import com.rc.cloud.app.distributor.appearance.resp.DistributorRespVO;
 import com.rc.cloud.app.distributor.appearance.vo.DistributorContactBaseVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorContactConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorDetailConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
-import com.rc.cloud.app.distributor.appearance.resp.DistributorExcelVO;
-import com.rc.cloud.app.distributor.appearance.resp.DistributorRespVO;
 import com.rc.cloud.app.distributor.application.service.DistributorService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailPO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.app.system.api.user.feign.RemoteUserService;
 import com.rc.cloud.app.system.api.user.vo.SysUserVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.excel.util.ExcelUtils;
-//import com.rc.cloud.common.security.service.RcUser;
-//import com.rc.cloud.common.security.utils.SecurityUtils;
-import org.springframework.web.bind.annotation.*;
-import javax.annotation.Resource;
-import org.springframework.validation.annotation.Validated;
-
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.Parameter;
+import com.rc.cloud.common.security.service.RcUser;
+import com.rc.cloud.common.security.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.*;
-import javax.servlet.http.*;
-import java.util.*;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -54,8 +55,8 @@ public class DistributorController {
     @PostMapping("/create")
     @Operation(summary = "创建经销商")
     public CodeResult<Long> create(@Valid @RequestBody DistributorCreateReqVO createReqVO) {
-//        RcUser user = SecurityUtils.getUser();
-//        createReqVO.setAdminId(user.getId());
+        RcUser user = SecurityUtils.getUser();
+        createReqVO.setAdminId(user.getId());
         return CodeResult.ok(service.create(createReqVO));
     }
 
