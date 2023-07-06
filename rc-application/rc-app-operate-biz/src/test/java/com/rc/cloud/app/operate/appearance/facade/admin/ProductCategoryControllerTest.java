@@ -4,6 +4,7 @@ import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
+import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,7 @@ public class ProductCategoryControllerTest {
     MockMvc mvc;
     @Autowired
     private ProductCategoryApplicationService productCategoryApplicationService;
+    private static final String imgUrl = "https://t7.baidu.com/it/u=3556773076,803642467&fm=3031&app=3031&size=f242,150&n=0&f=JPEG&fmt=auto?s=A51064321779538A505174D6020010B0&sec=1688490000&t=4ef579bd316ebdc454ab321a8676bbdf";
 
     @MockBean
     private RemoteIdGeneratorService remoteIdGeneratorService;
@@ -64,6 +66,14 @@ public class ProductCategoryControllerTest {
     @Test
     public void create() throws Exception {
         ProductCategoryCreateDTO productCategoryCreateDTO = new ProductCategoryCreateDTO();
+        productCategoryCreateDTO.setProductCategoryPageImage(imgUrl)
+                .setEnglishName(RandomUtils.randomString())
+                .setName(RandomUtils.randomString())
+                .setIcon(imgUrl)
+                .setTenantId(RandomUtils.randomString())
+                .setSortId(9)
+                .setEnabledFlag(true)
+                .setProductListPageImage(imgUrl);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(productCategoryCreateDTO);
