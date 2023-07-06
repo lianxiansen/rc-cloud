@@ -6,10 +6,7 @@ import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.constant.ServiceNameConstants;
 import com.rc.cloud.common.core.web.CodeResult;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -27,7 +24,7 @@ public interface RemoteUserService {
 	 * @return CodeResult
 	 */
 	@PostMapping(value = "/sys/user/info-by-ids", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<List<SysUserVO>> infoByIds(@RequestParam("ids") List<Long> ids);
+	CodeResult<List<SysUserVO>> infoByIds(@RequestBody List<Long> ids);
 
 	/**
 	 * 通过用户ID查询用户信息

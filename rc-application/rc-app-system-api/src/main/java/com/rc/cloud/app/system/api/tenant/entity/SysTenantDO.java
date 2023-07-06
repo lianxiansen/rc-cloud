@@ -3,7 +3,7 @@ package com.rc.cloud.app.system.api.tenant.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.rc.cloud.app.system.api.user.entity.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.*;
@@ -41,7 +41,7 @@ public class SysTenantDO extends BaseDO {
     /**
      * 联系人的用户编号
      *
-     * 关联 {@link SysUserDO#getId()}
+     * 关联 {@link SysUserVO#getId()}
      */
     private Long contactUserId;
     /**

@@ -4,7 +4,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
 import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
 import com.rc.cloud.app.system.api.tenant.entity.SysTenantDO;
-import com.rc.cloud.app.system.api.user.entity.SysUserDO;
+import com.rc.cloud.app.system.model.user.entity.SysUserDO;
 import com.rc.cloud.app.system.mapper.dept.UserPostMapper;
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
 import com.rc.cloud.app.system.api.dept.entity.SysUserPostDO;

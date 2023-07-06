@@ -2,7 +2,7 @@ package com.rc.cloud.app.system.api.user.dto;
 
 import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
 import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
-import com.rc.cloud.app.system.api.user.entity.SysUserDO;
+import com.rc.cloud.app.system.api.user.entity.SysUserVO;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,7 +18,7 @@ public class UserInfo implements Serializable {
 	/**
 	 * 用户基本信息
 	 */
-	private SysUserDO sysUser;
+	private SysUserVO sysUser;
 
 	/**
 	 * 权限标识集合

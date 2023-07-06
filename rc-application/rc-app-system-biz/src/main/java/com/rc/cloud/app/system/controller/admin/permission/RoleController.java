@@ -3,7 +3,7 @@ package com.rc.cloud.app.system.controller.admin.permission;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
 import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
-import com.rc.cloud.app.system.api.user.entity.SysUserDO;
+import com.rc.cloud.app.system.model.user.entity.SysUserDO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.convert.permission.RoleConvert;
 import com.rc.cloud.app.system.convert.user.UserConvert;
