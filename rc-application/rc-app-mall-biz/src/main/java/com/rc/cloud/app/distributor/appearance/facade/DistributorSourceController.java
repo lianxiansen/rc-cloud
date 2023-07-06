@@ -1,11 +1,14 @@
 package com.rc.cloud.app.distributor.appearance.facade;
 
+import com.rc.cloud.app.distributor.appearance.resp.DistributorLevelRespVO;
+import com.rc.cloud.app.distributor.application.convert.DistributorLevelConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorSourceConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorSourceService;
 import com.rc.cloud.app.distributor.appearance.req.DistributorSourceCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.DistributorSourcePageReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.DistributorSourceRespVO;
 import com.rc.cloud.app.distributor.appearance.req.DistributorSourceUpdateReqVO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -60,6 +63,13 @@ public class DistributorSourceController {
     public CodeResult<DistributorSourceRespVO> getSource(@RequestParam("id") Long id) {
         DistributorSourcePO source = sourceService.getSource(id);
         return CodeResult.ok(DistributorSourceConvert.INSTANCE.convert(source));
+    }
+
+    @GetMapping("/getAll")
+    @Operation(summary = "获得所有经销商客户等级")
+    public CodeResult<List<DistributorSourceRespVO>> getAll() {
+        List<DistributorSourcePO> poList = sourceService.getAll();
+        return CodeResult.ok(DistributorSourceConvert.INSTANCE.convertList(poList));
     }
 
     @GetMapping("/list")

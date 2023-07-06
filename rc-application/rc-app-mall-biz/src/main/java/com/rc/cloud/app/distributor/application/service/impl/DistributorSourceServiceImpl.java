@@ -66,6 +66,11 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     }
 
     @Override
+    public List<DistributorSourcePO> getAll() {
+        return sourceMapper.selectList();
+    }
+
+    @Override
     public List<DistributorSourcePO> getSourceList(Collection<Long> ids) {
         return sourceMapper.selectBatchIds(ids);
     }

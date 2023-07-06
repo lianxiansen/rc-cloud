@@ -47,6 +47,13 @@ public interface DistributorLevelService {
     DistributorLevelPO getLevel(Long id);
 
     /**
+     * 获得所有经销商客户等级
+     *
+     * @param
+     * @return 经销商客户等级
+     */
+    List<DistributorLevelPO> getAll();
+    /**
      * 获得经销商客户等级列表
      *
      * @param ids 编号
