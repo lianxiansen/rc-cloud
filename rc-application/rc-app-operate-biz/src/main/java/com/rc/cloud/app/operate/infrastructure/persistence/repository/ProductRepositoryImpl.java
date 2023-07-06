@@ -10,9 +10,12 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassifica
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductDOConvert;
+import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductAttributeMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductDictMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductAttributeDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
@@ -42,15 +45,106 @@ public class ProductRepositoryImpl implements  ProductRepository {
     private ProductDictMapper productDictMapper;
 
     @Autowired
-    private ProductImageRepositoryImpl productImageRepository;
-    @Override
-    public void insertProductEntry(Product productEntry) {
+    private ProductAttributeMapper productAttributeMapper;
 
+
+    public ProductRepositoryImpl() {
+    }
+
+    public void removeProductImageEntityByProductId(String productId){
+        LambdaQueryWrapperX<ProductImageDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductImageDO::getProductId, productId);
+        productImageMapper.delete(wrapper);
+    }
+
+
+    public void removeProductDictEntityByProductId(String productId){
+        LambdaQueryWrapperX<ProductDictDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDictDO::getProductId, productId);
+        productDictMapper.delete(wrapper);
+    }
+
+    public void updateProductImageEntity( ProductImageDO productImageDO){
+        LambdaQueryWrapperX<ProductImageDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductImageDO::getId, productImageDO.getId());
+        productImageMapper.update(productImageDO,wrapper);
+    }
+
+
+    public void updateProductDictEntity(ProductDictDO productDictDO){
+        LambdaQueryWrapperX<ProductDictDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDictDO::getId, productDictDO.getId());
+        productDictMapper.update(productDictDO,wrapper);
+    }
+
+
+    public void removeProductAttributeEntityByProductId(String productId){
+        LambdaQueryWrapperX<ProductAttributeDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductAttributeDO::getProductId, productId);
+        productAttributeMapper.delete(wrapper);
+    }
+
+    public void updateProductAttributeEntity(ProductAttributeDO productAttributeDO){
+        LambdaQueryWrapperX<ProductAttributeDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductAttributeDO::getProductId, productAttributeDO.getProductId());
+        productAttributeMapper.update(productAttributeDO,wrapper);
+    }
+
+
+    @Override
+    public void insertProductEntity(Product productEntity) {
+        if(exist(productEntity.getId())){
+            throw new IllegalArgumentException("该商品已存在");
+        }
+        ProductDO productDO = ProductDOConvert.convert2ProductDO(productEntity);
+        this.productMapper.insert(productDO);
+        if(productEntity.getProductImages()!=null){
+            List<ProductImageDO> productImageDOS = ProductDOConvert.convert2ProductImageDO(productEntity.getId().id()
+                    , productEntity.getTenantId().id(), productEntity.getProductImages());
+            for (ProductImageDO productImageDO : productImageDOS) {
+                this.productImageMapper.insert(productImageDO);
+            }
+        }
+        if(productEntity.getProductDicts()!=null){
+            List<ProductDictDO> productDictDOList = ProductDOConvert.convert2ProductDictDO(productEntity.getId().id()
+                    , productEntity.getTenantId().id(), productEntity.getProductDicts());
+            for (ProductDictDO productDictDO : productDictDOList) {
+                this.productDictMapper.insert(productDictDO);
+            }
+        }
+        ProductAttributeDO productAttributeDO = ProductDOConvert.convert2ProductAttributeDO(productEntity.getId().id()
+                , productEntity.getTenantId().id(), productEntity.getAttributes());
+        this.productAttributeMapper.insert(productAttributeDO);
     }
 
     @Override
-    public void updateProductEntry(Product productEntry) {
+    public void updateProductEntity(Product productEntity) {
+        LambdaQueryWrapperX<ProductDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDO::getId, productEntity.getId().id());
+        ProductDO productDO = ProductDOConvert.convert2ProductDO(productEntity);
+        this.productMapper.update(productDO,wrapper);
+        if(productEntity.getProductImages()!=null){
+            List<ProductImageDO> productImageDOS = ProductDOConvert.convert2ProductImageDO(productEntity.getId().id()
+                    , productEntity.getTenantId().id(), productEntity.getProductImages());
+            for (ProductImageDO productImageDO : productImageDOS) {
+               updateProductImageEntity(productImageDO);
+            }
+        }
+        if(productEntity.getProductDicts()!=null){
+            removeProductDictEntityByProductId(productEntity.getId().id());
+            List<ProductDictDO> productDictDOList = ProductDOConvert.convert2ProductDictDO(productEntity.getId().id()
+                    , productEntity.getTenantId().id(), productEntity.getProductDicts());
+            for (ProductDictDO productDictDO : productDictDOList) {
+               updateProductDictEntity(productDictDO);
+            }
+        }
+        removeProductAttributeEntityByProductId(productEntity.getId().id());
+        //ProductAttributeDO
 
+        ProductAttributeDO productAttributeDO = ProductDOConvert.convert2ProductAttributeDO(
+                productEntity.getId().id()
+                , productEntity.getTenantId().id(), productEntity.getAttributes());
+        updateProductAttributeEntity(productAttributeDO);
     }
 
 

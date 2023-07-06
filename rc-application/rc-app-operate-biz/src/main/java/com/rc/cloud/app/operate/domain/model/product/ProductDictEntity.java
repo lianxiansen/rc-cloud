@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 public class ProductDictEntity {
 
+    private String id;
     private String key;
 
     private String value;
@@ -32,5 +33,13 @@ public class ProductDictEntity {
 
     public void setSort(int sort) {
         this.sort = sort;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

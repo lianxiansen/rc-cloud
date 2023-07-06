@@ -131,7 +131,7 @@ public class ProductApplicationService {
                 ProductDictEntity entity=new ProductDictEntity();
                 entity.setKey(dict.getKey());
                 entity.setValue(dict.getValue());
-                entity.setSortId(dict.getSort());
+                entity.setSort(dict.getSort());
                 productDictEntities.add(entity);
             }
         }
@@ -150,7 +150,7 @@ public class ProductApplicationService {
             product.addAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
         }
         //保存spu
-        productRepository.insertProductEntry(product);
+        productRepository.insertProductEntity(product);
         //保存sku
         List<ProductSkuSaveDTO> skus = productSaveDTO.getSkus();
         if(skus==null || skus.size()<=0){
@@ -293,7 +293,7 @@ public class ProductApplicationService {
                     ProductDictEntity entity=new ProductDictEntity();
                     entity.setKey(dict.getKey());
                     entity.setValue(dict.getValue());
-                    entity.setSortId(dict.getSort());
+                    entity.setSort(dict.getSort());
                     productDictEntities.add(entity);
                 }
             }
@@ -308,7 +308,7 @@ public class ProductApplicationService {
             }
         }
         //保存spu
-        productRepository.updateProductEntry(product);
+        productRepository.updateProductEntity(product);
 
         if(productSaveDTO.getSkus()!=null){
 

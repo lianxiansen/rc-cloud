@@ -84,7 +84,7 @@ public class ProductDOConvert {
         return target;
     }
 
-    public ProductAttributeDO convert2ProductAttributeDO(String productId, String tenantId, SortedSet<ProductAttributeEntity> attributes){
+    public static ProductAttributeDO convert2ProductAttributeDO(String productId, String tenantId, SortedSet<ProductAttributeEntity> attributes){
         ProductAttributeDO productAttributeDO=new ProductAttributeDO();
         //不一定正确 TODO
         String attr = JSONUtil.toJsonStr(attributes);
@@ -100,6 +100,7 @@ public class ProductDOConvert {
         if(productImageEntityList!=null){
             for (ProductImageEntity productImageEntity : productImageEntityList) {
                 ProductImageDO productImageDO=new ProductImageDO();
+                productImageDO.setId(productImageEntity.getId().id());
                 productImageDO.setProductId(productId);
                 productImageDO.setUrl(productImageEntity.getUrl());
                 productImageDO.setTenantId(tenantId);
@@ -117,6 +118,7 @@ public class ProductDOConvert {
         if(productDictEntityList!=null){
             for (ProductDictEntity productDictEntity : productDictEntityList) {
                 ProductDictDO productDictDO=new ProductDictDO();
+                productDictDO.setId(productDictEntity.getId());
                 productDictDO.setProductId(productId);
                 productDictDO.setValue(productDictEntity.getValue());
                 productDictDO.setTenantId(tenantId);

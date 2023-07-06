@@ -4,10 +4,12 @@ import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductAttributeDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
 import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 
 import java.util.List;
 
@@ -18,8 +20,8 @@ import java.util.List;
  * @Description: TODO
  */
 public interface ProductRepository {
-    void insertProductEntry(Product productEntry);
-    void updateProductEntry(Product productEntry);
+    void insertProductEntity(Product productEntity);
+    void updateProductEntity(Product productEntity);
     Product findById(ProductId productId);
 
     boolean exist(ProductId productId);
@@ -32,4 +34,15 @@ public interface ProductRepository {
 
     //boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
 
+    void removeProductImageEntityByProductId(String productId);
+
+    void removeProductDictEntityByProductId(String productId);
+
+    void removeProductAttributeEntityByProductId(String productId);
+
+    void updateProductImageEntity( ProductImageDO productImageDO);
+
+    void updateProductDictEntity(ProductDictDO productDictDO);
+
+    void updateProductAttributeEntity(ProductAttributeDO productAttributeDO);
 }

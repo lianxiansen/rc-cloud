@@ -52,4 +52,12 @@ public class ProductImageEntity extends Entity {
 
         return this;
     }
+
+    public ProductImageId getId() {
+        return id;
+    }
+
+    public void setId(ProductImageId id) {
+        this.id = id;
+    }
 }
