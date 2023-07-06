@@ -67,7 +67,7 @@ public class ProductApplicationService {
         CategoryName secondCategory = new CategoryName(productSaveDTO.getSecondCategory());
         CategoryName thirdCategory = new CategoryName(productSaveDTO.getThirdCategory());
         CustomClassification customClassification = new CustomClassification(productSaveDTO.getCustomClassificationId());
-        Newest newest = new Newest(productSaveDTO.isNewFlag());
+        Newest newest = new Newest(productSaveDTO.getNewFlag());
         Explosives explosives = null;
         if(productSaveDTO.isExplosivesFlag()){
             explosives= new Explosives(productSaveDTO.isExplosivesFlag(),productSaveDTO.getExplosivesImage());
