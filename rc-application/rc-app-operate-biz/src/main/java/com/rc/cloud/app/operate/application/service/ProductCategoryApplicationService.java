@@ -42,9 +42,14 @@ public class ProductCategoryApplicationService {
         ProductCategory productCategory = new ProductCategory(id, tenantId, name);
         productCategory.setEnName(new EnName(productCategoryDTO.getEnglishName()));
         productCategory.setIcon(new Icon(productCategoryDTO.getIcon()));
-        productCategory.setEnabled(new Enabled(productCategoryDTO.getEnabledFlag()));
+        if(!ObjectUtils.isNull(productCategoryDTO.getEnabledFlag())){
+            productCategory.setEnabled(new Enabled(productCategoryDTO.getEnabledFlag()));
+        }
         productCategory.setPage(new Page(productCategoryDTO.getProductCategoryPageImage(), productCategoryDTO.getProductListPageImage()));
-        productCategory.setSort(new Sort(productCategoryDTO.getSortId()));
+        if(!ObjectUtils.isNotNull(productCategoryDTO.getSortId())){
+            productCategory.setSort(new Sort(productCategoryDTO.getSortId()));
+        }
+
         if (null != productCategoryDTO.getParentId()) {
             productCategory.setParentId(new ProductCategoryId(productCategoryDTO.getParentId()));
         }

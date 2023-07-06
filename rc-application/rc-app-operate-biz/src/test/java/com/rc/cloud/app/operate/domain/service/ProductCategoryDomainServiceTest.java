@@ -15,6 +15,8 @@ import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
 import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -40,23 +41,19 @@ import static org.mockito.Mockito.when;
  */
 
 /**
- * 1.新增一级产品类目
- * 2.新增子级产品类目
- * 3.修改上级类目时，（更新当前分类所有子类目层级）
- * 4.修改上级类目时，不可将自己指定为上级类目
+ * 1.新增一级产品分类
+ * 2.新增子级产品分类
+ * 3.修改上级分类时，（更新当前分类所有子分类层级）
+ * 4.修改上级分类时，不可将自己指定为上级分类
  * 5.删除产品分类
-     * 5.1删除的产品分类
-     * 5.2删除的产品分类有产品关联该类目，阻止删除 TODO
-     * 5.3删除的产品分类有子类目，阻止删除失败 TODO
+ * 5.1删除的产品分类
+ * 5.2删除的产品分类有产品关联该分类，阻止删除 TODO
+ * 5.3删除的产品分类有子分类，阻止删除失败 TODO
  */
 
 @ExtendWith({SpringExtension.class})
-@Import({ProductCategoryDomainServce.class,
-        ProductCategoryRepositoryImpl.class,
-        ProductCategoryDomainServce.class,
-        ProductRepositoryImpl.class,
-        ProductImageRepositoryImpl.class,
-        ProductCategoryRefreshListener.class})
+@Import({ProductCategoryDomainServce.class, ProductCategoryRepositoryImpl.class, ProductCategoryDomainServce.class, ProductRepositoryImpl.class, ProductImageRepositoryImpl.class, ProductCategoryRefreshListener.class})
+@DisplayName("产品分类领域服务测试")
 public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
 
     @Autowired
@@ -72,36 +69,36 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     @Autowired
     private ApplicationContext applicationContext;
 
+    private List<ProductCategory> mockAllList;
+
+
     @Test
-    void contextLoads() {
+    @DisplayName("统计spring容器bean")
+    public void contextLoads() {
         System.out.println(applicationContext.getBeanDefinitionCount());
         Stream.of(applicationContext.getBeanDefinitionNames()).forEach(System.out::println);
     }
 
-    /**
-     * 创建根产品类目
-     */
+
     @Test
+    @DisplayName("创建根产品分类")
     public void createRootProductCategoryTest() {
         ProductCategory root = createRootProductCategory();
-        Assertions.assertTrue(root.getLayer().getValue() == 1 && !ObjectUtils.isNull(root), "创建根级产品分类失败");
+        Assertions.assertTrue(root.getLayer().getValue() == 1 && !ObjectUtils.isNull(root.getId()), "创建根级产品分类失败");
     }
 
-    /**
-     * 创建子产品类目
-     */
+
     @Test
+    @DisplayName("创建子产品分类")
     public void createSubProductCategoryTest() {
         ProductCategory root = createRootProductCategory();
         ProductCategory sub = createSubProductCategory(root);
-        Assertions.assertTrue((sub.getLayer().getValue() == root.getLayer().getValue() + 1) && root.getId().equals(sub.getParentId()), "创建子产品分类失败");
+        Assertions.assertTrue((sub.getLayer().getValue() == root.getLayer().getValue() + 1) && root.getId().equals(sub.getParentId()) && !ObjectUtils.isNull(sub.getId()), "创建子产品分类失败");
     }
 
 
-    /**
-     * 产品类目重继承其它类目
-     */
     @Test
+    @DisplayName("产品分类重新继承其它分类")
     public void reInheritProductCategory() {
         List<ProductCategory> allList = mockAllList();
         //将sub00继承root0修改为root1
@@ -121,6 +118,7 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
 
 
     @Test
+    @DisplayName("产品分类重新继承本身")
     public void reInheritProductCategoryMyself() {
         List<ProductCategory> allList = mockAllList();
         //将sub00继承root0修改为root1
@@ -135,6 +133,7 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
+    @DisplayName("产品分类重新继承本身")
     public void removeProductCategory() {
         List<ProductCategory> allList = mockAllList();
         ProductCategory productCategory = allList.get(4);
@@ -143,6 +142,7 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
+    @DisplayName("删除关联产品的产品分类")
     public void removeProductCategoryIfProductExists() {
         List<ProductCategory> allList = mockAllList();
         ProductCategory productCategory = allList.get(4);
@@ -155,6 +155,7 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     }
 
     @Test
+    @DisplayName("删除含有子分类的产品分类")
     public void removeProductCategoryIfSubProductCategoryExists() {
         List<ProductCategory> allList = mockAllList();
         ProductCategory productCategory = allList.get(1);
@@ -188,7 +189,11 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     }
 
     private List<ProductCategory> mockAllList() {
-        List<ProductCategory> allList = new ArrayList<>();
+        return mockAllList;
+    }
+
+    @BeforeAll
+    public void beforeAll(){
         ProductCategory root0 = createRootProductCategory();
         ProductCategory sub00 = createSubProductCategory(root0);
         ProductCategory sub01 = createSubProductCategory(root0);
@@ -200,19 +205,18 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
         ProductCategory sub11 = createSubProductCategory(root1);
         ProductCategory sub100 = createSubProductCategory(sub10);
         ProductCategory sub101 = createSubProductCategory(sub10);
-        allList.add(root0);
-        allList.add(sub00);
-        allList.add(sub01);
-        allList.add(sub000);
-        allList.add(sub001);
+        mockAllList.add(root0);
+        mockAllList.add(sub00);
+        mockAllList.add(sub01);
+        mockAllList.add(sub000);
+        mockAllList.add(sub001);
 
-        allList.add(root1);
-        allList.add(sub10);
-        allList.add(sub11);
-        allList.add(sub11);
-        allList.add(sub100);
-        allList.add(sub101);
-        return allList;
+        mockAllList.add(root1);
+        mockAllList.add(sub10);
+        mockAllList.add(sub11);
+        mockAllList.add(sub11);
+        mockAllList.add(sub100);
+        mockAllList.add(sub101);
     }
 
 }
