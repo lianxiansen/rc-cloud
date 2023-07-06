@@ -52,6 +52,11 @@ spring:
           uri: lb://rc-app-mall-biz
           predicates:
             - Path=/mall/**
+        # base-config 模块
+        - id: rc-base-config
+          uri: lb://rc-base-config
+          predicates:
+            - Path=/base-config/**
         # 代码生成模块
 #        - id: rc-codegen
 #          uri: lb://rc-codegen

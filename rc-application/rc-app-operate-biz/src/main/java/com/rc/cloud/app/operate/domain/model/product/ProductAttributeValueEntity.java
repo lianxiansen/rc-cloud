@@ -1,20 +1,22 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.annotation.JSONField;
 import org.apache.commons.lang3.Validate;
 
 public class ProductAttributeValueEntity implements Comparable<ProductAttributeValueEntity> {
 
-
+    @JSONField(ordinal = 1, name = "attributeValue")
     private String attributeValue;
 
-    private Integer sortId;
+    @JSONField(ordinal = 1, name = "sort")
+    private Integer sort;
 
-    public ProductAttributeValueEntity(String attributeValue, Integer sortId) {
+    public ProductAttributeValueEntity(String attributeValue, Integer sort) {
         Validate.isTrue(StrUtil.isNotEmpty(attributeValue),"货号不能为空！");
-        Validate.isTrue(sortId>0,"sortId不能为空！");
+        Validate.isTrue(sort>0,"sort不能为空！");
         this.attributeValue = attributeValue;
-        this.sortId = sortId;
+        this.sort = sort;
     }
 
     public String getAttributeValue() {
@@ -25,13 +27,6 @@ public class ProductAttributeValueEntity implements Comparable<ProductAttributeV
         this.attributeValue = attributeValue;
     }
 
-    public Integer getSortId() {
-        return sortId;
-    }
-
-    public void setSortId(Integer sortId) {
-        this.sortId = sortId;
-    }
 
     @Override
     public int hashCode() {
@@ -40,7 +35,7 @@ public class ProductAttributeValueEntity implements Comparable<ProductAttributeV
 
     @Override
     public int compareTo(ProductAttributeValueEntity o) {
-        if(o.sortId<this.sortId){
+        if(o.sort<this.sort){
             return 1;
         }else{
             return -1;
@@ -52,4 +47,11 @@ public class ProductAttributeValueEntity implements Comparable<ProductAttributeV
         return super.toString();
     }
 
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 }

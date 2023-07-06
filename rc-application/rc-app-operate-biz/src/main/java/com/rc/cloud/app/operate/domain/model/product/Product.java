@@ -407,7 +407,7 @@ public class Product extends Entity {
         if(!first.isPresent()){
             ProductAttributeEntity productAttributeEntity=new ProductAttributeEntity();
             productAttributeEntity.setAttribute(attribute);
-            productAttributeEntity.setSortId(sort);
+            productAttributeEntity.setSort(sort);
             productAttributeEntity.addValue(new ProductAttributeValueEntity(value,sort));
         }else{
             ProductAttributeEntity productAttributeEntity = first.get();

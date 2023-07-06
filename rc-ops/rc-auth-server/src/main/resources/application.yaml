@@ -29,12 +29,19 @@ spring:
     prefer-file-system-access: true
     suffix: .ftl
     template-loader-path: classpath:/templates/
-  cache:
-    type: redis
-    data:
-      redis:
-        host: 127.0.0.1
-        port: 6379
+#  cache:
+#    type: redis
+#    data:
+#      redis:
+#        host: 125.124.110.195
+#        port: 6379
+#        password: rc123456
+#        database: 0
+  redis:
+    host: 125.124.110.195 # 地址
+    port: 6379 # 端口
+    database: 0 # 数据库
+    password: rc123456 # 密码
   cloud:
     nacos:
       username: nacos
