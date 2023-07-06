@@ -65,10 +65,6 @@ import java.util.List;
 @Data
 public class ProductSaveDTO {
 
-    /**
-     * 传入ADD EDIT
-     */
-    private String action;
 
     private String id;
 
