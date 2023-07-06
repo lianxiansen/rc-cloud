@@ -1,12 +1,14 @@
 package com.rc.cloud.app.system.api.user.feign;
 
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
+import com.rc.cloud.app.system.api.user.vo.SysUserVO;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.constant.ServiceNameConstants;
 import com.rc.cloud.common.core.web.CodeResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -21,11 +23,19 @@ public interface RemoteUserService {
 
 	/**
 	 * 通过用户ID查询用户信息
+	 * @param ids 用户ID列表
+	 * @return CodeResult
+	 */
+	@PostMapping(value = "/sys/user/info-by-ids", headers = SecurityConstants.HEADER_FROM_IN)
+	CodeResult<List<SysUserVO>> infoByIds(@RequestParam("ids") List<Long> ids);
+
+	/**
+	 * 通过用户ID查询用户信息
 	 * @param id 用户ID
 	 * @return CodeResult
 	 */
 	@GetMapping(value = "/sys/user/info-by-id/{id}", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<UserInfo> infoByUserId(@PathVariable("id") Long id);
+	CodeResult<SysUserVO> infoById(@PathVariable("id") Long id);
 
 	/**
 	 * 通过用户名查询用户、角色信息

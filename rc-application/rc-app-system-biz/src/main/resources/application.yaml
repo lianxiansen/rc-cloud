@@ -131,4 +131,4 @@ knife4j:
 security:
   oauth2:
     ignore:
-      urls: "/sys/user/info-by-id/**" # 忽略的 URL 地址，多个逗号分隔
+      urls: ["/sys/user/info-by-id/**", "/sys/user/info-by-ids"] # 忽略的 URL 地址，多个逗号分隔

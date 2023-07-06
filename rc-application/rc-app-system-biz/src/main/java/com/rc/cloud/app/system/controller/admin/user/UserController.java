@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.entity.SysUserDO;
+import com.rc.cloud.app.system.api.user.vo.SysUserVO;
 import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
@@ -18,6 +19,7 @@ import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -163,15 +165,35 @@ public class UserController {
      */
 //    @Inner
     @GetMapping("/info-by-id/{id}")
-    public CodeResult<UserInfo> infoByUserId(@PathVariable Long id) {
+    public CodeResult<SysUserVO> infoById(@PathVariable Long id) {
         // 硬编码设置租户ID
         TenantContextHolder.setTenantId(1L);
         SysUserDO user = userService.getUser(id);
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
-        UserInfo userInfo = userService.getUserInfo(user);
-        return CodeResult.ok(userInfo);
+        SysUserVO sysUserVO = new SysUserVO();
+        BeanUtils.copyProperties(user, sysUserVO);
+        return CodeResult.ok(sysUserVO);
+    }
+
+    /**
+     * 获取指定用户全部信息
+     * @return 用户信息
+     */
+//    @Inner
+    @PostMapping("/info-by-ids")
+    public CodeResult<List<SysUserVO>> infoByIds(@RequestBody List<Long> ids) {
+        // 硬编码设置租户ID
+        TenantContextHolder.setTenantId(1L);
+        List<SysUserDO> users = userService.getUserList(ids);
+        List<SysUserVO> sysUserVOS = new ArrayList<>();
+        users.forEach(user -> {
+            SysUserVO sysUserVO = new SysUserVO();
+            BeanUtils.copyProperties(user, sysUserVO);
+            sysUserVOS.add(sysUserVO);
+        });
+        return CodeResult.ok(sysUserVOS);
     }
 
 //    @GetMapping("/export")
