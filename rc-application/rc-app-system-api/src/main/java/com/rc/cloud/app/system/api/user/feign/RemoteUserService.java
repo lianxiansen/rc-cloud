@@ -20,6 +20,14 @@ import java.util.Set;
 public interface RemoteUserService {
 
 	/**
+	 * 通过用户ID查询用户信息
+	 * @param id 用户ID
+	 * @return CodeResult
+	 */
+	@GetMapping(value = "/sys/user/info-by-id/{id}", headers = SecurityConstants.HEADER_FROM_IN)
+	CodeResult<UserInfo> infoByUserId(@PathVariable("id") Long id);
+
+	/**
 	 * 通过用户名查询用户、角色信息
 	 * @param username 用户名
 	 * @return CodeResult
