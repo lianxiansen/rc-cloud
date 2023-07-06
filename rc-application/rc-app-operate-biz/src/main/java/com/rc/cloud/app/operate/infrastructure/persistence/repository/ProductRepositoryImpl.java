@@ -9,6 +9,7 @@ import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
+import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductDictMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
@@ -113,6 +114,12 @@ public class ProductRepositoryImpl implements  ProductRepository {
         LambdaQueryWrapperX<ProductImageDO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductImageDO::getProductId, productId.id());
         return convert2ProductImage(this.productImageMapper.selectList(wrapper));
+    }
+
+    @Override
+    public boolean existsByProductCategoryId(ProductCategoryId id) {
+        //TODO
+        return false;
     }
 
     private List<ProductImageEntity> convert2ProductImage(List<ProductImageDO> productImageDOList){

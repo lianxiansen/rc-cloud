@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.application.dto;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * @ClassName: ProductCategoryCreateRequest
@@ -9,6 +10,7 @@ import lombok.Data;
  * @Description: TODO
  */
 @Data
+@Accessors(chain = true)
 public class ProductCategoryCreateDTO {
     private String tenantId;
 
