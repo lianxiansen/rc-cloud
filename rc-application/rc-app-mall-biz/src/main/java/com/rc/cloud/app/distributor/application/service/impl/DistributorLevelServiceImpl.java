@@ -66,6 +66,11 @@ public class DistributorLevelServiceImpl implements DistributorLevelService {
     }
 
     @Override
+    public List<DistributorLevelPO> getAll() {
+        return levelMapper.selectList();
+    }
+
+    @Override
     public List<DistributorLevelPO> getLevelList(Collection<Long> ids) {
         return levelMapper.selectBatchIds(ids);
     }

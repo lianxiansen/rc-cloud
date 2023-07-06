@@ -6,6 +6,7 @@ import com.rc.cloud.app.distributor.appearance.req.DistributorChannelCreateReqVO
 import com.rc.cloud.app.distributor.appearance.req.DistributorChannelPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.DistributorChannelUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
+import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 /**
@@ -44,6 +45,14 @@ public interface DistributorChannelService {
      * @return 经销商渠道
      */
     DistributorChannelPO getChannel(Long id);
+
+    /**
+     * 获得所有经销商渠道
+     *
+     * @param
+     * @return 经销商渠道
+     */
+    List<DistributorChannelPO> getAll();
 
     /**
      * 获得经销商渠道列表

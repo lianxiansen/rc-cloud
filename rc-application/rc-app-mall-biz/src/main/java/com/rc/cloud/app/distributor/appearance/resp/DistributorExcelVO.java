@@ -1,6 +1,7 @@
 package com.rc.cloud.app.distributor.appearance.resp;
 
 import com.rc.cloud.common.excel.convert.EasyExcelLocalDateTimeConvert;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import java.time.LocalDateTime;
 
@@ -83,4 +84,9 @@ public class DistributorExcelVO {
     @ExcelProperty("是否锁定")
     private Integer locking;
 
+    @Schema(description = "修改时间")
+    private LocalDateTime updateTime;
+
+    @Schema(description = "修改人")
+    private String updater;
 }

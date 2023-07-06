@@ -46,6 +46,14 @@ public interface DistributorReputationService {
     DistributorReputationPO getReputation(Long id);
 
     /**
+     * 获得所有经销商信誉
+     *
+     * @param
+     * @return 经销商信誉
+     */
+    List<DistributorReputationPO> getAll();
+
+    /**
      * 获得经销商客户信誉列表
      *
      * @param ids 编号

@@ -1,24 +1,27 @@
 package com.rc.cloud.app.distributor;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.github.yulichang.autoconfigure.MybatisPlusJoinAutoConfiguration;
 import com.rc.cloud.app.distributor.appearance.req.DistributorPageReqVO;
+import com.rc.cloud.app.distributor.infrastructure.config.DistributorAutoConfig;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.common.mybatis.core.query.MPJLambdaWrapperX;
 import com.rc.cloud.common.mybatis.core.util.MyBatisUtils;
+import com.rc.cloud.common.test.annotation.RcTest;
+import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 /**
  * @author WJF
  * @create 2023-06-27 16:43
  * @description TODO
  */
-
-@SpringBootTest
-class DistributorApplicationTests {
+@RcTest
+class DistributorApplicationTests{
 
     @Autowired
     DistributorMapper distributorMapper;

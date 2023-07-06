@@ -23,16 +23,12 @@ public interface ProductRepository {
 
     boolean exist(ProductId productId);
 
-    ProductId nextProductId();
-
-    ProductImageId nextProductImageId();
-
     PageResult<Product> getProductPageList(ProductListQueryDTO productListQueryDTO);
 
     List<ProductDictEntity> getProductDictByProductId(ProductId productId);
 
     List<ProductImageEntity> getProductImageByProductId(ProductId productId);
 
-    boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
+    //boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
 
 }

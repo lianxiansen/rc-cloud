@@ -9,6 +9,7 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Description: TODO
  */
 public class Newest extends ValueObject {
+
     private boolean flag;
     public Newest(boolean flag){
         this.flag=flag;

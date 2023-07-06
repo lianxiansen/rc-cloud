@@ -46,6 +46,13 @@ public interface DistributorSourceService {
     DistributorSourcePO getSource(Long id);
 
     /**
+     * 获得所有经销商来源
+     *
+     * @param
+     * @return 经销商来源
+     */
+    List<DistributorSourcePO> getAll();
+    /**
      * 获得经销商来源列表
      *
      * @param ids 编号
