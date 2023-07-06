@@ -17,4 +17,5 @@ public class DistributorAutoConfig{
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
 }
