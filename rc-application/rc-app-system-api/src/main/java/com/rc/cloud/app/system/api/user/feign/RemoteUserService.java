@@ -22,7 +22,7 @@ public interface RemoteUserService {
 
 	/**
 	 * 通过用户ID查询用户信息
-	 * @param id 用户ID
+	 * @param ids 用户ID列表
 	 * @return CodeResult
 	 */
 	@PostMapping(value = "/sys/user/info-by-ids", headers = SecurityConstants.HEADER_FROM_IN)
