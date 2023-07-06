@@ -157,6 +157,23 @@ public class UserController {
         return CodeResult.ok(userInfo);
     }
 
+    /**
+     * 获取指定用户全部信息
+     * @return 用户信息
+     */
+//    @Inner
+    @GetMapping("/info-by-id/{id}")
+    public CodeResult<UserInfo> infoByUserId(@PathVariable Long id) {
+        // 硬编码设置租户ID
+        TenantContextHolder.setTenantId(1L);
+        SysUserDO user = userService.getUser(id);
+        if (user == null) {
+            throw exception(USER_NOT_EXISTS);
+        }
+        UserInfo userInfo = userService.getUserInfo(user);
+        return CodeResult.ok(userInfo);
+    }
+
 //    @GetMapping("/export")
 //    @Operation(summary = "导出用户")
 ////    @PreAuthorize("@ss.hasPermission('system:user:export')")
