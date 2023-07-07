@@ -14,13 +14,13 @@ public interface TenantFrameworkService {
      *
      * @return 租户编号数组
      */
-    List<Long> getTenantIds();
+    List<String> getTenantIds();
 
     /**
      * 校验租户是否合法
      *
      * @param id 租户编号
      */
-    void validTenant(Long id);
+    void validTenant(String id);
 
 }

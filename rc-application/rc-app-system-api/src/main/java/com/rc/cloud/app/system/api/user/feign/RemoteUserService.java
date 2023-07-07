@@ -24,7 +24,7 @@ public interface RemoteUserService {
 	 * @return CodeResult
 	 */
 	@PostMapping(value = "/sys/user/info-by-ids", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<List<SysUserVO>> infoByIds(@RequestBody List<Long> ids);
+	CodeResult<List<SysUserVO>> infoByIds(@RequestBody List<String> ids);
 
 	/**
 	 * 通过用户ID查询用户信息
@@ -32,7 +32,7 @@ public interface RemoteUserService {
 	 * @return CodeResult
 	 */
 	@GetMapping(value = "/sys/user/info-by-id/{id}", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<SysUserVO> infoById(@PathVariable("id") Long id);
+	CodeResult<SysUserVO> infoById(@PathVariable("id") String id);
 
 	/**
 	 * 通过用户名查询用户、角色信息
@@ -56,6 +56,6 @@ public interface RemoteUserService {
 	 * @return 用户 id 集合
 	 */
 	@GetMapping(value = "/sys/user/ids", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<List<Long>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Long> deptIds);
+	CodeResult<List<String>> listUserIdByDeptIds(@RequestParam("deptIds") Set<String> deptIds);
 
 }

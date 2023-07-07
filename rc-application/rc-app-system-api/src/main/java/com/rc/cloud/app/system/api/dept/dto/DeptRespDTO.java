@@ -14,7 +14,7 @@ public class DeptRespDTO {
     /**
      * 部门编号
      */
-    private Long id;
+    private String id;
     /**
      * 部门名称
      */
@@ -22,11 +22,11 @@ public class DeptRespDTO {
     /**
      * 父部门编号
      */
-    private Long parentId;
+    private String parentId;
     /**
      * 负责人的用户编号
      */
-    private Long leaderUserId;
+    private String leaderUserId;
     /**
      * 部门状态
      *

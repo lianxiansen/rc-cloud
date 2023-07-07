@@ -24,8 +24,8 @@ public class TenantUtils {
      * @param tenantId 租户编号
      * @param runnable 逻辑
      */
-    public static void execute(Long tenantId, Runnable runnable) {
-        Long oldTenantId = TenantContextHolder.getTenantId();
+    public static void execute(String tenantId, Runnable runnable) {
+        String oldTenantId = TenantContextHolder.getTenantId();
         Boolean oldIgnore = TenantContextHolder.isIgnore();
         try {
             TenantContextHolder.setTenantId(tenantId);
@@ -47,8 +47,8 @@ public class TenantUtils {
      * @param tenantId 租户编号
      * @param callable 逻辑
      */
-    public static <V> V execute(Long tenantId, Callable<V> callable) {
-        Long oldTenantId = TenantContextHolder.getTenantId();
+    public static <V> V execute(String tenantId, Callable<V> callable) {
+        String oldTenantId = TenantContextHolder.getTenantId();
         Boolean oldIgnore = TenantContextHolder.isIgnore();
         try {
             TenantContextHolder.setTenantId(tenantId);
@@ -85,7 +85,7 @@ public class TenantUtils {
      * @param headers HTTP 请求 headers
      */
     public static void addTenantHeader(Map<String, String> headers) {
-        Long tenantId = TenantContextHolder.getTenantId();
+        String tenantId = TenantContextHolder.getTenantId();
         if (tenantId != null) {
             headers.put(HEADER_TENANT_ID, tenantId.toString());
         }

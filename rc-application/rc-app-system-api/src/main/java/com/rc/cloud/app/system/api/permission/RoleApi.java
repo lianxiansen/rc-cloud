@@ -16,6 +16,6 @@ public interface RoleApi {
      *
      * @param ids 角色编号数组
      */
-    void validRoleList(Collection<Long> ids);
+    void validRoleList(Collection<String> ids);
 
 }

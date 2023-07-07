@@ -21,14 +21,14 @@ public class SysUserRoleDO extends BaseDO {
      * 自增主键
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
     /**
      * 用户 ID
      */
-    private Long userId;
+    private String userId;
     /**
      * 角色 ID
      */
-    private Long roleId;
+    private String roleId;
 
 }

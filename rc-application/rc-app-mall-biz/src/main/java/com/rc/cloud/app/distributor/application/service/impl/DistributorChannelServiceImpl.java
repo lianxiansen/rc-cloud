@@ -32,7 +32,7 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
     private DistributorChannelMapper channelMapper;
 
     @Override
-    public Long createChannel(DistributorChannelCreateReqVO createReqVO) {
+    public String createChannel(DistributorChannelCreateReqVO createReqVO) {
         // 插入
         DistributorChannelPO channel = DistributorChannelConvert.INSTANCE.convert(createReqVO);
         channelMapper.insert(channel);
@@ -50,21 +50,21 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
     }
 
     @Override
-    public void deleteChannel(Long id) {
+    public void deleteChannel(String id) {
         // 校验存在
         validateChannelExists(id);
         // 删除
         channelMapper.deleteById(id);
     }
 
-    private void validateChannelExists(Long id) {
+    private void validateChannelExists(String id) {
         if (channelMapper.selectById(id) == null) {
             throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_CHANNEL_NOT_EXISTS);
         }
     }
 
     @Override
-    public DistributorChannelPO getChannel(Long id) {
+    public DistributorChannelPO getChannel(String id) {
         return channelMapper.selectById(id);
     }
 
@@ -74,7 +74,7 @@ public class DistributorChannelServiceImpl implements DistributorChannelService 
     }
 
     @Override
-    public List<DistributorChannelPO> getChannelList(Collection<Long> ids) {
+    public List<DistributorChannelPO> getChannelList(Collection<String> ids) {
         return channelMapper.selectBatchIds(ids);
     }
 

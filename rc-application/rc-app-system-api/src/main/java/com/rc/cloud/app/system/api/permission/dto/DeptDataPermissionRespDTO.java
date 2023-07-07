@@ -24,7 +24,7 @@ public class DeptDataPermissionRespDTO {
     /**
      * 可查看的部门编号数组
      */
-    private Set<Long> deptIds;
+    private Set<String> deptIds;
 
     public DeptDataPermissionRespDTO() {
         this.all = false;

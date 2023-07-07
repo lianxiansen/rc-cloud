@@ -29,7 +29,7 @@ public class DistributorReputationServiceImpl implements DistributorReputationSe
     private DistributorReputationMapper reputationMapper;
 
     @Override
-    public Long createReputation(DistributorReputationCreateReqVO createReqVO) {
+    public String createReputation(DistributorReputationCreateReqVO createReqVO) {
         // 插入
         DistributorReputationPO reputation = DistributorReputationConvert.INSTANCE.convert(createReqVO);
         reputationMapper.insert(reputation);
@@ -47,21 +47,21 @@ public class DistributorReputationServiceImpl implements DistributorReputationSe
     }
 
     @Override
-    public void deleteReputation(Long id) {
+    public void deleteReputation(String id) {
         // 校验存在
         validateReputationExists(id);
         // 删除
         reputationMapper.deleteById(id);
     }
 
-    private void validateReputationExists(Long id) {
+    private void validateReputationExists(String id) {
         if (reputationMapper.selectById(id) == null) {
             throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_REPUTATION_NOT_EXISTS);
         }
     }
 
     @Override
-    public DistributorReputationPO getReputation(Long id) {
+    public DistributorReputationPO getReputation(String id) {
         return reputationMapper.selectById(id);
     }
 
@@ -71,7 +71,7 @@ public class DistributorReputationServiceImpl implements DistributorReputationSe
     }
 
     @Override
-    public List<DistributorReputationPO> getReputationList(Collection<Long> ids) {
+    public List<DistributorReputationPO> getReputationList(Collection<String> ids) {
         return reputationMapper.selectBatchIds(ids);
     }
 

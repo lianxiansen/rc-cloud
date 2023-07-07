@@ -40,7 +40,7 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
     void createSource() {
         DistributorSourceCreateReqVO reqVO = randomPojo(DistributorSourceCreateReqVO.class, o -> {});
         // 调用
-        Long sourceId = sourceService.createSource(reqVO);
+        String sourceId = sourceService.createSource(reqVO);
         // 断言
         assertNotNull(sourceId);
         // 校验记录的属性是否正确
@@ -72,7 +72,7 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
         DistributorSourcePO postDO =  randomDistributorSourcePO();
         sourceMapper.insert(postDO);
         // 准备参数
-        Long id = postDO.getId();
+        String id = postDO.getId();
 
         // 调用
         sourceService.deleteSource(id);
@@ -85,7 +85,7 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
         DistributorSourcePO sourceDO = randomDistributorSourcePO();
         sourceMapper.insert(sourceDO);
         // 准备参数
-        Long id = sourceDO.getId();
+        String id = sourceDO.getId();
         // 调用
         DistributorSourcePO source = sourceService.getSource(id);
         // 断言
@@ -102,7 +102,7 @@ class DistributorSourceServiceImplTest extends BaseDbUnitTest{
         DistributorSourcePO postDO02 = randomDistributorSourcePO();
         sourceMapper.insert(postDO02);
         // 准备参数
-        List<Long> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
+        List<String> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
 
         // 调用
         List<DistributorSourcePO> list = sourceService.getSourceList(ids);

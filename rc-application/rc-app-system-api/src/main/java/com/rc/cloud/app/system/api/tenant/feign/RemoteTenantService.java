@@ -16,10 +16,10 @@ import java.util.List;
 public interface RemoteTenantService {
 
 	@GetMapping(value = "/sys/tenant/getTenantIdList", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<List<Long>> getTenantIdList();
+	CodeResult<List<String>> getTenantIdList();
 
 
 	@GetMapping(value = "/sys/tenant/validateTenant", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult validateTenant(Long id);
+	CodeResult validateTenant(String id);
 
 }

@@ -35,7 +35,7 @@ public class SysUserVO extends TenantBaseDO {
      * 用户ID
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
     /**
      * 用户账号
      */
@@ -57,12 +57,12 @@ public class SysUserVO extends TenantBaseDO {
     /**
      * 部门 ID
      */
-    private Long deptId;
+    private String deptId;
     /**
      * 岗位编号数组
      */
     @TableField(typeHandler = JsonLongSetTypeHandler.class)
-    private Set<Long> postIds;
+    private Set<String> postIds;
     /**
      * 用户邮箱
      */

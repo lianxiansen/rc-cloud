@@ -13,6 +13,6 @@ public class DistributorChannelUpdateReqVO extends DistributorChannelBaseVO {
 
     @Schema(description = "id", requiredMode = Schema.RequiredMode.REQUIRED, example = "7726")
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
 
 }

@@ -26,7 +26,7 @@ public class SysTenantPackageDO extends BaseDO {
      * 套餐编号，自增
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
     /**
      * 套餐名，唯一
      */
@@ -45,6 +45,6 @@ public class SysTenantPackageDO extends BaseDO {
      * 关联的菜单编号
      */
     @TableField(typeHandler = JsonLongSetTypeHandler.class)
-    private Set<Long> menuIds;
+    private Set<String> menuIds;
 
 }

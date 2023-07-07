@@ -36,7 +36,7 @@ public class DistributorChannelController {
     @PostMapping("/create")
     @Operation(summary = "创建经销商渠道")
 
-    public CodeResult<Long> createChannel(@Valid @RequestBody DistributorChannelCreateReqVO createReqVO) {
+    public CodeResult<String> createChannel(@Valid @RequestBody DistributorChannelCreateReqVO createReqVO) {
         return CodeResult.ok(channelService.createChannel(createReqVO));
     }
 
@@ -52,7 +52,7 @@ public class DistributorChannelController {
     @Operation(summary = "删除经销商渠道")
     @Parameter(name = "id", description = "编号", required = true)
 
-    public CodeResult<Boolean> deleteChannel(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> deleteChannel(@RequestParam("id") String id) {
         channelService.deleteChannel(id);
         return CodeResult.ok(true);
     }
@@ -61,7 +61,7 @@ public class DistributorChannelController {
     @Operation(summary = "获得经销商渠道")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
-    public CodeResult<DistributorChannelRespVO> getChannel(@RequestParam("id") Long id) {
+    public CodeResult<DistributorChannelRespVO> getChannel(@RequestParam("id") String id) {
         DistributorChannelPO channel = channelService.getChannel(id);
         return CodeResult.ok(DistributorChannelConvert.INSTANCE.convert(channel));
     }
@@ -70,7 +70,7 @@ public class DistributorChannelController {
     @Operation(summary = "获得经销商渠道列表")
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
-    public CodeResult<List<DistributorChannelRespVO>> getChannelList(@RequestParam("ids") Collection<Long> ids) {
+    public CodeResult<List<DistributorChannelRespVO>> getChannelList(@RequestParam("ids") Collection<String> ids) {
         List<DistributorChannelPO> list = channelService.getChannelList(ids);
         return CodeResult.ok(DistributorChannelConvert.INSTANCE.convertList(list));
     }

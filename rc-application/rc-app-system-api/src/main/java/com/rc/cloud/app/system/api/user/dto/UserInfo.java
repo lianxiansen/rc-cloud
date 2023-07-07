@@ -28,7 +28,7 @@ public class UserInfo implements Serializable {
 	/**
 	 * 角色集合
 	 */
-	private Long[] roles;
+	private String[] roles;
 
 	/**
 	 * 角色集合
@@ -38,7 +38,7 @@ public class UserInfo implements Serializable {
 	/**
 	 * 岗位集合
 	 */
-	private Long[] posts;
+	private String[] posts;
 
 	/**
 	 * 岗位集合

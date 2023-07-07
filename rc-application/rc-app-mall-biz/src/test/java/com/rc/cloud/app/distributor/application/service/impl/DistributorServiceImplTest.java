@@ -68,7 +68,7 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
             o.setContacts(voList);
             o.setLocking(0);
         });
-        Long id = distributorService.create(reqVO);
+        String id = distributorService.create(reqVO);
         //断言
         Assert.assertNotNull(id);
         DistributorDetailPO detailDO = detailMapper.selectOne(new LambdaQueryWrapperX<DistributorDetailPO>()
@@ -139,7 +139,7 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
             o.setContacts(voList);
             o.setLocking(0);
         });
-        Long id = distributorService.create(reqVO);
+        String id = distributorService.create(reqVO);
 
         //删除
         distributorService.delete(id);

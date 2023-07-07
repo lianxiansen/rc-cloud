@@ -14,6 +14,6 @@ public class DistributorReputationUpdateReqVO extends DistributorReputationBaseV
 
     @Schema(description = "id", requiredMode = Schema.RequiredMode.REQUIRED, example = "29766")
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
 
 }

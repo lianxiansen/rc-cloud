@@ -22,18 +22,18 @@ public class SysUserPostDO extends BaseDO {
      * 自增主键
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
     /**
      * 用户 ID
      *
      * 关联 {@link SysUserVO#getId()}
      */
-    private Long userId;
+    private String userId;
     /**
      * 角色 ID
      *
      * 关联 {@link SysPostDO#getId()}
      */
-    private Long postId;
+    private String postId;
 
 }

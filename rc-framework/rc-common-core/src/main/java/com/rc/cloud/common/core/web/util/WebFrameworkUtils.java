@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.rc.cloud.common.core.exception.enums.GlobalErrorCodeConstants.NOT_FOUND_HTTP_SERVLET_REQUEST;
@@ -53,15 +54,15 @@ public class WebFrameworkUtils {
      * @param request 请求
      * @return 租户编号
      */
-    public static Long getTenantId(HttpServletRequest request) {
+    public static String getTenantId(HttpServletRequest request) {
         String tenantId = request.getHeader(HEADER_TENANT_ID);
         if (tenantId == null) {
             tenantId = String.valueOf(request.getHeaders(HEADER_TENANT_ID));
         }
-        return NumberUtil.isNumber(tenantId) ? Long.valueOf(tenantId) : null;
+        return Objects.equals(tenantId, "") ? tenantId : null;
     }
 
-    public static void setLoginUserId(ServletRequest request, Long userId) {
+    public static void setLoginUserId(ServletRequest request, String userId) {
         request.setAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID, userId);
     }
 
@@ -98,11 +99,11 @@ public class WebFrameworkUtils {
      * @param request 请求
      * @return 用户编号
      */
-    public static Long getLoginUserId(HttpServletRequest request) {
+    public static String getLoginUserId(HttpServletRequest request) {
         if (request == null) {
             return null;
         }
-        return (Long) request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID);
+        return request.getAttribute(REQUEST_ATTRIBUTE_LOGIN_USER_ID).toString();
     }
 
     /**
@@ -136,7 +137,7 @@ public class WebFrameworkUtils {
 //        return getLoginUserType(request);
 //    }
 
-    public static Long getLoginUserId() {
+    public static String getLoginUserId() {
         if (getRequest().isPresent()) {
             return getLoginUserId(getRequest().get());
         }

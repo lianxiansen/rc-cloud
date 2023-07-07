@@ -23,7 +23,7 @@ public class DistributorPO extends BaseDO {
      * id
      */
     @TableId(type=IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
     /**
      * 企业名称
      */
@@ -71,7 +71,7 @@ public class DistributorPO extends BaseDO {
     /**
      * 管理员id
      */
-    private Long adminId;
+    private String adminId;
     /**
      * 联系电话
      */
@@ -79,19 +79,19 @@ public class DistributorPO extends BaseDO {
     /**
      * 客户渠道id
      */
-    private Long channel;
+    private String channel;
     /**
      * 获客方式id
      */
-    private Long source;
+    private String source;
     /**
      * 客户等级id
      */
-    private Long level;
+    private String level;
     /**
      * 信誉等级
      */
-    private Long reputation;
+    private String reputation;
     /**
      * 成立时间
      */

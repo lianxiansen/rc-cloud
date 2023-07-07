@@ -24,7 +24,7 @@ public class SysDeptDO extends TenantBaseDO {
      * 部门ID
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
     /**
      * 部门名称
      */
@@ -44,7 +44,7 @@ public class SysDeptDO extends TenantBaseDO {
      *
      * 关联 {@link SysUserVO#getId()}
      */
-    private Long leaderUserId;
+    private String leaderUserId;
     /**
      * 联系电话
      */

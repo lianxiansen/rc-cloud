@@ -35,7 +35,7 @@ public class DistributorReputationController {
     @PostMapping("/create")
     @Operation(summary = "创建经销商客户信誉")
 
-    public CodeResult<Long> createReputation(@Valid @RequestBody DistributorReputationCreateReqVO createReqVO) {
+    public CodeResult<String> createReputation(@Valid @RequestBody DistributorReputationCreateReqVO createReqVO) {
         return CodeResult.ok(reputationService.createReputation(createReqVO));
     }
 
@@ -51,7 +51,7 @@ public class DistributorReputationController {
     @Operation(summary = "删除经销商客户信誉")
     @Parameter(name = "id", description = "编号", required = true)
 
-    public CodeResult<Boolean> deleteReputation(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> deleteReputation(@RequestParam("id") String id) {
         reputationService.deleteReputation(id);
         return CodeResult.ok(true);
     }
@@ -60,7 +60,7 @@ public class DistributorReputationController {
     @Operation(summary = "获得经销商客户信誉")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
-    public CodeResult<DistributorReputationRespVO> getReputation(@RequestParam("id") Long id) {
+    public CodeResult<DistributorReputationRespVO> getReputation(@RequestParam("id") String id) {
         DistributorReputationPO reputation = reputationService.getReputation(id);
         return CodeResult.ok(DistributorReputationConvert.INSTANCE.convert(reputation));
     }
@@ -76,7 +76,7 @@ public class DistributorReputationController {
     @Operation(summary = "获得经销商客户信誉列表")
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
-    public CodeResult<List<DistributorReputationRespVO>> getReputationList(@RequestParam("ids") Collection<Long> ids) {
+    public CodeResult<List<DistributorReputationRespVO>> getReputationList(@RequestParam("ids") Collection<String> ids) {
         List<DistributorReputationPO> list = reputationService.getReputationList(ids);
         return CodeResult.ok(DistributorReputationConvert.INSTANCE.convertList(list));
     }

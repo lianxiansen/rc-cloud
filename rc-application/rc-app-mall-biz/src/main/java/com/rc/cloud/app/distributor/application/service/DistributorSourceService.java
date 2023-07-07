@@ -21,7 +21,7 @@ public interface DistributorSourceService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long createSource(@Valid DistributorSourceCreateReqVO createReqVO);
+    String createSource(@Valid DistributorSourceCreateReqVO createReqVO);
 
     /**
      * 更新经销商来源
@@ -35,7 +35,7 @@ public interface DistributorSourceService {
      *
      * @param id 编号
      */
-    void deleteSource(Long id);
+    void deleteSource(String id);
 
     /**
      * 获得经销商来源
@@ -43,7 +43,7 @@ public interface DistributorSourceService {
      * @param id 编号
      * @return 经销商来源
      */
-    DistributorSourcePO getSource(Long id);
+    DistributorSourcePO getSource(String id);
 
     /**
      * 获得所有经销商来源
@@ -58,7 +58,7 @@ public interface DistributorSourceService {
      * @param ids 编号
      * @return 经销商来源列表
      */
-    List<DistributorSourcePO> getSourceList(Collection<Long> ids);
+    List<DistributorSourcePO> getSourceList(Collection<String> ids);
 
     /**
      * 获得经销商来源分页

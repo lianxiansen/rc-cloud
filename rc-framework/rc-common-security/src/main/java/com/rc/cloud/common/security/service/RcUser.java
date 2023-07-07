@@ -27,14 +27,14 @@ public class RcUser extends User implements OAuth2AuthenticatedPrincipal {
 	 */
 	@Getter
 	@JsonSerialize(using = ToStringSerializer.class)
-	private final Long id;
+	private final String id;
 
 	/**
 	 * 部门ID
 	 */
 	@Getter
 	@JsonSerialize(using = ToStringSerializer.class)
-	private final Long deptId;
+	private final String deptId;
 
 	/**
 	 * 手机号
@@ -42,7 +42,7 @@ public class RcUser extends User implements OAuth2AuthenticatedPrincipal {
 	@Getter
 	private final String mobile;
 
-	public RcUser(Long id, Long deptId, String username, String password, String mobile, boolean enabled,
+	public RcUser(String id, String deptId, String username, String password, String mobile, boolean enabled,
                   boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked,
                   Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);

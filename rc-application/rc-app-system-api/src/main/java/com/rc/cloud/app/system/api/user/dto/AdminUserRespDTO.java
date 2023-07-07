@@ -16,7 +16,7 @@ public class AdminUserRespDTO {
     /**
      * 用户ID
      */
-    private Long id;
+    private String id;
     /**
      * 用户昵称
      */
@@ -31,11 +31,11 @@ public class AdminUserRespDTO {
     /**
      * 部门ID
      */
-    private Long deptId;
+    private String deptId;
     /**
      * 岗位编号数组
      */
-    private Set<Long> postIds;
+    private Set<String> postIds;
     /**
      * 手机号码
      */
