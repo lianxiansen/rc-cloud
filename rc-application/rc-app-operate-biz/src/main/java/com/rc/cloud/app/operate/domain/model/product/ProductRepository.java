@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.domain.model.product;
 
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductAttributeDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
@@ -28,7 +29,7 @@ public interface ProductRepository {
 
     List<ProductImageEntity> getProductImageByProductId(ProductId productId);
 
-    //boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
+    boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
 
     void removeProductImageEntityByProductId(String productId);
 
