@@ -29,8 +29,6 @@ public interface ProductRepository {
 
     List<ProductImageEntity> getProductImageByProductId(ProductId productId);
 
-    boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
-
     void removeProductImageEntityByProductId(String productId);
 
     void removeProductDictEntityByProductId(String productId);
@@ -42,4 +40,6 @@ public interface ProductRepository {
     void updateProductDictEntity(ProductDictDO productDictDO);
 
     void updateProductAttributeEntity(ProductAttributeDO productAttributeDO);
+
+    boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
 }
