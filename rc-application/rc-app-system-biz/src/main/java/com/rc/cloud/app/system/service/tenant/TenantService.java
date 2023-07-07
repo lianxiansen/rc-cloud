@@ -27,7 +27,7 @@ public interface TenantService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long createTenant(@Valid TenantCreateReqVO createReqVO);
+    String createTenant(@Valid TenantCreateReqVO createReqVO);
 
     /**
      * 更新租户
@@ -42,14 +42,14 @@ public interface TenantService {
      * @param tenantId 租户编号
      * @param menuIds 菜单编号数组
      */
-    void updateTenantRoleMenu(Long tenantId, Set<Long> menuIds);
+    void updateTenantRoleMenu(String tenantId, Set<String> menuIds);
 
     /**
      * 删除租户
      *
      * @param id 编号
      */
-    void deleteTenant(Long id);
+    void deleteTenant(String id);
 
     /**
      * 获得租户
@@ -57,7 +57,7 @@ public interface TenantService {
      * @param id 编号
      * @return 租户
      */
-    SysTenantDO getTenant(Long id);
+    SysTenantDO getTenant(String id);
 
     /**
      * 获得租户分页
@@ -89,7 +89,7 @@ public interface TenantService {
      * @param packageId 租户套餐编号
      * @return 租户数量
      */
-    Long getTenantCountByPackageId(Long packageId);
+    Long getTenantCountByPackageId(String packageId);
 
     /**
      * 获得使用指定套餐的租户数组
@@ -97,7 +97,7 @@ public interface TenantService {
      * @param packageId 租户套餐编号
      * @return 租户数组
      */
-    List<SysTenantDO> getTenantListByPackageId(Long packageId);
+    List<SysTenantDO> getTenantListByPackageId(String packageId);
 
     /**
      * 进行租户的信息处理逻辑
@@ -120,12 +120,12 @@ public interface TenantService {
      *
      * @return 租户编号数组
      */
-    List<Long> getTenantIdList();
+    List<String> getTenantIdList();
 
     /**
      * 校验租户是否合法
      *
      * @param id 租户编号
      */
-    void validTenant(Long id);
+    void validTenant(String id);
 }

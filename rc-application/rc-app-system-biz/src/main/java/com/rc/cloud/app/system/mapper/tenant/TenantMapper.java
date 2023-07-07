@@ -42,11 +42,11 @@ public interface TenantMapper extends BaseMapperX<SysTenantDO> {
         return selectOne(SysTenantDO::getName, name);
     }
 
-    default Long selectCountByPackageId(Long packageId) {
+    default Long selectCountByPackageId(String packageId) {
         return selectCount(SysTenantDO::getPackageId, packageId);
     }
 
-    default List<SysTenantDO> selectListByPackageId(Long packageId) {
+    default List<SysTenantDO> selectListByPackageId(String packageId) {
         return selectList(SysTenantDO::getPackageId, packageId);
     }
 }

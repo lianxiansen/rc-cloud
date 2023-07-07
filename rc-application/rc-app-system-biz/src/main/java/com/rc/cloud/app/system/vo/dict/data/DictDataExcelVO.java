@@ -13,7 +13,7 @@ import lombok.Data;
 public class DictDataExcelVO {
 
     @ExcelProperty("字典编码")
-    private Long id;
+    private String id;
 
     @ExcelProperty("字典排序")
     private Integer sort;

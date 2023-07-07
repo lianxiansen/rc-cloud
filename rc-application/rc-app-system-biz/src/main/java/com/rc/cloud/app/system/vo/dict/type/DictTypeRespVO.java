@@ -19,7 +19,7 @@ import static com.rc.cloud.common.core.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY
 public class DictTypeRespVO extends DictTypeBaseVO {
 
     @Schema(description = "字典类型编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    private Long id;
+    private String id;
 
     @Schema(description = "字典类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "sys_common_sex")
     private String type;

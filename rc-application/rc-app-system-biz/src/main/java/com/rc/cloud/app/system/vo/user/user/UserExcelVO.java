@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class UserExcelVO {
 
     @ExcelProperty("用户编号")
-    private Long id;
+    private String id;
 
     @ExcelProperty("用户名称")
     private String username;

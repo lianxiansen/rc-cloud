@@ -41,8 +41,8 @@ public interface DictTypeMapper extends BaseMapperX<SysDictTypeDO> {
         return selectOne(SysDictTypeDO::getName, name);
     }
 
-    int deleteById(@Param("id") Long id, @Param("deletedTime") LocalDateTime deletedTime);
+    int deleteById(@Param("id") String id, @Param("deletedTime") LocalDateTime deletedTime);
 
     @Update("UPDATE sys_dict_type SET deleted = 1 WHERE id = #{id}")
-    void updateToDelete(@Param("id") Long id);
+    void updateToDelete(@Param("id") String id);
 }

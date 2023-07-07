@@ -31,7 +31,7 @@ public class TenantPackageController {
     @PostMapping("/create")
     @Operation(summary = "创建租户套餐")
     @PreAuthorize("@pms.hasPermission('sys:tenant-package:create')")
-    public CodeResult<Long> createTenantPackage(@Valid @RequestBody TenantPackageCreateReqVO createReqVO) {
+    public CodeResult<String> createTenantPackage(@Valid @RequestBody TenantPackageCreateReqVO createReqVO) {
         return CodeResult.ok(tenantPackageService.createTenantPackage(createReqVO));
     }
 
@@ -47,7 +47,7 @@ public class TenantPackageController {
     @Operation(summary = "删除租户套餐")
     @Parameter(name = "id", description = "编号", required = true)
     @PreAuthorize("@pms.hasPermission('sys:tenant-package:delete')")
-    public CodeResult<Boolean> deleteTenantPackage(@PathVariable("id") Long id) {
+    public CodeResult<Boolean> deleteTenantPackage(@PathVariable("id") String id) {
         tenantPackageService.deleteTenantPackage(id);
         return CodeResult.ok(true);
     }
@@ -56,7 +56,7 @@ public class TenantPackageController {
     @Operation(summary = "获得租户套餐")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:tenant-package:query')")
-    public CodeResult<TenantPackageRespVO> getTenantPackage(@PathVariable("id") Long id) {
+    public CodeResult<TenantPackageRespVO> getTenantPackage(@PathVariable("id") String id) {
         SysTenantPackageDO tenantPackage = tenantPackageService.getTenantPackage(id);
         return CodeResult.ok(TenantPackageConvert.INSTANCE.convert(tenantPackage));
     }

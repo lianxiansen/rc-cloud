@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.enums.SexEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
-import com.rc.cloud.common.mybatis.core.type.JsonLongSetTypeHandler;
+import com.rc.cloud.common.mybatis.core.type.JsonStringSetTypeHandler;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -61,7 +61,7 @@ public class SysUserVO extends TenantBaseDO {
     /**
      * 岗位编号数组
      */
-    @TableField(typeHandler = JsonLongSetTypeHandler.class)
+    @TableField(typeHandler = JsonStringSetTypeHandler.class)
     private Set<String> postIds;
     /**
      * 用户邮箱

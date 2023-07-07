@@ -49,8 +49,8 @@ public class UserController {
     @PostMapping("/create")
     @Operation(summary = "新增用户")
     @PreAuthorize("@pms.hasPermission('sys:user:create')")
-    public CodeResult<Long> createUser(@Valid @RequestBody UserCreateReqVO reqVO) {
-        Long id = userService.createUser(reqVO);
+    public CodeResult<String> createUser(@Valid @RequestBody UserCreateReqVO reqVO) {
+        String id = userService.createUser(reqVO);
         return CodeResult.ok(id);
     }
 
@@ -66,10 +66,10 @@ public class UserController {
     @Operation(summary = "删除用户")
     @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
     @PreAuthorize("@pms.hasPermission('sys:user:delete')")
-    public CodeResult<Boolean> deleteUser(@RequestBody List<Long> idList) {
+    public CodeResult<Boolean> deleteUser(@RequestBody List<String> idList) {
         RcUser user = SecurityUtils.getUser();
         if (user != null) {
-            Long userId = user.getId();
+            String userId = user.getId();
             if (idList.contains(userId)) {
                 return CodeResult.fail("不能删除当前登录用户");
             }
@@ -105,8 +105,8 @@ public class UserController {
         }
 
         // 获得拼接需要的数据
-        Collection<Long> deptIds = convertList(pageResult.getList(), SysUserDO::getDeptId);
-        Map<Long, SysDeptDO> deptMap = deptService.getDeptMap(deptIds);
+        Collection<String> deptIds = convertList(pageResult.getList(), SysUserDO::getDeptId);
+        Map<String, SysDeptDO> deptMap = deptService.getDeptMap(deptIds);
 
         // 拼接结果返回
         List<UserPageItemRespVO> userList = new ArrayList<>(pageResult.getList().size());
@@ -131,7 +131,7 @@ public class UserController {
     @Operation(summary = "获得用户详情")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:user:query')")
-    public CodeResult<UserRespVO> getUser(@PathVariable("id") Long id) {
+    public CodeResult<UserRespVO> getUser(@PathVariable("id") String id) {
         SysUserDO user = userService.getUser(id);
         // 获得部门数据
         SysDeptDO dept = deptService.getDept(user.getDeptId());
@@ -149,7 +149,7 @@ public class UserController {
     @GetMapping("/info/{username}")
     public CodeResult<UserInfo> info(@PathVariable String username) {
         // 硬编码设置租户ID
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         SysUserDO user = userService.getUserByUsername(username);
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
@@ -164,9 +164,9 @@ public class UserController {
      */
 //    @Inner
     @GetMapping("/info-by-id/{id}")
-    public CodeResult<com.rc.cloud.app.system.api.user.vo.SysUserVO> infoById(@PathVariable Long id) {
+    public CodeResult<com.rc.cloud.app.system.api.user.vo.SysUserVO> infoById(@PathVariable String id) {
         // 硬编码设置租户ID
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         SysUserDO user = userService.getUser(id);
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
@@ -182,9 +182,9 @@ public class UserController {
      */
 //    @Inner
     @PostMapping("/info-by-ids")
-    public CodeResult<List<com.rc.cloud.app.system.api.user.vo.SysUserVO>> infoByIds(@RequestBody List<Long> ids) {
+    public CodeResult<List<com.rc.cloud.app.system.api.user.vo.SysUserVO>> infoByIds(@RequestBody List<String> ids) {
         // 硬编码设置租户ID
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         List<SysUserDO> users = userService.getUserList(ids);
         List<com.rc.cloud.app.system.api.user.vo.SysUserVO> sysUserVOS = new ArrayList<>();
         users.forEach(user -> {

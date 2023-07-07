@@ -13,7 +13,7 @@ import lombok.Data;
 public class RoleExcelVO {
 
     @ExcelProperty("角色序号")
-    private Long id;
+    private String id;
 
     @ExcelProperty("角色名称")
     private String name;

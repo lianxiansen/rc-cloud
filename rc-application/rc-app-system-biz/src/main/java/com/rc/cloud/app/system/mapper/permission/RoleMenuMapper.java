@@ -21,25 +21,25 @@ public interface RoleMenuMapper extends BaseMapperX<SysRoleMenuDO> {
     class BatchInsertMapper extends ServiceImpl<RoleMenuMapper, SysRoleMenuDO> {
     }
 
-    default List<SysRoleMenuDO> selectListByRoleId(Long roleId) {
+    default List<SysRoleMenuDO> selectListByRoleId(String roleId) {
         return selectList(SysRoleMenuDO::getRoleId, roleId);
     }
 
-    default void deleteListByRoleIdAndMenuIds(Long roleId, Collection<Long> menuIds) {
+    default void deleteListByRoleIdAndMenuIds(String roleId, Collection<String> menuIds) {
         delete(new LambdaQueryWrapper<SysRoleMenuDO>()
                 .eq(SysRoleMenuDO::getRoleId, roleId)
                 .in(SysRoleMenuDO::getMenuId, menuIds));
     }
 
-    default void deleteListByMenuId(Long menuId) {
+    default void deleteListByMenuId(String menuId) {
         delete(new LambdaQueryWrapper<SysRoleMenuDO>().eq(SysRoleMenuDO::getMenuId, menuId));
     }
 
-    default void deleteListByRoleId(Long roleId) {
+    default void deleteListByRoleId(String roleId) {
         delete(new LambdaQueryWrapper<SysRoleMenuDO>().eq(SysRoleMenuDO::getRoleId, roleId));
     }
 
-    default Set<Long> getMenuIdsByRoleIds(Set<Long> toList) {
+    default Set<String> getMenuIdsByRoleIds(Set<String> toList) {
         QueryWrapper<SysRoleMenuDO> wrapper = new QueryWrapper<>();
         wrapper.lambda().select(SysRoleMenuDO::getMenuId);
         wrapper.lambda().in(SysRoleMenuDO::getRoleId, toList);

@@ -41,7 +41,7 @@ public class RoleControllerTests {
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
@@ -74,7 +74,7 @@ public class RoleControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:role:update"})
     public void updateRole_success() throws Exception {
         RoleUpdateReqVO updateReqVO = new RoleUpdateReqVO();
-        updateReqVO.setId(101L);
+        updateReqVO.setId("101");
         updateReqVO.setName("测试角色");
         updateReqVO.setSort(77);
         updateReqVO.setCode("test_role");
@@ -97,7 +97,7 @@ public class RoleControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:role:update"})
     public void updateRoleStatus_success() throws Exception {
         RoleUpdateStatusReqVO updateStatusReqVO = new RoleUpdateStatusReqVO();
-        updateStatusReqVO.setId(101L);
+        updateStatusReqVO.setId("101");
         updateStatusReqVO.setStatus(1);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()

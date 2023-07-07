@@ -15,6 +15,6 @@ public class TenantPackageUpdateReqVO extends TenantPackageBaseVO {
 
     @Schema(description = "套餐编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "套餐编号不能为空")
-    private Long id;
+    private String id;
 
 }

@@ -53,7 +53,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
         TenantPackageCreateReqVO reqVO = randomPojo(TenantPackageCreateReqVO.class);
 
         // 调用
-        Long tenantPackageId = tenantPackageService.createTenantPackage(reqVO);
+        String tenantPackageId = tenantPackageService.createTenantPackage(reqVO);
         // 断言
         assertNotNull(tenantPackageId);
         // 校验记录的属性是否正确
@@ -71,8 +71,8 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
             o.setId(dbTenantPackage.getId()); // 设置更新的 ID
         });
         // mock 方法
-        Long tenantId01 = randomLongId();
-        Long tenantId02 = randomLongId();
+        String tenantId01 = randomLongId().toString();
+        String tenantId02 = randomLongId().toString();
         when(tenantService.getTenantListByPackageId(eq(reqVO.getId()))).thenReturn(
                 asList(randomPojo(SysTenantDO.class, o -> o.setId(tenantId01)),
                         randomPojo(SysTenantDO.class, o -> o.setId(tenantId02))));
@@ -102,7 +102,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
         SysTenantPackageDO dbTenantPackage = randomPojo(SysTenantPackageDO.class);
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        Long id = dbTenantPackage.getId();
+        String id = dbTenantPackage.getId();
         // mock 租户未使用该套餐
         when(tenantService.getTenantCountByPackageId(eq(id))).thenReturn(0L);
 
@@ -115,7 +115,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteTenantPackage_notExists() {
         // 准备参数
-        Long id = randomLongId();
+        String id = randomLongId().toString();
 
         // 调用, 并断言异常
         assertServiceException(() -> tenantPackageService.deleteTenantPackage(id), TENANT_PACKAGE_NOT_EXISTS);
@@ -127,7 +127,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
         SysTenantPackageDO dbTenantPackage = randomPojo(SysTenantPackageDO.class);
         tenantPackageMapper.insert(dbTenantPackage);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        Long id = dbTenantPackage.getId();
+        String id = dbTenantPackage.getId();
         // mock 租户在使用该套餐
         when(tenantService.getTenantCountByPackageId(eq(id))).thenReturn(1L);
 
@@ -184,7 +184,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidTenantPackage_notExists() {
         // 准备参数
-        Long id = randomLongId();
+        String id = randomLongId().toString();
 
         // 调用, 并断言异常
         assertServiceException(() -> tenantPackageService.validTenantPackage(id), TENANT_PACKAGE_NOT_EXISTS);

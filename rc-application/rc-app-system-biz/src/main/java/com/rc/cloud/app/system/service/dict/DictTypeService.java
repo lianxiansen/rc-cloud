@@ -24,7 +24,7 @@ public interface DictTypeService {
      * @param reqVO 字典类型信息
      * @return 字典类型编号
      */
-    Long createDictType(DictTypeCreateReqVO reqVO);
+    String createDictType(DictTypeCreateReqVO reqVO);
 
     /**
      * 更新字典类型
@@ -38,7 +38,7 @@ public interface DictTypeService {
      *
      * @param id 字典类型编号
      */
-    void deleteDictType(Long id);
+    void deleteDictType(String id);
 
     /**
      * 获得字典类型分页列表
@@ -62,7 +62,7 @@ public interface DictTypeService {
      * @param id 字典类型编号
      * @return 字典类型
      */
-    SysDictTypeDO getDictType(Long id);
+    SysDictTypeDO getDictTypeById(String id);
 
     /**
      * 获得字典类型详情
@@ -70,7 +70,7 @@ public interface DictTypeService {
      * @param type 字典类型
      * @return 字典类型详情
      */
-    SysDictTypeDO getDictType(String type);
+    SysDictTypeDO getDictTypeByType(String type);
 
     /**
      * 获得全部字典类型列表
@@ -85,5 +85,5 @@ public interface DictTypeService {
      * 批量删除字典类型
      * @param idList 字典类型编号列表
      */
-    void deleteDictTypes(List<Long> idList);
+    void deleteDictTypes(List<String> idList);
 }

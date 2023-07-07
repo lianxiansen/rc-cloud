@@ -18,7 +18,7 @@ public class TreeUtil {
     /**
      * 根据pid，构建树节点
      */
-    public static <T extends TreeNode<T>> List<T> build(List<T> treeNodes, Long parentId) {
+    public static <T extends TreeNode<T>> List<T> build(List<T> treeNodes, String parentId) {
         // pid不能为空
         AssertUtils.isNull(parentId, "parentId");
 
@@ -51,7 +51,7 @@ public class TreeUtil {
         List<T> result = new ArrayList<>();
 
         // list转map
-        Map<Long, T> nodeMap = new LinkedHashMap<>(treeNodes.size());
+        Map<String, T> nodeMap = new LinkedHashMap<>(treeNodes.size());
         for (T treeNode : treeNodes) {
             nodeMap.put(treeNode.getId(), treeNode);
         }

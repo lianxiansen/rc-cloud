@@ -20,13 +20,13 @@ import static com.rc.cloud.common.core.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY
 public class RoleRespVO extends RoleBaseVO {
 
     @Schema(description = "角色编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    private Long id;
+    private String id;
 
     @Schema(description = "数据范围,参见 DataScopeEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer dataScope;
 
     @Schema(description = "数据范围(指定部门数组)", example = "1")
-    private Set<Long> dataScopeDeptIds;
+    private Set<String> dataScopeDeptIds;
 
     @Schema(description = "状态,参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer status;
@@ -35,7 +35,7 @@ public class RoleRespVO extends RoleBaseVO {
     private Integer type;
 
     @Schema(description = "角色拥有的菜单编号集合", example = "[1,2,3]")
-    private Set<Long> menuIds;
+    private Set<String> menuIds;
 
     @Schema(description = "创建时间", example = "2022-07-01 00:00:00")
     @JsonFormat(pattern = FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND, timezone = "GMT+8")

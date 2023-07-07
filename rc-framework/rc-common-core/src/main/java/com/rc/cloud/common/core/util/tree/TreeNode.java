@@ -20,13 +20,13 @@ public class TreeNode<T> implements Serializable {
      * 主键
      */
     @Schema(description = "id")
-    private Long id;
+    private String id;
     /**
      * 上级ID
      */
     @Schema(description = "上级ID")
     @NotNull(message = "上级ID不能为空")
-    private Long parentId;
+    private String parentId;
     /**
      * 子节点列表
      */

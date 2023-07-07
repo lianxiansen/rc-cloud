@@ -68,12 +68,12 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @Override
-    public SysDictDataDO getDictData(Long id) {
+    public SysDictDataDO getDictData(String id) {
         return dictDataMapper.selectById(id);
     }
 
     @Override
-    public Long createDictData(DictDataCreateReqVO reqVO) {
+    public String createDictData(DictDataCreateReqVO reqVO) {
         // 校验正确性
         validateDictDataForCreateOrUpdate(null, reqVO.getValue(), reqVO.getDictType());
 
@@ -94,7 +94,7 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @Override
-    public void deleteDictData(Long id) {
+    public void deleteDictData(String id) {
         // 校验是否存在
         validateDictDataExists(id);
 
@@ -107,7 +107,7 @@ public class DictDataServiceImpl implements DictDataService {
         return dictDataMapper.selectCountByDictType(dictType);
     }
 
-    private void validateDictDataForCreateOrUpdate(Long id, String value, String dictType) {
+    private void validateDictDataForCreateOrUpdate(String id, String value, String dictType) {
         // 校验自己存在
         validateDictDataExists(id);
         // 校验字典类型有效
@@ -117,7 +117,7 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @VisibleForTesting
-    public void validateDictDataValueUnique(Long id, String dictType, String value) {
+    public void validateDictDataValueUnique(String id, String dictType, String value) {
         SysDictDataDO dictData = dictDataMapper.selectByDictTypeAndValue(dictType, value);
         if (dictData == null) {
             return;
@@ -132,7 +132,7 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @VisibleForTesting
-    public void validateDictDataExists(Long id) {
+    public void validateDictDataExists(String id) {
         if (id == null) {
             return;
         }
@@ -144,7 +144,7 @@ public class DictDataServiceImpl implements DictDataService {
 
     @VisibleForTesting
     public void validateDictTypeExists(String type) {
-        SysDictTypeDO dictType = dictTypeService.getDictType(type);
+        SysDictTypeDO dictType = dictTypeService.getDictTypeByType(type);
         if (dictType == null) {
             throw exception(DICT_TYPE_NOT_EXISTS);
         }
@@ -188,7 +188,7 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @Override
-    public void deleteDictDatas(List<Long> idList) {
+    public void deleteDictDatas(List<String> idList) {
         dictDataMapper.deleteBatchIds(idList);
     }
 }

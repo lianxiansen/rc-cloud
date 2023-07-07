@@ -5,7 +5,7 @@ import com.rc.cloud.app.system.enums.permission.DataScopeEnum;
 import com.rc.cloud.app.system.enums.permission.RoleTypeEnum;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
-import com.rc.cloud.common.mybatis.core.type.JsonLongSetTypeHandler;
+import com.rc.cloud.common.mybatis.core.type.JsonStringSetTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -68,7 +68,7 @@ public class SysRoleDO extends TenantBaseDO {
      *
      * 适用于 {@link #dataScope} 的值为 {@link DataScopeEnum#DEPT_CUSTOM} 时
      */
-    @TableField(typeHandler = JsonLongSetTypeHandler.class)
+    @TableField(typeHandler = JsonStringSetTypeHandler.class)
     private Set<String> dataScopeDeptIds;
 
 }

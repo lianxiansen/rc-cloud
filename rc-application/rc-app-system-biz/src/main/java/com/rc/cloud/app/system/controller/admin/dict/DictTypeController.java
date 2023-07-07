@@ -31,8 +31,8 @@ public class DictTypeController {
     @PostMapping("/create")
     @Operation(summary = "创建字典类型")
     @PreAuthorize("@pms.hasPermission('sys:dict:create')")
-    public CodeResult<Long> createDictType(@Valid @RequestBody DictTypeCreateReqVO reqVO) {
-        Long dictTypeId = dictTypeService.createDictType(reqVO);
+    public CodeResult<String> createDictType(@Valid @RequestBody DictTypeCreateReqVO reqVO) {
+        String dictTypeId = dictTypeService.createDictType(reqVO);
         return CodeResult.ok(dictTypeId);
     }
 
@@ -48,7 +48,7 @@ public class DictTypeController {
     @Operation(summary = "删除字典类型")
     @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
     @PreAuthorize("@pms.hasPermission('sys:dict:delete')")
-    public CodeResult<Boolean> deleteDictType(@RequestBody List<Long> idList) {
+    public CodeResult<Boolean> deleteDictType(@RequestBody List<String> idList) {
         dictTypeService.deleteDictTypes(idList);
         return CodeResult.ok(true);
     }
@@ -64,8 +64,8 @@ public class DictTypeController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @GetMapping(value = "/{id}")
     @PreAuthorize("@pms.hasPermission('sys:dict:query')")
-    public CodeResult<DictTypeRespVO> getDictType(@PathVariable("id") Long id) {
-        return CodeResult.ok(DictTypeConvert.INSTANCE.convert(dictTypeService.getDictType(id)));
+    public CodeResult<DictTypeRespVO> getDictType(@PathVariable("id") String id) {
+        return CodeResult.ok(DictTypeConvert.INSTANCE.convert(dictTypeService.getDictTypeById(id)));
     }
 
     @GetMapping("/list-all-simple")

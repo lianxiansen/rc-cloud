@@ -40,7 +40,7 @@ public class PostControllerTests {
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
@@ -125,7 +125,7 @@ public class PostControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:post:update"})
     public void updatePost_success() throws Exception {
         PostUpdateReqVO postUpdateReqVO = new PostUpdateReqVO();
-        postUpdateReqVO.setId(2L);
+        postUpdateReqVO.setId("2");
         postUpdateReqVO.setName("前端2");
         postUpdateReqVO.setCode("front2");
         postUpdateReqVO.setSort(3);

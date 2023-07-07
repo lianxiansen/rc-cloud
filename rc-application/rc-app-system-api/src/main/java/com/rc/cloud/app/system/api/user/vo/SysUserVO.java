@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.enums.SexEnum;
-import com.rc.cloud.common.mybatis.core.type.JsonLongSetTypeHandler;
+import com.rc.cloud.common.mybatis.core.type.JsonStringSetTypeHandler;
 import lombok.Data;
 
 import java.util.Set;
@@ -41,7 +41,7 @@ public class SysUserVO {
     /**
      * 岗位编号数组
      */
-    @TableField(typeHandler = JsonLongSetTypeHandler.class)
+    @TableField(typeHandler = JsonStringSetTypeHandler.class)
     private Set<String> postIds;
     /**
      * 用户邮箱

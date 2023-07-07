@@ -25,14 +25,14 @@ public class RemoteTenantServerImpl {
 
     @Inner
     @GetMapping("/getTenantIdList")
-    public CodeResult<List<Long>> getTenantIdList() {
+    public CodeResult<List<String>> getTenantIdList() {
         return CodeResult.ok(tenantService.getTenantIdList());
     }
 
 
     @Inner
     @GetMapping("/validateTenant")
-    public CodeResult validateTenant(Long id) {
+    public CodeResult validateTenant(String id) {
         tenantService.validTenant(id);
         return CodeResult.ok();
     }

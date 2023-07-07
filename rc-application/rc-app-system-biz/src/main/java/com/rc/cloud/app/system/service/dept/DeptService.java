@@ -30,7 +30,7 @@ public interface DeptService {
      * @param reqVO 部门信息
      * @return 部门编号
      */
-    Long createDept(DeptCreateReqVO reqVO);
+    String createDept(DeptCreateReqVO reqVO);
 
     /**
      * 更新部门
@@ -44,7 +44,7 @@ public interface DeptService {
      *
      * @param id 部门编号
      */
-    void deleteDept(Long id);
+    void deleteDept(String id);
 
     /**
      * 筛选部门列表
@@ -61,7 +61,7 @@ public interface DeptService {
      * @param recursive 是否递归获取所有
      * @return 子部门列表
      */
-    List<SysDeptDO> getDeptListByParentIdFromCache(Long parentId, boolean recursive);
+    List<SysDeptDO> getDeptListByParentIdFromCache(String parentId, boolean recursive);
 
     /**
      * 获得部门信息数组
@@ -69,7 +69,7 @@ public interface DeptService {
      * @param ids 部门编号数组
      * @return 部门信息数组
      */
-    List<SysDeptDO> getDeptList(Collection<Long> ids);
+    List<SysDeptDO> getDeptList(Collection<String> ids);
 
     /**
      * 获得指定编号的部门 Map
@@ -77,7 +77,7 @@ public interface DeptService {
      * @param ids 部门编号数组
      * @return 部门 Map
      */
-    default Map<Long, SysDeptDO> getDeptMap(Collection<Long> ids) {
+    default Map<String, SysDeptDO> getDeptMap(Collection<String> ids) {
         if (CollUtil.isEmpty(ids)) {
             return Collections.emptyMap();
         }
@@ -91,7 +91,7 @@ public interface DeptService {
      * @param id 部门编号
      * @return 部门信息
      */
-    SysDeptDO getDept(Long id);
+    SysDeptDO getDept(String id);
 
     /**
      * 校验部门们是否有效。如下情况，视为无效：
@@ -100,6 +100,6 @@ public interface DeptService {
      *
      * @param ids 角色编号数组
      */
-    void validateDeptList(Collection<Long> ids);
+    void validateDeptList(Collection<String> ids);
 
 }

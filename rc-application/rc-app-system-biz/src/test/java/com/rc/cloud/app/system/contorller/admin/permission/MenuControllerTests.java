@@ -47,7 +47,7 @@ public class MenuControllerTests {
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
@@ -62,7 +62,7 @@ public class MenuControllerTests {
         menuCreateReqVO.setName("测试目录");
         menuCreateReqVO.setType(MenuTypeEnum.DIR.getType());
         menuCreateReqVO.setSort(1);
-        menuCreateReqVO.setParentId(0L);
+        menuCreateReqVO.setParentId("0");
         menuCreateReqVO.setPath("/test");
         menuCreateReqVO.setIcon("test");
         menuCreateReqVO.setComponent("test/menu");
@@ -89,9 +89,9 @@ public class MenuControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:menu:update"})
     public void updateDictData_success() throws Exception {
         MenuUpdateReqVO menuUpdateReqVO = new MenuUpdateReqVO();
-        menuUpdateReqVO.setId(2162L);
+        menuUpdateReqVO.setId("2162");
         menuUpdateReqVO.setName("系统管理2");
-        menuUpdateReqVO.setParentId(0L);
+        menuUpdateReqVO.setParentId("0");
         menuUpdateReqVO.setStatus(0);
         menuUpdateReqVO.setType(MenuTypeEnum.DIR.getType());
         menuUpdateReqVO.setSort(100);
@@ -117,7 +117,7 @@ public class MenuControllerTests {
         menuCreateReqVO.setName("测试目录");
         menuCreateReqVO.setType(MenuTypeEnum.DIR.getType());
         menuCreateReqVO.setSort(1);
-        menuCreateReqVO.setParentId(0L);
+        menuCreateReqVO.setParentId("0");
         menuCreateReqVO.setPath("/test");
         menuCreateReqVO.setIcon("test");
         menuCreateReqVO.setComponent("test/menu");
@@ -126,7 +126,7 @@ public class MenuControllerTests {
         menuCreateReqVO.setVisible(true);
         menuCreateReqVO.setKeepAlive(true);
         menuCreateReqVO.setAlwaysShow(true);
-        Long menuId = menuService.createMenu(menuCreateReqVO);
+        String menuId = menuService.createMenu(menuCreateReqVO);
         mvc.perform(delete("/sys/menu?id=" + menuId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

@@ -48,13 +48,13 @@ public interface RoleMapper extends BaseMapperX<SysRoleDO> {
         return selectList(SysRoleDO::getStatus, statuses);
     }
 
-    default List<SysRoleDO> listRolesByRoleIds(Set<Long> roleIds) {
+    default List<SysRoleDO> listRolesByRoleIds(Set<String> roleIds) {
         QueryWrapper<SysRoleDO> wrapper = new QueryWrapper<>();
         wrapper.lambda().in(SysRoleDO::getId, roleIds);
         return selectList(wrapper);
     }
 
-    default Set<String> selectCodesByIds(Set<Long> roleIds) {
+    default Set<String> selectCodesByIds(Set<String> roleIds) {
         return listRolesByRoleIds(roleIds).stream().map(SysRoleDO::getCode).collect(Collectors.toSet());
     }
 }

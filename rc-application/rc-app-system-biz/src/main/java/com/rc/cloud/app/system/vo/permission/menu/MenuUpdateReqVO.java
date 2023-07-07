@@ -13,6 +13,6 @@ public class MenuUpdateReqVO extends MenuBaseVO {
 
     @Schema(description = "菜单编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "菜单编号不能为空")
-    private Long id;
+    private String id;
 
 }

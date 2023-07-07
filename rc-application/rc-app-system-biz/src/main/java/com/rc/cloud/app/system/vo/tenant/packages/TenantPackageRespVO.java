@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class TenantPackageRespVO extends TenantPackageBaseVO {
 
     @Schema(description = "套餐编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    private Long id;
+    private String id;
 
     @Schema(description = "创建时间", requiredMode = Schema.RequiredMode.REQUIRED)
     private LocalDateTime createTime;

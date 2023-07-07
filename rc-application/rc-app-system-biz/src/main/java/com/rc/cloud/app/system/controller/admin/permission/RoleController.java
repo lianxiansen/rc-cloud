@@ -59,7 +59,7 @@ public class RoleController {
     @PostMapping("/create")
     @Operation(summary = "创建角色")
     @PreAuthorize("@pms.hasPermission('sys:role:create')")
-    public CodeResult<Long> createRole(@Valid @RequestBody RoleCreateReqVO reqVO) {
+    public CodeResult<String> createRole(@Valid @RequestBody RoleCreateReqVO reqVO) {
         return CodeResult.ok(roleService.createRole(reqVO, null));
     }
 
@@ -83,7 +83,7 @@ public class RoleController {
     @Operation(summary = "删除角色")
     @Parameter(name = "id", description = "角色编号", required = true, example = "[1024, 2048]")
     @PreAuthorize("@pms.hasPermission('sys:role:delete')")
-    public CodeResult<Boolean> deleteRole(@RequestBody List<Long> idList) {
+    public CodeResult<Boolean> deleteRole(@RequestBody List<String> idList) {
         roleService.deleteRoles(idList);
         return CodeResult.ok(true);
     }
@@ -91,7 +91,7 @@ public class RoleController {
     @GetMapping("/{id}")
     @Operation(summary = "获得角色信息")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
-    public CodeResult<RoleRespVO> getRole(@PathVariable("id") Long id) {
+    public CodeResult<RoleRespVO> getRole(@PathVariable("id") String id) {
         SysRoleDO role = roleService.getRole(id);
         RoleRespVO roleRespVO = RoleConvert.INSTANCE.convert(role);
         roleRespVO.setMenuIds(permissionService.getRoleMenuIds(id));
@@ -138,7 +138,7 @@ public class RoleController {
     @Operation(summary = "获取菜单")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
     public CodeResult<List<MenuRespVO>> menu() {
-        Long userId = SecurityUtils.getUser().getId();
+        String userId = SecurityUtils.getUser().getId();
         List<MenuRespVO> list = new ArrayList<>();
         List<SysMenuDO> userMenuList = menuService.getMenuList();
         if (userMenuList != null && !userMenuList.isEmpty()) {
@@ -150,7 +150,7 @@ public class RoleController {
     @PostMapping("user/{roleId}")
     @Operation(summary = "分配角色给用户列表")
     @PreAuthorize("hasAuthority('sys:role:update')")
-    public CodeResult<String> userSave(@PathVariable("roleId") Long roleId, @RequestBody List<Long> userIds) {
+    public CodeResult<String> userSave(@PathVariable("roleId") String roleId, @RequestBody List<String> userIds) {
         userRoleMapper.saveUserList(roleId, userIds);
         return CodeResult.ok();
     }
@@ -158,7 +158,7 @@ public class RoleController {
     @DeleteMapping("user/{roleId}")
     @Operation(summary = "删除角色用户")
     @PreAuthorize("hasAuthority('sys:role:update')")
-    public CodeResult<String> userDelete(@PathVariable("roleId") Long roleId, @RequestBody List<Long> userIds) {
+    public CodeResult<String> userDelete(@PathVariable("roleId") String roleId, @RequestBody List<String> userIds) {
         userRoleMapper.deleteByUserIds(roleId, userIds);
         return CodeResult.ok();
     }

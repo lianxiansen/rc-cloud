@@ -46,7 +46,7 @@ public class DictDataControllerTests {
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
@@ -121,7 +121,7 @@ public class DictDataControllerTests {
     @WithMockUser("admin")
     public void updateDictData_success() throws Exception {
         DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
-        dictDataUpdateReqVO.setId(1L);
+        dictDataUpdateReqVO.setId("1");
         dictDataUpdateReqVO.setSort(1);
         dictDataUpdateReqVO.setLabel("柔川");
         dictDataUpdateReqVO.setValue("rc");
@@ -155,7 +155,7 @@ public class DictDataControllerTests {
         dictDataCreateReqVO.setStatus(0);
         dictDataCreateReqVO.setCssClass("success");
         dictDataCreateReqVO.setRemark("备注");
-        Long dictDataId = dictDataService.createDictData(dictDataCreateReqVO);
+        String dictDataId = dictDataService.createDictData(dictDataCreateReqVO);
         mvc.perform(delete("/sys/dict-data/" + dictDataId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

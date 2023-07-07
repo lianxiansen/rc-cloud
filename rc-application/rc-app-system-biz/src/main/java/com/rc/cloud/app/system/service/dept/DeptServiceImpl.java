@@ -44,7 +44,7 @@ public class DeptServiceImpl implements DeptService {
      * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
      */
     @Getter
-    private volatile Map<Long, SysDeptDO> deptCache;
+    private volatile Map<String, SysDeptDO> deptCache;
     /**
      * 父部门缓存
      * key：部门编号 {@link SysDeptDO#getParentId()}
@@ -53,7 +53,7 @@ public class DeptServiceImpl implements DeptService {
      * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
      */
     @Getter
-    private volatile Multimap<Long, SysDeptDO> parentDeptCache;
+    private volatile Multimap<String, SysDeptDO> parentDeptCache;
 
     @Resource
     private DeptMapper deptMapper;
@@ -74,8 +74,8 @@ public class DeptServiceImpl implements DeptService {
             log.info("[initLocalCache][缓存部门，数量为:{}]", depts.size());
 
             // 第二步：构建缓存
-            ImmutableMap.Builder<Long, SysDeptDO> builder = ImmutableMap.builder();
-            ImmutableMultimap.Builder<Long, SysDeptDO> parentBuilder = ImmutableMultimap.builder();
+            ImmutableMap.Builder<String, SysDeptDO> builder = ImmutableMap.builder();
+            ImmutableMultimap.Builder<String, SysDeptDO> parentBuilder = ImmutableMultimap.builder();
             depts.forEach(deptDO -> {
                 builder.put(deptDO.getId(), deptDO);
                 parentBuilder.put(deptDO.getParentId(), deptDO);
@@ -86,7 +86,7 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public Long createDept(DeptCreateReqVO reqVO) {
+    public String createDept(DeptCreateReqVO reqVO) {
         // 校验正确性
         if (reqVO.getParentId() == null) {
             reqVO.setParentId(DeptIdEnum.ROOT.getId());
@@ -115,7 +115,7 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public void deleteDept(Long id) {
+    public void deleteDept(String id) {
         // 校验是否存在
         validateDeptExists(id);
         // 校验是否有子部门
@@ -134,7 +134,7 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<SysDeptDO> getDeptListByParentIdFromCache(Long parentId, boolean recursive) {
+    public List<SysDeptDO> getDeptListByParentIdFromCache(String parentId, boolean recursive) {
         if (parentId == null) {
             return Collections.emptyList();
         }
@@ -154,8 +154,8 @@ public class DeptServiceImpl implements DeptService {
      * @param recursiveCount 递归次数
      * @param parentDeptMap 父部门 Map，使用缓存，避免变化
      */
-    private void getDeptsByParentIdFromCache(List<SysDeptDO> result, Long parentId, int recursiveCount,
-                                             Multimap<Long, SysDeptDO> parentDeptMap) {
+    private void getDeptsByParentIdFromCache(List<SysDeptDO> result, String parentId, int recursiveCount,
+                                             Multimap<String, SysDeptDO> parentDeptMap) {
         // 递归次数为 0，结束！
         if (recursiveCount == 0) {
             return;
@@ -167,7 +167,7 @@ public class DeptServiceImpl implements DeptService {
             return;
         }
         // 针对多租户，过滤掉非当前租户的部门
-        Long tenantId = TenantContextHolder.getTenantId();
+        String tenantId = TenantContextHolder.getTenantId();
         if (tenantId != null) {
             depts = CollUtil.filterNew(depts, dept -> tenantId.equals(dept.getTenantId()));
         }
@@ -178,7 +178,7 @@ public class DeptServiceImpl implements DeptService {
                 recursiveCount - 1, parentDeptMap));
     }
 
-    private void validateForCreateOrUpdate(Long id, Long parentId, String name) {
+    private void validateForCreateOrUpdate(String id, String parentId, String name) {
         // 校验自己存在
         validateDeptExists(id);
         // 校验父部门的有效性
@@ -187,7 +187,7 @@ public class DeptServiceImpl implements DeptService {
         validateDeptNameUnique(id, parentId, name);
     }
 
-    private void validateParentDeptEnable(Long id, Long parentId) {
+    private void validateParentDeptEnable(String id, String parentId) {
         if (parentId == null || DeptIdEnum.ROOT.getId().equals(parentId)) {
             return;
         }
@@ -211,7 +211,7 @@ public class DeptServiceImpl implements DeptService {
         }
     }
 
-    private void validateDeptExists(Long id) {
+    private void validateDeptExists(String id) {
         if (id == null) {
             return;
         }
@@ -221,7 +221,7 @@ public class DeptServiceImpl implements DeptService {
         }
     }
 
-    private void validateDeptNameUnique(Long id, Long parentId, String name) {
+    private void validateDeptNameUnique(String id, String parentId, String name) {
         SysDeptDO menu = deptMapper.selectByParentIdAndName(parentId, name);
         if (menu == null) {
             return;
@@ -236,12 +236,12 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public List<SysDeptDO> getDeptList(Collection<Long> ids) {
+    public List<SysDeptDO> getDeptList(Collection<String> ids) {
         return deptMapper.selectBatchIds(ids);
     }
 
     @Override
-    public SysDeptDO getDept(Long id) {
+    public SysDeptDO getDept(String id) {
         SysDeptDO deptDO = deptMapper.selectById(id);
         if (deptDO == null) {
             throw exception(DEPT_NOT_FOUND);
@@ -250,12 +250,12 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    public void validateDeptList(Collection<Long> ids) {
+    public void validateDeptList(Collection<String> ids) {
         if (CollUtil.isEmpty(ids)) {
             return;
         }
         // 获得科室信息
-        Map<Long, SysDeptDO> deptMap = getDeptMap(ids);
+        Map<String, SysDeptDO> deptMap = getDeptMap(ids);
         // 校验
         ids.forEach(id -> {
             SysDeptDO dept = deptMap.get(id);

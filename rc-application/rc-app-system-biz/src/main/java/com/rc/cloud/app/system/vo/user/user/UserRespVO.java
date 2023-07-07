@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class UserRespVO extends UserBaseVO {
 
     @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    private Long id;
+    private String id;
 
     @Schema(description = "状态,参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer status;

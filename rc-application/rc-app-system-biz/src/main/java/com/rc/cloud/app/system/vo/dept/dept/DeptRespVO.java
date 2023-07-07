@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class DeptRespVO extends TreeNode<DeptRespVO> {
 
     @Schema(description = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    private Long id;
+    private String id;
 
     @Schema(description = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
     @NotBlank(message = "部门名称不能为空")
@@ -25,14 +25,14 @@ public class DeptRespVO extends TreeNode<DeptRespVO> {
     private String name;
 
     @Schema(description = "父菜单 ID", example = "1024")
-    private Long parentId;
+    private String parentId;
 
     @Schema(description = "显示顺序不能为空", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "显示顺序不能为空")
     private Integer sort;
 
     @Schema(description = "负责人的用户编号", example = "2048")
-    private Long leaderUserId;
+    private String leaderUserId;
 
     @Schema(description = "联系电话", example = "15601691000")
     @Size(max = 11, message = "联系电话长度不能超过11个字符")

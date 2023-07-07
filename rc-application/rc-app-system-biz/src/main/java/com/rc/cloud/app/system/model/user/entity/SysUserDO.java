@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.enums.SexEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
-import com.rc.cloud.common.mybatis.core.type.JsonLongSetTypeHandler;
+import com.rc.cloud.common.mybatis.core.type.JsonStringSetTypeHandler;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,7 +32,7 @@ public class SysUserDO extends TenantBaseDO {
      * 用户ID
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
     /**
      * 用户账号
      */
@@ -54,12 +54,12 @@ public class SysUserDO extends TenantBaseDO {
     /**
      * 部门 ID
      */
-    private Long deptId;
+    private String deptId;
     /**
      * 岗位编号数组
      */
-    @TableField(typeHandler = JsonLongSetTypeHandler.class)
-    private Set<Long> postIds;
+    @TableField(typeHandler = JsonStringSetTypeHandler.class)
+    private Set<String> postIds;
     /**
      * 用户邮箱
      */

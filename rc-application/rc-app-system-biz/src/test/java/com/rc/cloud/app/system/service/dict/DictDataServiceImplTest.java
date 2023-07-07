@@ -126,7 +126,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         SysDictDataDO dbDictData = randomDictDataDO();
         dictDataMapper.insert(dbDictData);
         // 准备参数
-        Long id = dbDictData.getId();
+        String id = dbDictData.getId();
 
         // 调用
         SysDictDataDO dictData = dictDataService.getDictData(id);
@@ -140,10 +140,10 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         DictDataCreateReqVO reqVO = randomPojo(DictDataCreateReqVO.class,
                 o -> o.setStatus(randomCommonStatus()));
         // mock 方法
-        when(dictTypeService.getDictType(eq(reqVO.getDictType()))).thenReturn(randomDictTypeDO(reqVO.getDictType()));
+        when(dictTypeService.getDictTypeByType(eq(reqVO.getDictType()))).thenReturn(randomDictTypeDO(reqVO.getDictType()));
 
         // 调用
-        Long dictDataId = dictDataService.createDictData(reqVO);
+        String dictDataId = dictDataService.createDictData(reqVO);
         // 断言
         assertNotNull(dictDataId);
         // 校验记录的属性是否正确
@@ -162,7 +162,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
             o.setStatus(randomCommonStatus());
         });
         // mock 方法，字典类型
-        when(dictTypeService.getDictType(eq(reqVO.getDictType()))).thenReturn(randomDictTypeDO(reqVO.getDictType()));
+        when(dictTypeService.getDictTypeByType(eq(reqVO.getDictType()))).thenReturn(randomDictTypeDO(reqVO.getDictType()));
 
         // 调用
         dictDataService.updateDictData(reqVO);
@@ -177,7 +177,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         SysDictDataDO dbDictData = randomDictDataDO();
         dictDataMapper.insert(dbDictData);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        Long id = dbDictData.getId();
+        String id = dbDictData.getId();
 
         // 调用
         dictDataService.deleteDictData(id);
@@ -197,14 +197,14 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testValidateDictDataExists_notExists() {
-        assertServiceException(() -> dictDataService.validateDictDataExists(randomLongId()), DICT_DATA_NOT_EXISTS);
+        assertServiceException(() -> dictDataService.validateDictDataExists(randomLongId().toString()), DICT_DATA_NOT_EXISTS);
     }
 
     @Test
     public void testValidateDictTypeExists_success() {
         // mock 方法，数据类型被禁用
         String type = randomString();
-        when(dictTypeService.getDictType(eq(type))).thenReturn(randomDictTypeDO(type));
+        when(dictTypeService.getDictTypeByType(eq(type))).thenReturn(randomDictTypeDO(type));
 
         // 调用, 成功
         dictDataService.validateDictTypeExists(type);
@@ -219,7 +219,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     public void testValidateDictTypeExists_notEnable() {
         // mock 方法，数据类型被禁用
         String dictType = randomString();
-        when(dictTypeService.getDictType(eq(dictType))).thenReturn(
+        when(dictTypeService.getDictTypeByType(eq(dictType))).thenReturn(
                 randomPojo(SysDictTypeDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
 
         // 调用, 并断言异常
@@ -229,7 +229,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateDictDataValueUnique_success() {
         // 调用，成功
-        dictDataService.validateDictDataValueUnique(randomLongId(), randomString(), randomString());
+        dictDataService.validateDictDataValueUnique(randomLongId().toString(), randomString(), randomString());
     }
 
     @Test
@@ -251,7 +251,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateDictDataValueUnique_valueDuplicateForUpdate() {
         // 准备参数
-        Long id = randomLongId();
+        String id = randomLongId().toString();
         String dictType = randomString();
         String value = randomString();
         // mock 数据

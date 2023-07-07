@@ -13,6 +13,6 @@ public class DictDataUpdateReqVO extends DictDataBaseVO {
 
     @Schema(description = "字典数据编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "字典数据编号不能为空")
-    private Long id;
+    private String id;
 
 }

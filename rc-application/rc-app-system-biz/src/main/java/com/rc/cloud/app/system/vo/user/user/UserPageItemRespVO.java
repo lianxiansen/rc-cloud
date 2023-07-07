@@ -29,7 +29,7 @@ public class UserPageItemRespVO extends UserRespVO {
     public static class Dept {
 
         @Schema(description = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-        private Long id;
+        private String id;
 
         @Schema(description = "部门名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "研发部")
         private String name;

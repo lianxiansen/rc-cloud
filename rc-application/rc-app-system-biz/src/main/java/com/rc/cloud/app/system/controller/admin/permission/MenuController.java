@@ -41,8 +41,8 @@ public class MenuController {
     @PostMapping("/create")
     @Operation(summary = "创建菜单")
     @PreAuthorize("@pms.hasPermission('sys:menu:create')")
-    public CodeResult<Long> createMenu(@Valid @RequestBody MenuCreateReqVO reqVO) {
-        Long menuId = menuService.createMenu(reqVO);
+    public CodeResult<String> createMenu(@Valid @RequestBody MenuCreateReqVO reqVO) {
+        String menuId = menuService.createMenu(reqVO);
         return CodeResult.ok(menuId);
     }
 
@@ -58,7 +58,7 @@ public class MenuController {
     @Operation(summary = "删除菜单")
     @Parameter(name = "id", description = "角色编号", required= true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:menu:delete')")
-    public CodeResult<Boolean> deleteMenu(@RequestParam Long id) {
+    public CodeResult<Boolean> deleteMenu(@RequestParam String id) {
         menuService.deleteMenu(id);
         return CodeResult.ok(true);
     }
@@ -88,7 +88,7 @@ public class MenuController {
     @GetMapping("/get/{id}")
     @Operation(summary = "获取菜单信息")
     @PreAuthorize("@pms.hasPermission('sys:menu:query')")
-    public CodeResult<MenuRespVO> getMenu(@PathVariable Long id) {
+    public CodeResult<MenuRespVO> getMenu(@PathVariable String id) {
         SysMenuDO menu = menuService.getMenu(id);
         return CodeResult.ok(MenuConvert.INSTANCE.convert(menu));
     }
@@ -99,13 +99,13 @@ public class MenuController {
         String username = SecurityUtils.getUsername();
         Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
         SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
-        List<SysMenuDO> list = menuService.getUsableUserMenuList(user.getId(), 0L, MenuTypeEnum.DIR.getType());
+        List<SysMenuDO> list = menuService.getUsableUserMenuList(user.getId(), "0", MenuTypeEnum.DIR.getType());
         return CodeResult.ok(MenuConvert.INSTANCE.convertList(list));
     }
 
     @GetMapping("/child-nav/{parentId}")
     @Operation(summary = "根据父菜单ID获取子导航菜单")
-    public CodeResult<List<MenuRespVO>> getChildNavMenuList(@PathVariable Long parentId) {
+    public CodeResult<List<MenuRespVO>> getChildNavMenuList(@PathVariable String parentId) {
         String username = SecurityUtils.getUsername();
         Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
         SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));

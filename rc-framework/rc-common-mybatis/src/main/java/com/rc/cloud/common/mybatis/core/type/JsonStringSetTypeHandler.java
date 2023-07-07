@@ -14,9 +14,9 @@ import java.util.Set;
  *
  * @author 芋道源码
  */
-public class JsonLongSetTypeHandler extends AbstractJsonTypeHandler<Object> {
+public class JsonStringSetTypeHandler extends AbstractJsonTypeHandler<Object> {
 
-    private static final TypeReference<Set<Long>> TYPE_REFERENCE = new TypeReference<Set<Long>>(){};
+    private static final TypeReference<Set<String>> TYPE_REFERENCE = new TypeReference<Set<String>>(){};
 
     @Override
     protected Object parse(String json) {

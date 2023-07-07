@@ -29,8 +29,8 @@ public class DictDataController {
     @PostMapping("/create")
     @Operation(summary = "新增字典数据")
     @PreAuthorize("@pms.hasPermission('sys:dict:create')")
-    public CodeResult<Long> createDictData(@Valid @RequestBody DictDataCreateReqVO reqVO) {
-        Long dictDataId = dictDataService.createDictData(reqVO);
+    public CodeResult<String> createDictData(@Valid @RequestBody DictDataCreateReqVO reqVO) {
+        String dictDataId = dictDataService.createDictData(reqVO);
         return CodeResult.ok(dictDataId);
     }
 
@@ -46,7 +46,7 @@ public class DictDataController {
     @Operation(summary = "删除字典数据")
     @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
     @PreAuthorize("@pms.hasPermission('sys:dict:delete')")
-    public CodeResult<Boolean> deleteDictData(@RequestBody List<Long> idList) {
+    public CodeResult<Boolean> deleteDictData(@RequestBody List<String> idList) {
         dictDataService.deleteDictDatas(idList);
         return CodeResult.ok(true);
     }
@@ -70,7 +70,7 @@ public class DictDataController {
     @Operation(summary = "/查询字典数据详细")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:dict:query')")
-    public CodeResult<DictDataRespVO> getDictData(@PathVariable("id") Long id) {
+    public CodeResult<DictDataRespVO> getDictData(@PathVariable("id") String id) {
         return CodeResult.ok(DictDataConvert.INSTANCE.convert(dictDataService.getDictData(id)));
     }
 

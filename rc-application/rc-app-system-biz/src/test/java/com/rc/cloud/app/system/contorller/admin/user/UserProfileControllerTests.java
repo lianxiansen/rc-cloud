@@ -42,7 +42,7 @@ public class UserProfileControllerTests {
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())

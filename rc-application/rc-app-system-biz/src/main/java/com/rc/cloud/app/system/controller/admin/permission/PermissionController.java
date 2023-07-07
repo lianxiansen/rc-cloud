@@ -38,7 +38,7 @@ public class PermissionController {
     @Parameter(name = "roleId", description = "角色编号", required = true)
     @GetMapping("/list-role-resources/{roleId}")
     @PreAuthorize("@pms.hasPermission('sys:permission:assign-role-menu')")
-    public CodeResult<Set<Long>> listRoleMenus(@PathVariable Long roleId) {
+    public CodeResult<Set<String>> listRoleMenus(@PathVariable String roleId) {
         return CodeResult.ok(permissionService.getRoleMenuIds(roleId));
     }
 
@@ -66,7 +66,7 @@ public class PermissionController {
     @Parameter(name = "userId", description = "用户编号", required = true)
     @GetMapping("/list-user-roles/{userId}")
     @PreAuthorize("@pms.hasPermission('sys:permission:assign-user-role')")
-    public CodeResult<Set<Long>> listAdminRoles(@PathVariable("userId") Long userId) {
+    public CodeResult<Set<String>> listAdminRoles(@PathVariable("userId") String userId) {
         return CodeResult.ok(permissionService.getUserRoleIdListByUserId(userId));
     }
 

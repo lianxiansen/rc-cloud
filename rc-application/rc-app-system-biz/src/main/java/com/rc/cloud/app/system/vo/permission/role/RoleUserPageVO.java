@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 public class RoleUserPageVO extends PageParam {
 
     @Schema(description = "角色ID")
-    private Long roleId;
+    private String roleId;
 
     @Schema(description = "用户名")
     private String username;

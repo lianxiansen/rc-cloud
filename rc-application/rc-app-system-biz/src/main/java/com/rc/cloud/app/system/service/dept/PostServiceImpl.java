@@ -36,7 +36,7 @@ public class PostServiceImpl implements PostService {
     private PostMapper postMapper;
 
     @Override
-    public Long createPost(PostCreateReqVO reqVO) {
+    public String createPost(PostCreateReqVO reqVO) {
         // 校验正确性
         validatePostForCreateOrUpdate(null, reqVO.getName(), reqVO.getCode());
 
@@ -57,14 +57,14 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePost(Long id) {
+    public void deletePost(String id) {
         // 校验是否存在
         validatePostExists(id);
         // 删除部门
         postMapper.deleteById(id);
     }
 
-    private void validatePostForCreateOrUpdate(Long id, String name, String code) {
+    private void validatePostForCreateOrUpdate(String id, String name, String code) {
         // 校验自己存在
         validatePostExists(id);
         // 校验岗位名的唯一性
@@ -73,7 +73,7 @@ public class PostServiceImpl implements PostService {
         validatePostCodeUnique(id, code);
     }
 
-    private void validatePostNameUnique(Long id, String name) {
+    private void validatePostNameUnique(String id, String name) {
         SysPostDO post = postMapper.selectByName(name);
         if (post == null) {
             return;
@@ -87,7 +87,7 @@ public class PostServiceImpl implements PostService {
         }
     }
 
-    private void validatePostCodeUnique(Long id, String code) {
+    private void validatePostCodeUnique(String id, String code) {
         SysPostDO post = postMapper.selectByCode(code);
         if (post == null) {
             return;
@@ -101,7 +101,7 @@ public class PostServiceImpl implements PostService {
         }
     }
 
-    private void validatePostExists(Long id) {
+    private void validatePostExists(String id) {
         if (id == null) {
             return;
         }
@@ -111,7 +111,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<SysPostDO> getPostList(Collection<Long> ids, Collection<Integer> statuses) {
+    public List<SysPostDO> getPostList(Collection<String> ids, Collection<Integer> statuses) {
         return postMapper.selectList(ids, statuses);
     }
 
@@ -126,18 +126,18 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public SysPostDO getPost(Long id) {
+    public SysPostDO getPost(String id) {
         return postMapper.selectById(id);
     }
 
     @Override
-    public void validatePostList(Collection<Long> ids) {
+    public void validatePostList(Collection<String> ids) {
         if (CollUtil.isEmpty(ids)) {
             return;
         }
         // 获得岗位信息
         List<SysPostDO> posts = postMapper.selectBatchIds(ids);
-        Map<Long, SysPostDO> postMap = convertMap(posts, SysPostDO::getId);
+        Map<String, SysPostDO> postMap = convertMap(posts, SysPostDO::getId);
         // 校验
         ids.forEach(id -> {
             SysPostDO post = postMap.get(id);
@@ -151,7 +151,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void deletePosts(List<Long> idList) {
+    public void deletePosts(List<String> idList) {
         postMapper.deleteBatchIds(idList);
     }
 }

@@ -28,7 +28,7 @@ public interface MenuService {
      * @param reqVO 菜单信息
      * @return 创建出来的菜单编号
      */
-    Long createMenu(MenuCreateReqVO reqVO);
+    String createMenu(MenuCreateReqVO reqVO);
 
     /**
      * 更新菜单
@@ -42,7 +42,7 @@ public interface MenuService {
      *
      * @param id 菜单编号
      */
-    void deleteMenu(Long id);
+    void deleteMenu(String id);
 
     /**
      * 获得所有菜单列表
@@ -89,7 +89,7 @@ public interface MenuService {
      * @param menusStatuses 菜单状态数组
      * @return 菜单数组
      */
-    List<SysMenuDO> getMenuListFromCache(Collection<Long> menuIds, Collection<Integer> menuTypes,
+    List<SysMenuDO> getMenuListFromCache(Collection<String> menuIds, Collection<Integer> menuTypes,
                                          Collection<Integer> menusStatuses);
 
     /**
@@ -106,9 +106,9 @@ public interface MenuService {
      * @param id 菜单编号
      * @return 菜单
      */
-    SysMenuDO getMenu(Long id);
+    SysMenuDO getMenu(String id);
 
-    Set<String> getUserAuthorityByUserId(Long userId);
+    Set<String> getUserAuthorityByUserId(String userId);
 
     /**
      * 获取未禁用的用户的菜单列表
@@ -117,7 +117,7 @@ public interface MenuService {
      * @param type 菜单类型
      * @return 菜单列表
      */
-    List<SysMenuDO> getUsableUserMenuList(Long userId, Long parentId, Integer type);
+    List<SysMenuDO> getUsableUserMenuList(String userId, String parentId, Integer type);
 
     /**
      * 获取所有的用户的菜单列表，包括禁用的
@@ -126,7 +126,7 @@ public interface MenuService {
      * @param type 菜单类型
      * @return 菜单列表
      */
-    List<SysMenuDO> getUserMenuList(Long userId, Long parentId, Integer type);
+    List<SysMenuDO> getUserMenuList(String userId, String parentId, Integer type);
 
-    List<SysMenuDO> getUserMenuList(Long userId, Integer type);
+    List<SysMenuDO> getUserMenuList(String userId, Integer type);
 }

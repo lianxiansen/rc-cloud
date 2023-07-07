@@ -46,7 +46,7 @@ public class DictTypeControllerTests {
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
@@ -118,7 +118,7 @@ public class DictTypeControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
     public void updateDictType_success() throws Exception {
         DictTypeUpdateReqVO dictTypeUpdateReqVO = new DictTypeUpdateReqVO();
-        dictTypeUpdateReqVO.setId(170L);
+        dictTypeUpdateReqVO.setId("170");
         dictTypeUpdateReqVO.setName("测试字段类型");
         dictTypeUpdateReqVO.setStatus(0);
         dictTypeUpdateReqVO.setRemark("备注");
@@ -145,7 +145,7 @@ public class DictTypeControllerTests {
         dictTypeCreateReqVO.setStatus(0);
         dictTypeCreateReqVO.setRemark("备注");
         dictTypeCreateReqVO.setType("test_type");
-        Long dictTypeId = dictTypeService.createDictType(dictTypeCreateReqVO);
+        String dictTypeId = dictTypeService.createDictType(dictTypeCreateReqVO);
         mvc.perform(delete("/sys/dict-type")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("[" + dictTypeId + "]")

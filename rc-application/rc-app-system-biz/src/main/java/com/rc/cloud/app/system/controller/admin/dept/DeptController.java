@@ -1,5 +1,6 @@
 package com.rc.cloud.app.system.controller.admin.dept;
 
+import com.alibaba.cloud.commons.lang.StringUtils;
 import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
 import com.rc.cloud.app.system.convert.dept.DeptConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
@@ -32,8 +33,8 @@ public class DeptController {
     @PostMapping("create")
     @Operation(summary = "创建部门")
     @PreAuthorize("@pms.hasPermission('sys:dept:create')")
-    public CodeResult<Long> createDept(@Valid @RequestBody DeptCreateReqVO reqVO) {
-        Long deptId = deptService.createDept(reqVO);
+    public CodeResult<String> createDept(@Valid @RequestBody DeptCreateReqVO reqVO) {
+        String deptId = deptService.createDept(reqVO);
         return CodeResult.ok(deptId);
     }
 
@@ -49,7 +50,7 @@ public class DeptController {
     @Operation(summary = "删除部门")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:dept:delete')")
-    public CodeResult<Boolean> deleteDept(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> deleteDept(@RequestParam("id") String id) {
         deptService.deleteDept(id);
         return CodeResult.ok(true);
     }
@@ -80,11 +81,11 @@ public class DeptController {
     @Operation(summary = "获得部门信息")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:dept:query')")
-    public CodeResult<DeptRespVO> getDept(@PathVariable("id") Long id) {
+    public CodeResult<DeptRespVO> getDept(@PathVariable("id") String id) {
         DeptRespVO deptRespVO = DeptConvert.INSTANCE.convert(deptService.getDept(id));
-        Long parentId = deptRespVO.getParentId();
+        String parentId = deptRespVO.getParentId();
 
-        if (parentId == null || parentId <= 0L) {
+        if (StringUtils.isEmpty(parentId)) {
             deptRespVO.setParentName(null);
             return CodeResult.ok(deptRespVO);
         }

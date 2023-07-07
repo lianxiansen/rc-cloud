@@ -27,7 +27,7 @@ public interface AdminUserService {
      * @param reqVO 用户信息
      * @return 用户编号
      */
-    Long createUser(@Valid UserCreateReqVO reqVO);
+    String createUser(@Valid UserCreateReqVO reqVO);
 
     /**
      * 修改用户
@@ -42,7 +42,7 @@ public interface AdminUserService {
      * @param id 用户编号
      * @param loginIp 登陆 IP
      */
-    void updateUserLogin(Long id, String loginIp);
+    void updateUserLogin(String id, String loginIp);
 
     /**
      * 修改用户个人信息
@@ -50,7 +50,7 @@ public interface AdminUserService {
      * @param id 用户编号
      * @param reqVO 用户个人信息
      */
-    void updateUserProfile(Long id, @Valid UserProfileUpdateReqVO reqVO);
+    void updateUserProfile(String id, @Valid UserProfileUpdateReqVO reqVO);
 
     /**
      * 修改用户个人密码
@@ -58,7 +58,7 @@ public interface AdminUserService {
      * @param id 用户编号
      * @param reqVO 更新用户个人密码
      */
-    void updateUserPassword(Long id, @Valid UserProfileUpdatePasswordReqVO reqVO);
+    void updateUserPassword(String id, @Valid UserProfileUpdatePasswordReqVO reqVO);
 
 //    /**
 //     * 更新用户头像
@@ -66,7 +66,7 @@ public interface AdminUserService {
 //     * @param id         用户 id
 //     * @param avatarFile 头像文件
 //     */
-//    String updateUserAvatar(Long id, InputStream avatarFile) throws Exception;
+//    String updateUserAvatar(String id, InputStream avatarFile) throws Exception;
 
     /**
      * 修改密码
@@ -74,7 +74,7 @@ public interface AdminUserService {
      * @param id       用户编号
      * @param password 密码
      */
-    void updateUserPassword(Long id, String password);
+    void updateUserPassword(String id, String password);
 
     /**
      * 修改状态
@@ -82,21 +82,21 @@ public interface AdminUserService {
      * @param id     用户编号
      * @param status 状态
      */
-    void updateUserStatus(Long id, Integer status);
+    void updateUserStatus(String id, Integer status);
 
     /**
      * 删除用户
      *
      * @param id 用户编号
      */
-    void deleteUser(Long id);
+    void deleteUser(String id);
 
     /**
      * 批量删除用户
      *
      * @param idList 用户编号列表
      */
-    void deleteUsers(List<Long> idList);
+    void deleteUsers(List<String> idList);
 
     /**
      * 通过用户名查询用户
@@ -143,7 +143,7 @@ public interface AdminUserService {
      * @param id 用户ID
      * @return 用户对象信息
      */
-    SysUserDO getUser(Long id);
+    SysUserDO getUser(String id);
 
     /**
      * 获得指定部门的用户数组
@@ -151,7 +151,7 @@ public interface AdminUserService {
      * @param deptIds 部门数组
      * @return 用户数组
      */
-    List<SysUserDO> getUserListByDeptIds(Collection<Long> deptIds);
+    List<SysUserDO> getUserListByDeptIds(Collection<String> deptIds);
 
     /**
      * 获得指定岗位的用户数组
@@ -159,7 +159,7 @@ public interface AdminUserService {
      * @param postIds 岗位数组
      * @return 用户数组
      */
-    List<SysUserDO> getUserListByPostIds(Collection<Long> postIds);
+    List<SysUserDO> getUserListByPostIds(Collection<String> postIds);
 
     /**
      * 获得用户列表
@@ -167,7 +167,7 @@ public interface AdminUserService {
      * @param ids 用户编号数组
      * @return 用户列表
      */
-    List<SysUserDO> getUserList(Collection<Long> ids);
+    List<SysUserDO> getUserList(Collection<String> ids);
 
     /**
      * 校验用户们是否有效。如下情况，视为无效：
@@ -176,7 +176,7 @@ public interface AdminUserService {
      *
      * @param ids 用户编号数组
      */
-    void validateUserList(Collection<Long> ids);
+    void validateUserList(Collection<String> ids);
 
     /**
      * 获得用户 Map
@@ -184,7 +184,7 @@ public interface AdminUserService {
      * @param ids 用户编号数组
      * @return 用户 Map
      */
-    default Map<Long, SysUserDO> getUserMap(Collection<Long> ids) {
+    default Map<String, SysUserDO> getUserMap(Collection<String> ids) {
         if (CollUtil.isEmpty(ids)) {
             return new HashMap<>();
         }
@@ -239,7 +239,7 @@ public interface AdminUserService {
      * @param id 用户编号
      * @return 角色编号列表
      */
-    Set<Long> getUserRoleIds(Long id);
+    Set<String> getUserRoleIds(String id);
 
     IPage<SysUserDO> roleUserPage(RoleUserPageVO pageVO);
 }

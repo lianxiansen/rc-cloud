@@ -46,7 +46,7 @@ public class UserControllerTests {
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
@@ -63,8 +63,8 @@ public class UserControllerTests {
         createReqVO.setNickname("test_nickname");
         createReqVO.setAvatar("www.baidu.com");
         createReqVO.setRemark("备注");
-        createReqVO.setDeptId(100L);
-        createReqVO.setPostIds(new HashSet<Long>() {{add(1L); add(2L);}});
+        createReqVO.setDeptId("100");
+        createReqVO.setPostIds(new HashSet<String>() {{add("1"); add("2");}});
         createReqVO.setEmail("123232@qq.com");
         createReqVO.setMobile("13777777766");
         createReqVO.setSex(1);
@@ -87,16 +87,16 @@ public class UserControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:user:update"})
     public void updateUser_success() throws Exception {
         UserUpdateReqVO updateReqVO = new UserUpdateReqVO();
-        updateReqVO.setId(1L);
+        updateReqVO.setId("1");
         updateReqVO.setUsername("testuser12377");
         updateReqVO.setNickname("test_nickname");
         updateReqVO.setAvatar("www.baidu.com");
         updateReqVO.setRemark("备注");
-        updateReqVO.setDeptId(100L);
-        updateReqVO.setPostIds(new HashSet<Long>() {{add(1L); add(2L);}});
+        updateReqVO.setDeptId("100");
+        updateReqVO.setPostIds(new HashSet<String>() {{add("1"); add("2");}});
         updateReqVO.setEmail("123232@qq.com");
         updateReqVO.setMobile("13777777789");
-        updateReqVO.setRoleIds(new HashSet<Long>() {{add(1L); add(2L);}});
+        updateReqVO.setRoleIds(new HashSet<String>() {{add("1"); add("2");}});
         updateReqVO.setSex(1);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
@@ -130,7 +130,7 @@ public class UserControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:user:update-password"})
     public void updateUserPassword_success() throws Exception {
         UserUpdatePasswordReqVO updatePasswordReqVO = new UserUpdatePasswordReqVO();
-        updatePasswordReqVO.setId(1L);
+        updatePasswordReqVO.setId("1");
         updatePasswordReqVO.setPassword("1234567");
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
@@ -150,7 +150,7 @@ public class UserControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:user:update"})
     public void updateUserStatus_success() throws Exception {
         UserUpdateStatusReqVO updateStatusReqVO = new UserUpdateStatusReqVO();
-        updateStatusReqVO.setId(1L);
+        updateStatusReqVO.setId("1");
         updateStatusReqVO.setStatus(1);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()

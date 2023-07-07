@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class TenantExcelVO {
 
     @ExcelProperty("租户编号")
-    private Long id;
+    private String id;
 
     @ExcelProperty("租户名")
     private String name;

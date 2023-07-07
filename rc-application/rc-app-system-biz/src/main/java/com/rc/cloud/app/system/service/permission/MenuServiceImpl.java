@@ -55,7 +55,7 @@ public class MenuServiceImpl implements MenuService {
      */
     @Getter
     @Setter
-    private volatile Map<Long, SysMenuDO> menuCache;
+    private volatile Map<String, SysMenuDO> menuCache;
     /**
      * 权限与菜单缓存
      * key：权限 {@link SysMenuDO#getPermission()}
@@ -100,7 +100,7 @@ public class MenuServiceImpl implements MenuService {
         log.info("[initLocalCache][缓存菜单，数量为:{}]", menuList.size());
 
         // 第二步：构建缓存
-        ImmutableMap.Builder<Long, SysMenuDO> menuCacheBuilder = ImmutableMap.builder();
+        ImmutableMap.Builder<String, SysMenuDO> menuCacheBuilder = ImmutableMap.builder();
         ImmutableMultimap.Builder<String, SysMenuDO> permMenuCacheBuilder = ImmutableMultimap.builder();
         menuList.forEach(menuDO -> {
             menuCacheBuilder.put(menuDO.getId(), menuDO);
@@ -113,7 +113,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Long createMenu(MenuCreateReqVO reqVO) {
+    public String createMenu(MenuCreateReqVO reqVO) {
         // 校验父菜单存在
         validateParentMenu(reqVO.getParentId(), null);
         // 校验菜单（自己）
@@ -150,7 +150,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteMenu(Long menuId) {
+    public void deleteMenu(String menuId) {
         // 校验是否还有子菜单
         if (menuMapper.selectCountByParentId(menuId) > 0) {
             throw exception(MENU_EXISTS_CHILDREN);
@@ -205,7 +205,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<SysMenuDO> getMenuListFromCache(Collection<Long> menuIds, Collection<Integer> menuTypes,
+    public List<SysMenuDO> getMenuListFromCache(Collection<String> menuIds, Collection<Integer> menuTypes,
                                                 Collection<Integer> menusStatuses) {
         // 任一一个参数为空，则返回空
         if (CollectionUtils.isAnyEmpty(menuIds, menuTypes, menusStatuses)) {
@@ -223,31 +223,31 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public SysMenuDO getMenu(Long id) {
+    public SysMenuDO getMenu(String id) {
         return menuMapper.selectById(id);
     }
 
     @Override
-    public Set<String> getUserAuthorityByUserId(Long userId) {
+    public Set<String> getUserAuthorityByUserId(String userId) {
         return permissionService.getPermissionListByUserId(userId);
     }
 
     @Override
-    public List<SysMenuDO> getUsableUserMenuList(Long userId, Long parentId, Integer type) {
+    public List<SysMenuDO> getUsableUserMenuList(String userId, String parentId, Integer type) {
         return getUserMenuListByStatus(userId, parentId, type, CommonStatusEnum.ENABLE);
     }
 
     @Override
-    public List<SysMenuDO> getUserMenuList(Long userId, Long parentId, Integer type) {
+    public List<SysMenuDO> getUserMenuList(String userId, String parentId, Integer type) {
         return getUserMenuListByStatus(userId, parentId, type, null);
     }
 
-    private List<SysMenuDO> getUserMenuListByStatus(Long userId, Long parentId, Integer type, CommonStatusEnum status) {
+    private List<SysMenuDO> getUserMenuListByStatus(String userId, String parentId, Integer type, CommonStatusEnum status) {
         // 从用户角色表中查询角色id
-        Set<Long> roleIds = userRoleMapper.selectRoleIdsByUserId(userId);
+        Set<String> roleIds = userRoleMapper.selectRoleIdsByUserId(userId);
         // 根据角色id列表，获取角色code
         Set<String> roleCodes = roleMapper.selectCodesByIds(roleIds);
-        Set<Long> menuIds = new HashSet<>();
+        Set<String> menuIds = new HashSet<>();
         if(roleCodes.contains(RoleCodeEnum.SUPER_ADMIN.getCode())) {
             // 超级管理员，返回所有菜单
             menuIds = getMenuIdsByParentIdAndType(menuIds, parentId, type);
@@ -274,14 +274,14 @@ public class MenuServiceImpl implements MenuService {
         return menuMapper.selectList(wrapper);
     }
 
-    private Set<Long> getMenuIdsByParentIdAndType(Set<Long> result, Long parentId, Integer type) {
-        Set<Long> menuIds = menuMapper.getMenuIdsByParentIdAndType(parentId, type);
+    private Set<String> getMenuIdsByParentIdAndType(Set<String> result, String parentId, Integer type) {
+        Set<String> menuIds = menuMapper.getMenuIdsByParentIdAndType(parentId, type);
         if (menuIds.isEmpty()) {
             return Collections.emptySet();
         }
         result.addAll(menuIds);
-        for (Long menuId : menuIds) {
-            Set<Long> itemMenuIds = getMenuIdsByParentIdAndType(result, menuId, type);
+        for (String menuId : menuIds) {
+            Set<String> itemMenuIds = getMenuIdsByParentIdAndType(result, menuId, type);
             result.addAll(itemMenuIds);
         }
         return result;
@@ -295,7 +295,7 @@ public class MenuServiceImpl implements MenuService {
 //    }
 
     @Override
-    public List<SysMenuDO> getUserMenuList(Long userId, Integer type) {
+    public List<SysMenuDO> getUserMenuList(String userId, Integer type) {
         return getUserMenuList(userId, null, type);
     }
 
@@ -310,7 +310,7 @@ public class MenuServiceImpl implements MenuService {
      * @param childId 当前菜单编号
      */
     @VisibleForTesting
-    void validateParentMenu(Long parentId, Long childId) {
+    void validateParentMenu(String parentId, String childId) {
         if (parentId == null || ID_ROOT.equals(parentId)) {
             return;
         }
@@ -340,7 +340,7 @@ public class MenuServiceImpl implements MenuService {
      * @param id 菜单编号
      */
     @VisibleForTesting
-    void validateMenu(Long parentId, String name, Long id) {
+    void validateMenu(String parentId, String name, String id) {
         SysMenuDO menu = menuMapper.selectByParentIdAndName(parentId, name);
         if (menu == null) {
             return;

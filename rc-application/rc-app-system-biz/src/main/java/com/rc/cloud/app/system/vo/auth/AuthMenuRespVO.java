@@ -16,10 +16,10 @@ import java.util.List;
 public class AuthMenuRespVO {
 
     @Schema(description = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
-    private Long id;
+    private String id;
 
     @Schema(description = "父菜单 ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    private Long parentId;
+    private String parentId;
 
     @Schema(description = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
     private String name;

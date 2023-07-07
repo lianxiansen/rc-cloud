@@ -15,7 +15,7 @@ import java.util.Set;
 @Mapper
 public interface PostMapper extends BaseMapperX<SysPostDO> {
 
-    default List<SysPostDO> selectList(Collection<Long> ids, Collection<Integer> statuses) {
+    default List<SysPostDO> selectList(Collection<String> ids, Collection<Integer> statuses) {
         return selectList(new LambdaQueryWrapperX<SysPostDO>()
                 .inIfPresent(SysPostDO::getId, ids)
                 .inIfPresent(SysPostDO::getStatus, statuses));
@@ -44,7 +44,7 @@ public interface PostMapper extends BaseMapperX<SysPostDO> {
         return selectOne(SysPostDO::getCode, code);
     }
 
-    default List<SysPostDO> selectPostsByPostIds(Set<Long> postIds) {
+    default List<SysPostDO> selectPostsByPostIds(Set<String> postIds) {
         return selectList(new LambdaQueryWrapperX<SysPostDO>()
                 .inIfPresent(SysPostDO::getId, postIds));
     }

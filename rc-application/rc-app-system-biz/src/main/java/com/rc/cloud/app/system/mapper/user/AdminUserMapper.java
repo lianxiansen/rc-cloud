@@ -27,7 +27,7 @@ public interface AdminUserMapper extends BaseMapperX<SysUserDO> {
         return selectOne(SysUserDO::getMobile, mobile);
     }
 
-    default PageResult<SysUserDO> selectPage(UserPageReqVO reqVO, Collection<Long> deptIds) {
+    default PageResult<SysUserDO> selectPage(UserPageReqVO reqVO, Collection<String> deptIds) {
         return selectPage(reqVO, new LambdaQueryWrapperX<SysUserDO>()
                 .likeIfPresent(SysUserDO::getUsername, reqVO.getUsername())
                 .likeIfPresent(SysUserDO::getMobile, reqVO.getMobile())
@@ -37,7 +37,7 @@ public interface AdminUserMapper extends BaseMapperX<SysUserDO> {
                 .orderByDesc(SysUserDO::getId));
     }
 
-    default List<SysUserDO> selectList(UserExportReqVO reqVO, Collection<Long> deptIds) {
+    default List<SysUserDO> selectList(UserExportReqVO reqVO, Collection<String> deptIds) {
         return selectList(new LambdaQueryWrapperX<SysUserDO>()
                 .likeIfPresent(SysUserDO::getUsername, reqVO.getUsername())
                 .likeIfPresent(SysUserDO::getMobile, reqVO.getMobile())
@@ -54,7 +54,7 @@ public interface AdminUserMapper extends BaseMapperX<SysUserDO> {
         return selectList(SysUserDO::getStatus, status);
     }
 
-    default List<SysUserDO> selectListByDeptIds(Collection<Long> deptIds) {
+    default List<SysUserDO> selectListByDeptIds(Collection<String> deptIds) {
         return selectList(SysUserDO::getDeptId, deptIds);
     }
 

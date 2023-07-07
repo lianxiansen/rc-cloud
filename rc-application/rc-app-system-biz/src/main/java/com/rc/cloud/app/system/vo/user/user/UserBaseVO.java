@@ -31,13 +31,13 @@ public class UserBaseVO {
     private String remark;
 
     @Schema(description = "部门ID", example = "我是一个用户")
-    private Long deptId;
+    private String deptId;
 
     @Schema(description = "岗位编号数组", example = "[1,2,3]")
-    private Set<Long> postIds;
+    private Set<String> postIds;
 
     @Schema(description = "角色编号数组", example = "[1,2,3]")
-    private Set<Long> roleIds;
+    private Set<String> roleIds;
 
     @Schema(description = "用户邮箱", example = "yudao@iocoder.cn")
     @Email(message = "邮箱格式不正确")

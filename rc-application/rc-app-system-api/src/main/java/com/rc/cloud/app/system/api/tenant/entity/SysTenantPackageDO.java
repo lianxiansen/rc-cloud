@@ -3,7 +3,7 @@ package com.rc.cloud.app.system.api.tenant.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
-import com.rc.cloud.common.mybatis.core.type.JsonLongSetTypeHandler;
+import com.rc.cloud.common.mybatis.core.type.JsonStringSetTypeHandler;
 import lombok.*;
 
 import java.util.Set;
@@ -44,7 +44,7 @@ public class SysTenantPackageDO extends BaseDO {
     /**
      * 关联的菜单编号
      */
-    @TableField(typeHandler = JsonLongSetTypeHandler.class)
+    @TableField(typeHandler = JsonStringSetTypeHandler.class)
     private Set<String> menuIds;
 
 }

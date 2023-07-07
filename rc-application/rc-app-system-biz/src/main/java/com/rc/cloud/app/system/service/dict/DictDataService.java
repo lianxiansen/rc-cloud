@@ -24,7 +24,7 @@ public interface DictDataService {
      * @param reqVO 字典数据信息
      * @return 字典数据编号
      */
-    Long createDictData(DictDataCreateReqVO reqVO);
+    String createDictData(DictDataCreateReqVO reqVO);
 
     /**
      * 更新字典数据
@@ -38,7 +38,7 @@ public interface DictDataService {
      *
      * @param id 字典数据编号
      */
-    void deleteDictData(Long id);
+    void deleteDictData(String id);
 
     /**
      * 获得字典数据列表
@@ -69,7 +69,7 @@ public interface DictDataService {
      * @param id 字典数据编号
      * @return 字典数据
      */
-    SysDictDataDO getDictData(Long id);
+    SysDictDataDO getDictData(String id);
 
     /**
      * 获得指定字典类型的数据数量
@@ -109,5 +109,5 @@ public interface DictDataService {
 
     List<SysDictDataDO> selectListBySortAsc();
 
-    void deleteDictDatas(List<Long> idList);
+    void deleteDictDatas(List<String> idList);
 }

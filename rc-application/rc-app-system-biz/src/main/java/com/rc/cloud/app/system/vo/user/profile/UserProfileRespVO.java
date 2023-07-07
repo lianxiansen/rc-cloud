@@ -19,7 +19,7 @@ import java.util.List;
 public class UserProfileRespVO extends UserBaseVO {
 
     @Schema(description = "用户编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-    private Long id;
+    private String id;
 
     @Schema(description = "状态,参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Integer status;
@@ -57,7 +57,7 @@ public class UserProfileRespVO extends UserBaseVO {
     public static class Role {
 
         @Schema(description = "角色编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-        private Long id;
+        private String id;
 
         @Schema(description = "角色名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "普通角色")
         private String name;
@@ -69,7 +69,7 @@ public class UserProfileRespVO extends UserBaseVO {
     public static class Dept {
 
         @Schema(description = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-        private Long id;
+        private String id;
 
         @Schema(description = "部门名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "研发部")
         private String name;
@@ -81,7 +81,7 @@ public class UserProfileRespVO extends UserBaseVO {
     public static class Post {
 
         @Schema(description = "岗位编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
-        private Long id;
+        private String id;
 
         @Schema(description = "岗位名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "开发")
         private String name;

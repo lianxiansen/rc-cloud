@@ -37,7 +37,7 @@ public class TenantBaseVO {
 
     @Schema(description = "租户套餐编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "租户套餐编号不能为空")
-    private Long packageId;
+    private String packageId;
 
     @Schema(description = "过期时间", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "过期时间不能为空")

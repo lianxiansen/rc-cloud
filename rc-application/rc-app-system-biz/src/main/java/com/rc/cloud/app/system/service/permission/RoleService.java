@@ -32,7 +32,7 @@ public interface RoleService {
      * @param type 角色类型
      * @return 角色编号
      */
-    Long createRole(@Valid RoleCreateReqVO reqVO, Integer type);
+    String createRole(@Valid RoleCreateReqVO reqVO, Integer type);
 
     /**
      * 更新角色
@@ -46,7 +46,7 @@ public interface RoleService {
      *
      * @param id 角色编号
      */
-    void deleteRole(Long id);
+    void deleteRole(String id);
 
     /**
      * 更新角色状态
@@ -54,7 +54,7 @@ public interface RoleService {
      * @param id 角色编号
      * @param status 状态
      */
-    void updateRoleStatus(Long id, Integer status);
+    void updateRoleStatus(String id, Integer status);
 
     /**
      * 设置角色的数据权限
@@ -63,7 +63,7 @@ public interface RoleService {
      * @param dataScope 数据范围
      * @param dataScopeDeptIds 部门编号数组
      */
-    void updateRoleDataScope(Long id, Integer dataScope, Set<Long> dataScopeDeptIds);
+    void updateRoleDataScope(String id, Integer dataScope, Set<String> dataScopeDeptIds);
 
     /**
      * 获得角色，从缓存中
@@ -71,7 +71,7 @@ public interface RoleService {
      * @param id 角色编号
      * @return 角色
      */
-    SysRoleDO getRoleFromCache(Long id);
+    SysRoleDO getRoleFromCache(String id);
 
     /**
      * 获得角色列表
@@ -87,7 +87,7 @@ public interface RoleService {
      * @param ids 角色编号数组
      * @return 角色数组
      */
-    List<SysRoleDO> getRoleListFromCache(Collection<Long> ids);
+    List<SysRoleDO> getRoleListFromCache(Collection<String> ids);
 
     /**
      * 判断角色数组中，是否有超级管理员
@@ -103,7 +103,7 @@ public interface RoleService {
      * @param ids 角色编号数组
      * @return 是否有管理员
      */
-    default boolean hasAnySuperAdmin(Set<Long> ids) {
+    default boolean hasAnySuperAdmin(Set<String> ids) {
         return hasAnySuperAdmin(getRoleListFromCache(ids));
     }
 
@@ -113,7 +113,7 @@ public interface RoleService {
      * @param id 角色编号
      * @return 角色
      */
-    SysRoleDO getRole(Long id);
+    SysRoleDO getRole(String id);
 
     /**
      * 获得角色分页
@@ -138,12 +138,12 @@ public interface RoleService {
      *
      * @param ids 角色编号数组
      */
-    void validateRoleList(Collection<Long> ids);
+    void validateRoleList(Collection<String> ids);
 
     /**
      * 批量删除角色
      *
      * @param idList 角色编号数组
      */
-    void deleteRoles(List<Long> idList);
+    void deleteRoles(List<String> idList);
 }

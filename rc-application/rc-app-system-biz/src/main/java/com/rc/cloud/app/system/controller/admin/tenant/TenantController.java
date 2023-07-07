@@ -32,7 +32,7 @@ public class TenantController {
     @PermitAll
     @Operation(summary = "使用租户名，获得租户编号", description = "登录界面，根据用户的租户名，获得租户编号")
     @Parameter(name = "name", description = "租户名", required = true, example = "1024")
-    public CodeResult<Long> getTenantIdByName(@RequestParam("name") String name) {
+    public CodeResult<String> getTenantIdByName(@RequestParam("name") String name) {
         SysTenantDO tenantDO = tenantService.getTenantByName(name);
         return CodeResult.ok(tenantDO != null ? tenantDO.getId() : null);
     }
@@ -40,7 +40,7 @@ public class TenantController {
     @PostMapping("/create")
     @Operation(summary = "创建租户")
     @PreAuthorize("@pms.hasPermission('sys:tenant:create')")
-    public CodeResult<Long> createTenant(@Valid @RequestBody TenantCreateReqVO createReqVO) {
+    public CodeResult<String> createTenant(@Valid @RequestBody TenantCreateReqVO createReqVO) {
         return CodeResult.ok(tenantService.createTenant(createReqVO));
     }
 
@@ -56,7 +56,7 @@ public class TenantController {
     @Operation(summary = "删除租户")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:tenant:delete')")
-    public CodeResult<Boolean> deleteTenant(@PathVariable("id") Long id) {
+    public CodeResult<Boolean> deleteTenant(@PathVariable("id") String id) {
         tenantService.deleteTenant(id);
         return CodeResult.ok(true);
     }
@@ -65,7 +65,7 @@ public class TenantController {
     @Operation(summary = "获得租户")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:tenant:query')")
-    public CodeResult<TenantRespVO> getTenant(@PathVariable("id") Long id) {
+    public CodeResult<TenantRespVO> getTenant(@PathVariable("id") String id) {
         SysTenantDO tenant = tenantService.getTenant(id);
         return CodeResult.ok(TenantConvert.INSTANCE.convert(tenant));
     }

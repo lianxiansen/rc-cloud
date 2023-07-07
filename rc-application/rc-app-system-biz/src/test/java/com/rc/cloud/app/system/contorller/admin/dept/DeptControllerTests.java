@@ -40,7 +40,7 @@ public class DeptControllerTests {
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
@@ -97,7 +97,7 @@ public class DeptControllerTests {
         DeptCreateReqVO deptCreateReqVO = new DeptCreateReqVO();
         deptCreateReqVO.setName("测试项目组001");
         deptCreateReqVO.setSort(3);
-        deptCreateReqVO.setParentId(101L);
+        deptCreateReqVO.setParentId("101");
         deptCreateReqVO.setPhone("12345678901");
         deptCreateReqVO.setEmail("123232@qq.com");
         deptCreateReqVO.setStatus(1);
@@ -121,10 +121,10 @@ public class DeptControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:dept:update"})
     public void updateDept_success() throws Exception {
         DeptUpdateReqVO deptUpdateReqVO = new DeptUpdateReqVO();
-        deptUpdateReqVO.setId(105L);
+        deptUpdateReqVO.setId("105");
         deptUpdateReqVO.setName("测试部门2");
         deptUpdateReqVO.setSort(77);
-        deptUpdateReqVO.setParentId(0L);
+        deptUpdateReqVO.setParentId("0");
         deptUpdateReqVO.setStatus(1);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()

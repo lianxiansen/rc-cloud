@@ -47,7 +47,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         PostCreateReqVO reqVO = randomPojo(PostCreateReqVO.class,
                 o -> o.setStatus(randomEle(CommonStatusEnum.values()).getStatus()));
         // 调用
-        Long postId = postService.createPost(reqVO);
+        String postId = postService.createPost(reqVO);
 
         // 断言
         assertNotNull(postId);
@@ -81,7 +81,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         SysPostDO postDO = randomPostDO();
         postMapper.insert(postDO);
         // 准备参数
-        Long id = postDO.getId();
+        String id = postDO.getId();
 
         // 调用
         postService.deletePost(id);
@@ -91,7 +91,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidatePost_notFoundForDelete() {
         // 准备参数
-        Long id = randomLongId();
+        String id = randomLongId().toString();
 
         // 调用, 并断言异常
         assertServiceException(() -> postService.deletePost(id), POST_NOT_FOUND);
@@ -187,7 +187,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         SysPostDO postDO02 = randomPojo(SysPostDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus()));
         postMapper.insert(postDO02);
         // 准备参数
-        List<Long> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
+        List<String> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
 
         // 调用
         List<SysPostDO> list = postService.getPostList(ids, singletonList(CommonStatusEnum.ENABLE.getStatus()));
@@ -202,7 +202,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         SysPostDO dbPostDO = randomPostDO();
         postMapper.insert(dbPostDO);
         // 准备参数
-        Long id = dbPostDO.getId();
+        String id = dbPostDO.getId();
         // 调用
         SysPostDO post = postService.getPost(id);
         // 断言
@@ -218,7 +218,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         SysPostDO postDO = radomPostDO;
         postMapper.insert(postDO);
         // 准备参数
-        List<Long> ids = singletonList(postDO.getId());
+        List<String> ids = singletonList(postDO.getId());
 
         // 调用，无需断言
         postService.validatePostList(ids);
@@ -227,7 +227,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidatePostList_notFound() {
         // 准备参数
-        List<Long> ids = singletonList(randomLongId());
+        List<String> ids = singletonList(randomLongId().toString());
 
         // 调用, 并断言异常
         assertServiceException(() -> postService.validatePostList(ids), POST_NOT_FOUND);
@@ -241,7 +241,7 @@ public class PostServiceImplTest extends BaseDbUnitTest {
         SysPostDO postDO = randomPostDO;
         postMapper.insert(postDO);
         // 准备参数
-        List<Long> ids = singletonList(postDO.getId());
+        List<String> ids = singletonList(postDO.getId());
 
         // 调用, 并断言异常
         assertServiceException(() -> postService.validatePostList(ids), POST_NOT_ENABLE,

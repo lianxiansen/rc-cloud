@@ -23,7 +23,7 @@ public interface TenantPackageService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long createTenantPackage(@Valid TenantPackageCreateReqVO createReqVO);
+    String createTenantPackage(@Valid TenantPackageCreateReqVO createReqVO);
 
     /**
      * 更新租户套餐
@@ -37,7 +37,7 @@ public interface TenantPackageService {
      *
      * @param id 编号
      */
-    void deleteTenantPackage(Long id);
+    void deleteTenantPackage(String id);
 
     /**
      * 获得租户套餐
@@ -45,7 +45,7 @@ public interface TenantPackageService {
      * @param id 编号
      * @return 租户套餐
      */
-    SysTenantPackageDO getTenantPackage(Long id);
+    SysTenantPackageDO getTenantPackage(String id);
 
     /**
      * 获得租户套餐分页
@@ -61,7 +61,7 @@ public interface TenantPackageService {
      * @param id 编号
      * @return 租户套餐
      */
-    SysTenantPackageDO validTenantPackage(Long id);
+    SysTenantPackageDO validTenantPackage(String id);
 
     /**
      * 获得指定状态的租户套餐列表

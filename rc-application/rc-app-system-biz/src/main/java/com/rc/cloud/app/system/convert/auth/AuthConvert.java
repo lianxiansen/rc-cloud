@@ -44,7 +44,7 @@ public interface AuthConvert {
         menuList.sort(Comparator.comparing(SysMenuDO::getSort));
         // 构建菜单树
         // 使用 LinkedHashMap 的原因，是为了排序 。实际也可以用 Stream API ，就是太丑了。
-        Map<Long, AuthMenuRespVO> treeNodeMap = new LinkedHashMap<>();
+        Map<String, AuthMenuRespVO> treeNodeMap = new LinkedHashMap<>();
         menuList.forEach(menu -> treeNodeMap.put(menu.getId(), AuthConvert.INSTANCE.convertTreeNode(menu)));
         // 处理父子关系
         treeNodeMap.values().stream().filter(node -> !node.getParentId().equals(ID_ROOT)).forEach(childNode -> {
@@ -65,7 +65,7 @@ public interface AuthConvert {
         return filterList(treeNodeMap.values(), node -> ID_ROOT.equals(node.getParentId()));
     }
 
-//    SocialUserBindReqDTO convert(Long userId, Integer userType, AuthSocialLoginReqVO reqVO);
+//    SocialUserBindReqDTO convert(String userId, Integer userType, AuthSocialLoginReqVO reqVO);
 
 //    SmsCodeSendReqDTO convert(AuthSmsSendReqVO reqVO);
 //

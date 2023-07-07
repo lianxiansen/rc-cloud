@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class DictTypeSimpleRespVO {
 
     @Schema(description = "字典类型编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    private Long id;
+    private String id;
 
     @Schema(description = "字典类型名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
     private String name;

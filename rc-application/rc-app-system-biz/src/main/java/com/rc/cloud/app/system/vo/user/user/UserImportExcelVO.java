@@ -27,7 +27,7 @@ public class UserImportExcelVO {
     private String nickname;
 
     @ExcelProperty("部门编号")
-    private Long deptId;
+    private String deptId;
 
     @ExcelProperty("用户邮箱")
     private String email;

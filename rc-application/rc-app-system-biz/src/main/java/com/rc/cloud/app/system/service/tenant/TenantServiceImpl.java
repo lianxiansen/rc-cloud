@@ -75,13 +75,13 @@ public class TenantServiceImpl implements TenantService {
     private PermissionService permissionService;
 
     @Override
-    public List<Long> getTenantIdList() {
+    public List<String> getTenantIdList() {
         List<SysTenantDO> tenants = tenantMapper.selectList();
         return CollectionUtils.convertList(tenants, SysTenantDO::getId);
     }
 
     @Override
-    public void validTenant(Long id) {
+    public void validTenant(String id) {
         SysTenantDO tenant = getTenant(id);
         if (tenant == null) {
             throw exception(TENANT_NOT_EXISTS);
@@ -96,7 +96,7 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long createTenant(TenantCreateReqVO createReqVO) {
+    public String createTenant(TenantCreateReqVO createReqVO) {
         // 校验租户名称是否重复
         validTenantNameDuplicate(createReqVO.getName(), null);
         // 校验套餐被禁用
@@ -108,9 +108,9 @@ public class TenantServiceImpl implements TenantService {
 
         TenantUtils.execute(tenant.getId(), () -> {
             // 创建角色
-            Long roleId = createRole(tenantPackage);
+            String roleId = createRole(tenantPackage);
             // 创建用户，并分配角色
-            Long userId = createUser(roleId, createReqVO);
+            String userId = createUser(roleId, createReqVO);
             // 修改租户的管理员
             SysTenantDO tenantDO = new SysTenantDO();
             tenantDO.setId(tenant.getId());
@@ -120,22 +120,22 @@ public class TenantServiceImpl implements TenantService {
         return tenant.getId();
     }
 
-    private Long createUser(Long roleId, TenantCreateReqVO createReqVO) {
+    private String createUser(String roleId, TenantCreateReqVO createReqVO) {
         // 创建用户
-        Long userId = userService.createUser(TenantConvert.INSTANCE.convert02(createReqVO));
+        String userId = userService.createUser(TenantConvert.INSTANCE.convert02(createReqVO));
         // 分配角色
         permissionService.assignUserRole(userId, singleton(roleId));
         return userId;
     }
 
-    private Long createRole(SysTenantPackageDO tenantPackage) {
+    private String createRole(SysTenantPackageDO tenantPackage) {
         // 创建角色
         RoleCreateReqVO reqVO = new RoleCreateReqVO();
         reqVO.setName(RoleCodeEnum.TENANT_ADMIN.getName());
         reqVO.setCode(RoleCodeEnum.TENANT_ADMIN.getCode());
         reqVO.setSort(0);
         reqVO.setRemark("系统自动生成");
-        Long roleId = roleService.createRole(reqVO, RoleTypeEnum.SYSTEM.getType());
+        String roleId = roleService.createRole(reqVO, RoleTypeEnum.SYSTEM.getType());
         // 分配权限
         permissionService.assignRoleMenu(roleId, tenantPackage.getMenuIds());
         return roleId;
@@ -160,7 +160,7 @@ public class TenantServiceImpl implements TenantService {
         }
     }
 
-    private void validTenantNameDuplicate(String name, Long id) {
+    private void validTenantNameDuplicate(String name, String id) {
         SysTenantDO tenant = tenantMapper.selectByName(name);
         if (tenant == null) {
             return;
@@ -176,7 +176,7 @@ public class TenantServiceImpl implements TenantService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateTenantRoleMenu(Long tenantId, Set<Long> menuIds) {
+    public void updateTenantRoleMenu(String tenantId, Set<String> menuIds) {
         TenantUtils.execute(tenantId, () -> {
             // 获得所有角色
             List<SysRoleDO> roles = roleService.getRoleListByStatus(null);
@@ -191,7 +191,7 @@ public class TenantServiceImpl implements TenantService {
                     return;
                 }
                 // 如果是其他角色，则去掉超过套餐的权限
-                Set<Long> roleMenuIds = permissionService.getRoleMenuIds(role.getId());
+                Set<String> roleMenuIds = permissionService.getRoleMenuIds(role.getId());
                 roleMenuIds = CollUtil.intersectionDistinct(roleMenuIds, menuIds);
                 permissionService.assignRoleMenu(role.getId(), roleMenuIds);
                 log.info("[updateTenantRoleMenu][角色({}/{}) 的权限修改为({})]", role.getId(), role.getTenantId(), roleMenuIds);
@@ -200,14 +200,14 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public void deleteTenant(Long id) {
+    public void deleteTenant(String id) {
         // 校验存在
         validateUpdateTenant(id);
         // 删除
         tenantMapper.deleteById(id);
     }
 
-    private SysTenantDO validateUpdateTenant(Long id) {
+    private SysTenantDO validateUpdateTenant(String id) {
         SysTenantDO tenant = tenantMapper.selectById(id);
         if (tenant == null) {
             throw exception(TENANT_NOT_EXISTS);
@@ -220,7 +220,7 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public SysTenantDO getTenant(Long id) {
+    public SysTenantDO getTenant(String id) {
         return tenantMapper.selectById(id);
     }
 
@@ -240,12 +240,12 @@ public class TenantServiceImpl implements TenantService {
     }
 
     @Override
-    public Long getTenantCountByPackageId(Long packageId) {
+    public Long getTenantCountByPackageId(String packageId) {
         return tenantMapper.selectCountByPackageId(packageId);
     }
 
     @Override
-    public List<SysTenantDO> getTenantListByPackageId(Long packageId) {
+    public List<SysTenantDO> getTenantListByPackageId(String packageId) {
         return tenantMapper.selectListByPackageId(packageId);
     }
 
@@ -268,9 +268,9 @@ public class TenantServiceImpl implements TenantService {
             return;
         }
         // 获得租户，然后获得菜单
-        Long tenantId = TenantContextHolder.getRequiredTenantId();
+        String tenantId = TenantContextHolder.getRequiredTenantId();
         SysTenantDO tenant = getTenant(tenantId);
-        Set<Long> menuIds;
+        Set<String> menuIds;
         if (isSystemTenant(tenant)) { // 系统租户，菜单是全量的
             menuIds = CollectionUtils.convertSet(menuService.getMenuList(), SysMenuDO::getId);
         } else {

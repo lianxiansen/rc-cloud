@@ -18,7 +18,7 @@ public class RoleCreateReqBO {
      * 租户编号
      */
     @NotNull(message = "租户编号不能为空")
-    private Long tenantId;
+    private String tenantId;
 
     /**
      * 角色名称

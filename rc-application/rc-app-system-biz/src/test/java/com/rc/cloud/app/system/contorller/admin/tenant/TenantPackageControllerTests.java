@@ -48,7 +48,7 @@ public class TenantPackageControllerTests {
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
@@ -62,10 +62,10 @@ public class TenantPackageControllerTests {
         createReqVO.setName("test_tenant_name");
         createReqVO.setStatus(0);
         createReqVO.setRemark("test_tenant_remark");
-        Set<Long> menuIds = new HashSet<>();
-        menuIds.add(1L);
-        menuIds.add(2L);
-        menuIds.add(5L);
+        Set<String> menuIds = new HashSet<>();
+        menuIds.add("1");
+        menuIds.add("2");
+        menuIds.add("5");
         createReqVO.setMenuIds(menuIds);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -86,12 +86,12 @@ public class TenantPackageControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:tenant-package:update"})
     public void updateTenantPackage_success() throws Exception {
         TenantPackageUpdateReqVO updateReqVO = new TenantPackageUpdateReqVO();
-        updateReqVO.setId(111L);
+        updateReqVO.setId("111");
         updateReqVO.setName("test_tenant_name");
         updateReqVO.setStatus(0);
         updateReqVO.setRemark("test_tenant_remark");
-        Set<Long> menuIds = new HashSet<>();
-        menuIds.add(2162L);
+        Set<String> menuIds = new HashSet<>();
+        menuIds.add("2162");
         updateReqVO.setMenuIds(menuIds);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -115,12 +115,12 @@ public class TenantPackageControllerTests {
         createReqVO.setName("test_tenant_name");
         createReqVO.setStatus(0);
         createReqVO.setRemark("test_tenant_remark");
-        Set<Long> menuIds = new HashSet<>();
-        menuIds.add(1L);
-        menuIds.add(2L);
-        menuIds.add(5L);
+        Set<String> menuIds = new HashSet<>();
+        menuIds.add("1");
+        menuIds.add("2");
+        menuIds.add("5");
         createReqVO.setMenuIds(menuIds);
-        Long tenantPackageId = tenantPackageService.createTenantPackage(createReqVO);
+        String tenantPackageId = tenantPackageService.createTenantPackage(createReqVO);
         mvc.perform(delete("/sys/tenant-package/" + tenantPackageId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

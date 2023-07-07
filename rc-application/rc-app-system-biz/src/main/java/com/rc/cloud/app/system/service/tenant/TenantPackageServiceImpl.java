@@ -10,6 +10,7 @@ import com.rc.cloud.app.system.vo.tenant.packages.TenantPackagePageReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageUpdateReqVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.core.util.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +40,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     private TenantService tenantService;
 
     @Override
-    public Long createTenantPackage(TenantPackageCreateReqVO createReqVO) {
+    public String createTenantPackage(TenantPackageCreateReqVO createReqVO) {
         // 插入
         SysTenantPackageDO tenantPackage = TenantPackageConvert.INSTANCE.convert(createReqVO);
         tenantPackageMapper.insert(tenantPackage);
@@ -63,7 +64,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     }
 
     @Override
-    public void deleteTenantPackage(Long id) {
+    public void deleteTenantPackage(String id) {
         // 校验存在
         validateTenantPackageExists(id);
         // 校验正在使用
@@ -72,7 +73,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
         tenantPackageMapper.deleteById(id);
     }
 
-    private SysTenantPackageDO validateTenantPackageExists(Long id) {
+    private SysTenantPackageDO validateTenantPackageExists(String id) {
         SysTenantPackageDO tenantPackage = tenantPackageMapper.selectById(id);
         if (tenantPackage == null) {
             throw exception(TENANT_PACKAGE_NOT_EXISTS);
@@ -80,14 +81,14 @@ public class TenantPackageServiceImpl implements TenantPackageService {
         return tenantPackage;
     }
 
-    private void validateTenantUsed(Long id) {
-        if (tenantService.getTenantCountByPackageId(id) > 0) {
+    private void validateTenantUsed(String id) {
+        if (tenantService.getTenantCountByPackageId(id) < 0) {
             throw exception(TENANT_PACKAGE_USED);
         }
     }
 
     @Override
-    public SysTenantPackageDO getTenantPackage(Long id) {
+    public SysTenantPackageDO getTenantPackage(String id) {
         return tenantPackageMapper.selectById(id);
     }
 
@@ -97,7 +98,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     }
 
     @Override
-    public SysTenantPackageDO validTenantPackage(Long id) {
+    public SysTenantPackageDO validTenantPackage(String id) {
         SysTenantPackageDO tenantPackage = tenantPackageMapper.selectById(id);
         if (tenantPackage == null) {
             throw exception(TENANT_PACKAGE_NOT_EXISTS);

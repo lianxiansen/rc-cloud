@@ -17,11 +17,11 @@ public interface DeptMapper extends BaseMapperX<SysDeptDO> {
                 .eqIfPresent(SysDeptDO::getStatus, reqVO.getStatus()));
     }
 
-    default SysDeptDO selectByParentIdAndName(Long parentId, String name) {
+    default SysDeptDO selectByParentIdAndName(String parentId, String name) {
         return selectOne(SysDeptDO::getParentId, parentId, SysDeptDO::getName, name);
     }
 
-    default Long selectCountByParentId(Long parentId) {
+    default Long selectCountByParentId(String parentId) {
         return selectCount(SysDeptDO::getParentId, parentId);
     }
 

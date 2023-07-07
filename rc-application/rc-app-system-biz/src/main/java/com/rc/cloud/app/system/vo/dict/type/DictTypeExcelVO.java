@@ -13,7 +13,7 @@ import lombok.Data;
 public class DictTypeExcelVO {
 
     @ExcelProperty("字典主键")
-    private Long id;
+    private String id;
 
     @ExcelProperty("字典名称")
     private String name;

@@ -59,7 +59,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         // 调用
         menuService.initLocalCache();
         // 校验 menuCache 缓存
-        Map<Long, SysMenuDO> menuCache = menuService.getMenuCache();
+        Map<String, SysMenuDO> menuCache = menuService.getMenuCache();
         assertEquals(2, menuCache.size());
         assertPojoEquals(menuDO1, menuCache.get(menuDO1.getId()));
         assertPojoEquals(menuDO2, menuCache.get(menuDO2.getId()));
@@ -74,16 +74,16 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
     public void testCreateMenu_success() {
         // mock 数据（构造父菜单）
         SysMenuDO menuDO = createMenuDO(MenuTypeEnum.MENU,
-                "parent", 0L);
+                "parent", "0");
         menuMapper.insert(menuDO);
-        Long parentId = menuDO.getId();
+        String parentId = menuDO.getId();
         // 准备参数
         MenuCreateReqVO reqVO = randomPojo(MenuCreateReqVO.class, o -> {
             o.setParentId(parentId);
             o.setName("testSonName");
             o.setType(MenuTypeEnum.MENU.getType());
         });
-        Long menuId = menuService.createMenu(reqVO);
+        String menuId = menuService.createMenu(reqVO);
 
         // 校验记录的属性是否正确
         SysMenuDO dbMenu = menuMapper.selectById(menuId);
@@ -96,7 +96,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
     public void testUpdateMenu_success() {
         // mock 数据（构造父子菜单）
         SysMenuDO sonMenuDO = initParentAndSonMenu();
-        Long sonId = sonMenuDO.getId();
+        String sonId = sonMenuDO.getId();
         // 准备参数
         MenuUpdateReqVO reqVO = randomPojo(MenuUpdateReqVO.class, o -> {
             o.setId(sonId);
@@ -128,7 +128,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         SysMenuDO menuDO = randomPojo(SysMenuDO.class);
         menuMapper.insert(menuDO);
         // 准备参数
-        Long id = menuDO.getId();
+        String id = menuDO.getId();
 
         // 调用
         menuService.deleteMenu(id);
@@ -141,7 +141,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
 
     @Test
     public void testDeleteMenu_menuNotExist() {
-        assertServiceException(() -> menuService.deleteMenu(randomLongId()),
+        assertServiceException(() -> menuService.deleteMenu(randomLongId().toString()),
                 MENU_NOT_EXISTS);
     }
 
@@ -150,7 +150,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         // mock 数据（构造父子菜单）
         SysMenuDO sonMenu = initParentAndSonMenu();
         // 准备参数
-        Long parentId = sonMenu.getParentId();
+        String parentId = sonMenu.getParentId();
 
         // 调用并断言异常
         assertServiceException(() -> menuService.deleteMenu(parentId), MENU_EXISTS_CHILDREN);
@@ -203,22 +203,22 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
     public void testGetMenuListByTenant() {
         // mock 数据
         SysMenuDO menu100 = randomPojo(SysMenuDO.class, o -> {
-            o.setId(100L);
+            o.setId("100");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         menuMapper.insert(menu100);
         SysMenuDO menu101 = randomPojo(SysMenuDO.class, o -> {
-            o.setId(101L);
+            o.setId("101");
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());
         });
         menuMapper.insert(menu101);
         SysMenuDO menu102 = randomPojo(SysMenuDO.class, o -> {
-            o.setId(102L);
+            o.setId("102");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         menuMapper.insert(menu102);
         // mock 过滤菜单
-        Set<Long> menuIds = asSet(100L, 101L);
+        Set<String> menuIds = asSet("100", "101");
         doNothing().when(tenantService).handleTenantMenu(argThat(handler -> {
             handler.handle(menuIds);
             return true;
@@ -237,23 +237,23 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testListMenusFromCache_withoutId() {
         // mock 缓存
-        Map<Long, SysMenuDO> menuCache = new HashMap<>();
+        Map<String, SysMenuDO> menuCache = new HashMap<>();
         // 可被匹配
         SysMenuDO menuDO = randomPojo(SysMenuDO.class, o -> {
-            o.setId(1L);
+            o.setId("1");
             o.setType(MenuTypeEnum.MENU.getType());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         menuCache.put(menuDO.getId(), menuDO);
         // 测试 type 不匹配
-        menuCache.put(3L, randomPojo(SysMenuDO.class, o -> {
-            o.setId(3L);
+        menuCache.put("3", randomPojo(SysMenuDO.class, o -> {
+            o.setId("3");
             o.setType(MenuTypeEnum.BUTTON.getType());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         }));
         // 测试 status 不匹配
-        menuCache.put(4L, randomPojo(SysMenuDO.class, o -> {
-            o.setId(4L);
+        menuCache.put("4", randomPojo(SysMenuDO.class, o -> {
+            o.setId("4");
             o.setType(MenuTypeEnum.MENU.getType());
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());
         }));
@@ -272,35 +272,35 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testListMenusFromCache_withId() {
         // mock 缓存
-        Map<Long, SysMenuDO> menuCache = new HashMap<>();
+        Map<String, SysMenuDO> menuCache = new HashMap<>();
         // 可被匹配
         SysMenuDO menuDO = randomPojo(SysMenuDO.class, o -> {
-            o.setId(1L);
+            o.setId("1");
             o.setType(MenuTypeEnum.MENU.getType());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         menuCache.put(menuDO.getId(), menuDO);
         // 测试 id 不匹配
-        menuCache.put(2L, randomPojo(SysMenuDO.class, o -> {
-            o.setId(2L);
+        menuCache.put("2", randomPojo(SysMenuDO.class, o -> {
+            o.setId("2");
             o.setType(MenuTypeEnum.MENU.getType());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         }));
         // 测试 type 不匹配
-        menuCache.put(3L, randomPojo(SysMenuDO.class, o -> {
-            o.setId(3L);
+        menuCache.put("3", randomPojo(SysMenuDO.class, o -> {
+            o.setId("3");
             o.setType(MenuTypeEnum.BUTTON.getType());
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         }));
         // 测试 status 不匹配
-        menuCache.put(4L, randomPojo(SysMenuDO.class, o -> {
-            o.setId(4L);
+        menuCache.put("4", randomPojo(SysMenuDO.class, o -> {
+            o.setId("4");
             o.setType(MenuTypeEnum.MENU.getType());
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());
         }));
         menuService.setMenuCache(menuCache);
         // 准备参数
-        Collection<Long> menuIds = asList(1L, 3L, 4L);
+        Collection<String> menuIds = asList("1", "3", "4");
         Collection<Integer> menuTypes = singletonList(MenuTypeEnum.MENU.getType());
         Collection<Integer> menusStatuses = singletonList(CommonStatusEnum.ENABLE.getStatus());
 
@@ -317,18 +317,18 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         Multimap<String, SysMenuDO> permissionMenuCache = LinkedListMultimap.create();
         // 可被匹配
         SysMenuDO menuDO01 = randomPojo(SysMenuDO.class, o -> {
-            o.setId(1L);
+            o.setId("1");
             o.setPermission("123");
         });
         permissionMenuCache.put(menuDO01.getPermission(), menuDO01);
         SysMenuDO menuDO02 = randomPojo(SysMenuDO.class, o -> {
-            o.setId(2L);
+            o.setId("2");
             o.setPermission("123");
         });
         permissionMenuCache.put(menuDO02.getPermission(), menuDO02);
         // 不可匹配
         permissionMenuCache.put("456", randomPojo(SysMenuDO.class, o -> {
-            o.setId(3L);
+            o.setId("3");
             o.setPermission("456");
         }));
         menuService.setPermissionMenuCache(permissionMenuCache);
@@ -349,7 +349,7 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         SysMenuDO menu = randomPojo(SysMenuDO.class);
         menuMapper.insert(menu);
         // 准备参数
-        Long id = menu.getId();
+        String id = menu.getId();
 
         // 调用
         SysMenuDO dbMenu = menuService.getMenu(id);
@@ -360,10 +360,10 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateParentMenu_success() {
         // mock 数据
-        SysMenuDO menuDO = createMenuDO(MenuTypeEnum.MENU, "parent", 0L);
+        SysMenuDO menuDO = createMenuDO(MenuTypeEnum.MENU, "parent", "0");
         menuMapper.insert(menuDO);
         // 准备参数
-        Long parentId = menuDO.getId();
+        String parentId = menuDO.getId();
 
         // 调用，无需断言
         menuService.validateParentMenu(parentId, null);
@@ -372,24 +372,24 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateParentMenu_canNotSetSelfToBeParent() {
         // 调用，并断言异常
-        assertServiceException(() -> menuService.validateParentMenu(1L, 1L),
+        assertServiceException(() -> menuService.validateParentMenu("1", "1"),
                 MENU_PARENT_ERROR);
     }
 
     @Test
     public void testValidateParentMenu_parentNotExist() {
         // 调用，并断言异常
-        assertServiceException(() -> menuService.validateParentMenu(randomLongId(), null),
+        assertServiceException(() -> menuService.validateParentMenu(randomLongId().toString(), null),
                 MENU_PARENT_NOT_EXISTS);
     }
 
     @Test
     public void testValidateParentMenu_parentTypeError() {
         // mock 数据
-        SysMenuDO menuDO = createMenuDO(MenuTypeEnum.BUTTON, "parent", 0L);
+        SysMenuDO menuDO = createMenuDO(MenuTypeEnum.BUTTON, "parent", "0");
         menuMapper.insert(menuDO);
         // 准备参数
-        Long parentId = menuDO.getId();
+        String parentId = menuDO.getId();
 
         // 调用，并断言异常
         assertServiceException(() -> menuService.validateParentMenu(parentId, null),
@@ -401,8 +401,8 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         // mock 父子菜单
         SysMenuDO sonMenu = initParentAndSonMenu();
         // 准备参数
-        Long parentId = sonMenu.getParentId();
-        Long otherSonMenuId = randomLongId();
+        String parentId = sonMenu.getParentId();
+        String otherSonMenuId = randomLongId().toString();
         String otherSonMenuName = randomString();
 
         // 调用，无需断言
@@ -414,8 +414,8 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         // mock 父子菜单
         SysMenuDO sonMenu = initParentAndSonMenu();
         // 准备参数
-        Long parentId = sonMenu.getParentId();
-        Long otherSonMenuId = randomLongId();
+        String parentId = sonMenu.getParentId();
+        String otherSonMenuId = randomLongId().toString();
         String otherSonMenuName = sonMenu.getName(); //相同名称
 
         // 调用，并断言异常
@@ -441,11 +441,11 @@ public class MenuServiceImplTest extends BaseDbUnitTest {
         return sonMenuDO;
     }
 
-    private SysMenuDO createMenuDO(MenuTypeEnum type, String name, Long parentId) {
+    private SysMenuDO createMenuDO(MenuTypeEnum type, String name, String parentId) {
         return createMenuDO(type, name, parentId, randomCommonStatus());
     }
 
-    private SysMenuDO createMenuDO(MenuTypeEnum type, String name, Long parentId, Integer status) {
+    private SysMenuDO createMenuDO(MenuTypeEnum type, String name, String parentId, Integer status) {
         return randomPojo(SysMenuDO.class, o -> {
             o.setId(null);
             o.setName(name);

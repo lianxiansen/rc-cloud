@@ -63,12 +63,12 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         // 调用
         deptService.initLocalCache();
         // 断言 deptCache 缓存
-        Map<Long, SysDeptDO> deptCache = deptService.getDeptCache();
+        Map<String, SysDeptDO> deptCache = deptService.getDeptCache();
         assertEquals(2, deptCache.size());
         assertPojoEquals(deptDO1, deptCache.get(deptDO1.getId()));
         assertPojoEquals(deptDO2, deptCache.get(deptDO2.getId()));
         // 断言 parentDeptCache 缓存
-        Multimap<Long, SysDeptDO> parentDeptCache = deptService.getParentDeptCache();
+        Multimap<String, SysDeptDO> parentDeptCache = deptService.getParentDeptCache();
         assertEquals(2, parentDeptCache.size());
         assertPojoEquals(deptDO1, parentDeptCache.get(deptDO1.getParentId()));
         assertPojoEquals(deptDO2, parentDeptCache.get(deptDO2.getParentId()));
@@ -107,7 +107,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         });
 
         // 调用
-        Long deptId = deptService.createDept(reqVO);
+        String deptId = deptService.createDept(reqVO);
         // 断言
         assertNotNull(deptId);
         // 校验记录的属性是否正确
@@ -145,7 +145,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         SysDeptDO dbDeptDO = randomPojo(SysDeptDO.class, o -> o.setStatus(randomCommonStatus()));
         deptMapper.insert(dbDeptDO);// @Sql: 先插入出一条存在的数据
         // 准备参数
-        Long id = dbDeptDO.getId();
+        String id = dbDeptDO.getId();
 
         // 调用
         deptService.deleteDept(id);
@@ -194,7 +194,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateDept_notFoundForDelete() {
         // 准备参数
-        Long id = randomLongId();
+        String id = randomLongId().toString();
 
         // 调用, 并断言异常
         assertServiceException(() -> deptService.deleteDept(id), DEPT_NOT_FOUND);
@@ -281,7 +281,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         SysDeptDO deptDO02 = randomDeptDO();
         deptMapper.insert(deptDO02);
         // 准备参数
-        List<Long> ids = Arrays.asList(deptDO01.getId(), deptDO02.getId());
+        List<String> ids = Arrays.asList(deptDO01.getId(), deptDO02.getId());
 
         // 调用
         List<SysDeptDO> deptDOList = deptService.getDeptList(ids);
@@ -297,7 +297,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         SysDeptDO deptDO = randomDeptDO();
         deptMapper.insert(deptDO);
         // 准备参数
-        Long id = deptDO.getId();
+        String id = deptDO.getId();
 
         // 调用
         SysDeptDO dbDept = deptService.getDept(id);
@@ -313,7 +313,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         SysDeptDO deptDO = randomDeptDO;
         deptMapper.insert(deptDO);
         // 准备参数
-        List<Long> ids = singletonList(deptDO.getId());
+        List<String> ids = singletonList(deptDO.getId());
 
         // 调用，无需断言
         deptService.validateDeptList(ids);
@@ -322,7 +322,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidateDeptList_notFound() {
         // 准备参数
-        List<Long> ids = singletonList(randomLongId());
+        List<String> ids = singletonList(randomLongId().toString());
 
         // 调用, 并断言异常
         assertServiceException(() -> deptService.validateDeptList(ids), DEPT_NOT_FOUND);
@@ -336,7 +336,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         SysDeptDO deptDO = randomDeptDO;
         deptMapper.insert(deptDO);
         // 准备参数
-        List<Long> ids = singletonList(deptDO.getId());
+        List<String> ids = singletonList(deptDO.getId());
 
         // 调用, 并断言异常
         assertServiceException(() -> deptService.validateDeptList(ids), DEPT_NOT_ENABLE, deptDO.getName());

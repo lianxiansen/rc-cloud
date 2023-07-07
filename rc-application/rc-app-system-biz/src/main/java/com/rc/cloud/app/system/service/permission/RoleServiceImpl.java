@@ -50,7 +50,7 @@ public class RoleServiceImpl implements RoleService {
      * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
      */
     @Getter
-    private volatile Map<Long, SysRoleDO> roleCache;
+    private volatile Map<String, SysRoleDO> roleCache;
 
     @Resource
     private PermissionService permissionService;
@@ -80,7 +80,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public Long createRole(RoleCreateReqVO reqVO, Integer type) {
+    public String createRole(RoleCreateReqVO reqVO, Integer type) {
         // 校验角色
         validateRoleDuplicate(reqVO.getName(), reqVO.getCode(), null);
         // 插入到数据库
@@ -123,7 +123,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void updateRoleStatus(Long id, Integer status) {
+    public void updateRoleStatus(String id, Integer status) {
         // 校验是否可以更新
         validateRoleForUpdate(id);
 
@@ -138,7 +138,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void updateRoleDataScope(Long id, Integer dataScope, Set<Long> dataScopeDeptIds) {
+    public void updateRoleDataScope(String id, Integer dataScope, Set<String> dataScopeDeptIds) {
         // 校验是否可以更新
         validateRoleForUpdate(id);
 
@@ -154,7 +154,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteRole(Long id) {
+    public void deleteRole(String id) {
         // 校验是否可以更新
         validateRoleForUpdate(id);
         // 标记删除
@@ -173,7 +173,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public SysRoleDO getRoleFromCache(Long id) {
+    public SysRoleDO getRoleFromCache(String id) {
         return roleCache.get(id);
     }
 
@@ -186,7 +186,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<SysRoleDO> getRoleListFromCache(Collection<Long> ids) {
+    public List<SysRoleDO> getRoleListFromCache(Collection<String> ids) {
         if (CollectionUtil.isEmpty(ids)) {
             return Collections.emptyList();
         }
@@ -203,7 +203,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public SysRoleDO getRole(Long id) {
+    public SysRoleDO getRole(String id) {
         return roleMapper.selectById(id);
     }
 
@@ -228,7 +228,7 @@ public class RoleServiceImpl implements RoleService {
      * @param id 角色编号
      */
     @VisibleForTesting
-    void validateRoleDuplicate(String name, String code, Long id) {
+    void validateRoleDuplicate(String name, String code, String id) {
         // 0. 超级管理员，不允许创建
         if (RoleCodeEnum.isSuperAdmin(code)) {
             throw exception(ROLE_ADMIN_CODE_ERROR, code);
@@ -255,7 +255,7 @@ public class RoleServiceImpl implements RoleService {
      * @param id 角色编号
      */
     @VisibleForTesting
-    void validateRoleForUpdate(Long id) {
+    void validateRoleForUpdate(String id) {
         SysRoleDO roleDO = roleMapper.selectById(id);
         if (roleDO == null) {
             throw exception(ROLE_NOT_EXISTS);
@@ -267,13 +267,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void validateRoleList(Collection<Long> ids) {
+    public void validateRoleList(Collection<String> ids) {
         if (CollUtil.isEmpty(ids)) {
             return;
         }
         // 获得角色信息
         List<SysRoleDO> roles = roleMapper.selectBatchIds(ids);
-        Map<Long, SysRoleDO> roleMap = convertMap(roles, SysRoleDO::getId);
+        Map<String, SysRoleDO> roleMap = convertMap(roles, SysRoleDO::getId);
         // 校验
         ids.forEach(id -> {
             SysRoleDO role = roleMap.get(id);
@@ -287,7 +287,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void deleteRoles(List<Long> idList) {
+    public void deleteRoles(List<String> idList) {
         if (CollectionUtil.isEmpty(idList)) {
             return;
         }

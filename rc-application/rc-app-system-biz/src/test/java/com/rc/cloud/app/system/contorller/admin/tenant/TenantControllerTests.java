@@ -47,7 +47,7 @@ public class TenantControllerTests {
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
@@ -75,7 +75,7 @@ public class TenantControllerTests {
         tenantCreateReqVO.setDomain("https://www.baidu.com");
         tenantCreateReqVO.setContactName("huang");
         tenantCreateReqVO.setContactMobile("13777777777");
-        tenantCreateReqVO.setPackageId(111L);
+        tenantCreateReqVO.setPackageId("111");
         tenantCreateReqVO.setStatus(0);
         tenantCreateReqVO.setAccountCount(10000);
         tenantCreateReqVO.setExpireTime(buildTime(2033, 2, 2));
@@ -97,12 +97,12 @@ public class TenantControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:tenant:update"})
     public void updateTenant_success() throws Exception {
         TenantUpdateReqVO tenantUpdateReqVO = new TenantUpdateReqVO();
-        tenantUpdateReqVO.setId(121L);
+        tenantUpdateReqVO.setId("121");
         tenantUpdateReqVO.setName("test_tenant_name");
         tenantUpdateReqVO.setDomain("https://www.baidu.com");
         tenantUpdateReqVO.setContactName("huang");
         tenantUpdateReqVO.setContactMobile("13777777777");
-        tenantUpdateReqVO.setPackageId(111L);
+        tenantUpdateReqVO.setPackageId("111");
         tenantUpdateReqVO.setStatus(0);
         tenantUpdateReqVO.setAccountCount(10000);
         tenantUpdateReqVO.setExpireTime(buildTime(2033, 2, 2));
@@ -130,11 +130,11 @@ public class TenantControllerTests {
         tenantCreateReqVO.setDomain("https://www.baidu.com");
         tenantCreateReqVO.setContactName("huang");
         tenantCreateReqVO.setContactMobile("13777777777");
-        tenantCreateReqVO.setPackageId(111L);
+        tenantCreateReqVO.setPackageId("111");
         tenantCreateReqVO.setStatus(0);
         tenantCreateReqVO.setAccountCount(10000);
         tenantCreateReqVO.setExpireTime(buildTime(2033, 2, 2));
-        Long tenantId = tenantService.createTenant(tenantCreateReqVO);
+        String tenantId = tenantService.createTenant(tenantCreateReqVO);
         mvc.perform(delete("/sys/tenant/" + tenantId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))

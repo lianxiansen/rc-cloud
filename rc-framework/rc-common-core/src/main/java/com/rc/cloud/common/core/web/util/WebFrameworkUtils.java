@@ -59,7 +59,7 @@ public class WebFrameworkUtils {
         if (tenantId == null) {
             tenantId = String.valueOf(request.getHeaders(HEADER_TENANT_ID));
         }
-        return Objects.equals(tenantId, "") ? tenantId : null;
+        return Objects.equals(tenantId, "") ? null : tenantId;
     }
 
     public static void setLoginUserId(ServletRequest request, String userId) {

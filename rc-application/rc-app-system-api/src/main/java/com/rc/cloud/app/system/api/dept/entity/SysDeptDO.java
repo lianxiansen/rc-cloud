@@ -34,7 +34,7 @@ public class SysDeptDO extends TenantBaseDO {
      *
      * 关联 {@link #id}
      */
-    private Long parentId;
+    private String parentId;
     /**
      * 显示顺序
      */

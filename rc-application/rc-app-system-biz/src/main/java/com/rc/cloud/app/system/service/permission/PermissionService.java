@@ -34,7 +34,7 @@ public interface PermissionService {
      * @param menusStatuses 菜单状态数组
      * @return 菜单列表
      */
-    List<SysMenuDO> getRoleMenuListFromCache(Collection<Long> roleIds, Collection<Integer> menuTypes,
+    List<SysMenuDO> getRoleMenuListFromCache(Collection<String> roleIds, Collection<Integer> menuTypes,
                                              Collection<Integer> menusStatuses);
 
     /**
@@ -44,7 +44,7 @@ public interface PermissionService {
      * @param roleStatuses 角色状态集合. 允许为空，为空时不过滤
      * @return 角色编号集合
      */
-    Set<Long> getUserRoleIdsFromCache(Long userId, @Nullable Collection<Integer> roleStatuses);
+    Set<String> getUserRoleIdsFromCache(String userId, @Nullable Collection<Integer> roleStatuses);
 
     /**
      * 获得角色拥有的菜单编号集合
@@ -52,7 +52,7 @@ public interface PermissionService {
      * @param roleId 角色编号
      * @return 菜单编号集合
      */
-    Set<Long> getRoleMenuIds(Long roleId);
+    Set<String> getRoleMenuIds(String roleId);
 
     /**
      * 获得拥有多个角色的用户编号集合
@@ -60,7 +60,7 @@ public interface PermissionService {
      * @param roleIds 角色编号集合
      * @return 用户编号集合
      */
-    Set<Long> getUserRoleIdListByRoleIds(Collection<Long> roleIds);
+    Set<String> getUserRoleIdListByRoleIds(Collection<String> roleIds);
 
     /**
      * 设置角色菜单
@@ -68,7 +68,7 @@ public interface PermissionService {
      * @param roleId 角色编号
      * @param menuIds 菜单编号集合
      */
-    void assignRoleMenu(Long roleId, Set<Long> menuIds);
+    void assignRoleMenu(String roleId, Set<String> menuIds);
 
     /**
      * 获得用户拥有的角色编号集合
@@ -76,14 +76,14 @@ public interface PermissionService {
      * @param userId 用户编号
      * @return 角色编号集合
      */
-    Set<Long> getUserRoleIdListByUserId(Long userId);
+    Set<String> getUserRoleIdListByUserId(String userId);
 
     /**
      * 根据用户编号，获得菜单权限数组
      * @param userId 用户编号
      * @return 菜单权限数组
      */
-    Set<String> getPermissionListByUserId(Long userId);
+    Set<String> getPermissionListByUserId(String userId);
 
     /**
      * 设置用户角色
@@ -91,7 +91,7 @@ public interface PermissionService {
      * @param userId 角色编号
      * @param roleIds 角色编号集合
      */
-    void assignUserRole(Long userId, Set<Long> roleIds);
+    void assignUserRole(String userId, Set<String> roleIds);
 
     /**
      * 设置角色的数据权限
@@ -100,28 +100,28 @@ public interface PermissionService {
      * @param dataScope 数据范围
      * @param dataScopeDeptIds 部门编号数组
      */
-    void assignRoleDataScope(Long roleId, Integer dataScope, Set<Long> dataScopeDeptIds);
+    void assignRoleDataScope(String roleId, Integer dataScope, Set<String> dataScopeDeptIds);
 
     /**
      * 处理角色删除时，删除关联授权数据
      *
      * @param roleId 角色编号
      */
-    void processRoleDeleted(Long roleId);
+    void processRoleDeleted(String roleId);
 
     /**
      * 处理菜单删除时，删除关联授权数据
      *
      * @param menuId 菜单编号
      */
-    void processMenuDeleted(Long menuId);
+    void processMenuDeleted(String menuId);
 
     /**
      * 处理用户删除是，删除关联授权数据
      *
      * @param userId 用户编号
      */
-    void processUserDeleted(Long userId);
+    void processUserDeleted(String userId);
 
     /**
      * 判断是否有权限，任一一个即可
@@ -130,7 +130,7 @@ public interface PermissionService {
      * @param permissions 权限
      * @return 是否
      */
-    boolean hasAnyPermissions(Long userId, String... permissions);
+    boolean hasAnyPermissions(String userId, String... permissions);
 
     /**
      * 判断是否有角色，任一一个即可
@@ -138,7 +138,7 @@ public interface PermissionService {
      * @param roles 角色数组
      * @return 是否
      */
-    boolean hasAnyRoles(Long userId, String... roles);
+    boolean hasAnyRoles(String userId, String... roles);
 
     /**
      * 获得登陆用户的部门数据权限
@@ -146,7 +146,7 @@ public interface PermissionService {
      * @param userId 用户编号
      * @return 部门数据权限
      */
-    DeptDataPermissionRespDTO getDeptDataPermission(Long userId);
+    DeptDataPermissionRespDTO getDeptDataPermission(String userId);
 
     /**
      * 根据用户名，获得包含权限列表的用户信息

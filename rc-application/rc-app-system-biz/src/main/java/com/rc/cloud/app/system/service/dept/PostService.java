@@ -28,7 +28,7 @@ public interface PostService {
      * @param reqVO 岗位信息
      * @return 岗位编号
      */
-    Long createPost(PostCreateReqVO reqVO);
+    String createPost(PostCreateReqVO reqVO);
 
     /**
      * 更新岗位
@@ -42,7 +42,7 @@ public interface PostService {
      *
      * @param id 岗位编号
      */
-    void deletePost(Long id);
+    void deletePost(String id);
 
     /**
      * 获得岗位列表
@@ -50,7 +50,7 @@ public interface PostService {
      * @param ids 岗位编号数组。如果为空，不进行筛选
      * @return 部门列表
      */
-    default List<SysPostDO> getPostList(@Nullable Collection<Long> ids) {
+    default List<SysPostDO> getPostList(@Nullable Collection<String> ids) {
         return getPostList(ids, asSet(CommonStatusEnum.ENABLE.getStatus(), CommonStatusEnum.DISABLE.getStatus()));
     }
 
@@ -61,7 +61,7 @@ public interface PostService {
      * @param statuses 状态数组。如果为空，不进行筛选
      * @return 部门列表
      */
-    List<SysPostDO> getPostList(@Nullable Collection<Long> ids, @Nullable Collection<Integer> statuses);
+    List<SysPostDO> getPostList(@Nullable Collection<String> ids, @Nullable Collection<Integer> statuses);
 
     /**
      * 获得岗位分页列表
@@ -85,7 +85,7 @@ public interface PostService {
      * @param id 岗位编号
      * @return 岗位信息
      */
-    SysPostDO getPost(Long id);
+    SysPostDO getPost(String id);
 
     /**
      * 校验岗位们是否有效。如下情况，视为无效：
@@ -94,11 +94,11 @@ public interface PostService {
      *
      * @param ids 岗位编号数组
      */
-    void validatePostList(Collection<Long> ids);
+    void validatePostList(Collection<String> ids);
 
     /**
      * 批量删除岗位
      * @param idList 岗位编号数组
      */
-    void deletePosts(List<Long> idList);
+    void deletePosts(List<String> idList);
 }

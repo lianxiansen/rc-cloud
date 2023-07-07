@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class MenuRespVO extends TreeNode<MenuRespVO> {
 
     @Schema(description = "菜单编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    private Long id;
+    private String id;
 
     @Schema(description = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
     @NotBlank(message = "菜单名称不能为空")
@@ -41,7 +41,7 @@ public class MenuRespVO extends TreeNode<MenuRespVO> {
 
     @Schema(description = "父菜单 ID", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "父菜单 ID 不能为空")
-    private Long parentId;
+    private String parentId;
 
     @Schema(description = "路由地址,仅菜单类型为菜单或者目录时，才需要传", example = "post")
     @Size(max = 200, message = "路由地址不能超过200个字符")

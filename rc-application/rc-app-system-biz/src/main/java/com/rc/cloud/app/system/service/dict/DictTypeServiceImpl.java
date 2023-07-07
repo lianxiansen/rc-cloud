@@ -49,17 +49,17 @@ public class DictTypeServiceImpl implements DictTypeService {
     }
 
     @Override
-    public SysDictTypeDO getDictType(Long id) {
+    public SysDictTypeDO getDictTypeById(String id) {
         return dictTypeMapper.selectById(id);
     }
 
     @Override
-    public SysDictTypeDO getDictType(String type) {
+    public SysDictTypeDO getDictTypeByType(String type) {
         return dictTypeMapper.selectByType(type);
     }
 
     @Override
-    public Long createDictType(DictTypeCreateReqVO reqVO) {
+    public String createDictType(DictTypeCreateReqVO reqVO) {
         // 校验正确性
         validateDictTypeForCreateOrUpdate(null, reqVO.getName(), reqVO.getType());
 
@@ -80,7 +80,7 @@ public class DictTypeServiceImpl implements DictTypeService {
     }
 
     @Override
-    public void deleteDictType(Long id) {
+    public void deleteDictType(String id) {
         // 校验是否存在
         SysDictTypeDO dictType = validateDictTypeExists(id);
         // 校验是否有字典数据
@@ -133,13 +133,13 @@ public class DictTypeServiceImpl implements DictTypeService {
     }
 
     @Override
-    public void deleteDictTypes(List<Long> idList) {
+    public void deleteDictTypes(List<String> idList) {
         // 校验是否存在
-        for (Long id : idList) {
+        for (String id : idList) {
             validateDictTypeExists(id);
         }
         // 校验是否有字典数据
-        for (Long id : idList) {
+        for (String id : idList) {
             SysDictTypeDO dictType = dictTypeMapper.selectById(id);
             if (dictDataService.countByDictType(dictType.getType()) > 0) {
                 throw exception(DICT_TYPE_HAS_CHILDREN);
@@ -149,7 +149,7 @@ public class DictTypeServiceImpl implements DictTypeService {
         dictTypeMapper.deleteBatchIds(idList);
     }
 
-    private void validateDictTypeForCreateOrUpdate(Long id, String name, String type) {
+    private void validateDictTypeForCreateOrUpdate(String id, String name, String type) {
         // 校验自己存在
         validateDictTypeExists(id);
         // 校验字典类型的名字的唯一性
@@ -159,7 +159,7 @@ public class DictTypeServiceImpl implements DictTypeService {
     }
 
     @VisibleForTesting
-    void validateDictTypeNameUnique(Long id, String name) {
+    void validateDictTypeNameUnique(String id, String name) {
         SysDictTypeDO dictType = dictTypeMapper.selectByName(name);
         if (dictType == null) {
             return;
@@ -174,7 +174,7 @@ public class DictTypeServiceImpl implements DictTypeService {
     }
 
     @VisibleForTesting
-    void validateDictTypeUnique(Long id, String type) {
+    void validateDictTypeUnique(String id, String type) {
         if (StrUtil.isEmpty(type)) {
             return;
         }
@@ -192,7 +192,7 @@ public class DictTypeServiceImpl implements DictTypeService {
     }
 
     @VisibleForTesting
-    SysDictTypeDO validateDictTypeExists(Long id) {
+    SysDictTypeDO validateDictTypeExists(String id) {
         if (id == null) {
             return null;
         }

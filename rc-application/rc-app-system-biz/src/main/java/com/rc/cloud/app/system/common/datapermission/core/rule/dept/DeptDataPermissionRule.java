@@ -12,10 +12,7 @@ import com.rc.cloud.common.mybatis.core.util.MyBatisUtils;
 //import com.rc.cloud.common.security.core.util.SecurityFrameworkUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.expression.Alias;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.LongValue;
-import net.sf.jsqlparser.expression.NullValue;
+import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
@@ -142,7 +139,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 //        return new OrExpressionX(deptExpression, userExpression);
 //    }
 
-    private Expression buildDeptExpression(String tableName, Alias tableAlias, Set<Long> deptIds) {
+    private Expression buildDeptExpression(String tableName, Alias tableAlias, Set<String> deptIds) {
         // 如果不存在配置，则无需作为条件
         String columnName = deptColumns.get(tableName);
         if (StrUtil.isEmpty(columnName)) {
@@ -154,10 +151,10 @@ public class DeptDataPermissionRule implements DataPermissionRule {
         }
         // 拼接条件
         return new InExpression(MyBatisUtils.buildColumn(tableName, tableAlias, columnName),
-                new ExpressionList(CollectionUtils.convertList(deptIds, LongValue::new)));
+                new ExpressionList(CollectionUtils.convertList(deptIds, StringValue::new)));
     }
 
-    private Expression buildUserExpression(String tableName, Alias tableAlias, Boolean self, Long userId) {
+    private Expression buildUserExpression(String tableName, Alias tableAlias, Boolean self, String userId) {
         // 如果不查看自己，则无需作为条件
         if (Boolean.FALSE.equals(self)) {
             return null;

@@ -45,7 +45,7 @@ public class PermissionControllerTests {
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
     public void setup() {
-        TenantContextHolder.setTenantId(1L);
+        TenantContextHolder.setTenantId("1");
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .apply(springSecurity())
@@ -68,11 +68,11 @@ public class PermissionControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:permission:assign-role-menu"})
     public void assignRoleMenu_success() throws Exception {
         PermissionAssignRoleMenuReqVO reqVO = new PermissionAssignRoleMenuReqVO();
-        reqVO.setRoleId(101L);
-        Set<Long> menuIds = new HashSet<>();
-        menuIds.add(1L);
-        menuIds.add(2L);
-        menuIds.add(5L);
+        reqVO.setRoleId("101");
+        Set<String> menuIds = new HashSet<>();
+        menuIds.add("1");
+        menuIds.add("2");
+        menuIds.add("5");
         reqVO.setMenuIds(menuIds);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
@@ -92,12 +92,12 @@ public class PermissionControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:permission:assign-role-data-scope"})
     public void assignRoleDataScope_success() throws Exception {
         PermissionAssignRoleDataScopeReqVO reqVO = new PermissionAssignRoleDataScopeReqVO();
-        reqVO.setRoleId(101L);
+        reqVO.setRoleId("101");
         reqVO.setDataScope(1);
-        Set<Long> dataScopeDeptIds = new HashSet<>();
-        dataScopeDeptIds.add(1L);
-        dataScopeDeptIds.add(2L);
-        dataScopeDeptIds.add(5L);
+        Set<String> dataScopeDeptIds = new HashSet<>();
+        dataScopeDeptIds.add("1");
+        dataScopeDeptIds.add("2");
+        dataScopeDeptIds.add("5");
         reqVO.setDataScopeDeptIds(dataScopeDeptIds);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
@@ -129,11 +129,11 @@ public class PermissionControllerTests {
     @WithMockUser(username = "admin", authorities = {"sys:permission:assign-user-role"})
     public void assignUserRole_success() throws Exception {
         PermissionAssignUserRoleReqVO reqVO = new PermissionAssignUserRoleReqVO();
-        reqVO.setUserId(1L);
-        Set<Long> roleIds = new HashSet<>();
-        roleIds.add(1L);
-        roleIds.add(2L);
-        roleIds.add(5L);
+        reqVO.setUserId("1");
+        Set<String> roleIds = new HashSet<>();
+        roleIds.add("1");
+        roleIds.add("2");
+        roleIds.add("5");
         reqVO.setRoleIds(roleIds);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()

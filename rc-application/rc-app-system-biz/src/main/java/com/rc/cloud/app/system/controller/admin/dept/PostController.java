@@ -36,8 +36,8 @@ public class PostController {
     @PostMapping("/create")
     @Operation(summary = "创建岗位")
     @PreAuthorize("@pms.hasPermission('sys:post:create')")
-    public CodeResult<Long> createPost(@Valid @RequestBody PostCreateReqVO reqVO) {
-        Long postId = postService.createPost(reqVO);
+    public CodeResult<String> createPost(@Valid @RequestBody PostCreateReqVO reqVO) {
+        String postId = postService.createPost(reqVO);
         return CodeResult.ok(postId);
     }
 
@@ -53,7 +53,7 @@ public class PostController {
     @Operation(summary = "删除岗位")
     @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
     @PreAuthorize("@pms.hasPermission('sys:post:delete')")
-    public CodeResult<Boolean> deletePost(@RequestBody List<Long> idList) {
+    public CodeResult<Boolean> deletePost(@RequestBody List<String> idList) {
         postService.deletePosts(idList);
         return CodeResult.ok(true);
     }
@@ -62,7 +62,7 @@ public class PostController {
     @Operation(summary = "获得岗位信息")
     @Parameter(name = "id", description = "岗位编号", required = true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:post:query')")
-    public CodeResult<PostRespVO> getPost(@PathVariable("id") Long id) {
+    public CodeResult<PostRespVO> getPost(@PathVariable("id") String id) {
         SysPostDO postDO = postService.getPost(id);
         if (postDO == null) {
             throw exception(POST_NOT_FOUND);
