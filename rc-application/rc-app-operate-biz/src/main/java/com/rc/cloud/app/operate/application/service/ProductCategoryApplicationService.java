@@ -36,30 +36,30 @@ public class ProductCategoryApplicationService {
     @Resource
     private ProductCategoryDomainServce productCategoryDomainServce;
 
-    public void createProductCategory(ProductCategoryCreateDTO productCategoryDTO) {
+    public ProductCategory createProductCategory(ProductCategoryCreateDTO productCategoryDTO) {
         ProductCategoryId id = productCategoryRepository.nextId();
         TenantId tenantId = new TenantId(productCategoryDTO.getTenantId());
         ChName name = new ChName(productCategoryDTO.getName());
         ProductCategory productCategory = new ProductCategory(id, tenantId, name);
         productCategory.setEnName(new EnName(productCategoryDTO.getEnglishName()));
         productCategory.setIcon(new Icon(productCategoryDTO.getIcon()));
-        if(!ObjectUtils.isNull(productCategoryDTO.getEnabledFlag())){
+        if(ObjectUtils.isNotNull(productCategoryDTO.getEnabledFlag())){
             productCategory.setEnabled(new Enabled(productCategoryDTO.getEnabledFlag()));
         }
         productCategory.setPage(new Page(productCategoryDTO.getProductCategoryPageImage(), productCategoryDTO.getProductListPageImage()));
-        if(!ObjectUtils.isNotNull(productCategoryDTO.getSortId())){
+        if(ObjectUtils.isNotNull(productCategoryDTO.getSortId())){
             productCategory.setSort(new Sort(productCategoryDTO.getSortId()));
         }
         if(!StringUtils.isEmpty(productCategoryDTO.getParentId())){
             ProductCategoryId parentId= new ProductCategoryId(productCategoryDTO.getParentId());
             ProductCategory parentCategory = productCategoryRepository.findById(parentId);
             if(ObjectUtils.isNull(parentCategory)){
-                throw new ApplicationException("父级商品分类无效：" + productCategory.getParentId().id());
+                throw new ApplicationException("父级商品分类无效");
             }
             productCategory.inherit(parentCategory);
         }
         productCategory.publishSaveEvent();
-
+        return productCategory;
     }
 
 

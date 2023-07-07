@@ -28,7 +28,6 @@ public class ProductController {
     @Operation(summary = "创建产品")
     public CodeResult<Long> createProduct(@Valid @RequestBody ProductSaveVO reqVO) {
         ProductSaveDTO productSaveDTO=reqVO.toProductSaveDTO();
-        productApplicationService.saveOrUpdateProduct(null);
         return CodeResult.ok();
     }
 
