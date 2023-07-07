@@ -52,7 +52,7 @@ public interface AdminUserApi {
      * @param ids 用户编号数组
      * @return 用户 Map
      */
-    default Map<Long, AdminUserRespDTO> getUserMap(Collection<String> ids) {
+    default Map<String, AdminUserRespDTO> getUserMap(Collection<String> ids) {
         List<AdminUserRespDTO> users = getUserList(ids);
         return CollectionUtils.convertMap(users, AdminUserRespDTO::getId);
     }
