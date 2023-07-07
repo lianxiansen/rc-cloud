@@ -293,8 +293,10 @@ public class ProductRepositoryImpl implements  ProductRepository {
     }
 
 
-
-
+    @Override
+    public boolean existsByProductCategoryId(ProductCategoryId productCategoryId) {
+        return false;
+    }
 }
 
 

@@ -17,8 +17,6 @@ public class ProductSkuSaveDTO {
 
     private String weight;
 
-    private Boolean hasImageFlag;
-
     private Boolean enabledFlag;
 
     private List<ProductSkuImageSaveDTO> albums;

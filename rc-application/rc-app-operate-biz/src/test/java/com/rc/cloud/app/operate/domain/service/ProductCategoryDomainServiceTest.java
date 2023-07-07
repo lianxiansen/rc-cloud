@@ -177,7 +177,6 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     public void removeProductCategoryIfProductExists() {
         List<ProductCategory> allList = mockAllList();
         ProductCategory productCategory = allList.get(4);
-        when(productRepositoryMock.existsByProductCategoryId(productCategory.getId())).thenReturn(true);
         when(productCategoryRepositoryMock.remove(productCategory)).thenReturn(true);
         Assertions.assertThrows(DomainException.class, () -> {
             productCategoryDomainServce.remove(productCategory);
@@ -190,7 +189,6 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     public void removeProductCategoryIfSubProductCategoryExists() {
         List<ProductCategory> allList = mockAllList();
         ProductCategory productCategory = allList.get(1);
-        when(productRepositoryMock.existsByProductCategoryId(productCategory.getId())).thenReturn(false);
         when(productCategoryRepositoryMock.existsChild(productCategory.getId())).thenReturn(true);
         when(productCategoryRepositoryMock.remove(productCategory)).thenReturn(true);
         Assertions.assertThrows(DomainException.class, () -> {

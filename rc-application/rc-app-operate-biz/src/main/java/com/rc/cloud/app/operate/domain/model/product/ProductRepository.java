@@ -28,7 +28,7 @@ public interface ProductRepository {
 
     List<ProductImageEntity> getProductImageByProductId(ProductId productId);
 
-    //boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
+    boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
 
     void removeProductImageEntityByProductId(String productId);
 

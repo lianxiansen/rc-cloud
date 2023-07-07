@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @Tag(name = "产品")
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/operate/product")
 @Validated
 public class ProductController {
 
@@ -26,9 +26,16 @@ public class ProductController {
     private ProductApplicationService productApplicationService;
     @PostMapping("create")
     @Operation(summary = "创建产品")
-    public CodeResult<Long> createProduct(@Valid @RequestBody ProductSaveVO reqVO) {
-        ProductSaveDTO productSaveDTO=reqVO.toProductSaveDTO();
-        productApplicationService.saveOrUpdateProduct(null);
+    public CodeResult<Long> createProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
+        productApplicationService.createProduct(productSaveDTO);
+        return CodeResult.ok();
+    }
+
+
+    @PostMapping("edit")
+    @Operation(summary = "修改产品")
+    public CodeResult<Long> editProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
+        productApplicationService.updateProduct(productSaveDTO);
         return CodeResult.ok();
     }
 
