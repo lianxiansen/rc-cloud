@@ -13,16 +13,14 @@ import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductIma
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +34,6 @@ import static org.mockito.Mockito.when;
  * @Date: 2023/7/3 10:06
  * @Description: TODO
  */
-
 
 
 @ExtendWith({SpringExtension.class})
@@ -56,7 +53,7 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     @MockBean
     private ProductCategoryRepository productCategoryRepositoryMock;
 
-    private List<ProductCategory> mockAllList;
+    private static List<ProductCategory> mockAllList;
 
 
     @Test
@@ -112,8 +109,7 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     }
 
 
-
-    private ProductCategory createRootProductCategory() {
+    private static ProductCategory createRootProductCategory() {
         ProductCategoryId id = new ProductCategoryId(UUID.randomUUID().toString().substring(0, 32));
         TenantId tenantId = new TenantId(RandomUtils.randomString());
         ChName name = new ChName(RandomUtils.randomString());
@@ -127,8 +123,8 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
         return productCategory;
     }
 
-    private ProductCategory createSubProductCategory(ProductCategory parentCategory) {
-        ProductCategory productCategory =createRootProductCategory();
+    private static ProductCategory createSubProductCategory(ProductCategory parentCategory) {
+        ProductCategory productCategory = createRootProductCategory();
         productCategory.inherit(parentCategory);
         return productCategory;
     }
@@ -138,7 +134,7 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
     }
 
     @BeforeAll
-    public void beforeAll() {
+    public static void before() {
         ProductCategory root0 = createRootProductCategory();
         ProductCategory sub00 = createSubProductCategory(root0);
         ProductCategory sub01 = createSubProductCategory(root0);
@@ -150,6 +146,7 @@ public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
         ProductCategory sub11 = createSubProductCategory(root1);
         ProductCategory sub100 = createSubProductCategory(sub10);
         ProductCategory sub101 = createSubProductCategory(sub10);
+        mockAllList = new ArrayList<>();
         mockAllList.add(root0);
         mockAllList.add(sub00);
         mockAllList.add(sub01);

@@ -28,6 +28,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.when;
@@ -73,7 +75,7 @@ public class ProductCategoryApplicationServiceTest {
     private ProductCategoryUpdateDTO productCategoryUpdateDTO;
 
     @BeforeEach
-    public void setup() {
+    public void beforeEach() {
         productCategoryCreateDTO = new ProductCategoryCreateDTO();
         productCategoryCreateDTO.setProductCategoryPageImage(imgUrl)
                 .setEnglishName(RandomUtils.randomString())
@@ -89,7 +91,6 @@ public class ProductCategoryApplicationServiceTest {
                 .setEnglishName(RandomUtils.randomString())
                 .setName(RandomUtils.randomString())
                 .setIcon(imgUrl)
-                .setTenantId(RandomUtils.randomString())
                 .setSortId(9)
                 .setEnabledFlag(true)
                 .setProductListPageImage(imgUrl);
@@ -106,7 +107,6 @@ public class ProductCategoryApplicationServiceTest {
         };
         when(productCategoryRepositoryMock.nextId()).thenAnswer(answer);
     }
-
 
     @Test
     @DisplayName("创建根产品分类")
@@ -176,7 +176,6 @@ public class ProductCategoryApplicationServiceTest {
                 productCategoryUpdateDTO.getProductCategoryPageImage().equals(root.getPage().getCategoryImage()) &&
                 productCategoryUpdateDTO.getProductListPageImage().equals(root.getPage().getListImage()) &&
                 productCategoryUpdateDTO.getSortId().equals(root.getSort().getValue()) &&
-                productCategoryUpdateDTO.getTenantId().equals(root.getTenantId().id()) &&
                 ObjectUtils.isNull(root.getParentId()) &&
                 root.getLayer().getValue() == Layer.ROOT, "修改产品分类属性失败");
 
@@ -195,6 +194,20 @@ public class ProductCategoryApplicationServiceTest {
         productCategoryUpdateDTO.setId(sonFuture.getId().id());
         productCategoryUpdateDTO.setParentId(root.getId().id());
         when(productCategoryRepositoryMock.findById(root.getId())).thenReturn(root);
+
+        when(productCategoryRepositoryMock.findAll()).thenAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                String method = invocation.getMethod().getName();
+                if(method == "findAll"){
+                    List<ProductCategory> allList=new ArrayList<>();
+                    allList.add(root);allList.add(sonFuture);allList.add(grandsonFuture);
+                    return allList;
+                }
+                return null;
+            }
+        });
+
         productCategoryApplicationService.updateProductCategory(productCategoryUpdateDTO);
         Assertions.assertTrue(ObjectUtils.isNotNull(sonFuture.getId()) &&
                 root.getLayer().increment().equals(sonFuture.getLayer()) &&
@@ -206,7 +219,6 @@ public class ProductCategoryApplicationServiceTest {
                 productCategoryUpdateDTO.getProductCategoryPageImage().equals(sonFuture.getPage().getCategoryImage()) &&
                 productCategoryUpdateDTO.getProductListPageImage().equals(sonFuture.getPage().getListImage()) &&
                 productCategoryUpdateDTO.getSortId().equals(sonFuture.getSort().getValue()) &&
-                productCategoryUpdateDTO.getTenantId().equals(sonFuture.getTenantId().id()) &&
                 root.getId().equals(sonFuture.getParentId()), "创建子产品分类失败");
 
     }

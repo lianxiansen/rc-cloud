@@ -13,7 +13,6 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ProductCategoryUpdateDTO {
     private String Id;
-    private String tenantId;
 
     private String name;
 
