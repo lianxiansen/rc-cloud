@@ -14,13 +14,13 @@ public interface TenantApi {
      *
      * @return 租户编号数组
      */
-    List<Long> getTenantIdList();
+    List<String> getTenantIdList();
 
     /**
      * 校验租户是否合法
      *
      * @param id 租户编号
      */
-    void validateTenant(Long id);
+    void validateTenant(String id);
 
 }

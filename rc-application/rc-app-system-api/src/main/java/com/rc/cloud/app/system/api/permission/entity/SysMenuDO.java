@@ -22,13 +22,13 @@ public class SysMenuDO extends BaseDO {
     /**
      * 菜单编号 - 根节点
      */
-    public static final Long ID_ROOT = 0L;
+    public static final String ID_ROOT = "0";
 
     /**
      * 菜单编号
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
     /**
      * 菜单名称
      */
@@ -57,7 +57,7 @@ public class SysMenuDO extends BaseDO {
     /**
      * 父菜单ID
      */
-    private Long parentId;
+    private String parentId;
     /**
      * 路由地址
      *

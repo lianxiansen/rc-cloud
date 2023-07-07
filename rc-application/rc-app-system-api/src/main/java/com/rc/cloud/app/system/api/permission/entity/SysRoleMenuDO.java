@@ -21,14 +21,14 @@ public class SysRoleMenuDO extends TenantBaseDO {
      * 自增主键
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
     /**
      * 角色ID
      */
-    private Long roleId;
+    private String roleId;
     /**
      * 菜单ID
      */
-    private Long menuId;
+    private String menuId;
 
 }

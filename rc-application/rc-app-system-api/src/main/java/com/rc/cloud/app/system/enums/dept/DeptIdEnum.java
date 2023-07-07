@@ -13,8 +13,8 @@ public enum DeptIdEnum {
     /**
      * 根节点
      */
-    ROOT(0L);
+    ROOT("0");
 
-    private final Long id;
+    private final String id;
 
 }

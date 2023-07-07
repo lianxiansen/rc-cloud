@@ -25,7 +25,7 @@ public class SysRoleDO extends TenantBaseDO {
      * 角色ID
      */
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
     /**
      * 角色名称
      */
@@ -69,6 +69,6 @@ public class SysRoleDO extends TenantBaseDO {
      * 适用于 {@link #dataScope} 的值为 {@link DataScopeEnum#DEPT_CUSTOM} 时
      */
     @TableField(typeHandler = JsonLongSetTypeHandler.class)
-    private Set<Long> dataScopeDeptIds;
+    private Set<String> dataScopeDeptIds;
 
 }
