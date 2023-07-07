@@ -15,7 +15,7 @@ public class BrandDO extends BaseDO {
 
     private static final long serialVersionUID = 2343242L;
     @TableField("id")
-    private Long Id;
+    private String Id;
 
     @TableField("name")
     private String name;
@@ -24,7 +24,7 @@ public class BrandDO extends BaseDO {
     private String type;
 
     @TableField("enabled_flag")
-    private Boolean enabledFlag;
+    private boolean enabledFlag;
 
     @TableField("sort_id")
     private Integer sortId;
