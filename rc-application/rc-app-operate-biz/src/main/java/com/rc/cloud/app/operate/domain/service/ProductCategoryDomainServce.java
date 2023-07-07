@@ -4,6 +4,8 @@ import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
+import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Enabled;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -36,6 +38,7 @@ public class ProductCategoryDomainServce {
         sub.reInherit(parent);
         reInheritCascade(allList, sub);
     }
+
 
     public boolean remove(ProductCategory productCategory){
         AssertUtils.notNull(productCategory, "productCategory must not be null");
@@ -73,6 +76,17 @@ public class ProductCategoryDomainServce {
         });
         return list;
     }
-
+    public void enable(ProductCategoryId productCategoryId) {
+        AssertUtils.notNull(productCategoryId,"productCategoryId must be not null");
+        ProductCategory productCategory = productCategoryRepository.findById(productCategoryId);
+        productCategory.setEnabled(new Enabled(true));
+        productCategoryRepository.save(productCategory);
+    }
+    public void disable(ProductCategoryId productCategoryId) {
+        AssertUtils.notNull(productCategoryId,"productCategoryId must be not null");
+        ProductCategory productCategory = productCategoryRepository.findById(productCategoryId);
+        productCategory.setEnabled(new Enabled(false));
+        productCategoryRepository.save(productCategory);
+    }
 
 }

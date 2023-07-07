@@ -3,6 +3,8 @@ package com.rc.cloud.app.operate.application.dto;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * @ClassName: ProductCategoryUpdateRequest
  * @Author: liandy
@@ -12,6 +14,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class ProductCategoryUpdateDTO {
+    @NotNull(message = "产品分类唯一标识不为空")
     private String Id;
 
     private String name;

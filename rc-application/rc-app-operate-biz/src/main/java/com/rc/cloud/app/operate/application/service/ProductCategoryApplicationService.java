@@ -10,6 +10,7 @@ import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.domain.service.ProductCategoryDomainServce;
 import com.rc.cloud.common.core.exception.ApplicationException;
+import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.rc.cloud.common.core.util.AssertUtils.notNull;
 
 /**
  * @ClassName: ProductCategoryService
@@ -36,22 +35,23 @@ public class ProductCategoryApplicationService {
     @Resource
     private ProductCategoryDomainServce productCategoryDomainServce;
 
-    public ProductCategory createProductCategory(ProductCategoryCreateDTO productCategoryDTO) {
+    public ProductCategory createProductCategory(ProductCategoryCreateDTO productCreateCategoryDTO) {
+        AssertUtils.notNull(productCreateCategoryDTO,"productCreateCategoryDTO must be not null");
         ProductCategoryId id = productCategoryRepository.nextId();
-        TenantId tenantId = new TenantId(productCategoryDTO.getTenantId());
-        ChName name = new ChName(productCategoryDTO.getName());
+        TenantId tenantId = new TenantId(productCreateCategoryDTO.getTenantId());
+        ChName name = new ChName(productCreateCategoryDTO.getName());
         ProductCategory productCategory = new ProductCategory(id, tenantId, name);
-        productCategory.setEnName(new EnName(productCategoryDTO.getEnglishName()));
-        productCategory.setIcon(new Icon(productCategoryDTO.getIcon()));
-        if(ObjectUtils.isNotNull(productCategoryDTO.getEnabledFlag())){
-            productCategory.setEnabled(new Enabled(productCategoryDTO.getEnabledFlag()));
+        productCategory.setEnName(new EnName(productCreateCategoryDTO.getEnglishName()));
+        productCategory.setIcon(new Icon(productCreateCategoryDTO.getIcon()));
+        if(ObjectUtils.isNotNull(productCreateCategoryDTO.getEnabledFlag())){
+            productCategory.setEnabled(new Enabled(productCreateCategoryDTO.getEnabledFlag()));
         }
-        productCategory.setPage(new Page(productCategoryDTO.getProductCategoryPageImage(), productCategoryDTO.getProductListPageImage()));
-        if(ObjectUtils.isNotNull(productCategoryDTO.getSortId())){
-            productCategory.setSort(new Sort(productCategoryDTO.getSortId()));
+        productCategory.setPage(new Page(productCreateCategoryDTO.getProductCategoryPageImage(), productCreateCategoryDTO.getProductListPageImage()));
+        if(ObjectUtils.isNotNull(productCreateCategoryDTO.getSortId())){
+            productCategory.setSort(new Sort(productCreateCategoryDTO.getSortId()));
         }
-        if(!StringUtils.isEmpty(productCategoryDTO.getParentId())){
-            ProductCategoryId parentId= new ProductCategoryId(productCategoryDTO.getParentId());
+        if(!StringUtils.isEmpty(productCreateCategoryDTO.getParentId())){
+            ProductCategoryId parentId= new ProductCategoryId(productCreateCategoryDTO.getParentId());
             ProductCategory parentCategory = productCategoryRepository.findById(parentId);
             if(ObjectUtils.isNull(parentCategory)){
                 throw new ApplicationException("父级商品分类无效");
@@ -66,7 +66,9 @@ public class ProductCategoryApplicationService {
     @Transactional(rollbackFor = Exception.class)
     public void updateProductCategory(ProductCategoryUpdateDTO productCategoryDTO) {
         ProductCategory productCategory = productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getId()));
-        notNull(productCategory, "产品分类唯一标识无效");
+        if(ObjectUtils.isNull(productCategory)){
+            throw new ApplicationException("产品分类不存在");
+        }
         if (ObjectUtils.isNotNull(productCategoryDTO.getParentId()) ) {
             if(StringUtils.isEmpty(productCategoryDTO.getParentId())){
                 productCategory.root();
@@ -99,13 +101,31 @@ public class ProductCategoryApplicationService {
         productCategory.publishSaveEvent();
     }
 
-    public void remove(String id){
+    public boolean remove(String id){
         ProductCategory productCategory=productCategoryRepository.findById(new ProductCategoryId(id));
-        productCategoryDomainServce.remove(productCategory);
+        if(ObjectUtils.isNull(productCategory)){
+            throw new ApplicationException("产品分类不存在");
+        }
+        return productCategoryDomainServce.remove(productCategory);
     }
     public List<ProductCategoryBO> findAll() {
         List<ProductCategoryBO> boList=new ArrayList<>();
         List<ProductCategory> productCategoryList=productCategoryRepository.findAll();
         return ProductCategoryBO.convertBatch(productCategoryList);
     }
+
+    public void changeState(String id){
+        ProductCategory productCategory=productCategoryRepository.findById(new ProductCategoryId(id));
+        if(ObjectUtils.isNull(productCategory)){
+            throw new ApplicationException("产品分类不存在");
+        }
+        if(productCategory.getEnabled().isTrue()){
+            productCategoryDomainServce.disable(productCategory.getId() );
+        }
+        else{
+            productCategoryDomainServce.enable(productCategory.getId() );
+        }
+
+    }
+
 }
