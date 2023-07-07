@@ -22,7 +22,7 @@ public class DistributorSourcePO extends BaseDO {
      * id
      */
     @TableId(type=IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
     /**
      * 获客方式
      */

@@ -22,7 +22,7 @@ public class DistributorReputationPO extends BaseDO {
      * id
      */
     @TableId(type=IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
     /**
      * 信誉等级
      */

@@ -40,7 +40,7 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
     void createLevel() {
         DistributorLevelCreateReqVO reqVO = randomPojo(DistributorLevelCreateReqVO.class, o -> {});
         // 调用
-        Long levelId = levelService.createLevel(reqVO);
+        String levelId = levelService.createLevel(reqVO);
         // 断言
         assertNotNull(levelId);
         // 校验记录的属性是否正确
@@ -72,7 +72,7 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
         DistributorLevelPO postDO =  randomDistributorLevelPO();
         levelMapper.insert(postDO);
         // 准备参数
-        Long id = postDO.getId();
+        String id = postDO.getId();
 
         // 调用
         levelService.deleteLevel(id);
@@ -85,7 +85,7 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
         DistributorLevelPO levelDO = randomDistributorLevelPO();
         levelMapper.insert(levelDO);
         // 准备参数
-        Long id = levelDO.getId();
+        String id = levelDO.getId();
         // 调用
         DistributorLevelPO level = levelService.getLevel(id);
         // 断言
@@ -102,7 +102,7 @@ class DistributorLevelServiceImplTest extends BaseDbUnitTest {
         DistributorLevelPO postDO02 = randomDistributorLevelPO();
         levelMapper.insert(postDO02);
         // 准备参数
-        List<Long> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
+        List<String> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
 
         // 调用
         List<DistributorLevelPO> list = levelService.getLevelList(ids);

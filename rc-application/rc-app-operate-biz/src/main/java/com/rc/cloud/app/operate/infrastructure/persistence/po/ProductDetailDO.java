@@ -20,18 +20,18 @@ public class ProductDetailDO {
     private static final long serialVersionUID = 34322L;
 
     @TableField("id")
-    private Long Id;
+    private String Id;
     /**
      * 租户id
      */
     @TableField("tenant_id")
-    private Long tenantId;
+    private String tenantId;
 
     /**
      * 品牌ID
      */
     @TableField("product_id")
-    private Long productId;
+    private String productId;
 
 
     @TableField("detail")

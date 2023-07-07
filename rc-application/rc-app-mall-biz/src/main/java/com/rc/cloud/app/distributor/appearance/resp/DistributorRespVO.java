@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class DistributorRespVO extends DistributorBaseVO {
 
     @Schema(description = "id", requiredMode = Schema.RequiredMode.REQUIRED, example = "3248")
-    private Long id;
+    private String id;
 
     @Schema(description = "联系人")
     private String contact;

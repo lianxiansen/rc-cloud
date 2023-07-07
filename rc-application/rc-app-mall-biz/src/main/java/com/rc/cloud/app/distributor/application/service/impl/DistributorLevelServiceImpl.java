@@ -29,7 +29,7 @@ public class DistributorLevelServiceImpl implements DistributorLevelService {
     private DistributorLevelMapper levelMapper;
 
     @Override
-    public Long createLevel(DistributorLevelCreateReqVO createReqVO) {
+    public String createLevel(DistributorLevelCreateReqVO createReqVO) {
         // 插入
         DistributorLevelPO level = DistributorLevelConvert.INSTANCE.convert(createReqVO);
         levelMapper.insert(level);
@@ -47,21 +47,21 @@ public class DistributorLevelServiceImpl implements DistributorLevelService {
     }
 
     @Override
-    public void deleteLevel(Long id) {
+    public void deleteLevel(String id) {
         // 校验存在
         validateLevelExists(id);
         // 删除
         levelMapper.deleteById(id);
     }
 
-    private void validateLevelExists(Long id) {
+    private void validateLevelExists(String id) {
         if (levelMapper.selectById(id) == null) {
             throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_LEVEL_NOT_EXISTS);
         }
     }
 
     @Override
-    public DistributorLevelPO getLevel(Long id) {
+    public DistributorLevelPO getLevel(String id) {
         return levelMapper.selectById(id);
     }
 
@@ -71,7 +71,7 @@ public class DistributorLevelServiceImpl implements DistributorLevelService {
     }
 
     @Override
-    public List<DistributorLevelPO> getLevelList(Collection<Long> ids) {
+    public List<DistributorLevelPO> getLevelList(Collection<String> ids) {
         return levelMapper.selectBatchIds(ids);
     }
 

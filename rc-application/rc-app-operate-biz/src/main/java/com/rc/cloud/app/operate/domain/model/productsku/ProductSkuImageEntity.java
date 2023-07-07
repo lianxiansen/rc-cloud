@@ -1,7 +1,8 @@
 package com.rc.cloud.app.operate.domain.model.productsku;
 
 import com.rc.cloud.app.operate.domain.common.Entity;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 /**
  * @ClassName: ProductImageEntry
@@ -11,7 +12,11 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
  */
 public class ProductSkuImageEntity extends Entity {
 
-    private ProductImageId id;
+    private String id;
+
+    private ProductSkuId productSkuId;
+
+    private TenantId tenantId;
 
     private String url;
     private int sort;
@@ -34,5 +39,29 @@ public class ProductSkuImageEntity extends Entity {
         this.assertArgumentNotNull(sort, "sort must not be null");
         this.sort = sort;
         return this;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public ProductSkuId getProductSkuId() {
+        return productSkuId;
+    }
+
+    public void setProductSkuId(ProductSkuId productSkuId) {
+        this.productSkuId = productSkuId;
+    }
+
+    public TenantId getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(TenantId tenantId) {
+        this.tenantId = tenantId;
     }
 }

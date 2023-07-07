@@ -25,6 +25,7 @@ public class ProductDOConvert {
         ProductDO target=new ProductDO();
 
         target.setId(product.getId().id());
+        target.setTenantId(product.getTenantId().id());
         if(product.getEnable()!=null){
             target.setEnabledFlag(product.getEnable().result());
         }
@@ -84,6 +85,14 @@ public class ProductDOConvert {
         return target;
     }
 
+    public static  ProductDetailDO convert2ProductDetailDO(String productId, String tenantId, String detail){
+        ProductDetailDO productDetailDO=new ProductDetailDO();
+        productDetailDO.setDetail(detail);
+        productDetailDO.setProductId(productId);
+        productDetailDO.setTenantId(tenantId);
+        return productDetailDO;
+    }
+
     public static ProductAttributeDO convert2ProductAttributeDO(String productId, String tenantId, SortedSet<ProductAttributeEntity> attributes){
         ProductAttributeDO productAttributeDO=new ProductAttributeDO();
         //不一定正确 TODO
@@ -100,7 +109,7 @@ public class ProductDOConvert {
         if(productImageEntityList!=null){
             for (ProductImageEntity productImageEntity : productImageEntityList) {
                 ProductImageDO productImageDO=new ProductImageDO();
-                productImageDO.setId(productImageEntity.getId().id());
+                productImageDO.setId(productImageEntity.getId());
                 productImageDO.setProductId(productId);
                 productImageDO.setUrl(productImageEntity.getUrl());
                 productImageDO.setTenantId(tenantId);

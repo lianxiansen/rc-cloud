@@ -15,9 +15,9 @@ import java.util.List;
 public interface DistributorContactService extends IService<DistributorContactPO>{
     void updatePassword(DistributorContactUpdatePasswordReqVO updatePasswordReqVO);
 
-    void resetPassword(Long id);
+    void resetPassword(String id);
 
-    void updateContacts(Long distributorId, List<DistributorContactPO> contactDOS);
+    void updateContacts(String distributorId, List<DistributorContactPO> contactDOS);
 
-    List<DistributorContactPO> getByDistributorId(Long distributorId);
+    List<DistributorContactPO> getByDistributorId(String distributorId);
 }

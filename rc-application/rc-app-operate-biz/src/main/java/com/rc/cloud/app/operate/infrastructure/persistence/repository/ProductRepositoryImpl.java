@@ -12,14 +12,8 @@ import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductDOConvert;
-import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductAttributeMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductDictMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductImageMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductAttributeDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.mapper.*;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.*;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +41,9 @@ public class ProductRepositoryImpl implements  ProductRepository {
 
     @Autowired
     private ProductAttributeMapper productAttributeMapper;
+
+    @Autowired
+    private ProductDetailMapper productDetailMapper;
 
 
     public ProductRepositoryImpl() {
@@ -91,6 +88,12 @@ public class ProductRepositoryImpl implements  ProductRepository {
         productAttributeMapper.update(productAttributeDO,wrapper);
     }
 
+    public void updateProductDetailEntity(ProductDetailDO productDetailDO){
+        LambdaQueryWrapperX<ProductDetailDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDetailDO::getProductId, productDetailDO.getProductId());
+        productDetailMapper.update(productDetailDO,wrapper);
+    }
+
 
     @Override
     public void insertProductEntity(Product productEntity) {
@@ -116,6 +119,13 @@ public class ProductRepositoryImpl implements  ProductRepository {
         ProductAttributeDO productAttributeDO = ProductDOConvert.convert2ProductAttributeDO(productEntity.getId().id()
                 , productEntity.getTenantId().id(), productEntity.getAttributes());
         this.productAttributeMapper.insert(productAttributeDO);
+
+        if(productEntity.getDetail()!=null){
+            //商品详情
+            ProductDetailDO productDetailDO = ProductDOConvert.convert2ProductDetailDO(productEntity.getId().id()
+                    , productEntity.getTenantId().id(), productEntity.getDetail().getValue());
+            this.productDetailMapper.insert(productDetailDO);
+        }
     }
 
     @Override
@@ -139,13 +149,19 @@ public class ProductRepositoryImpl implements  ProductRepository {
                updateProductDictEntity(productDictDO);
             }
         }
-        removeProductAttributeEntityByProductId(productEntity.getId().id());
-        //ProductAttributeDO
-
+        //商品属性
         ProductAttributeDO productAttributeDO = ProductDOConvert.convert2ProductAttributeDO(
                 productEntity.getId().id()
                 , productEntity.getTenantId().id(), productEntity.getAttributes());
         updateProductAttributeEntity(productAttributeDO);
+        if(productEntity.getDetail()!=null){
+            //商品详情
+            ProductDetailDO productDetailDO = ProductDOConvert.convert2ProductDetailDO(
+                    productEntity.getId().id()
+                    , productEntity.getTenantId().id(), productEntity.getDetail().getValue());
+            updateProductDetailEntity(productDetailDO);
+        }
+
     }
 
 

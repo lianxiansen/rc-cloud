@@ -1,33 +1,88 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
+import cn.hutool.json.JSONUtil;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttributeEntity;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImageEntity;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.SeckillSku;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuAttributeDO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuImageDO;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedSet;
 
 public class ProductSkuDOConvert {
 
 
-    public static ProductSkuDO convert2ProductSkuDO(ProductSku source) {
+    public static ProductSkuDO convert2ProductSkuDO(ProductSku productSku) {
         ProductSkuDO target=new ProductSkuDO();
 
-        target.setId(source.getId().id());
-        target.setProductId(source.getProductId().id());
-        target.setSkuCode(source.getSkuCode());
-        target.setPrice(source.getPrice().getValue());
-        target.setInventory(source.getInventory().getValue());
-        target.setLimitBuy(source.getLimitBuy().getValue());
-        target.setOutId(source.getOutId().getValue());
-        target.setHasImageFlag(source.isHasImageFlag());
-        target.setSupplyPrice(source.getSupplyPrice().getValue());
-        target.setWeight(source.getWeight().getValue());
-        SeckillSku seckillSku = source.getSeckillSku();
-        if(seckillSku!=null){
-            target.setSeckillInventory(seckillSku.getSeckillInventory().getValue());
-            target.setSeckillPrice(seckillSku.getSeckillPrice().getValue());
-            target.setSeckillLimitBuy(seckillSku.getSeckillLimitBuy().getValue());
-            target.setSeckillTotalInventory(seckillSku.getSeckillTotalInventory().getValue());
+        target.setId(productSku.getId().id());
+        target.setProductId(productSku.getProductId().id());
+        target.setTenantId(productSku.getTenantId().id());
+        if(productSku.getSkuCode()!=null){
+            target.setSkuCode(productSku.getSkuCode());
+        }
+        if(productSku.getPrice()!=null){
+            target.setPrice(productSku.getPrice().getValue());
+        }
+        if(productSku.getInventory()!=null){
+            target.setInventory(productSku.getInventory().getValue());
+        }
+        if(productSku.getLimitBuy()!=null){
+            target.setLimitBuy(productSku.getLimitBuy().getValue());
+        }
+        if(productSku.getOutId()!=null){
+            target.setOutId(productSku.getOutId().getValue());
+        }
+        if(productSku.getSupplyPrice()!=null){
+            target.setSupplyPrice(productSku.getSupplyPrice().getValue());
+        }
+        if(productSku.getWeight()!=null){
+            target.setWeight(productSku.getWeight().getValue());
+        }
+        if(productSku.getSeckillSku()!=null){
+            target.setSeckillInventory(productSku.getSeckillSku().getSeckillInventory().getValue());
+            target.setSeckillPrice(productSku.getSeckillSku().getSeckillPrice().getValue());
+            target.setSeckillLimitBuy(productSku.getSeckillSku().getSeckillLimitBuy().getValue());
+            target.setSeckillTotalInventory(productSku.getSeckillSku().getSeckillTotalInventory().getValue());
         }
         return target;
     }
+
+
+    public static ProductSkuAttributeDO convert2ProductSkuAttributeDO(
+            String productSkuId, String tenantId, SortedSet<ProductSkuAttributeEntity> skuAttributes){
+        ProductSkuAttributeDO productSkuAttributeDO=new ProductSkuAttributeDO();
+        //不一定正确 TODO
+        String attr = JSONUtil.toJsonStr(skuAttributes);
+        productSkuAttributeDO.setProductSkuId(productSkuId);
+        productSkuAttributeDO.setTenantId(tenantId);
+        productSkuAttributeDO.setContent(attr);
+        return productSkuAttributeDO;
+    }
+
+
+    public static List<ProductSkuImageDO> convert2ProductSkuImageDO(String ProductSkuId, String tenantId, List<ProductSkuImageEntity> ProductSkuImageEntityList){
+        List<ProductSkuImageDO> resList =new ArrayList<>();
+        if(ProductSkuImageEntityList!=null){
+            for (ProductSkuImageEntity productSkuImageEntity : ProductSkuImageEntityList) {
+                ProductSkuImageDO productSkuImageDO=new ProductSkuImageDO();
+                productSkuImageDO.setId(productSkuImageEntity.getId());
+                productSkuImageDO.setProductSkuId(productSkuImageEntity.getProductSkuId().id());
+                productSkuImageDO.setUrl(productSkuImageEntity.getUrl());
+                productSkuImageDO.setTenantId(productSkuImageEntity.getTenantId().id());
+                productSkuImageDO.setSortId(productSkuImageEntity.getSort());
+                resList.add(productSkuImageDO);
+            }
+        }
+
+        return resList;
+    }
+
+
+
 
 }

@@ -94,6 +94,10 @@ public class ProductSku extends Entity {
         return this;
     }
 
+    public List<ProductSkuImageEntity> getSkuImageList() {
+        return skuImageList;
+    }
+
     /**
      * 限购
      */
@@ -230,6 +234,10 @@ public class ProductSku extends Entity {
     }
 
     private SortedSet<ProductSkuAttributeEntity> skuAttributes;
+
+    public SortedSet<ProductSkuAttributeEntity> getSkuAttributes() {
+        return skuAttributes;
+    }
 
     public void addSkuAttribute(String name, String value, int sort){
         ProductSkuAttributeEntity productSkuAttributeEntity=new ProductSkuAttributeEntity();

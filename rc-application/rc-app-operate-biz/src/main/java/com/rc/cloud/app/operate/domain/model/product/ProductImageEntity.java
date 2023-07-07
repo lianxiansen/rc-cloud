@@ -1,11 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
 import com.rc.cloud.app.operate.domain.common.Entity;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Image;
-import com.rc.cloud.app.operate.domain.model.product.valobj.ImageDefault;
-import com.rc.cloud.app.operate.domain.model.product.valobj.ImageSort;
 import com.rc.cloud.common.core.util.StringUtils;
 
 /**
@@ -16,7 +11,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  */
 public class ProductImageEntity extends Entity {
 
-    private ProductImageId id;
+    private String id;
 
     private String url;
     private int sort;
@@ -53,11 +48,11 @@ public class ProductImageEntity extends Entity {
         return this;
     }
 
-    public ProductImageId getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(ProductImageId id) {
+    public void setId(String id) {
         this.id = id;
     }
 }

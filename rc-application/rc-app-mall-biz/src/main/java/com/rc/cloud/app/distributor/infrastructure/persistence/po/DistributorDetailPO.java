@@ -25,9 +25,9 @@ public class DistributorDetailPO implements Serializable {
      * id
      */
     @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
 
-    private Long distributorId;
+    private String distributorId;
 
     private String distributorDetail;
 }

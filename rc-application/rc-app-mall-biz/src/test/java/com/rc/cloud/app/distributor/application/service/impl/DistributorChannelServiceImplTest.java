@@ -41,7 +41,7 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
     void createChannel() {
         DistributorChannelCreateReqVO reqVO = randomPojo(DistributorChannelCreateReqVO.class, o -> {});
         // 调用
-        Long channelId = channelService.createChannel(reqVO);
+        String channelId = channelService.createChannel(reqVO);
         // 断言
         assertNotNull(channelId);
         // 校验记录的属性是否正确
@@ -73,7 +73,7 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
         DistributorChannelPO postDO =  randomDistributorChannelPO();
         channelMapper.insert(postDO);
         // 准备参数
-        Long id = postDO.getId();
+        String id = postDO.getId();
 
         // 调用
         channelService.deleteChannel(id);
@@ -86,7 +86,7 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
         DistributorChannelPO channelDO = randomDistributorChannelPO();
         channelMapper.insert(channelDO);
         // 准备参数
-        Long id = channelDO.getId();
+        String id = channelDO.getId();
         // 调用
         DistributorChannelPO channel = channelService.getChannel(id);
         // 断言
@@ -103,7 +103,7 @@ class DistributorChannelServiceImplTest extends BaseDbUnitTest {
         DistributorChannelPO postDO02 = randomDistributorChannelPO();
         channelMapper.insert(postDO02);
         // 准备参数
-        List<Long> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
+        List<String> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
 
         // 调用
         List<DistributorChannelPO> list = channelService.getChannelList(ids);

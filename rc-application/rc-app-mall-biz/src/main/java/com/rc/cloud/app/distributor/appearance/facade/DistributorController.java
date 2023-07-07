@@ -29,6 +29,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +55,7 @@ public class DistributorController {
 
     @PostMapping("/create")
     @Operation(summary = "创建经销商")
-    public CodeResult<Long> create(@Valid @RequestBody DistributorCreateReqVO createReqVO) {
+    public CodeResult<String> create(@Valid @RequestBody DistributorCreateReqVO createReqVO) {
         RcUser user = SecurityUtils.getUser();
         createReqVO.setAdminId(user.getId());
         return CodeResult.ok(service.create(createReqVO));
@@ -71,7 +72,7 @@ public class DistributorController {
     @Operation(summary = "删除经销商")
     @Parameter(name = "id", description = "编号", required = true)
 
-    public CodeResult<Boolean> delete(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> delete(@RequestParam("id") String id) {
         service.delete(id);
         return CodeResult.ok(true);
     }
@@ -80,16 +81,27 @@ public class DistributorController {
     @Operation(summary = "获得经销商")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
-    public CodeResult<DistributorRespVO> get(@RequestParam("id") Long id) {
+    public CodeResult<DistributorRespVO> get(@RequestParam("id") String id) {
         DistributorPO distributorPO = service.get(id);
-        return CodeResult.ok(DistributorConvert.INSTANCE.convert(distributorPO));
+        DistributorRespVO respvo = DistributorConvert.INSTANCE.convert(distributorPO);
+        CodeResult<List<SysUserVO>> sysUserVOCodeResult = userService.infoByIds(Arrays.asList(distributorPO.getAdminId()));
+
+        //显示管理员名称
+        if(SUCCESS.getCode().equals(sysUserVOCodeResult.getCode())){
+            Map<String, SysUserVO> sysUserVOMap = sysUserVOCodeResult.getData().stream().collect(Collectors.toMap(SysUserVO::getId, Function.identity()));
+
+            if(sysUserVOMap.containsKey(respvo.getAdminId())){
+                respvo.setAdminName(sysUserVOMap.get(respvo.getAdminId()).getUsername());
+            }
+        }
+        return CodeResult.ok();
     }
 
     @GetMapping("/getDetail")
     @Operation(summary = "获得经销商详细信息")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
-    public CodeResult<DistributorDetailRespVO> getDetail(@RequestParam("id") Long id) {
+    public CodeResult<DistributorDetailRespVO> getDetail(@RequestParam("id") String id) {
         DistributorDetailPO distributorDetailPO = service.getDetail(id);
         return CodeResult.ok(DistributorDetailConvert.INSTANCE.convert(distributorDetailPO));
     }
@@ -98,21 +110,33 @@ public class DistributorController {
     @Operation(summary = "获得经销商列表")
     @Parameter(name = "ids", description = "编号列表", required = true, example = "1024,2048")
 
-    public CodeResult<List<DistributorRespVO>> getList(@RequestParam("ids") Collection<Long> ids) {
+    public CodeResult<List<DistributorRespVO>> getList(@RequestParam("ids") Collection<String> ids) {
         List<DistributorPO> list = service.getList(ids);
-        return CodeResult.ok(DistributorConvert.INSTANCE.convertList(list));
+        List<DistributorRespVO> distributorRespVOS = DistributorConvert.INSTANCE.convertList(list);
+        List<String> userIds = distributorRespVOS.stream().map(x -> x.getAdminId()).distinct().collect(Collectors.toList());
+        CodeResult<List<SysUserVO>> sysUserVOCodeResult = userService.infoByIds(userIds);
+        //显示管理员名称
+        if(SUCCESS.getCode().equals(sysUserVOCodeResult.getCode())){
+            Map<String, SysUserVO> sysUserVOMap = sysUserVOCodeResult.getData().stream().collect(Collectors.toMap(SysUserVO::getId, Function.identity()));
+            distributorRespVOS.forEach(x->{
+                if(sysUserVOMap.containsKey(x.getAdminId())){
+                    x.setAdminName(sysUserVOMap.get(x.getAdminId()).getUsername());
+                }
+            });
+        }
+        return CodeResult.ok();
     }
 
     @GetMapping("/page")
     @Operation(summary = "获得经销商分页")
     public CodeResult<PageResult<DistributorRespVO>> getPage(@Valid DistributorPageReqVO pageVO) {
         PageResult<DistributorPO> pageResult = service.getPage(pageVO);
-        List<Long> userIds = pageResult.getList().stream().map(x -> x.getAdminId()).distinct().collect(Collectors.toList());
+        List<String> userIds = pageResult.getList().stream().map(x -> x.getAdminId()).distinct().collect(Collectors.toList());
         PageResult<DistributorRespVO> distributorRespVOPageResult = DistributorConvert.INSTANCE.convertPage(pageResult);
         CodeResult<List<SysUserVO>> sysUserVOCodeResult = userService.infoByIds(userIds);
-
+        //显示管理员名称
         if(SUCCESS.getCode().equals(sysUserVOCodeResult.getCode())){
-            Map<Long, SysUserVO> sysUserVOMap = sysUserVOCodeResult.getData().stream().collect(Collectors.toMap(SysUserVO::getId, Function.identity()));
+            Map<String, SysUserVO> sysUserVOMap = sysUserVOCodeResult.getData().stream().collect(Collectors.toMap(SysUserVO::getId, Function.identity()));
             distributorRespVOPageResult.getList().forEach(x->{
                 if(sysUserVOMap.containsKey(x.getAdminId())){
                     x.setAdminName(sysUserVOMap.get(x.getAdminId()).getUsername());
@@ -141,14 +165,14 @@ public class DistributorController {
 
     @PostMapping("/resetContactPassword")
     @Operation(summary = "重置联系人密码")
-    public CodeResult<Boolean> resetContactPassword(@RequestParam("id") Long id) {
+    public CodeResult<Boolean> resetContactPassword(@RequestParam("id") String id) {
         contactService.resetPassword(id);
         return CodeResult.ok(true);
     }
 
     @PostMapping("/getContacts")
     @Operation(summary = "获取经销商联系人")
-    public CodeResult<List<DistributorContactBaseVO>> getContacts(@RequestParam("id") Long id) {
+    public CodeResult<List<DistributorContactBaseVO>> getContacts(@RequestParam("id") String id) {
         return CodeResult.ok(DistributorContactConvert.INSTANCE.convertList3(contactService.getByDistributorId(id)));
     }
 }

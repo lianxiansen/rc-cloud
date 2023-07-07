@@ -22,7 +22,7 @@ public interface DistributorChannelService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long createChannel(@Valid DistributorChannelCreateReqVO createReqVO);
+    String createChannel(@Valid DistributorChannelCreateReqVO createReqVO);
 
     /**
      * 更新经销商渠道
@@ -36,7 +36,7 @@ public interface DistributorChannelService {
      *
      * @param id 编号
      */
-    void deleteChannel(Long id);
+    void deleteChannel(String id);
 
     /**
      * 获得经销商渠道
@@ -44,7 +44,7 @@ public interface DistributorChannelService {
      * @param id 编号
      * @return 经销商渠道
      */
-    DistributorChannelPO getChannel(Long id);
+    DistributorChannelPO getChannel(String id);
 
     /**
      * 获得所有经销商渠道
@@ -60,7 +60,7 @@ public interface DistributorChannelService {
      * @param ids 编号
      * @return 经销商渠道列表
      */
-    List<DistributorChannelPO> getChannelList(Collection<Long> ids);
+    List<DistributorChannelPO> getChannelList(Collection<String> ids);
 
     /**
      * 获得经销商渠道分页
