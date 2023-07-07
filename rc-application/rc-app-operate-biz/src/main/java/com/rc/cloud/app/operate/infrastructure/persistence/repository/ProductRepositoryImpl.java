@@ -237,6 +237,11 @@ public class ProductRepositoryImpl implements  ProductRepository {
 //        return false;
 //    }
 
+    @Override
+    public boolean existsByBrandId(BrandId brandId) {
+        return false;
+    }
+
 
     private List<ProductImageEntity> convert2ProductImage(List<ProductImageDO> productImageDOList){
         List<ProductImageEntity> urls=new ArrayList<>();

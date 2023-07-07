@@ -1,7 +1,11 @@
 package com.rc.cloud.app.operate.appearance.vo;
 
+import com.rc.cloud.app.operate.appearance.assemble.ProductCategoryAssemble;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import lombok.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName: ProductCategoryUpdateRequest
@@ -31,7 +35,16 @@ public class ProductCategoryVO {
     private Integer sortId;
 
     public static ProductCategoryVO from(ProductCategoryBO productCategory){
-        return new ProductCategoryVO();
+        return ProductCategoryAssemble.INSTANCE.convert2ProductCategoryVO(productCategory);
+    }
+
+
+    public static List<ProductCategoryVO> from(List<ProductCategoryBO> productCategoryList){
+        List<ProductCategoryVO> list=new ArrayList<ProductCategoryVO>();
+        productCategoryList.forEach(item->{
+            list.add(from(item));
+        });
+        return list;
     }
 
 }

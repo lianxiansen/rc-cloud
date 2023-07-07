@@ -6,8 +6,8 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.rc.cloud.app.system.api.oauthclient.entity.SysOauthClientDetailsDO;
 import com.rc.cloud.app.system.api.oauthclient.feign.RemoteClientDetailsService;
+import com.rc.cloud.app.system.api.oauthclient.vo.SysOauthClientDetailsVO;
 import com.rc.cloud.app.system.api.token.vo.TokenVo;
 import com.rc.cloud.common.core.constant.CacheConstants;
 import com.rc.cloud.common.core.constant.CommonConstants;
@@ -21,7 +21,6 @@ import com.rc.cloud.ops.auth.support.handler.RcAuthenticationFailureEventHandler
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
@@ -92,7 +91,7 @@ public class TokenController {
 			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
 			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
 			@RequestParam(OAuth2ParameterNames.STATE) String state) {
-		SysOauthClientDetailsDO clientDetails = clientDetailsService.getClientDetailsById(clientId).getData();
+		SysOauthClientDetailsVO clientDetails = clientDetailsService.getClientDetailsById(clientId).getData();
 		if (clientDetails == null) {
 			new OAuthClientException("clientId 不合法");
 		}

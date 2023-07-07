@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.controller.admin.dept;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
-import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
+import com.rc.cloud.app.system.model.dept.SysDeptDO;
 import com.rc.cloud.app.system.convert.dept.DeptConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.vo.dept.dept.*;

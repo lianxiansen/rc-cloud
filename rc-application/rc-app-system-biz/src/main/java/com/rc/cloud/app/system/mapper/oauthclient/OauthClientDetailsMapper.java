@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.mapper.oauthclient;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.rc.cloud.app.system.api.oauthclient.entity.SysOauthClientDetailsDO;
+import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsDO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

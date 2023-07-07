@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.oauthclient;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rc.cloud.app.system.api.oauthclient.entity.SysOauthClientDetailsDO;
+import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsDO;
 import com.rc.cloud.app.system.mapper.oauthclient.OauthClientDetailsMapper;
 import com.rc.cloud.common.core.constant.CacheConstants;
 import org.springframework.cache.annotation.CacheEvict;

@@ -1,33 +1,52 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
-import com.rc.cloud.app.operate.domain.model.brand.BrandEntity;
+import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.BrandDOConvert;
+import com.rc.cloud.app.operate.infrastructure.persistence.convert.BrandConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.BrandMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.BrandDO;
+import com.rc.cloud.common.core.pojo.PageParam;
+import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class BrandRepositoryImpl implements BrandRepository{
+public class BrandRepositoryImpl implements BrandRepository {
 
     @Autowired
-    private  BrandMapper brandMapper;
+    private BrandMapper brandMapper;
+
     @Override
-    public void saveBrand(BrandEntity brandEntity) {
-        BrandDO brandDO= BrandDOConvert.convert2BrandPO(brandEntity);
-        brandMapper.insert(brandDO);
+    public boolean saveBrand(Brand brandEntity) {
+        BrandDO brandDO = BrandConvert.convert2BrandPO(brandEntity);
+        return brandMapper.insert(brandDO) > 0;
     }
 
     @Override
-    public BrandEntity getBrand(BrandId brandId) {
+    public Brand getBrand(BrandId brandId) {
         return null;
     }
 
     @Override
     public BrandId nextBrandId() {
         return null;
+    }
+
+    @Override
+    public boolean removeById(BrandId brandId) {
+        return brandMapper.deleteById(brandId.id().toString()) > 0;
+    }
+    @Override
+    public PageResult<Brand> selectPageResult(Integer pageNo, Integer pageSize, String name) {
+        PageParam pageParam = new PageParam();
+        pageParam.setPageNo(pageNo);
+        pageParam.setPageSize(pageSize);
+        LambdaQueryWrapperX<BrandDO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(BrandDO::getName, name);
+        PageResult<BrandDO> brandDOPageResult = brandMapper.selectPage(pageParam, wrapper);
+        return BrandConvert.convert2BrandPageResult(brandDOPageResult);
     }
 }

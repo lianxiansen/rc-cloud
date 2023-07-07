@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.convert.auth;
 
-import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
-import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
-import com.rc.cloud.app.system.model.user.entity.SysUserDO;
+import com.rc.cloud.app.system.model.permission.SysMenuDO;
+import com.rc.cloud.app.system.model.permission.SysRoleDO;
+import com.rc.cloud.app.system.model.user.SysUserDO;
 import com.rc.cloud.app.system.vo.auth.AuthMenuRespVO;
 import com.rc.cloud.app.system.vo.auth.AuthPermissionInfoRespVO;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-import static com.rc.cloud.app.system.api.permission.entity.SysMenuDO.ID_ROOT;
+import static com.rc.cloud.app.system.model.permission.SysMenuDO.ID_ROOT;
 import static com.rc.cloud.common.core.util.collection.CollectionUtils.filterList;
 
 

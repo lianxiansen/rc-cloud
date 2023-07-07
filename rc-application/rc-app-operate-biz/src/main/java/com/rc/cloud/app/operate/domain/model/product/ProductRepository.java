@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
+import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductAttributeDO;
@@ -40,6 +41,6 @@ public interface ProductRepository {
     void updateProductDictEntity(ProductDictDO productDictDO);
 
     void updateProductAttributeEntity(ProductAttributeDO productAttributeDO);
-
     boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
+    boolean existsByBrandId(BrandId brandId);
 }

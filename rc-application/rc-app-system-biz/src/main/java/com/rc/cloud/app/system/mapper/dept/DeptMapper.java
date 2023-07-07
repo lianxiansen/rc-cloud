@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.dept;
 
-import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
+import com.rc.cloud.app.system.model.dept.SysDeptDO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptListReqVO;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;

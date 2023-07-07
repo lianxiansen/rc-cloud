@@ -1,13 +1,13 @@
 package com.rc.cloud.app.system.service.user;
 
 import cn.hutool.core.util.RandomUtil;
-import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
-import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
-import com.rc.cloud.app.system.api.tenant.entity.SysTenantDO;
-import com.rc.cloud.app.system.model.user.entity.SysUserDO;
+import com.rc.cloud.app.system.model.dept.SysDeptDO;
+import com.rc.cloud.app.system.model.dept.SysPostDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantDO;
+import com.rc.cloud.app.system.model.user.SysUserDO;
 import com.rc.cloud.app.system.mapper.dept.UserPostMapper;
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
-import com.rc.cloud.app.system.api.dept.entity.SysUserPostDO;
+import com.rc.cloud.app.system.model.dept.SysUserPostDO;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.service.permission.PermissionService;

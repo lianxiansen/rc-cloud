@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.tenant;
 
-import com.rc.cloud.app.system.api.tenant.entity.SysTenantDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantDO;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantExportReqVO;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;

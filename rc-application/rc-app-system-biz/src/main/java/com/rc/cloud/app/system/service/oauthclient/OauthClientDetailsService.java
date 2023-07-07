@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.oauthclient;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rc.cloud.app.system.api.oauthclient.entity.SysOauthClientDetailsDO;
+import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsDO;
 
 /**
  * <p>

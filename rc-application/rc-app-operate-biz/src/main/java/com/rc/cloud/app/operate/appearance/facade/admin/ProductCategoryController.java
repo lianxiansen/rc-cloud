@@ -1,6 +1,5 @@
 package com.rc.cloud.app.operate.appearance.facade.admin;
 
-import com.rc.cloud.app.operate.appearance.assemble.ProductCategoryAssemble;
 import com.rc.cloud.app.operate.appearance.vo.ProductCategoryVO;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
@@ -14,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -52,11 +50,15 @@ public class ProductCategoryController {
     @GetMapping("findAll")
     @Operation(summary = "产品类目分类")
     public CodeResult<List<ProductCategoryVO>> findAll() {
-        List<ProductCategoryVO> voList = new ArrayList<>();
         List<ProductCategoryBO> boList = productCategoryApplicationService.findAll();
-        boList.forEach(bo -> {
-            voList.add(ProductCategoryAssemble.INSTANCE.convert2ProductCategoryVO(bo));
-        });
-        return CodeResult.ok(voList);
+        return CodeResult.ok(ProductCategoryVO.from(boList));
     }
+
+    @GetMapping("changeState")
+    @Operation(summary = "产品分类状态")
+    public CodeResult<Long> changeState(String id) {
+        productCategoryApplicationService.changeState(id);
+        return CodeResult.ok();
+    }
+
 }

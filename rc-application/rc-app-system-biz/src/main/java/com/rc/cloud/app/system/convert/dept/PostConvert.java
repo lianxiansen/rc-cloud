@@ -1,6 +1,7 @@
 package com.rc.cloud.app.system.convert.dept;
 
-import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
+import com.rc.cloud.app.system.api.dept.vo.SysPostVO;
+import com.rc.cloud.app.system.model.dept.SysPostDO;
 import com.rc.cloud.app.system.vo.dept.post.*;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.mapstruct.Mapper;
@@ -25,4 +26,5 @@ public interface PostConvert {
 
     List<PostExcelVO> convertList03(List<SysPostDO> list);
 
+    List<SysPostVO> convertToVOList(List<SysPostDO> postList);
 }

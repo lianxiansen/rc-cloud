@@ -7,15 +7,17 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
-import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
-import com.rc.cloud.app.system.api.dept.entity.SysUserPostDO;
-import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
-import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
-import com.rc.cloud.app.system.api.permission.entity.SysUserRoleDO;
+import com.rc.cloud.app.system.convert.dept.PostConvert;
+import com.rc.cloud.app.system.convert.permission.RoleConvert;
+import com.rc.cloud.app.system.model.dept.SysDeptDO;
+import com.rc.cloud.app.system.model.dept.SysPostDO;
+import com.rc.cloud.app.system.model.dept.SysUserPostDO;
+import com.rc.cloud.app.system.model.permission.SysMenuDO;
+import com.rc.cloud.app.system.model.permission.SysRoleDO;
+import com.rc.cloud.app.system.model.permission.SysUserRoleDO;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
-import com.rc.cloud.app.system.api.user.entity.SysUserVO;
-import com.rc.cloud.app.system.model.user.entity.SysUserDO;
+import com.rc.cloud.app.system.api.user.vo.SysUserVO;
+import com.rc.cloud.app.system.model.user.SysUserDO;
 import com.rc.cloud.app.system.common.datapermission.core.util.DataPermissionUtils;
 import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.mapper.dept.PostMapper;
@@ -318,13 +320,13 @@ public class AdminUserServiceImpl implements AdminUserService {
         // 设置角色列表
         Set<String> roleIds = userRoleMapper.selectRoleIdsByUserId(sysUser.getId());
         List<SysRoleDO> roleList = roleMapper.listRolesByRoleIds(roleIds);
-        userInfo.setRoleList(roleList);
+        userInfo.setRoleList(RoleConvert.INSTANCE.convertToVOList(roleList));
         // 设置角色列表 （ID）
         userInfo.setRoles(ArrayUtil.toArray(roleIds, String.class));
         // 设置岗位列表
         Set<String> postIds = userPostMapper.selectPostIdsByUserId(sysUser.getId());
         List<SysPostDO> postList = postMapper.selectPostsByPostIds(postIds);
-        userInfo.setPostList(postList);
+        userInfo.setPostList(PostConvert.INSTANCE.convertToVOList(postList));
         // 设置权限列表（menu.permission）
         Set<String> permissions = roleIds.stream()
                 .map(menuMapper::selectListByRoleId)

@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.dict;
 
-import com.rc.cloud.app.system.api.dict.entity.SysDictTypeDO;
+import com.rc.cloud.app.system.model.dict.SysDictTypeDO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeExportReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypePageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;

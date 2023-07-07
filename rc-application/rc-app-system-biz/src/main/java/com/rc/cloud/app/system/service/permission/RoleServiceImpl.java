@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
+import com.rc.cloud.app.system.model.permission.SysRoleDO;
 import com.rc.cloud.app.system.convert.permission.RoleConvert;
 import com.rc.cloud.app.system.mapper.permission.RoleMapper;
 import com.rc.cloud.app.system.vo.permission.role.RoleCreateReqVO;

@@ -240,18 +240,20 @@ public class ProductCategoryApplicationServiceTest {
     @DisplayName("删除产品分类")
     public void removeProductCategory() {
         ProductCategory root = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+        when(productCategoryRepositoryMock.findById(root.getId())).thenReturn(root);
         when(productCategoryRepositoryMock.remove(root)).thenReturn(true);
-        Assertions.assertTrue(productCategoryDomainServce.remove(root), "删除产品分类失败");
+        Assertions.assertTrue(productCategoryApplicationService.remove(root.getId().id()), "删除产品分类失败");
     }
 
     @Test
     @DisplayName("删除关联产品的产品分类")
     public void removeProductCategoryIfProductExists() {
         ProductCategory root = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+        when(productCategoryRepositoryMock.findById(root.getId())).thenReturn(root);
         when(productRepositoryMock.existsByProductCategoryId(root.getId())).thenReturn(true);
         when(productCategoryRepositoryMock.remove(root)).thenReturn(true);
         Assertions.assertThrows(DomainException.class, () -> {
-            productCategoryDomainServce.remove(root);
+            productCategoryApplicationService.remove(root.getId().id());
         });
 
     }
@@ -260,11 +262,12 @@ public class ProductCategoryApplicationServiceTest {
     @DisplayName("删除含有子分类的产品分类")
     public void removeProductCategoryIfSubProductCategoryExists() {
         ProductCategory productCategory = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+        when(productCategoryRepositoryMock.findById(productCategory.getId())).thenReturn(productCategory);
         when(productRepositoryMock.existsByProductCategoryId(productCategory.getId())).thenReturn(false);
         when(productCategoryRepositoryMock.existsChild(productCategory.getId())).thenReturn(true);
         when(productCategoryRepositoryMock.remove(productCategory)).thenReturn(true);
         Assertions.assertThrows(DomainException.class, () -> {
-            productCategoryDomainServce.remove(productCategory);
+            productCategoryApplicationService.remove(productCategory.getId().id());
         });
     }
 }

@@ -7,7 +7,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.rc.cloud.app.system.api.permission.entity.SysMenuDO;
+import com.rc.cloud.app.system.model.permission.SysMenuDO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.enums.permission.RoleCodeEnum;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
@@ -33,7 +33,7 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.rc.cloud.app.system.api.permission.entity.SysMenuDO.ID_ROOT;
+import static com.rc.cloud.app.system.model.permission.SysMenuDO.ID_ROOT;
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 

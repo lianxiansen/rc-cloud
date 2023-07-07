@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.service.tenant;
 
 import cn.hutool.core.collection.CollUtil;
-import com.rc.cloud.app.system.api.tenant.entity.SysTenantDO;
-import com.rc.cloud.app.system.api.tenant.entity.SysTenantPackageDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPackageDO;
 import com.rc.cloud.app.system.convert.tenant.TenantPackageConvert;
 import com.rc.cloud.app.system.mapper.tenant.TenantPackageMapper;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;
@@ -10,7 +10,6 @@ import com.rc.cloud.app.system.vo.tenant.packages.TenantPackagePageReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageUpdateReqVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
-import com.rc.cloud.common.core.util.StringUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

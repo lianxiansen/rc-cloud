@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.convert.tenant;
 
-import com.rc.cloud.app.system.api.tenant.entity.SysTenantPackageDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPackageDO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageRespVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageSimpleRespVO;

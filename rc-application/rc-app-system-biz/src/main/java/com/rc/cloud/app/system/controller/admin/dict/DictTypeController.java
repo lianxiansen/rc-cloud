@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.controller.admin.dict;
 
-import com.rc.cloud.app.system.api.dict.entity.SysDictTypeDO;
+import com.rc.cloud.app.system.model.dict.SysDictTypeDO;
 import com.rc.cloud.app.system.convert.dict.DictTypeConvert;
 import com.rc.cloud.app.system.service.dict.DictTypeService;
 import com.rc.cloud.app.system.vo.dict.SysDictVO;

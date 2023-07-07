@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.dept;
 
 import com.google.common.collect.Multimap;
-import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
+import com.rc.cloud.app.system.model.dept.SysDeptDO;
 import com.rc.cloud.app.system.mapper.dept.DeptMapper;
 import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptListReqVO;
