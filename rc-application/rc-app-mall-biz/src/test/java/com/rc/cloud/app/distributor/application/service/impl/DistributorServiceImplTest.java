@@ -2,6 +2,7 @@ package com.rc.cloud.app.distributor.application.service.impl;
 
 import com.rc.cloud.app.distributor.appearance.req.DistributorContactCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.DistributorCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.req.DistributorPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.DistributorUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.application.service.DistributorService;
@@ -12,6 +13,7 @@ import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.Distributo
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailPO;
+import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.Assert;
@@ -116,7 +118,7 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
             o.getContacts().forEach(x -> x.setMobile(
                     //生成随机手机号
                     "13575" + String.format("%06d", random.nextInt(10000)
-            )));
+                    )));
         });
         // 调用
         distributorService.update(reqVO1);
@@ -154,18 +156,123 @@ class DistributorServiceImplTest extends BaseDbUnitTest {
 
     @Test
     void get() {
+        //mock对象
+        DistributorContactCreateReqVO reqVO1 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000111");
+        });
+        DistributorContactCreateReqVO reqVO2 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000222");
+        });
+        List<DistributorContactCreateReqVO> voList = Arrays.asList(reqVO1, reqVO2);
+        DistributorCreateReqVO reqVO = randomPojo(DistributorCreateReqVO.class, o -> {
+            o.setContacts(voList);
+            o.setLocking(0);
+        });
+        String id = distributorService.create(reqVO);
+
+        DistributorPO distributorPO = distributorService.get(id);
+        assertNotNull(distributorPO);
     }
 
     @Test
     void getDetail() {
+
+        //mock对象
+        DistributorContactCreateReqVO reqVO1 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000111");
+        });
+        DistributorContactCreateReqVO reqVO2 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000222");
+        });
+        List<DistributorContactCreateReqVO> voList = Arrays.asList(reqVO1, reqVO2);
+        DistributorCreateReqVO reqVO = randomPojo(DistributorCreateReqVO.class, o -> {
+            o.setContacts(voList);
+            o.setLocking(0);
+            o.setDistributorDetail("10086");
+        });
+        String id = distributorService.create(reqVO);
+
+        DistributorDetailPO detail = distributorService.getDetail(id);
+        assertNotNull(detail);
+        assertEquals("10086", detail.getDistributorDetail());
     }
 
     @Test
     void getList() {
+        //mock对象
+        DistributorContactCreateReqVO reqVO1 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000111");
+        });
+        DistributorContactCreateReqVO reqVO2 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000222");
+        });
+        List<DistributorContactCreateReqVO> voList = Arrays.asList(reqVO1, reqVO2);
+        DistributorCreateReqVO reqVO = randomPojo(DistributorCreateReqVO.class, o -> {
+            o.setContacts(voList);
+            o.setLocking(0);
+            o.setDistributorDetail("10086");
+        });
+        String id = distributorService.create(reqVO);
+
+        DistributorContactCreateReqVO reqVO3 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000333");
+        });
+        DistributorContactCreateReqVO reqVO4 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000444");
+        });
+        List<DistributorContactCreateReqVO> voList2 = Arrays.asList(reqVO3, reqVO4);
+        DistributorCreateReqVO reqVO5 = randomPojo(DistributorCreateReqVO.class, o -> {
+            o.setContacts(voList2);
+            o.setLocking(0);
+            o.setDistributorDetail("10087");
+        });
+        String id2 = distributorService.create(reqVO5);
+
+        List<DistributorPO> list = distributorService.getList(Arrays.asList(id, id2));
+
+        assertEquals(2,list.stream().count());
+        assertEquals(id,list.get(0).getId());
     }
 
     @Test
     void getPage() {
+        //mock对象
+        DistributorContactCreateReqVO reqVO1 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000111");
+        });
+        DistributorContactCreateReqVO reqVO2 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000222");
+        });
+        List<DistributorContactCreateReqVO> voList = Arrays.asList(reqVO1, reqVO2);
+        DistributorCreateReqVO reqVO = randomPojo(DistributorCreateReqVO.class, o -> {
+            o.setContacts(voList);
+            o.setLocking(0);
+            o.setDistributorDetail("10086");
+            o.setCompanyName("66666");
+        });
+        String id = distributorService.create(reqVO);
+
+        DistributorContactCreateReqVO reqVO3 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000333");
+        });
+        DistributorContactCreateReqVO reqVO4 = randomPojo(DistributorContactCreateReqVO.class, o -> {
+            o.setMobile("13700000444");
+        });
+        List<DistributorContactCreateReqVO> voList2 = Arrays.asList(reqVO3, reqVO4);
+        DistributorCreateReqVO reqVO5 = randomPojo(DistributorCreateReqVO.class, o -> {
+            o.setContacts(voList2);
+            o.setLocking(0);
+            o.setDistributorDetail("10087");
+            o.setCompanyName("77777");
+        });
+        String id2 = distributorService.create(reqVO5);
+
+        DistributorPageReqVO pageReqVO=new DistributorPageReqVO();
+        pageReqVO.setMobile("444");
+        PageResult<DistributorPO> page = distributorService.getPage(pageReqVO);
+
+        assertEquals(1,page.getTotal());
+        assertEquals("77777",page.getList().get(0).getCompanyName());
     }
 
     @Test

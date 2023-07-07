@@ -53,7 +53,7 @@ class DistributorContactServiceImplTest extends BaseDbUnitTest{
 
         // 准备参数
         List<DistributorContactPO> contactDOS = Arrays.asList(contact1, contact2);
-        contactService.updateContacts(1L,contactDOS);
+        contactService.updateContacts("1",contactDOS);
         List<DistributorContactPO> contactDOList = contactMapper.selectList(new LambdaQueryWrapperX<DistributorContactPO>()
                 .eq(DistributorContactPO::getDistributorId, 1L));
 
@@ -81,16 +81,16 @@ class DistributorContactServiceImplTest extends BaseDbUnitTest{
 
         // 验证手机号重复
         final List<DistributorContactPO> contactDOS2 = Arrays.asList(contact2, contact3);
-        assertServiceException(() -> contactService.updateContacts(1L,contactDOS2), DISTRIBUTOR_CONTACT_PHONE_DUPLICATE);
+        assertServiceException(() -> contactService.updateContacts("1",contactDOS2), DISTRIBUTOR_CONTACT_PHONE_DUPLICATE);
 
         // 验证手机号被其他绑定
         final List<DistributorContactPO> contactDOS = Arrays.asList(contact1, contact2);
-        assertServiceException(() -> contactService.updateContacts(1L,contactDOS), DISTRIBUTOR_CONTACT_PHONE_EXIST);
+        assertServiceException(() -> contactService.updateContacts("1",contactDOS), DISTRIBUTOR_CONTACT_PHONE_EXIST);
     }
 
     @Test
     void getByDistributorId() {
-        List<DistributorContactPO> contactDOS = contactService.getByDistributorId(1L);
+        List<DistributorContactPO> contactDOS = contactService.getByDistributorId("1");
         // 断言
         assertEquals(2, contactDOS.size());
     }
@@ -98,7 +98,7 @@ class DistributorContactServiceImplTest extends BaseDbUnitTest{
     @Test
     void updatePassword() {
         DistributorContactUpdatePasswordReqVO reqVO=randomPojo(DistributorContactUpdatePasswordReqVO.class, o->{
-            o.setId(1L);
+            o.setId("1");
         });
         System.out.println(reqVO.toString());
         contactService.updatePassword(reqVO);
@@ -108,8 +108,8 @@ class DistributorContactServiceImplTest extends BaseDbUnitTest{
 
     @Test
     void resetPassword() {
-        contactService.resetPassword(1L);
-        DistributorContactPO contactDO = contactMapper.selectById(1L);
+        contactService.resetPassword("1");
+        DistributorContactPO contactDO = contactMapper.selectById("1");
 
         assertEquals(true,webPasswordEncoder.matches("000001",contactDO.getPassword()));
 
