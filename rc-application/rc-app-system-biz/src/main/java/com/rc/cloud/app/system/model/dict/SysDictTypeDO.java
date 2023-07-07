@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.api.dict.entity;
+package com.rc.cloud.app.system.model.dict;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

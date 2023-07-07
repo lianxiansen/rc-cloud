@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.controller.admin.dept;
 
-import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
+import com.rc.cloud.app.system.model.dept.SysPostDO;
 import com.rc.cloud.app.system.convert.dept.PostConvert;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.vo.dept.post.*;

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.dept;
 
 import cn.hutool.core.collection.CollUtil;
-import com.rc.cloud.app.system.api.dept.entity.SysDeptDO;
+import com.rc.cloud.app.system.model.dept.SysDeptDO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptListReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptUpdateReqVO;

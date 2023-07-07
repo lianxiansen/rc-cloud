@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.dict;
 
-import com.rc.cloud.app.system.api.dict.entity.SysDictDataDO;
-import com.rc.cloud.app.system.api.dict.entity.SysDictTypeDO;
+import com.rc.cloud.app.system.model.dict.SysDictDataDO;
+import com.rc.cloud.app.system.model.dict.SysDictTypeDO;
 import com.rc.cloud.app.system.mapper.dict.DictDataMapper;
 import com.rc.cloud.app.system.vo.dict.data.DictDataCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataExportReqVO;
@@ -12,8 +12,6 @@ import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.collection.ArrayUtils;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 

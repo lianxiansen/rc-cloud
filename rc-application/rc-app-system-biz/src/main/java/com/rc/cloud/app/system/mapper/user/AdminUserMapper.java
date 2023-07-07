@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.user;
 
-import com.rc.cloud.app.system.model.user.entity.SysUserDO;
+import com.rc.cloud.app.system.model.user.SysUserDO;
 import com.rc.cloud.app.system.vo.user.user.UserExportReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;

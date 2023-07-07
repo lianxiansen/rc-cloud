@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.service.tenant;
 
-import com.rc.cloud.app.system.api.tenant.entity.SysTenantDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantDO;
 import com.rc.cloud.app.system.service.tenant.handler.TenantInfoHandler;
 import com.rc.cloud.app.system.service.tenant.handler.TenantMenuHandler;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantCreateReqVO;

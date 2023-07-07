@@ -3,7 +3,7 @@ package com.rc.cloud.app.system.mapper.permission;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rc.cloud.app.system.api.permission.entity.SysRoleMenuDO;
+import com.rc.cloud.app.system.model.permission.SysRoleMenuDO;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

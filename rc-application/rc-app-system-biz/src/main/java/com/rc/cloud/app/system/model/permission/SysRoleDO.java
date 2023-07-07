@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.api.permission.entity;
+package com.rc.cloud.app.system.model.permission;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.rc.cloud.app.system.enums.permission.DataScopeEnum;

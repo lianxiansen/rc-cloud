@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.dept;
 
 import cn.hutool.core.collection.CollUtil;
-import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
+import com.rc.cloud.app.system.model.dept.SysPostDO;
 import com.rc.cloud.app.system.convert.dept.PostConvert;
 import com.rc.cloud.app.system.mapper.dept.PostMapper;
 import com.rc.cloud.app.system.vo.dept.post.PostCreateReqVO;

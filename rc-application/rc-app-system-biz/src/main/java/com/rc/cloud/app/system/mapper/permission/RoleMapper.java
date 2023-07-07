@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.mapper.permission;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
+import com.rc.cloud.app.system.model.permission.SysRoleDO;
 import com.rc.cloud.app.system.vo.permission.role.RoleExportReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RolePageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;

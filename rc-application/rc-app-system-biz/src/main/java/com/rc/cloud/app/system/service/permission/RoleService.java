@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.service.permission;
 
-import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
+import com.rc.cloud.app.system.model.permission.SysRoleDO;
 import com.rc.cloud.app.system.vo.permission.role.RoleCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RoleExportReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RolePageReqVO;

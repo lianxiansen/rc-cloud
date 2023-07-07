@@ -3,15 +3,16 @@ package com.rc.cloud.app.system.controller.admin.oauthclient;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.rc.cloud.app.system.api.oauthclient.entity.SysOauthClientDetailsDO;
+import com.rc.cloud.app.system.api.oauthclient.vo.SysOauthClientDetailsVO;
+import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsDO;
 import com.rc.cloud.app.system.service.oauthclient.OauthClientDetailsService;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -103,9 +104,11 @@ public class OauthClientDetailsController {
 
 	@Inner
 	@GetMapping("/getClientDetailsById/{clientId}")
-	public CodeResult getClientDetailsById(@PathVariable String clientId) {
+	public CodeResult<SysOauthClientDetailsVO> getClientDetailsById(@PathVariable String clientId) {
 		SysOauthClientDetailsDO sysOauthClientDetailsDO = oauthClientDetailsService.getOne(
 				Wrappers.<SysOauthClientDetailsDO>lambdaQuery().eq(SysOauthClientDetailsDO::getClientId, clientId), false);
-		return CodeResult.ok(sysOauthClientDetailsDO);
+		SysOauthClientDetailsVO sysOauthClientDetailsVO = new SysOauthClientDetailsVO();
+		BeanUtils.copyProperties(sysOauthClientDetailsDO, sysOauthClientDetailsVO);
+		return CodeResult.ok(sysOauthClientDetailsVO);
 	}
 }

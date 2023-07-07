@@ -1,27 +1,24 @@
-/**
- * @author oliveoil
- * date 2023-07-06 16:55
- */
-package com.rc.cloud.app.system.api.user.entity;
+package com.rc.cloud.app.system.model.user;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.enums.SexEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import com.rc.cloud.common.mybatis.core.type.JsonStringSetTypeHandler;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 管理后台的用户 DO
  *
- * @author oliveoil
+ * @author 芋道源码
  */
 @TableName(value = "sys_user", autoResultMap = true) // 由于 SQL Server 的 system_user 是关键字，所以使用 system_users
 @Data
@@ -29,7 +26,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysUserVO extends TenantBaseDO {
+public class SysUserDO extends TenantBaseDO {
 
     /**
      * 用户ID
@@ -102,5 +99,17 @@ public class SysUserVO extends TenantBaseDO {
     @TableField(exist=false)
     private Set<String> authoritySet;
 
-}
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (authoritySet == null) {
+            return null;
+        }
+        return authoritySet.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toSet());
+    }
 
+    public void setAuthorities(Collection<?> authorities) {
+        if (authorities == null) {
+            return;
+        }
+        this.authoritySet = authorities.stream().map(Object::toString).collect(Collectors.toSet());
+    }
+}

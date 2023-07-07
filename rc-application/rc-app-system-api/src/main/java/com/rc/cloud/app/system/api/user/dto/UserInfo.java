@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.api.user.dto;
 
-import com.rc.cloud.app.system.api.dept.entity.SysPostDO;
-import com.rc.cloud.app.system.api.permission.entity.SysRoleDO;
-import com.rc.cloud.app.system.api.user.entity.SysUserVO;
+import com.rc.cloud.app.system.api.dept.vo.SysPostVO;
+import com.rc.cloud.app.system.api.permission.vo.SysRoleVO;
+import com.rc.cloud.app.system.api.user.vo.SysUserVO;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -33,7 +33,7 @@ public class UserInfo implements Serializable {
 	/**
 	 * 角色集合
 	 */
-	private List<SysRoleDO> roleList;
+	private List<SysRoleVO> roleList;
 
 	/**
 	 * 岗位集合
@@ -43,6 +43,6 @@ public class UserInfo implements Serializable {
 	/**
 	 * 岗位集合
 	 */
-	private List<SysPostDO> postList;
+	private List<SysPostVO> postList;
 
 }

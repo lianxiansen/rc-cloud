@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.mapper.dict;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.rc.cloud.app.system.api.dict.entity.SysDictDataDO;
+import com.rc.cloud.app.system.model.dict.SysDictDataDO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataExportReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;

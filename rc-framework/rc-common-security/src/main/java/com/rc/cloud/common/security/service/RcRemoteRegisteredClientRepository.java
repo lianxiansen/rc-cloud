@@ -3,8 +3,8 @@ package com.rc.cloud.common.security.service;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.rc.cloud.app.system.api.oauthclient.entity.SysOauthClientDetailsDO;
 import com.rc.cloud.app.system.api.oauthclient.feign.RemoteClientDetailsService;
+import com.rc.cloud.app.system.api.oauthclient.vo.SysOauthClientDetailsVO;
 import com.rc.cloud.common.core.constant.CacheConstants;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
@@ -88,7 +88,7 @@ public class RcRemoteRegisteredClientRepository implements RegisteredClientRepos
 	@SneakyThrows
 	public RegisteredClient findByClientId(String clientId) {
 
-		SysOauthClientDetailsDO clientDetails = clientDetailsService.getClientDetailsById(clientId)
+		SysOauthClientDetailsVO clientDetails = clientDetailsService.getClientDetailsById(clientId)
 			.getData();
 		if (clientDetails == null) {
 			new OAuth2AuthorizationCodeRequestAuthenticationException(
