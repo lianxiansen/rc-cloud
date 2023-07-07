@@ -2,14 +2,12 @@ package com.rc.cloud.common.tenant.core.service;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.rc.cloud.app.system.api.tenant.TenantApi;
 import com.rc.cloud.app.system.api.tenant.feign.RemoteTenantService;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.cache.CacheUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
-import javax.annotation.Resource;
 import java.time.Duration;
 import java.util.List;
 
@@ -22,8 +20,6 @@ import java.util.List;
 public class TenantFrameworkServiceImpl implements TenantFrameworkService {
 
     private static final ServiceException SERVICE_EXCEPTION_NULL = new ServiceException();
-
-//    private final TenantApi tenantApi;
 
     private final RemoteTenantService remoteTenantService;
 

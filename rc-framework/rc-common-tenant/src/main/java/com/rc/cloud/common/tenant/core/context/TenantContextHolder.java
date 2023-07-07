@@ -14,7 +14,7 @@ public class TenantContextHolder {
     /**
      * 当前租户编号
      */
-    private static final ThreadLocal<Long> TENANT_ID = new TransmittableThreadLocal<>();
+    private static final ThreadLocal<String> TENANT_ID = new TransmittableThreadLocal<>();
 
     /**
      * 是否忽略租户
@@ -26,7 +26,7 @@ public class TenantContextHolder {
      *
      * @return 租户编号
      */
-    public static Long getTenantId() {
+    public static String getTenantId() {
         return TENANT_ID.get();
     }
 
@@ -35,15 +35,15 @@ public class TenantContextHolder {
      *
      * @return 租户编号
      */
-    public static Long getRequiredTenantId() {
-        Long tenantId = getTenantId();
+    public static String getRequiredTenantId() {
+        String tenantId = getTenantId();
         if (tenantId == null) {
             throw exception(1002015000, "租户编号不存在");
         }
         return tenantId;
     }
 
-    public static void setTenantId(Long tenantId) {
+    public static void setTenantId(String tenantId) {
         TENANT_ID.set(tenantId);
     }
 

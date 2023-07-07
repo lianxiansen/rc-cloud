@@ -22,7 +22,7 @@ public class TenantContextWebFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         // 设置
-        Long tenantId = WebFrameworkUtils.getTenantId(request);
+        String tenantId = WebFrameworkUtils.getTenantId(request);
         System.out.println("tenantId = " + tenantId);
         if (tenantId != null) {
             TenantContextHolder.setTenantId(tenantId);
