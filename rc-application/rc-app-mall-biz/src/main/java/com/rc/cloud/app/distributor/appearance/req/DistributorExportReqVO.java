@@ -51,22 +51,22 @@ public class DistributorExportReqVO {
     private String creator;
 
     @Schema(description = "管理员id", example = "8530")
-    private Long adminId;
+    private String adminId;
 
     @Schema(description = "联系电话")
     private String telephone;
 
     @Schema(description = "客户渠道id")
-    private Long channel;
+    private String channel;
 
     @Schema(description = "获客方式id")
-    private Long source;
+    private String source;
 
     @Schema(description = "客户等级id")
-    private Long level;
+    private String level;
 
     @Schema(description = "信誉等级")
-    private Long reputation;
+    private String reputation;
 
     @Schema(description = "成立时间")
     private String establishedTime;

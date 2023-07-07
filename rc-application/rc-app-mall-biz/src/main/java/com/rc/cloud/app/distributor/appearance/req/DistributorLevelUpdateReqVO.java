@@ -14,6 +14,6 @@ public class DistributorLevelUpdateReqVO extends DistributorLevelBaseVO {
 
     @Schema(description = "id", requiredMode = Schema.RequiredMode.REQUIRED, example = "26972")
     @NotNull(message = "id不能为空")
-    private Long id;
+    private String id;
 
 }

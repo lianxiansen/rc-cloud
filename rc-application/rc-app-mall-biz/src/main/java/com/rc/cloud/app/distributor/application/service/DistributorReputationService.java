@@ -21,7 +21,7 @@ public interface DistributorReputationService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long createReputation(@Valid DistributorReputationCreateReqVO createReqVO);
+    String createReputation(@Valid DistributorReputationCreateReqVO createReqVO);
 
     /**
      * 更新经销商客户信誉
@@ -35,7 +35,7 @@ public interface DistributorReputationService {
      *
      * @param id 编号
      */
-    void deleteReputation(Long id);
+    void deleteReputation(String id);
 
     /**
      * 获得经销商客户信誉
@@ -43,7 +43,7 @@ public interface DistributorReputationService {
      * @param id 编号
      * @return 经销商客户信誉
      */
-    DistributorReputationPO getReputation(Long id);
+    DistributorReputationPO getReputation(String id);
 
     /**
      * 获得所有经销商信誉
@@ -59,7 +59,7 @@ public interface DistributorReputationService {
      * @param ids 编号
      * @return 经销商客户信誉列表
      */
-    List<DistributorReputationPO> getReputationList(Collection<Long> ids);
+    List<DistributorReputationPO> getReputationList(Collection<String> ids);
 
     /**
      * 获得经销商客户信誉分页

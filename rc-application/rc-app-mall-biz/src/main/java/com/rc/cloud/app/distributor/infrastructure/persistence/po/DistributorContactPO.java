@@ -19,7 +19,7 @@ public class DistributorContactPO implements Serializable {
      * id
      */
     @TableId(type=IdType.ASSIGN_ID)
-    private Long id;
+    private String id;
     /**
      * 账号名称
      */
@@ -35,5 +35,5 @@ public class DistributorContactPO implements Serializable {
     /**
      * 经销商id
      */
-    private Long distributorId;
+    private String distributorId;
 }

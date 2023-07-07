@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for distributor
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS "distributor"  (
-                                "id" bigint NOT NULL COMMENT 'id',
+                                "id" varchar(255) NOT NULL COMMENT 'id',
                                 "company_name" varchar(255)  NULL DEFAULT '' COMMENT '企业名称',
                                 "contact" varchar(255)  NULL DEFAULT '' COMMENT '联系人，用逗号隔开',
                                 "mobile" varchar(1000)  NULL DEFAULT '' COMMENT '联系方式，用逗号隔开',
@@ -34,12 +34,12 @@ CREATE TABLE IF NOT EXISTS "distributor"  (
                                 "end_time" varchar(25)  NULL DEFAULT '' COMMENT '合作结束',
                                 "status" int NULL DEFAULT 1 COMMENT '对接状态1未对接2已对接',
                                 "remarks" clob  NULL COMMENT '备注',
-                                "admin_id" bigint NULL DEFAULT NULL COMMENT '管理员id',
+                                "admin_id" varchar(255) NULL DEFAULT NULL COMMENT '管理员id',
                                 "telephone" varchar(255)  NULL DEFAULT '' COMMENT '联系电话',
-                                "channel" bigint NULL DEFAULT 0 COMMENT '客户渠道id',
-                                "source" bigint NULL DEFAULT 0 COMMENT '获客方式id',
-                                "level" bigint NULL DEFAULT 0 COMMENT '客户等级id',
-                                "reputation" bigint NULL DEFAULT 0 COMMENT '信誉等级',
+                                "channel" varchar(255) NULL DEFAULT 0 COMMENT '客户渠道id',
+                                "source" varchar(255) NULL DEFAULT 0 COMMENT '获客方式id',
+                                "level" varchar(255) NULL DEFAULT 0 COMMENT '客户等级id',
+                                "reputation" varchar(255) NULL DEFAULT 0 COMMENT '信誉等级',
                                 "established_time" varchar(255)  NULL DEFAULT '' COMMENT '成立时间',
                                 "deleted" int NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是',
                                 "locking" int NULL DEFAULT 0 COMMENT '是否锁定',
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS "distributor"  (
 -- Table structure for distributor_channel
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS "distributor_channel"  (
-                                "id" bigint NOT NULL COMMENT 'id',
+                                "id" varchar(255) NOT NULL COMMENT 'id',
                                 "name" varchar(255)  NULL DEFAULT NULL COMMENT '渠道名称',
                                 "description" varchar(255)  NULL DEFAULT NULL COMMENT '说明',
                                 "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',
@@ -65,11 +65,11 @@ CREATE TABLE IF NOT EXISTS "distributor_channel"  (
 -- -- Table structure for distributor_contact
 -- -- ----------------------------
 CREATE TABLE IF NOT EXISTS "distributor_contact"  (
-                                        "id" bigint NOT NULL,
+                                        "id" varchar(255) NOT NULL,
                                         "name" varchar(255)  NULL DEFAULT '' COMMENT '联系人',
                                         "mobile" varchar(255)  NULL DEFAULT '' COMMENT '手机',
                                         "password" varchar(255)  NULL DEFAULT '' COMMENT '密码',
-                                        "distributor_id" bigint NULL DEFAULT NULL,
+                                        "distributor_id" varchar(255) NULL DEFAULT NULL,
                                         "lastread_time" varchar(255)  NULL DEFAULT NULL COMMENT '最后浏览时间',
                                         "click" int NULL DEFAULT 0 COMMENT '用户浏览商品数量',
                                         "headimage" varchar(255)  NULL DEFAULT NULL
@@ -78,15 +78,15 @@ CREATE TABLE IF NOT EXISTS "distributor_contact"  (
 -- Table structure for distributor_detail
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS "distributor_detail"  (
-                                       "id" bigint NOT NULL COMMENT 'id',
-                                       "distributor_id" bigint NULL DEFAULT NULL COMMENT '经销商id',
+                                       "id" varchar(255) NOT NULL COMMENT 'id',
+                                       "distributor_id" varchar(255) NULL DEFAULT NULL COMMENT '经销商id',
                                        "distributor_detail" clob NULL
 );
 -- ----------------------------
 -- Table structure for distributor_level
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS "distributor_level"  (
-                                      "id" bigint NOT NULL COMMENT 'id',
+                                      "id" varchar(255) NOT NULL COMMENT 'id',
                                       "name" varchar(255)  NULL DEFAULT '' COMMENT '客户等级',
                                       "description" varchar(255)  NULL DEFAULT '' COMMENT '说明',
                                     "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS "distributor_level"  (
 -- Table structure for distributor_reputation
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS "distributor_reputation"  (
-                                           "id" bigint NOT NULL COMMENT 'id',
+                                           "id" varchar(255) NOT NULL COMMENT 'id',
                                            "name" varchar(255)  NULL DEFAULT NULL COMMENT '信誉等级',
                                            "description" varchar(255)  NULL DEFAULT NULL COMMENT '说明',
                                             "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS "distributor_reputation"  (
 -- Table structure for distributor_source
 -- ----------------------------
 CREATE TABLE IF NOT EXISTS "distributor_source"  (
-                                       "id" bigint NOT NULL COMMENT 'id',
+                                       "id" varchar(255) NOT NULL COMMENT 'id',
                                        "name" varchar(255)  NULL DEFAULT '' COMMENT '获客方式',
                                        "description" varchar(255)  NULL DEFAULT '' COMMENT '说明',
                                         "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',

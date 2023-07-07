@@ -22,7 +22,7 @@ public interface DistributorLevelService {
      * @param createReqVO 创建信息
      * @return 编号
      */
-    Long createLevel(@Valid DistributorLevelCreateReqVO createReqVO);
+    String createLevel(@Valid DistributorLevelCreateReqVO createReqVO);
 
     /**
      * 更新经销商客户等级
@@ -36,7 +36,7 @@ public interface DistributorLevelService {
      *
      * @param id 编号
      */
-    void deleteLevel(Long id);
+    void deleteLevel(String id);
 
     /**
      * 获得经销商客户等级
@@ -44,7 +44,7 @@ public interface DistributorLevelService {
      * @param id 编号
      * @return 经销商客户等级
      */
-    DistributorLevelPO getLevel(Long id);
+    DistributorLevelPO getLevel(String id);
 
     /**
      * 获得所有经销商客户等级
@@ -59,7 +59,7 @@ public interface DistributorLevelService {
      * @param ids 编号
      * @return 经销商客户等级列表
      */
-    List<DistributorLevelPO> getLevelList(Collection<Long> ids);
+    List<DistributorLevelPO> getLevelList(Collection<String> ids);
 
     /**
      * 获得经销商客户等级分页

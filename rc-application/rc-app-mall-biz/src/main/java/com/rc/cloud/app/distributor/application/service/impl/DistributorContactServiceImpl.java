@@ -37,7 +37,7 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
     //批量更新经销商联系人
     // 执行新增和删除。对于已经绑定的联系人，不做任何处理
     @Transactional
-    public void updateContacts(Long distributorId, List<DistributorContactPO> contactDOS) {
+    public void updateContacts(String distributorId, List<DistributorContactPO> contactDOS) {
         //需要更新的数据
         List<String> newMobiles = contactDOS.stream().map(x -> x.getMobile()).collect(Collectors.toList());
         //如果联系方式重复，则抛出异常
@@ -73,7 +73,7 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
     }
 
     @Override
-    public List<DistributorContactPO> getByDistributorId(Long distributorId) {
+    public List<DistributorContactPO> getByDistributorId(String distributorId) {
         return contactMapper.selectList(new LambdaQueryWrapperX<DistributorContactPO>().eq(DistributorContactPO::getDistributorId,distributorId));
     }
 
@@ -89,7 +89,7 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
      * 重置密码，手机号后6位
      */
     @Override
-    public void resetPassword(Long id) {
+    public void resetPassword(String id) {
         DistributorContactPO contactDO= contactMapper.selectById(id);
         System.out.println(contactDO==null);
         contactDO.setPassword(encodePassword(CommonUtil.getFinalMobile(contactDO.getMobile())));

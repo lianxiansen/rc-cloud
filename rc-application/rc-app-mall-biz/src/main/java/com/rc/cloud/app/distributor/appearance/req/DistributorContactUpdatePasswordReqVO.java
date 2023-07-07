@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class DistributorContactUpdatePasswordReqVO {
     @Schema(description = "id")
-    private Long id;
+    private String id;
     @Schema(description = "密码")
     private String password;
 }

@@ -16,7 +16,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 public class DistributorExcelVO {
 
     @ExcelProperty("id")
-    private Long id;
+    private String id;
 
     @ExcelProperty("企业名称")
     private String companyName;
@@ -61,22 +61,22 @@ public class DistributorExcelVO {
     private String creator;
 
     @ExcelProperty("管理员id")
-    private Long adminId;
+    private String adminId;
 
     @ExcelProperty("联系电话")
     private String telephone;
 
     @ExcelProperty("客户渠道id")
-    private Long channel;
+    private String channel;
 
     @ExcelProperty("获客方式id")
-    private Long source;
+    private String source;
 
     @ExcelProperty("客户等级id")
-    private Long level;
+    private String level;
 
     @ExcelProperty("信誉等级")
-    private Long reputation;
+    private String reputation;
 
     @ExcelProperty("成立时间")
     private String establishedTime;

@@ -58,7 +58,7 @@ public class DistributorServiceImpl implements DistributorService {
 
     @Override
     @Transactional
-    public Long create(DistributorCreateReqVO createReqVO) {
+    public String create(DistributorCreateReqVO createReqVO) {
         // 插入
         DistributorPO distributorPO = DistributorConvert.INSTANCE.convert(createReqVO);
 
@@ -123,7 +123,7 @@ public class DistributorServiceImpl implements DistributorService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(String id) {
         // 校验存在
         validateExists(id);
         // 删除
@@ -132,27 +132,27 @@ public class DistributorServiceImpl implements DistributorService {
         SpringContextHolder.publishEvent(deleteEvent);
     }
 
-    private void validateExists(Long id) {
+    private void validateExists(String id) {
         if (mapper.selectById(id) == null) {
             throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_NOT_EXISTS);
         }
     }
 
     @Override
-    public DistributorPO get(Long id) {
+    public DistributorPO get(String id) {
         return mapper.selectById(id);
     }
 
 
     @Override
-    public DistributorDetailPO getDetail(Long id) {
+    public DistributorDetailPO getDetail(String id) {
         // 校验存在
         validateExists(id);
         return detailMapper.selectByDistributorId(id);
     }
 
     @Override
-    public List<DistributorPO> getList(Collection<Long> ids) {
+    public List<DistributorPO> getList(Collection<String> ids) {
         return mapper.selectBatchIds(ids);
     }
 

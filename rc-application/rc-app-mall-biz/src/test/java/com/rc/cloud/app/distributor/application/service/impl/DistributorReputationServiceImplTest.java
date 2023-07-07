@@ -39,7 +39,7 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
     void createReputation() {
         DistributorReputationCreateReqVO reqVO = randomPojo(DistributorReputationCreateReqVO.class, o -> {});
         // 调用
-        Long reputationId = reputationService.createReputation(reqVO);
+        String reputationId = reputationService.createReputation(reqVO);
         // 断言
         assertNotNull(reputationId);
         // 校验记录的属性是否正确
@@ -71,7 +71,7 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
         DistributorReputationPO postDO =  randomDistributorReputationPO();
         reputationMapper.insert(postDO);
         // 准备参数
-        Long id = postDO.getId();
+        String id = postDO.getId();
 
         // 调用
         reputationService.deleteReputation(id);
@@ -84,7 +84,7 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
         DistributorReputationPO reputationDO = randomDistributorReputationPO();
         reputationMapper.insert(reputationDO);
         // 准备参数
-        Long id = reputationDO.getId();
+        String id = reputationDO.getId();
         // 调用
         DistributorReputationPO reputation = reputationService.getReputation(id);
         // 断言
@@ -101,7 +101,7 @@ class DistributorReputationServiceImplTest extends BaseDbUnitTest{
         DistributorReputationPO postDO02 = randomDistributorReputationPO();
         reputationMapper.insert(postDO02);
         // 准备参数
-        List<Long> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
+        List<String> ids = Arrays.asList(postDO01.getId(), postDO02.getId());
 
         // 调用
         List<DistributorReputationPO> list = reputationService.getReputationList(ids);

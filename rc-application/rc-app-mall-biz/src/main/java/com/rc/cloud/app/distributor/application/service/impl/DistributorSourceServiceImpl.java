@@ -29,7 +29,7 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     private DistributorSourceMapper sourceMapper;
 
     @Override
-    public Long createSource(DistributorSourceCreateReqVO createReqVO) {
+    public String createSource(DistributorSourceCreateReqVO createReqVO) {
         // 插入
         DistributorSourcePO source = DistributorSourceConvert.INSTANCE.convert(createReqVO);
         sourceMapper.insert(source);
@@ -47,21 +47,21 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     }
 
     @Override
-    public void deleteSource(Long id) {
+    public void deleteSource(String id) {
         // 校验存在
         validateSourceExists(id);
         // 删除
         sourceMapper.deleteById(id);
     }
 
-    private void validateSourceExists(Long id) {
+    private void validateSourceExists(String id) {
         if (sourceMapper.selectById(id) == null) {
             throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_SOURCE_EXISTS);
         }
     }
 
     @Override
-    public DistributorSourcePO getSource(Long id) {
+    public DistributorSourcePO getSource(String id) {
         return sourceMapper.selectById(id);
     }
 
@@ -71,7 +71,7 @@ public class DistributorSourceServiceImpl implements DistributorSourceService {
     }
 
     @Override
-    public List<DistributorSourcePO> getSourceList(Collection<Long> ids) {
+    public List<DistributorSourcePO> getSourceList(Collection<String> ids) {
         return sourceMapper.selectBatchIds(ids);
     }
 
