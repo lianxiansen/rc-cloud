@@ -254,14 +254,6 @@ public class Product extends Entity {
      */
     private Sort sort;
 
-    private Detail detail;
-
-    public Product setDetail(Detail detail) {
-        this.assertArgumentNotNull(detail, "detail must not be null");
-        this.detail = detail;
-        return this;
-    }
-
 
 
     public Product(ProductId id, TenantId tenantId, Name name){
@@ -486,9 +478,6 @@ public class Product extends Entity {
         return sort;
     }
 
-    public Detail getDetail() {
-        return detail;
-    }
 
     public ProductAttributeEntity getProductAttributeEntity() {
         return productAttributeEntity;
@@ -497,4 +486,16 @@ public class Product extends Entity {
     public void setProductAttributeEntity(ProductAttributeEntity productAttributeEntity) {
         this.productAttributeEntity = productAttributeEntity;
     }
+
+    private Detail detail;
+
+    public Detail getDetail() {
+        return detail;
+    }
+
+    public void setDetail(Detail detail) {
+        this.detail = detail;
+    }
+
+
 }

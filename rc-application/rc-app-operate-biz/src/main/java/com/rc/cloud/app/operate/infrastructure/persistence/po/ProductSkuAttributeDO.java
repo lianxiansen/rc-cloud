@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 //        --                 }
 //        --             ]
 //        -- ----------------------------
-@TableName("product_attribute")
+@TableName("product_sku_attribute")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class ProductSkuAttributeDO {

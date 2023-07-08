@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductDictSaveDTO;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
@@ -85,8 +86,9 @@ public class ProductDOConvert {
         return target;
     }
 
-    public static  ProductDetailDO convert2ProductDetailDO(String productId, String tenantId, String detail){
+    public static  ProductDetailDO convert2ProductDetailDO(String detailId,String productId, String tenantId, String detail){
         ProductDetailDO productDetailDO=new ProductDetailDO();
+        productDetailDO.setId(detailId);
         productDetailDO.setDetail(detail);
         productDetailDO.setProductId(productId);
         productDetailDO.setTenantId(tenantId);
@@ -95,7 +97,7 @@ public class ProductDOConvert {
 
     public static ProductAttributeDO convert2ProductAttributeDO(String productId, String tenantId, ProductAttributeEntity productAttributeEntity){
         ProductAttributeDO productAttributeDO=new ProductAttributeDO();
-        String attr = JSONUtil.toJsonStr(productAttributeEntity.getAttributes());
+        String attr = JSON.toJSONString(productAttributeEntity.getAttributes());
         productAttributeDO.setId(productAttributeEntity.getId());
         productAttributeDO.setProductId(productId);
         productAttributeDO.setTenantId(tenantId);

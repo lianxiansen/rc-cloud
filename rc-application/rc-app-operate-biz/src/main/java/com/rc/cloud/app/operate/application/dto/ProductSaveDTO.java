@@ -137,5 +137,7 @@ public class ProductSaveDTO {
     private String installVideoUrl;
     private String installVideoImg;
 
+    private String detail;
+
 
 }

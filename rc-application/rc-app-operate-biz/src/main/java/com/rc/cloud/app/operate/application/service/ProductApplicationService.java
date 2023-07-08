@@ -1,12 +1,12 @@
 package com.rc.cloud.app.operate.application.service;
 
-import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.*;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
+import com.rc.cloud.app.operate.domain.model.product.ProductDetailRepository;
 import com.rc.cloud.app.operate.domain.model.productsku.*;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.Inventory;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.Price;
@@ -16,11 +16,11 @@ import com.rc.cloud.app.operate.domain.model.productsku.valobj.SupplyPrice;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.Weight;
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +57,9 @@ public class ProductApplicationService {
 
     @Autowired
     private ProductSkuAttributeRepository productSkuAttributeRepository;
+
+    @Autowired
+    private ProductDetailRepository productDetailRepository;
 
 
     private void validateTenantId(TenantId tenantId){
@@ -162,6 +165,11 @@ public class ProductApplicationService {
             productAttributeEntity.addAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
         }
         product.setProductAttributeEntity(productAttributeEntity);
+
+        if(StringUtils.isNotEmpty(productSaveDTO.getDetail())){
+            Detail detail=new Detail(productDetailRepository.nextId(), productSaveDTO.getDetail());
+            product.setDetail(detail);
+        }
         //保存spu
         productRepository.insertProductEntity(product);
         //保存sku
@@ -172,7 +180,7 @@ public class ProductApplicationService {
         for (ProductSkuSaveDTO productSkuSaveDTO : skus){
             ProductSkuId productSkuId=productSkuRepository.nextId();
             ProductSku productSku=new ProductSku(productSkuId,productId,tenantId,new Price(
-                    BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getPrice()))
+                    productSkuSaveDTO.getPrice()
             ));
             if(productSkuSaveDTO.getEnabledFlag()!=null){
                 productSku.setEnabledFlag(productSkuSaveDTO.getEnabledFlag());
@@ -329,6 +337,11 @@ public class ProductApplicationService {
             product.setProductAttributeEntity(productAttributeEntity);
         }
 
+        if(StringUtils.isNotEmpty(productSaveDTO.getDetail())){
+            Detail detail=new Detail(productDetailRepository.nextId(),productSaveDTO.getDetail());
+            product.setDetail(detail);
+        }
+
         //保存spu
         productRepository.updateProductEntity(product);
 
@@ -346,7 +359,7 @@ public class ProductApplicationService {
                     productSku = productSkuRepository.findById(new ProductSkuId(productSkuSaveDTO.getId()));
                 }
                 if(productSkuSaveDTO.getPrice()!=null){
-                    productSku.setPrice(new Price(BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getPrice())) ));
+                    productSku.setPrice(new Price(productSkuSaveDTO.getPrice()));
                 }
                 if(productSkuSaveDTO.getEnabledFlag()!=null){
                     productSku.setEnabledFlag(productSkuSaveDTO.getEnabledFlag());
