@@ -54,7 +54,7 @@ spring:
 #          password: root
         operate:
           name: rc-cloud-operate
-          url: jdbc:mysql://chenjianxiang:3306/product?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+          url: jdbc:mysql://chenjianxiang:3306/rc-cloud-product?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: root
           password: 123456
