@@ -3,6 +3,7 @@ package com.rc.cloud.app.system.model.dict;
 import com.baomidou.mybatisplus.annotation.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
+import groovy.transform.Field;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -32,6 +33,7 @@ public class SysDictDataDO extends BaseDO {
     /**
      * 字典值
      */
+    @TableField(value = "`value`")
     private String value;
     /**
      * 字典类型

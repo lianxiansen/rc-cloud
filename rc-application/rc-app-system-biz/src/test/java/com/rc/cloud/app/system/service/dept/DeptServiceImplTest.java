@@ -276,9 +276,9 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDeptList() {
         // mock 数据
-        SysDeptDO deptDO01 = randomDeptDO();
+        SysDeptDO deptDO01 = randomDeptDO(id -> id.setId("1"));
         deptMapper.insert(deptDO01);
-        SysDeptDO deptDO02 = randomDeptDO();
+        SysDeptDO deptDO02 = randomDeptDO(id -> id.setId("2"));
         deptMapper.insert(deptDO02);
         // 准备参数
         List<String> ids = Arrays.asList(deptDO01.getId(), deptDO02.getId());
