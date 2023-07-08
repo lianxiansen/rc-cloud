@@ -4,6 +4,8 @@ import lombok.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
+
 import static com.rc.cloud.common.core.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
 @Schema(description = "用户 APP - 经销商 Excel 导出 Request VO，参数和 DistributorPageReqVO 是一致的")
@@ -32,10 +34,10 @@ public class DistributorExportReqVO {
     private String address;
 
     @Schema(description = "合作开始")
-    private String startTime;
+    private LocalDateTime startTime;
 
     @Schema(description = "合作结束")
-    private String endTime;
+    private LocalDateTime endTime;
 
     @Schema(description = "对接状态1未对接2已对接", example = "1")
     private Integer status;

@@ -54,3 +54,5 @@ rc:
     width: 160
     height: 60
     enable: true
+  tenant: # 多租户相关配置项
+    enable: true

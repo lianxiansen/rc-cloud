@@ -43,10 +43,10 @@ public class DistributorExcelVO {
     private String address;
 
     @ExcelProperty("合作开始")
-    private String startTime;
+    private LocalDateTime startTime;
 
     @ExcelProperty("合作结束")
-    private String endTime;
+    private LocalDateTime endTime;
 
     @ExcelProperty("对接状态1未对接2已对接")
     private Integer status;

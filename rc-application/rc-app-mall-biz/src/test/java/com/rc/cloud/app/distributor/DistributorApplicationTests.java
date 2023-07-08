@@ -3,6 +3,7 @@ package com.rc.cloud.app.distributor;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.yulichang.autoconfigure.MybatisPlusJoinAutoConfiguration;
 import com.rc.cloud.app.distributor.appearance.req.DistributorPageReqVO;
+import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorAutoConfig;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
@@ -16,6 +17,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 /**
  * @author WJF
  * @create 2023-06-27 16:43
@@ -27,6 +31,8 @@ class DistributorApplicationTests{
     @Autowired
     DistributorMapper distributorMapper;
 
+    @Autowired
+    DistributorContactService contactService;
     @Test
     void contextLoads() {
         TenantContextHolder.setTenantId("1");
@@ -67,4 +73,14 @@ class DistributorApplicationTests{
         System.out.println(page);
     }
 
+    //多租户测试
+    @Test
+    void testTenant(){
+        TenantContextHolder.setTenantId("1");
+        DistributorContactPO contactPO = contactService.getById("5");
+        assertNull(contactPO);
+        TenantContextHolder.setTenantId("2");
+        contactPO = contactService.getById("5");
+        assertNotNull(contactPO);
+    }
 }

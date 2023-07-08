@@ -28,10 +28,10 @@ public class DistributorBaseVO {
     private String address;
 
     @Schema(description = "合作开始")
-    private String startTime;
+    private LocalDateTime startTime;
 
     @Schema(description = "合作结束")
-    private String endTime;
+    private LocalDateTime endTime;
 
     @Schema(description = "对接状态1未对接2已对接", example = "1")
     private Integer status;

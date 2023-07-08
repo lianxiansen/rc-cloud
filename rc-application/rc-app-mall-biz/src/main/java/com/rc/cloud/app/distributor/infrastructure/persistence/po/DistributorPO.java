@@ -4,6 +4,8 @@ import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.*;
 import com.baomidou.mybatisplus.annotation.*;
 
+import java.time.LocalDateTime;
+
 /**
  * 经销商 DO
  *
@@ -55,11 +57,11 @@ public class DistributorPO extends BaseDO {
     /**
      * 合作开始
      */
-    private String startTime;
+    private LocalDateTime startTime;
     /**
      * 合作结束
      */
-    private String endTime;
+    private LocalDateTime endTime;
     /**
      * 对接状态1未对接2已对接
      */
