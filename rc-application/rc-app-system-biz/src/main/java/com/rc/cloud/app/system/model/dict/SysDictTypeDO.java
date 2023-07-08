@@ -24,7 +24,7 @@ public class SysDictTypeDO extends BaseDO {
     /**
      * 字典主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 字典名称

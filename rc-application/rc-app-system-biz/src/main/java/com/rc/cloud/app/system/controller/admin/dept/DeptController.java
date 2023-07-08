@@ -8,6 +8,7 @@ import com.rc.cloud.app.system.vo.dept.dept.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.util.tree.TreeUtil;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.sun.org.apache.xerces.internal.dom.ParentNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -84,8 +85,7 @@ public class DeptController {
     public CodeResult<DeptRespVO> getDept(@PathVariable("id") String id) {
         DeptRespVO deptRespVO = DeptConvert.INSTANCE.convert(deptService.getDept(id));
         String parentId = deptRespVO.getParentId();
-
-        if (StringUtils.isEmpty(parentId)) {
+        if (parentId == null || StringUtils.isEmpty(parentId) || "0".equals(parentId)) {
             deptRespVO.setParentName(null);
             return CodeResult.ok(deptRespVO);
         }

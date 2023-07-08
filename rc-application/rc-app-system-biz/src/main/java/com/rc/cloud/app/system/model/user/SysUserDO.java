@@ -31,7 +31,7 @@ public class SysUserDO extends TenantBaseDO {
     /**
      * 用户ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 用户账号
