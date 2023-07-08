@@ -39,9 +39,6 @@ public class ProductControllerTest {
     private
     MockMvc mvc;
 
-    @Autowired
-    private ProductApplicationService productApplicationService;
-
     private static final String imgUrl = "https://t7.baidu.com/it/u=3556773076,803642467&fm=3031&app=3031&size=f242,150&n=0&f=JPEG&fmt=auto?s=A51064321779538A505174D6020010B0&sec=1688490000&t=4ef579bd316ebdc454ab321a8676bbdf";
 
     @MockBean

@@ -13,7 +13,7 @@ import com.rc.cloud.app.distributor.application.service.DistributorService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.app.system.api.user.feign.RemoteUserService;
-import com.rc.cloud.app.system.api.user.vo.SysUserVO;
+import com.rc.cloud.app.system.api.user.vo.SysUserInfoVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.excel.util.ExcelUtils;
@@ -84,11 +84,11 @@ public class DistributorController {
     public CodeResult<DistributorRespVO> get(@RequestParam("id") String id) {
         DistributorPO distributorPO = service.get(id);
         DistributorRespVO respvo = DistributorConvert.INSTANCE.convert(distributorPO);
-        CodeResult<List<SysUserVO>> sysUserVOCodeResult = userService.infoByIds(Arrays.asList(distributorPO.getAdminId()));
+        CodeResult<List<SysUserInfoVO>> sysUserVOCodeResult = userService.infoByIds(Arrays.asList(distributorPO.getAdminId()));
 
         //显示管理员名称
         if(SUCCESS.getCode().equals(sysUserVOCodeResult.getCode())){
-            Map<String, SysUserVO> sysUserVOMap = sysUserVOCodeResult.getData().stream().collect(Collectors.toMap(SysUserVO::getId, Function.identity()));
+            Map<String, SysUserInfoVO> sysUserVOMap = sysUserVOCodeResult.getData().stream().collect(Collectors.toMap(SysUserInfoVO::getId, Function.identity()));
 
             if(sysUserVOMap.containsKey(respvo.getAdminId())){
                 respvo.setAdminName(sysUserVOMap.get(respvo.getAdminId()).getUsername());
@@ -114,10 +114,10 @@ public class DistributorController {
         List<DistributorPO> list = service.getList(ids);
         List<DistributorRespVO> distributorRespVOS = DistributorConvert.INSTANCE.convertList(list);
         List<String> userIds = distributorRespVOS.stream().map(x -> x.getAdminId()).distinct().collect(Collectors.toList());
-        CodeResult<List<SysUserVO>> sysUserVOCodeResult = userService.infoByIds(userIds);
+        CodeResult<List<SysUserInfoVO>> sysUserVOCodeResult = userService.infoByIds(userIds);
         //显示管理员名称
         if(SUCCESS.getCode().equals(sysUserVOCodeResult.getCode())){
-            Map<String, SysUserVO> sysUserVOMap = sysUserVOCodeResult.getData().stream().collect(Collectors.toMap(SysUserVO::getId, Function.identity()));
+            Map<String, SysUserInfoVO> sysUserVOMap = sysUserVOCodeResult.getData().stream().collect(Collectors.toMap(SysUserInfoVO::getId, Function.identity()));
             distributorRespVOS.forEach(x->{
                 if(sysUserVOMap.containsKey(x.getAdminId())){
                     x.setAdminName(sysUserVOMap.get(x.getAdminId()).getUsername());
@@ -133,10 +133,10 @@ public class DistributorController {
         PageResult<DistributorPO> pageResult = service.getPage(pageVO);
         List<String> userIds = pageResult.getList().stream().map(x -> x.getAdminId()).distinct().collect(Collectors.toList());
         PageResult<DistributorRespVO> distributorRespVOPageResult = DistributorConvert.INSTANCE.convertPage(pageResult);
-        CodeResult<List<SysUserVO>> sysUserVOCodeResult = userService.infoByIds(userIds);
+        CodeResult<List<SysUserInfoVO>> sysUserVOCodeResult = userService.infoByIds(userIds);
         //显示管理员名称
         if(SUCCESS.getCode().equals(sysUserVOCodeResult.getCode())){
-            Map<String, SysUserVO> sysUserVOMap = sysUserVOCodeResult.getData().stream().collect(Collectors.toMap(SysUserVO::getId, Function.identity()));
+            Map<String, SysUserInfoVO> sysUserVOMap = sysUserVOCodeResult.getData().stream().collect(Collectors.toMap(SysUserInfoVO::getId, Function.identity()));
             distributorRespVOPageResult.getList().forEach(x->{
                 if(sysUserVOMap.containsKey(x.getAdminId())){
                     x.setAdminName(sysUserVOMap.get(x.getAdminId()).getUsername());
