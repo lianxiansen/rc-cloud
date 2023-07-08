@@ -17,14 +17,19 @@ package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 //        --             ]
 
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.rc.cloud.app.operate.domain.common.ValueObject;
 
 public class AttributeValueCombination extends ValueObject implements Comparable<AttributeValueCombination> {
 
+    @JSONField(ordinal = 1, name = "attribute")
     private String attribute;
 
+
+    @JSONField(ordinal = 1, name = "attributeValue")
     private String attributeValue;
 
+    @JSONField(ordinal = 1, name = "sort")
     private  Integer sort;
 
     public String getAttribute() {

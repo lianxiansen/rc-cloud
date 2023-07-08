@@ -49,9 +49,10 @@ public class ProductAttributeEntity extends Entity {
             entity.setAttribute(attribute);
             entity.setSort(sort);
             entity.addValue(new AttributeValue(value,sort));
+            attributes.add(entity);
         }else{
-            Attribute productAttributeEntity = first.get();
-            productAttributeEntity.addValue(new AttributeValue(value,sort));
+            Attribute attribute1 = first.get();
+            attribute1.addValue(new AttributeValue(value,sort));
         }
     }
 

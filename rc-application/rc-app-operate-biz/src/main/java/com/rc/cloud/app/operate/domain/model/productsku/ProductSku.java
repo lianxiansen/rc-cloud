@@ -23,6 +23,7 @@ public class ProductSku extends Entity {
                       TenantId tenantId, Price price) {
         init();
         setId(id);
+        setProductId(productId);
         setTenantId(tenantId);
         setPrice(price);
     }
@@ -78,17 +79,10 @@ public class ProductSku extends Entity {
         this.outId =outId;
         return this;
     }
-
-    /**
-     * 图片
-     */
-    private boolean hasImageFlag;
     private List<ProductSkuImageEntity> skuImageList;
 
     public ProductSku skuImageList(List<ProductSkuImageEntity> skuImageList){
-        this.assertArgumentNotNull(hasImageFlag, "hasImageFlag must not be null");
         if(skuImageList!=null && skuImageList.size()>0){
-            this.hasImageFlag =true;
             skuImageList =skuImageList;
         }
         return this;
@@ -151,7 +145,7 @@ public class ProductSku extends Entity {
         sort=new Sort(99);
         setSort(sort);
         inventory =new Inventory(0);
-        hasImageFlag=false;
+
     }
 
     public void setSort(Sort sort){
@@ -188,13 +182,6 @@ public class ProductSku extends Entity {
         this.outId = outId;
     }
 
-    public boolean isHasImageFlag() {
-        return hasImageFlag;
-    }
-
-    public void setHasImageFlag(boolean hasImageFlag) {
-        this.hasImageFlag = hasImageFlag;
-    }
 
     public LimitBuy getLimitBuy() {
         return limitBuy;

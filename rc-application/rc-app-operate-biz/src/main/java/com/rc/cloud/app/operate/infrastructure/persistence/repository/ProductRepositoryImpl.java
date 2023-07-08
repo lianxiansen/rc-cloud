@@ -134,8 +134,11 @@ public class ProductRepositoryImpl implements  ProductRepository {
 
         if(productEntity.getDetail()!=null){
             //商品详情
-            ProductDetailDO productDetailDO = ProductDOConvert.convert2ProductDetailDO(productEntity.getId().id()
-                    , productEntity.getTenantId().id(), productEntity.getDetail().getValue());
+            ProductDetailDO productDetailDO = ProductDOConvert.convert2ProductDetailDO(
+                        productEntity.getDetail().getId()
+                    , productEntity.getId().id()
+                    , productEntity.getTenantId().id()
+                    , productEntity.getDetail().getValue());
             this.productDetailMapper.insert(productDetailDO);
         }
     }
@@ -169,8 +172,10 @@ public class ProductRepositoryImpl implements  ProductRepository {
         if(productEntity.getDetail()!=null){
             //商品详情
             ProductDetailDO productDetailDO = ProductDOConvert.convert2ProductDetailDO(
-                    productEntity.getId().id()
-                    , productEntity.getTenantId().id(), productEntity.getDetail().getValue());
+                    productEntity.getDetail().getId()
+                    , productEntity.getId().id()
+                    , productEntity.getTenantId().id()
+                    , productEntity.getDetail().getValue());
             updateProductDetailEntity(productDetailDO);
         }
 

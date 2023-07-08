@@ -96,6 +96,7 @@ public class ProductControllerTest {
         java.util.List<ProductSkuSaveDTO> skus = new ArrayList<>();
         String sku1="{\n" +
                 "     \"skuCode\":\"001\",\n" +
+                "     \"price\":\"12\",\n" +
                 "     \"supplyPrice\":\"12\",\n" +
                 "     \"weight\":\"1\",\n" +
                 "     \"enabledFlag\":\"true\",\n" +
@@ -111,6 +112,7 @@ public class ProductControllerTest {
 
         String sku2="{\n" +
                 "     \"skuCode\":\"002\",\n" +
+                "     \"price\":\"12\",\n" +
                 "     \"supplyPrice\":\"12\",\n" +
                 "     \"weight\":\"1\",\n" +
                 "     \"enabledFlag\":\"true\",\n" +
@@ -126,6 +128,7 @@ public class ProductControllerTest {
 
         String sku3="{\n" +
                 "     \"skuCode\":\"003\",\n" +
+                "     \"price\":\"12\",\n" +
                 "     \"supplyPrice\":\"12\",\n" +
                 "     \"weight\":\"1\",\n" +
                 "     \"enabledFlag\":\"true\",\n" +
@@ -141,6 +144,7 @@ public class ProductControllerTest {
 
         String sku4="{\n" +
                 "     \"skuCode\":\"004\",\n" +
+                "     \"price\":\"12\",\n" +
                 "     \"supplyPrice\":\"12\",\n" +
                 "     \"weight\":\"1\",\n" +
                 "     \"enabledFlag\":\"true\",\n" +
@@ -173,6 +177,7 @@ public class ProductControllerTest {
         productSaveDTO.setTag("优生活,香水,洗衣液");
 
         productSaveDTO.setTenantId("001");
+        productSaveDTO.setDetail("sadfdsafasdfasdfasdfsdf");
 
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()

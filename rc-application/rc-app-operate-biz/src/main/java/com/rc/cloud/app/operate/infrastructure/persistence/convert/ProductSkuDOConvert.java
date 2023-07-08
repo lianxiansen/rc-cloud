@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttributeEntity;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImageEntity;
@@ -56,7 +57,7 @@ public class ProductSkuDOConvert {
     public static ProductSkuAttributeDO convert2ProductSkuAttributeDO(
             String productSkuId, String tenantId, ProductSkuAttributeEntity productSkuAttributeEntity){
         ProductSkuAttributeDO productSkuAttributeDO=new ProductSkuAttributeDO();
-        String attr = JSONUtil.toJsonStr(productSkuAttributeEntity.getSkuAttributes());
+        String attr = JSON.toJSONString(productSkuAttributeEntity.getSkuAttributes());
         productSkuAttributeDO.setId(productSkuAttributeEntity.getId());
         productSkuAttributeDO.setProductSkuId(productSkuId);
         productSkuAttributeDO.setTenantId(tenantId);

@@ -13,12 +13,26 @@ public class Price extends ValueObject {
     }
 
     public Price(BigDecimal price){
+        validate(price);
         this.value =price;
+    }
+
+    public Price(String price){
+        validate(price);
+       this.value= BigDecimal.valueOf(Double.valueOf(price));
+    }
+
+    public void validate(Object obj){
+        if(obj==null){
+            throw  new IllegalArgumentException("price must be not null");
+        }
     }
 
     public BigDecimal getValue(){
         return value;
     }
+
+
 
     public void setValue(BigDecimal value){
         this.assertArgumentRange(value,0,999999,"the value of Price is not in range(0,999999)");
