@@ -91,7 +91,7 @@ public class DistributorController {
                 respvo.setAdminName(sysUserVOMap.get(respvo.getAdminId()).getUsername());
             }
         }
-        return CodeResult.ok();
+        return CodeResult.ok(respvo);
     }
 
     @GetMapping("/getDetail")
