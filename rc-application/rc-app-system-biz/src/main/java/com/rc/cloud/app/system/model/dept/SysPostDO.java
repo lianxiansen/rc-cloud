@@ -21,7 +21,7 @@ public class SysPostDO extends BaseDO {
     /**
      * 岗位序号
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 岗位名称

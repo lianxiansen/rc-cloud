@@ -21,7 +21,7 @@ public class SysUserPostDO extends BaseDO {
     /**
      * 自增主键
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 用户 ID

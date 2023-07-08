@@ -23,7 +23,7 @@ public class SysDeptDO extends TenantBaseDO {
     /**
      * 部门ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 部门名称

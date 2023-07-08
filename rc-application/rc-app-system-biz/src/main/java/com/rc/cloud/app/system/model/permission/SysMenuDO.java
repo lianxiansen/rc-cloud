@@ -27,7 +27,7 @@ public class SysMenuDO extends BaseDO {
     /**
      * 菜单编号
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 菜单名称

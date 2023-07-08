@@ -25,7 +25,7 @@ public class SysTenantPackageDO extends BaseDO {
     /**
      * 套餐编号，自增
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 套餐名，唯一

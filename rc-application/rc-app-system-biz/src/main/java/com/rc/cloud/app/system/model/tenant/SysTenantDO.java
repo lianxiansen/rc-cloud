@@ -32,7 +32,7 @@ public class SysTenantDO extends BaseDO {
     /**
      * 租户编号，自增
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 租户名，唯一

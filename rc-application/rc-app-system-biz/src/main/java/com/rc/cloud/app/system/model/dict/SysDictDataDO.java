@@ -19,7 +19,7 @@ public class SysDictDataDO extends BaseDO {
     /**
      * 字典数据编号
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 字典排序
