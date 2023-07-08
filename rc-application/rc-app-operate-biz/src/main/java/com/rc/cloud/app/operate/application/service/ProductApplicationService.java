@@ -45,9 +45,12 @@ public class ProductApplicationService {
     @Autowired
     private TenantService tenantService;
 
+    @Autowired
+    private ProductImageRepository productImageRepository;
 
-    @Resource
-    private RemoteIdGeneratorService remoteIdGeneratorService;
+    @Autowired
+    private ProductDictRepository productDictRepository;
+
 
     private void validateTenantId(TenantId tenantId){
         if(!tenantService.exists(tenantId)){
@@ -59,7 +62,7 @@ public class ProductApplicationService {
     @Transactional(rollbackFor = Exception.class)
     public void createProduct(ProductSaveDTO productSaveDTO){
 
-        ProductId productId=new ProductId(remoteIdGeneratorService.getUidByRedis());
+        ProductId productId=productRepository.nextId();
         TenantId tenantId = new TenantId(productSaveDTO.getTenantId() + "");
         Name name = new Name(productSaveDTO.getName());
         //定义商品
@@ -118,7 +121,7 @@ public class ProductApplicationService {
         //设置相册
         List<ProductImageEntity> productImages = new ArrayList<>();
         productSaveDTO.getAlbums().forEach(item -> {
-            ProductImageEntity productImageEntity=new ProductImageEntity();
+            ProductImageEntity productImageEntity=new ProductImageEntity(productImageRepository.nextId());
             productImageEntity.setUrl(item.getUrl());
             productImageEntity.setSort(item.getSort());
             productImages.add(productImageEntity);
@@ -128,7 +131,7 @@ public class ProductApplicationService {
         List<ProductDictEntity> productDictEntities = new ArrayList<>();
         if(productSaveDTO.getDicts()!=null){
             for (ProductDictSaveDTO dict : productSaveDTO.getDicts()) {
-                ProductDictEntity entity=new ProductDictEntity();
+                ProductDictEntity entity=new ProductDictEntity(productDictRepository.nextId());
                 entity.setKey(dict.getKey());
                 entity.setValue(dict.getValue());
                 entity.setSort(dict.getSort());
@@ -157,7 +160,7 @@ public class ProductApplicationService {
             throw  new IllegalArgumentException("sku不能为空");
         }
         for (ProductSkuSaveDTO productSkuSaveDTO : skus){
-            ProductSkuId productSkuId=new ProductSkuId(remoteIdGeneratorService.getUidByRedis());
+            ProductSkuId productSkuId=productSkuRepository.nextId();
             ProductSku productSku=new ProductSku(productSkuId,productId,tenantId,new Price(
                     BigDecimal.valueOf(Double.valueOf(productSkuSaveDTO.getPrice()))
             ));
@@ -279,7 +282,7 @@ public class ProductApplicationService {
         if(productSaveDTO.getAlbums()!=null){
             List<ProductImageEntity> productImages = new ArrayList<>();
             productSaveDTO.getAlbums().forEach(item -> {
-                ProductImageEntity productImageEntity=new ProductImageEntity();
+                ProductImageEntity productImageEntity=new ProductImageEntity(productImageRepository.nextId());
                 productImageEntity.setUrl(item.getUrl());
                 productImageEntity.setSort(item.getSort());
                 productImages.add(productImageEntity);
@@ -290,7 +293,7 @@ public class ProductApplicationService {
             List<ProductDictEntity> productDictEntities = new ArrayList<>();
             if(productSaveDTO.getDicts()!=null){
                 for (ProductDictSaveDTO dict : productSaveDTO.getDicts()) {
-                    ProductDictEntity entity=new ProductDictEntity();
+                    ProductDictEntity entity=new ProductDictEntity(productDictRepository.nextId());
                     entity.setKey(dict.getKey());
                     entity.setValue(dict.getValue());
                     entity.setSort(dict.getSort());

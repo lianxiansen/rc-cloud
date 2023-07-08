@@ -43,6 +43,8 @@ public class ProductControllerTest {
 
     @MockBean
     private RemoteIdGeneratorService remoteIdGeneratorService;
+
+
     @BeforeEach
     public void setup() {
         mvc = MockMvcBuilders
@@ -77,7 +79,7 @@ public class ProductControllerTest {
         productSaveDTO.setAttributes(productAttributeSaveDTOS);
 
         String images="[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
-                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2]";
+                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}]";
 
         java.util.List<ProductImageSaveDTO> productImageSaveDTOS = JSONUtil.toList(images, ProductImageSaveDTO.class);
         productSaveDTO.setAlbums(productImageSaveDTOS);
@@ -98,7 +100,7 @@ public class ProductControllerTest {
                 "     \"weight\":\"1\",\n" +
                 "     \"enabledFlag\":\"true\",\n" +
                 "     \"albums\":[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
-                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2]\n" +
+                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}],\n" +
                 "     \"attributes\":[{\"name\":\"颜色\",\"value\":\"红\",\"sort\":9},{\"name\":\"尺寸\",\"value\":\"X\",\"sort\":9}],\n" +
                 "     \"inventory\":99,\n" +
                 "     \"sort\":99,\n" +
@@ -113,7 +115,7 @@ public class ProductControllerTest {
                 "     \"weight\":\"1\",\n" +
                 "     \"enabledFlag\":\"true\",\n" +
                 "     \"albums\":[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
-                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2]\n" +
+                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}],\n" +
                 "     \"attributes\":[{\"name\":\"颜色\",\"value\":\"蓝\",\"sort\":9},{\"name\":\"尺寸\",\"value\":\"X\",\"sort\":9}],\n" +
                 "     \"inventory\":99,\n" +
                 "     \"sort\":99,\n" +
@@ -128,7 +130,7 @@ public class ProductControllerTest {
                 "     \"weight\":\"1\",\n" +
                 "     \"enabledFlag\":\"true\",\n" +
                 "     \"albums\":[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
-                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2]\n" +
+                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}],\n" +
                 "     \"attributes\":[{\"name\":\"颜色\",\"value\":\"红\",\"sort\":9},{\"name\":\"尺寸\",\"value\":\"XL\",\"sort\":9}],\n" +
                 "     \"inventory\":99,\n" +
                 "     \"sort\":99,\n" +
@@ -143,7 +145,7 @@ public class ProductControllerTest {
                 "     \"weight\":\"1\",\n" +
                 "     \"enabledFlag\":\"true\",\n" +
                 "     \"albums\":[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
-                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2]\n" +
+                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}],\n" +
                 "     \"attributes\":[{\"name\":\"颜色\",\"value\":\"蓝\",\"sort\":9},{\"name\":\"尺寸\",\"value\":\"XL\",\"sort\":9}],\n" +
                 "     \"inventory\":99,\n" +
                 "     \"sort\":99,\n" +

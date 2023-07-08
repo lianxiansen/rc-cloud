@@ -21,10 +21,10 @@ public class ProductDictDO {
     @TableField("product_id")
     private String productId;
 
-    @TableField("key")
+    @TableField("dict_key")
     private String key;
 
-    @TableField("value")
+    @TableField("dict_value")
     private String value;
 
     @TableField("sort_id")

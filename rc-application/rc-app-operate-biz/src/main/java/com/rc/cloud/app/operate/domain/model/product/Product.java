@@ -182,31 +182,6 @@ public class Product extends Entity {
     private List<ProductImageEntity> productImages;
 
     /**
-     * 添加相册
-     * @param urls 图片地址
-     * @return
-     */
-    public Product setProductImage(List<String> urls){
-        if(productImages==null || productImages.size()<= 0){
-            throw new IllegalArgumentException("productImages must not be null");
-        }
-        this.masterImage= new MasterImage(urls.get(0));
-        int pos=1;
-        productImages =new ArrayList<>();
-        for (String url : urls) {
-            ProductImageEntity entity=new ProductImageEntity();
-            entity.setUrl(url)
-                    .setDefaultFlag(pos==1?true:false)
-                    .setSort(pos);
-            pos++;
-            productImages.add(entity);
-        }
-        return this;
-    }
-
-
-
-    /**
      * K-V
      */
     private List<ProductDictEntity> productDicts;

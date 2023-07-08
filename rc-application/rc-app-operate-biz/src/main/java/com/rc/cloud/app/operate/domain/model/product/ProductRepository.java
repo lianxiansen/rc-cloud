@@ -18,6 +18,9 @@ import java.util.List;
  * @Description: TODO
  */
 public interface ProductRepository {
+
+    ProductId nextId();
+
     void insertProductEntity(Product productEntity);
     void updateProductEntity(Product productEntity);
     Product findById(ProductId productId);

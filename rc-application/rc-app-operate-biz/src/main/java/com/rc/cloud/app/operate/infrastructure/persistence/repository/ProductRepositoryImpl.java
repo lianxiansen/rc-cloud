@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
+import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
@@ -10,6 +11,7 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassifica
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductDOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.*;
@@ -19,6 +21,7 @@ import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +33,10 @@ import java.util.List;
  */
 @Repository
 public class ProductRepositoryImpl implements  ProductRepository {
+
+    @Resource
+    private RemoteIdGeneratorService remoteIdGeneratorService;
+
     @Autowired
     private ProductMapper productMapper;
 
@@ -47,6 +54,11 @@ public class ProductRepositoryImpl implements  ProductRepository {
 
 
     public ProductRepositoryImpl() {
+    }
+
+    @Override
+    public ProductId nextId() {
+        return new ProductId(remoteIdGeneratorService.uidGenerator());
     }
 
     public void removeProductImageEntityByProductId(String productId){
@@ -208,7 +220,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         List<ProductDictEntity> arr=new ArrayList<>();
         for (ProductDictDO productDictDO : productDictDOList) {
 
-            ProductDictEntity productDictEntity=new ProductDictEntity();
+            ProductDictEntity productDictEntity=new ProductDictEntity(productDictDO.getId());
             productDictEntity.setKey(productDictDO.getKey());
             productDictEntity.setValue(productDictDO.getValue());
             productDictEntity.setSort(productDictDO.getSortId());
@@ -247,7 +259,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         List<ProductImageEntity> urls=new ArrayList<>();
         for (ProductImageDO productImage : productImageDOList) {
 
-            ProductImageEntity productImageEntity=new ProductImageEntity();
+            ProductImageEntity productImageEntity=new ProductImageEntity(productImage.getId());
             productImageEntity.setUrl(productImage.getUrl());
             productImageEntity.setSort(productImage.getSortId());
             urls.add(productImageEntity);
