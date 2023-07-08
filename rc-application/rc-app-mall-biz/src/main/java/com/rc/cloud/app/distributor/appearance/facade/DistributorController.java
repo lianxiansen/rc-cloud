@@ -29,10 +29,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -124,7 +121,9 @@ public class DistributorController {
                 }
             });
         }
-        return CodeResult.ok();
+        //按创建时间倒序排
+        distributorRespVOS.sort(Comparator.comparing(DistributorRespVO::getCreateTime).reversed());
+        return CodeResult.ok(distributorRespVOS);
     }
 
     @GetMapping("/page")
@@ -143,6 +142,8 @@ public class DistributorController {
                 }
             });
         }
+        //按创建时间倒序排
+        distributorRespVOPageResult.getList().sort(Comparator.comparing(DistributorRespVO::getCreateTime).reversed());
         return CodeResult.ok(distributorRespVOPageResult);
     }
 

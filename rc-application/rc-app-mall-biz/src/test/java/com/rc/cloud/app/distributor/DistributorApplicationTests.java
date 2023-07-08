@@ -9,6 +9,7 @@ import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorCon
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.common.mybatis.core.query.MPJLambdaWrapperX;
 import com.rc.cloud.common.mybatis.core.util.MyBatisUtils;
+import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,7 @@ class DistributorApplicationTests{
 
     @Test
     void contextLoads() {
+        TenantContextHolder.setTenantId("1");
         // MyBatis Plus 关联表 查询
         DistributorPageReqVO reqVO =new DistributorPageReqVO();
         reqVO.setCompanyName("7");
