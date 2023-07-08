@@ -21,6 +21,10 @@ public class ProductImageEntity extends Entity {
         return url;
     }
 
+    public ProductImageEntity(String id){
+        this.id= id;
+    }
+
     public ProductImageEntity setUrl(String url) {
         this.assertArgumentNotNull(url, "url must not be null");
         if(!StringUtils.ishttp(url)){

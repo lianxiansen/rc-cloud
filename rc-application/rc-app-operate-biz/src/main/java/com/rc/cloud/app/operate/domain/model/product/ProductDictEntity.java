@@ -4,7 +4,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 
 public class ProductDictEntity {
 
+
     private String id;
+
+    public ProductDictEntity(String id) {
+        this.id = id;
+    }
+
     private String key;
 
     private String value;
