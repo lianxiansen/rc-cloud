@@ -53,11 +53,11 @@ spring:
 #          username: root
 #          password: root
         distributor:
-          name: rc-cloud-distributor
-          url: jdbc:mysql://127.0.0.1:3306/product?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+          name: rc-cloud-product
+          url: jdbc:mysql://127.0.0.1:3306/rc-cloud-product?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: root
-          password: 6665508a
+          password: 123456
   # Redis 配置。Redisson 默认的配置足够使用，一般不需要进行调优
   redis:
     host: 127.0.0.1 # 地址
