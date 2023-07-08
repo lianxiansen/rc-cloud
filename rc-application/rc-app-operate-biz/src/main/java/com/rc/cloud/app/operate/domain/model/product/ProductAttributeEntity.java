@@ -1,78 +1,65 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Attribute;
+import com.rc.cloud.app.operate.domain.model.product.valobj.AttributeValue;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
+import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
  *
  */
-public class ProductAttributeEntity implements Comparable<ProductAttributeEntity>{
+public class ProductAttributeEntity extends Entity {
 
 
-    @JSONField(ordinal = 1, name = "attribute")
-    private String attribute;
-
-    @JSONField(ordinal = 1, name = "values")
-    private SortedSet<ProductAttributeValueEntity> values;
-
-    @JSONField(ordinal = 1, name = "sort")
-    private  Integer sort;
-
-    public ProductAttributeEntity(){
-        this.values=new TreeSet<>();
-
+    public ProductAttributeEntity(String id, ProductId productId, TenantId tenantId) {
+        this.id = id;
+        this.productId = productId;
+        this.tenantId = tenantId;
+        this.attributes = new TreeSet<>();
     }
 
-    public void addValue(ProductAttributeValueEntity productAttributeValueEntity){
-        this.values.add(productAttributeValueEntity);
-    }
+    private String id;
 
-    public String getAttribute() {
-        return attribute;
-    }
+    private ProductId productId;
 
-    public void setAttribute(String attribute) {
-        this.attribute = attribute;
-    }
+    private TenantId tenantId;
+
+    private SortedSet<Attribute> attributes;
 
 
-    public SortedSet<ProductAttributeValueEntity> getValues() {
-        return values;
-    }
+    /**
+     * 添加产品的属性
+     * @param attribute 颜色
+     * @param value 红
+     * @param sort 99
+     */
+    public void addAttribute(String attribute,String value , int sort){
+        this.assertArgumentNotNull(attributes,"attributes must not be null");
 
-    public void setValues(SortedSet<ProductAttributeValueEntity> values) {
-        this.values = values;
-    }
-
-
-    @Override
-    public int hashCode() {
-        return this.getAttribute().hashCode();
-    }
-
-
-    @Override
-    public int compareTo(ProductAttributeEntity o) {
-        if(o.sort<this.sort){
-            return 1;
+        Optional<Attribute> first = attributes.stream().filter(u -> u.getAttribute().equals(attribute)).findFirst();
+        if(!first.isPresent()){
+            Attribute entity=new Attribute();
+            entity.setAttribute(attribute);
+            entity.setSort(sort);
+            entity.addValue(new AttributeValue(value,sort));
         }else{
-            return -1;
+            Attribute productAttributeEntity = first.get();
+            productAttributeEntity.addValue(new AttributeValue(value,sort));
         }
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
+    public String getId() {
+        return id;
     }
 
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
+    public SortedSet<Attribute> getAttributes() {
+        return attributes;
     }
 }

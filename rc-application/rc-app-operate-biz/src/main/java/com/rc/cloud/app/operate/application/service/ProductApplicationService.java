@@ -7,9 +7,7 @@ import com.rc.cloud.app.operate.domain.model.product.*;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImageEntity;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
+import com.rc.cloud.app.operate.domain.model.productsku.*;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.Inventory;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.Price;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
@@ -49,7 +47,16 @@ public class ProductApplicationService {
     private ProductImageRepository productImageRepository;
 
     @Autowired
+    private ProductSkuImageRepository productSkuImageRepository;
+
+    @Autowired
     private ProductDictRepository productDictRepository;
+
+    @Autowired
+    private ProductAttributeRepository productAttributeRepository;
+
+    @Autowired
+    private ProductSkuAttributeRepository productSkuAttributeRepository;
 
 
     private void validateTenantId(TenantId tenantId){
@@ -149,9 +156,12 @@ public class ProductApplicationService {
          *     {"name":"尺寸","value":"XL","sort":9}
          * ]
          */
+        ProductAttributeEntity productAttributeEntity=new ProductAttributeEntity(productAttributeRepository.nextId()
+        ,productId,tenantId);
         for (ProductAttributeSaveDTO attribute : productSaveDTO.getAttributes()) {
-            product.addAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
+            productAttributeEntity.addAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
         }
+        product.setProductAttributeEntity(productAttributeEntity);
         //保存spu
         productRepository.insertProductEntity(product);
         //保存sku
@@ -183,7 +193,7 @@ public class ProductApplicationService {
             List<ProductSkuImageEntity> productSkuImageEntityList=new ArrayList<>();
             int pos=1;
             for (ProductSkuImageSaveDTO album : productSkuSaveDTO.getAlbums()) {
-                ProductSkuImageEntity productSkuImageEntity=new ProductSkuImageEntity();
+                ProductSkuImageEntity productSkuImageEntity=new ProductSkuImageEntity(productSkuImageRepository.nextId());
                 productSkuImageEntity.setSort(album.getSort());
                 productSkuImageEntity.setUrl(album.getUrl());
                 pos++;
@@ -195,9 +205,14 @@ public class ProductApplicationService {
             /**
              * "attributes":[{"name":"颜色","value":"红","sort":9},{"name":"尺寸","value":"X","sort":9}]
              */
+            ProductSkuAttributeEntity productSkuAttributeEntity=new ProductSkuAttributeEntity(
+                productSkuAttributeRepository.nextId(),
+                    productSkuId,tenantId
+            );
             for (ProductSkuAttributeSaveDTO attribute : productSkuSaveDTO.getAttributes()) {
-                productSku.addSkuAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
+                productSkuAttributeEntity.addSkuAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
             }
+            productSku.setProductSkuAttributeEntity(productSkuAttributeEntity);
             productSkuRepository.insertProductSku(productSku);
         }
 
@@ -206,6 +221,7 @@ public class ProductApplicationService {
     public void updateProduct(ProductSaveDTO productSaveDTO){
 
         ProductId productId=new ProductId(productSaveDTO.getId());
+        TenantId tenantId=new TenantId(productSaveDTO.getTenantId());
         //修改
         Product product = productRepository.findById(productId);;
         if (null==product) {
@@ -305,11 +321,14 @@ public class ProductApplicationService {
         }
         //设置属性
         if(productSaveDTO.getAttributes()!=null){
-            product.clearAttribute();
+            ProductAttributeEntity productAttributeEntity=new ProductAttributeEntity(productAttributeRepository.nextId()
+                    ,productId,tenantId);
             for (ProductAttributeSaveDTO attribute : productSaveDTO.getAttributes()) {
-                product.addAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
+                productAttributeEntity.addAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
             }
+            product.setProductAttributeEntity(productAttributeEntity);
         }
+
         //保存spu
         productRepository.updateProductEntity(product);
 
@@ -349,7 +368,7 @@ public class ProductApplicationService {
                     List<ProductSkuImageEntity> productSkuImageEntityList=new ArrayList<>();
                     int pos=1;
                     for (ProductSkuImageSaveDTO album : productSkuSaveDTO.getAlbums()) {
-                        ProductSkuImageEntity productSkuImageEntity=new ProductSkuImageEntity();
+                        ProductSkuImageEntity productSkuImageEntity=new ProductSkuImageEntity(productSkuImageRepository.nextId());
                         productSkuImageEntity.setSort(album.getSort());
                         productSkuImageEntity.setUrl(album.getUrl());
                         pos++;
@@ -359,9 +378,14 @@ public class ProductApplicationService {
                 }
                 //sku属性
                 if( productSkuSaveDTO.getAttributes()!=null){
+                    ProductSkuAttributeEntity productSkuAttributeEntity=new ProductSkuAttributeEntity(
+                            productSkuAttributeRepository.nextId(),
+                            productSku.getId(),tenantId
+                    );
                     for (ProductSkuAttributeSaveDTO attribute : productSkuSaveDTO.getAttributes()) {
-                        productSku.addSkuAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
+                        productSkuAttributeEntity.addSkuAttribute(attribute.getName(),attribute.getValue(),attribute.getSort());
                     }
+                    productSku.setProductSkuAttributeEntity(productSkuAttributeEntity);
                     productSkuRepository.updateProductSku(productSku);
                 }
 

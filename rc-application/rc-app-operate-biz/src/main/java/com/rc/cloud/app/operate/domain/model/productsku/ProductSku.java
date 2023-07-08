@@ -152,7 +152,6 @@ public class ProductSku extends Entity {
         setSort(sort);
         inventory =new Inventory(0);
         hasImageFlag=false;
-        skuAttributes=new TreeSet<>();
     }
 
     public void setSort(Sort sort){
@@ -233,19 +232,6 @@ public class ProductSku extends Entity {
         this.productId = productId;
     }
 
-    private SortedSet<ProductSkuAttributeEntity> skuAttributes;
-
-    public SortedSet<ProductSkuAttributeEntity> getSkuAttributes() {
-        return skuAttributes;
-    }
-
-    public void addSkuAttribute(String name, String value, int sort){
-        ProductSkuAttributeEntity productSkuAttributeEntity=new ProductSkuAttributeEntity();
-        productSkuAttributeEntity.setAttribute(name);
-        productSkuAttributeEntity.setAttributeValue(value);
-        productSkuAttributeEntity.setSort(sort);
-        skuAttributes.add(productSkuAttributeEntity);
-    }
 
     public void setSkuCode(String skuCode) {
         this.skuCode = skuCode;
@@ -257,5 +243,15 @@ public class ProductSku extends Entity {
 
     public void setEnabledFlag(boolean enabledFlag) {
         this.enabledFlag = enabledFlag;
+    }
+
+    private  ProductSkuAttributeEntity productSkuAttributeEntity;
+
+    public ProductSkuAttributeEntity getProductSkuAttributeEntity() {
+        return productSkuAttributeEntity;
+    }
+
+    public void setProductSkuAttributeEntity(ProductSkuAttributeEntity productSkuAttributeEntity) {
+        this.productSkuAttributeEntity = productSkuAttributeEntity;
     }
 }

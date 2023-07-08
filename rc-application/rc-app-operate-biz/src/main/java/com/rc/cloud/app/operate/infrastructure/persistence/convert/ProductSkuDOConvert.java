@@ -54,10 +54,10 @@ public class ProductSkuDOConvert {
 
 
     public static ProductSkuAttributeDO convert2ProductSkuAttributeDO(
-            String productSkuId, String tenantId, SortedSet<ProductSkuAttributeEntity> skuAttributes){
+            String productSkuId, String tenantId, ProductSkuAttributeEntity productSkuAttributeEntity){
         ProductSkuAttributeDO productSkuAttributeDO=new ProductSkuAttributeDO();
-        //不一定正确 TODO
-        String attr = JSONUtil.toJsonStr(skuAttributes);
+        String attr = JSONUtil.toJsonStr(productSkuAttributeEntity.getSkuAttributes());
+        productSkuAttributeDO.setId(productSkuAttributeEntity.getId());
         productSkuAttributeDO.setProductSkuId(productSkuId);
         productSkuAttributeDO.setTenantId(tenantId);
         productSkuAttributeDO.setContent(attr);
@@ -65,15 +65,15 @@ public class ProductSkuDOConvert {
     }
 
 
-    public static List<ProductSkuImageDO> convert2ProductSkuImageDO(String ProductSkuId, String tenantId, List<ProductSkuImageEntity> ProductSkuImageEntityList){
+    public static List<ProductSkuImageDO> convert2ProductSkuImageDO(String productSkuId, String tenantId, List<ProductSkuImageEntity> ProductSkuImageEntityList){
         List<ProductSkuImageDO> resList =new ArrayList<>();
         if(ProductSkuImageEntityList!=null){
             for (ProductSkuImageEntity productSkuImageEntity : ProductSkuImageEntityList) {
                 ProductSkuImageDO productSkuImageDO=new ProductSkuImageDO();
                 productSkuImageDO.setId(productSkuImageEntity.getId());
-                productSkuImageDO.setProductSkuId(productSkuImageEntity.getProductSkuId().id());
+                productSkuImageDO.setProductSkuId(productSkuId);
                 productSkuImageDO.setUrl(productSkuImageEntity.getUrl());
-                productSkuImageDO.setTenantId(productSkuImageEntity.getTenantId().id());
+                productSkuImageDO.setTenantId(tenantId);
                 productSkuImageDO.setSortId(productSkuImageEntity.getSort());
                 resList.add(productSkuImageDO);
             }

@@ -17,56 +17,47 @@ package com.rc.cloud.app.operate.domain.model.productsku;
 //        --             ]
 
 
-import com.rc.cloud.app.operate.domain.model.product.ProductAttributeValueEntity;
+import com.rc.cloud.app.operate.domain.common.Entity;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.AttributeValueCombination;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
-public class ProductSkuAttributeEntity  implements Comparable<ProductSkuAttributeEntity> {
+import java.util.SortedSet;
+import java.util.TreeSet;
 
-    private String attribute;
+public class ProductSkuAttributeEntity extends Entity {
 
-    private String attributeValue;
 
-    private  Integer sort;
-
-    public String getAttribute() {
-        return attribute;
+    public ProductSkuAttributeEntity(String id,ProductSkuId productSkuId, TenantId tenantId) {
+        this.id =id;
+        this.productSkuId = productSkuId;
+        this.tenantId = tenantId;
+        this.skuAttributes = new TreeSet<>();
     }
 
-    public void setAttribute(String attribute) {
-        this.attribute = attribute;
+    private String id;
+
+    private ProductSkuId productSkuId;
+
+    private TenantId tenantId;
+
+    private SortedSet<AttributeValueCombination> skuAttributes;
+
+    public SortedSet<AttributeValueCombination> getSkuAttributes() {
+        return skuAttributes;
     }
 
-    public String getAttributeValue() {
-        return attributeValue;
+    public void addSkuAttribute(String name, String value, int sort){
+        AttributeValueCombination entity=new AttributeValueCombination();
+        entity.setAttribute(name);
+        entity.setAttributeValue(value);
+        entity.setSort(sort);
+        skuAttributes.add(entity);
     }
 
-    public void setAttributeValue(String attributeValue) {
-        this.attributeValue = attributeValue;
+    public String getId() {
+        return id;
     }
 
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
-
-    @Override
-    public int hashCode() {
-        return this.getAttribute().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
-    @Override
-    public int compareTo(ProductSkuAttributeEntity o) {
-        if(o.sort<this.sort){
-            return 1;
-        }else{
-            return -1;
-        }
-    }
 }

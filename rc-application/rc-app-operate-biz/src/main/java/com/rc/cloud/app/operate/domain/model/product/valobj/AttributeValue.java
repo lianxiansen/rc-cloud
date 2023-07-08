@@ -1,10 +1,11 @@
-package com.rc.cloud.app.operate.domain.model.product;
+package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.rc.cloud.app.operate.domain.common.ValueObject;
 import org.apache.commons.lang3.Validate;
 
-public class ProductAttributeValueEntity implements Comparable<ProductAttributeValueEntity> {
+public class AttributeValue extends ValueObject implements Comparable<AttributeValue> {
 
     @JSONField(ordinal = 1, name = "attributeValue")
     private String attributeValue;
@@ -12,7 +13,7 @@ public class ProductAttributeValueEntity implements Comparable<ProductAttributeV
     @JSONField(ordinal = 1, name = "sort")
     private Integer sort;
 
-    public ProductAttributeValueEntity(String attributeValue, Integer sort) {
+    public AttributeValue(String attributeValue, Integer sort) {
         Validate.isTrue(StrUtil.isNotEmpty(attributeValue),"货号不能为空！");
         Validate.isTrue(sort>0,"sort不能为空！");
         this.attributeValue = attributeValue;
@@ -34,7 +35,7 @@ public class ProductAttributeValueEntity implements Comparable<ProductAttributeV
     }
 
     @Override
-    public int compareTo(ProductAttributeValueEntity o) {
+    public int compareTo(AttributeValue o) {
         if(o.sort<this.sort){
             return 1;
         }else{

@@ -13,13 +13,12 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 public class ProductSkuImageEntity extends Entity {
 
     private String id;
-
-    private ProductSkuId productSkuId;
-
-    private TenantId tenantId;
-
     private String url;
     private int sort;
+
+    public ProductSkuImageEntity(String id) {
+        this.id = id;
+    }
 
     public String getUrl() {
         return url;
@@ -49,19 +48,4 @@ public class ProductSkuImageEntity extends Entity {
         this.id = id;
     }
 
-    public ProductSkuId getProductSkuId() {
-        return productSkuId;
-    }
-
-    public void setProductSkuId(ProductSkuId productSkuId) {
-        this.productSkuId = productSkuId;
-    }
-
-    public TenantId getTenantId() {
-        return tenantId;
-    }
-
-    public void setTenantId(TenantId tenantId) {
-        this.tenantId = tenantId;
-    }
 }

@@ -93,10 +93,10 @@ public class ProductDOConvert {
         return productDetailDO;
     }
 
-    public static ProductAttributeDO convert2ProductAttributeDO(String productId, String tenantId, SortedSet<ProductAttributeEntity> attributes){
+    public static ProductAttributeDO convert2ProductAttributeDO(String productId, String tenantId, ProductAttributeEntity productAttributeEntity){
         ProductAttributeDO productAttributeDO=new ProductAttributeDO();
-        //不一定正确 TODO
-        String attr = JSONUtil.toJsonStr(attributes);
+        String attr = JSONUtil.toJsonStr(productAttributeEntity.getAttributes());
+        productAttributeDO.setId(productAttributeEntity.getId());
         productAttributeDO.setProductId(productId);
         productAttributeDO.setTenantId(tenantId);
         productAttributeDO.setContent(attr);

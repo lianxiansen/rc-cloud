@@ -274,7 +274,6 @@ public class Product extends Entity {
 
     private void init(){
         this.sort=new Sort(99);
-        this.attributes=new TreeSet<>();
     }
 
     public void setId(ProductId id){
@@ -358,7 +357,7 @@ public class Product extends Entity {
     }
 
 
-    private SortedSet<ProductAttributeEntity> attributes;
+    private ProductAttributeEntity productAttributeEntity;
 
 //    public void addAttributes(ProductAttributeEntity attribute){
 //        if(attributes!=null){
@@ -366,29 +365,6 @@ public class Product extends Entity {
 //        }
 //    }
 
-    public void clearAttribute(){
-        this.attributes.clear();
-    }
-    /**
-     * 添加产品的属性
-     * @param attribute 颜色
-     * @param value 红
-     * @param sort 99
-     */
-    public void addAttribute(String attribute,String value , int sort){
-        this.assertArgumentNotNull(attributes,"attributes must not be null");
-
-        Optional<ProductAttributeEntity> first = attributes.stream().filter(u -> u.getAttribute().equals(attribute)).findFirst();
-        if(!first.isPresent()){
-            ProductAttributeEntity productAttributeEntity=new ProductAttributeEntity();
-            productAttributeEntity.setAttribute(attribute);
-            productAttributeEntity.setSort(sort);
-            productAttributeEntity.addValue(new ProductAttributeValueEntity(value,sort));
-        }else{
-            ProductAttributeEntity productAttributeEntity = first.get();
-            productAttributeEntity.addValue(new ProductAttributeValueEntity(value,sort));
-        }
-    }
 
     public TenantId getTenantId() {
         return tenantId;
@@ -514,7 +490,11 @@ public class Product extends Entity {
         return detail;
     }
 
-    public SortedSet<ProductAttributeEntity> getAttributes() {
-        return attributes;
+    public ProductAttributeEntity getProductAttributeEntity() {
+        return productAttributeEntity;
+    }
+
+    public void setProductAttributeEntity(ProductAttributeEntity productAttributeEntity) {
+        this.productAttributeEntity = productAttributeEntity;
     }
 }

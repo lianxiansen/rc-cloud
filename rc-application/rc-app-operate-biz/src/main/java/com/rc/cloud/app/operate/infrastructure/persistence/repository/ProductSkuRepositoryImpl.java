@@ -91,7 +91,7 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
 
         ProductSkuAttributeDO productSkuAttributeDO = ProductSkuDOConvert
                 .convert2ProductSkuAttributeDO(productSkuEntity.getId().id()
-                , productSkuEntity.getTenantId().id(), productSkuEntity.getSkuAttributes());
+                , productSkuEntity.getTenantId().id(), productSkuEntity.getProductSkuAttributeEntity());
         this.productSkuAttributeMapper.insert(productSkuAttributeDO);
     }
 
@@ -113,7 +113,7 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         }
         ProductSkuAttributeDO ProductSkuAttributeDO = ProductSkuDOConvert.convert2ProductSkuAttributeDO(
                 productSkuEntity.getId().id()
-                , productSkuEntity.getTenantId().id(), productSkuEntity.getSkuAttributes());
+                , productSkuEntity.getTenantId().id(), productSkuEntity.getProductSkuAttributeEntity());
         updateProductSkuAttributeEntity(ProductSkuAttributeDO);
     }
 
