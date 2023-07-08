@@ -81,7 +81,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     }
 
     private void validateTenantUsed(String id) {
-        if (tenantService.getTenantCountByPackageId(id) < 0) {
+        if (tenantService.getTenantCountByPackageId(id) > 0) {
             throw exception(TENANT_PACKAGE_USED);
         }
     }

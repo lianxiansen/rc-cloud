@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS "sys_dept" (
 CREATE TABLE IF NOT EXISTS "sys_dict_data" (
     "id" varchar NOT NULL,
     "sort" int NOT NULL,
-    `label` varchar(100) NOT NULL DEFAULT '',
-    `value` varchar(100) NOT NULL DEFAULT '',
+    "label" varchar(100) NOT NULL DEFAULT '',
+    "value" varchar(100) NOT NULL DEFAULT '',
     "dict_type" varchar(100) NOT NULL DEFAULT '',
     "status" tinyint NOT NULL,
     "color_type" varchar(100) NOT NULL DEFAULT '',
