@@ -46,7 +46,8 @@ CREATE TABLE IF NOT EXISTS "distributor"  (
                                 "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',
                                 "update_time" timestamp NULL DEFAULT NULL COMMENT '更新时间',
                                 "updater" varchar(255)  NULL DEFAULT NULL COMMENT '更新人',
-                                "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间'
+                                "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间',
+                                "tenant_id" varchar(255)  NULL DEFAULT NULL COMMENT '租户id'
 );
 -- ----------------------------
 -- Table structure for distributor_channel
@@ -59,7 +60,8 @@ CREATE TABLE IF NOT EXISTS "distributor_channel"  (
                                 "update_time" timestamp NULL DEFAULT NULL COMMENT '更新时间',
                                 "updater" varchar(255)  NULL DEFAULT NULL COMMENT '更新人',
                                 "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间',
-                                "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是'
+                                "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是',
+                                "tenant_id" varchar(255)  NULL DEFAULT NULL COMMENT '租户id'
 );
 -- -- ----------------------------
 -- -- Table structure for distributor_contact
@@ -72,7 +74,8 @@ CREATE TABLE IF NOT EXISTS "distributor_contact"  (
                                         "distributor_id" varchar(255) NULL DEFAULT NULL,
                                         "lastread_time" varchar(255)  NULL DEFAULT NULL COMMENT '最后浏览时间',
                                         "click" int NULL DEFAULT 0 COMMENT '用户浏览商品数量',
-                                        "headimage" varchar(255)  NULL DEFAULT NULL
+                                        "headimage" varchar(255)  NULL DEFAULT NULL,
+                                        "tenant_id" varchar(255)  NULL DEFAULT NULL COMMENT '租户id'
 );
 -- ----------------------------
 -- Table structure for distributor_detail
@@ -80,7 +83,8 @@ CREATE TABLE IF NOT EXISTS "distributor_contact"  (
 CREATE TABLE IF NOT EXISTS "distributor_detail"  (
                                        "id" varchar(255) NOT NULL COMMENT 'id',
                                        "distributor_id" varchar(255) NULL DEFAULT NULL COMMENT '经销商id',
-                                       "distributor_detail" clob NULL
+                                       "distributor_detail" clob NULL,
+                                        "tenant_id" varchar(255)  NULL DEFAULT NULL COMMENT '租户id'
 );
 -- ----------------------------
 -- Table structure for distributor_level
@@ -93,7 +97,8 @@ CREATE TABLE IF NOT EXISTS "distributor_level"  (
                                     "update_time" timestamp NULL DEFAULT NULL COMMENT '更新时间',
                                     "updater" varchar(255)  NULL DEFAULT NULL COMMENT '更新人',
                                     "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间',
-                                    "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是'
+                                    "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是',
+                                    "tenant_id" varchar(255)  NULL DEFAULT NULL COMMENT '租户id'
 );
 -- ----------------------------
 -- Table structure for distributor_reputation
@@ -106,7 +111,8 @@ CREATE TABLE IF NOT EXISTS "distributor_reputation"  (
                                             "update_time" timestamp NULL DEFAULT NULL COMMENT '更新时间',
                                             "updater" varchar(255)  NULL DEFAULT NULL COMMENT '更新人',
                                             "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间',
-                                            "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是'
+                                            "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是',
+                                            "tenant_id" varchar(255)  NULL DEFAULT NULL COMMENT '租户id'
 );
 -- ----------------------------
 -- Table structure for distributor_source
@@ -119,5 +125,6 @@ CREATE TABLE IF NOT EXISTS "distributor_source"  (
                                         "update_time" timestamp NULL DEFAULT NULL COMMENT '更新时间',
                                         "updater" varchar(255)  NULL DEFAULT NULL COMMENT '更新人',
                                         "create_time" timestamp NULL DEFAULT NULL COMMENT '创建时间',
-                                        "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是'
+                                        "deleted" int NOT NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是',
+                                        "tenant_id" varchar(255)  NULL DEFAULT NULL COMMENT '租户id'
 );
