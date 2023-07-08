@@ -18,6 +18,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants.DISTRIBUTOR_CONTACT_PHONE_DUPLICATE;
+import static com.rc.cloud.common.test.core.util.AssertUtils.assertServiceException;
+import static com.rc.cloud.common.test.core.util.RandomUtils.randomPojo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -79,10 +85,23 @@ class DistributorApplicationTests{
     @Test
     void testTenant(){
         TenantContextHolder.setTenantId("1");
-        DistributorContactPO contactPO = contactService.getById("5");
-        assertNull(contactPO);
-        TenantContextHolder.setTenantId("2");
-        contactPO = contactService.getById("5");
+        DistributorContactPO contact1 = randomPojo(DistributorContactPO.class, o->{
+            o.setId("003");
+            o.setMobile("13700000056");
+        });
+
+        DistributorContactPO contact2 = randomPojo(DistributorContactPO.class, o->{
+            o.setId("004");
+            o.setMobile("13700000978");
+        });
+
+        final List<DistributorContactPO> contactDOS2 = Arrays.asList(contact1,contact2);
+        contactService.updateContacts("1",contactDOS2);
+
+        DistributorContactPO contactPO = contactService.getById("003");
         assertNotNull(contactPO);
+        TenantContextHolder.setTenantId("2");
+        contactPO = contactService.getById("003");
+        assertNull(contactPO);
     }
 }

@@ -57,15 +57,17 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
 
         //删除旧联系人的数据
         List<String> olddata = ListUtils.subtract(oldMobiles, newMobiles);
-        contactMapper.delete(new LambdaQueryWrapperX<DistributorContactPO>()
-                .inIfPresent(DistributorContactPO::getMobile, olddata)
-                .and(wq -> wq.eq(DistributorContactPO::getDistributorId, distributorId))
-        );
+        if (olddata.stream().count() > 0) {
+            contactMapper.delete(new LambdaQueryWrapperX<DistributorContactPO>()
+                    .in(DistributorContactPO::getMobile, olddata)
+                    .and(wq -> wq.eq(DistributorContactPO::getDistributorId, distributorId))
+            );
+        }
 
         //新插入的数据，手机号设置成后6位
         List<String> newdata = ListUtils.subtract(newMobiles, oldMobiles);
         List<DistributorContactPO> newlist = contactDOS.stream().filter(x -> newdata.contains(x.getMobile())).collect(Collectors.toList());
-        newlist.forEach(x->{
+        newlist.forEach(x -> {
             x.setPassword(encodePassword(CommonUtil.getFinalMobile(x.getMobile())));
             x.setDistributorId(distributorId);
         });
@@ -74,13 +76,13 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
 
     @Override
     public List<DistributorContactPO> getByDistributorId(String distributorId) {
-        return contactMapper.selectList(new LambdaQueryWrapperX<DistributorContactPO>().eq(DistributorContactPO::getDistributorId,distributorId));
+        return contactMapper.selectList(new LambdaQueryWrapperX<DistributorContactPO>().eq(DistributorContactPO::getDistributorId, distributorId));
     }
 
     @Override
     public void updatePassword(DistributorContactUpdatePasswordReqVO updatePasswordReqVO) {
-        DistributorContactPO contactDO= getBaseMapper().selectById(updatePasswordReqVO.getId());
-        System.out.println(contactDO==null);
+        DistributorContactPO contactDO = getBaseMapper().selectById(updatePasswordReqVO.getId());
+        System.out.println(contactDO == null);
         contactDO.setPassword(encodePassword(updatePasswordReqVO.getPassword()));
         getBaseMapper().updateById(contactDO);
     }
@@ -90,8 +92,8 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
      */
     @Override
     public void resetPassword(String id) {
-        DistributorContactPO contactDO= contactMapper.selectById(id);
-        System.out.println(contactDO==null);
+        DistributorContactPO contactDO = contactMapper.selectById(id);
+        System.out.println(contactDO == null);
         contactDO.setPassword(encodePassword(CommonUtil.getFinalMobile(contactDO.getMobile())));
         contactMapper.updateById(contactDO);
     }
