@@ -178,7 +178,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // 校验记录的属性是否正确
         SysTenantDO tenant = tenantMapper.selectById(tenantId);
         assertPojoEquals(reqVO, tenant);
-        assertEquals(300L, tenant.getContactUserId());
+        assertEquals("300", tenant.getContactUserId());
         // verify 分配权限
         verify(permissionService).assignRoleMenu(eq("200"), same(tenantPackage.getMenuIds()));
         // verify 分配角色
