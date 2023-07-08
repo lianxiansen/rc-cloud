@@ -38,7 +38,7 @@ spring:
         test-while-idle: true
         test-on-borrow: false
         test-on-return: false
-      primary: distributor
+      primary: operate
       datasource:
 #        master:
 #          name: rc-cloud-system
@@ -52,9 +52,9 @@ spring:
 #          driver-class-name: com.mysql.cj.jdbc.Driver
 #          username: root
 #          password: root
-        distributor:
-          name: rc-cloud-product
-          url: jdbc:mysql://127.0.0.1:3306/rc-cloud-product?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+        operate:
+          name: rc-cloud-operate
+          url: jdbc:mysql://liandy:3306/product?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: root
           password: 123456
