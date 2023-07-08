@@ -24,7 +24,7 @@ public interface RemoteUserService {
 	 * @return CodeResult
 	 */
 	@PostMapping(value = "/sys/user/info-by-ids", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<List<UserInfo>> infoByIds(@RequestBody List<String> ids);
+	CodeResult<List<SysUserInfoVO>> infoByIds(@RequestBody List<String> ids);
 
 	/**
 	 * 通过用户ID查询用户信息
