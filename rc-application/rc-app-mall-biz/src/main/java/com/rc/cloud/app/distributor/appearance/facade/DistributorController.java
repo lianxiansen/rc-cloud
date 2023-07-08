@@ -142,8 +142,6 @@ public class DistributorController {
                 }
             });
         }
-        //按创建时间倒序排
-        distributorRespVOPageResult.getList().sort(Comparator.comparing(DistributorRespVO::getCreateTime).reversed());
         return CodeResult.ok(distributorRespVOPageResult);
     }
 

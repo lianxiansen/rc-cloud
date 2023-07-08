@@ -74,7 +74,7 @@ public interface DistributorMapper extends BaseMapperX<DistributorPO> {
                 .eqIfPresent(DistributorPO::getEstablishedTime, reqVO.getEstablishedTime())
                 .eqIfPresent(DistributorPO::getDeleted, reqVO.getDeleted())
                 .eqIfPresent(DistributorPO::getLocking, reqVO.getLocking())
-                .orderByDesc(DistributorPO::getId));
+                .orderByDesc(DistributorPO::getCreateTime));
     }
 
     default List<DistributorPO> selectList(DistributorExportReqVO reqVO) {
