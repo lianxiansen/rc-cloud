@@ -1,0 +1,125 @@
+# 因为我们Runner执行器设置为docker, 所以这里需要指定docker的版本
+image: docker:stable
+variables:
+  GIT_STRATEGY: fetch
+  MAVEM_IMAGE: registry.cn-hangzhou.aliyuncs.com/sanchar/maven:1.0  # maven 打包使用的镜像
+  KUBECTL_IMAGE: registry.cn-hangzhou.aliyuncs.com/sanchar/kubectl:v1.20.1  # k8s 部署使用的镜像
+  HARBOR_SERVER: registry.cn-hangzhou.aliyuncs.com
+  HARBOR_USERNAME: oliveoil1217
+  HARBOR_PASSWORD: hqf667924
+  HARBOR_PROJECT: rc2022
+  PROJECT_NS: '$CI_JOB_STAGE-$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME'     # 定义项目命名空间，对应k8s的namespace
+  APP_NAME: '$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG'                       # 使用项目名和git提交信息作为应用名
+  IMAGE_NAME: '$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME:$CI_PIPELINE_ID'   # 定义镜像名称
+stages:
+  - common-moudle
+  - package
+  - build
+  - beta-deploy
+  - pre-deploy
+  - pro-deploy
+
+# 打包
+package:
+  stage: package
+  # 打包用到了maven, 所有需要拉取maven镜像, 这是我自己构建的阿里云maven私服的maven镜像
+  image: $MAVEM_IMAGE
+  tags:
+    - integration                                                        # 定义带`integration`标签的runner可以运行该job
+  only:                                                                  # 定义只在如下分支或者tag运行该job
+    - main
+    - develop
+    - /^feature.*$/
+    - release
+#  when: manual                                                          # 调试阶段可以先手动，后续可以注释掉以自动运行
+  # 这里可以将maven 打包好的文件传递给下一个 stage ，然后下一步的docker 就可以根据 这个 jar 包 和Dockerfile 构建镜像
+  script:
+    - echo "=============== mvn package start ==============="
+    - mvn clean install -Dmaven.test.skip=true -U
+  artifacts:
+    # 指定下过期时间和路径
+    expire_in: 1 days
+    paths:
+      - target/*.jar
+
+#  构建docker镜像并推送到镜像仓库
+build:
+  stage: build
+  tags:
+    - integration                                                        # 定义带`integration`标签的runner可以运行该job
+  only:                                                                  # 定义只在如下分支或者tag运行该job
+    - main
+    - develop
+    - /^feature.*$/
+    - release
+#  when: manual                                                          # 调试阶段可以先手动，后续可以注释掉以自动运行
+  before_script:
+    # 查看docker信息
+    - docker info
+    - docker login --username $HARBOR_USERNAME --password $HARBOR_PASSWORD $HARBOR_SERVER
+  script:
+    - echo "=============== docker build image  ==============="
+    - export IMAGE=`echo $IMAGE_NAME | sed 's/\//-/g'`                  # 转换镜像名，例：mygroup/java/example:172 >> mygroup-java-
+    - docker build -t $HARBOR_SERVER/$HARBOR_PROJECT/$IMAGE .
+    - docker push $HARBOR_SERVER/$HARBOR_PROJECT/$IMAGE
+  after_script:
+    - docker logout $HARBOR_SERVER
+
+
+## 部署到测试环 境
+beta-deploy:
+  stage: beta-deploy
+  tags:
+    - beta-deploy                                                              # 定义带`build-shell`标签的runner可以运行该job
+  only: # 定义只在如下分支或者tag运行该job
+    - main
+    - develop
+    - /^feature.*$/
+    - release
+  when: manual                                                           # 调试阶段可以先手动，后续可以注释掉以自动运行
+  image: $KUBECTL_IMAGE
+  script:
+    - echo "=============== deploy  ==============="
+    - export IMAGE=`echo $IMAGE_NAME | sed 's/\//-/g'`                     # 转换 $IMAGE_NAME 中可能的 / 字符
+    - export HARBOR_PROJECT=$HARBOR_PROJECT
+    # 替换beta环境的参数配置
+    - sed -i "s/APP_NAME/$APP_NAME/g" deploy.yaml                         # gitlab 系统变量, 有的是在项目 CI/CD 设置里面用户定义的变量
+    - sed -i "s/PROJECT_NS/$PROJECT_NS/g" deploy.yaml
+    - sed -i "s/ProjectImage/$HARBOR_SERVER\/$HARBOR_PROJECT\/$IMAGE/g" deploy.yaml
+    - kubectl delete secret harborsecret -n $PROJECT_NS
+    - kubectl create secret docker-registry harborsecret --docker-server=$HARBOR_SERVER --docker-username=$HARBOR_USERNAME --docker-password=$HARBOR_PASSWORD -n $PROJECT_NS
+    - cat deploy.yaml
+    - kubectl apply -f deploy.yaml -n $PROJECT_NS
+    - kubectl set image deployment  $APP_NAME $APP_NAME=$IMAGE -n $PROJECT_NS
+    - kubectl describe  deployment  $APP_NAME  $APP_NAME  -n $PROJECT_NS | grep Image
+    - echo "OK!更新完成！Bye-Bye."
+## 部署到预发环境
+pre-deploy:
+  stage: pre-deploy
+  tags:
+    - pre-deploy                                                            # 定义带`build-shell`标签的runner可以运行该job
+  only: # 定义只在如下分支或者tag运行该job
+    - main
+    - develop
+    - /^feature.*$/
+    - release
+  when: manual                                                           # 调试阶段可以先手动，后续可以注释掉以自动运行
+  image: $KUBECTL_IMAGE
+  script:
+    - echo "=============== deploy  ==============="
+    - echo "OK!更新完成！Bye-Bye."
+## 部署到生产环境
+pro-deploy:
+  stage: pro-deploy
+  tags:
+    - pro-deploy                                                              # 定义带`build-shell`标签的runner可以运行该job
+  only: # 定义只在如下分支或者tag运行该job
+    - main
+    - develop
+    - /^feature.*$/
+    - release
+  when: manual                                                           # 调试阶段可以先手动，后续可以注释掉以自动运行
+  image: $KUBECTL_IMAGE
+  script:
+    - echo "OK!更新完成！Bye-Bye."
+
