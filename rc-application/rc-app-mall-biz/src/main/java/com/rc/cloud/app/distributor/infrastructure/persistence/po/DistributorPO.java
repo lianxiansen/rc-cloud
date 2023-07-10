@@ -1,6 +1,7 @@
 package com.rc.cloud.app.distributor.infrastructure.persistence.po;
 
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import com.baomidou.mybatisplus.annotation.*;
 
@@ -50,6 +51,18 @@ public class DistributorPO extends BaseDO {
      * 区
      */
     private String county;
+    /**
+     * 省编码
+     */
+    private String provinceCode;
+    /**
+     * 市编码
+     */
+    private String cityCode;
+    /**
+     * 区编码
+     */
+    private String countyCode;
     /**
      * 详细地址
      */
