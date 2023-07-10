@@ -18,15 +18,15 @@ public class BrandDomainService {
     private ProductRepository productRepository;
     public void enable(BrandId brandId) {
         AssertUtils.notNull(brandId,"brandId must be not null");
-        Brand brandtEntry = brandRepository.getBrand(brandId);
+        Brand brandtEntry = brandRepository.findById(brandId);
         brandtEntry.enable();
-        brandRepository.saveBrand(brandtEntry);
+        brandRepository.save(brandtEntry);
     }
     public void disable(BrandId brandId) {
         AssertUtils.notNull(brandId,"brandId must be not null");
-        Brand brandtEntry = brandRepository.getBrand(brandId);
+        Brand brandtEntry = brandRepository.findById(brandId);
         brandtEntry.disable();
-        brandRepository.saveBrand(brandtEntry);
+        brandRepository.save(brandtEntry);
     }
 
 

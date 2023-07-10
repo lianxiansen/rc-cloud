@@ -58,9 +58,9 @@ import static org.mockito.Mockito.when;
 @FixMethodOrder(MethodSorters.DEFAULT)
 public class ProductCategoryApplicationServiceTest {
     @MockBean
-    private ProductRepository productRepositoryMock;
+    private ProductRepository productRepositoryStub;
     @MockBean
-    private ProductCategoryRepository productCategoryRepositoryMock;
+    private ProductCategoryRepository productCategoryRepositoryStub;
     @Autowired
     private ProductCategoryDomainServce productCategoryDomainServce;
     @Autowired
@@ -76,37 +76,10 @@ public class ProductCategoryApplicationServiceTest {
 
     @BeforeEach
     public void beforeEach() {
-        productCategoryCreateDTO = new ProductCategoryCreateDTO();
-        productCategoryCreateDTO.setProductCategoryPageImage(imgUrl)
-                .setEnglishName(RandomUtils.randomString())
-                .setName(RandomUtils.randomString())
-                .setIcon(imgUrl)
-                .setTenantId(RandomUtils.randomString())
-                .setSortId(9)
-                .setEnabledFlag(true)
-                .setProductListPageImage(imgUrl);
-
-        productCategoryUpdateDTO = new ProductCategoryUpdateDTO();
-        productCategoryUpdateDTO.setProductCategoryPageImage(imgUrl)
-                .setEnglishName(RandomUtils.randomString())
-                .setName(RandomUtils.randomString())
-                .setIcon(imgUrl)
-                .setSortId(9)
-                .setEnabledFlag(true)
-                .setProductListPageImage(imgUrl);
-
-        Answer answer = new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                String method = invocation.getMethod().getName();
-                if(method == "nextId"){
-                    return new ProductCategoryId(UUID.randomUUID().toString().substring(0,31));
-                }
-                return null;
-            }
-        };
-        when(productCategoryRepositoryMock.nextId()).thenAnswer(answer);
+        initFixture();
+        initStub();
     }
+
 
     @Test
     @DisplayName("创建根产品分类")
@@ -132,7 +105,7 @@ public class ProductCategoryApplicationServiceTest {
     public void createSubProductCategoryIfParentValidTest() {
         ProductCategory root = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
         productCategoryCreateDTO.setParentId(root.getId().id());
-        when(productCategoryRepositoryMock.findById(root.getId())).thenReturn(root);
+        when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
         ProductCategory sub = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
         Assertions.assertTrue(ObjectUtils.isNotNull(root.getId()) &&
                 root.getLayer().increment().equals(sub.getLayer()) &&
@@ -151,9 +124,9 @@ public class ProductCategoryApplicationServiceTest {
     @Test
     @DisplayName("创建产品分类指定父产品分类,指定无效的父产品分类")
     public void createSubProductCategoryIfParentInvalidTest() {
-        ProductCategoryId parentId = productCategoryRepositoryMock.nextId();
+        ProductCategoryId parentId = productCategoryRepositoryStub.nextId();
         productCategoryCreateDTO.setParentId(parentId.id());
-        when(productCategoryRepositoryMock.findById(parentId)).thenReturn(null);
+        when(productCategoryRepositoryStub.findById(parentId)).thenReturn(null);
         Assertions.assertThrows(ApplicationException.class, () -> {
             ProductCategory sub = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
         });
@@ -164,7 +137,7 @@ public class ProductCategoryApplicationServiceTest {
     @DisplayName("修改产品分类属性，除了上级分类")
     public void updateProductCategoryExceptParent() {
         ProductCategory root = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
-        when(productCategoryRepositoryMock.findById(root.getId())).thenReturn(root);
+        when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
         productCategoryUpdateDTO.setId(root.getId().id());
         productCategoryApplicationService.updateProductCategory(productCategoryUpdateDTO);
         Assertions.assertTrue(ObjectUtils.isNotNull(root.getId()) &&
@@ -187,15 +160,15 @@ public class ProductCategoryApplicationServiceTest {
         ProductCategory root = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
         ProductCategory sonFuture = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
 
-        when(productCategoryRepositoryMock.findById(sonFuture.getId())).thenReturn(sonFuture);
+        when(productCategoryRepositoryStub.findById(sonFuture.getId())).thenReturn(sonFuture);
         productCategoryCreateDTO.setParentId(sonFuture.getId().id());
         ProductCategory grandsonFuture = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
 
         productCategoryUpdateDTO.setId(sonFuture.getId().id());
         productCategoryUpdateDTO.setParentId(root.getId().id());
-        when(productCategoryRepositoryMock.findById(root.getId())).thenReturn(root);
+        when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
 
-        when(productCategoryRepositoryMock.findAll()).thenAnswer(new Answer() {
+        when(productCategoryRepositoryStub.findAll()).thenAnswer(new Answer() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
                 String method = invocation.getMethod().getName();
@@ -229,7 +202,7 @@ public class ProductCategoryApplicationServiceTest {
         ProductCategory root = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
         productCategoryUpdateDTO.setId(root.getId().id());
         productCategoryUpdateDTO.setParentId(root.getId().id());
-        when(productCategoryRepositoryMock.findById(root.getId())).thenReturn(root);
+        when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
         Assertions.assertThrows(DomainException.class, () -> {
             productCategoryApplicationService.updateProductCategory(productCategoryUpdateDTO);
         });
@@ -240,8 +213,8 @@ public class ProductCategoryApplicationServiceTest {
     @DisplayName("删除产品分类")
     public void removeProductCategory() {
         ProductCategory root = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
-        when(productCategoryRepositoryMock.findById(root.getId())).thenReturn(root);
-        when(productCategoryRepositoryMock.remove(root)).thenReturn(true);
+        when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
+        when(productCategoryRepositoryStub.remove(root)).thenReturn(true);
         Assertions.assertTrue(productCategoryApplicationService.remove(root.getId().id()), "删除产品分类失败");
     }
 
@@ -249,9 +222,9 @@ public class ProductCategoryApplicationServiceTest {
     @DisplayName("删除关联产品的产品分类")
     public void removeProductCategoryIfProductExists() {
         ProductCategory root = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
-        when(productCategoryRepositoryMock.findById(root.getId())).thenReturn(root);
-        when(productRepositoryMock.existsByProductCategoryId(root.getId())).thenReturn(true);
-        when(productCategoryRepositoryMock.remove(root)).thenReturn(true);
+        when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
+        when(productRepositoryStub.existsByProductCategoryId(root.getId())).thenReturn(true);
+        when(productCategoryRepositoryStub.remove(root)).thenReturn(true);
         Assertions.assertThrows(DomainException.class, () -> {
             productCategoryApplicationService.remove(root.getId().id());
         });
@@ -262,12 +235,48 @@ public class ProductCategoryApplicationServiceTest {
     @DisplayName("删除含有子分类的产品分类")
     public void removeProductCategoryIfSubProductCategoryExists() {
         ProductCategory productCategory = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
-        when(productCategoryRepositoryMock.findById(productCategory.getId())).thenReturn(productCategory);
-        when(productRepositoryMock.existsByProductCategoryId(productCategory.getId())).thenReturn(false);
-        when(productCategoryRepositoryMock.existsChild(productCategory.getId())).thenReturn(true);
-        when(productCategoryRepositoryMock.remove(productCategory)).thenReturn(true);
+        when(productCategoryRepositoryStub.findById(productCategory.getId())).thenReturn(productCategory);
+        when(productRepositoryStub.existsByProductCategoryId(productCategory.getId())).thenReturn(false);
+        when(productCategoryRepositoryStub.existsChild(productCategory.getId())).thenReturn(true);
+        when(productCategoryRepositoryStub.remove(productCategory)).thenReturn(true);
         Assertions.assertThrows(DomainException.class, () -> {
             productCategoryApplicationService.remove(productCategory.getId().id());
         });
     }
+
+    private void initStub() {
+        Answer answer = new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                String method = invocation.getMethod().getName();
+                if(method == "nextId"){
+                    return new ProductCategoryId(UUID.randomUUID().toString().substring(0,31));
+                }
+                return null;
+            }
+        };
+        when(productCategoryRepositoryStub.nextId()).thenAnswer(answer);
+    }
+
+    private void initFixture() {
+        productCategoryCreateDTO = new ProductCategoryCreateDTO();
+        productCategoryCreateDTO.setProductCategoryPageImage(imgUrl)
+                .setEnglishName(RandomUtils.randomString())
+                .setName(RandomUtils.randomString())
+                .setIcon(imgUrl)
+                .setTenantId(RandomUtils.randomString())
+                .setSortId(9)
+                .setEnabledFlag(true)
+                .setProductListPageImage(imgUrl);
+
+        productCategoryUpdateDTO = new ProductCategoryUpdateDTO();
+        productCategoryUpdateDTO.setProductCategoryPageImage(imgUrl)
+                .setEnglishName(RandomUtils.randomString())
+                .setName(RandomUtils.randomString())
+                .setIcon(imgUrl)
+                .setSortId(9)
+                .setEnabledFlag(true)
+                .setProductListPageImage(imgUrl);
+    }
+
 }

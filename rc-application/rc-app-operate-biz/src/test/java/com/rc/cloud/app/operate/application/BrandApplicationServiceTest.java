@@ -56,9 +56,9 @@ import static org.mockito.Mockito.when;
 @FixMethodOrder(MethodSorters.DEFAULT)
 public class BrandApplicationServiceTest {
     @MockBean
-    private BrandRepository brandRepositoryMock;
+    private BrandRepository brandRepositoryStub;
     @MockBean
-    private ProductRepository productRepositoryMock;
+    private ProductRepository productRepositoryStub;
     @Autowired
     private BrandApplicationService brandApplicationService;
 
@@ -67,29 +67,11 @@ public class BrandApplicationServiceTest {
     private BrandUpdateDTO updateBrandDTO;
     @BeforeEach
     public void beforeEach() {
-        createBrandDTO = new BrandCreateDTO();
-        createBrandDTO.setName(RandomUtils.randomString())
-                .setSortId(RandomUtils.randomInteger())
-                .setEnabled(new Boolean(true))
-                .setType(RandomUtils.randomString());
-        updateBrandDTO= new BrandUpdateDTO();
-        updateBrandDTO.setName(RandomUtils.randomString())
-                .setSortId(RandomUtils.randomInteger())
-                .setEnabled(new Boolean(true))
-                .setType(RandomUtils.randomString());
-
-        Answer answer = new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                String method = invocation.getMethod().getName();
-                if (method == "nextBrandId") {
-                    return new BrandId(UUID.randomUUID().toString().substring(0, 31));
-                }
-                return null;
-            }
-        };
-        when(brandRepositoryMock.nextBrandId()).thenAnswer(answer);
+        initFixture();
+        initStub();
     }
+
+
 
     @Test
     @DisplayName("创建品牌")
@@ -108,7 +90,7 @@ public class BrandApplicationServiceTest {
         createBrandDTO.setEnabled(Boolean.FALSE);
         Brand brand=brandApplicationService.createBrand(createBrandDTO);
         Assertions.assertFalse(brand.isEnable());
-        when(brandRepositoryMock.getBrand(brand.getId())).thenReturn(brand);
+        when(brandRepositoryStub.findById(brand.getId())).thenReturn(brand);
         brandApplicationService.changeState(brand.getId().id());
         Assertions.assertTrue(ObjectUtils.isNotNull(brand.getId()) &&
                 createBrandDTO.getName().equals(brand.getName()) &&
@@ -122,7 +104,7 @@ public class BrandApplicationServiceTest {
         createBrandDTO.setEnabled(Boolean.TRUE);
         Brand brand=brandApplicationService.createBrand(createBrandDTO);
         Assertions.assertTrue(brand.isEnable());
-        when(brandRepositoryMock.getBrand(brand.getId())).thenReturn(brand);
+        when(brandRepositoryStub.findById(brand.getId())).thenReturn(brand);
         brandApplicationService.changeState(brand.getId().id());
         Assertions.assertTrue(ObjectUtils.isNotNull(brand.getId()) &&
                 createBrandDTO.getName().equals(brand.getName()) &&
@@ -137,7 +119,7 @@ public class BrandApplicationServiceTest {
     public void updateBrand() {
         Brand brand=brandApplicationService.createBrand(createBrandDTO);
         updateBrandDTO.setId(brand.getId().id());
-        when(brandRepositoryMock.getBrand(brand.getId())).thenReturn(brand);
+        when(brandRepositoryStub.findById(brand.getId())).thenReturn(brand);
         brandApplicationService.updateBrand(updateBrandDTO);
         Assertions.assertTrue(ObjectUtils.isNotNull(brand.getId()) &&
                 updateBrandDTO.getName().equals(brand.getName()) &&
@@ -149,7 +131,7 @@ public class BrandApplicationServiceTest {
     @DisplayName("删除品牌")
     public void removeBrand() {
         Brand brand=brandApplicationService.createBrand(createBrandDTO);
-        when(brandRepositoryMock.removeById(brand.getId())).thenReturn(true);
+        when(brandRepositoryStub.removeById(brand.getId())).thenReturn(true);
         Assertions.assertTrue(brandApplicationService.remove(brand.getId().id()),"删除品牌失败");
     }
 
@@ -157,8 +139,8 @@ public class BrandApplicationServiceTest {
     @DisplayName("删除已关联产品的品牌")
     public void removeBrandAssocatedProduct() {
         Brand brand=brandApplicationService.createBrand(createBrandDTO);
-        when(productRepositoryMock.existsByBrandId(brand.getId())).thenReturn(true);
-        when(brandRepositoryMock.removeById(brand.getId())).thenReturn(true);
+        when(productRepositoryStub.existsByBrandId(brand.getId())).thenReturn(true);
+        when(brandRepositoryStub.removeById(brand.getId())).thenReturn(true);
         Assertions.assertThrows(DomainException.class, () -> {
             brandApplicationService.remove(brand.getId().id());
         });
@@ -189,11 +171,36 @@ public class BrandApplicationServiceTest {
                 return null;
             }
         };
-        when(brandRepositoryMock.selectPageResult(queryBrandDTO.getPageNo(),queryBrandDTO.getPageSize(),queryBrandDTO.getName())).thenAnswer(answer);
+        when(brandRepositoryStub.selectPageResult(queryBrandDTO.getPageNo(),queryBrandDTO.getPageSize(),queryBrandDTO.getName())).thenAnswer(answer);
         PageResult<BrandBO> brandVOPageResult= brandApplicationService.selectPageResult(queryBrandDTO);
         Assertions.assertTrue(brandVOPageResult.getTotal().longValue()==totalCount&&
                 brandVOPageResult.getList().size() == totalCount ,"分页检索品牌失败");
     }
+    private void initFixture() {
+        createBrandDTO = new BrandCreateDTO();
+        createBrandDTO.setName(RandomUtils.randomString())
+                .setSortId(RandomUtils.randomInteger())
+                .setEnabled(new Boolean(true))
+                .setType(RandomUtils.randomString());
+        updateBrandDTO= new BrandUpdateDTO();
+        updateBrandDTO.setName(RandomUtils.randomString())
+                .setSortId(RandomUtils.randomInteger())
+                .setEnabled(new Boolean(true))
+                .setType(RandomUtils.randomString());
+    }
 
+    private void initStub(){
+        Answer answer = new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                String method = invocation.getMethod().getName();
+                if (method == "nextBrandId") {
+                    return new BrandId(UUID.randomUUID().toString().substring(0, 31));
+                }
+                return null;
+            }
+        };
+        when(brandRepositoryStub.nextId()).thenAnswer(answer);
+    }
 
 }
