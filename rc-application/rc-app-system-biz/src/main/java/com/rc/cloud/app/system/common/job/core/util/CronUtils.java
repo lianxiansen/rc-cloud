@@ -1,4 +1,4 @@
-package com.rc.cloud.common.job.core.util;
+package com.rc.cloud.app.system.common.job.core.util;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import org.quartz.CronExpression;

@@ -1,4 +1,4 @@
-package com.rc.cloud.common.job.core.enums;
+package com.rc.cloud.app.system.common.job.core.enums;
 
 /**
  * Quartz Job Data 的 key 枚举

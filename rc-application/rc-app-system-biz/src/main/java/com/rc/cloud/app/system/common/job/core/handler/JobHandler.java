@@ -1,4 +1,4 @@
-package com.rc.cloud.common.job.core.handler;
+package com.rc.cloud.app.system.common.job.core.handler;
 
 /**
  * 任务处理器

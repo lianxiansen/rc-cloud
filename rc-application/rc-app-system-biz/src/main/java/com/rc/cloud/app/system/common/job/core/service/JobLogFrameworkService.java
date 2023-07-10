@@ -1,4 +1,4 @@
-package com.rc.cloud.common.job.core.service;
+package com.rc.cloud.app.system.common.job.core.service;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

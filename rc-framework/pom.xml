@@ -24,7 +24,6 @@
         <module>rc-common-oss</module>
         <module>rc-common-excel</module>
         <module>rc-common-dict</module>
-        <module>rc-common-job</module>
         <module>rc-common-test</module>
         <module>rc-common-security</module>
         <module>rc-common-web</module>

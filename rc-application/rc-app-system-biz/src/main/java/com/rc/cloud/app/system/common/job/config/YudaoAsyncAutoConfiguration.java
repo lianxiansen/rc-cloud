@@ -1,4 +1,4 @@
-package com.rc.cloud.common.job.config;
+package com.rc.cloud.app.system.common.job.config;
 
 import com.alibaba.ttl.TtlRunnable;
 import org.springframework.beans.BeansException;
