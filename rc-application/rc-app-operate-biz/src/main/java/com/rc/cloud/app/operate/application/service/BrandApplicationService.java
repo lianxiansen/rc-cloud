@@ -24,7 +24,7 @@ public class BrandApplicationService {
     private BrandRepository brandRepository;
     public Brand createBrand(BrandCreateDTO createBrandDTO) {
         AssertUtils.notNull(createBrandDTO,"createBrandDTO must be not null");
-        Brand brand = new Brand(brandRepository.nextBrandId(), createBrandDTO.getName());
+        Brand brand = new Brand(brandRepository.nextId(), createBrandDTO.getName());
         if(ObjectUtils.isNotNull(createBrandDTO.getEnabled())){
             if (createBrandDTO.getEnabled().booleanValue()) {
                 brand.enable();
@@ -38,13 +38,13 @@ public class BrandApplicationService {
         if(StringUtils.isNotEmpty(createBrandDTO.getType())){
             brand.setType(createBrandDTO.getType());
         }
-        brandRepository.saveBrand(brand);
+        brandRepository.save(brand);
         return brand;
     }
 
     public boolean changeState(String id) {
         AssertUtils.notEmpty(id,"id must be not empty");
-        Brand brand =brandRepository.getBrand(new BrandId(id));
+        Brand brand =brandRepository.findById(new BrandId(id));
         if(ObjectUtils.isNull(brand)){
             throw new ApplicationException("品牌唯一标识无效");
         }
@@ -53,7 +53,7 @@ public class BrandApplicationService {
         }else{
             brand.enable();
         }
-        return brandRepository.saveBrand(brand);
+        return brandRepository.save(brand);
     }
 
 
@@ -62,7 +62,7 @@ public class BrandApplicationService {
         if(ObjectUtils.isNull(updateBrandDTO.getId())){
             throw new ApplicationException("品牌唯一标识不为空");
         }
-        Brand brand = brandRepository.getBrand(new BrandId(updateBrandDTO.getId()));
+        Brand brand = brandRepository.findById(new BrandId(updateBrandDTO.getId()));
         if(ObjectUtils.isNull(brand)){
             throw new ApplicationException("品牌唯一标识无效");
         }
@@ -82,7 +82,7 @@ public class BrandApplicationService {
         if(StringUtils.isNotEmpty(updateBrandDTO.getType())){
             brand.setType(updateBrandDTO.getType());
         }
-        brandRepository.saveBrand(brand);
+        brandRepository.save(brand);
     }
 
     public boolean remove(String id) {
