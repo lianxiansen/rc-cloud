@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupItem;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,11 @@ public class ProductGroupDomainService {
     private ProductRepository productRepository;
 
 
-    public ProductGroup createProductGroup(String name,Product product){
+    public ProductGroup createProductGroup(String name,TenantId tenantId,Product product){
         AssertUtils.notEmpty(name,"name must be not empty");
         AssertUtils.notNull(product,"product must be not null");
 
-        ProductGroup productGroup = new ProductGroup(productGroupRepository.nextId(),name,product.getId());
+        ProductGroup productGroup = new ProductGroup(productGroupRepository.nextId(),name,tenantId,product.getId());
         productGroupRepository.save(productGroup);
         return productGroup;
     }

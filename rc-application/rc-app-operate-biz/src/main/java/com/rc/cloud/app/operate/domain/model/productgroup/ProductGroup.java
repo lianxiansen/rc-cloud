@@ -5,6 +5,7 @@ import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.productgroup.valobj.CreateTime;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,9 +23,7 @@ public class ProductGroup extends Entity {
 
     private String name;
 
-    private String tenantId;
-
-
+    private TenantId tenantId;
 
     private ProductId productId;
 
@@ -35,13 +34,16 @@ public class ProductGroup extends Entity {
     }
 
     private CreateTime createTime;
-    public ProductGroup(ProductGroupId id, String name,ProductId productId){
+    public ProductGroup(ProductGroupId id, String name,TenantId tenantId,ProductId productId){
         setId(id);
         setName(name);
+        setTenantId(tenantId);
         setProductId(productId);
         this.createTime=new CreateTime(LocalDateTime.now());
         productGroupItems=new ArrayList<ProductGroupItem>();
     }
+
+
 
     public int size(){
         return productGroupItems.size();
@@ -64,7 +66,10 @@ public class ProductGroup extends Entity {
         this.assertArgumentNotNull(name, "name must not be null");
         this.name = name;
     }
-
+    private void setTenantId(TenantId tenantId) {
+        this.assertArgumentNotNull(tenantId, "tenantId must not be null");
+        this.tenantId = tenantId;
+    }
     public ProductId getProductId() {
         return productId;
     }

@@ -9,9 +9,11 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.domain.service.ProductGroupDomainService;
 import com.rc.cloud.common.core.exception.ApplicationException;
 import com.rc.cloud.common.core.util.AssertUtils;
+import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,11 +28,12 @@ public class ProductGroupApplicationService {
     private ProductGroupRepository productGroupRepository;
     @Autowired
     private ProductRepository productRepository;
+    
 
     public ProductGroup createProductGroup(ProductGroupCreateDTO productGroupCreateDTO) {
         AssertUtils.notNull(productGroupCreateDTO, "productGroupCreateDTO must be not null");
         Product product = productRepository.findById(new ProductId(productGroupCreateDTO.getProductId()));
-        ProductGroup productGroup = productGroupDomainService.createProductGroup(productGroupCreateDTO.getName(), product);
+        ProductGroup productGroup = productGroupDomainService.createProductGroup(productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()), product);
         return productGroup;
     }
 

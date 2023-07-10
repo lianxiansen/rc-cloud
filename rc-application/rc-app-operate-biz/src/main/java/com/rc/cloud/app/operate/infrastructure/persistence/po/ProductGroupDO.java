@@ -19,5 +19,7 @@ public class ProductGroupDO extends BaseDO {
     @TableField("name")
     private String name;
 
+    @TableField("tenant_id")
+    private String tenantId;
 
 }
