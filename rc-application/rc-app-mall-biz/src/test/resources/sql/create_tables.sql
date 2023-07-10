@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS "distributor"  (
                                 "reputation" varchar(255) NULL DEFAULT 0 COMMENT '信誉等级',
                                 "established_time" varchar(255)  NULL DEFAULT '' COMMENT '成立时间',
                                 "deleted" int NULL DEFAULT 0 COMMENT '是否删除, 0否, 1是',
+                                "recycle_flag" int NULL DEFAULT 0 COMMENT '是否在回收站, 0否, 1是',
                                 "locking" int NULL DEFAULT 0 COMMENT '是否锁定',
                                 "creator" varchar(255)  NULL DEFAULT NULL COMMENT '数据添加人员',
                                 "update_time" timestamp NULL DEFAULT NULL COMMENT '更新时间',

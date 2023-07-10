@@ -117,4 +117,8 @@ public class DistributorPO extends BaseDO {
      */
     private Integer locking;
 
+    /**
+     * 是否处于回收站 0否，1是
+     */
+    private Integer recycleFlag;
 }

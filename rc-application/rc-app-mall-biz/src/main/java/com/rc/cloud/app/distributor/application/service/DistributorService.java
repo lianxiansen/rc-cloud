@@ -41,6 +41,20 @@ public interface DistributorService {
     void delete(String id);
 
     /**
+     * 删除至回收站
+     *
+     * @param id 编号
+     */
+    void deleteToRecycle(String id);
+
+    /**
+     * 从回收站恢复
+     *
+     * @param id 编号
+     */
+    void recycle(String id);
+
+    /**
      * 获得经销商
      *
      * @param id 编号

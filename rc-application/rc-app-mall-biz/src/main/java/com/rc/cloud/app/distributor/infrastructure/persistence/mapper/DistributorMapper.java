@@ -72,7 +72,7 @@ public interface DistributorMapper extends BaseMapperX<DistributorPO> {
                 .eqIfPresent(DistributorPO::getLevel, reqVO.getLevel())
                 .eqIfPresent(DistributorPO::getReputation, reqVO.getReputation())
                 .eqIfPresent(DistributorPO::getEstablishedTime, reqVO.getEstablishedTime())
-                .eqIfPresent(DistributorPO::getDeleted, reqVO.getDeleted())
+                .eqIfPresent(DistributorPO::getRecycleFlag, reqVO.getRecycleFlag())
                 .eqIfPresent(DistributorPO::getLocking, reqVO.getLocking())
                 .orderByDesc(DistributorPO::getCreateTime));
     }
@@ -99,7 +99,6 @@ public interface DistributorMapper extends BaseMapperX<DistributorPO> {
                 .eqIfPresent(DistributorPO::getLevel, reqVO.getLevel())
                 .eqIfPresent(DistributorPO::getReputation, reqVO.getReputation())
                 .eqIfPresent(DistributorPO::getEstablishedTime, reqVO.getEstablishedTime())
-                .eqIfPresent(DistributorPO::getDeleted, reqVO.getDeleted())
                 .eqIfPresent(DistributorPO::getLocking, reqVO.getLocking())
                 .orderByDesc(DistributorPO::getId));
     }

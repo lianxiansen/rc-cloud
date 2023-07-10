@@ -174,4 +174,22 @@ public class DistributorController {
     public CodeResult<List<DistributorContactBaseVO>> getContacts(@RequestParam("id") String id) {
         return CodeResult.ok(DistributorContactConvert.INSTANCE.convertList3(contactService.getByDistributorId(id)));
     }
+
+    @GetMapping("/deleteToRecycle")
+    @Operation(summary = "删除经销商至回收站")
+    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+
+    public CodeResult<Boolean> deleteToRecycle(@RequestParam("id") String id) {
+        service.deleteToRecycle(id);
+        return CodeResult.ok(true);
+    }
+
+    @GetMapping("/recycle")
+    @Operation(summary = "从回收站恢复经销商")
+    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+
+    public CodeResult<Boolean> recycle(@RequestParam("id") String id) {
+        service.recycle(id);
+        return CodeResult.ok(true);
+    }
 }

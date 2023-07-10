@@ -11,6 +11,7 @@ import com.rc.cloud.app.distributor.application.convert.DistributorConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorDetailConvert;
 import com.rc.cloud.app.distributor.application.event.DistributorDeleteEvent;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
+import com.rc.cloud.app.distributor.infrastructure.config.DistributorConstants;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorDetailMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
@@ -65,11 +66,11 @@ public class DistributorServiceImpl implements DistributorService {
         DistributorDetailPO distributorDetailPO = DistributorDetailConvert.INSTANCE.convert(createReqVO);
         List<DistributorContactPO> contactDOList = DistributorContactConvert.INSTANCE.convertList(createReqVO.getContacts());
 
-        if (contactDOList.size()>0){
+        if (contactDOList.size() > 0) {
             List<String> names = contactDOList.stream().map(x -> x.getName()).distinct().collect(Collectors.toList());
             List<String> mobiles = contactDOList.stream().map(x -> x.getMobile()).distinct().collect(Collectors.toList());
-            distributorPO.setContact(StringUtils.join(names,","));
-            distributorPO.setMobile(StringUtils.join(mobiles,","));
+            distributorPO.setContact(StringUtils.join(names, ","));
+            distributorPO.setMobile(StringUtils.join(mobiles, ","));
         }
         mapper.insert(distributorPO);
         distributorDetailPO.setDistributorId(distributorPO.getId());
@@ -94,11 +95,11 @@ public class DistributorServiceImpl implements DistributorService {
         DistributorDetailPO detailObj = DistributorDetailConvert.INSTANCE.convert(updateReqVO);
         List<DistributorContactPO> contacts = DistributorContactConvert.INSTANCE.convertList2(updateReqVO.getContacts());
 
-        if (contacts.size()>0){
+        if (contacts.size() > 0) {
             List<String> names = contacts.stream().map(x -> x.getName()).distinct().collect(Collectors.toList());
             List<String> mobiles = contacts.stream().map(x -> x.getMobile()).distinct().collect(Collectors.toList());
-            updateObj.setContact(StringUtils.join(names,","));
-            updateObj.setMobile(StringUtils.join(mobiles,","));
+            updateObj.setContact(StringUtils.join(names, ","));
+            updateObj.setMobile(StringUtils.join(mobiles, ","));
         }
         // 更新主表
         mapper.updateById(updateObj);
@@ -128,8 +129,31 @@ public class DistributorServiceImpl implements DistributorService {
         validateExists(id);
         // 删除
         mapper.deleteById(id);
-        DistributorDeleteEvent deleteEvent=new DistributorDeleteEvent(id);
+        DistributorDeleteEvent deleteEvent = new DistributorDeleteEvent(id);
         SpringContextHolder.publishEvent(deleteEvent);
+    }
+
+    @Override
+    @Transactional
+    public void deleteToRecycle(String id) {
+        // 校验存在
+        validateExists(id);
+        // 删除
+        DistributorPO distributorPO = mapper.selectById(id);
+        distributorPO.setRecycleFlag(DistributorConstants.IS_RECYCLE_FLAG);
+        mapper.updateById(distributorPO);
+        DistributorDeleteEvent deleteEvent = new DistributorDeleteEvent(id);
+        SpringContextHolder.publishEvent(deleteEvent);
+    }
+
+    @Override
+    public void recycle(String id) {
+        // 校验存在
+        validateExists(id);
+        // 恢复
+        DistributorPO distributorPO = mapper.selectById(id);
+        distributorPO.setRecycleFlag(DistributorConstants.IS_NOT_RECYCLE_FLAG);
+        mapper.updateById(distributorPO);
     }
 
     private void validateExists(String id) {

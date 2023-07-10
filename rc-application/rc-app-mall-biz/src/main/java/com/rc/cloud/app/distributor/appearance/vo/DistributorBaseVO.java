@@ -71,4 +71,7 @@ public class DistributorBaseVO {
 
     @Schema(description = "是否锁定")
     private Integer locking;
+
+    @Schema(description = "是否处于回收站")
+    private Integer recycleFlag;
 }
