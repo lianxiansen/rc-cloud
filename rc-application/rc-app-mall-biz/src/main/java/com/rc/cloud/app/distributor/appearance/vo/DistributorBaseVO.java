@@ -24,6 +24,15 @@ public class DistributorBaseVO {
     @Schema(description = "区")
     private String county;
 
+    @Schema(description = "省编码")
+    private String provinceCode;
+
+    @Schema(description = "市编码")
+    private String cityCode;
+
+    @Schema(description = "区编码")
+    private String countyCode;
+
     @Schema(description = "详细地址")
     private String address;
 
