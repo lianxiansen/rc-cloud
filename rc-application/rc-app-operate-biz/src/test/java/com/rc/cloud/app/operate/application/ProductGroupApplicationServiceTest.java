@@ -1,0 +1,247 @@
+package com.rc.cloud.app.operate.application;
+
+import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
+import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
+import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
+import com.rc.cloud.app.operate.application.service.ProductGroupApplicationService;
+import com.rc.cloud.app.operate.domain.common.DomainException;
+import com.rc.cloud.app.operate.domain.model.product.Product;
+import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
+import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
+import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupItemId;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.domain.service.ProductGroupDomainService;
+import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
+import com.rc.cloud.common.core.exception.ApplicationException;
+import com.rc.cloud.common.core.util.object.ObjectUtils;
+import org.junit.FixMethodOrder;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runners.MethodSorters;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import static org.mockito.Mockito.when;
+
+/**
+ * @ClassName: ProductGroupApplicationServiceTest
+ * @Author: liandy
+ * @Date: 2023/7/7 11:01
+ * 1.创建组合
+ *  1.1创建组合时，产品唯一标识无效，阻止创建
+ * 2.解除组合
+ *  2.1解除组合时，组合唯一标识无效，解除失败
+ * 3.添加组合产品
+ *  3.1添加组合产品数量超过10个，阻止添加
+ *  3.2添加组合产品重复，阻止添加
+ *  3.3添加组合产品且产品不存在时，阻止添加
+ * 4.检索产品组合列表
+ *
+ */
+@ExtendWith({SpringExtension.class})
+@Import({ProductGroupApplicationService.class, ProductGroupDomainService.class})
+@DisplayName("组合应用服务测试")
+@FixMethodOrder(MethodSorters.DEFAULT)
+public class ProductGroupApplicationServiceTest {
+    @MockBean
+    private ProductGroupRepository productGroupRepositoryStub;
+    @MockBean
+    private ProductRepository productRepositoryStub;
+
+    @Autowired
+    private ProductGroupApplicationService productGroupApplicationService;
+
+    private ProductGroupCreateDTO productGroupCreateDTO;
+
+
+
+    @BeforeEach
+    public void beforeEach() {
+        productGroupCreateDTO = new ProductGroupCreateDTO();
+        productGroupCreateDTO.setName(RandomUtils.randomString());
+
+        Answer answer = new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                if(invocation.getMock().getClass().getName().contains("ProductGroupRepository")){
+                    String method = invocation.getMethod().getName();
+                    if (method == "nextId") {
+                        return new ProductGroupId(UUID.randomUUID().toString().substring(0, 31));
+                    }
+                    if (method == "nextItemId") {
+                        return new ProductGroupItemId(UUID.randomUUID().toString().substring(0, 31));
+                    }
+                }
+                if(invocation.getMock().getClass().getName().contains("ProductRepository")){
+                    String method = invocation.getMethod().getName();
+                    if (method == "nextId") {
+                        return new ProductId(UUID.randomUUID().toString().substring(0, 31));
+                    }
+                }
+                return null;
+            }
+        };
+        when(productGroupRepositoryStub.nextId()).thenAnswer(answer);
+        when(productGroupRepositoryStub.nextItemId()).thenAnswer(answer);
+        when(productRepositoryStub.nextId()).thenAnswer(answer);
+
+    }
+
+    @Test
+    @DisplayName("创建组合")
+    public void createProductGroup() {
+        Product product=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        productGroupCreateDTO.setProductId(product.getId().id());
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        ProductGroup productGroup = productGroupApplicationService.createProductGroup(productGroupCreateDTO);
+        Assertions.assertTrue(ObjectUtils.isNotNull(productGroup.getId()) &&
+                productGroupCreateDTO.getName().equals(productGroup.getName()), "创建组合失败");
+    }
+
+    @Test
+    @DisplayName("创建组合时，产品唯一标识无效")
+    public void createProductGroupWhenProductIdInvalidThenThrowException() {
+        Product product=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        productGroupCreateDTO.setProductId(product.getId().id());
+        when(productRepositoryStub.findById(product.getId())).thenReturn(null);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            ProductGroup productGroup = productGroupApplicationService.createProductGroup(productGroupCreateDTO);
+        });
+    }
+
+    @Test
+    @DisplayName("解除组合")
+    public void releaseProductGroup() {
+        Product product=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        productGroupCreateDTO.setProductId(product.getId().id());
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        ProductGroup productGroup= productGroupApplicationService.createProductGroup(productGroupCreateDTO);
+
+        when(productGroupRepositoryStub.findById(productGroup.getId())).thenReturn(productGroup);
+        when(productGroupRepositoryStub.removeById(productGroup.getId())).thenReturn(true);
+        boolean released= productGroupApplicationService.release(productGroup.getId().id());
+        Assertions.assertTrue(released, "解除组合失败");
+    }
+    @Test
+    @DisplayName("解除组合，唯一标识无效")
+    public void releaseProductGroupWhenIdInvalidThenThrowException() {
+        Product product=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        productGroupCreateDTO.setProductId(product.getId().id());
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        ProductGroup productGroup= productGroupApplicationService.createProductGroup(productGroupCreateDTO);
+
+        when(productGroupRepositoryStub.findById(productGroup.getId())).thenReturn(null);
+        when(productGroupRepositoryStub.removeById(productGroup.getId())).thenReturn(true);
+        Assertions.assertThrows(ApplicationException.class, () -> {
+            boolean released= productGroupApplicationService.release(productGroup.getId().id());
+        });
+    }
+
+
+    @Test
+    @DisplayName("添加组合产品")
+    public void appendGroupItem() {
+        Product product=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        productGroupCreateDTO.setProductId(product.getId().id());
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        ProductGroup productGroup= productGroupApplicationService.createProductGroup(productGroupCreateDTO);
+
+        when(productGroupRepositoryStub.findById(productGroup.getId())).thenReturn(productGroup);
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        Product groupItem=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        when(productRepositoryStub.findById(groupItem.getId())).thenReturn(groupItem);
+
+        ProductGroupItemCreateDTO productGroupItemCreateDTO=new ProductGroupItemCreateDTO().setProductGroupId(productGroup.getId().id())
+                        .setProductId(groupItem.getId().id());
+        productGroupApplicationService.appendGroupItem(productGroupItemCreateDTO);
+        Assertions.assertEquals(1,productGroup.size());
+    }
+    @Test
+    @DisplayName("添加组合产品数量超过上限")
+    public void appendGroupItemWhenMoreThanLimitThenThrowsException() {
+        Product product=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        productGroupCreateDTO.setProductId(product.getId().id());
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        ProductGroup productGroup= productGroupApplicationService.createProductGroup(productGroupCreateDTO);
+
+        when(productGroupRepositoryStub.findById(productGroup.getId())).thenReturn(productGroup);
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        Assertions.assertThrows(DomainException.class, () -> {
+            for(int i=0;i<ProductGroup.MAX_ITEM_SIZE+1;i++){
+                Product groupItem=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+                ProductGroupItemCreateDTO productGroupItemCreateDTO=new ProductGroupItemCreateDTO().setProductGroupId(productGroup.getId().id())
+                        .setProductId(groupItem.getId().id());
+                when(productRepositoryStub.findById(groupItem.getId())).thenReturn(groupItem);
+                productGroupApplicationService.appendGroupItem(productGroupItemCreateDTO);
+            }
+        });
+    }
+
+    @Test
+    @DisplayName("添加组合产品重复")
+    public void appendGroupItemWhenRepeatThrowsException() {
+        Product product=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        productGroupCreateDTO.setProductId(product.getId().id());
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        ProductGroup productGroup= productGroupApplicationService.createProductGroup(productGroupCreateDTO);
+
+        when(productGroupRepositoryStub.findById(productGroup.getId())).thenReturn(productGroup);
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        Product groupItem=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        when(productRepositoryStub.findById(groupItem.getId())).thenReturn(groupItem);
+        when(productGroupRepositoryStub.itemExist(productGroup.getId(),groupItem.getId())).thenReturn(true);
+        Assertions.assertThrows(DomainException.class, () -> {
+            ProductGroupItemCreateDTO productGroupItemCreateDTO=new ProductGroupItemCreateDTO().setProductGroupId(productGroup.getId().id())
+                    .setProductId(groupItem.getId().id());
+            productGroupApplicationService.appendGroupItem(productGroupItemCreateDTO);
+        });
+    }
+    @Test
+    @DisplayName("添加组合产品且组合产品的唯一标识无效")
+    public void appendGroupItemWhenProductIdInvalidThrowsException() {
+        Product product=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        productGroupCreateDTO.setProductId(product.getId().id());
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        ProductGroup productGroup= productGroupApplicationService.createProductGroup(productGroupCreateDTO);
+
+        when(productGroupRepositoryStub.findById(productGroup.getId())).thenReturn(productGroup);
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        Product groupItem=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        when(productRepositoryStub.findById(groupItem.getId())).thenReturn(null);
+        when(productGroupRepositoryStub.itemExist(productGroup.getId(),groupItem.getId())).thenReturn(true);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            ProductGroupItemCreateDTO productGroupItemCreateDTO=new ProductGroupItemCreateDTO().setProductGroupId(productGroup.getId().id())
+                    .setProductId(groupItem.getId().id());
+            productGroupApplicationService.appendGroupItem(productGroupItemCreateDTO);
+        });
+    }
+
+    @Test
+    @DisplayName("检索产品组合列表")
+    public void selectList(){
+        Product product=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        productGroupCreateDTO.setProductId(product.getId().id());
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        ProductGroup productGroup= productGroupApplicationService.createProductGroup(productGroupCreateDTO);
+        List<ProductGroup> productGroupList=new ArrayList<>();
+        productGroupList.add(productGroup);
+        when(productGroupRepositoryStub.selectList(product.getId())).thenReturn(productGroupList);
+        List<ProductGroupBO> list=productGroupApplicationService.selectList(product.getId().id());
+        Assertions.assertTrue(list.size()>0);
+    }
+}

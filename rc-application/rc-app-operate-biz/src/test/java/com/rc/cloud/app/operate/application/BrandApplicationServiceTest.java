@@ -88,7 +88,7 @@ public class BrandApplicationServiceTest {
                 return null;
             }
         };
-        when(brandRepositoryMock.nextBrandId()).thenAnswer(answer);
+        when(brandRepositoryMock.nextId()).thenAnswer(answer);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class BrandApplicationServiceTest {
         createBrandDTO.setEnabled(Boolean.FALSE);
         Brand brand=brandApplicationService.createBrand(createBrandDTO);
         Assertions.assertFalse(brand.isEnable());
-        when(brandRepositoryMock.getBrand(brand.getId())).thenReturn(brand);
+        when(brandRepositoryMock.findById(brand.getId())).thenReturn(brand);
         brandApplicationService.changeState(brand.getId().id());
         Assertions.assertTrue(ObjectUtils.isNotNull(brand.getId()) &&
                 createBrandDTO.getName().equals(brand.getName()) &&
@@ -122,7 +122,7 @@ public class BrandApplicationServiceTest {
         createBrandDTO.setEnabled(Boolean.TRUE);
         Brand brand=brandApplicationService.createBrand(createBrandDTO);
         Assertions.assertTrue(brand.isEnable());
-        when(brandRepositoryMock.getBrand(brand.getId())).thenReturn(brand);
+        when(brandRepositoryMock.findById(brand.getId())).thenReturn(brand);
         brandApplicationService.changeState(brand.getId().id());
         Assertions.assertTrue(ObjectUtils.isNotNull(brand.getId()) &&
                 createBrandDTO.getName().equals(brand.getName()) &&
@@ -137,7 +137,7 @@ public class BrandApplicationServiceTest {
     public void updateBrand() {
         Brand brand=brandApplicationService.createBrand(createBrandDTO);
         updateBrandDTO.setId(brand.getId().id());
-        when(brandRepositoryMock.getBrand(brand.getId())).thenReturn(brand);
+        when(brandRepositoryMock.findById(brand.getId())).thenReturn(brand);
         brandApplicationService.updateBrand(updateBrandDTO);
         Assertions.assertTrue(ObjectUtils.isNotNull(brand.getId()) &&
                 updateBrandDTO.getName().equals(brand.getName()) &&
