@@ -1,7 +1,7 @@
-package com.rc.cloud.common.job.core.scheduler;
+package com.rc.cloud.app.system.common.job.core.scheduler;
 
-import com.rc.cloud.common.job.core.enums.JobDataKeyEnum;
-import com.rc.cloud.common.job.core.handler.JobHandlerInvoker;
+import com.rc.cloud.app.system.common.job.core.handler.JobHandlerInvoker;
+import com.rc.cloud.app.system.common.job.core.enums.JobDataKeyEnum;
 import org.quartz.*;
 
 /**

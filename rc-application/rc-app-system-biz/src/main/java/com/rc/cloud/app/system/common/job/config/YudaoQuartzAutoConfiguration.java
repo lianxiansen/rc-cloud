@@ -1,6 +1,6 @@
-package com.rc.cloud.common.job.config;
+package com.rc.cloud.app.system.common.job.config;
 
-import com.rc.cloud.common.job.core.scheduler.SchedulerManager;
+import com.rc.cloud.app.system.common.job.core.scheduler.SchedulerManager;
 import org.quartz.Scheduler;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;

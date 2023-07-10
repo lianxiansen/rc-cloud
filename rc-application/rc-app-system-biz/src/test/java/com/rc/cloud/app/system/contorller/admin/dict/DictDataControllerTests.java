@@ -54,9 +54,9 @@ public class DictDataControllerTests {
     }
 
     @Test
-    @WithMockUser()
+    @WithMockUser(value = "admin", authorities = {"sys:dict:query"})
     public void getDictDataById_success() throws Exception {
-        mvc.perform(get("/sys/dict-data/" + 1))
+        mvc.perform(get("/sys/dict-data/1236"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
