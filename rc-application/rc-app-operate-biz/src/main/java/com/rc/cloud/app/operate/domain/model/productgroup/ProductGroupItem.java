@@ -18,6 +18,7 @@ public class ProductGroupItem extends Entity {
     private ProductGroupItemId id;
     private ProductGroupId productGroupId;
     private ProductId productId;
+    private String productName;
     private CreateTime createTime;
 
     public ProductGroupItem(ProductGroupItemId id,ProductGroupId productGroupId,ProductId productId){
@@ -25,5 +26,31 @@ public class ProductGroupItem extends Entity {
         this.productGroupId = productGroupId;
         this.productId = productId;
         this.createTime=new CreateTime(LocalDateTime.now());
+    }
+
+    public ProductGroupItemId getId() {
+        return id;
+    }
+
+
+
+    public ProductGroupId getProductGroupId() {
+        return productGroupId;
+    }
+
+
+
+    public ProductId getProductId() {
+        return productId;
+    }
+
+
+
+    public CreateTime getCreateTime() {
+        return createTime;
+    }
+
+    public String getProductName() {
+        return productName;
     }
 }

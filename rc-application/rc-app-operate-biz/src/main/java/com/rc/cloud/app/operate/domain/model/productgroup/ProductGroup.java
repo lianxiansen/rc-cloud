@@ -89,4 +89,8 @@ public class ProductGroup extends Entity {
         }
         return productGroupItems.add(item);
     }
+
+    public Collection<ProductGroupItem> getProductGroupItemList(){
+        return this.productGroupItems;
+    }
 }

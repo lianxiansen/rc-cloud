@@ -25,14 +25,19 @@ public class BrandRepositoryImpl implements BrandRepository {
     private RemoteIdGeneratorService remoteIdGeneratorService;
 
     @Override
-    public boolean save(Brand brandEntity) {
-        BrandDO brandDO = BrandConvert.convert2BrandPO(brandEntity);
+    public boolean save(Brand brand) {
+        BrandDO brandDO = BrandConvert.convert2BrandPO(brand);
         return brandMapper.insert(brandDO) > 0;
     }
 
     @Override
     public Brand findById(BrandId brandId) {
         return null;
+    }
+
+    @Override
+    public boolean exists(BrandId brandId) {
+        return brandMapper.exists(null);
     }
 
     @Override

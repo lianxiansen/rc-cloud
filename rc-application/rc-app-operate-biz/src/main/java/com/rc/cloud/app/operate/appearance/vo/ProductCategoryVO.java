@@ -30,9 +30,9 @@ public class ProductCategoryVO {
 
     private String parentId;
 
-    private Boolean enabledFlag;
+    private boolean enabled;
 
-    private Integer sortId;
+    private int sort;
 
     public static ProductCategoryVO from(ProductCategoryBO productCategory){
         return ProductCategoryAssemble.INSTANCE.convert2ProductCategoryVO(productCategory);

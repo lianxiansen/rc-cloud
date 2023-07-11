@@ -35,7 +35,7 @@ public class ProductCategoryApplicationService {
     @Resource
     private ProductCategoryDomainServce productCategoryDomainServce;
 
-    public ProductCategory createProductCategory(ProductCategoryCreateDTO productCreateCategoryDTO) {
+    public ProductCategoryBO createProductCategory(ProductCategoryCreateDTO productCreateCategoryDTO) {
         AssertUtils.notNull(productCreateCategoryDTO,"productCreateCategoryDTO must be not null");
         ProductCategoryId id = productCategoryRepository.nextId();
         TenantId tenantId = new TenantId(productCreateCategoryDTO.getTenantId());
@@ -59,12 +59,12 @@ public class ProductCategoryApplicationService {
             productCategory.inherit(parentCategory);
         }
         productCategory.publishSaveEvent();
-        return productCategory;
+        return ProductCategoryBO.convert(productCategory);
     }
 
 
     @Transactional(rollbackFor = Exception.class)
-    public void updateProductCategory(ProductCategoryUpdateDTO productCategoryDTO) {
+    public ProductCategoryBO updateProductCategory(ProductCategoryUpdateDTO productCategoryDTO) {
         ProductCategory productCategory = productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getId()));
         if(ObjectUtils.isNull(productCategory)){
             throw new ApplicationException("产品分类不存在");
@@ -98,7 +98,15 @@ public class ProductCategoryApplicationService {
         if (ObjectUtils.isNotNull(productCategoryDTO.getSortId())) {
             productCategory.setSort(new Sort(productCategoryDTO.getSortId()));
         }
+        if (ObjectUtils.isNotNull(productCategoryDTO.getEnabledFlag())) {
+            if(productCategoryDTO.getEnabledFlag().booleanValue()){
+                productCategory.setEnabled(new Enabled(true));
+            }else{
+                productCategory.setEnabled(new Enabled(false));
+            }
+        }
         productCategory.publishSaveEvent();
+        return ProductCategoryBO.convert(productCategory);
     }
 
     public boolean remove(String id){

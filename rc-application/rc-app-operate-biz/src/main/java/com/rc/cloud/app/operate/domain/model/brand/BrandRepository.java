@@ -8,6 +8,8 @@ public interface BrandRepository {
 
     Brand findById(BrandId brandId);
 
+    boolean exists(BrandId brandId);
+
     BrandId nextId();
 
     boolean removeById(BrandId brandId);

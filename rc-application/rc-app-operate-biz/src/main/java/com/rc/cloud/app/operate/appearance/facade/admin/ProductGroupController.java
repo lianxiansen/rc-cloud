@@ -27,9 +27,8 @@ public class ProductGroupController {
 
     @PostMapping("create")
     @Operation(summary = "创建产品组合")
-    public CodeResult<Long> create(@Valid @RequestBody ProductGroupCreateDTO ProductGroupCreateDTO) {
-        productGroupApplicationService.createProductGroup(ProductGroupCreateDTO);
-        return CodeResult.ok();
+    public CodeResult<ProductGroupVO> create(@Valid @RequestBody ProductGroupCreateDTO ProductGroupCreateDTO) {
+        return CodeResult.ok(ProductGroupVO.from(productGroupApplicationService.createProductGroup(ProductGroupCreateDTO)));
     }
 
     @GetMapping("release")
@@ -38,7 +37,6 @@ public class ProductGroupController {
         productGroupApplicationService.release(id);
         return CodeResult.ok();
     }
-
 
 
     @GetMapping("appendGroupItem")

@@ -28,13 +28,13 @@ public class ProductGroupApplicationService {
     private ProductGroupRepository productGroupRepository;
     @Autowired
     private ProductRepository productRepository;
-    
 
-    public ProductGroup createProductGroup(ProductGroupCreateDTO productGroupCreateDTO) {
+
+    public ProductGroupBO createProductGroup(ProductGroupCreateDTO productGroupCreateDTO) {
         AssertUtils.notNull(productGroupCreateDTO, "productGroupCreateDTO must be not null");
         Product product = productRepository.findById(new ProductId(productGroupCreateDTO.getProductId()));
         ProductGroup productGroup = productGroupDomainService.createProductGroup(productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()), product);
-        return productGroup;
+        return ProductGroupBO.convert(productGroup);
     }
 
     public boolean release(String id) {
@@ -59,7 +59,7 @@ public class ProductGroupApplicationService {
     public List<ProductGroupBO> selectList(String productId){
         AssertUtils.notEmpty(productId, "productId must be not empty");
         List<ProductGroup> groupList=productGroupRepository.selectList(new ProductId(productId));
-        return ProductGroupBO.from(groupList);
+        return ProductGroupBO.convertBatch(groupList);
     }
 
 }
