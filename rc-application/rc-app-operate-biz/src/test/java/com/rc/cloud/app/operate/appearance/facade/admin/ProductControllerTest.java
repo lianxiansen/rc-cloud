@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.appearance.facade.admin;
 
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.operate.application.dto.*;
@@ -64,9 +65,7 @@ public class ProductControllerTest {
         when(remoteIdGeneratorService.uidGenerator()).thenAnswer(answer);
     }
 
-    @Test
-    public void create() throws Exception {
-
+    private ProductSaveDTO createProduct(){
         ProductSaveDTO productSaveDTO=new ProductSaveDTO();
         productSaveDTO.setName("优生活香水洗衣液持久留香柔顺护色机洗手洗天然家庭装");
         String v="[\n" +
@@ -178,10 +177,18 @@ public class ProductControllerTest {
 
         productSaveDTO.setTenantId("001");
         productSaveDTO.setDetail("sadfdsafasdfasdfasdfsdf");
+        return productSaveDTO;
+    }
 
+    @Test
+    public void create() throws Exception {
+
+        ProductSaveDTO product = createProduct();
+        String str= JSON.toJSONString(product);
+        System.out.println(str);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(productSaveDTO);
+                .writeValueAsString(product);
         mvc.perform(post("/operate/product/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
@@ -192,5 +199,17 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data").isEmpty());
     }
+
+    @Autowired
+    ProductApplicationService productApplicationService;
+    @Test
+    public void update() throws Exception{
+        ProductSaveDTO product = createProduct();
+        productApplicationService.createProduct(product);
+        System.out.println(product.getId());
+
+    }
+
+
 
 }

@@ -40,6 +40,14 @@ public class Product extends Entity {
 
     private CategoryName thirdCategory;
 
+    public Product clone(ProductId id){
+
+
+        return null;
+    }
+
+
+
     /**
      * 如果只有两
      * @param firstCategory

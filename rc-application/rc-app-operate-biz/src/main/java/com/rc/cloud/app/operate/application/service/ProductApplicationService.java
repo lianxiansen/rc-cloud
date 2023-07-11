@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.application.service;
 
+import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.*;
@@ -16,6 +17,7 @@ import com.rc.cloud.app.operate.domain.model.productsku.valobj.SupplyPrice;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.Weight;
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,9 +70,13 @@ public class ProductApplicationService {
         }
     }
 
-
+    /**
+     * 创建商品
+     * @param productSaveDTO
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
-    public void createProduct(ProductSaveDTO productSaveDTO){
+    public String createProduct(ProductSaveDTO productSaveDTO){
 
         ProductId productId=productRepository.nextId();
         TenantId tenantId = new TenantId(productSaveDTO.getTenantId() + "");
@@ -223,10 +229,17 @@ public class ProductApplicationService {
             productSku.setProductSkuAttributeEntity(productSkuAttributeEntity);
             productSkuRepository.insertProductSku(productSku);
         }
+        return productId.id();
 
     }
+
+    /**
+     * 修改商品
+     * @param productSaveDTO
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
-    public void updateProduct(ProductSaveDTO productSaveDTO){
+    public String updateProduct(ProductSaveDTO productSaveDTO){
 
         ProductId productId=new ProductId(productSaveDTO.getId());
         TenantId tenantId=new TenantId(productSaveDTO.getTenantId());
@@ -405,7 +418,91 @@ public class ProductApplicationService {
             }
         }
 
+        return productId.id();
+
+    }
+
+    /**
+     * 获取商品
+     * @param productId
+     * @return
+     */
+    public Product getProduct(String productId){
+        Product product = productRepository.findById(new ProductId(productId));
+        return product;
+    }
+
+
+    public String copyProduct(String productId){
+        Product product = productRepository.findById(new ProductId(productId));
+        Product productClone=product.clone(productRepository.nextId());
+
+        if(product.getProductDicts()!=null){
+            for (ProductDictEntity productDict : product.getProductDicts()) {
+                productDict.setId(productDictRepository.nextId());
+            }
+        }
+        if(product.getProductAttributeEntity()!=null){
+            ProductAttributeEntity productAttributeEntity = product.getProductAttributeEntity();
+        }
+        if(product.getDetail()!=null){
+
+        }
+        productRepository.insertProductEntity(product);
+        List<ProductSku> productSkuList = productSkuRepository.getProductSkuListByProductId(new ProductId(productId));
+        for (ProductSku productSku : productSkuList) {
+            List<ProductSkuImageEntity> skuImageList = productSku.getSkuImageList();
+            if(skuImageList!=null){
+
+            }
+            if(productSku.getProductSkuAttributeEntity()!=null){
+
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * 获取商品列表
+     * @return
+     */
+    public PageResult<ProductBO> getProductList(){
+
+        return null;
+    }
+
+
+    public String modifyProductField(ProductModifyDTO productModifyDTO){
+
+       if(productModifyDTO.getModifyValue()==null){
+           throw new IllegalArgumentException("修改属性不能为空");
+       }
+        ProductSaveDTO productSaveDTO =new ProductSaveDTO();
+        productSaveDTO.setId(productModifyDTO.getProductId());
+        String modifyValue = productModifyDTO.getModifyValue();
+        if(modifyValue.equals(ProductModifyDTO.NEW)){
+
+            productSaveDTO.setNewFlag(productModifyDTO.getModifyValue()=="1"?true:false);
+        }else if(modifyValue.equals(ProductModifyDTO.ENABLED)){
+
+            productSaveDTO.setEnabledFlag(productModifyDTO.getModifyValue()=="1"?true:false);
+        }else if(modifyValue.equals(ProductModifyDTO.ONSHELF)){
+
+            productSaveDTO.setOnShelfStatus(Integer.valueOf(productModifyDTO.getModifyValue()));
+        }else if(modifyValue.equals(ProductModifyDTO.PUBLIC)){
+
+            productSaveDTO.setPublicFlag(productModifyDTO.getModifyValue()=="1"?true:false);
+        }else if(modifyValue.equals(ProductModifyDTO.RECOMMEND)){
+
+            productSaveDTO.setRecommendFlag(productModifyDTO.getModifyValue()=="1"?true:false);
+        }else{
+            throw new IllegalArgumentException("修改属性不存在");
+        }
+
+        return updateProduct(productSaveDTO);
 
 
     }
+
 }
