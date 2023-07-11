@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @Data
 public class DistributorContactBaseVO {
 
+    @Schema(description = "联系人id")
+    private String id;
     @Schema(description = "联系人名称")
     private String name;
     @Schema(description = "联系人手机")
