@@ -192,7 +192,7 @@ public class DistributorController {
     }
 
     @GetMapping("/lock")
-    @Operation(summary = "删除经销商至回收站")
+    @Operation(summary = "锁定经销商")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     public CodeResult<Boolean> lock(@RequestParam("id") String id) {
         service.lock(id);
@@ -200,7 +200,7 @@ public class DistributorController {
     }
 
     @GetMapping("/unlock")
-    @Operation(summary = "从回收站恢复经销商")
+    @Operation(summary = "解除锁定")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     public CodeResult<Boolean> unlock(@RequestParam("id") String id) {
         service.unlock(id);
