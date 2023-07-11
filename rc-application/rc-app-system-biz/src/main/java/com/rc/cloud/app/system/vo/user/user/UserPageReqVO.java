@@ -25,6 +25,9 @@ public class UserPageReqVO extends PageParam {
     @Schema(description = "手机号码,模糊匹配", example = "yudao")
     private String mobile;
 
+    @Schema(description = "性别查询", example = "1")
+    private Integer sex;
+
     @Schema(description = "展示状态,参见 CommonStatusEnum 枚举类", example = "1")
     private Integer status;
 
