@@ -1,9 +1,11 @@
-package com.rc.cloud.common.security.service;
+package com.rc.cloud.common.security.service.impl;
 
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.feign.RemoteUserService;
 import com.rc.cloud.common.core.constant.CacheConstants;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.security.service.RcUser;
+import com.rc.cloud.common.security.service.RcUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

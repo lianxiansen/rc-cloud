@@ -1,10 +1,12 @@
-package com.rc.cloud.common.security.service;
+package com.rc.cloud.common.security.service.impl;
 
 import com.rc.cloud.app.distributor.user.DistributorUser;
 import com.rc.cloud.app.distributor.user.RemoteDistributorUserService;
 import com.rc.cloud.app.system.enums.oauth2.OAuth2GrantTypeEnum;
 import com.rc.cloud.common.core.constant.CacheConstants;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.security.service.RcUser;
+import com.rc.cloud.common.security.service.RcUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
@@ -16,10 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author WJF
@@ -29,7 +28,7 @@ import java.util.Set;
 @Slf4j
 @Primary
 @RequiredArgsConstructor
-public class RcDistributorUserDetailsService implements RcUserDetailsService {
+public class RcDistributorUserDetailsServiceImpl implements RcUserDetailsService {
 
     private final String DISTRIBUTOR_NAME = "distributor";
     private final String DISTRIBUTOR_APP_NAME = "DistributorApp";
@@ -68,6 +67,12 @@ public class RcDistributorUserDetailsService implements RcUserDetailsService {
                 true, authorities);
     }
 
+    /**
+     * 是否支持此客户端校验(经销商系统手机号密码登录)
+     *
+     * @param clientId 目标客户端
+     * @return true/false
+     */
     @Override
     public boolean support(String clientId, String grantType) {
         return DISTRIBUTOR_APP_NAME.equals(clientId) && OAuth2GrantTypeEnum.PASSWORD.equals(grantType);
