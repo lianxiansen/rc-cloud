@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.service.dept;
 
-import com.rc.cloud.app.system.model.dept.SysPostDO;
+import com.rc.cloud.app.system.model.dept.SysPostPO;
 import com.rc.cloud.app.system.vo.dept.post.PostCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostExportReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostPageReqVO;
@@ -50,7 +50,7 @@ public interface PostService {
      * @param ids 岗位编号数组。如果为空，不进行筛选
      * @return 部门列表
      */
-    default List<SysPostDO> getPostList(@Nullable Collection<String> ids) {
+    default List<SysPostPO> getPostList(@Nullable Collection<String> ids) {
         return getPostList(ids, asSet(CommonStatusEnum.ENABLE.getStatus(), CommonStatusEnum.DISABLE.getStatus()));
     }
 
@@ -61,7 +61,7 @@ public interface PostService {
      * @param statuses 状态数组。如果为空，不进行筛选
      * @return 部门列表
      */
-    List<SysPostDO> getPostList(@Nullable Collection<String> ids, @Nullable Collection<Integer> statuses);
+    List<SysPostPO> getPostList(@Nullable Collection<String> ids, @Nullable Collection<Integer> statuses);
 
     /**
      * 获得岗位分页列表
@@ -69,7 +69,7 @@ public interface PostService {
      * @param reqVO 分页条件
      * @return 部门分页列表
      */
-    PageResult<SysPostDO> getPostPage(PostPageReqVO reqVO);
+    PageResult<SysPostPO> getPostPage(PostPageReqVO reqVO);
 
     /**
      * 获得岗位列表
@@ -77,7 +77,7 @@ public interface PostService {
      * @param reqVO 查询条件
      * @return 部门列表
      */
-    List<SysPostDO> getPostList(PostExportReqVO reqVO);
+    List<SysPostPO> getPostList(PostExportReqVO reqVO);
 
     /**
      * 获得岗位信息
@@ -85,7 +85,7 @@ public interface PostService {
      * @param id 岗位编号
      * @return 岗位信息
      */
-    SysPostDO getPost(String id);
+    SysPostPO getPost(String id);
 
     /**
      * 校验岗位们是否有效。如下情况，视为无效：

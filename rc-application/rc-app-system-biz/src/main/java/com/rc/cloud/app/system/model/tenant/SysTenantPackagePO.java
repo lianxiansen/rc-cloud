@@ -20,7 +20,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysTenantPackageDO extends BaseDO {
+public class SysTenantPackagePO extends BaseDO {
 
     /**
      * 套餐编号，自增

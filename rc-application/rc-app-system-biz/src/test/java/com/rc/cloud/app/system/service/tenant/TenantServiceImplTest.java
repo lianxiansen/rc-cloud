@@ -1,10 +1,10 @@
 package com.rc.cloud.app.system.service.tenant;
 
-import com.rc.cloud.app.system.model.permission.SysMenuDO;
-import com.rc.cloud.app.system.model.tenant.SysTenantDO;
-import com.rc.cloud.app.system.model.tenant.SysTenantPackageDO;
+import com.rc.cloud.app.system.model.permission.SysMenuPO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPackagePO;
 import com.rc.cloud.app.system.mapper.tenant.TenantMapper;
-import com.rc.cloud.app.system.model.permission.SysRoleDO;
+import com.rc.cloud.app.system.model.permission.SysRolePO;
 import com.rc.cloud.app.system.service.permission.MenuService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.permission.RoleService;
@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.rc.cloud.app.system.model.tenant.SysTenantDO.PACKAGE_ID_SYSTEM;
+import static com.rc.cloud.app.system.model.tenant.SysTenantPO.PACKAGE_ID_SYSTEM;
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
 import static com.rc.cloud.common.core.util.collection.SetUtils.asSet;
 import static com.rc.cloud.common.core.util.date.LocalDateTimeUtils.buildBetweenTime;
@@ -84,7 +84,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetTenantIdList() {
         // mock 数据
-        SysTenantDO tenant = randomPojo(SysTenantDO.class, o -> o.setId("1"));
+        SysTenantPO tenant = randomPojo(SysTenantPO.class, o -> o.setId("1"));
         tenantMapper.insert(tenant);
 
         // 调用，并断言业务异常
@@ -100,7 +100,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidTenant_disable() {
         // mock 数据
-        SysTenantDO tenant = randomPojo(SysTenantDO.class, o -> {
+        SysTenantPO tenant = randomPojo(SysTenantPO.class, o -> {
             o.setId("1");
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());
         });
@@ -113,7 +113,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidTenant_expired() {
         // mock 数据
-        SysTenantDO tenant = randomPojo(SysTenantDO.class, o -> {
+        SysTenantPO tenant = randomPojo(SysTenantPO.class, o -> {
             o.setId("1");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setExpireTime(buildTime(2020, 2, 2));
@@ -127,7 +127,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testValidTenant_success() {
         // mock 数据
-        SysTenantDO tenant = randomPojo(SysTenantDO.class, o -> {
+        SysTenantPO tenant = randomPojo(SysTenantPO.class, o -> {
             o.setId("1");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setExpireTime(LocalDateTime.now().plusDays(1));
@@ -141,7 +141,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateTenant() {
         // mock 套餐 100L
-        SysTenantPackageDO tenantPackage = randomPojo(SysTenantPackageDO.class, o -> o.setId("100"));
+        SysTenantPackagePO tenantPackage = randomPojo(SysTenantPackagePO.class, o -> o.setId("100"));
         when(tenantPackageService.validTenantPackage(eq("100"))).thenReturn(tenantPackage);
         // mock 角色 200L
         when(roleService.createRole(argThat(role -> {
@@ -176,7 +176,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // 断言
         assertNotNull(tenantId);
         // 校验记录的属性是否正确
-        SysTenantDO tenant = tenantMapper.selectById(tenantId);
+        SysTenantPO tenant = tenantMapper.selectById(tenantId);
         assertPojoEquals(reqVO, tenant);
         assertEquals("300", tenant.getContactUserId());
         // verify 分配权限
@@ -188,7 +188,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateTenant_success() {
         // mock 数据
-        SysTenantDO dbTenant = randomPojo(SysTenantDO.class, o -> o.setStatus(randomCommonStatus()));
+        SysTenantPO dbTenant = randomPojo(SysTenantPO.class, o -> o.setStatus(randomCommonStatus()));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         // 准备参数
         TenantUpdateReqVO reqVO = randomPojo(TenantUpdateReqVO.class, o -> {
@@ -198,16 +198,16 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         });
 
         // mock 套餐
-        SysTenantPackageDO tenantPackage = randomPojo(SysTenantPackageDO.class,
+        SysTenantPackagePO tenantPackage = randomPojo(SysTenantPackagePO.class,
                 o -> o.setMenuIds(asSet("200", "201")));
         when(tenantPackageService.validTenantPackage(eq(reqVO.getPackageId()))).thenReturn(tenantPackage);
         // mock 所有角色
-        SysRoleDO role100 = randomPojo(SysRoleDO.class, o -> {
+        SysRolePO role100 = randomPojo(SysRolePO.class, o -> {
             o.setId("100");
             o.setCode(RoleCodeEnum.TENANT_ADMIN.getCode());
         });
         role100.setTenantId(dbTenant.getId());
-        SysRoleDO role101 = randomPojo(SysRoleDO.class, o -> o.setId("101"));
+        SysRolePO role101 = randomPojo(SysRolePO.class, o -> o.setId("101"));
         role101.setTenantId(dbTenant.getId());
         when(roleService.getRoleListByStatus(isNull())).thenReturn(asList(role100, role101));
         // mock 每个角色的权限
@@ -216,7 +216,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // 调用
         tenantService.updateTenant(reqVO);
         // 校验是否更新正确
-        SysTenantDO tenant = tenantMapper.selectById(reqVO.getId()); // 获取最新的
+        SysTenantPO tenant = tenantMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, tenant);
         // verify 设置角色权限
         verify(permissionService).assignRoleMenu(eq("100"), eq(asSet("200", "201")));
@@ -235,7 +235,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testUpdateTenant_system() {
         // mock 数据
-        SysTenantDO dbTenant = randomPojo(SysTenantDO.class, o -> o.setPackageId(PACKAGE_ID_SYSTEM));
+        SysTenantPO dbTenant = randomPojo(SysTenantPO.class, o -> o.setPackageId(PACKAGE_ID_SYSTEM));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         // 准备参数
         TenantUpdateReqVO reqVO = randomPojo(TenantUpdateReqVO.class, o -> {
@@ -249,7 +249,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteTenant_success() {
         // mock 数据
-        SysTenantDO dbTenant = randomPojo(SysTenantDO.class,
+        SysTenantPO dbTenant = randomPojo(SysTenantPO.class,
                 o -> o.setStatus(randomCommonStatus()));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         // 准备参数
@@ -273,7 +273,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testDeleteTenant_system() {
         // mock 数据
-        SysTenantDO dbTenant = randomPojo(SysTenantDO.class, o -> o.setPackageId(PACKAGE_ID_SYSTEM));
+        SysTenantPO dbTenant = randomPojo(SysTenantPO.class, o -> o.setPackageId(PACKAGE_ID_SYSTEM));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         // 准备参数
         String id = dbTenant.getId();
@@ -285,13 +285,13 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetTenant() {
         // mock 数据
-        SysTenantDO dbTenant = randomPojo(SysTenantDO.class);
+        SysTenantPO dbTenant = randomPojo(SysTenantPO.class);
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         // 准备参数
         String id = dbTenant.getId();
 
         // 调用
-        SysTenantDO result = tenantService.getTenant(id);
+        SysTenantPO result = tenantService.getTenant(id);
         // 校验存在
         assertPojoEquals(result, dbTenant);
     }
@@ -299,7 +299,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetTenantPage() {
         // mock 数据
-        SysTenantDO dbTenant = randomPojo(SysTenantDO.class, o -> { // 等会查询到
+        SysTenantPO dbTenant = randomPojo(SysTenantPO.class, o -> { // 等会查询到
             o.setName("芋道源码");
             o.setContactName("芋艿");
             o.setContactMobile("15601691300");
@@ -326,7 +326,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         reqVO.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
 
         // 调用
-        PageResult<SysTenantDO> pageResult = tenantService.getTenantPage(reqVO);
+        PageResult<SysTenantPO> pageResult = tenantService.getTenantPage(reqVO);
         // 断言
         assertEquals(1, pageResult.getTotal());
         assertEquals(1, pageResult.getList().size());
@@ -336,7 +336,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetTenantList() {
         // mock 数据
-        SysTenantDO dbTenant = randomPojo(SysTenantDO.class, o -> { // 等会查询到
+        SysTenantPO dbTenant = randomPojo(SysTenantPO.class, o -> { // 等会查询到
             o.setName("芋道源码");
             o.setContactName("芋艿");
             o.setContactMobile("15601691300");
@@ -363,7 +363,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         reqVO.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));
 
         // 调用
-        List<SysTenantDO> list = tenantService.getTenantList(reqVO);
+        List<SysTenantPO> list = tenantService.getTenantList(reqVO);
         // 断言
         assertEquals(1, list.size());
         assertPojoEquals(dbTenant, list.get(0));
@@ -372,11 +372,11 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetTenantByName() {
         // mock 数据
-        SysTenantDO dbTenant = randomPojo(SysTenantDO.class, o -> o.setName("芋道"));
+        SysTenantPO dbTenant = randomPojo(SysTenantPO.class, o -> o.setName("芋道"));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
 
         // 调用
-        SysTenantDO result = tenantService.getTenantByName("芋道");
+        SysTenantPO result = tenantService.getTenantByName("芋道");
         // 校验存在
         assertPojoEquals(result, dbTenant);
     }
@@ -384,13 +384,13 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetTenantListByPackageId() {
         // mock 数据
-        SysTenantDO dbTenant1 = randomPojo(SysTenantDO.class, o -> o.setPackageId("1"));
+        SysTenantPO dbTenant1 = randomPojo(SysTenantPO.class, o -> o.setPackageId("1"));
         tenantMapper.insert(dbTenant1);// @Sql: 先插入出一条存在的数据
-        SysTenantDO dbTenant2 = randomPojo(SysTenantDO.class, o -> o.setPackageId("2"));
+        SysTenantPO dbTenant2 = randomPojo(SysTenantPO.class, o -> o.setPackageId("2"));
         tenantMapper.insert(dbTenant2);// @Sql: 先插入出一条存在的数据
 
         // 调用
-        List<SysTenantDO> result = tenantService.getTenantListByPackageId("1");
+        List<SysTenantPO> result = tenantService.getTenantListByPackageId("1");
         assertEquals(1, result.size());
         assertPojoEquals(dbTenant1, result.get(0));
     }
@@ -398,9 +398,9 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetTenantCountByPackageId() {
         // mock 数据
-        SysTenantDO dbTenant1 = randomPojo(SysTenantDO.class, o -> o.setPackageId("1"));
+        SysTenantPO dbTenant1 = randomPojo(SysTenantPO.class, o -> o.setPackageId("1"));
         tenantMapper.insert(dbTenant1);// @Sql: 先插入出一条存在的数据
-        SysTenantDO dbTenant2 = randomPojo(SysTenantDO.class, o -> o.setPackageId("2"));
+        SysTenantPO dbTenant2 = randomPojo(SysTenantPO.class, o -> o.setPackageId("2"));
         tenantMapper.insert(dbTenant2);// @Sql: 先插入出一条存在的数据
 
         // 调用
@@ -428,7 +428,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // mock 未禁用
         when(tenantProperties.getEnable()).thenReturn(true);
         // mock 租户
-        SysTenantDO dbTenant = randomPojo(SysTenantDO.class);
+        SysTenantPO dbTenant = randomPojo(SysTenantPO.class);
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         TenantContextHolder.setTenantId(dbTenant.getId());
 
@@ -461,12 +461,12 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // mock 未禁用
         when(tenantProperties.getEnable()).thenReturn(true);
         // mock 租户
-        SysTenantDO dbTenant = randomPojo(SysTenantDO.class, o -> o.setPackageId(PACKAGE_ID_SYSTEM));
+        SysTenantPO dbTenant = randomPojo(SysTenantPO.class, o -> o.setPackageId(PACKAGE_ID_SYSTEM));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         TenantContextHolder.setTenantId(dbTenant.getId());
         // mock 菜单
-        when(menuService.getMenuList()).thenReturn(Arrays.asList(randomPojo(SysMenuDO.class, o -> o.setId("100")),
-                        randomPojo(SysMenuDO.class, o -> o.setId("101"))));
+        when(menuService.getMenuList()).thenReturn(Arrays.asList(randomPojo(SysMenuPO.class, o -> o.setId("100")),
+                        randomPojo(SysMenuPO.class, o -> o.setId("101"))));
 
         // 调用
         tenantService.handleTenantMenu(handler);
@@ -481,11 +481,11 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // mock 未禁用
         when(tenantProperties.getEnable()).thenReturn(true);
         // mock 租户
-        SysTenantDO dbTenant = randomPojo(SysTenantDO.class, o -> o.setPackageId("200"));
+        SysTenantPO dbTenant = randomPojo(SysTenantPO.class, o -> o.setPackageId("200"));
         tenantMapper.insert(dbTenant);// @Sql: 先插入出一条存在的数据
         TenantContextHolder.setTenantId(dbTenant.getId());
         // mock 菜单
-        when(tenantPackageService.getTenantPackage(eq("200"))).thenReturn(randomPojo(SysTenantPackageDO.class,
+        when(tenantPackageService.getTenantPackage(eq("200"))).thenReturn(randomPojo(SysTenantPackagePO.class,
                 o -> o.setMenuIds(asSet("100", "101"))));
 
         // 调用

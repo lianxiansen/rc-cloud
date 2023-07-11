@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @TableName("sys_menu")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysMenuDO extends BaseDO {
+public class SysMenuPO extends BaseDO {
 
     /**
      * 菜单编号 - 根节点

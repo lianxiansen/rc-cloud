@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysUserDO extends TenantBaseDO {
+public class SysUserPO extends TenantBaseDO {
 
     /**
      * 用户ID

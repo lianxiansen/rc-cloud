@@ -2,7 +2,7 @@ package com.rc.cloud.app.system.service.dict;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.model.dict.SysDictDataDO;
+import com.rc.cloud.app.system.model.dict.SysDictDataPO;
 import com.rc.cloud.app.system.model.dict.SysDictTypeDO;
 import com.rc.cloud.app.system.convert.dict.DictTypeConvert;
 import com.rc.cloud.app.system.mapper.dict.DictTypeMapper;
@@ -102,14 +102,14 @@ public class DictTypeServiceImpl implements DictTypeService {
         List<SysDictTypeDO> typeList = dictTypeMapper.selectList();
 
         // 全部字典数据列表
-        List<SysDictDataDO> dataList = dictDataService.selectListBySortAsc();
+        List<SysDictDataPO> dataList = dictDataService.selectListBySortAsc();
 
         // 全部字典列表
         List<SysDictVO> dictList = new ArrayList<>(typeList.size());
         for (SysDictTypeDO type : typeList) {
             SysDictVO dict = new SysDictVO();
             dict.setType(type.getType());
-            for (SysDictDataDO data : dataList) {
+            for (SysDictDataPO data : dataList) {
                 if (type.getType().equals(data.getDictType())) {
                     dict.getDataList().add(new SysDictVO.DictData(data.getLabel(), data.getValue(), data.getCssClass(), data.getColorType()));
                 }

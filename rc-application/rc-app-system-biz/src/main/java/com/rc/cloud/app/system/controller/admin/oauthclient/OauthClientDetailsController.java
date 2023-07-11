@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rc.cloud.app.system.api.oauthclient.vo.SysOauthClientDetailsVO;
-import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsDO;
+import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsPO;
 import com.rc.cloud.app.system.service.oauthclient.OauthClientDetailsService;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.annotation.Inner;
@@ -41,9 +41,9 @@ public class OauthClientDetailsController {
 	 * @return SysOauthClientDetails
 	 */
 	@GetMapping("/{clientId}")
-	public CodeResult<List<SysOauthClientDetailsDO>> getByClientId(@PathVariable String clientId) {
+	public CodeResult<List<SysOauthClientDetailsPO>> getByClientId(@PathVariable String clientId) {
 		return CodeResult.ok(oauthClientDetailsService
-			.list(Wrappers.<SysOauthClientDetailsDO>lambdaQuery().eq(SysOauthClientDetailsDO::getClientId, clientId)));
+			.list(Wrappers.<SysOauthClientDetailsPO>lambdaQuery().eq(SysOauthClientDetailsPO::getClientId, clientId)));
 	}
 
 	/**
@@ -53,8 +53,8 @@ public class OauthClientDetailsController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public CodeResult<IPage<SysOauthClientDetailsDO>> getOauthClientDetailsPage(Page page,
-			SysOauthClientDetailsDO sysOauthClientDetails) {
+	public CodeResult<IPage<SysOauthClientDetailsPO>> getOauthClientDetailsPage(Page page,
+                                                                                SysOauthClientDetailsPO sysOauthClientDetails) {
 		return CodeResult.ok(oauthClientDetailsService.page(page, Wrappers.query(sysOauthClientDetails)));
 	}
 
@@ -66,7 +66,7 @@ public class OauthClientDetailsController {
 //	@SysLog("添加终端")
 	@PostMapping
 //	@PreAuthorize("@pms.hasPermission('sys_client_add')")
-	public CodeResult<Boolean> add(@Valid @RequestBody SysOauthClientDetailsDO sysOauthClientDetails) {
+	public CodeResult<Boolean> add(@Valid @RequestBody SysOauthClientDetailsPO sysOauthClientDetails) {
 		return CodeResult.ok(oauthClientDetailsService.save(sysOauthClientDetails));
 	}
 
@@ -90,7 +90,7 @@ public class OauthClientDetailsController {
 //	@SysLog("编辑终端")
 	@PutMapping
 //	@PreAuthorize("@pms.hasPermission('sys_client_edit')")
-	public CodeResult<Boolean> update(@Valid @RequestBody SysOauthClientDetailsDO sysOauthClientDetails) {
+	public CodeResult<Boolean> update(@Valid @RequestBody SysOauthClientDetailsPO sysOauthClientDetails) {
 		return CodeResult.ok(oauthClientDetailsService.updateClientDetailsById(sysOauthClientDetails));
 	}
 
@@ -105,10 +105,10 @@ public class OauthClientDetailsController {
 	@Inner
 	@GetMapping("/getClientDetailsById/{clientId}")
 	public CodeResult<SysOauthClientDetailsVO> getClientDetailsById(@PathVariable String clientId) {
-		SysOauthClientDetailsDO sysOauthClientDetailsDO = oauthClientDetailsService.getOne(
-				Wrappers.<SysOauthClientDetailsDO>lambdaQuery().eq(SysOauthClientDetailsDO::getClientId, clientId), false);
+		SysOauthClientDetailsPO sysOauthClientDetailsPO = oauthClientDetailsService.getOne(
+				Wrappers.<SysOauthClientDetailsPO>lambdaQuery().eq(SysOauthClientDetailsPO::getClientId, clientId), false);
 		SysOauthClientDetailsVO sysOauthClientDetailsVO = new SysOauthClientDetailsVO();
-		BeanUtils.copyProperties(sysOauthClientDetailsDO, sysOauthClientDetailsVO);
+		BeanUtils.copyProperties(sysOauthClientDetailsPO, sysOauthClientDetailsVO);
 		return CodeResult.ok(sysOauthClientDetailsVO);
 	}
 }

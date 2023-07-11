@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.convert.permission;
 
-import com.rc.cloud.app.system.model.permission.SysMenuDO;
+import com.rc.cloud.app.system.model.permission.SysMenuPO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuRespVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuSimpleRespVO;
@@ -15,14 +15,14 @@ public interface MenuConvert {
 
     MenuConvert INSTANCE = Mappers.getMapper(MenuConvert.class);
 
-    List<MenuRespVO> convertList(List<SysMenuDO> list);
+    List<MenuRespVO> convertList(List<SysMenuPO> list);
 
-    SysMenuDO convert(MenuCreateReqVO bean);
+    SysMenuPO convert(MenuCreateReqVO bean);
 
-    SysMenuDO convert(MenuUpdateReqVO bean);
+    SysMenuPO convert(MenuUpdateReqVO bean);
 
-    MenuRespVO convert(SysMenuDO bean);
+    MenuRespVO convert(SysMenuPO bean);
 
-    List<MenuSimpleRespVO> convertList02(List<SysMenuDO> list);
+    List<MenuSimpleRespVO> convertList02(List<SysMenuPO> list);
 
 }

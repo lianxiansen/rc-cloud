@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.controller.admin.dept;
 
-import com.rc.cloud.app.system.model.dept.SysPostDO;
+import com.rc.cloud.app.system.model.dept.SysPostPO;
 import com.rc.cloud.app.system.convert.dept.PostConvert;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.vo.dept.post.*;
@@ -63,7 +63,7 @@ public class PostController {
     @Parameter(name = "id", description = "岗位编号", required = true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:post:query')")
     public CodeResult<PostRespVO> getPost(@PathVariable("id") String id) {
-        SysPostDO postDO = postService.getPost(id);
+        SysPostPO postDO = postService.getPost(id);
         if (postDO == null) {
             throw exception(POST_NOT_FOUND);
         }
@@ -74,9 +74,9 @@ public class PostController {
     @Operation(summary = "获取岗位精简信息列表", description = "只包含被开启的岗位，主要用于前端的下拉选项")
     public CodeResult<List<PostSimpleRespVO>> getSimplePostList() {
         // 获得岗位列表，只要开启状态的
-        List<SysPostDO> list = postService.getPostList(null, Collections.singleton(CommonStatusEnum.ENABLE.getStatus()));
+        List<SysPostPO> list = postService.getPostList(null, Collections.singleton(CommonStatusEnum.ENABLE.getStatus()));
         // 排序后，返回给前端
-        list.sort(Comparator.comparing(SysPostDO::getSort));
+        list.sort(Comparator.comparing(SysPostPO::getSort));
         return CodeResult.ok(PostConvert.INSTANCE.convertList02(list));
     }
 

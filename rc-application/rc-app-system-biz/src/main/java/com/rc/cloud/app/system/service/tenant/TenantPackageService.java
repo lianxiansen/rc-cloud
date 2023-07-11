@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.tenant;
 
 
-import com.rc.cloud.app.system.model.tenant.SysTenantPackageDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPackagePO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackagePageReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageUpdateReqVO;
@@ -45,7 +45,7 @@ public interface TenantPackageService {
      * @param id 编号
      * @return 租户套餐
      */
-    SysTenantPackageDO getTenantPackage(String id);
+    SysTenantPackagePO getTenantPackage(String id);
 
     /**
      * 获得租户套餐分页
@@ -53,7 +53,7 @@ public interface TenantPackageService {
      * @param pageReqVO 分页查询
      * @return 租户套餐分页
      */
-    PageResult<SysTenantPackageDO> getTenantPackagePage(TenantPackagePageReqVO pageReqVO);
+    PageResult<SysTenantPackagePO> getTenantPackagePage(TenantPackagePageReqVO pageReqVO);
 
     /**
      * 校验租户套餐
@@ -61,7 +61,7 @@ public interface TenantPackageService {
      * @param id 编号
      * @return 租户套餐
      */
-    SysTenantPackageDO validTenantPackage(String id);
+    SysTenantPackagePO validTenantPackage(String id);
 
     /**
      * 获得指定状态的租户套餐列表
@@ -69,6 +69,6 @@ public interface TenantPackageService {
      * @param status 状态
      * @return 租户套餐
      */
-    List<SysTenantPackageDO> getTenantPackageListByStatus(Integer status);
+    List<SysTenantPackagePO> getTenantPackageListByStatus(Integer status);
 
 }

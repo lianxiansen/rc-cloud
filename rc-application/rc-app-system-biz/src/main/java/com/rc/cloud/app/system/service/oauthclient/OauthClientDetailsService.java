@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.oauthclient;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsDO;
+import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsPO;
 
 /**
  * <p>
@@ -11,7 +11,7 @@ import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsDO;
  * @author lengleng
  * @since 2019/2/1
  */
-public interface OauthClientDetailsService extends IService<SysOauthClientDetailsDO> {
+public interface OauthClientDetailsService extends IService<SysOauthClientDetailsPO> {
 
 	/**
 	 * 通过ID删除客户端
@@ -25,7 +25,7 @@ public interface OauthClientDetailsService extends IService<SysOauthClientDetail
 	 * @param sysOauthClientDetails
 	 * @return
 	 */
-	Boolean updateClientDetailsById(SysOauthClientDetailsDO sysOauthClientDetails);
+	Boolean updateClientDetailsById(SysOauthClientDetailsPO sysOauthClientDetails);
 
 	/**
 	 * 清除客户端缓存

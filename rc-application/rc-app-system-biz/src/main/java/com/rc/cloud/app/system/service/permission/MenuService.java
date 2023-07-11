@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.permission;
 
 
-import com.rc.cloud.app.system.model.permission.SysMenuDO;
+import com.rc.cloud.app.system.model.permission.SysMenuPO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuListReqVO;
 import com.rc.cloud.app.system.vo.permission.menu.MenuUpdateReqVO;
@@ -49,7 +49,7 @@ public interface MenuService {
      *
      * @return 菜单列表
      */
-    List<SysMenuDO> getMenuList();
+    List<SysMenuPO> getMenuList();
 
     /**
      * 基于租户，筛选菜单列表
@@ -58,7 +58,7 @@ public interface MenuService {
      * @param reqVO 筛选条件请求 VO
      * @return 菜单列表
      */
-    List<SysMenuDO> getMenuListByTenant(MenuListReqVO reqVO);
+    List<SysMenuPO> getMenuListByTenant(MenuListReqVO reqVO);
 
     /**
      * 筛选菜单列表
@@ -66,7 +66,7 @@ public interface MenuService {
      * @param reqVO 筛选条件请求 VO
      * @return 菜单列表
      */
-    List<SysMenuDO> getMenuList(MenuListReqVO reqVO);
+    List<SysMenuPO> getMenuList(MenuListReqVO reqVO);
 
     /**
      * 获得所有菜单，从缓存中
@@ -77,7 +77,7 @@ public interface MenuService {
      * @param menusStatuses 菜单状态数组
      * @return 菜单列表
      */
-    List<SysMenuDO> getMenuListFromCache(Collection<Integer> menuTypes, Collection<Integer> menusStatuses);
+    List<SysMenuPO> getMenuListFromCache(Collection<Integer> menuTypes, Collection<Integer> menusStatuses);
 
     /**
      * 获得指定编号的菜单数组，从缓存中
@@ -89,7 +89,7 @@ public interface MenuService {
      * @param menusStatuses 菜单状态数组
      * @return 菜单数组
      */
-    List<SysMenuDO> getMenuListFromCache(Collection<String> menuIds, Collection<Integer> menuTypes,
+    List<SysMenuPO> getMenuListFromCache(Collection<String> menuIds, Collection<Integer> menuTypes,
                                          Collection<Integer> menusStatuses);
 
     /**
@@ -98,7 +98,7 @@ public interface MenuService {
      * @param permission 权限标识
      * @return 数组
      */
-    List<SysMenuDO> getMenuListByPermissionFromCache(String permission);
+    List<SysMenuPO> getMenuListByPermissionFromCache(String permission);
 
     /**
      * 获得菜单
@@ -106,7 +106,7 @@ public interface MenuService {
      * @param id 菜单编号
      * @return 菜单
      */
-    SysMenuDO getMenu(String id);
+    SysMenuPO getMenu(String id);
 
     Set<String> getUserAuthorityByUserId(String userId);
 
@@ -117,7 +117,7 @@ public interface MenuService {
      * @param type 菜单类型
      * @return 菜单列表
      */
-    List<SysMenuDO> getUsableUserMenuList(String userId, String parentId, Integer type);
+    List<SysMenuPO> getUsableUserMenuList(String userId, String parentId, Integer type);
 
     /**
      * 获取所有的用户的菜单列表，包括禁用的
@@ -126,7 +126,7 @@ public interface MenuService {
      * @param type 菜单类型
      * @return 菜单列表
      */
-    List<SysMenuDO> getUserMenuList(String userId, String parentId, Integer type);
+    List<SysMenuPO> getUserMenuList(String userId, String parentId, Integer type);
 
-    List<SysMenuDO> getUserMenuList(String userId, Integer type);
+    List<SysMenuPO> getUserMenuList(String userId, Integer type);
 }

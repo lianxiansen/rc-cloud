@@ -2,7 +2,7 @@ package com.rc.cloud.app.system.service.dict;
 
 import cn.hutool.core.collection.CollUtil;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.model.dict.SysDictDataDO;
+import com.rc.cloud.app.system.model.dict.SysDictDataPO;
 import com.rc.cloud.app.system.convert.dict.DictDataConvert;
 import com.rc.cloud.app.system.mapper.dict.DictDataMapper;
 import com.rc.cloud.app.system.model.dict.SysDictTypeDO;
@@ -38,9 +38,9 @@ public class DictDataServiceImpl implements DictDataService {
     /**
      * 排序 dictType > sort
      */
-    private static final Comparator<SysDictDataDO> COMPARATOR_TYPE_AND_SORT = Comparator
-            .comparing(SysDictDataDO::getDictType)
-            .thenComparingInt(SysDictDataDO::getSort);
+    private static final Comparator<SysDictDataPO> COMPARATOR_TYPE_AND_SORT = Comparator
+            .comparing(SysDictDataPO::getDictType)
+            .thenComparingInt(SysDictDataPO::getSort);
 
     @Resource
     private DictTypeService dictTypeService;
@@ -49,26 +49,26 @@ public class DictDataServiceImpl implements DictDataService {
     private DictDataMapper dictDataMapper;
 
     @Override
-    public List<SysDictDataDO> getDictDataList() {
-        List<SysDictDataDO> list = dictDataMapper.selectList();
+    public List<SysDictDataPO> getDictDataList() {
+        List<SysDictDataPO> list = dictDataMapper.selectList();
         list.sort(COMPARATOR_TYPE_AND_SORT);
         return list;
     }
 
     @Override
-    public PageResult<SysDictDataDO> getDictDataPage(DictDataPageReqVO reqVO) {
+    public PageResult<SysDictDataPO> getDictDataPage(DictDataPageReqVO reqVO) {
         return dictDataMapper.selectPage(reqVO);
     }
 
     @Override
-    public List<SysDictDataDO> getDictDataList(DictDataExportReqVO reqVO) {
-        List<SysDictDataDO> list = dictDataMapper.selectList(reqVO);
+    public List<SysDictDataPO> getDictDataList(DictDataExportReqVO reqVO) {
+        List<SysDictDataPO> list = dictDataMapper.selectList(reqVO);
         list.sort(COMPARATOR_TYPE_AND_SORT);
         return list;
     }
 
     @Override
-    public SysDictDataDO getDictData(String id) {
+    public SysDictDataPO getDictData(String id) {
         return dictDataMapper.selectById(id);
     }
 
@@ -78,7 +78,7 @@ public class DictDataServiceImpl implements DictDataService {
         validateDictDataForCreateOrUpdate(null, reqVO.getValue(), reqVO.getDictType());
 
         // 插入字典类型
-        SysDictDataDO dictData = DictDataConvert.INSTANCE.convert(reqVO);
+        SysDictDataPO dictData = DictDataConvert.INSTANCE.convert(reqVO);
         dictDataMapper.insert(dictData);
         return dictData.getId();
     }
@@ -89,7 +89,7 @@ public class DictDataServiceImpl implements DictDataService {
         validateDictDataForCreateOrUpdate(reqVO.getId(), reqVO.getValue(), reqVO.getDictType());
 
         // 更新字典类型
-        SysDictDataDO updateObj = DictDataConvert.INSTANCE.convert(reqVO);
+        SysDictDataPO updateObj = DictDataConvert.INSTANCE.convert(reqVO);
         dictDataMapper.updateById(updateObj);
     }
 
@@ -118,7 +118,7 @@ public class DictDataServiceImpl implements DictDataService {
 
     @VisibleForTesting
     public void validateDictDataValueUnique(String id, String dictType, String value) {
-        SysDictDataDO dictData = dictDataMapper.selectByDictTypeAndValue(dictType, value);
+        SysDictDataPO dictData = dictDataMapper.selectByDictTypeAndValue(dictType, value);
         if (dictData == null) {
             return;
         }
@@ -136,7 +136,7 @@ public class DictDataServiceImpl implements DictDataService {
         if (id == null) {
             return;
         }
-        SysDictDataDO dictData = dictDataMapper.selectById(id);
+        SysDictDataPO dictData = dictDataMapper.selectById(id);
         if (dictData == null) {
             throw exception(DICT_DATA_NOT_EXISTS);
         }
@@ -158,11 +158,11 @@ public class DictDataServiceImpl implements DictDataService {
         if (CollUtil.isEmpty(values)) {
             return;
         }
-        Map<String, SysDictDataDO> dictDataMap = CollectionUtils.convertMap(
-                dictDataMapper.selectByDictTypeAndValues(dictType, values), SysDictDataDO::getValue);
+        Map<String, SysDictDataPO> dictDataMap = CollectionUtils.convertMap(
+                dictDataMapper.selectByDictTypeAndValues(dictType, values), SysDictDataPO::getValue);
         // 校验
         values.forEach(value -> {
-            SysDictDataDO dictData = dictDataMap.get(value);
+            SysDictDataPO dictData = dictDataMap.get(value);
             if (dictData == null) {
                 throw exception(DICT_DATA_NOT_EXISTS);
             }
@@ -173,17 +173,17 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @Override
-    public SysDictDataDO getDictData(String dictType, String value) {
+    public SysDictDataPO getDictData(String dictType, String value) {
         return dictDataMapper.selectByDictTypeAndValue(dictType, value);
     }
 
     @Override
-    public SysDictDataDO parseDictData(String dictType, String label) {
+    public SysDictDataPO parseDictData(String dictType, String label) {
         return dictDataMapper.selectByDictTypeAndLabel(dictType, label);
     }
 
     @Override
-    public List<SysDictDataDO> selectListBySortAsc() {
+    public List<SysDictDataPO> selectListBySortAsc() {
         return dictDataMapper.selectListBySortAsc();
     }
 

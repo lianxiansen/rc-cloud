@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.tenant.handler;
 
 
-import com.rc.cloud.app.system.model.tenant.SysTenantDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPO;
 
 /**
  * 租户信息处理
@@ -17,6 +17,6 @@ public interface TenantInfoHandler {
      *
      * @param tenant 租户信息
      */
-    void handle(SysTenantDO tenant);
+    void handle(SysTenantPO tenant);
 
 }

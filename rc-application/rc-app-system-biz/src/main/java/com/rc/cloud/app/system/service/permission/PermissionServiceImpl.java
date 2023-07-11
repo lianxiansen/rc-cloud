@@ -9,16 +9,16 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
-import com.rc.cloud.app.system.model.permission.SysMenuDO;
-import com.rc.cloud.app.system.model.user.SysUserDO;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
+import com.rc.cloud.app.system.model.permission.SysMenuPO;
+import com.rc.cloud.app.system.model.permission.SysRolePO;
+import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.common.datapermission.core.annotation.DataPermission;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.mapper.permission.RoleMenuMapper;
 import com.rc.cloud.app.system.mapper.permission.UserRoleMapper;
-import com.rc.cloud.app.system.model.dept.SysDeptDO;
-import com.rc.cloud.app.system.model.permission.SysRoleDO;
-import com.rc.cloud.app.system.model.permission.SysRoleMenuDO;
-import com.rc.cloud.app.system.model.permission.SysUserRoleDO;
+import com.rc.cloud.app.system.model.permission.SysRoleMenuPO;
+import com.rc.cloud.app.system.model.permission.SysUserRolePO;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.enums.permission.DataScopeEnum;
@@ -117,7 +117,7 @@ public class PermissionServiceImpl implements PermissionService {
         // 注意：忽略自动多租户，因为要全局初始化缓存
         TenantUtils.executeIgnore(() -> {
             // 第一步：查询数据
-            List<SysRoleMenuDO> roleMenus = roleMenuMapper.selectList();
+            List<SysRoleMenuPO> roleMenus = roleMenuMapper.selectList();
             log.info("[initLocalCacheForRoleMenu][缓存角色与菜单，数量为:{}]", roleMenus.size());
 
             // 第二步：构建缓存
@@ -140,18 +140,18 @@ public class PermissionServiceImpl implements PermissionService {
         // 注意：忽略自动多租户，因为要全局初始化缓存
         TenantUtils.executeIgnore(() -> {
             // 第一步：加载数据
-            List<SysUserRoleDO> userRoles = userRoleMapper.selectList();
+            List<SysUserRolePO> userRoles = userRoleMapper.selectList();
             log.info("[initLocalCacheForUserRole][缓存用户与角色，数量为:{}]", userRoles.size());
 
             // 第二步：构建缓存。
             ImmutableMultimap.Builder<String, String> userRoleCacheBuilder = ImmutableMultimap.builder();
             userRoles.forEach(userRoleDO -> userRoleCacheBuilder.put(userRoleDO.getUserId(), userRoleDO.getRoleId()));
-            userRoleCache = CollectionUtils.convertMultiMap2(userRoles, SysUserRoleDO::getUserId, SysUserRoleDO::getRoleId);
+            userRoleCache = CollectionUtils.convertMultiMap2(userRoles, SysUserRolePO::getUserId, SysUserRolePO::getRoleId);
         });
     }
 
     @Override
-    public List<SysMenuDO> getRoleMenuListFromCache(Collection<String> roleIds, Collection<Integer> menuTypes,
+    public List<SysMenuPO> getRoleMenuListFromCache(Collection<String> roleIds, Collection<Integer> menuTypes,
                                                     Collection<Integer> menusStatuses) {
         // 任一一个参数为空时，不返回任何菜单
         if (CollectionUtils.isAnyEmpty(roleIds, menuTypes, menusStatuses)) {
@@ -159,7 +159,7 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
         // 判断角色是否包含超级管理员。如果是超级管理员，获取到全部
-        List<SysRoleDO> roleList = roleService.getRoleListFromCache(roleIds);
+        List<SysRolePO> roleList = roleService.getRoleListFromCache(roleIds);
         if (roleService.hasAnySuperAdmin(roleList)) {
             return menuService.getMenuListFromCache(menuTypes, menusStatuses);
         }
@@ -180,7 +180,7 @@ public class PermissionServiceImpl implements PermissionService {
         // 过滤角色状态
         if (CollectionUtil.isNotEmpty(roleStatuses)) {
             roleIds.removeIf(roleId -> {
-                SysRoleDO role = roleService.getRoleFromCache(roleId);
+                SysRolePO role = roleService.getRoleFromCache(roleId);
                 return role == null || !roleStatuses.contains(role.getStatus());
             });
         }
@@ -191,10 +191,10 @@ public class PermissionServiceImpl implements PermissionService {
     public Set<String> getRoleMenuIds(String roleId) {
         // 如果是管理员的情况下，获取全部菜单编号
         if (roleService.hasAnySuperAdmin(Collections.singleton(roleId))) {
-            return convertSet(menuService.getMenuList(), SysMenuDO::getId);
+            return convertSet(menuService.getMenuList(), SysMenuPO::getId);
         }
         // 如果是非管理员的情况下，获得拥有的菜单编号
-        return convertSet(roleMenuMapper.selectListByRoleId(roleId), SysRoleMenuDO::getMenuId);
+        return convertSet(roleMenuMapper.selectListByRoleId(roleId), SysRoleMenuPO::getMenuId);
     }
 
     @Override
@@ -202,14 +202,14 @@ public class PermissionServiceImpl implements PermissionService {
     public void assignRoleMenu(String roleId, Set<String> menuIds) {
         // 获得角色拥有菜单编号
         Set<String> dbMenuIds = convertSet(roleMenuMapper.selectListByRoleId(roleId),
-                SysRoleMenuDO::getMenuId);
+                SysRoleMenuPO::getMenuId);
         // 计算新增和删除的菜单编号
         Collection<String> createMenuIds = CollUtil.subtract(menuIds, dbMenuIds);
         Collection<String> deleteMenuIds = CollUtil.subtract(dbMenuIds, menuIds);
         // 执行新增和删除。对于已经授权的菜单，不用做任何处理
         if (!CollectionUtil.isEmpty(createMenuIds)) {
             roleMenuMapper.insertBatch(CollectionUtils.convertList(createMenuIds, menuId -> {
-                SysRoleMenuDO entity = new SysRoleMenuDO();
+                SysRoleMenuPO entity = new SysRoleMenuPO();
                 entity.setRoleId(roleId);
                 entity.setMenuId(menuId);
                 return entity;
@@ -232,7 +232,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public Set<String> getUserRoleIdListByUserId(String userId) {
         return convertSet(userRoleMapper.selectListByUserId(userId),
-                SysUserRoleDO::getRoleId);
+                SysUserRolePO::getRoleId);
     }
 
     @Override
@@ -254,7 +254,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public Set<String> getUserRoleIdListByRoleIds(Collection<String> roleIds) {
         return convertSet(userRoleMapper.selectListByRoleIds(roleIds),
-                SysUserRoleDO::getUserId);
+                SysUserRolePO::getUserId);
     }
 
     @Override
@@ -262,14 +262,14 @@ public class PermissionServiceImpl implements PermissionService {
     public void assignUserRole(String userId, Set<String> roleIds) {
         // 获得角色拥有角色编号
         Set<String> dbRoleIds = convertSet(userRoleMapper.selectListByUserId(userId),
-                SysUserRoleDO::getRoleId);
+                SysUserRolePO::getRoleId);
         // 计算新增和删除的角色编号
         Collection<String> createRoleIds = CollUtil.subtract(roleIds, dbRoleIds);
         Collection<String> deleteMenuIds = CollUtil.subtract(dbRoleIds, roleIds);
         // 执行新增和删除。对于已经授权的角色，不用做任何处理
         if (!CollectionUtil.isEmpty(createRoleIds)) {
             userRoleMapper.insertBatch(CollectionUtils.convertList(createRoleIds, roleId -> {
-                SysUserRoleDO entity = new SysUserRoleDO();
+                SysUserRolePO entity = new SysUserRolePO();
                 entity.setUserId(userId);
                 entity.setRoleId(roleId);
                 return entity;
@@ -361,7 +361,7 @@ public class PermissionServiceImpl implements PermissionService {
 
         // 遍历权限，判断是否有一个满足
         return Arrays.stream(permissions).anyMatch(permission -> {
-            List<SysMenuDO> menuList = menuService.getMenuListByPermissionFromCache(permission);
+            List<SysMenuPO> menuList = menuService.getMenuListByPermissionFromCache(permission);
             // 采用严格模式，如果权限找不到对应的 Menu 的话，认为
             if (CollUtil.isEmpty(menuList)) {
                 return false;
@@ -389,7 +389,7 @@ public class PermissionServiceImpl implements PermissionService {
             return true;
         }
         Set<String> userRoles = convertSet(roleService.getRoleListFromCache(roleIds),
-                SysRoleDO::getCode);
+                SysRolePO::getCode);
         return CollUtil.containsAny(userRoles, Sets.newHashSet(roles));
     }
 
@@ -405,12 +405,12 @@ public class PermissionServiceImpl implements PermissionService {
             result.setSelf(true);
             return result;
         }
-        List<SysRoleDO> roles = roleService.getRoleListFromCache(roleIds);
+        List<SysRolePO> roles = roleService.getRoleListFromCache(roleIds);
 
         // 获得用户的部门编号的缓存，通过 Guava 的 Suppliers 惰性求值，即有且仅有第一次发起 DB 的查询
         Supplier<String> userDeptIdCache = Suppliers.memoize(() -> adminUserService.getUser(userId).getDeptId());
         // 遍历每个角色，计算
-        for (SysRoleDO role : roles) {
+        for (SysRolePO role : roles) {
             // 为空时，跳过
             if (role.getDataScope() == null) {
                 continue;
@@ -435,8 +435,8 @@ public class PermissionServiceImpl implements PermissionService {
             }
             // 情况四，DEPT_DEPT_AND_CHILD
             if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPT_AND_CHILD.getScope())) {
-                List<SysDeptDO> depts = deptService.getDeptListByParentIdFromCache(userDeptIdCache.get(), true);
-                CollUtil.addAll(result.getDeptIds(), CollectionUtils.convertList(depts, SysDeptDO::getId));
+                List<SysDeptPO> depts = deptService.getDeptListByParentIdFromCache(userDeptIdCache.get(), true);
+                CollUtil.addAll(result.getDeptIds(), CollectionUtils.convertList(depts, SysDeptPO::getId));
                 // 添加本身部门编号
                 CollUtil.addAll(result.getDeptIds(), userDeptIdCache.get());
                 continue;
@@ -453,13 +453,13 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public Optional<SysUserDO> findOptionalByUsernameWithAuthorities(String username) {
-        Optional<SysUserDO> optionalByUsername = adminUserService.findOptionalByUsername(username);
+    public Optional<SysUserPO> findOptionalByUsernameWithAuthorities(String username) {
+        Optional<SysUserPO> optionalByUsername = adminUserService.findOptionalByUsername(username);
         if (!optionalByUsername.isPresent()) {
             return Optional.empty();
         } else {
-            SysUserDO sysUserDO = optionalByUsername.get();
-            Set<String> userAuthority = getPermissionListByUserId(sysUserDO.getId());
+            SysUserPO sysUserPO = optionalByUsername.get();
+            Set<String> userAuthority = getPermissionListByUserId(sysUserPO.getId());
             optionalByUsername.ifPresent(sysUserDomain ->
                     sysUserDomain.setAuthorities(userAuthority));
         }

@@ -3,47 +3,37 @@ package com.rc.cloud.app.system.model.dept;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.rc.cloud.common.core.enums.CommonStatusEnum;
+import com.rc.cloud.app.system.api.user.vo.SysUserVO;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 岗位表
+ * 用户和岗位关联
  *
  * @author ruoyi
  */
-@TableName("sys_post")
+@TableName("sys_user_post")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysPostDO extends BaseDO {
+public class SysUserPostPO extends BaseDO {
 
     /**
-     * 岗位序号
+     * 自增主键
      */
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
-     * 岗位名称
-     */
-    private String name;
-    /**
-     * 岗位编码
-     */
-    private String code;
-    /**
-     * 岗位排序
-     */
-    private Integer sort;
-    /**
-     * 状态
+     * 用户 ID
      *
-     * 枚举 {@link CommonStatusEnum}
+     * 关联 {@link SysUserVO#getId()}
      */
-    private Integer status;
+    private String userId;
     /**
-     * 备注
+     * 角色 ID
+     *
+     * 关联 {@link SysPostPO#getId()}
      */
-    private String remark;
+    private String postId;
 
 }

@@ -3,7 +3,6 @@ package com.rc.cloud.app.system.model.dict;
 import com.baomidou.mybatisplus.annotation.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
-import groovy.transform.Field;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @TableName("sys_dict_data")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysDictDataDO extends BaseDO {
+public class SysDictDataPO extends BaseDO {
 
     /**
      * 字典数据编号
@@ -38,7 +37,7 @@ public class SysDictDataDO extends BaseDO {
     /**
      * 字典类型
      *
-     * 冗余 {@link SysDictDataDO#getDictType()}
+     * 冗余 {@link SysDictDataPO#getDictType()}
      */
     private String dictType;
     /**

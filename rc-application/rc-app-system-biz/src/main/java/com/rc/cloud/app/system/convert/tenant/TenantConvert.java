@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.convert.tenant;
 
-import com.rc.cloud.app.system.model.tenant.SysTenantDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPO;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantCreateReqVO;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantExcelVO;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantRespVO;
@@ -22,17 +22,17 @@ public interface TenantConvert {
 
     TenantConvert INSTANCE = Mappers.getMapper(TenantConvert.class);
 
-    SysTenantDO convert(TenantCreateReqVO bean);
+    SysTenantPO convert(TenantCreateReqVO bean);
 
-    SysTenantDO convert(TenantUpdateReqVO bean);
+    SysTenantPO convert(TenantUpdateReqVO bean);
 
-    TenantRespVO convert(SysTenantDO bean);
+    TenantRespVO convert(SysTenantPO bean);
 
-    List<TenantRespVO> convertList(List<SysTenantDO> list);
+    List<TenantRespVO> convertList(List<SysTenantPO> list);
 
-    PageResult<TenantRespVO> convertPage(PageResult<SysTenantDO> page);
+    PageResult<TenantRespVO> convertPage(PageResult<SysTenantPO> page);
 
-    List<TenantExcelVO> convertList02(List<SysTenantDO> list);
+    List<TenantExcelVO> convertList02(List<SysTenantPO> list);
 
     default UserCreateReqVO convert02(TenantCreateReqVO bean) {
         UserCreateReqVO reqVO = new UserCreateReqVO();

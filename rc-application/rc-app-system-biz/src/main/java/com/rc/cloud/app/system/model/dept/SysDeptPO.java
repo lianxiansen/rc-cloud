@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @TableName("sys_dept")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysDeptDO extends TenantBaseDO {
+public class SysDeptPO extends TenantBaseDO {
 
     /**
      * 部门ID

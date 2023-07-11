@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.model.permission.SysRoleDO;
+import com.rc.cloud.app.system.model.permission.SysRolePO;
 import com.rc.cloud.app.system.convert.permission.RoleConvert;
 import com.rc.cloud.app.system.mapper.permission.RoleMapper;
 import com.rc.cloud.app.system.vo.permission.role.RoleCreateReqVO;
@@ -45,12 +45,12 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 角色缓存
-     * key：角色编号 {@link SysRoleDO#getId()}
+     * key：角色编号 {@link SysRolePO#getId()}
      *
      * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
      */
     @Getter
-    private volatile Map<String, SysRoleDO> roleCache;
+    private volatile Map<String, SysRolePO> roleCache;
 
     @Resource
     private PermissionService permissionService;
@@ -70,11 +70,11 @@ public class RoleServiceImpl implements RoleService {
         // 注意：忽略自动多租户，因为要全局初始化缓存
         TenantUtils.executeIgnore(() -> {
             // 第一步：查询数据
-            List<SysRoleDO> roleList = roleMapper.selectList();
+            List<SysRolePO> roleList = roleMapper.selectList();
             log.info("[initLocalCache][缓存角色，数量为:{}]", roleList.size());
 
             // 第二步：构建缓存
-            roleCache = convertMap(roleList, SysRoleDO::getId);
+            roleCache = convertMap(roleList, SysRolePO::getId);
         });
     }
 
@@ -84,7 +84,7 @@ public class RoleServiceImpl implements RoleService {
         // 校验角色
         validateRoleDuplicate(reqVO.getName(), reqVO.getCode(), null);
         // 插入到数据库
-        SysRoleDO role = RoleConvert.INSTANCE.convert(reqVO);
+        SysRolePO role = RoleConvert.INSTANCE.convert(reqVO);
         role.setType(ObjectUtil.defaultIfNull(type, RoleTypeEnum.CUSTOM.getType()));
         role.setStatus(CommonStatusEnum.ENABLE.getStatus());
         role.setDataScope(DataScopeEnum.ALL.getScope()); // 默认可查看所有数据。原因是，可能一些项目不需要项目权限
@@ -112,7 +112,7 @@ public class RoleServiceImpl implements RoleService {
         validateRoleDuplicate(reqVO.getName(), reqVO.getCode(), reqVO.getId());
 
         // 更新到数据库
-        SysRoleDO updateObj = RoleConvert.INSTANCE.convert(reqVO);
+        SysRolePO updateObj = RoleConvert.INSTANCE.convert(reqVO);
         roleMapper.updateById(updateObj);
         // 插入角色菜单关联关系
         if (CollUtil.isNotEmpty(reqVO.getMenuIds())) {
@@ -128,10 +128,10 @@ public class RoleServiceImpl implements RoleService {
         validateRoleForUpdate(id);
 
         // 更新状态
-        SysRoleDO roleDO = new SysRoleDO();
+        SysRolePO roleDO = new SysRolePO();
         roleDO.setId(id);
         roleDO.setStatus(status);
-        SysRoleDO updateObj = roleDO;
+        SysRolePO updateObj = roleDO;
         roleMapper.updateById(updateObj);
         // 发送刷新消息
 //        roleProducer.sendRoleRefreshMessage();
@@ -143,7 +143,7 @@ public class RoleServiceImpl implements RoleService {
         validateRoleForUpdate(id);
 
         // 更新数据范围
-        SysRoleDO updateObject = new SysRoleDO();
+        SysRolePO updateObject = new SysRolePO();
         updateObject.setId(id);
         updateObject.setDataScope(dataScope);
         updateObject.setDataScopeDeptIds(dataScopeDeptIds);
@@ -173,12 +173,12 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public SysRoleDO getRoleFromCache(String id) {
+    public SysRolePO getRoleFromCache(String id) {
         return roleCache.get(id);
     }
 
     @Override
-    public List<SysRoleDO> getRoleListByStatus(@Nullable Collection<Integer> statuses) {
+    public List<SysRolePO> getRoleListByStatus(@Nullable Collection<Integer> statuses) {
         if (CollUtil.isEmpty(statuses)) {
     		return roleMapper.selectList();
 		}
@@ -186,7 +186,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<SysRoleDO> getRoleListFromCache(Collection<String> ids) {
+    public List<SysRolePO> getRoleListFromCache(Collection<String> ids) {
         if (CollectionUtil.isEmpty(ids)) {
             return Collections.emptyList();
         }
@@ -195,7 +195,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean hasAnySuperAdmin(Collection<SysRoleDO> roleList) {
+    public boolean hasAnySuperAdmin(Collection<SysRolePO> roleList) {
         if (CollectionUtil.isEmpty(roleList)) {
             return false;
         }
@@ -203,17 +203,17 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public SysRoleDO getRole(String id) {
+    public SysRolePO getRole(String id) {
         return roleMapper.selectById(id);
     }
 
     @Override
-    public PageResult<SysRoleDO> getRolePage(RolePageReqVO reqVO) {
+    public PageResult<SysRolePO> getRolePage(RolePageReqVO reqVO) {
         return roleMapper.selectPage(reqVO);
     }
 
     @Override
-    public List<SysRoleDO> getRoleList(RoleExportReqVO reqVO) {
+    public List<SysRolePO> getRoleList(RoleExportReqVO reqVO) {
         return roleMapper.selectList(reqVO);
     }
 
@@ -234,7 +234,7 @@ public class RoleServiceImpl implements RoleService {
             throw exception(ROLE_ADMIN_CODE_ERROR, code);
         }
         // 1. 该 name 名字被其它角色所使用
-        SysRoleDO role = roleMapper.selectByName(name);
+        SysRolePO role = roleMapper.selectByName(name);
         if (role != null && !role.getId().equals(id)) {
             throw exception(ROLE_NAME_DUPLICATE, name);
         }
@@ -256,7 +256,7 @@ public class RoleServiceImpl implements RoleService {
      */
     @VisibleForTesting
     void validateRoleForUpdate(String id) {
-        SysRoleDO roleDO = roleMapper.selectById(id);
+        SysRolePO roleDO = roleMapper.selectById(id);
         if (roleDO == null) {
             throw exception(ROLE_NOT_EXISTS);
         }
@@ -272,11 +272,11 @@ public class RoleServiceImpl implements RoleService {
             return;
         }
         // 获得角色信息
-        List<SysRoleDO> roles = roleMapper.selectBatchIds(ids);
-        Map<String, SysRoleDO> roleMap = convertMap(roles, SysRoleDO::getId);
+        List<SysRolePO> roles = roleMapper.selectBatchIds(ids);
+        Map<String, SysRolePO> roleMap = convertMap(roles, SysRolePO::getId);
         // 校验
         ids.forEach(id -> {
-            SysRoleDO role = roleMap.get(id);
+            SysRolePO role = roleMap.get(id);
             if (role == null) {
                 throw exception(ROLE_NOT_EXISTS);
             }

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.oauthclient;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsDO;
+import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsPO;
 import com.rc.cloud.app.system.mapper.oauthclient.OauthClientDetailsMapper;
 import com.rc.cloud.common.core.constant.CacheConstants;
 import org.springframework.cache.annotation.CacheEvict;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2019/2/1
  */
 @Service
-public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetailsMapper, SysOauthClientDetailsDO>
+public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetailsMapper, SysOauthClientDetailsPO>
 		implements OauthClientDetailsService {
 
 	/**
@@ -37,7 +37,7 @@ public class OauthClientDetailsServiceImpl extends ServiceImpl<OauthClientDetail
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientDetails.clientId")
-	public Boolean updateClientDetailsById(SysOauthClientDetailsDO clientDetails) {
+	public Boolean updateClientDetailsById(SysOauthClientDetailsPO clientDetails) {
 		return this.updateById(clientDetails);
 	}
 
