@@ -40,7 +40,7 @@ import static org.mockito.Mockito.when;
 @Import({ProductCategoryDomainServce.class, ProductCategoryRepositoryImpl.class, ProductCategoryDomainServce.class,
         ProductRepositoryImpl.class, ProductImageRepositoryImpl.class, ProductCategoryRefreshListener.class})
 @DisplayName("产品分类领域服务测试")
-public class ProductCategoryDomainServiceTest extends BaseMockitoUnitTest {
+public class ProductCategoryDomainServiceUnitTest extends BaseMockitoUnitTest {
 
     @Autowired
     private ProductCategoryDomainServce productCategoryDomainServce;

@@ -19,6 +19,7 @@ import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.exception.ApplicationException;
 import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
+import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,7 +59,7 @@ import static org.mockito.Mockito.when;
 @Import({ProductGroupApplicationService.class, ProductGroupDomainService.class})
 @DisplayName("组合应用服务测试")
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class ProductGroupApplicationServiceTest {
+public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest {
     @MockBean
     private ProductGroupRepository productGroupRepositoryStub;
     @MockBean
