@@ -75,7 +75,7 @@ public class DeptController {
         List<SysDeptDO> list = deptService.getDeptList(reqVO);
         // 排序后，返回给前端
         list.sort(Comparator.comparing(SysDeptDO::getSort));
-        return CodeResult.ok(DeptConvert.INSTANCE.convertList02(list));
+        return CodeResult.ok(TreeUtil.build(DeptConvert.INSTANCE.convertList02(list)));
     }
 
     @GetMapping("/{id}")

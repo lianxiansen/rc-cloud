@@ -48,10 +48,10 @@ spring:
                 redis-rate-limiter.replenishRate: 100
                 redis-rate-limiter.burstCapacity: 200
         # 经销商 模块
-        - id: rc-app-mall-biz
-          uri: lb://rc-app-mall-biz
+        - id: rc-app-distributor-biz
+          uri: lb://rc-app-distributor-biz
           predicates:
-            - Path=/mall/**
+            - Path=/distributor/**
         # base-config 模块
         - id: rc-base-config
           uri: lb://rc-base-config

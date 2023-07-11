@@ -50,7 +50,8 @@ public class DeptControllerTests {
     @Test
     @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
     public void getDeptList_success() throws Exception {
-        mvc.perform(get("/sys/dept/list"))
+        mvc.perform(get("/sys/dept/list")
+                        .header("tenant-id", "1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))

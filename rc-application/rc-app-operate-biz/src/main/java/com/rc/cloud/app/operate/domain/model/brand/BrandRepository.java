@@ -4,11 +4,13 @@ import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 public interface BrandRepository {
-    boolean saveBrand(Brand brandEntity);
+    boolean save(Brand brandEntity);
 
-    Brand getBrand(BrandId brandId);
+    Brand findById(BrandId brandId);
 
-    BrandId nextBrandId();
+    boolean exists(BrandId brandId);
+
+    BrandId nextId();
 
     boolean removeById(BrandId brandId);
 

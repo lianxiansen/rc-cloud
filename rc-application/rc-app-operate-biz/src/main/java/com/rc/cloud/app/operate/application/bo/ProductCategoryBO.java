@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.application.bo;
 
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
+import com.rc.cloud.common.core.util.object.ObjectUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -31,9 +32,9 @@ public class ProductCategoryBO {
 
     private String parentId;
 
-    private Boolean enabledFlag;
+    private boolean enabled;
 
-    private Integer sortId;
+    private int sort;
 
     public static List<ProductCategoryBO> convertBatch(List<ProductCategory> productCategoryList) {
         List<ProductCategoryBO> boList=new ArrayList<>();
@@ -43,16 +44,21 @@ public class ProductCategoryBO {
         return boList;
     }
     public static ProductCategoryBO convert(ProductCategory productCategory) {
-        return new ProductCategoryBO()
+        ProductCategoryBO bo=new ProductCategoryBO();
+        bo= new ProductCategoryBO()
                 .setId(productCategory.getId().id())
                 .setName(productCategory.getChName().value())
                 .setEnglishName(productCategory.getEnName().value())
                 .setIcon(productCategory.getIcon().getPictureUrl())
-                .setEnabledFlag(productCategory.getEnabled().value())
+                .setEnabled(productCategory.getEnabled().value())
                 .setProductCategoryPageImage(productCategory.getPage().getCategoryImage())
                 .setProductListPageImage(productCategory.getPage().getListImage())
-                .setTenantId(productCategory.getTenantId().id());
-
+                .setTenantId(productCategory.getTenantId().id())
+                .setSort(productCategory.getSort().getValue());
+        if(ObjectUtils.isNotNull(productCategory.getParentId())){
+            bo.setParentId(productCategory.getParentId().id());
+        }
+        return bo;
     }
 
 }

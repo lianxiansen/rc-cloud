@@ -56,9 +56,6 @@ public class WebFrameworkUtils {
      */
     public static String getTenantId(HttpServletRequest request) {
         String tenantId = request.getHeader(HEADER_TENANT_ID);
-        if (tenantId == null) {
-            tenantId = String.valueOf(request.getHeaders(HEADER_TENANT_ID));
-        }
         return Objects.equals(tenantId, "") ? null : tenantId;
     }
 

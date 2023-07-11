@@ -23,6 +23,11 @@ public class ServiceNameConstants
     public static final String SYSTEM_SERVICE = "rc-app-system-biz";
 
     /**
+     * 经销商模块的serviceid
+     */
+    public static final String DISTRIBUTOR_SERVICE = "rc-app-distributor-biz";
+
+    /**
      * id生成器模块的serviceid
      */
     public static final String ID_GENERATOR_SERVICE = "rc-id-generator-server";

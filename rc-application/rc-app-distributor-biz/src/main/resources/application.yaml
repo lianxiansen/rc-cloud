@@ -1,0 +1,126 @@
+server:
+  port: 8030
+
+spring:
+  security:
+    user:
+      name: admin
+      password: "{bcrypt}$2a$10$3EqFTg5lyyBkNTXqTpe5xeGwU6QSgBxzxSBc16fZARDZ.NYIk7w0W"
+  application:
+    name: rc-app-distributor-biz
+  main:
+    allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
+  # 激活环境配置
+  profiles:
+    active: dev
+  # 文件编码 UTF8
+  mandatory-file-encoding: UTF-8
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: localhost:8848
+        enabled: true
+        register-enabled: true
+
+# Lock4j 配置项
+lock4j:
+  acquire-timeout: 3000 # 获取分布式锁超时时间，默认为 3000 毫秒
+  expire: 30000 # 分布式锁的超时时间，默认为 30 毫秒
+
+# MyBatis Plus 的配置项
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true # 虽然默认为 true ，但是还是显示去指定下。
+  global-config:
+    db-config:
+      id-type: NONE # “智能”模式，基于 IdTypeEnvironmentPostProcessor + 数据源的类型，自动适配成 AUTO、INPUT 模式。
+      #      id-type: AUTO # 自增 ID，适合 MySQL 等直接自增的数据库
+      #      id-type: INPUT # 用户输入 ID，适合 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库
+      #      id-type: ASSIGN_ID # 分配 ID，默认使用雪花算法。注意，Oracle、PostgreSQL、Kingbase、DB2、H2 数据库时，需要去除实体类上的 @KeySequence 注解
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+      logic-delete-field: deleted
+#  type-aliases-package: com.rc.cloud.app.mall.biz.mapper
+#  encryptor:
+#    password: XDV71a+xqStEA3WH # 加解密的秘钥，可使用 https://www.imaegoo.com/2020/aes-key-generator/ 网站生成
+
+--- #################### rc相关配置 ####################
+rc:
+  info:
+    version: 1.0.0
+    base-package: com.rc.cloud
+  web:
+    admin-ui:
+      url: http://dashboard.rc.cn # Admin 管理后台 UI 的地址
+  tenant: # 多租户相关配置项
+    ignore-urls:
+      - /admin-api/mall/tenant/get-id-by-name # 基于名字获取租户，不许带租户编号
+      - /admin-api/mall/captcha/get # 获取图片验证码，和租户无关
+      - /admin-api/mall/captcha/check # 校验图片验证码，和租户无关
+      - /admin-api/infra/file/*/get/** # 获取图片，和租户无关
+      - /admin-api/mall/sms/callback/* # 短信回调接口，无法带上租户编号
+      - /admin-api/pay/notify/callback/* # 支付回调通知，不携带租户编号
+      - /jmreport/* # 积木报表，无法携带租户编号
+      - /admin-api/mp/open/** # 微信公众号开放平台，微信回调接口，无法携带租户编号
+    ignore-tables:
+      - sys_tenant
+      - sys_tenant_package
+      - sys_dict_data
+      - sys_dict_type
+      - sys_oauth_client_details
+  jwt:
+    header: "Authorization" # JWT 在 HTTP Header 中的 Header 名字
+    prefix: "Bearer " # JWT 在 HTTP Header 中的值的前缀
+    accessTokenExpireTime: 3600 # JWT 的 Access Token 过期时间，单位为秒 （60 * 60 ）
+    refreshTokenExpireTime: 2592000  # JWT 的 Refresh Token 过期时间，单位为秒 30 * 24 * 3600（30天过期）
+    secret: "x88Wf09ger56t837gf89nk390rU17c5Vbe8beod7d8d3e695*4" # JWT 的加密密钥
+
+# Quartz 配置项，对应 QuartzProperties 配置类
+spring:
+  quartz:
+    auto-startup: true # 测试环境，需要开启 Job
+    scheduler-name: schedulerName # Scheduler 名字。默认为 schedulerName
+    job-store-type: jdbc # Job 存储器类型。默认为 memory 表示内存，可选 jdbc 使用数据库。
+    wait-for-jobs-to-complete-on-shutdown: true # 应用关闭时，是否等待定时任务执行完成。默认为 false ，建议设置为 true
+    properties: # 添加 Quartz Scheduler 附加属性，更多可以看 http://www.quartz-scheduler.org/documentation/2.4.0-SNAPSHOT/configuration.html 文档
+      org:
+        quartz:
+          # Scheduler 相关配置
+          scheduler:
+            instanceName: schedulerName
+            instanceId: AUTO # 自动生成 instance ID
+          # JobStore 相关配置
+          jobStore:
+            # JobStore 实现类。可见博客：https://blog.csdn.net/weixin_42458219/article/details/122247162
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            isClustered: true # 是集群模式
+            clusterCheckinInterval: 15000 # 集群检查频率，单位：毫秒。默认为 15000，即 15 秒
+            misfireThreshold: 60000 # misfire 阀值，单位：毫秒。
+          # 线程池相关配置
+          threadPool:
+            threadCount: 25 # 线程池大小。默认为 10 。
+            threadPriority: 5 # 线程优先级
+            class: org.quartz.simpl.SimpleThreadPool # 线程池类型
+    jdbc: # 使用 JDBC 的 JobStore 的时候，JDBC 的配置
+      initialize-schema: NEVER # 是否自动使用 SQL 初始化 Quartz 表结构。这里设置成 never ，我们手动创建表结构。
+
+justauth:
+  enabled: true
+  type:
+    DINGTALK: # 钉钉
+      client-id: dingvrnreaje3yqvzhxg
+      client-secret: i8E6iZyDvZj51JIb0tYsYfVQYOks9Cq1lgryEjFRqC79P3iJcrxEwT6Qk2QvLrLI
+      ignore-check-redirect-uri: true
+    WECHAT_ENTERPRISE: # 企业微信
+      client-id: wwd411c69a39ad2e54
+      client-secret: 1wTb7hYxnpT2TUbIeHGXGo7T0odav1ic10mLdyyATOw
+      agent-id: 1000004
+      ignore-check-redirect-uri: true
+  cache:
+    type: REDIS
+    prefix: 'social_auth_state:' # 缓存前缀，目前只对 Redis 缓存生效，默认 JUSTAUTH::STATE::
+    timeout: 24h # 超时时长，目前只对 Redis 缓存生效，默认 3 分钟
+
+

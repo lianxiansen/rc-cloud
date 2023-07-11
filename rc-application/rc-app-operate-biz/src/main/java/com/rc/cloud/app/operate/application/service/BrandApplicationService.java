@@ -22,78 +22,80 @@ public class BrandApplicationService {
     private BrandDomainService brandDomainService;
     @Autowired
     private BrandRepository brandRepository;
-    public Brand createBrand(BrandCreateDTO createBrandDTO) {
-        AssertUtils.notNull(createBrandDTO,"createBrandDTO must be not null");
-        Brand brand = new Brand(brandRepository.nextBrandId(), createBrandDTO.getName());
-        if(ObjectUtils.isNotNull(createBrandDTO.getEnabled())){
+
+    public BrandBO createBrand(BrandCreateDTO createBrandDTO) {
+        AssertUtils.notNull(createBrandDTO, "createBrandDTO must be not null");
+        Brand brand = new Brand(brandRepository.nextId(), createBrandDTO.getName());
+        if (ObjectUtils.isNotNull(createBrandDTO.getEnabled())) {
             if (createBrandDTO.getEnabled().booleanValue()) {
                 brand.enable();
             } else {
                 brand.disable();
             }
         }
-        if(ObjectUtils.isNotNull(createBrandDTO.getSortId())){
+        if (ObjectUtils.isNotNull(createBrandDTO.getSortId())) {
             brand.setSort(createBrandDTO.getSortId().intValue());
         }
-        if(StringUtils.isNotEmpty(createBrandDTO.getType())){
+        if (StringUtils.isNotEmpty(createBrandDTO.getType())) {
             brand.setType(createBrandDTO.getType());
         }
-        brandRepository.saveBrand(brand);
-        return brand;
+        brandRepository.save(brand);
+        return BrandBO.convert(brand);
     }
 
     public boolean changeState(String id) {
-        AssertUtils.notEmpty(id,"id must be not empty");
-        Brand brand =brandRepository.getBrand(new BrandId(id));
-        if(ObjectUtils.isNull(brand)){
+        AssertUtils.notEmpty(id, "id must be not empty");
+        Brand brand = brandRepository.findById(new BrandId(id));
+        if (ObjectUtils.isNull(brand)) {
             throw new ApplicationException("品牌唯一标识无效");
         }
-        if(brand.isEnable()){
+        if (brand.isEnable()) {
             brand.disable();
-        }else{
+        } else {
             brand.enable();
         }
-        return brandRepository.saveBrand(brand);
+        return brandRepository.save(brand);
     }
 
 
-    public void updateBrand(BrandUpdateDTO updateBrandDTO) {
-        AssertUtils.notNull(updateBrandDTO,"updateBrandDTO must be not null");
-        if(ObjectUtils.isNull(updateBrandDTO.getId())){
+    public BrandBO updateBrand(BrandUpdateDTO updateBrandDTO) {
+        AssertUtils.notNull(updateBrandDTO, "updateBrandDTO must be not null");
+        if (ObjectUtils.isNull(updateBrandDTO.getId())) {
             throw new ApplicationException("品牌唯一标识不为空");
         }
-        Brand brand = brandRepository.getBrand(new BrandId(updateBrandDTO.getId()));
-        if(ObjectUtils.isNull(brand)){
+        Brand brand = brandRepository.findById(new BrandId(updateBrandDTO.getId()));
+        if (ObjectUtils.isNull(brand)) {
             throw new ApplicationException("品牌唯一标识无效");
         }
-        if(StringUtils.isNotEmpty(updateBrandDTO.getName())){
+        if (StringUtils.isNotEmpty(updateBrandDTO.getName())) {
             brand.setName(updateBrandDTO.getName());
         }
-        if(ObjectUtils.isNotNull(updateBrandDTO.getEnabled())){
+        if (ObjectUtils.isNotNull(updateBrandDTO.getEnabled())) {
             if (updateBrandDTO.getEnabled().booleanValue()) {
                 brand.enable();
             } else {
                 brand.disable();
             }
         }
-        if(ObjectUtils.isNotNull(updateBrandDTO.getSortId())){
+        if (ObjectUtils.isNotNull(updateBrandDTO.getSortId())) {
             brand.setSort(updateBrandDTO.getSortId().intValue());
         }
-        if(StringUtils.isNotEmpty(updateBrandDTO.getType())){
+        if (StringUtils.isNotEmpty(updateBrandDTO.getType())) {
             brand.setType(updateBrandDTO.getType());
         }
-        brandRepository.saveBrand(brand);
+        brandRepository.save(brand);
+        return BrandBO.convert(brand);
     }
 
     public boolean remove(String id) {
-        AssertUtils.notEmpty(id,"id must be not empty");
+        AssertUtils.notEmpty(id, "id must be not empty");
         return brandDomainService.removeBrand(new BrandId(id));
     }
 
     public PageResult<BrandBO> selectPageResult(BrandQueryPageDTO queryBrandDTO) {
-        AssertUtils.notNull(queryBrandDTO,"queryBrandDTO must be not null");
-        PageResult<Brand> brandPageResult= brandRepository.selectPageResult(queryBrandDTO.getPageNo(),queryBrandDTO.getPageSize(),queryBrandDTO.getName());
-        return BrandBO.from(brandPageResult);
+        AssertUtils.notNull(queryBrandDTO, "queryBrandDTO must be not null");
+        PageResult<Brand> brandPageResult = brandRepository.selectPageResult(queryBrandDTO.getPageNo(), queryBrandDTO.getPageSize(), queryBrandDTO.getName());
+        return BrandBO.convertBatch(brandPageResult);
     }
 }
 

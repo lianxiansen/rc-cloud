@@ -20,6 +20,8 @@ public class Brand extends Entity {
     public Brand(BrandId id, String name) {
         setId(id);
         setName(name);
+        setSort(0);
+        disable();
     }
 
     private void setId(BrandId id) {

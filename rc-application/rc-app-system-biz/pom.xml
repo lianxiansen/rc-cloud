@@ -54,11 +54,6 @@
         </dependency>
         <dependency>
             <groupId>com.rc.cloud</groupId>
-            <artifactId>rc-common-job</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.rc.cloud</groupId>
             <artifactId>rc-app-system-api</artifactId>
             <version>1.0.0</version>
         </dependency>
@@ -152,7 +147,10 @@
             <scope>compile</scope>
         </dependency>
 
-
+        <!-- Job 定时任务相关 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
     </dependencies>
-
 </project>

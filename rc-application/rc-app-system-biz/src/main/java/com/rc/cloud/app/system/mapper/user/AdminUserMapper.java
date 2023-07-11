@@ -32,6 +32,7 @@ public interface AdminUserMapper extends BaseMapperX<SysUserDO> {
                 .likeIfPresent(SysUserDO::getUsername, reqVO.getUsername())
                 .likeIfPresent(SysUserDO::getMobile, reqVO.getMobile())
                 .eqIfPresent(SysUserDO::getStatus, reqVO.getStatus())
+                .eqIfPresent(SysUserDO::getSex, reqVO.getSex())
                 .betweenIfPresent(SysUserDO::getCreateTime, reqVO.getCreateTime())
                 .inIfPresent(SysUserDO::getDeptId, deptIds)
                 .orderByDesc(SysUserDO::getId));

@@ -6,14 +6,4 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface BrandMapper extends BaseMapperX<BrandDO> {
-
-//    default PageResult<ProductDO> selectPage(ProductListQueryDTO queryDTO) {
-//        return selectPage(queryDTO, new LambdaQueryWrapperX<ProductDO>()
-//                .likeIfPresent(ProductDO::getName, queryDTO.getName())
-//                .eqIfPresent(ProductDO::getFirstCategory, queryDTO.getFirstCategory())
-//                .eqIfPresent(ProductDO::getSecondCategory, queryDTO.getSecondCategory())
-//                .eqIfPresent(ProductDO::getThirdCategory, queryDTO.getThirdCategory())
-//                .eqIfPresent(ProductDO::getTenantId,queryDTO.getTenantId())
-//        );
-//    }
 }

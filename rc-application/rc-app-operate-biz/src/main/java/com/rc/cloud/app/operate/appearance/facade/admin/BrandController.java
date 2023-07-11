@@ -28,17 +28,15 @@ public class BrandController {
 
     @PostMapping("create")
     @Operation(summary = "创建品牌")
-    public CodeResult<Long> create(@Valid @RequestBody BrandCreateDTO brandCreateDTO) {
-        brandApplicationService.createBrand(brandCreateDTO);
-        return CodeResult.ok();
+    public CodeResult<BrandBO> create(@Valid @RequestBody BrandCreateDTO brandCreateDTO) {
+        return CodeResult.ok(brandApplicationService.createBrand(brandCreateDTO));
     }
 
 
     @PostMapping("update")
     @Operation(summary = "更新品牌")
-    public CodeResult<Long> update(@Valid @RequestBody BrandUpdateDTO brandUpdateDTO) {
-        brandApplicationService.updateBrand(brandUpdateDTO);
-        return CodeResult.ok();
+    public CodeResult<BrandBO> update(@Valid @RequestBody BrandUpdateDTO brandUpdateDTO) {
+        return CodeResult.ok(brandApplicationService.updateBrand(brandUpdateDTO));
     }
 
     @GetMapping("remove")

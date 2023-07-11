@@ -23,10 +23,10 @@ public class BrandBO {
     private int sort;
     private boolean enable;
 
-    public static PageResult<BrandBO> from(PageResult<Brand> brandPageResult){
+    public static PageResult<BrandBO> convertBatch(PageResult<Brand> brandPageResult){
         List<BrandBO> brandVOList=new ArrayList<>();
         brandPageResult.getList().forEach(item->{
-            brandVOList.add(from(item));
+            brandVOList.add(convert(item));
         });
         PageResult<BrandBO> brandVOPageResult=new PageResult<>();
         brandVOPageResult.setTotal(brandPageResult.getTotal());
@@ -34,7 +34,7 @@ public class BrandBO {
         return brandVOPageResult;
     }
 
-    public static BrandBO from (Brand brand){
+    public static BrandBO convert(Brand brand){
         BrandBO brandBO=new BrandBO();
         brandBO.setId(brand.getId().id())
                 .setEnable(brand.isEnable())
