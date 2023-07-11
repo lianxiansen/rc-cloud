@@ -15,6 +15,7 @@ import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
+import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,7 +55,7 @@ import static org.mockito.Mockito.when;
 @Import({BrandApplicationService.class, BrandDomainService.class})
 @DisplayName("品牌应用服务测试")
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class BrandApplicationServiceTest {
+public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {
     @Autowired
     private BrandApplicationService brandApplicationService;
     @MockBean

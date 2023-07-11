@@ -19,6 +19,7 @@ import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.exception.ApplicationException;
 import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
+import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
 import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +44,7 @@ import static org.mockito.Mockito.when;
  * @ClassName: ProductCategoryApplicationServiceTest
  * @Author: liandy
  * @Date: 2023/7/7 08:07
- * @Description:用户需求（用户故事）分解为验收测试 1.创建一级产品分类
+ * 1.创建一级产品分类
  * 2.创建子级产品分类
  * |-2.1创建子级产品分类，指定无效的父产品分类，提示创建失败
  * 3.修改产品分类
@@ -55,10 +56,11 @@ import static org.mockito.Mockito.when;
  * |-5.3删除的产品分类有子分类，阻止删除
  */
 @ExtendWith({SpringExtension.class})
-@Import({ProductCategoryDomainServce.class, ProductCategoryRepositoryImpl.class, ProductCategoryDomainServce.class, ProductCategoryRefreshListener.class, ProductCategoryApplicationService.class})
+@Import({ProductCategoryDomainServce.class, ProductCategoryRepositoryImpl.class, ProductCategoryDomainServce.class,
+        ProductCategoryRefreshListener.class, ProductCategoryApplicationService.class})
 @DisplayName("产品分类应用服务测试")
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class ProductCategoryApplicationServiceTest {
+public class ProductCategoryApplicationServiceUnitTest extends BaseMockitoUnitTest {
     @MockBean
     private ProductRepository productRepositoryStub;
     @MockBean

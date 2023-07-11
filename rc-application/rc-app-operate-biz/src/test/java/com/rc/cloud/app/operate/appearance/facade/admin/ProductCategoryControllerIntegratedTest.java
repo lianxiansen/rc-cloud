@@ -26,13 +26,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * @ClassName: ProductCategoryControllerTest
+ * @ClassName: ProductCategoryControllerIntegratedTest
  * @Author: liandy
  * @Date: 2023/7/5 11:03
  * @Description: TODO
  */
 @RcTest
-public class ProductCategoryControllerTest {
+public class ProductCategoryControllerIntegratedTest {
     @Autowired
     private WebApplicationContext context;
 

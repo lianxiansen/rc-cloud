@@ -6,8 +6,6 @@ import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
-import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
-import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,10 +19,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import static com.alibaba.druid.sql.ast.SQLPartitionValue.Operator.List;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -32,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RcTest
-public class ProductControllerTest {
+public class ProductControllerIntegratedTest {
 
     @Autowired
     private WebApplicationContext context;
