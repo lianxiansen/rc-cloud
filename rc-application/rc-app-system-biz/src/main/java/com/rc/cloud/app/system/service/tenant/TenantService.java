@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.service.tenant;
 
-import com.rc.cloud.app.system.model.tenant.SysTenantDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPO;
 import com.rc.cloud.app.system.service.tenant.handler.TenantInfoHandler;
 import com.rc.cloud.app.system.service.tenant.handler.TenantMenuHandler;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantCreateReqVO;
@@ -57,7 +57,7 @@ public interface TenantService {
      * @param id 编号
      * @return 租户
      */
-    SysTenantDO getTenant(String id);
+    SysTenantPO getTenant(String id);
 
     /**
      * 获得租户分页
@@ -65,7 +65,7 @@ public interface TenantService {
      * @param pageReqVO 分页查询
      * @return 租户分页
      */
-    PageResult<SysTenantDO> getTenantPage(TenantPageReqVO pageReqVO);
+    PageResult<SysTenantPO> getTenantPage(TenantPageReqVO pageReqVO);
 
     /**
      * 获得租户列表, 用于 Excel 导出
@@ -73,7 +73,7 @@ public interface TenantService {
      * @param exportReqVO 查询条件
      * @return 租户列表
      */
-    List<SysTenantDO> getTenantList(TenantExportReqVO exportReqVO);
+    List<SysTenantPO> getTenantList(TenantExportReqVO exportReqVO);
 
     /**
      * 获得名字对应的租户
@@ -81,7 +81,7 @@ public interface TenantService {
      * @param name 组户名
      * @return 租户
      */
-    SysTenantDO getTenantByName(String name);
+    SysTenantPO getTenantByName(String name);
 
     /**
      * 获得使用指定套餐的租户数量
@@ -97,7 +97,7 @@ public interface TenantService {
      * @param packageId 租户套餐编号
      * @return 租户数组
      */
-    List<SysTenantDO> getTenantListByPackageId(String packageId);
+    List<SysTenantPO> getTenantListByPackageId(String packageId);
 
     /**
      * 进行租户的信息处理逻辑

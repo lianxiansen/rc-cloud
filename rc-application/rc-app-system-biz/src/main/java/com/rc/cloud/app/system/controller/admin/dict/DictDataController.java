@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.controller.admin.dict;
 
-import com.rc.cloud.app.system.model.dict.SysDictDataDO;
+import com.rc.cloud.app.system.model.dict.SysDictDataPO;
 import com.rc.cloud.app.system.convert.dict.DictDataConvert;
 import com.rc.cloud.app.system.service.dict.DictDataService;
 import com.rc.cloud.app.system.vo.dict.data.*;
@@ -55,7 +55,7 @@ public class DictDataController {
     @Operation(summary = "获得全部字典数据列表", description = "一般用于管理后台缓存字典数据在本地")
     // 无需添加权限认证，因为前端全局都需要
     public CodeResult<List<DictDataSimpleRespVO>> getSimpleDictDataList() {
-        List<SysDictDataDO> list = dictDataService.getDictDataList();
+        List<SysDictDataPO> list = dictDataService.getDictDataList();
         return CodeResult.ok(DictDataConvert.INSTANCE.convertList(list));
     }
 

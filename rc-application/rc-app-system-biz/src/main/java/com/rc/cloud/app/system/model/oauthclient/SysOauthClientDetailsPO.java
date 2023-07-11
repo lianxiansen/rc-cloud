@@ -21,7 +21,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @TableName("sys_oauth_client_details")
 @EqualsAndHashCode(callSuper = true)
-public class SysOauthClientDetailsDO extends BaseDO {
+public class SysOauthClientDetailsPO extends BaseDO {
 
 	private static final long serialVersionUID = 1L;
 

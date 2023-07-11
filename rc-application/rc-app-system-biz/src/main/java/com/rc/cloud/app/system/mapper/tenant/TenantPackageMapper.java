@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.tenant;
 
-import com.rc.cloud.app.system.model.tenant.SysTenantPackageDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPackagePO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackagePageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
@@ -15,18 +15,18 @@ import java.util.List;
  * @author 芋道源码
  */
 @Mapper
-public interface TenantPackageMapper extends BaseMapperX<SysTenantPackageDO> {
+public interface TenantPackageMapper extends BaseMapperX<SysTenantPackagePO> {
 
-    default PageResult<SysTenantPackageDO> selectPage(TenantPackagePageReqVO reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<SysTenantPackageDO>()
-                .likeIfPresent(SysTenantPackageDO::getName, reqVO.getName())
-                .eqIfPresent(SysTenantPackageDO::getStatus, reqVO.getStatus())
-                .likeIfPresent(SysTenantPackageDO::getRemark, reqVO.getRemark())
-                .betweenIfPresent(SysTenantPackageDO::getCreateTime, reqVO.getCreateTime())
-                .orderByDesc(SysTenantPackageDO::getId));
+    default PageResult<SysTenantPackagePO> selectPage(TenantPackagePageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<SysTenantPackagePO>()
+                .likeIfPresent(SysTenantPackagePO::getName, reqVO.getName())
+                .eqIfPresent(SysTenantPackagePO::getStatus, reqVO.getStatus())
+                .likeIfPresent(SysTenantPackagePO::getRemark, reqVO.getRemark())
+                .betweenIfPresent(SysTenantPackagePO::getCreateTime, reqVO.getCreateTime())
+                .orderByDesc(SysTenantPackagePO::getId));
     }
 
-    default List<SysTenantPackageDO> selectListByStatus(Integer status) {
-        return selectList(SysTenantPackageDO::getStatus, status);
+    default List<SysTenantPackagePO> selectListByStatus(Integer status) {
+        return selectList(SysTenantPackagePO::getStatus, status);
     }
 }

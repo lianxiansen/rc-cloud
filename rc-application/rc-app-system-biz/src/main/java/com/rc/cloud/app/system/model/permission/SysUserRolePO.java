@@ -1,22 +1,21 @@
-package com.rc.cloud.app.system.model.dept;
+package com.rc.cloud.app.system.model.permission;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.rc.cloud.app.system.api.user.vo.SysUserVO;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 用户和岗位关联
+ * 用户和角色关联
  *
  * @author ruoyi
  */
-@TableName("sys_user_post")
+@TableName("sys_user_role")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysUserPostDO extends BaseDO {
+public class SysUserRolePO extends BaseDO {
 
     /**
      * 自增主键
@@ -25,15 +24,11 @@ public class SysUserPostDO extends BaseDO {
     private String id;
     /**
      * 用户 ID
-     *
-     * 关联 {@link SysUserVO#getId()}
      */
     private String userId;
     /**
      * 角色 ID
-     *
-     * 关联 {@link SysPostDO#getId()}
      */
-    private String postId;
+    private String roleId;
 
 }

@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysTenantDO extends BaseDO {
+public class SysTenantPO extends BaseDO {
 
     /**
      * 套餐编号 - 系统
@@ -67,7 +67,7 @@ public class SysTenantDO extends BaseDO {
     /**
      * 租户套餐编号
      *
-//     * 关联 {@link SysTenantPackageDO#getId()}
+//     * 关联 {@link SysTenantPackagePO#getId()}
      * 特殊逻辑：系统内置租户，不使用套餐，暂时使用 {@link #PACKAGE_ID_SYSTEM} 标识
      */
     private String packageId;

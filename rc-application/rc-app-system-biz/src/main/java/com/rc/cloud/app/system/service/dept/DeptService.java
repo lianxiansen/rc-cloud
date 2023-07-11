@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.dept;
 
 import cn.hutool.core.collection.CollUtil;
-import com.rc.cloud.app.system.model.dept.SysDeptDO;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptListReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptUpdateReqVO;
@@ -52,7 +52,7 @@ public interface DeptService {
      * @param reqVO 筛选条件请求 VO
      * @return 部门列表
      */
-    List<SysDeptDO> getDeptList(DeptListReqVO reqVO);
+    List<SysDeptPO> getDeptList(DeptListReqVO reqVO);
 
     /**
      * 获得所有子部门，从缓存中
@@ -61,7 +61,7 @@ public interface DeptService {
      * @param recursive 是否递归获取所有
      * @return 子部门列表
      */
-    List<SysDeptDO> getDeptListByParentIdFromCache(String parentId, boolean recursive);
+    List<SysDeptPO> getDeptListByParentIdFromCache(String parentId, boolean recursive);
 
     /**
      * 获得部门信息数组
@@ -69,7 +69,7 @@ public interface DeptService {
      * @param ids 部门编号数组
      * @return 部门信息数组
      */
-    List<SysDeptDO> getDeptList(Collection<String> ids);
+    List<SysDeptPO> getDeptList(Collection<String> ids);
 
     /**
      * 获得指定编号的部门 Map
@@ -77,12 +77,12 @@ public interface DeptService {
      * @param ids 部门编号数组
      * @return 部门 Map
      */
-    default Map<String, SysDeptDO> getDeptMap(Collection<String> ids) {
+    default Map<String, SysDeptPO> getDeptMap(Collection<String> ids) {
         if (CollUtil.isEmpty(ids)) {
             return Collections.emptyMap();
         }
-        List<SysDeptDO> list = getDeptList(ids);
-        return CollectionUtils.convertMap(list, SysDeptDO::getId);
+        List<SysDeptPO> list = getDeptList(ids);
+        return CollectionUtils.convertMap(list, SysDeptPO::getId);
     }
 
     /**
@@ -91,7 +91,7 @@ public interface DeptService {
      * @param id 部门编号
      * @return 部门信息
      */
-    SysDeptDO getDept(String id);
+    SysDeptPO getDept(String id);
 
     /**
      * 校验部门们是否有效。如下情况，视为无效：

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.controller.admin.permission;
 
-import com.rc.cloud.app.system.model.permission.SysMenuDO;
-import com.rc.cloud.app.system.model.user.SysUserDO;
+import com.rc.cloud.app.system.model.permission.SysMenuPO;
+import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
 import com.rc.cloud.app.system.service.permission.MenuService;
@@ -67,8 +67,8 @@ public class MenuController {
     @Operation(summary = "获取菜单列表", description = "用于【菜单管理】界面")
     @PreAuthorize("@pms.hasPermission('sys:menu:query')")
     public CodeResult<List<MenuRespVO>> getMenuList(MenuListReqVO reqVO) {
-        List<SysMenuDO> list = menuService.getMenuList(reqVO);
-        list.sort(Comparator.comparing(SysMenuDO::getSort));
+        List<SysMenuPO> list = menuService.getMenuList(reqVO);
+        list.sort(Comparator.comparing(SysMenuPO::getSort));
         return CodeResult.ok(TreeUtil.build(MenuConvert.INSTANCE.convertList(list)));
     }
 
@@ -79,9 +79,9 @@ public class MenuController {
         // 获得菜单列表，只要开启状态的
         MenuListReqVO reqVO = new MenuListReqVO();
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        List<SysMenuDO> list = menuService.getMenuListByTenant(reqVO);
+        List<SysMenuPO> list = menuService.getMenuListByTenant(reqVO);
         // 排序后，返回给前端
-        list.sort(Comparator.comparing(SysMenuDO::getSort));
+        list.sort(Comparator.comparing(SysMenuPO::getSort));
         return CodeResult.ok(MenuConvert.INSTANCE.convertList02(list));
     }
 
@@ -89,7 +89,7 @@ public class MenuController {
     @Operation(summary = "获取菜单信息")
     @PreAuthorize("@pms.hasPermission('sys:menu:query')")
     public CodeResult<MenuRespVO> getMenu(@PathVariable String id) {
-        SysMenuDO menu = menuService.getMenu(id);
+        SysMenuPO menu = menuService.getMenu(id);
         return CodeResult.ok(MenuConvert.INSTANCE.convert(menu));
     }
 
@@ -97,9 +97,9 @@ public class MenuController {
     @Operation(summary = "获取根导航菜单")
     public CodeResult<List<MenuRespVO>> getRootNavMenuList() {
         String username = SecurityUtils.getUsername();
-        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
-        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
-        List<SysMenuDO> list = menuService.getUsableUserMenuList(user.getId(), "0", MenuTypeEnum.DIR.getType());
+        Optional<SysUserPO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserPO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        List<SysMenuPO> list = menuService.getUsableUserMenuList(user.getId(), "0", MenuTypeEnum.DIR.getType());
         return CodeResult.ok(MenuConvert.INSTANCE.convertList(list));
     }
 
@@ -107,16 +107,16 @@ public class MenuController {
     @Operation(summary = "根据父菜单ID获取子导航菜单")
     public CodeResult<List<MenuRespVO>> getChildNavMenuList(@PathVariable String parentId) {
         String username = SecurityUtils.getUsername();
-        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
-        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        Optional<SysUserPO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserPO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
 
-        List<SysMenuDO> list = menuService.getUsableUserMenuList(user.getId(), parentId, MenuTypeEnum.MENU.getType());
+        List<SysMenuPO> list = menuService.getUsableUserMenuList(user.getId(), parentId, MenuTypeEnum.MENU.getType());
         if (list.isEmpty()) {
             return CodeResult.ok(new ArrayList<>());
         }
         List<MenuRespVO> result = MenuConvert.INSTANCE.convertList(list);
         result.forEach(item -> {
-            List<SysMenuDO> userChildMenuList = menuService.getUsableUserMenuList(user.getId(), item.getId(), MenuTypeEnum.MENU.getType());
+            List<SysMenuPO> userChildMenuList = menuService.getUsableUserMenuList(user.getId(), item.getId(), MenuTypeEnum.MENU.getType());
             item.setChildren(MenuConvert.INSTANCE.convertList(userChildMenuList));
         });
         return CodeResult.ok(result);
@@ -126,9 +126,9 @@ public class MenuController {
     @Operation(summary = "获取菜单导航", description = "用于前端动态路由")
     public CodeResult<List<MenuRespVO>> getNav() {
         String username = SecurityUtils.getUsername();
-        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
-        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
-        List<SysMenuDO> menuList = menuService.getUsableUserMenuList(user.getId(), null, MenuTypeEnum.MENU.getType());
+        Optional<SysUserPO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserPO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        List<SysMenuPO> menuList = menuService.getUsableUserMenuList(user.getId(), null, MenuTypeEnum.MENU.getType());
         return CodeResult.ok(TreeUtil.build(MenuConvert.INSTANCE.convertList(menuList)));
     }
 
@@ -137,8 +137,8 @@ public class MenuController {
     public CodeResult<Set<String>> getUserAuthority() {
         // 获取登录用户的ID
         String username = SecurityUtils.getUsername();
-        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
-        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        Optional<SysUserPO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserPO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
         Set<String> list = menuService.getUserAuthorityByUserId(user.getId());
         return CodeResult.ok(list);
     }

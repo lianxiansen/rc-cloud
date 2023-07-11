@@ -1,10 +1,10 @@
 package com.rc.cloud.app.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
-import com.rc.cloud.app.system.model.dept.SysDeptDO;
-import com.rc.cloud.app.system.model.dept.SysPostDO;
-import com.rc.cloud.app.system.model.permission.SysRoleDO;
-import com.rc.cloud.app.system.model.user.SysUserDO;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
+import com.rc.cloud.app.system.model.dept.SysPostPO;
+import com.rc.cloud.app.system.model.permission.SysRolePO;
+import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.dept.PostService;
@@ -59,20 +59,20 @@ public class UserProfileController {
     public CodeResult<UserProfileRespVO> profile(Authentication authentication) {
         // 获得用户基本信息
         String username = SecurityUtils.getUsername();
-        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
-        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        Optional<SysUserPO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserPO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
         UserProfileRespVO resp = UserConvert.INSTANCE.convert03(user);
         // 获得用户角色
-        List<SysRoleDO> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
+        List<SysRolePO> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
         resp.setRoles(UserConvert.INSTANCE.convertList(userRoles));
         // 获得部门信息
         if (user.getDeptId() != null) {
-            SysDeptDO dept = deptService.getDept(user.getDeptId());
+            SysDeptPO dept = deptService.getDept(user.getDeptId());
             resp.setDept(UserConvert.INSTANCE.convert02(dept));
         }
         // 获得岗位信息
         if (CollUtil.isNotEmpty(user.getPostIds())) {
-            List<SysPostDO> posts = postService.getPostList(user.getPostIds());
+            List<SysPostPO> posts = postService.getPostList(user.getPostIds());
             resp.setPosts(UserConvert.INSTANCE.convertList02(posts));
         }
         return CodeResult.ok(resp);
@@ -82,8 +82,8 @@ public class UserProfileController {
     @Operation(summary = "修改用户个人信息")
     public CodeResult<Boolean> updateUserProfile(@Valid @RequestBody UserProfileUpdateReqVO reqVO) {
         String username = SecurityUtils.getUsername();
-        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
-        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        Optional<SysUserPO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserPO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
         userService.updateUserProfile(user.getId(), reqVO);
         return CodeResult.ok(true);
     }
@@ -92,8 +92,8 @@ public class UserProfileController {
     @Operation(summary = "修改用户个人密码")
     public CodeResult<Boolean> updateUserProfilePassword(@Valid @RequestBody UserProfileUpdatePasswordReqVO reqVO) {
         String username = SecurityUtils.getUsername();
-        Optional<SysUserDO> optionalByUsername = userService.findOptionalByUsername(username);
-        SysUserDO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
+        Optional<SysUserPO> optionalByUsername = userService.findOptionalByUsername(username);
+        SysUserPO user = optionalByUsername.orElseThrow(() -> exception(USER_NOT_EXISTS));
         userService.updateUserPassword(user.getId(), reqVO);
         return CodeResult.ok(true);
     }

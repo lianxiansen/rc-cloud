@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.service.tenant;
 
 import cn.hutool.core.collection.CollUtil;
-import com.rc.cloud.app.system.model.tenant.SysTenantDO;
-import com.rc.cloud.app.system.model.tenant.SysTenantPackageDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPackagePO;
 import com.rc.cloud.app.system.convert.tenant.TenantPackageConvert;
 import com.rc.cloud.app.system.mapper.tenant.TenantPackageMapper;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;
@@ -41,7 +41,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     @Override
     public String createTenantPackage(TenantPackageCreateReqVO createReqVO) {
         // 插入
-        SysTenantPackageDO tenantPackage = TenantPackageConvert.INSTANCE.convert(createReqVO);
+        SysTenantPackagePO tenantPackage = TenantPackageConvert.INSTANCE.convert(createReqVO);
         tenantPackageMapper.insert(tenantPackage);
         // 返回
         return tenantPackage.getId();
@@ -51,13 +51,13 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     @Transactional(rollbackFor = Exception.class)
     public void updateTenantPackage(TenantPackageUpdateReqVO updateReqVO) {
         // 校验存在
-        SysTenantPackageDO tenantPackage = validateTenantPackageExists(updateReqVO.getId());
+        SysTenantPackagePO tenantPackage = validateTenantPackageExists(updateReqVO.getId());
         // 更新
-        SysTenantPackageDO updateObj = TenantPackageConvert.INSTANCE.convert(updateReqVO);
+        SysTenantPackagePO updateObj = TenantPackageConvert.INSTANCE.convert(updateReqVO);
         tenantPackageMapper.updateById(updateObj);
         // 如果菜单发生变化，则修改每个租户的菜单
         if (!CollUtil.isEqualList(tenantPackage.getMenuIds(), updateReqVO.getMenuIds())) {
-            List<SysTenantDO> tenants = tenantService.getTenantListByPackageId(tenantPackage.getId());
+            List<SysTenantPO> tenants = tenantService.getTenantListByPackageId(tenantPackage.getId());
             tenants.forEach(tenant -> tenantService.updateTenantRoleMenu(tenant.getId(), updateReqVO.getMenuIds()));
         }
     }
@@ -72,8 +72,8 @@ public class TenantPackageServiceImpl implements TenantPackageService {
         tenantPackageMapper.deleteById(id);
     }
 
-    private SysTenantPackageDO validateTenantPackageExists(String id) {
-        SysTenantPackageDO tenantPackage = tenantPackageMapper.selectById(id);
+    private SysTenantPackagePO validateTenantPackageExists(String id) {
+        SysTenantPackagePO tenantPackage = tenantPackageMapper.selectById(id);
         if (tenantPackage == null) {
             throw exception(TENANT_PACKAGE_NOT_EXISTS);
         }
@@ -87,18 +87,18 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     }
 
     @Override
-    public SysTenantPackageDO getTenantPackage(String id) {
+    public SysTenantPackagePO getTenantPackage(String id) {
         return tenantPackageMapper.selectById(id);
     }
 
     @Override
-    public PageResult<SysTenantPackageDO> getTenantPackagePage(TenantPackagePageReqVO pageReqVO) {
+    public PageResult<SysTenantPackagePO> getTenantPackagePage(TenantPackagePageReqVO pageReqVO) {
         return tenantPackageMapper.selectPage(pageReqVO);
     }
 
     @Override
-    public SysTenantPackageDO validTenantPackage(String id) {
-        SysTenantPackageDO tenantPackage = tenantPackageMapper.selectById(id);
+    public SysTenantPackagePO validTenantPackage(String id) {
+        SysTenantPackagePO tenantPackage = tenantPackageMapper.selectById(id);
         if (tenantPackage == null) {
             throw exception(TENANT_PACKAGE_NOT_EXISTS);
         }
@@ -109,7 +109,7 @@ public class TenantPackageServiceImpl implements TenantPackageService {
     }
 
     @Override
-    public List<SysTenantPackageDO> getTenantPackageListByStatus(Integer status) {
+    public List<SysTenantPackagePO> getTenantPackageListByStatus(Integer status) {
         return tenantPackageMapper.selectListByStatus(status);
     }
 

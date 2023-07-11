@@ -19,7 +19,7 @@ import java.util.Set;
 @TableName(value = "sys_role", autoResultMap = true)
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysRoleDO extends TenantBaseDO {
+public class SysRolePO extends TenantBaseDO {
 
     /**
      * 角色ID

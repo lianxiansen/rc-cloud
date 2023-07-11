@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.mapper.dict;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.rc.cloud.app.system.model.dict.SysDictDataDO;
+import com.rc.cloud.app.system.model.dict.SysDictDataPO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataExportReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -14,41 +14,41 @@ import java.util.Collection;
 import java.util.List;
 
 @Mapper
-public interface DictDataMapper extends BaseMapperX<SysDictDataDO> {
+public interface DictDataMapper extends BaseMapperX<SysDictDataPO> {
 
-    default SysDictDataDO selectByDictTypeAndValue(String dictType, String value) {
-        return selectOne(SysDictDataDO::getDictType, dictType, SysDictDataDO::getValue, value);
+    default SysDictDataPO selectByDictTypeAndValue(String dictType, String value) {
+        return selectOne(SysDictDataPO::getDictType, dictType, SysDictDataPO::getValue, value);
     }
 
-    default SysDictDataDO selectByDictTypeAndLabel(String dictType, String label) {
-        return selectOne(SysDictDataDO::getDictType, dictType, SysDictDataDO::getLabel, label);
+    default SysDictDataPO selectByDictTypeAndLabel(String dictType, String label) {
+        return selectOne(SysDictDataPO::getDictType, dictType, SysDictDataPO::getLabel, label);
     }
 
-    default List<SysDictDataDO> selectByDictTypeAndValues(String dictType, Collection<String> values) {
-        return selectList(new LambdaQueryWrapper<SysDictDataDO>().eq(SysDictDataDO::getDictType, dictType)
-                .in(SysDictDataDO::getValue, values));
+    default List<SysDictDataPO> selectByDictTypeAndValues(String dictType, Collection<String> values) {
+        return selectList(new LambdaQueryWrapper<SysDictDataPO>().eq(SysDictDataPO::getDictType, dictType)
+                .in(SysDictDataPO::getValue, values));
     }
 
     default long selectCountByDictType(String dictType) {
-        return selectCount(SysDictDataDO::getDictType, dictType);
+        return selectCount(SysDictDataPO::getDictType, dictType);
     }
 
-    default PageResult<SysDictDataDO> selectPage(DictDataPageReqVO reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<SysDictDataDO>()
-                .likeIfPresent(SysDictDataDO::getLabel, reqVO.getLabel())
-                .eqIfPresent(SysDictDataDO::getDictType, reqVO.getDictType())
-                .eqIfPresent(SysDictDataDO::getStatus, reqVO.getStatus())
-                .orderByDesc(Arrays.asList(SysDictDataDO::getDictType, SysDictDataDO::getSort)));
+    default PageResult<SysDictDataPO> selectPage(DictDataPageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<SysDictDataPO>()
+                .likeIfPresent(SysDictDataPO::getLabel, reqVO.getLabel())
+                .eqIfPresent(SysDictDataPO::getDictType, reqVO.getDictType())
+                .eqIfPresent(SysDictDataPO::getStatus, reqVO.getStatus())
+                .orderByDesc(Arrays.asList(SysDictDataPO::getDictType, SysDictDataPO::getSort)));
     }
 
-    default List<SysDictDataDO> selectList(DictDataExportReqVO reqVO) {
-        return selectList(new LambdaQueryWrapperX<SysDictDataDO>()
-                .likeIfPresent(SysDictDataDO::getLabel, reqVO.getLabel())
-                .eqIfPresent(SysDictDataDO::getDictType, reqVO.getDictType())
-                .eqIfPresent(SysDictDataDO::getStatus, reqVO.getStatus()));
+    default List<SysDictDataPO> selectList(DictDataExportReqVO reqVO) {
+        return selectList(new LambdaQueryWrapperX<SysDictDataPO>()
+                .likeIfPresent(SysDictDataPO::getLabel, reqVO.getLabel())
+                .eqIfPresent(SysDictDataPO::getDictType, reqVO.getDictType())
+                .eqIfPresent(SysDictDataPO::getStatus, reqVO.getStatus()));
     }
 
-    default List<SysDictDataDO> selectListBySortAsc() {
-        return selectList(new LambdaQueryWrapperX<SysDictDataDO>().orderByAsc(SysDictDataDO::getSort));
+    default List<SysDictDataPO> selectListBySortAsc() {
+        return selectList(new LambdaQueryWrapperX<SysDictDataPO>().orderByAsc(SysDictDataPO::getSort));
     }
 }

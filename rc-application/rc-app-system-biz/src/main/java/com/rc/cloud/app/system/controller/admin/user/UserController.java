@@ -2,9 +2,9 @@ package com.rc.cloud.app.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
 import com.rc.cloud.app.system.api.user.vo.SysUserInfoVO;
-import com.rc.cloud.app.system.model.dept.SysDeptDO;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
-import com.rc.cloud.app.system.model.user.SysUserDO;
+import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
@@ -100,14 +100,14 @@ public class UserController {
     @PreAuthorize("@pms.hasPermission('sys:user:query')")
     public CodeResult<PageResult<UserPageItemRespVO>> getUserPage(@Valid UserPageReqVO reqVO) {
         // 获得用户分页列表
-        PageResult<SysUserDO> pageResult = userService.getUserPage(reqVO);
+        PageResult<SysUserPO> pageResult = userService.getUserPage(reqVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
             return CodeResult.ok(new PageResult<>(pageResult.getTotal())); // 返回空
         }
 
         // 获得拼接需要的数据
-        Collection<String> deptIds = convertList(pageResult.getList(), SysUserDO::getDeptId);
-        Map<String, SysDeptDO> deptMap = deptService.getDeptMap(deptIds);
+        Collection<String> deptIds = convertList(pageResult.getList(), SysUserPO::getDeptId);
+        Map<String, SysDeptPO> deptMap = deptService.getDeptMap(deptIds);
 
         // 拼接结果返回
         List<UserPageItemRespVO> userList = new ArrayList<>(pageResult.getList().size());
@@ -123,7 +123,7 @@ public class UserController {
     @Operation(summary = "获取用户精简信息列表", description = "只包含被开启的用户，主要用于前端的下拉选项")
     public CodeResult<List<UserSimpleRespVO>> getSimpleUserList() {
         // 获用户列表，只要开启状态的
-        List<SysUserDO> list = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
+        List<SysUserPO> list = userService.getUserListByStatus(CommonStatusEnum.ENABLE.getStatus());
         // 排序后，返回给前端
         return CodeResult.ok(UserConvert.INSTANCE.convertList04(list));
     }
@@ -133,9 +133,9 @@ public class UserController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:user:query')")
     public CodeResult<UserRespVO> getUser(@PathVariable("id") String id) {
-        SysUserDO user = userService.getUser(id);
+        SysUserPO user = userService.getUser(id);
         // 获得部门数据
-        SysDeptDO dept = deptService.getDept(user.getDeptId());
+        SysDeptPO dept = deptService.getDept(user.getDeptId());
         UserPageItemRespVO userPageItemRespVO = UserConvert.INSTANCE.convert(user);
         userPageItemRespVO.setDept(UserConvert.INSTANCE.convert(dept));
         userPageItemRespVO.setRoleIds(userService.getUserRoleIds(user.getId()));
@@ -151,7 +151,7 @@ public class UserController {
     public CodeResult<UserInfo> info(@PathVariable String username) {
         // 硬编码设置租户ID
         TenantContextHolder.setTenantId("1");
-        SysUserDO user = userService.getUserByUsername(username);
+        SysUserPO user = userService.getUserByUsername(username);
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
@@ -168,7 +168,7 @@ public class UserController {
     public CodeResult<SysUserInfoVO> infoById(@PathVariable String id) {
         // 硬编码设置租户ID
         TenantContextHolder.setTenantId("1");
-        SysUserDO user = userService.getUser(id);
+        SysUserPO user = userService.getUser(id);
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
         }
@@ -186,7 +186,7 @@ public class UserController {
     public CodeResult<List<SysUserInfoVO>> infoByIds(@RequestBody List<String> ids) {
         // 硬编码设置租户ID
         TenantContextHolder.setTenantId("1");
-        List<SysUserDO> users = userService.getUserList(ids);
+        List<SysUserPO> users = userService.getUserList(ids);
         List<SysUserInfoVO> sysUserVOS = new ArrayList<>();
         users.forEach(user -> {
             SysUserInfoVO sysUserVO = new SysUserInfoVO();

@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.controller.admin.tenant;
 
-import com.rc.cloud.app.system.model.tenant.SysTenantPackageDO;
+import com.rc.cloud.app.system.model.tenant.SysTenantPackagePO;
 import com.rc.cloud.app.system.convert.tenant.TenantPackageConvert;
 import com.rc.cloud.app.system.service.tenant.TenantPackageService;
 import com.rc.cloud.app.system.vo.tenant.packages.*;
@@ -57,7 +57,7 @@ public class TenantPackageController {
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     @PreAuthorize("@pms.hasPermission('sys:tenant-package:query')")
     public CodeResult<TenantPackageRespVO> getTenantPackage(@PathVariable("id") String id) {
-        SysTenantPackageDO tenantPackage = tenantPackageService.getTenantPackage(id);
+        SysTenantPackagePO tenantPackage = tenantPackageService.getTenantPackage(id);
         return CodeResult.ok(TenantPackageConvert.INSTANCE.convert(tenantPackage));
     }
 
@@ -65,7 +65,7 @@ public class TenantPackageController {
     @Operation(summary = "获得租户套餐分页")
     @PreAuthorize("@pms.hasPermission('sys:tenant-package:query')")
     public CodeResult<PageResult<TenantPackageRespVO>> getTenantPackagePage(@Valid TenantPackagePageReqVO pageVO) {
-        PageResult<SysTenantPackageDO> pageResult = tenantPackageService.getTenantPackagePage(pageVO);
+        PageResult<SysTenantPackagePO> pageResult = tenantPackageService.getTenantPackagePage(pageVO);
         return CodeResult.ok(TenantPackageConvert.INSTANCE.convertPage(pageResult));
     }
 
@@ -73,7 +73,7 @@ public class TenantPackageController {
     @Operation(summary = "获取租户套餐精简信息列表", description = "只包含被开启的租户套餐，主要用于前端的下拉选项")
     public CodeResult<List<TenantPackageSimpleRespVO>> getTenantPackageList() {
         // 获得角色列表，只要开启状态的
-        List<SysTenantPackageDO> list = tenantPackageService.getTenantPackageListByStatus(CommonStatusEnum.ENABLE.getStatus());
+        List<SysTenantPackagePO> list = tenantPackageService.getTenantPackageListByStatus(CommonStatusEnum.ENABLE.getStatus());
         return CodeResult.ok(TenantPackageConvert.INSTANCE.convertList02(list));
     }
 

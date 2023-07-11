@@ -1,9 +1,9 @@
 package com.rc.cloud.app.system.controller.admin.permission;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rc.cloud.app.system.model.permission.SysMenuDO;
-import com.rc.cloud.app.system.model.permission.SysRoleDO;
-import com.rc.cloud.app.system.model.user.SysUserDO;
+import com.rc.cloud.app.system.model.permission.SysMenuPO;
+import com.rc.cloud.app.system.model.permission.SysRolePO;
+import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.convert.permission.RoleConvert;
 import com.rc.cloud.app.system.convert.user.UserConvert;
@@ -92,7 +92,7 @@ public class RoleController {
     @Operation(summary = "获得角色信息")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
     public CodeResult<RoleRespVO> getRole(@PathVariable("id") String id) {
-        SysRoleDO role = roleService.getRole(id);
+        SysRolePO role = roleService.getRole(id);
         RoleRespVO roleRespVO = RoleConvert.INSTANCE.convert(role);
         roleRespVO.setMenuIds(permissionService.getRoleMenuIds(id));
         return CodeResult.ok(roleRespVO);
@@ -102,7 +102,7 @@ public class RoleController {
     @Operation(summary = "获得角色分页")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
     public CodeResult<PageResult<RoleRespVO>> getRolePage(RolePageReqVO reqVO) {
-        PageResult<SysRoleDO> pageResult = roleService.getRolePage(reqVO);
+        PageResult<SysRolePO> pageResult = roleService.getRolePage(reqVO);
         List<RoleRespVO> roleList = new ArrayList<>(pageResult.getList().size());
         pageResult.getList().forEach(roleDO -> {
             RoleRespVO respVO = RoleConvert.INSTANCE.convert(roleDO);
@@ -115,9 +115,9 @@ public class RoleController {
     @Operation(summary = "获取角色精简信息列表", description = "只包含被开启的角色，主要用于前端的下拉选项")
     public CodeResult<List<RoleSimpleRespVO>> getSimpleRoleList() {
         // 获得角色列表，只要开启状态的
-        List<SysRoleDO> list = roleService.getRoleListByStatus(singleton(CommonStatusEnum.ENABLE.getStatus()));
+        List<SysRolePO> list = roleService.getRoleListByStatus(singleton(CommonStatusEnum.ENABLE.getStatus()));
         // 排序后，返回给前端
-        list.sort(Comparator.comparing(SysRoleDO::getSort));
+        list.sort(Comparator.comparing(SysRolePO::getSort));
         return CodeResult.ok(RoleConvert.INSTANCE.convertList02(list));
     }
 
@@ -125,7 +125,7 @@ public class RoleController {
     @Operation(summary = "角色用户-分页")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
     public CodeResult<PageResult<UserRespVO>> userPage(@Valid RoleUserPageVO pageVO) {
-        IPage<SysUserDO> pageResult = userService.roleUserPage(pageVO);
+        IPage<SysUserPO> pageResult = userService.roleUserPage(pageVO);
         List<UserRespVO> userList = new ArrayList<>(pageResult.getRecords().size());
         pageResult.getRecords().forEach(userDO -> {
             UserRespVO respVO = UserConvert.INSTANCE.convert(userDO);
@@ -140,7 +140,7 @@ public class RoleController {
     public CodeResult<List<MenuRespVO>> menu() {
         String userId = SecurityUtils.getUser().getId();
         List<MenuRespVO> list = new ArrayList<>();
-        List<SysMenuDO> userMenuList = menuService.getMenuList();
+        List<SysMenuPO> userMenuList = menuService.getMenuList();
         if (userMenuList != null && !userMenuList.isEmpty()) {
             list = MenuConvert.INSTANCE.convertList(userMenuList);
         }

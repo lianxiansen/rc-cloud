@@ -3,19 +3,19 @@ package com.rc.cloud.app.system.model.permission;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
+import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 用户和角色关联
+ * 角色和菜单关联
  *
  * @author ruoyi
  */
-@TableName("sys_user_role")
+@TableName("sys_role_menu")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysUserRoleDO extends BaseDO {
+public class SysRoleMenuPO extends TenantBaseDO {
 
     /**
      * 自增主键
@@ -23,12 +23,12 @@ public class SysUserRoleDO extends BaseDO {
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
     /**
-     * 用户 ID
-     */
-    private String userId;
-    /**
-     * 角色 ID
+     * 角色ID
      */
     private String roleId;
+    /**
+     * 菜单ID
+     */
+    private String menuId;
 
 }

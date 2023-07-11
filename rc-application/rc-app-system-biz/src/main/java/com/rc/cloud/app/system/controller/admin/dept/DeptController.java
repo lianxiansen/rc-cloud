@@ -1,14 +1,13 @@
 package com.rc.cloud.app.system.controller.admin.dept;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
-import com.rc.cloud.app.system.model.dept.SysDeptDO;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.convert.dept.DeptConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.vo.dept.dept.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.util.tree.TreeUtil;
 import com.rc.cloud.common.core.web.CodeResult;
-import com.sun.org.apache.xerces.internal.dom.ParentNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -60,8 +59,8 @@ public class DeptController {
     @Operation(summary = "获取部门列表")
     @PreAuthorize("@pms.hasPermission('sys:dept:query')")
     public CodeResult<List<DeptRespVO>> getDeptList(DeptListReqVO reqVO) {
-        List<SysDeptDO> list = deptService.getDeptList(reqVO);
-        list.sort(Comparator.comparing(SysDeptDO::getSort));
+        List<SysDeptPO> list = deptService.getDeptList(reqVO);
+        list.sort(Comparator.comparing(SysDeptPO::getSort));
         List<DeptRespVO> deptRespVOS = DeptConvert.INSTANCE.convertList(list);
         return CodeResult.ok(TreeUtil.build(deptRespVOS));
     }
@@ -72,9 +71,9 @@ public class DeptController {
         // 获得部门列表，只要开启状态的
         DeptListReqVO reqVO = new DeptListReqVO();
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        List<SysDeptDO> list = deptService.getDeptList(reqVO);
+        List<SysDeptPO> list = deptService.getDeptList(reqVO);
         // 排序后，返回给前端
-        list.sort(Comparator.comparing(SysDeptDO::getSort));
+        list.sort(Comparator.comparing(SysDeptPO::getSort));
         return CodeResult.ok(TreeUtil.build(DeptConvert.INSTANCE.convertList02(list)));
     }
 
@@ -89,7 +88,7 @@ public class DeptController {
             deptRespVO.setParentName(null);
             return CodeResult.ok(deptRespVO);
         }
-        SysDeptDO parent = deptService.getDept(parentId);
+        SysDeptPO parent = deptService.getDept(parentId);
         deptRespVO.setParentName(parent == null ? null : parent.getName());
         return CodeResult.ok(deptRespVO);
     }

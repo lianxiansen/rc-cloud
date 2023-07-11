@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.service.permission;
 
-import com.rc.cloud.app.system.model.permission.SysRoleDO;
+import com.rc.cloud.app.system.model.permission.SysRolePO;
 import com.rc.cloud.app.system.vo.permission.role.RoleCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RoleExportReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RolePageReqVO;
@@ -71,7 +71,7 @@ public interface RoleService {
      * @param id 角色编号
      * @return 角色
      */
-    SysRoleDO getRoleFromCache(String id);
+    SysRolePO getRoleFromCache(String id);
 
     /**
      * 获得角色列表
@@ -79,7 +79,7 @@ public interface RoleService {
      * @param statuses 筛选的状态。允许空，空时不筛选
      * @return 角色列表
      */
-    List<SysRoleDO> getRoleListByStatus(@Nullable Collection<Integer> statuses);
+    List<SysRolePO> getRoleListByStatus(@Nullable Collection<Integer> statuses);
 
     /**
      * 获得角色数组，从缓存中
@@ -87,7 +87,7 @@ public interface RoleService {
      * @param ids 角色编号数组
      * @return 角色数组
      */
-    List<SysRoleDO> getRoleListFromCache(Collection<String> ids);
+    List<SysRolePO> getRoleListFromCache(Collection<String> ids);
 
     /**
      * 判断角色数组中，是否有超级管理员
@@ -95,7 +95,7 @@ public interface RoleService {
      * @param roleList 角色数组
      * @return 是否有管理员
      */
-    boolean hasAnySuperAdmin(Collection<SysRoleDO> roleList);
+    boolean hasAnySuperAdmin(Collection<SysRolePO> roleList);
 
     /**
      * 判断角色编号数组中，是否有管理员
@@ -113,7 +113,7 @@ public interface RoleService {
      * @param id 角色编号
      * @return 角色
      */
-    SysRoleDO getRole(String id);
+    SysRolePO getRole(String id);
 
     /**
      * 获得角色分页
@@ -121,7 +121,7 @@ public interface RoleService {
      * @param reqVO 角色分页查询
      * @return 角色分页结果
      */
-    PageResult<SysRoleDO> getRolePage(RolePageReqVO reqVO);
+    PageResult<SysRolePO> getRolePage(RolePageReqVO reqVO);
 
     /**
      * 获得角色列表
@@ -129,7 +129,7 @@ public interface RoleService {
      * @param reqVO 列表查询
      * @return 角色列表
      */
-    List<SysRoleDO> getRoleList(RoleExportReqVO reqVO);
+    List<SysRolePO> getRoleList(RoleExportReqVO reqVO);
 
     /**
      * 校验角色们是否有效。如下情况，视为无效：
