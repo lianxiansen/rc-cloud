@@ -178,7 +178,6 @@ public class DistributorController {
     @GetMapping("/deleteToRecycle")
     @Operation(summary = "删除经销商至回收站")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
-
     public CodeResult<Boolean> deleteToRecycle(@RequestParam("id") String id) {
         service.deleteToRecycle(id);
         return CodeResult.ok(true);
@@ -187,9 +186,24 @@ public class DistributorController {
     @GetMapping("/recycle")
     @Operation(summary = "从回收站恢复经销商")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
-
     public CodeResult<Boolean> recycle(@RequestParam("id") String id) {
         service.recycle(id);
+        return CodeResult.ok(true);
+    }
+
+    @GetMapping("/lock")
+    @Operation(summary = "删除经销商至回收站")
+    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    public CodeResult<Boolean> lock(@RequestParam("id") String id) {
+        service.lock(id);
+        return CodeResult.ok(true);
+    }
+
+    @GetMapping("/unlock")
+    @Operation(summary = "从回收站恢复经销商")
+    @Parameter(name = "id", description = "编号", required = true, example = "1024")
+    public CodeResult<Boolean> unlock(@RequestParam("id") String id) {
+        service.unlock(id);
         return CodeResult.ok(true);
     }
 }

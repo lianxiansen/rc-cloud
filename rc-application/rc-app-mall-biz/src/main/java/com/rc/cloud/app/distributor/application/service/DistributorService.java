@@ -48,6 +48,20 @@ public interface DistributorService {
     void deleteToRecycle(String id);
 
     /**
+     * 锁定经销商
+     *
+     * @param id 编号
+     */
+    void lock(String id);
+
+    /**
+     * 解除锁定
+     *
+     * @param id 编号
+     */
+    void unlock(String id);
+
+    /**
      * 从回收站恢复
      *
      * @param id 编号

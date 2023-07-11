@@ -147,6 +147,26 @@ public class DistributorServiceImpl implements DistributorService {
     }
 
     @Override
+    public void lock(String id) {
+        // 校验存在
+        validateExists(id);
+        // 锁定
+        DistributorPO distributorPO = mapper.selectById(id);
+        distributorPO.setLocking(DistributorConstants.IS_LOCK_FLAG);
+        mapper.updateById(distributorPO);
+    }
+
+    @Override
+    public void unlock(String id) {
+        // 校验存在
+        validateExists(id);
+        // 解锁
+        DistributorPO distributorPO = mapper.selectById(id);
+        distributorPO.setLocking(DistributorConstants.IS_NOT_LOCK_FLAG);
+        mapper.updateById(distributorPO);
+    }
+
+    @Override
     public void recycle(String id) {
         // 校验存在
         validateExists(id);
