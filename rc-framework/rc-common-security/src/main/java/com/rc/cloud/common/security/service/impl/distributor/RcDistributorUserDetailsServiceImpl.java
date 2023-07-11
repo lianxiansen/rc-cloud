@@ -1,4 +1,4 @@
-package com.rc.cloud.common.security.service.impl;
+package com.rc.cloud.common.security.service.impl.distributor;
 
 import com.rc.cloud.app.distributor.user.DistributorUser;
 import com.rc.cloud.app.distributor.user.RemoteDistributorUserService;
@@ -29,7 +29,7 @@ import java.util.Collection;
 @Slf4j
 @Primary
 @RequiredArgsConstructor
-public class RcDistributorUserDetailsServiceImpl implements RcUserDetailsService {
+public class RcDistributorUserDetailsServiceImpl extends AbstractRcDistributorUserDetailsServiceImpl {
 
     private final String DISTRIBUTOR_NAME = "distributor";
     private final String DISTRIBUTOR_APP_NAME = "rc_distributor";
@@ -47,7 +47,7 @@ public class RcDistributorUserDetailsServiceImpl implements RcUserDetailsService
         }
 
         CodeResult<DistributorUser> result = remoteUserService.userByMobile(username);
-        UserDetails userDetails = getUserDetails2(result);
+        UserDetails userDetails = getUserDetails(result);
         if (userDetails != null) {
             redisTemplate.setValueSerializer(RedisSerializer.java());
             redisTemplate.opsForValue().set(userDetailsKey, userDetails, Duration.ofMinutes(5));
@@ -55,18 +55,6 @@ public class RcDistributorUserDetailsServiceImpl implements RcUserDetailsService
         return userDetails;
     }
 
-    public UserDetails getUserDetails2(CodeResult<DistributorUser> result) {
-        DistributorUser userInfo = result.getData();
-        if (userInfo == null) {
-            throw new UsernameNotFoundException("用户不存在");
-        }
-        Collection<GrantedAuthority> authorities = AuthorityUtils
-                .createAuthorityList();
-        // 构造security用户
-        return new RcUser(userInfo.getId(), null, userInfo.getName(),
-                userInfo.getPassword(), userInfo.getMobile(), true, true, true,
-                true, authorities);
-    }
 
     /**
      * 是否支持此客户端校验(经销商系统手机号密码登录)

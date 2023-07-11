@@ -1,4 +1,4 @@
-package com.rc.cloud.common.security.service.impl;
+package com.rc.cloud.common.security.service.impl.admin;
 
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.feign.RemoteUserService;
@@ -6,11 +6,9 @@ import com.rc.cloud.common.core.constant.CacheConstants;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.service.RcUser;
-import com.rc.cloud.common.security.service.RcUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.security.core.userdetails.UserDetails;

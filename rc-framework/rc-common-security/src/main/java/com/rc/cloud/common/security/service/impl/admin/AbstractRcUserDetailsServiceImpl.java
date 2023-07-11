@@ -2,7 +2,7 @@
  * @author oliveoil
  * date 2023-07-11 13:55
  */
-package com.rc.cloud.common.security.service.impl;
+package com.rc.cloud.common.security.service.impl.admin;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;

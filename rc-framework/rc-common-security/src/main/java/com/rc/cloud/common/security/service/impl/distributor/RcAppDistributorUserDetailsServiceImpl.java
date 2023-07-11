@@ -1,4 +1,4 @@
-package com.rc.cloud.common.security.service.impl;
+package com.rc.cloud.common.security.service.impl.distributor;
 
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.security.service.RcUserDetailsService;
@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * @description TODO
  */
 
-public class RcAppDistributorUserDetailsServiceImpl implements RcUserDetailsService {
+public class RcAppDistributorUserDetailsServiceImpl extends AbstractRcDistributorUserDetailsServiceImpl{
 
     private final String DISTRIBUTOR_APP_NAME = "rc_distributor";
     @Override
