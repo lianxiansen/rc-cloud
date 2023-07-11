@@ -24,6 +24,11 @@
             <version>1.0.0</version>
         </dependency>
         <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-app-distributor-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
