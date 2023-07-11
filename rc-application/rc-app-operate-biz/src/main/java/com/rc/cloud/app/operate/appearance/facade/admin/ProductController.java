@@ -1,5 +1,7 @@
 package com.rc.cloud.app.operate.appearance.facade.admin;
 
+import com.rc.cloud.app.operate.application.dto.ProductCopyDTO;
+import com.rc.cloud.app.operate.application.dto.ProductModifyDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveVO;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
@@ -32,11 +34,29 @@ public class ProductController {
     }
 
 
+    @PostMapping("copy")
+    @Operation(summary = "拷贝产品")
+    public CodeResult<Long> copyProduct(@Valid @RequestBody ProductCopyDTO productCopyDTO) {
+        //productApplicationService.copyProduct(productCopyDTO);
+        return CodeResult.ok();
+    }
+
+
+
     @PostMapping("edit")
     @Operation(summary = "修改产品")
     public CodeResult<Long> editProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
         productApplicationService.updateProduct(productSaveDTO);
         return CodeResult.ok();
     }
+
+    @PostMapping("modifyField")
+    @Operation(summary = "修改产品字段")
+    public CodeResult<Long> modifyProductStatus(@Valid @RequestBody ProductModifyDTO productModifyDTO){
+        productApplicationService.modifyProductField(productModifyDTO);
+        return CodeResult.ok();
+    }
+
+
 
 }

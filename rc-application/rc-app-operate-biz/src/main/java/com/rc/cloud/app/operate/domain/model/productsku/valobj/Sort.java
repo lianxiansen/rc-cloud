@@ -18,4 +18,8 @@ public class Sort extends ValueObject {
         this.assertArgumentRange(value,0,100,"Sort is not in range(0,100)");
         this.value=value;
     }
+
+    public int getValue() {
+        return value;
+    }
 }

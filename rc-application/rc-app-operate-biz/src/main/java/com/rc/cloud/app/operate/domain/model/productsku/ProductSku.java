@@ -158,6 +158,7 @@ public class ProductSku extends Entity {
     }
 
 
+
     public SupplyPrice getSupplyPrice() {
         return supplyPrice;
     }
