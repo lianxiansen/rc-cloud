@@ -42,36 +42,6 @@ public interface RcUserDetailsService extends UserDetailsService, Ordered {
 	}
 
 	/**
-	 * 构建userdetails
-	 * @param result 用户信息
-	 * @return UserDetails
-	 */
-	default UserDetails getUserDetails(CodeResult<UserInfo> result) {
-		UserInfo userInfo = result.getData();
-		if (userInfo == null) {
-			throw new UsernameNotFoundException("用户不存在");
-		}
-
-		Set<String> dbAuthsSet = new HashSet<>();
-
-		if (ArrayUtil.isNotEmpty(userInfo.getRoles())) {
-			// 获取角色
-			Arrays.stream(userInfo.getRoles()).forEach(role -> dbAuthsSet.add(SecurityConstants.ROLE + role));
-			// 获取资源
-			dbAuthsSet.addAll(Arrays.asList(userInfo.getPermissions()));
-		}
-
-		Collection<GrantedAuthority> authorities = AuthorityUtils
-				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
-		SysUserVO user = userInfo.getSysUser();
-
-		// 构造security用户
-		return new RcUser(user.getId(), user.getDeptId(), user.getUsername(),
-				user.getPassword(), user.getMobile(), true, true, true,
-				(user.getStatus().equals(CommonStatusEnum.ENABLE.getStatus())), authorities);
-	}
-
-	/**
 	 * 通过用户实体查询
 	 * @param rcUser user
 	 * @return

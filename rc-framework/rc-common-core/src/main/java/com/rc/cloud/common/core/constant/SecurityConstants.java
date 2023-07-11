@@ -47,6 +47,7 @@ public class SecurityConstants
      * app
      */
     public static final String APP = "app";
+    public static final String PASSWORD = "password";
     /**
      * role
      */

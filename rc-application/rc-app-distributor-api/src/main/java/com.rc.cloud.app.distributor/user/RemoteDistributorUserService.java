@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @description TODO
  */
 
-@FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.DISTRIBUTOR_SERVICE)
+@FeignClient(contextId = "remoteDistributorUserService", value = ServiceNameConstants.DISTRIBUTOR_SERVICE)
 public interface RemoteDistributorUserService {
 
     /**

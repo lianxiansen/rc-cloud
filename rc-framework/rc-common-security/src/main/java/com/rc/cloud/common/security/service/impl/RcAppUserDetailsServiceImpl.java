@@ -2,6 +2,7 @@ package com.rc.cloud.common.security.service.impl;
 
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.feign.RemoteUserService;
+import com.rc.cloud.app.system.enums.oauth2.OAuth2GrantTypeEnum;
 import com.rc.cloud.common.core.constant.CacheConstants;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -21,11 +22,13 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class RcAppUserDetailsServiceImpl implements RcUserDetailsService {
+public class RcAppUserDetailsServiceImpl extends AbstractRcUserDetailsServiceImpl {
 
 	private final RemoteUserService remoteUserService;
 
 	private final CacheManager cacheManager;
+
+	private final String ADMIN_CLIENT_NAME = "rc_admin";
 
 	/**
 	 * 手机号登录
@@ -60,14 +63,13 @@ public class RcAppUserDetailsServiceImpl implements RcUserDetailsService {
 	}
 
 	/**
-	 * 是否支持此客户端校验
+	 * 后台管理手机号登录
 	 * @param clientId 目标客户端
 	 * @return true/false
 	 */
 	@Override
 	public boolean support(String clientId, String grantType) {
-
-		return SecurityConstants.APP.equals(grantType);
+		return ADMIN_CLIENT_NAME.equals(clientId)  && SecurityConstants.APP.equals(grantType);
 	}
 
 }

@@ -3,6 +3,7 @@ package com.rc.cloud.common.security.service.impl;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.feign.RemoteUserService;
 import com.rc.cloud.common.core.constant.CacheConstants;
+import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.service.RcUser;
 import com.rc.cloud.common.security.service.RcUserDetailsService;
@@ -20,13 +21,14 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author oliveoil
  */
 @Slf4j
-@Primary
 @RequiredArgsConstructor
-public class RcUserDetailsServiceImpl implements RcUserDetailsService {
+public class RcUserDetailsServiceImpl extends AbstractRcUserDetailsServiceImpl {
 
 	private final RemoteUserService remoteUserService;
 
 	private final RedisTemplate<String, Object> redisTemplate;
+
+	private final String ADMIN_CLIENT_NAME = "rc_admin";
 
 	/**
 	 * 用户名密码登录
@@ -57,4 +59,13 @@ public class RcUserDetailsServiceImpl implements RcUserDetailsService {
 		return Integer.MIN_VALUE;
 	}
 
+	/**
+	 * 后台管理账号密码登录
+	 * @param clientId 目标客户端
+	 * @return true/false
+	 */
+	@Override
+	public boolean support(String clientId, String grantType) {
+		return ADMIN_CLIENT_NAME.equals(clientId)  && SecurityConstants.PASSWORD.equals(grantType);
+	}
 }

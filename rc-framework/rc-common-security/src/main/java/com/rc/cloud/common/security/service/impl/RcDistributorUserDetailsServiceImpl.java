@@ -4,6 +4,7 @@ import com.rc.cloud.app.distributor.user.DistributorUser;
 import com.rc.cloud.app.distributor.user.RemoteDistributorUserService;
 import com.rc.cloud.app.system.enums.oauth2.OAuth2GrantTypeEnum;
 import com.rc.cloud.common.core.constant.CacheConstants;
+import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.service.RcUser;
 import com.rc.cloud.common.security.service.RcUserDetailsService;
@@ -31,7 +32,7 @@ import java.util.Collection;
 public class RcDistributorUserDetailsServiceImpl implements RcUserDetailsService {
 
     private final String DISTRIBUTOR_NAME = "distributor";
-    private final String DISTRIBUTOR_APP_NAME = "DistributorApp";
+    private final String DISTRIBUTOR_APP_NAME = "rc_distributor";
     private final RemoteDistributorUserService remoteUserService;
 
     private final RedisTemplate<String, Object> redisTemplate;
@@ -75,6 +76,6 @@ public class RcDistributorUserDetailsServiceImpl implements RcUserDetailsService
      */
     @Override
     public boolean support(String clientId, String grantType) {
-        return DISTRIBUTOR_APP_NAME.equals(clientId) && OAuth2GrantTypeEnum.PASSWORD.equals(grantType);
+        return DISTRIBUTOR_APP_NAME.equals(clientId) && SecurityConstants.PASSWORD.equals(grantType);
     }
 }

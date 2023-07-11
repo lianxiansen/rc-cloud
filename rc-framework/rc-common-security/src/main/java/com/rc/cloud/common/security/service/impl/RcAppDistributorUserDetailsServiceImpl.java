@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 
 public class RcAppDistributorUserDetailsServiceImpl implements RcUserDetailsService {
-    private final String DISTRIBUTOR_APP_NAME = "DistributorApp";
 
+    private final String DISTRIBUTOR_APP_NAME = "rc_distributor";
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
