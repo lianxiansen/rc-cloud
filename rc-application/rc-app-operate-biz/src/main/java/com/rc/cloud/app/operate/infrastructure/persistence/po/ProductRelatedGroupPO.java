@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 
 @TableName("product_related_group")
-public class ProductRelatedGroupDO extends BaseDO {
+public class ProductRelatedGroupPO extends BaseDO {
 
 
     private static final long serialVersionUID = 265345L;
@@ -35,7 +35,7 @@ public class ProductRelatedGroupDO extends BaseDO {
     @TableField("sort_id")
     private Integer sortId;
 
-    public ProductRelatedGroupDO() {
+    public ProductRelatedGroupPO() {
     }
 
     public Long getId() {
@@ -92,8 +92,8 @@ public class ProductRelatedGroupDO extends BaseDO {
 
     public boolean equals(final Object o) {
         if (o == this) return true;
-        if (!(o instanceof ProductRelatedGroupDO)) return false;
-        final ProductRelatedGroupDO other = (ProductRelatedGroupDO) o;
+        if (!(o instanceof ProductRelatedGroupPO)) return false;
+        final ProductRelatedGroupPO other = (ProductRelatedGroupPO) o;
         if (!other.canEqual((Object) this)) return false;
         if (!super.equals(o)) return false;
         final Object this$Id = this.getId();
@@ -119,7 +119,7 @@ public class ProductRelatedGroupDO extends BaseDO {
     }
 
     protected boolean canEqual(final Object other) {
-        return other instanceof ProductRelatedGroupDO;
+        return other instanceof ProductRelatedGroupPO;
     }
 
     public int hashCode() {

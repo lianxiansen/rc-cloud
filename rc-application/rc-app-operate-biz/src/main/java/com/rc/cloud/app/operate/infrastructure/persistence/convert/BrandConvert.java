@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.BrandDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.BrandPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 import java.util.ArrayList;
@@ -10,21 +10,21 @@ import java.util.List;
 
 public  class BrandConvert {
 
-    public static BrandDO convert2BrandPO(Brand brandEntity){
-        BrandDO brandDO=new BrandDO();
-        brandDO.setId(brandEntity.getId().id());
-        brandDO.setName(brandEntity.getName());
-        brandDO.setType(brandEntity.getType());
-        brandDO.setSortId(brandEntity.getSort());
-        brandDO.setEnabledFlag(brandEntity.isEnable());
-        return brandDO;
+    public static BrandPO convert2BrandPO(Brand brandEntity){
+        BrandPO brandPO =new BrandPO();
+        brandPO.setId(brandEntity.getId().id());
+        brandPO.setName(brandEntity.getName());
+        brandPO.setType(brandEntity.getType());
+        brandPO.setSortId(brandEntity.getSort());
+        brandPO.setEnabledFlag(brandEntity.isEnable());
+        return brandPO;
     }
 
-    public static Brand  convert2Brand( BrandDO brandDO){
-        Brand brand=new Brand(new BrandId(brandDO.getId()),brandDO.getName());
-        brand.setType(brandDO.getType());
-        brand.setSort(brandDO.getSortId());
-        if(brandDO.isEnabledFlag()){
+    public static Brand  convert2Brand( BrandPO brandPO){
+        Brand brand=new Brand(new BrandId(brandPO.getId()), brandPO.getName());
+        brand.setType(brandPO.getType());
+        brand.setSort(brandPO.getSortId());
+        if(brandPO.isEnabledFlag()){
             brand.enable();
         }else {
             brand.disable();
@@ -33,7 +33,7 @@ public  class BrandConvert {
     }
 
 
-    public static PageResult<Brand> convert2BrandPageResult(PageResult<BrandDO> brandDOPageResult){
+    public static PageResult<Brand> convert2BrandPageResult(PageResult<BrandPO> brandDOPageResult){
         List<Brand> brandList=new ArrayList<>();
         brandDOPageResult.getList().forEach(item->{
             Brand brand=BrandConvert.convert2Brand(item);

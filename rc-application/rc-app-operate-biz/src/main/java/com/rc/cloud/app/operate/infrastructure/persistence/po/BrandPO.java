@@ -7,10 +7,11 @@ import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@TableName("product_group")
+@TableName("brand")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductGroupDO extends BaseDO {
+public class BrandPO extends BaseDO {
+
 
     private static final long serialVersionUID = 2343242L;
     @TableField("id")
@@ -19,7 +20,13 @@ public class ProductGroupDO extends BaseDO {
     @TableField("name")
     private String name;
 
-    @TableField("tenant_id")
-    private String tenantId;
+    @TableField("type")
+    private String type;
+
+    @TableField("enabled_flag")
+    private boolean enabledFlag;
+
+    @TableField("sort_id")
+    private Integer sortId;
 
 }

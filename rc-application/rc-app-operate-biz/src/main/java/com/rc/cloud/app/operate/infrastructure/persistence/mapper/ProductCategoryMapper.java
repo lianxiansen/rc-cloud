@@ -1,7 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryPO;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,6 +10,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @Description:
  */
 @Mapper
-public interface ProductCategoryMapper extends BaseMapperX<ProductCategoryDO> {
+public interface ProductCategoryMapper extends BaseMapperX<ProductCategoryPO> {
 
 }

@@ -1,29 +1,19 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
-import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
-import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
-import com.rc.cloud.app.operate.application.dto.ProductDictSaveDTO;
-import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttributeEntity;
 import com.rc.cloud.app.operate.domain.model.product.ProductDictEntity;
 import com.rc.cloud.app.operate.domain.model.product.ProductImageEntity;
-import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.*;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.SeckillSku;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
 
 public class ProductDOConvert {
 
-    public static ProductDO convert2ProductDO(Product product) {
-        ProductDO target=new ProductDO();
+    public static ProductPO convert2ProductDO(Product product) {
+        ProductPO target=new ProductPO();
 
         target.setId(product.getId().id());
         target.setTenantId(product.getTenantId().id());
@@ -86,37 +76,37 @@ public class ProductDOConvert {
         return target;
     }
 
-    public static  ProductDetailDO convert2ProductDetailDO(String detailId,String productId, String tenantId, String detail){
-        ProductDetailDO productDetailDO=new ProductDetailDO();
-        productDetailDO.setId(detailId);
-        productDetailDO.setDetail(detail);
-        productDetailDO.setProductId(productId);
-        productDetailDO.setTenantId(tenantId);
-        return productDetailDO;
+    public static ProductDetailPO convert2ProductDetailDO(String detailId, String productId, String tenantId, String detail){
+        ProductDetailPO productDetailPO =new ProductDetailPO();
+        productDetailPO.setId(detailId);
+        productDetailPO.setDetail(detail);
+        productDetailPO.setProductId(productId);
+        productDetailPO.setTenantId(tenantId);
+        return productDetailPO;
     }
 
-    public static ProductAttributeDO convert2ProductAttributeDO(String productId, String tenantId, ProductAttributeEntity productAttributeEntity){
-        ProductAttributeDO productAttributeDO=new ProductAttributeDO();
+    public static ProductAttributePO convert2ProductAttributeDO(String productId, String tenantId, ProductAttributeEntity productAttributeEntity){
+        ProductAttributePO productAttributePO =new ProductAttributePO();
         String attr = JSON.toJSONString(productAttributeEntity.getAttributes());
-        productAttributeDO.setId(productAttributeEntity.getId());
-        productAttributeDO.setProductId(productId);
-        productAttributeDO.setTenantId(tenantId);
-        productAttributeDO.setContent(attr);
-        return productAttributeDO;
+        productAttributePO.setId(productAttributeEntity.getId());
+        productAttributePO.setProductId(productId);
+        productAttributePO.setTenantId(tenantId);
+        productAttributePO.setContent(attr);
+        return productAttributePO;
     }
 
 
-    public static List<ProductImageDO> convert2ProductImageDO(String productId, String tenantId, List<ProductImageEntity> productImageEntityList){
-        List<ProductImageDO> resList =new ArrayList<>();
+    public static List<ProductImagePO> convert2ProductImageDO(String productId, String tenantId, List<ProductImageEntity> productImageEntityList){
+        List<ProductImagePO> resList =new ArrayList<>();
         if(productImageEntityList!=null){
             for (ProductImageEntity productImageEntity : productImageEntityList) {
-                ProductImageDO productImageDO=new ProductImageDO();
-                productImageDO.setId(productImageEntity.getId());
-                productImageDO.setProductId(productId);
-                productImageDO.setUrl(productImageEntity.getUrl());
-                productImageDO.setTenantId(tenantId);
-                productImageDO.setSortId(productImageEntity.getSort());
-                resList.add(productImageDO);
+                ProductImagePO productImagePO =new ProductImagePO();
+                productImagePO.setId(productImageEntity.getId());
+                productImagePO.setProductId(productId);
+                productImagePO.setUrl(productImageEntity.getUrl());
+                productImagePO.setTenantId(tenantId);
+                productImagePO.setSortId(productImageEntity.getSort());
+                resList.add(productImagePO);
             }
         }
 
@@ -124,18 +114,18 @@ public class ProductDOConvert {
     }
 
 
-    public static List<ProductDictDO> convert2ProductDictDO(String productId, String tenantId, List<ProductDictEntity> productDictEntityList){
-        List<ProductDictDO> resList =new ArrayList<>();
+    public static List<ProductDictPO> convert2ProductDictDO(String productId, String tenantId, List<ProductDictEntity> productDictEntityList){
+        List<ProductDictPO> resList =new ArrayList<>();
         if(productDictEntityList!=null){
             for (ProductDictEntity productDictEntity : productDictEntityList) {
-                ProductDictDO productDictDO=new ProductDictDO();
-                productDictDO.setId(productDictEntity.getId());
-                productDictDO.setProductId(productId);
-                productDictDO.setValue(productDictEntity.getValue());
-                productDictDO.setTenantId(tenantId);
-                productDictDO.setKey(productDictEntity.getKey());
-                productDictDO.setSortId(productDictEntity.getSort());
-                resList.add(productDictDO);
+                ProductDictPO productDictPO =new ProductDictPO();
+                productDictPO.setId(productDictEntity.getId());
+                productDictPO.setProductId(productId);
+                productDictPO.setValue(productDictEntity.getValue());
+                productDictPO.setTenantId(tenantId);
+                productDictPO.setKey(productDictEntity.getKey());
+                productDictPO.setSortId(productDictEntity.getSort());
+                resList.add(productDictPO);
             }
         }
         return resList;

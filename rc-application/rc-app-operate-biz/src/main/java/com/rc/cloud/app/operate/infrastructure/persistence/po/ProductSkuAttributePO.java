@@ -24,7 +24,7 @@ import lombok.EqualsAndHashCode;
 @TableName("product_sku_attribute")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductSkuAttributeDO {
+public class ProductSkuAttributePO {
 
     private static final long serialVersionUID = 21231L;
 

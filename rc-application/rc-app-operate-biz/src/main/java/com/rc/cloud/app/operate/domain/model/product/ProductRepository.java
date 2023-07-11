@@ -4,9 +4,8 @@ import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductAttributeDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductAttributePO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 import java.util.List;
@@ -39,11 +38,10 @@ public interface ProductRepository {
 
     void removeProductAttributeEntityByProductId(String productId);
 
-    void updateProductImageEntity( ProductImageDO productImageDO);
 
-    void updateProductDictEntity(ProductDictDO productDictDO);
+    void updateProductDictEntity(ProductDictPO productDictPO);
 
-    void updateProductAttributeEntity(ProductAttributeDO productAttributeDO);
+    void updateProductAttributeEntity(ProductAttributePO productAttributePO);
     boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
     boolean existsByBrandId(BrandId brandId);
 }

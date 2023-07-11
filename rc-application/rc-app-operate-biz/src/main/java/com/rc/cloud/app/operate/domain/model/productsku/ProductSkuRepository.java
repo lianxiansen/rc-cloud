@@ -2,9 +2,8 @@ package com.rc.cloud.app.operate.domain.model.productsku;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuAttributeDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuImageDO;
-import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuAttributePO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuImagePO;
 
 import java.util.List;
 
@@ -24,8 +23,8 @@ public interface ProductSkuRepository {
     ProductSku findById(ProductSkuId productSkuId);
 
 
-    public void updateProductSkuImageEntity( ProductSkuImageDO productSkuImageDO);
+    public void updateProductSkuImageEntity( ProductSkuImagePO productSkuImagePO);
 
-    public void updateProductSkuAttributeEntity(ProductSkuAttributeDO productSkuAttributeDO);
+    public void updateProductSkuAttributeEntity(ProductSkuAttributePO productSkuAttributePO);
 
 }

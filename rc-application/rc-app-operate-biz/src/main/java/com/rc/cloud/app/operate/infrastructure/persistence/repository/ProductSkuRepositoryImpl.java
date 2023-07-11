@@ -6,15 +6,13 @@ import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductDOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductSkuDOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuAttributeMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductImageDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuAttributeDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuImageDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuAttributePO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuPO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuImagePO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -45,29 +43,29 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
 
     @Override
     public boolean exist(ProductSkuId productSkuId){
-        LambdaQueryWrapperX<ProductSkuDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuDO::getId, productSkuId.id());
+        LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuPO::getId, productSkuId.id());
         return this.productSkuMapper.exists(wrapper);
     }
 
     @Override
     public ProductSku findById(ProductSkuId productSkuId) {
-        LambdaQueryWrapperX<ProductSkuDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuDO::getId, productSkuId.id());
-        ProductSkuDO ProductSkuDO = this.productSkuMapper.selectOne(wrapper);
-        return convert2ProductSkuEntity(ProductSkuDO);
+        LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuPO::getId, productSkuId.id());
+        ProductSkuPO ProductSkuPO = this.productSkuMapper.selectOne(wrapper);
+        return convert2ProductSkuEntity(ProductSkuPO);
     }
 
-    public void updateProductSkuImageEntity( ProductSkuImageDO productSkuImageDO){
-        LambdaQueryWrapperX<ProductSkuImageDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuImageDO::getId, productSkuImageDO.getId());
-        productSkuImageMapper.update(productSkuImageDO,wrapper);
+    public void updateProductSkuImageEntity( ProductSkuImagePO productSkuImagePO){
+        LambdaQueryWrapperX<ProductSkuImagePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuImagePO::getId, productSkuImagePO.getId());
+        productSkuImageMapper.update(productSkuImagePO,wrapper);
     }
 
-    public void updateProductSkuAttributeEntity(ProductSkuAttributeDO productSkuAttributeDO){
-        LambdaQueryWrapperX<ProductSkuAttributeDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuAttributeDO::getProductSkuId, productSkuAttributeDO.getProductSkuId());
-        productSkuAttributeMapper.update(productSkuAttributeDO,wrapper);
+    public void updateProductSkuAttributeEntity(ProductSkuAttributePO productSkuAttributePO){
+        LambdaQueryWrapperX<ProductSkuAttributePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuAttributePO::getProductSkuId, productSkuAttributePO.getProductSkuId());
+        productSkuAttributeMapper.update(productSkuAttributePO,wrapper);
     }
 
 
@@ -78,80 +76,80 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         if(exist(productSkuEntity.getId())){
             throw new IllegalArgumentException("该商品已存在");
         }
-        ProductSkuDO productSkuDO= ProductSkuDOConvert.convert2ProductSkuDO(productSkuEntity);
-        productSkuMapper.insert(productSkuDO);
+        ProductSkuPO productSkuPO = ProductSkuDOConvert.convert2ProductSkuDO(productSkuEntity);
+        productSkuMapper.insert(productSkuPO);
 
         if(productSkuEntity.getSkuImageList()!=null){
-            List<ProductSkuImageDO> productSkuImageDOS = ProductSkuDOConvert.convert2ProductSkuImageDO(productSkuEntity.getId().id()
+            List<ProductSkuImagePO> productSkuImagePOS = ProductSkuDOConvert.convert2ProductSkuImageDO(productSkuEntity.getId().id()
                     , productSkuEntity.getTenantId().id(), productSkuEntity.getSkuImageList());
-            for (ProductSkuImageDO productSkuImageDO : productSkuImageDOS) {
-                this.productSkuImageMapper.insert(productSkuImageDO);
+            for (ProductSkuImagePO productSkuImagePO : productSkuImagePOS) {
+                this.productSkuImageMapper.insert(productSkuImagePO);
             }
         }
 
-        ProductSkuAttributeDO productSkuAttributeDO = ProductSkuDOConvert
+        ProductSkuAttributePO productSkuAttributePO = ProductSkuDOConvert
                 .convert2ProductSkuAttributeDO(productSkuEntity.getId().id()
                 , productSkuEntity.getTenantId().id(), productSkuEntity.getProductSkuAttributeEntity());
-        this.productSkuAttributeMapper.insert(productSkuAttributeDO);
+        this.productSkuAttributeMapper.insert(productSkuAttributePO);
     }
 
     @Override
     public void updateProductSku(ProductSku productSkuEntity) {
 
-        LambdaQueryWrapperX<ProductSkuDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuDO::getId, productSkuEntity.getId().id());
-        ProductSkuDO ProductSkuDO = ProductSkuDOConvert.convert2ProductSkuDO(productSkuEntity);
-        this.productSkuMapper.update(ProductSkuDO,wrapper);
+        LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuPO::getId, productSkuEntity.getId().id());
+        ProductSkuPO ProductSkuPO = ProductSkuDOConvert.convert2ProductSkuDO(productSkuEntity);
+        this.productSkuMapper.update(ProductSkuPO,wrapper);
 
         if(productSkuEntity.getSkuImageList()!=null){
-            List<ProductSkuImageDO> productSkuImageDOS = ProductSkuDOConvert
+            List<ProductSkuImagePO> productSkuImagePOS = ProductSkuDOConvert
                     .convert2ProductSkuImageDO(productSkuEntity.getId().id()
                     , productSkuEntity.getTenantId().id(), productSkuEntity.getSkuImageList());
-            for (ProductSkuImageDO productSkuImageDO : productSkuImageDOS) {
-                updateProductSkuImageEntity(productSkuImageDO);
+            for (ProductSkuImagePO productSkuImagePO : productSkuImagePOS) {
+                updateProductSkuImageEntity(productSkuImagePO);
             }
         }
-        ProductSkuAttributeDO ProductSkuAttributeDO = ProductSkuDOConvert.convert2ProductSkuAttributeDO(
+        ProductSkuAttributePO ProductSkuAttributePO = ProductSkuDOConvert.convert2ProductSkuAttributeDO(
                 productSkuEntity.getId().id()
                 , productSkuEntity.getTenantId().id(), productSkuEntity.getProductSkuAttributeEntity());
-        updateProductSkuAttributeEntity(ProductSkuAttributeDO);
+        updateProductSkuAttributeEntity(ProductSkuAttributePO);
     }
 
 
     @Override
     public List<ProductSku> getProductSkuListByProductId(ProductId productId) {
-        LambdaQueryWrapperX<ProductSkuDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuDO::getProductId, productId.id());
-        List<ProductSkuDO> productSkuDOList = this.productSkuMapper.selectList(wrapper);
+        LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuPO::getProductId, productId.id());
+        List<ProductSkuPO> productSkuPOList = this.productSkuMapper.selectList(wrapper);
 
         List<ProductSku> resList =new ArrayList<>();
-        for (ProductSkuDO productSkuDO : productSkuDOList) {
-            ProductSku productSkuEntity = convert2ProductSkuEntity(productSkuDO);
+        for (ProductSkuPO productSkuPO : productSkuPOList) {
+            ProductSku productSkuEntity = convert2ProductSkuEntity(productSkuPO);
             resList.add(productSkuEntity);
         }
         return resList;
     }
 
 
-    private ProductSku convert2ProductSkuEntity(ProductSkuDO productSkuDO ){
-        ProductId productId=new ProductId(productSkuDO.getProductId());
+    private ProductSku convert2ProductSkuEntity(ProductSkuPO productSkuPO){
+        ProductId productId=new ProductId(productSkuPO.getProductId());
         ProductSkuId id = nextId();
-        TenantId tenantId = new TenantId(productSkuDO.getTenantId());
+        TenantId tenantId = new TenantId(productSkuPO.getTenantId());
         Price price=new Price();
-        price.setValue(productSkuDO.getPrice());
+        price.setValue(productSkuPO.getPrice());
         ProductSku productSku=new ProductSku(id,productId,tenantId, price);
         //秒杀信息
         SeckillSku seckillSku=new SeckillSku();
-        seckillSku.setSeckillInventory(new Inventory(productSkuDO.getSeckillInventory()));
-        seckillSku.setSeckillPrice(new Price(productSkuDO.getPrice()));
-        seckillSku.setSeckillTotalInventory(new TotalInventory(productSkuDO.getSeckillTotalInventory()));
-        seckillSku.setSeckillLimitBuy(new LimitBuy(productSkuDO.getSeckillLimitBuy()));
+        seckillSku.setSeckillInventory(new Inventory(productSkuPO.getSeckillInventory()));
+        seckillSku.setSeckillPrice(new Price(productSkuPO.getPrice()));
+        seckillSku.setSeckillTotalInventory(new TotalInventory(productSkuPO.getSeckillTotalInventory()));
+        seckillSku.setSeckillLimitBuy(new LimitBuy(productSkuPO.getSeckillLimitBuy()));
         productSku.setSeckillSku(seckillSku);
-        productSku.setInventory(new Inventory(productSkuDO.getInventory()));
-        productSku.setLimitBuy(new LimitBuy(productSkuDO.getLimitBuy()));
-        productSku.setOutId(new OutId(productSkuDO.getOutId()));
-        productSku.setSupplyPrice(new SupplyPrice(productSkuDO.getSupplyPrice()));
-        productSku.setWeight(new Weight(productSkuDO.getWeight()));
+        productSku.setInventory(new Inventory(productSkuPO.getInventory()));
+        productSku.setLimitBuy(new LimitBuy(productSkuPO.getLimitBuy()));
+        productSku.setOutId(new OutId(productSkuPO.getOutId()));
+        productSku.setSupplyPrice(new SupplyPrice(productSkuPO.getSupplyPrice()));
+        productSku.setWeight(new Weight(productSkuPO.getWeight()));
         return productSku;
     }
 }

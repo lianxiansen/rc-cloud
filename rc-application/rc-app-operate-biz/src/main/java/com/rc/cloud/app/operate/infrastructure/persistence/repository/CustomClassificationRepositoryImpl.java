@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.CustomClassificationMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.CustomClassificationDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.CustomClassificationPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.stereotype.Service;
 
@@ -18,13 +18,13 @@ public class CustomClassificationRepositoryImpl
      * @param tenantId
      * @return
      */
-    public List<CustomClassificationDO> getCustomClassificationListByTenantId(String tenantId){
+    public List<CustomClassificationPO> getCustomClassificationListByTenantId(String tenantId){
 
-        LambdaQueryWrapperX<CustomClassificationDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(CustomClassificationDO::getTenantId, tenantId);
-        List<CustomClassificationDO> customClassificationDOList
+        LambdaQueryWrapperX<CustomClassificationPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(CustomClassificationPO::getTenantId, tenantId);
+        List<CustomClassificationPO> customClassificationPOList
                 = this.customClassificationMapper.selectList(wrapper);
-        return customClassificationDOList;
+        return customClassificationPOList;
     }
 
 }

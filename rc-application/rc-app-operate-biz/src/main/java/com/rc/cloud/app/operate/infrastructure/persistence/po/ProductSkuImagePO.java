@@ -5,12 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@TableName("product_dict")
+@TableName("product_attribute")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductDictDO {
+public class ProductSkuImagePO {
 
-    private static final long serialVersionUID = 55322L;
+
+    private static final long serialVersionUID = 2213123L;
 
     @TableField("id")
     private String Id;
@@ -18,15 +19,14 @@ public class ProductDictDO {
     @TableField("tenant_id")
     private String tenantId;
 
-    @TableField("product_id")
-    private String productId;
+    @TableField("product_sku_id")
+    private String productSkuId;
 
-    @TableField("dict_key")
-    private String key;
+    @TableField("url")
+    private String url;
 
-    @TableField("dict_value")
-    private String value;
 
     @TableField("sort_id")
     private Integer sortId;
+
 }

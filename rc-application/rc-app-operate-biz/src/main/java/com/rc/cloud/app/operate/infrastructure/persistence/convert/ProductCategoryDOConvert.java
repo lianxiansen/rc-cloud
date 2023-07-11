@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryPO;
 
 /**
  * @ClassName: ProductCategoryConvert
@@ -11,8 +11,8 @@ import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
  */
 public class ProductCategoryDOConvert {
 
-    public static ProductCategoryDO convert2ProductCategoryDO(ProductCategory source) {
-        ProductCategoryDO target=new ProductCategoryDO();
+    public static ProductCategoryPO convert2ProductCategoryDO(ProductCategory source) {
+        ProductCategoryPO target=new ProductCategoryPO();
         target.setId(source.getId().id());
         target.setProductCategoryPageImage(source.getPage().getCategoryImage());
         target.setProductListPageImage(source.getPage().getListImage());

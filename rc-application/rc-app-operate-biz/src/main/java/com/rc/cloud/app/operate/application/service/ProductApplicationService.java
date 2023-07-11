@@ -433,41 +433,12 @@ public class ProductApplicationService {
     }
 
 
-    public String copyProduct(String productId){
-        Product product = productRepository.findById(new ProductId(productId));
-        Product productClone=product.clone(productRepository.nextId());
-
-        if(product.getProductDicts()!=null){
-            for (ProductDictEntity productDict : product.getProductDicts()) {
-                productDict.setId(productDictRepository.nextId());
-            }
-        }
-        if(product.getProductAttributeEntity()!=null){
-            ProductAttributeEntity productAttributeEntity = product.getProductAttributeEntity();
-        }
-        if(product.getDetail()!=null){
-
-        }
-        productRepository.insertProductEntity(product);
-        List<ProductSku> productSkuList = productSkuRepository.getProductSkuListByProductId(new ProductId(productId));
-        for (ProductSku productSku : productSkuList) {
-            List<ProductSkuImageEntity> skuImageList = productSku.getSkuImageList();
-            if(skuImageList!=null){
-
-            }
-            if(productSku.getProductSkuAttributeEntity()!=null){
-
-            }
-        }
-        return null;
-    }
-
-
     /**
      * 获取商品列表
      * @return
      */
-    public PageResult<ProductBO> getProductList(){
+    public PageResult<ProductBO> getProductList(ProductListQueryDTO productListQueryDTO){
+        PageResult<Product> productPageList = productRepository.getProductPageList(productListQueryDTO);
 
         return null;
     }

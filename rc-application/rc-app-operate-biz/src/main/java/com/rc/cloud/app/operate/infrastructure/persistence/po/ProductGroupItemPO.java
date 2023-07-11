@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 @TableName("product_group_item")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductGroupItemDO extends BaseDO {
+public class ProductGroupItemPO extends BaseDO {
 
     private static final long serialVersionUID = 2343242L;
     @TableField("id")

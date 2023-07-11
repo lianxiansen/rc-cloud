@@ -1,24 +1,21 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
-import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttributeEntity;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImageEntity;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.SeckillSku;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuAttributeDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuDO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuImageDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuAttributePO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuPO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuImagePO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SortedSet;
 
 public class ProductSkuDOConvert {
 
 
-    public static ProductSkuDO convert2ProductSkuDO(ProductSku productSku) {
-        ProductSkuDO target=new ProductSkuDO();
+    public static ProductSkuPO convert2ProductSkuDO(ProductSku productSku) {
+        ProductSkuPO target=new ProductSkuPO();
 
         target.setId(productSku.getId().id());
         target.setProductId(productSku.getProductId().id());
@@ -54,29 +51,29 @@ public class ProductSkuDOConvert {
     }
 
 
-    public static ProductSkuAttributeDO convert2ProductSkuAttributeDO(
+    public static ProductSkuAttributePO convert2ProductSkuAttributeDO(
             String productSkuId, String tenantId, ProductSkuAttributeEntity productSkuAttributeEntity){
-        ProductSkuAttributeDO productSkuAttributeDO=new ProductSkuAttributeDO();
+        ProductSkuAttributePO productSkuAttributePO =new ProductSkuAttributePO();
         String attr = JSON.toJSONString(productSkuAttributeEntity.getSkuAttributes());
-        productSkuAttributeDO.setId(productSkuAttributeEntity.getId());
-        productSkuAttributeDO.setProductSkuId(productSkuId);
-        productSkuAttributeDO.setTenantId(tenantId);
-        productSkuAttributeDO.setContent(attr);
-        return productSkuAttributeDO;
+        productSkuAttributePO.setId(productSkuAttributeEntity.getId());
+        productSkuAttributePO.setProductSkuId(productSkuId);
+        productSkuAttributePO.setTenantId(tenantId);
+        productSkuAttributePO.setContent(attr);
+        return productSkuAttributePO;
     }
 
 
-    public static List<ProductSkuImageDO> convert2ProductSkuImageDO(String productSkuId, String tenantId, List<ProductSkuImageEntity> ProductSkuImageEntityList){
-        List<ProductSkuImageDO> resList =new ArrayList<>();
+    public static List<ProductSkuImagePO> convert2ProductSkuImageDO(String productSkuId, String tenantId, List<ProductSkuImageEntity> ProductSkuImageEntityList){
+        List<ProductSkuImagePO> resList =new ArrayList<>();
         if(ProductSkuImageEntityList!=null){
             for (ProductSkuImageEntity productSkuImageEntity : ProductSkuImageEntityList) {
-                ProductSkuImageDO productSkuImageDO=new ProductSkuImageDO();
-                productSkuImageDO.setId(productSkuImageEntity.getId());
-                productSkuImageDO.setProductSkuId(productSkuId);
-                productSkuImageDO.setUrl(productSkuImageEntity.getUrl());
-                productSkuImageDO.setTenantId(tenantId);
-                productSkuImageDO.setSortId(productSkuImageEntity.getSort());
-                resList.add(productSkuImageDO);
+                ProductSkuImagePO productSkuImagePO =new ProductSkuImagePO();
+                productSkuImagePO.setId(productSkuImageEntity.getId());
+                productSkuImagePO.setProductSkuId(productSkuId);
+                productSkuImagePO.setUrl(productSkuImageEntity.getUrl());
+                productSkuImagePO.setTenantId(tenantId);
+                productSkuImagePO.setSortId(productSkuImageEntity.getSort());
+                resList.add(productSkuImagePO);
             }
         }
 
