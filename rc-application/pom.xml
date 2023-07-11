@@ -36,7 +36,8 @@
     <modules>
         <module>rc-app-system-biz</module>
         <module>rc-app-system-api</module>
-        <module>rc-app-mall-biz</module>
+        <module>rc-app-distributor-biz</module>
+        <module>rc-app-distributor-api</module>
         <module>rc-app-operate-biz</module>
     </modules>
 

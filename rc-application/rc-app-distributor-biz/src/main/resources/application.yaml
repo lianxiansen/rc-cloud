@@ -7,7 +7,7 @@ spring:
       name: admin
       password: "{bcrypt}$2a$10$3EqFTg5lyyBkNTXqTpe5xeGwU6QSgBxzxSBc16fZARDZ.NYIk7w0W"
   application:
-    name: rc-app-mall-biz
+    name: rc-app-distributor-biz
   main:
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
   # 激活环境配置

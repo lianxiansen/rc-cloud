@@ -9,7 +9,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>rc-app-mall-biz</artifactId>
+    <artifactId>rc-app-distributor-biz</artifactId>
 
     <packaging>jar</packaging>
 

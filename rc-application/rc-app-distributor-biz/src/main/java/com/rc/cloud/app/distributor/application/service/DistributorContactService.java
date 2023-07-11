@@ -20,4 +20,6 @@ public interface DistributorContactService extends IService<DistributorContactPO
     void updateContacts(String distributorId, List<DistributorContactPO> contactDOS);
 
     List<DistributorContactPO> getByDistributorId(String distributorId);
+
+    DistributorContactPO getByMobile(String mobile);
 }

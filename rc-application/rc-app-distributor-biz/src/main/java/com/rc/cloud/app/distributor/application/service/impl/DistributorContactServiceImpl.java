@@ -80,6 +80,11 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
     }
 
     @Override
+    public DistributorContactPO getByMobile(String mobile) {
+        return contactMapper.selectOne(new LambdaQueryWrapperX<DistributorContactPO>().eq(DistributorContactPO::getMobile, mobile));
+    }
+
+    @Override
     public void updatePassword(DistributorContactUpdatePasswordReqVO updatePasswordReqVO) {
         DistributorContactPO contactDO = getBaseMapper().selectById(updatePasswordReqVO.getId());
         System.out.println(contactDO == null);
