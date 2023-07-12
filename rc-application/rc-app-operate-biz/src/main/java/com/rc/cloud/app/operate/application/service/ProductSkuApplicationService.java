@@ -1,16 +1,23 @@
 package com.rc.cloud.app.operate.application.service;
 
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
-import com.rc.cloud.app.operate.application.dto.*;
+import com.rc.cloud.app.operate.application.dto.ProductSkuAttributeSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductSkuGetDTO;
+import com.rc.cloud.app.operate.application.dto.ProductSkuImageSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductSkuSaveDTO;
 import com.rc.cloud.app.operate.domain.model.productsku.*;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuAttributeId;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.SupplyPrice;
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.IdRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +32,8 @@ public class ProductSkuApplicationService
     @Autowired
     private TenantService tenantService;
 
-    @Autowired
-    private ProductSkuImageRepository productSkuImageRepository;
-
-    @Autowired
-    private ProductSkuAttributeRepository productSkuAttributeRepository;
-
+    @Resource
+    private IdRepository idRepository;
     /**
      * 修改sku
      * @param productSkuSaveDTO
@@ -69,7 +72,7 @@ public class ProductSkuApplicationService
             List<ProductSkuImage> productSkuImageList = new ArrayList<>();
             int pos = 1;
             for (ProductSkuImageSaveDTO album : productSkuSaveDTO.getAlbums()) {
-                ProductSkuImage productSkuImage = new ProductSkuImage(productSkuImageRepository.nextId());
+                ProductSkuImage productSkuImage = new ProductSkuImage(new ProductSkuImageId(idRepository.nextId()));
                 productSkuImage.setSort(album.getSort());
                 productSkuImage.setUrl(album.getUrl());
                 pos++;
@@ -79,10 +82,7 @@ public class ProductSkuApplicationService
         }
         //sku属性
         if (productSkuSaveDTO.getAttributes() != null) {
-            ProductSkuAttribute productSkuAttribute = new ProductSkuAttribute(
-                    productSkuAttributeRepository.nextId(),
-                    productSku.getId(), tenantId
-            );
+            ProductSkuAttribute productSkuAttribute = null;//TODO
             for (ProductSkuAttributeSaveDTO attribute : productSkuSaveDTO.getAttributes()) {
                 productSkuAttribute.addSkuAttribute(attribute.getName(), attribute.getValue(), attribute.getSort());
             }

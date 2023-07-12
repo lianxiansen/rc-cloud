@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 
 import java.math.BigDecimal;
 
@@ -10,9 +10,14 @@ import java.math.BigDecimal;
  * @Date: 2023/6/26 13:43
  * @Description: TODO
  */
-public class Popularization extends ValueObject {
+public class Popularization implements ValueObject<Popularization> {
     /**
      * 比率
      */
     private BigDecimal amountRate;
+
+    @Override
+    public boolean sameValueAs(Popularization other) {
+        return false;
+    }
 }

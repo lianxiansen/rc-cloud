@@ -1,8 +1,8 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 
-public class CategoryName  extends ValueObject {
+public class CategoryName  implements ValueObject<CategoryName> {
     private String value;
 
     public CategoryName(String value) {
@@ -15,5 +15,10 @@ public class CategoryName  extends ValueObject {
 
     public void setValue(String value) {
         this.value=value;
+    }
+
+    @Override
+    public boolean sameValueAs(CategoryName other) {
+        return this.value.equals(other.getValue());
     }
 }

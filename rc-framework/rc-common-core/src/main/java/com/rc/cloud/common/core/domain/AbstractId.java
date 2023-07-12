@@ -1,12 +1,11 @@
-package com.rc.cloud.app.operate.domain.common;
+package com.rc.cloud.common.core.domain;
+
+import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.io.Serializable;
 
 
-
-public abstract class AbstractId
-    extends AssertionConcern
-    implements Identity, Serializable {
+public abstract class AbstractId implements Identity, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -17,8 +16,7 @@ public abstract class AbstractId
         return this.id;
     }
 
-    @Override
-    public boolean equals(Object anObject) {
+    public boolean sameValueAs(Object anObject) {
         boolean equalObjects = false;
 
         if (anObject != null && this.getClass() == anObject.getClass()) {
@@ -57,8 +55,8 @@ public abstract class AbstractId
     }
 
     private void setId(String anId) {
-        this.assertArgumentNotEmpty(anId, "The basic identity is required.");
-        this.assertArgumentLength(anId, 32, "The basic identity must be 32 characters.");
+        AssertUtils.assertArgumentNotEmpty(anId, "The basic identity is required.");
+        AssertUtils.assertArgumentLength(anId, 32, "The basic identity must be 32 characters.");
 
         this.validateId(anId);
 

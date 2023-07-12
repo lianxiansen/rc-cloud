@@ -1,7 +1,8 @@
 package com.rc.cloud.app.operate.domain.model.brand;
 
-import com.rc.cloud.app.operate.domain.common.Entity;
-import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
+import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
+import com.rc.cloud.common.core.domain.Entity;
+import com.rc.cloud.common.core.util.AssertUtils;
 
 
 public class Brand extends Entity {
@@ -25,10 +26,11 @@ public class Brand extends Entity {
     }
 
     private void setId(BrandId id) {
-        this.assertArgumentNotNull(id, "id must not be null");
+        AssertUtils.assertArgumentNotNull(id, "id must not be null");
         this.id = id;
     }
 
+    @Override
     public BrandId getId() {
         return this.id;
     }
@@ -38,7 +40,7 @@ public class Brand extends Entity {
     }
 
     public void setName(String name) {
-        this.assertArgumentNotNull(name, "name must not be null");
+        AssertUtils.assertArgumentNotNull(name, "name must not be null");
         this.name = name;
     }
 

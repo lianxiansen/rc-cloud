@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.StringUtils;
 
 /**
@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Tag extends ValueObject {
+public class Tag implements ValueObject<Tag> {
     private String value;
     public Tag(String value){
         //检验标签是否合法
@@ -26,4 +26,8 @@ public class Tag extends ValueObject {
 
     }
 
+    @Override
+    public boolean sameValueAs(Tag other) {
+        return false;
+    }
 }

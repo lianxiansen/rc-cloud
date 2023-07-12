@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.tenant.valobj;
 
-import com.rc.cloud.app.operate.domain.common.AbstractId;
+
+import com.rc.cloud.common.core.domain.AbstractId;
 
 /**
  * @ClassName: ProductCategoryEntryId
@@ -16,5 +17,7 @@ public class TenantId extends AbstractId {
     protected TenantId() {
         super();
     }
+
+
 
 }

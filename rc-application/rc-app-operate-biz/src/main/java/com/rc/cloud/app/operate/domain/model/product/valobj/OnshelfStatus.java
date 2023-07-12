@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 
 /**
  * @ClassName: TenantId
@@ -8,7 +8,7 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class OnshelfStatus extends ValueObject {
+public class OnshelfStatus implements ValueObject<OnshelfStatus> {
     private int value;
     public OnshelfStatus(int value){
         this.value = value;
@@ -21,4 +21,8 @@ public class OnshelfStatus extends ValueObject {
         this.value = value;
     }
 
+    @Override
+    public boolean sameValueAs(OnshelfStatus other) {
+        return false;
+    }
 }

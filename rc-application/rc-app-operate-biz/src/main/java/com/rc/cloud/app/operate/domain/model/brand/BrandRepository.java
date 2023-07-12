@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.brand;
 
-import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
+import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 public interface BrandRepository {

@@ -1,6 +1,7 @@
-package com.rc.cloud.app.operate.domain.model.productsku.valobj;
+package com.rc.cloud.app.operate.domain.model.productsku.identifier;
 
-import com.rc.cloud.app.operate.domain.common.AbstractId;
+
+import com.rc.cloud.common.core.domain.AbstractId;
 
 public class ProductSkuId extends AbstractId {
 

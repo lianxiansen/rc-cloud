@@ -1,8 +1,10 @@
 package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 
+import com.rc.cloud.common.core.domain.ValueObject;
+
 import java.text.DecimalFormat;
 
-public class SeckillSku {
+public class SeckillSku implements ValueObject<SeckillSku> {
 
     private LimitBuy seckillLimitBuy;
 
@@ -69,4 +71,8 @@ public class SeckillSku {
         return percent;
     }
 
+    @Override
+    public boolean sameValueAs(SeckillSku other) {
+        return false;
+    }
 }

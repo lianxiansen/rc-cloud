@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.domain.common;
+package com.rc.cloud.common.core.domain;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

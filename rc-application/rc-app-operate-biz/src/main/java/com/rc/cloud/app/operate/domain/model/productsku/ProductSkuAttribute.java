@@ -22,24 +22,19 @@ import com.rc.cloud.app.operate.domain.model.productsku.valobj.AttributeValueCom
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class ProductSkuAttribute extends Entity {
 
 
-    public ProductSkuAttribute(String id, ProductSkuId productSkuId, TenantId tenantId) {
+    public ProductSkuAttribute(String id) {
         this.id =id;
-        this.productSkuId = productSkuId;
-        this.tenantId = tenantId;
         this.skuAttributes = new TreeSet<>();
     }
 
     private String id;
-
-    private ProductSkuId productSkuId;
-
-    private TenantId tenantId;
 
     private SortedSet<AttributeValueCombination> skuAttributes;
 
@@ -53,6 +48,15 @@ public class ProductSkuAttribute extends Entity {
         entity.setAttributeValue(value);
         entity.setSort(sort);
         skuAttributes.add(entity);
+    }
+
+    public void addAttributeValueCombinations(List<AttributeValueCombination> attributeValueCombinations){
+        this.assertArgumentNotNull(attributeValueCombinations,"attributeValueCombinations must not be null");
+        for (AttributeValueCombination attributeValueCombination : attributeValueCombinations) {
+            addSkuAttribute(attributeValueCombination.getAttribute()
+                    ,attributeValueCombination.getAttributeValue()
+                    ,attributeValueCombination.getSort());
+        }
     }
 
     public String getId() {

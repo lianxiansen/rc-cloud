@@ -33,6 +33,7 @@ public class ProductDictRepositoryImpl implements ProductDictRepository {
         return ProductDictConvert.INSTANCE.convertList(this.productDictMapper.selectList(wrapper));
     }
 
+    @Override
     public int removeProductDictByProductId(String productId){
         LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductDictPO::getProductId, productId);

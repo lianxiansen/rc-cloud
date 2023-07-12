@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.domain.Entity;
  * @author hqf@rc
  * @date 2022-04-22
  **/
-public class Oss implements Entity<Oss> {
+public class Oss extends Entity{
 
     private OssId ossId;
 
@@ -52,9 +52,8 @@ public class Oss implements Entity<Oss> {
         this.delFlag = "1";
     }
 
-    @Override
     public boolean sameIdentityAs(Oss other) {
-        return other != null && ossId.sameValueAs(other.ossId);
+        return this.sameIdentityAs(other);
     }
 
     public OssId getOssId() {
@@ -79,5 +78,10 @@ public class Oss implements Entity<Oss> {
 
     public String getService() {
         return service;
+    }
+
+    @Override
+    public OssId getId() {
+        return ossId;
     }
 }

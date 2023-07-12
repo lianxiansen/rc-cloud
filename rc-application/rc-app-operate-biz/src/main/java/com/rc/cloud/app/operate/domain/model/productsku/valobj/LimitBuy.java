@@ -1,6 +1,8 @@
 package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 
-public class LimitBuy {
+import com.rc.cloud.common.core.domain.ValueObject;
+
+public class LimitBuy implements ValueObject<LimitBuy> {
 
     private boolean limitFlag;
 
@@ -21,5 +23,10 @@ public class LimitBuy {
 
     public boolean isLimitFlag() {
         return limitFlag;
+    }
+
+    @Override
+    public boolean sameValueAs(LimitBuy other) {
+        return false;
     }
 }

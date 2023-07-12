@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.tenant;
 
-import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.Entity;
 
 /**
  * @ClassName: Tenant
@@ -12,4 +12,8 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 public class TenantEntity extends Entity {
     private TenantId id;
 
+    @Override
+    public TenantId getId() {
+        return id;
+    }
 }

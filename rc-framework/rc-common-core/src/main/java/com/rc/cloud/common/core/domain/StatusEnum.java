@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author haoxin
  * @date 2021-02-02
  **/
-public enum StatusEnum implements com.rc.cloud.common.core.domain.ValueObject<StatusEnum> {
+public enum StatusEnum implements ValueObject<StatusEnum>{
 
     /**
      * 有效
@@ -74,8 +74,11 @@ public enum StatusEnum implements com.rc.cloud.common.core.domain.ValueObject<St
         return null;
     }
 
+
+
+
     @Override
-    public boolean sameValueAs(final StatusEnum other) {
+    public boolean sameValueAs(StatusEnum other) {
         return this.equals(other);
     }
 }

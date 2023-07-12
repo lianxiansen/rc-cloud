@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.productcategory.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
+import com.rc.cloud.common.core.util.AssertUtils;
 
 /**
  * @ClassName: TenantId
@@ -8,7 +9,7 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Layer extends ValueObject {
+public class Layer implements ValueObject<Layer> {
     public static final int ROOT =1;
     private int value;
     public Layer(){
@@ -22,7 +23,7 @@ public class Layer extends ValueObject {
     }
 
     private void setValue(int value){
-        this.assertArgumentRange(value,1,10,"the value of Layer is not in range(1,3)");
+        AssertUtils.assertArgumentRange(value,1,10,"the value of Layer is not in range(1,3)");
         this.value=value;
     }
 
@@ -46,5 +47,10 @@ public class Layer extends ValueObject {
             equalObjects= this.value == ((Layer)anObject).value;
         }
         return equalObjects;
+    }
+
+    @Override
+    public boolean sameValueAs(Layer other) {
+        return false;
     }
 }

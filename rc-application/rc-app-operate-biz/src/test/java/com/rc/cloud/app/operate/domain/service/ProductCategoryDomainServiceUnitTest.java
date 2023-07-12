@@ -1,7 +1,6 @@
 package com.rc.cloud.app.operate.domain.service;
 
 import com.rc.cloud.app.operate.application.event.ProductCategoryRefreshListener;
-import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryDomainService;
@@ -12,8 +11,12 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCategoryRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
+import com.rc.cloud.common.core.exception.DomainException;
 import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -38,7 +41,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith({SpringExtension.class})
 @Import({ProductCategoryDomainService.class, ProductCategoryRepositoryImpl.class, ProductCategoryDomainService.class,
-        ProductRepositoryImpl.class, ProductImageRepositoryImpl.class, ProductCategoryRefreshListener.class})
+        ProductRepositoryImpl.class, ProductCategoryRefreshListener.class})
 @DisplayName("产品分类领域服务测试")
 public class ProductCategoryDomainServiceUnitTest extends BaseMockitoUnitTest {
 

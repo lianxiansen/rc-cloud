@@ -1,6 +1,9 @@
 package com.rc.cloud.app.operate.domain.model.productsku;
 
-import com.rc.cloud.app.operate.domain.common.Entity;
+
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
+import com.rc.cloud.common.core.domain.Entity;
+import com.rc.cloud.common.core.util.AssertUtils;
 
 /**
  * @ClassName: ProductImageEntry
@@ -10,20 +13,18 @@ import com.rc.cloud.app.operate.domain.common.Entity;
  */
 public class ProductSkuImage extends Entity {
 
-    private String id;
+    private ProductSkuImageId id;
     private String url;
     private int sort;
-
-    public ProductSkuImage(String id) {
+    public ProductSkuImage(ProductSkuImageId id) {
         this.id = id;
     }
 
     public String getUrl() {
         return url;
     }
-
     public ProductSkuImage setUrl(String url) {
-        this.assertArgumentNotNull(url, "url must not be null");
+        AssertUtils.assertArgumentNotNull(url, "url must not be null");
         this.url =url;
         return this;
     }
@@ -33,17 +34,15 @@ public class ProductSkuImage extends Entity {
     }
 
     public ProductSkuImage setSort(int sort) {
-        this.assertArgumentNotNull(sort, "sort must not be null");
+        AssertUtils.assertArgumentNotNull(sort, "sort must not be null");
         this.sort = sort;
         return this;
     }
 
-    public String getId() {
+    @Override
+    public ProductSkuImageId getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
 }

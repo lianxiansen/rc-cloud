@@ -77,7 +77,7 @@ public class ProductBO {
     private Boolean refundFlag;
 
     private Boolean seckillFlag;
-    
+
     private String seckillName;
 
     private String seckillMasterImage;
@@ -107,8 +107,8 @@ public class ProductBO {
 
 
     private List<ProductSkuBO> skus;
-    
-    
+
+
     private List<ProductImageBO> images;
 
 
@@ -180,9 +180,9 @@ public class ProductBO {
             target.setDetail(product.getDetail().getValue());
         }
         //属性
-        target.setAttributes(convert2AttributeBO(product.getProductAttributeEntity()));
+        target.setAttributes(convert2AttributeBO(product.getProductAttribute()));
         //图片
-        target.setImages(convert2ProductImageBO(product.getProductImages()));
+        //target.setImages(convert2ProductImageBO(product.getProductImages()));
         //字典
         target.setDicts(convert2ProductDictBO(product.getProductDicts()));
 

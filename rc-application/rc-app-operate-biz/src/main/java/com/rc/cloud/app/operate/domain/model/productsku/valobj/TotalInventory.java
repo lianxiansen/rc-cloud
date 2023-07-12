@@ -1,6 +1,8 @@
 package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 
-public class TotalInventory {
+import com.rc.cloud.common.core.domain.ValueObject;
+
+public class TotalInventory implements ValueObject<TotalInventory> {
 
 
     public TotalInventory(int value){
@@ -16,4 +18,8 @@ public class TotalInventory {
         return new TotalInventory(value);
     }
 
+    @Override
+    public boolean sameValueAs(TotalInventory other) {
+        return false;
+    }
 }

@@ -1,6 +1,8 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
-import com.rc.cloud.app.operate.domain.common.Entity;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
+import com.rc.cloud.common.core.domain.Entity;
+import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
 
 /**
@@ -9,7 +11,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 17:02
  * @Description: TODO
  */
-public class ProductImage extends Entity {
+public class ProductImage {
 
     private String id;
 
@@ -25,8 +27,9 @@ public class ProductImage extends Entity {
         this.id= id;
     }
 
+
     public ProductImage setUrl(String url) {
-        this.assertArgumentNotNull(url, "url must not be null");
+        AssertUtils.assertArgumentNotNull(url, "url must not be null");
         if(!StringUtils.ishttp(url)){
             throw new IllegalArgumentException("http地址无效");
         }
@@ -40,14 +43,14 @@ public class ProductImage extends Entity {
     }
 
     public ProductImage setSort(int sort) {
-        this.assertArgumentNotNull(sort, "sort must not be null");
+        AssertUtils.assertArgumentNotNull(sort, "sort must not be null");
         this.sort = sort;
         return this;
     }
 
     public ProductImage setDefaultFlag(boolean defaultFlag) {
 
-        this.assertArgumentNotNull(defaultFlag, "defaultFlag must not be null");
+        AssertUtils.assertArgumentNotNull(defaultFlag, "defaultFlag must not be null");
 
         return this;
     }
@@ -56,7 +59,4 @@ public class ProductImage extends Entity {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 }
