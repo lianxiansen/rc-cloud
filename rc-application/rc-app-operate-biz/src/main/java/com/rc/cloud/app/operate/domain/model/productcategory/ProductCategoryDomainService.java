@@ -23,7 +23,7 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  * @Description: TODO
  */
 @Service
-public class ProductCategoryService {
+public class ProductCategoryDomainService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
 

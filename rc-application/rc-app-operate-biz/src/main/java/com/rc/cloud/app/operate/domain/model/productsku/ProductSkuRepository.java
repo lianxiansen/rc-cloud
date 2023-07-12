@@ -9,9 +9,6 @@ import java.util.List;
 
 public interface ProductSkuRepository {
 
-
-    ProductSkuId nextId();
-
     List<ProductSku> getProductSkuListByProductId(ProductId productId);
 
     void insertProductSku(ProductSku productSkuEntity);

@@ -15,8 +15,6 @@ import java.util.List;
 public interface ProductCategoryRepository {
     List<ProductCategory> getFirstList(Locked locked, Layer layer, Parent parent);
 
-    ProductCategoryId nextId();
-
     ProductCategory findById(ProductCategoryId productCategoryId);
 
     List<ProductCategory> findAll();

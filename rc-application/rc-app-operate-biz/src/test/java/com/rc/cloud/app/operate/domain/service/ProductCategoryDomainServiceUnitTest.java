@@ -4,7 +4,7 @@ import com.rc.cloud.app.operate.application.event.ProductCategoryRefreshListener
 import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
@@ -38,13 +38,13 @@ import static org.mockito.Mockito.when;
 
 
 @ExtendWith({SpringExtension.class})
-@Import({ProductCategoryService.class, ProductCategoryRepositoryImpl.class, ProductCategoryService.class,
+@Import({ProductCategoryDomainService.class, ProductCategoryRepositoryImpl.class, ProductCategoryDomainService.class,
         ProductRepositoryImpl.class, ProductImageRepositoryImpl.class, ProductCategoryRefreshListener.class})
 @DisplayName("产品分类领域服务测试")
 public class ProductCategoryDomainServiceUnitTest extends BaseMockitoUnitTest {
 
     @Autowired
-    private ProductCategoryService productCategoryDomainServce;
+    private ProductCategoryDomainService productCategoryDomainServce;
 
 
     private static final String imgUrl = "https://t7.baidu.com/it/u=3556773076,803642467&fm=3031&app=3031&size=f242,150&n=0&f=JPEG&fmt=auto?s=A51064321779538A505174D6020010B0&sec=1688490000&t=4ef579bd316ebdc454ab321a8676bbdf";

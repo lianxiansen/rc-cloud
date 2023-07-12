@@ -10,8 +10,6 @@ public interface BrandRepository {
 
     boolean exists(BrandId brandId);
 
-    BrandId nextId();
-
     boolean removeById(BrandId brandId);
 
     PageResult<Brand> selectPageResult(Integer pageNo, Integer pageSize, String name);

@@ -18,7 +18,6 @@ import java.util.List;
  */
 public interface ProductRepository {
 
-    ProductId nextId();
 
     void insertProductEntity(Product productEntity);
     void updateProductEntity(Product productEntity);

@@ -54,10 +54,6 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
         return list;
     }
 
-    @Override
-    public ProductCategoryId nextId() {
-        return new ProductCategoryId(remoteIdGeneratorService.uidGenerator());
-    }
 
     @Override
     public ProductCategory findById(ProductCategoryId productCategoryId) {

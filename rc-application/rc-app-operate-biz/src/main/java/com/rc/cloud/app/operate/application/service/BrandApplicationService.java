@@ -4,10 +4,11 @@ import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.app.operate.application.dto.BrandCreateDTO;
 import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
+import com.rc.cloud.app.operate.domain.common.IdRepository;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
+import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
 import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
-import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
 import com.rc.cloud.common.core.exception.ApplicationException;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.AssertUtils;
@@ -16,16 +17,20 @@ import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 @Service
 public class BrandApplicationService {
     @Autowired
     private BrandDomainService brandDomainService;
     @Autowired
     private BrandRepository brandRepository;
+    @Resource
+    private IdRepository idRepository;
 
     public BrandBO createBrand(BrandCreateDTO createBrandDTO) {
         AssertUtils.notNull(createBrandDTO, "createBrandDTO must be not null");
-        Brand brand = new Brand(brandRepository.nextId(), createBrandDTO.getName());
+        Brand brand = new Brand(new BrandId(idRepository.nextId()), createBrandDTO.getName());
         if (ObjectUtils.isNotNull(createBrandDTO.getEnabled())) {
             if (createBrandDTO.getEnabled().booleanValue()) {
                 brand.enable();

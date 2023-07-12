@@ -55,11 +55,9 @@ public class ProductRepositoryImpl implements  ProductRepository {
     public ProductRepositoryImpl() {
     }
 
-    @Override
-    public ProductId nextId() {
-        return new ProductId(remoteIdGeneratorService.uidGenerator());
-    }
 
+
+    @Override
     public void removeProductImageEntityByProductId(String productId){
         LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductImagePO::getProductId, productId);
@@ -67,6 +65,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
     }
 
 
+    @Override
     public void removeProductDictEntityByProductId(String productId){
         LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductDictPO::getProductId, productId);

@@ -3,12 +3,13 @@ package com.rc.cloud.app.operate.application.service;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
+import com.rc.cloud.app.operate.domain.common.IdRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
 import com.rc.cloud.common.core.exception.ApplicationException;
 import com.rc.cloud.common.core.util.AssertUtils;
@@ -33,19 +34,17 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
 public class ProductCategoryApplicationService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
-
-
     @Resource
-    private ProductCategoryService productCategoryService;
-
+    private ProductCategoryDomainService productCategoryService;
+    @Resource
+    private IdRepository idRepository;
 
 
     public ProductCategoryBO createProductCategory(ProductCategoryCreateDTO productCreateCategoryDTO) {
         AssertUtils.notNull(productCreateCategoryDTO,"productCreateCategoryDTO must be not null");
-        ProductCategoryId id = productCategoryRepository.nextId();
         TenantId tenantId = new TenantId(productCreateCategoryDTO.getTenantId());
         ChName name = new ChName(productCreateCategoryDTO.getName());
-        ProductCategory productCategory = new ProductCategory(id, tenantId, name);
+        ProductCategory productCategory = new ProductCategory(new ProductCategoryId(idRepository.nextId()), tenantId, name);
         productCategory.setEnName(new EnName(productCreateCategoryDTO.getEnglishName()));
         productCategory.setIcon(new Icon(productCreateCategoryDTO.getIcon()));
         if(ObjectUtils.isNotNull(productCreateCategoryDTO.getEnabledFlag())){

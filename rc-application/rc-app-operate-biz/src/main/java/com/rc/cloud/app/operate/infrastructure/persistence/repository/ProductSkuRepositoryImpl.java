@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
+import com.rc.cloud.app.operate.domain.common.IdRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
@@ -34,12 +35,10 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
 
     @Autowired
     ProductSkuAttributeMapper productSkuAttributeMapper;
+    @Resource
+    private IdRepository idRepository;
 
 
-    @Override
-    public ProductSkuId nextId() {
-        return new ProductSkuId(remoteIdGeneratorService.uidGenerator());
-    }
 
     @Override
     public boolean exist(ProductSkuId productSkuId){
@@ -133,7 +132,7 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
 
     private ProductSku convert2ProductSkuEntity(ProductSkuPO productSkuPO){
         ProductId productId=new ProductId(productSkuPO.getProductId());
-        ProductSkuId id = nextId();
+        ProductSkuId id =new ProductSkuId(idRepository.nextId());
         TenantId tenantId = new TenantId(productSkuPO.getTenantId());
         Price price=new Price();
         price.setValue(productSkuPO.getPrice());

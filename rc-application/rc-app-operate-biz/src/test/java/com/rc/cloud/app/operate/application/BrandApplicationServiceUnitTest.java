@@ -6,11 +6,13 @@ import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.domain.common.DomainException;
+import com.rc.cloud.app.operate.domain.common.IdRepository;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
+import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
 import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
+import com.rc.cloud.app.operate.infrastructure.persistence.repository.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.TenantContext;
@@ -32,7 +34,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 
@@ -52,14 +53,17 @@ import static org.mockito.Mockito.when;
  * |-6.3分页检索品牌，每页大小为10，记录数为25，指定页码3，返回最后5条记录 TODO
  */
 @ExtendWith({SpringExtension.class})
-@Import({BrandApplicationService.class, BrandDomainService.class})
+@Import({BrandApplicationService.class, BrandDomainService.class, LocalIdRepositoryImpl.class})
 @DisplayName("品牌应用服务测试")
 @FixMethodOrder(MethodSorters.DEFAULT)
 public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {
     @Autowired
     private BrandApplicationService brandApplicationService;
+    @Autowired
+    private IdRepository idRepository;
     @MockBean
     private BrandRepository brandRepositoryStub;
+
     @MockBean
     private ProductRepository productRepositoryStub;
 
@@ -68,7 +72,6 @@ public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {
     private BrandUpdateDTO updateBrandDTO;
 
     private Brand brandMock;
-
     @BeforeEach
     public void beforeEach() {
         initStub();
@@ -151,7 +154,7 @@ public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {
                 if (method == "selectPageResult") {
                     List<Brand> brandList = new ArrayList<>();
                     for (long i = 0; i < totalCount; i++) {
-                        Brand brand = new Brand(brandRepositoryStub.nextId(), createBrandDTO.getName());
+                        Brand brand = new Brand(new BrandId(idRepository.nextId()), createBrandDTO.getName());
                         brandList.add(brand);
                     }
                     PageResult<Brand> brandPageResult = new PageResult<>();
@@ -167,17 +170,7 @@ public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {
         Assertions.assertTrue(brandVOPageResult.getTotal().longValue() == totalCount && brandVOPageResult.getList().size() == totalCount, "分页检索品牌失败");
     }
     private void initStub() {
-        Answer answer = new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                String method = invocation.getMethod().getName();
-                if (method == "nextId") {
-                    return new BrandId(UUID.randomUUID().toString().substring(0, 31));
-                }
-                return null;
-            }
-        };
-        when(brandRepositoryStub.nextId()).thenAnswer(answer);
+
     }
     private void initFixture() {
         TenantContext.setTenantId("test");
@@ -186,7 +179,7 @@ public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {
         updateBrandDTO = new BrandUpdateDTO();
         updateBrandDTO.setName(RandomUtils.randomString()).setSortId(RandomUtils.randomInteger()).setEnabled(new Boolean(true)).setType(RandomUtils.randomString());
 
-        brandMock = new Brand(brandRepositoryStub.nextId(), createBrandDTO.getName());
+        brandMock = new Brand(new BrandId(idRepository.nextId()), createBrandDTO.getName());
         brandMock.setName(createBrandDTO.getName());
         brandMock.setSort(createBrandDTO.getSortId());
         brandMock.setType(createBrandDTO.getType());

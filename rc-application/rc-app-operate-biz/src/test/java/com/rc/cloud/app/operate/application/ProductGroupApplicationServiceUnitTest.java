@@ -5,16 +5,17 @@ import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
 import com.rc.cloud.app.operate.application.service.ProductGroupApplicationService;
 import com.rc.cloud.app.operate.domain.common.DomainException;
+import com.rc.cloud.app.operate.domain.common.IdRepository;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupDomainService;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
-import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupItemId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupDomainService;
+import com.rc.cloud.app.operate.infrastructure.persistence.repository.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.exception.ApplicationException;
 import com.rc.cloud.common.core.util.TenantContext;
@@ -27,16 +28,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runners.MethodSorters;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.mockito.Mockito.when;
 
@@ -56,7 +55,7 @@ import static org.mockito.Mockito.when;
  *
  */
 @ExtendWith({SpringExtension.class})
-@Import({ProductGroupApplicationService.class, ProductGroupDomainService.class})
+@Import({ProductGroupApplicationService.class, ProductGroupDomainService.class, LocalIdRepositoryImpl.class})
 @DisplayName("组合应用服务测试")
 @FixMethodOrder(MethodSorters.DEFAULT)
 public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest {
@@ -67,7 +66,8 @@ public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest 
 
     @Autowired
     private ProductGroupApplicationService productGroupApplicationService;
-
+    @Resource
+    private IdRepository idRepository;
     private ProductGroupCreateDTO productGroupCreateDTO;
 
     private Product productMock;
@@ -126,7 +126,7 @@ public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest 
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         when(productGroupRepositoryStub.findById(productGroupMock.getId())).thenReturn(productGroupMock);
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
-        Product groupItem=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        Product groupItem=new Product(new ProductId(idRepository.nextId()),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(groupItem.getId())).thenReturn(groupItem);
 
         ProductGroupItemCreateDTO productGroupItemCreateDTO=new ProductGroupItemCreateDTO().setProductGroupId(productGroupMock.getId().id())
@@ -142,7 +142,7 @@ public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest 
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         Assertions.assertThrows(DomainException.class, () -> {
             for(int i=0;i<ProductGroup.MAX_ITEM_SIZE+1;i++){
-                Product groupItem=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+                Product groupItem=new Product(new ProductId(idRepository.nextId()),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
                 ProductGroupItemCreateDTO productGroupItemCreateDTO=new ProductGroupItemCreateDTO().setProductGroupId(productGroupMock.getId().id())
                         .setProductId(groupItem.getId().id());
                 when(productRepositoryStub.findById(groupItem.getId())).thenReturn(groupItem);
@@ -157,7 +157,7 @@ public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest 
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         when(productGroupRepositoryStub.findById(productGroupMock.getId())).thenReturn(productGroupMock);
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
-        Product groupItem=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        Product groupItem=new Product(new ProductId(idRepository.nextId()),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(groupItem.getId())).thenReturn(groupItem);
         when(productGroupRepositoryStub.itemExist(productGroupMock.getId(),groupItem.getId())).thenReturn(true);
         Assertions.assertThrows(DomainException.class, () -> {
@@ -172,7 +172,7 @@ public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest 
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         when(productGroupRepositoryStub.findById(productGroupMock.getId())).thenReturn(productGroupMock);
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
-        Product groupItem=new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        Product groupItem=new Product(new ProductId(idRepository.nextId()),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(groupItem.getId())).thenReturn(null);
         when(productGroupRepositoryStub.itemExist(productGroupMock.getId(),groupItem.getId())).thenReturn(true);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -197,30 +197,7 @@ public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest 
      * 初始化桩
      */
     private void initStub() {
-        Answer answer = new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                if(invocation.getMock().getClass().getName().contains("ProductGroupRepository")){
-                    String method = invocation.getMethod().getName();
-                    if (method == "nextId") {
-                        return new ProductGroupId(UUID.randomUUID().toString().substring(0, 31));
-                    }
-                    if (method == "nextItemId") {
-                        return new ProductGroupItemId(UUID.randomUUID().toString().substring(0, 31));
-                    }
-                }
-                if(invocation.getMock().getClass().getName().contains("ProductRepository")){
-                    String method = invocation.getMethod().getName();
-                    if (method == "nextId") {
-                        return new ProductId(UUID.randomUUID().toString().substring(0, 31));
-                    }
-                }
-                return null;
-            }
-        };
-        when(productGroupRepositoryStub.nextId()).thenAnswer(answer);
-        when(productGroupRepositoryStub.nextItemId()).thenAnswer(answer);
-        when(productRepositoryStub.nextId()).thenAnswer(answer);
+
     }
 
     /**
@@ -228,11 +205,11 @@ public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest 
      */
     private void initFixture(){
         TenantContext.setTenantId("test");
-        productMock =new Product(productRepositoryStub.nextId(),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
+        productMock =new Product(new ProductId(idRepository.nextId()),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
         productGroupCreateDTO = new ProductGroupCreateDTO();
         productGroupCreateDTO.setName(RandomUtils.randomString());
         productGroupCreateDTO.setProductId(productMock.getId().id());
 
-        productGroupMock =new ProductGroup(productGroupRepositoryStub.nextId(),RandomUtils.randomString(),new TenantId(TenantContext.getTenantId()), productMock.getId());
+        productGroupMock =new ProductGroup(new ProductGroupId(idRepository.nextId()),RandomUtils.randomString(),new TenantId(TenantContext.getTenantId()), productMock.getId());
     }
 }

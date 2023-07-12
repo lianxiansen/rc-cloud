@@ -3,6 +3,7 @@ package com.rc.cloud.app.operate.application.service;
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
+import com.rc.cloud.app.operate.domain.common.IdRepository;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
@@ -18,6 +19,7 @@ import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
@@ -28,8 +30,8 @@ public class ProductGroupApplicationService {
     private ProductGroupRepository productGroupRepository;
     @Autowired
     private ProductRepository productRepository;
-
-
+    @Resource
+    private IdRepository idRepository;
     public ProductGroupBO createProductGroup(ProductGroupCreateDTO productGroupCreateDTO) {
         AssertUtils.notNull(productGroupCreateDTO, "productGroupCreateDTO must be not null");
         Product product = productRepository.findById(new ProductId(productGroupCreateDTO.getProductId()));
