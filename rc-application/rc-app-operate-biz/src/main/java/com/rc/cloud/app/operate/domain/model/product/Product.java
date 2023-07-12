@@ -5,6 +5,7 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.common.Entity;
+import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 import java.util.*;
@@ -187,14 +188,14 @@ public class Product extends Entity {
      */
     private MasterImage masterImage;
 
-    private List<ProductImageEntity> productImages;
+  //  private List<ProductImageEntity> productImages;
 
     /**
      * K-V
      */
-    private List<ProductDictEntity> productDicts;
+   // private List<ProductDictEntity> productDicts;
 
-    public Product setProductDict(List<ProductDictEntity> productDicts){
+    public Product setProductDict(List<ProductDict> productDicts){
         if(productDicts==null || productDicts.size()<= 0){
             throw new IllegalArgumentException("productDicts must not be null");
         }
@@ -344,11 +345,11 @@ public class Product extends Entity {
         this.type = type;
     }
 
-    public void setProductImages(List<ProductImageEntity> list){
+    public void setProductImages(List<ProductImage> list){
         this.productImages = list;
         if(list!=null){
-            ProductImageEntity productImageEntity = this.productImages.get(0);
-            this.masterImage=new MasterImage(productImageEntity.getUrl());
+            ProductImage productImage = this.productImages.get(0);
+            this.masterImage=new MasterImage(productImage.getUrl());
         }
     }
 
@@ -357,7 +358,7 @@ public class Product extends Entity {
     }
 
 
-    private ProductAttributeEntity productAttributeEntity;
+    private ProductAttribute productAttribute;
 
 //    public void addAttributes(ProductAttributeEntity attribute){
 //        if(attributes!=null){
@@ -430,11 +431,11 @@ public class Product extends Entity {
         return masterImage;
     }
 
-    public List<ProductImageEntity> getProductImages() {
+    public List<ProductImage> getProductImages() {
         return productImages;
     }
 
-    public List<ProductDictEntity> getProductDicts() {
+    public List<ProductDict> getProductDicts() {
         return productDicts;
     }
 
@@ -487,12 +488,12 @@ public class Product extends Entity {
     }
 
 
-    public ProductAttributeEntity getProductAttributeEntity() {
-        return productAttributeEntity;
+    public ProductAttribute getProductAttribute() {
+        return productAttribute;
     }
 
-    public void setProductAttributeEntity(ProductAttributeEntity productAttributeEntity) {
-        this.productAttributeEntity = productAttributeEntity;
+    public void setProductAttributeEntity(ProductAttribute productAttribute) {
+        this.productAttribute = productAttribute;
     }
 
     private Detail detail;

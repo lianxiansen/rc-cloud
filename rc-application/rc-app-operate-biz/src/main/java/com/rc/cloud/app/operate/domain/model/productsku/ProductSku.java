@@ -2,14 +2,10 @@ package com.rc.cloud.app.operate.domain.model.productsku;
 
 import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Enabled;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public class ProductSku extends Entity {
 
@@ -79,16 +75,16 @@ public class ProductSku extends Entity {
         this.outId =outId;
         return this;
     }
-    private List<ProductSkuImageEntity> skuImageList;
+    private List<ProductSkuImage> skuImageList;
 
-    public ProductSku skuImageList(List<ProductSkuImageEntity> skuImageList){
+    public ProductSku skuImageList(List<ProductSkuImage> skuImageList){
         if(skuImageList!=null && skuImageList.size()>0){
             skuImageList =skuImageList;
         }
         return this;
     }
 
-    public List<ProductSkuImageEntity> getSkuImageList() {
+    public List<ProductSkuImage> getSkuImageList() {
         return skuImageList;
     }
 
@@ -233,13 +229,13 @@ public class ProductSku extends Entity {
         this.enabledFlag = enabledFlag;
     }
 
-    private  ProductSkuAttributeEntity productSkuAttributeEntity;
+    private ProductSkuAttribute productSkuAttribute;
 
-    public ProductSkuAttributeEntity getProductSkuAttributeEntity() {
-        return productSkuAttributeEntity;
+    public ProductSkuAttribute getProductSkuAttributeEntity() {
+        return productSkuAttribute;
     }
 
-    public void setProductSkuAttributeEntity(ProductSkuAttributeEntity productSkuAttributeEntity) {
-        this.productSkuAttributeEntity = productSkuAttributeEntity;
+    public void setProductSkuAttributeEntity(ProductSkuAttribute productSkuAttribute) {
+        this.productSkuAttribute = productSkuAttribute;
     }
 }

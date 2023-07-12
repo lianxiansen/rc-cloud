@@ -18,7 +18,6 @@ package com.rc.cloud.app.operate.domain.model.productsku;
 
 
 import com.rc.cloud.app.operate.domain.common.Entity;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.AttributeValueCombination;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -26,10 +25,10 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class ProductSkuAttributeEntity extends Entity {
+public class ProductSkuAttribute extends Entity {
 
 
-    public ProductSkuAttributeEntity(String id,ProductSkuId productSkuId, TenantId tenantId) {
+    public ProductSkuAttribute(String id, ProductSkuId productSkuId, TenantId tenantId) {
         this.id =id;
         this.productSkuId = productSkuId;
         this.tenantId = tenantId;

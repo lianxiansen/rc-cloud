@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 17:02
  * @Description: TODO
  */
-public class ProductImageEntity extends Entity {
+public class ProductImage extends Entity {
 
     private String id;
 
@@ -21,11 +21,11 @@ public class ProductImageEntity extends Entity {
         return url;
     }
 
-    public ProductImageEntity(String id){
+    public ProductImage(String id){
         this.id= id;
     }
 
-    public ProductImageEntity setUrl(String url) {
+    public ProductImage setUrl(String url) {
         this.assertArgumentNotNull(url, "url must not be null");
         if(!StringUtils.ishttp(url)){
             throw new IllegalArgumentException("http地址无效");
@@ -39,13 +39,13 @@ public class ProductImageEntity extends Entity {
         return sort;
     }
 
-    public ProductImageEntity setSort(int sort) {
+    public ProductImage setSort(int sort) {
         this.assertArgumentNotNull(sort, "sort must not be null");
         this.sort = sort;
         return this;
     }
 
-    public ProductImageEntity setDefaultFlag(boolean defaultFlag) {
+    public ProductImage setDefaultFlag(boolean defaultFlag) {
 
         this.assertArgumentNotNull(defaultFlag, "defaultFlag must not be null");
 

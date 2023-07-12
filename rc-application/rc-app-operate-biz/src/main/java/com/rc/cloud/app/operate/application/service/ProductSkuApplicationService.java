@@ -2,17 +2,11 @@ package com.rc.cloud.app.operate.application.service;
 
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 import com.rc.cloud.app.operate.application.dto.*;
-import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
-import com.rc.cloud.app.operate.domain.model.product.*;
-import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productsku.*;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.SupplyPrice;
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.common.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,27 +66,27 @@ public class ProductSkuApplicationService
         }
         //sku图片
         if (productSkuSaveDTO.getAlbums() != null) {
-            List<ProductSkuImageEntity> productSkuImageEntityList = new ArrayList<>();
+            List<ProductSkuImage> productSkuImageList = new ArrayList<>();
             int pos = 1;
             for (ProductSkuImageSaveDTO album : productSkuSaveDTO.getAlbums()) {
-                ProductSkuImageEntity productSkuImageEntity = new ProductSkuImageEntity(productSkuImageRepository.nextId());
-                productSkuImageEntity.setSort(album.getSort());
-                productSkuImageEntity.setUrl(album.getUrl());
+                ProductSkuImage productSkuImage = new ProductSkuImage(productSkuImageRepository.nextId());
+                productSkuImage.setSort(album.getSort());
+                productSkuImage.setUrl(album.getUrl());
                 pos++;
-                productSkuImageEntityList.add(productSkuImageEntity);
+                productSkuImageList.add(productSkuImage);
             }
-            productSku.skuImageList(productSkuImageEntityList);
+            productSku.skuImageList(productSkuImageList);
         }
         //sku属性
         if (productSkuSaveDTO.getAttributes() != null) {
-            ProductSkuAttributeEntity productSkuAttributeEntity = new ProductSkuAttributeEntity(
+            ProductSkuAttribute productSkuAttribute = new ProductSkuAttribute(
                     productSkuAttributeRepository.nextId(),
                     productSku.getId(), tenantId
             );
             for (ProductSkuAttributeSaveDTO attribute : productSkuSaveDTO.getAttributes()) {
-                productSkuAttributeEntity.addSkuAttribute(attribute.getName(), attribute.getValue(), attribute.getSort());
+                productSkuAttribute.addSkuAttribute(attribute.getName(), attribute.getValue(), attribute.getSort());
             }
-            productSku.setProductSkuAttributeEntity(productSkuAttributeEntity);
+            productSku.setProductSkuAttributeEntity(productSkuAttribute);
             productSkuRepository.updateProductSku(productSku);
         }
 

@@ -9,7 +9,6 @@ import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductC
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCategoryRepositoryImpl;
-import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductImageRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;

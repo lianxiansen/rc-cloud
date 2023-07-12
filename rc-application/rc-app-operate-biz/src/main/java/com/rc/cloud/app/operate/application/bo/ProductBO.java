@@ -1,16 +1,10 @@
 package com.rc.cloud.app.operate.application.bo;
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductAttributeEntity;
-import com.rc.cloud.app.operate.domain.model.product.ProductDictEntity;
-import com.rc.cloud.app.operate.domain.model.product.ProductImageEntity;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.*;
+import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
+import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
+import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -199,17 +193,17 @@ public class ProductBO {
 
 
 
-    public static List<AttributeBO> convert2AttributeBO(ProductAttributeEntity productAttributeEntity){
-        String attr = JSON.toJSONString(productAttributeEntity.getAttributes());
+    public static List<AttributeBO> convert2AttributeBO(ProductAttribute productAttribute){
+        String attr = JSON.toJSONString(productAttribute.getAttributes());
         List<AttributeBO> arr= JSON.parseArray(attr, AttributeBO.class);
         return arr;
     }
 
 
-    public static List<ProductImageBO> convert2ProductImageBO(List<ProductImageEntity> productImageEntityList){
+    public static List<ProductImageBO> convert2ProductImageBO(List<ProductImage> productImageList){
         List<ProductImageBO> resList =new ArrayList<>();
-        if(productImageEntityList!=null){
-            for (ProductImageEntity item : productImageEntityList) {
+        if(productImageList !=null){
+            for (ProductImage item : productImageList) {
                 ProductImageBO bo=new ProductImageBO();
                 bo.setUrl(item.getUrl());
                 bo.setSort(item.getSort());
@@ -220,10 +214,10 @@ public class ProductBO {
     }
 
 
-    public static List<ProductDictBO> convert2ProductDictBO(List<ProductDictEntity> productDictEntityList){
+    public static List<ProductDictBO> convert2ProductDictBO(List<ProductDict> productDictList){
         List<ProductDictBO> resList =new ArrayList<>();
-        if(productDictEntityList!=null){
-            for (ProductDictEntity item : productDictEntityList) {
+        if(productDictList !=null){
+            for (ProductDict item : productDictList) {
                 ProductDictBO bo=new ProductDictBO();
                 bo.setKey(item.getKey());
                 bo.setValue(item.getValue());

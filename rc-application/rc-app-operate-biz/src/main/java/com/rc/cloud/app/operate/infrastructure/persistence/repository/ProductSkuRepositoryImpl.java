@@ -3,10 +3,14 @@ package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductSkuDOConvert;
+import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductSkuAttributeConvert;
+import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductSkuConvert;
+import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductSkuImageConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuAttributeMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuMapper;
@@ -42,6 +46,43 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
     }
 
     @Override
+    public String nextProductSkuImageId() {
+        return remoteIdGeneratorService.uidGenerator();
+    }
+
+    @Override
+    public String nextProductSkuAttributeId() {
+        return remoteIdGeneratorService.uidGenerator();
+    }
+
+    public int removeProductSkuImageByProductSkuId(ProductSkuId productSkuId) {
+        LambdaQueryWrapperX<ProductSkuImagePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuImagePO::getProductSkuId, productSkuId);
+        return this.productSkuImageMapper.delete(wrapper);
+    }
+
+    @Override
+    public int insertProductSkuImage(ProductSkuImage productSkuImage) {
+        ProductSkuImagePO productSkuImagePO = ProductSkuImageConvert.INSTANCE.convert(productSkuImage);
+        return this.productSkuImageMapper.insert(productSkuImagePO);
+    }
+
+    @Override
+    public int removeProductSkuAttributeByProductSkuId(ProductSkuId productSkuId) {
+        LambdaQueryWrapperX<ProductSkuAttributePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuAttributePO::getProductSkuId, productSkuId);
+        return this.productSkuAttributeMapper.delete(wrapper);
+    }
+
+    @Override
+    public int insertProductSkuAttribute(ProductSkuAttribute productSkuAttribute) {
+        ProductSkuAttributePO productSkuAttributePO = ProductSkuAttributeConvert.INSTANCE.convert(productSkuAttribute);
+        return this.productSkuAttributeMapper.insert(productSkuAttributePO);
+    }
+
+
+
+    @Override
     public boolean exist(ProductSkuId productSkuId){
         LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductSkuPO::getId, productSkuId.id());
@@ -53,66 +94,30 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductSkuPO::getId, productSkuId.id());
         ProductSkuPO ProductSkuPO = this.productSkuMapper.selectOne(wrapper);
-        return convert2ProductSkuEntity(ProductSkuPO);
-    }
-
-    public void updateProductSkuImageEntity( ProductSkuImagePO productSkuImagePO){
-        LambdaQueryWrapperX<ProductSkuImagePO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuImagePO::getId, productSkuImagePO.getId());
-        productSkuImageMapper.update(productSkuImagePO,wrapper);
-    }
-
-    public void updateProductSkuAttributeEntity(ProductSkuAttributePO productSkuAttributePO){
-        LambdaQueryWrapperX<ProductSkuAttributePO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuAttributePO::getProductSkuId, productSkuAttributePO.getProductSkuId());
-        productSkuAttributeMapper.update(productSkuAttributePO,wrapper);
+        return ProductSkuConvert.INSTANCE.convert(ProductSkuPO);
     }
 
 
 
     @Override
-    public void insertProductSku(ProductSku productSkuEntity) {
+    public int insertProductSku(ProductSku productSku) {
 
-        if(exist(productSkuEntity.getId())){
+        if(exist(productSku.getId())){
             throw new IllegalArgumentException("该商品已存在");
         }
-        ProductSkuPO productSkuPO = ProductSkuDOConvert.convert2ProductSkuDO(productSkuEntity);
-        productSkuMapper.insert(productSkuPO);
-
-        if(productSkuEntity.getSkuImageList()!=null){
-            List<ProductSkuImagePO> productSkuImagePOS = ProductSkuDOConvert.convert2ProductSkuImageDO(productSkuEntity.getId().id()
-                    , productSkuEntity.getTenantId().id(), productSkuEntity.getSkuImageList());
-            for (ProductSkuImagePO productSkuImagePO : productSkuImagePOS) {
-                this.productSkuImageMapper.insert(productSkuImagePO);
-            }
-        }
-
-        ProductSkuAttributePO productSkuAttributePO = ProductSkuDOConvert
-                .convert2ProductSkuAttributeDO(productSkuEntity.getId().id()
-                , productSkuEntity.getTenantId().id(), productSkuEntity.getProductSkuAttributeEntity());
-        this.productSkuAttributeMapper.insert(productSkuAttributePO);
+        ProductSkuPO productSkuPO = ProductSkuConvert.INSTANCE.convert(productSku);
+        return productSkuMapper.insert(productSkuPO);
     }
 
     @Override
-    public void updateProductSku(ProductSku productSkuEntity) {
-
-        LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuPO::getId, productSkuEntity.getId().id());
-        ProductSkuPO ProductSkuPO = ProductSkuDOConvert.convert2ProductSkuDO(productSkuEntity);
-        this.productSkuMapper.update(ProductSkuPO,wrapper);
-
-        if(productSkuEntity.getSkuImageList()!=null){
-            List<ProductSkuImagePO> productSkuImagePOS = ProductSkuDOConvert
-                    .convert2ProductSkuImageDO(productSkuEntity.getId().id()
-                    , productSkuEntity.getTenantId().id(), productSkuEntity.getSkuImageList());
-            for (ProductSkuImagePO productSkuImagePO : productSkuImagePOS) {
-                updateProductSkuImageEntity(productSkuImagePO);
-            }
+    public int updateProductSku(ProductSku productSku) {
+        if(!exist(productSku.getId())){
+            throw new IllegalArgumentException("该商品不存在");
         }
-        ProductSkuAttributePO ProductSkuAttributePO = ProductSkuDOConvert.convert2ProductSkuAttributeDO(
-                productSkuEntity.getId().id()
-                , productSkuEntity.getTenantId().id(), productSkuEntity.getProductSkuAttributeEntity());
-        updateProductSkuAttributeEntity(ProductSkuAttributePO);
+        LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuPO::getId, productSku.getId().id());
+        ProductSkuPO ProductSkuPO = ProductSkuConvert.INSTANCE.convert(productSku);
+        return this.productSkuMapper.update(ProductSkuPO,wrapper);
     }
 
 
@@ -121,35 +126,10 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductSkuPO::getProductId, productId.id());
         List<ProductSkuPO> productSkuPOList = this.productSkuMapper.selectList(wrapper);
-
-        List<ProductSku> resList =new ArrayList<>();
-        for (ProductSkuPO productSkuPO : productSkuPOList) {
-            ProductSku productSkuEntity = convert2ProductSkuEntity(productSkuPO);
-            resList.add(productSkuEntity);
-        }
+        List<ProductSku> resList = ProductSkuConvert.INSTANCE.convertList(productSkuPOList);
         return resList;
     }
 
 
-    private ProductSku convert2ProductSkuEntity(ProductSkuPO productSkuPO){
-        ProductId productId=new ProductId(productSkuPO.getProductId());
-        ProductSkuId id = nextId();
-        TenantId tenantId = new TenantId(productSkuPO.getTenantId());
-        Price price=new Price();
-        price.setValue(productSkuPO.getPrice());
-        ProductSku productSku=new ProductSku(id,productId,tenantId, price);
-        //秒杀信息
-        SeckillSku seckillSku=new SeckillSku();
-        seckillSku.setSeckillInventory(new Inventory(productSkuPO.getSeckillInventory()));
-        seckillSku.setSeckillPrice(new Price(productSkuPO.getPrice()));
-        seckillSku.setSeckillTotalInventory(new TotalInventory(productSkuPO.getSeckillTotalInventory()));
-        seckillSku.setSeckillLimitBuy(new LimitBuy(productSkuPO.getSeckillLimitBuy()));
-        productSku.setSeckillSku(seckillSku);
-        productSku.setInventory(new Inventory(productSkuPO.getInventory()));
-        productSku.setLimitBuy(new LimitBuy(productSkuPO.getLimitBuy()));
-        productSku.setOutId(new OutId(productSkuPO.getOutId()));
-        productSku.setSupplyPrice(new SupplyPrice(productSkuPO.getSupplyPrice()));
-        productSku.setWeight(new Weight(productSkuPO.getWeight()));
-        return productSku;
-    }
+
 }

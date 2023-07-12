@@ -1,13 +1,11 @@
-package com.rc.cloud.app.operate.domain.model.product;
+package com.rc.cloud.app.operate.domain.model.productdict;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-
-public class ProductDictEntity {
+public class ProductDict {
 
 
     private String id;
 
-    public ProductDictEntity(String id) {
+    public ProductDict(String id) {
         this.id = id;
     }
 

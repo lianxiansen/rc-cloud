@@ -1,8 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.rc.cloud.app.operate.domain.common.Entity;
-import com.rc.cloud.app.operate.domain.common.ValueObject;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Attribute;
 import com.rc.cloud.app.operate.domain.model.product.valobj.AttributeValue;
@@ -15,10 +13,10 @@ import java.util.TreeSet;
 /**
  *
  */
-public class ProductAttributeEntity extends Entity {
+public class ProductAttribute extends Entity {
 
 
-    public ProductAttributeEntity(String id, ProductId productId, TenantId tenantId) {
+    public ProductAttribute(String id, ProductId productId, TenantId tenantId) {
         this.id = id;
         this.productId = productId;
         this.tenantId = tenantId;
