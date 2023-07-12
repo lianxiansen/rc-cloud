@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.productcategory.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.StringUtils;
 
 /**
@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Icon extends ValueObject {
+public class Icon implements ValueObject<Icon> {
     private String pictureUrl;
     public Icon(){
         setPictureUrl("");
@@ -26,5 +26,10 @@ public class Icon extends ValueObject {
 
     public String getPictureUrl(){
         return pictureUrl;
+    }
+
+    @Override
+    public boolean sameValueAs(Icon other) {
+        return false;
     }
 }

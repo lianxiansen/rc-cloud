@@ -1,13 +1,16 @@
 package com.rc.cloud.app.operate.domain.model.productdict;
 
-public class ProductDict {
+
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductDictId;
+import com.rc.cloud.common.core.domain.Entity;
+
+public class ProductDict  extends Entity {
 
 
-    private String id;
-
-    public ProductDict(String id) {
-        this.id = id;
-    }
+    private ProductDictId id;
+    public ProductDict(ProductDictId id) {
+            this.id = id;
+        }
 
     private String key;
 
@@ -39,11 +42,9 @@ public class ProductDict {
         this.sort = sort;
     }
 
-    public String getId() {
+    @Override
+    public ProductDictId getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 }

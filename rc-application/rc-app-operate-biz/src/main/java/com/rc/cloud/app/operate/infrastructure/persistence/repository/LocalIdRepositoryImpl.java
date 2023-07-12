@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
-import com.rc.cloud.app.operate.domain.common.IdRepository;
+import com.rc.cloud.common.core.domain.IdRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

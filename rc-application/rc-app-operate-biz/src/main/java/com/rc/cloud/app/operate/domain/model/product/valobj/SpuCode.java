@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 
 /**
  * @ClassName: TenantId
@@ -8,7 +8,7 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class SpuCode extends ValueObject {
+public class SpuCode implements ValueObject<SpuCode> {
     private String value;
     public SpuCode(String value){
         this.value = value;
@@ -17,4 +17,8 @@ public class SpuCode extends ValueObject {
         return value;
     }
 
+    @Override
+    public boolean sameValueAs(SpuCode other) {
+        return false;
+    }
 }

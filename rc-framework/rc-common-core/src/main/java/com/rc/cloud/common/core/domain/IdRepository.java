@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.domain.common;
+package com.rc.cloud.common.core.domain;
 
 public interface IdRepository {
     String nextId();

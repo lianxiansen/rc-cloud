@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.StringUtils;
 
 /**
@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Remark extends ValueObject {
+public class Remark implements ValueObject<Remark> {
     private String value;
     public Remark(String value){
         this.setValue(value);
@@ -22,5 +22,10 @@ public class Remark extends ValueObject {
             throw new IllegalArgumentException(" The remark length cannot be greater than 1000");
         }
 
+    }
+
+    @Override
+    public boolean sameValueAs(Remark other) {
+        return false;
     }
 }

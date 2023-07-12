@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.StringUtils;
 
 /**
@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Video extends ValueObject {
+public class Video implements ValueObject<Video> {
     private String videoUrl;
     private String videoImg;
     private String installVideoUrl;
@@ -47,5 +47,10 @@ public class Video extends ValueObject {
 
     public String getInstallVideoImg() {
         return installVideoImg;
+    }
+
+    @Override
+    public boolean sameValueAs(Video other) {
+        return false;
     }
 }

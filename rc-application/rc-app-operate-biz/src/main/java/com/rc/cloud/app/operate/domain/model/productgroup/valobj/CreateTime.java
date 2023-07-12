@@ -1,7 +1,8 @@
 
 package com.rc.cloud.app.operate.domain.model.productgroup.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
+import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,13 +13,13 @@ import java.time.format.DateTimeFormatter;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class CreateTime extends ValueObject implements Comparable<CreateTime> {
+public class CreateTime implements ValueObject<CreateTime>,Comparable<CreateTime> {
     private LocalDateTime time;
     public CreateTime(LocalDateTime time){
         setTime(time);
     }
     private void setTime(LocalDateTime time){
-        this.assertArgumentNotNull(time, "time must not be null");
+        AssertUtils.assertArgumentNotNull(time, "time must not be null");
         this.time=time;
     }
 
@@ -37,5 +38,10 @@ public class CreateTime extends ValueObject implements Comparable<CreateTime> {
     @Override
     public int compareTo(CreateTime o) {
         return getTime().compareTo(o.getTime());
+    }
+
+    @Override
+    public boolean sameValueAs(CreateTime other) {
+        return false;
     }
 }

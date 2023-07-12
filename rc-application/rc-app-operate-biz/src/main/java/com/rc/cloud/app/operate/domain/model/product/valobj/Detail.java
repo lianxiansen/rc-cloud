@@ -1,14 +1,15 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+
+import com.rc.cloud.common.core.domain.ValueObject;
 
 /**
- * @ClassName: TenantId
+ * @ClassName: Detail
  * @Author: liandy
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Detail extends ValueObject {
+public class Detail implements ValueObject<Detail> {
     private String id;
     private String value;
 
@@ -28,5 +29,10 @@ public class Detail extends ValueObject {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public boolean sameValueAs(Detail other) {
+        return false;
     }
 }

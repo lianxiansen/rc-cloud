@@ -1,6 +1,7 @@
-package com.rc.cloud.app.operate.domain.model.brand.valobj;
+package com.rc.cloud.app.operate.domain.model.brand.identifier;
 
-import com.rc.cloud.app.operate.domain.common.AbstractId;
+
+import com.rc.cloud.common.core.domain.AbstractId;
 
 /**
  * @ClassName: ProductCategoryEntryId

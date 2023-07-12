@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductSkuAttributeConvert;
@@ -15,8 +16,9 @@ import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuAttr
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuImageMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductSkuMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuAttributePO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuPO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuImagePO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuPO;
+import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -55,6 +57,7 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         return remoteIdGeneratorService.uidGenerator();
     }
 
+    @Override
     public int removeProductSkuImageByProductSkuId(ProductSkuId productSkuId) {
         LambdaQueryWrapperX<ProductSkuImagePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductSkuImagePO::getProductSkuId, productSkuId);

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -9,7 +9,7 @@ import java.util.TreeSet;
 /**
  *
  */
-public class Attribute extends ValueObject implements Comparable<Attribute>{
+public class Attribute implements ValueObject<Attribute>, Comparable<Attribute> {
 
 
     @JSONField(ordinal = 1, name = "attribute")
@@ -19,14 +19,14 @@ public class Attribute extends ValueObject implements Comparable<Attribute>{
     private SortedSet<AttributeValue> values;
 
     @JSONField(ordinal = 1, name = "sort")
-    private  Integer sort;
+    private Integer sort;
 
-    public Attribute(){
-        this.values=new TreeSet<>();
+    public Attribute() {
+        this.values = new TreeSet<>();
 
     }
 
-    public void addValue(AttributeValue value){
+    public void addValue(AttributeValue value) {
         this.values.add(value);
     }
 
@@ -56,9 +56,9 @@ public class Attribute extends ValueObject implements Comparable<Attribute>{
 
     @Override
     public int compareTo(Attribute o) {
-        if(o.sort<this.sort){
+        if (o.sort < this.sort) {
             return 1;
-        }else{
+        } else {
             return -1;
         }
     }
@@ -74,5 +74,10 @@ public class Attribute extends ValueObject implements Comparable<Attribute>{
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    @Override
+    public boolean sameValueAs(Attribute other) {
+        return this.equals(other.getSort());
     }
 }

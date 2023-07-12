@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.StringUtils;
 
 /**
@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class MasterImage extends ValueObject {
+public class MasterImage implements ValueObject<MasterImage> {
     private String value;
     public MasterImage(String value){
         value=value;
@@ -21,4 +21,8 @@ public class MasterImage extends ValueObject {
         return value;
     }
 
+    @Override
+    public boolean sameValueAs(MasterImage other) {
+        return false;
+    }
 }

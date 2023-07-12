@@ -77,7 +77,7 @@ public class ProductBO {
     private Boolean refundFlag;
 
     private Boolean seckillFlag;
-    
+
     private String seckillName;
 
     private String seckillMasterImage;
@@ -107,8 +107,8 @@ public class ProductBO {
 
 
     private List<ProductSkuBO> skus;
-    
-    
+
+
     private List<ProductImageBO> images;
 
 

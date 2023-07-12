@@ -1,11 +1,12 @@
 package com.rc.cloud.app.operate.domain.model.productcategory;
 
-import com.rc.cloud.app.operate.domain.common.DomainException;
-import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.productcategory.event.ProductCategorySaveEvent;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.AggregateRoot;
+import com.rc.cloud.common.core.exception.DomainException;
+import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.SpringContextHolder;
 
 /**
@@ -14,7 +15,7 @@ import com.rc.cloud.common.core.util.SpringContextHolder;
  * @Date: 2023/6/23 13:09
  * @Description: 商品分类
  */
-public class ProductCategory extends Entity {
+public class ProductCategory extends AggregateRoot {
     private ProductCategoryId id;
     private TenantId tenantId;
     private ChName chName;
@@ -49,16 +50,17 @@ public class ProductCategory extends Entity {
     }
 
     public void setId(ProductCategoryId id) {
-        this.assertArgumentNotNull(id, "id must not be null");
+        AssertUtils.assertArgumentNotNull(id, "id must not be null");
         this.id = id;
     }
 
+    @Override
     public ProductCategoryId getId(){
         return this.id;
     }
 
     public void setTenantId(TenantId tenantId) {
-        this.assertArgumentNotNull(tenantId, "tenantId must not be null");
+        AssertUtils.assertArgumentNotNull(tenantId, "tenantId must not be null");
         this.tenantId = tenantId;
     }
 
@@ -67,7 +69,7 @@ public class ProductCategory extends Entity {
     }
 
     public ProductCategory setChName(ChName chName) {
-        this.assertArgumentNotNull(chName, "name must not be null");
+        AssertUtils.assertArgumentNotNull(chName, "name must not be null");
         this.chName = chName;
         return this;
     }
@@ -77,7 +79,7 @@ public class ProductCategory extends Entity {
     }
 
     public ProductCategory setEnName(EnName enName) {
-        this.assertArgumentNotNull(enName, "name must not be null");
+        AssertUtils.assertArgumentNotNull(enName, "name must not be null");
         this.enName = enName;
         return this;
     }
@@ -87,7 +89,7 @@ public class ProductCategory extends Entity {
     }
 
     public ProductCategory setIcon(Icon icon) {
-        this.assertArgumentNotNull(icon, "icon must not be null");
+        AssertUtils.assertArgumentNotNull(icon, "icon must not be null");
         this.icon = icon;
         return this;
     }
@@ -97,7 +99,7 @@ public class ProductCategory extends Entity {
     }
 
     public ProductCategory setPage(Page page) {
-        this.assertArgumentNotNull(page, "page must not be null");
+        AssertUtils.assertArgumentNotNull(page, "page must not be null");
         this.page = page;
         return this;
     }
@@ -115,7 +117,7 @@ public class ProductCategory extends Entity {
     }
 
     public ProductCategory setEnabled(Enabled enabled){
-        this.assertArgumentNotNull(enabled, "enabled must not be null");
+        AssertUtils.assertArgumentNotNull(enabled, "enabled must not be null");
         this.enabled =enabled;
         return this;
     }
@@ -126,7 +128,7 @@ public class ProductCategory extends Entity {
 
 
     public ProductCategory setLayer(Layer layer) {
-        this.assertArgumentNotNull(layer, "layer must not be null");
+        AssertUtils.assertArgumentNotNull(layer, "layer must not be null");
         this.layer = layer;
         return this;
     }
@@ -134,7 +136,7 @@ public class ProductCategory extends Entity {
         return this.layer;
     }
     public ProductCategory setSort(Sort sort){
-        this.assertArgumentNotNull(sort, "sort must not be null");
+        AssertUtils.assertArgumentNotNull(sort, "sort must not be null");
         this.sort = sort;
         return this;
     }
@@ -144,14 +146,14 @@ public class ProductCategory extends Entity {
     }
 
     public void inherit(ProductCategory parent){
-        this.assertArgumentNotNull(parent, "parent must not be null");
+        AssertUtils.assertArgumentNotNull(parent, "parent must not be null");
         Layer layer= parent.getLayer().increment();
         setLayer(layer);
         this.parentId=parent.getId();
     }
 
     public void reInherit(ProductCategory parent){
-        this.assertArgumentNotNull(parent, "parent must not be null");
+        AssertUtils.assertArgumentNotNull(parent, "parent must not be null");
         if(this.id.equals(parent.getId())){
             throw new DomainException("不能指定上级分类为当前分类");
         }

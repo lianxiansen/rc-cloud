@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 
 /**
  * @ClassName: FreeShipping
@@ -8,6 +8,11 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Date: 2023/6/26 13:39
  * @Description: TODO
  */
-public class FreeShipping extends ValueObject {
+public class FreeShipping implements ValueObject<FreeShipping> {
     private String value;
+
+    @Override
+    public boolean sameValueAs(FreeShipping other) {
+        return false;
+    }
 }

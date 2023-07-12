@@ -1,19 +1,18 @@
 package com.rc.cloud.common.core.domain;
 
-import java.io.Serializable;
-
 /**
- * Aggregate interface
- *
- * @author haoxin
- * @date 2021-02-01
- **/
-public interface AggregateRoot<T> extends Entity<T> {
+ * @ClassName: AggregateRoot
+ * @Author: liandy
+ * @Date: 2023/7/12 12:23
+ */
+public abstract class AggregateRoot extends Entity {
 
+    private int concurrencyVersion;
     /**
      * Aggregate compare by identity, not by attributes.
-     *
-     * @param other The other Aggregate.
-     * @return true if the identities are the same, regardless of other attributes.
      */
+    public AggregateRoot() {
+        super();
+    }
+
 }
