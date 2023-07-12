@@ -28,7 +28,7 @@ public class ProductDomainService {
 
     public  int createProduct(Product product){
         int flag=productRepository.insertProduct(product);
-        if(product.getProductImages()!=null){
+        if(product.getProductImages()!=null && product.getProductImages().size()!=0){
             productRepository.batchSaveProductImage(product.getProductImages());
         }
         if(product.getProductAttribute()!=null){
@@ -66,6 +66,9 @@ public class ProductDomainService {
             return true;
         }
         List<ProductImage> oriList = productRepository.getProductImageByProductId(product.getId());
+        if(oriList==null){
+            return true;
+        }
         if(oriList.size()!=productImages.size()){
             return true;
         }
@@ -94,12 +97,14 @@ public class ProductDomainService {
 
     public int onShelf(ProductId productId){
         Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
         product.setOnshelfStatus(new OnshelfStatus(ProductShelfStatusEnum.OnShelf.value));
         return productRepository.updateProduct(product);
     }
 
     public int offShelf(ProductId productId){
         Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
         product.setOnshelfStatus(new OnshelfStatus(ProductShelfStatusEnum.OffShelf.value));
         return productRepository.updateProduct(product);
     }
@@ -107,35 +112,41 @@ public class ProductDomainService {
 
     public int setRecomend(ProductId productId){
         Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
         product.setRecommend(new Recommend(true));
         return productRepository.updateProduct(product);
     }
 
     public int cancelRecomend(ProductId productId){
         Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
         product.setRecommend(new Recommend(false));
         return productRepository.updateProduct(product);
     }
     public int setNews(ProductId productId){
         Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
         product.setNewest(new Newest(true));
         return productRepository.updateProduct(product);
     }
 
     public int cancelNews(ProductId productId){
         Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
         product.setNewest(new Newest(false));
         return productRepository.updateProduct(product);
     }
 
     public int setExplosives(ProductId productId ,String url){
         Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
         product.setExplosives(new Explosives(true,url));
         return productRepository.updateProduct(product);
     }
 
     public int cancelExplosives(ProductId productId){
         Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
         product.setExplosives(new Explosives(false,null));
         return productRepository.updateProduct(product);
     }
