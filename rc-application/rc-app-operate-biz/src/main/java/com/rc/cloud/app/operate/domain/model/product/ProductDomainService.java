@@ -27,15 +27,14 @@ public class ProductDomainService {
     private ProductRepository productRepository;
 
     public  int createProduct(Product product){
-        int flag=0;
-        flag+= productRepository.insertProduct(product);
+        int flag=productRepository.insertProduct(product);
         if(product.getProductImages()!=null){
-            flag+=productRepository.batchSaveProductImage(product.getProductImages());
+            productRepository.batchSaveProductImage(product.getProductImages());
         }
         if(product.getProductAttribute()!=null){
-            flag+=productRepository.insertProductAttribute(product.getProductAttribute());
+            productRepository.insertProductAttribute(product.getProductAttribute());
         }
-        return flag>=3?1:0;
+        return flag;
     }
 
     public int updateProduct(Product product){
