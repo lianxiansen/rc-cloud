@@ -1,11 +1,8 @@
-package com.rc.cloud.app.operate.domain.service;
+package com.rc.cloud.app.operate.domain.model.productgroup;
 
 import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupItem;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.beans.factory.annotation.Autowired;

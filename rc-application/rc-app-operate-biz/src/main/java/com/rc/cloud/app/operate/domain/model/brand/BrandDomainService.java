@@ -1,8 +1,6 @@
-package com.rc.cloud.app.operate.domain.service;
+package com.rc.cloud.app.operate.domain.model.brand;
 
 import com.rc.cloud.app.operate.domain.common.DomainException;
-import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.common.core.util.AssertUtils;

@@ -7,7 +7,7 @@ import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
-import com.rc.cloud.app.operate.domain.service.BrandDomainService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
 import com.rc.cloud.common.core.exception.ApplicationException;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.AssertUtils;

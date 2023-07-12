@@ -9,14 +9,17 @@ import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotAssociatedProductSpecification;
+import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotHasChildSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.ChName;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Layer;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.domain.service.ProductCategoryDomainServce;
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCategoryRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.exception.ApplicationException;
+import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
 import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
@@ -56,7 +59,7 @@ import static org.mockito.Mockito.when;
  * |-5.3删除的产品分类有子分类，阻止删除
  */
 @ExtendWith({SpringExtension.class})
-@Import({ProductCategoryDomainServce.class, ProductCategoryRepositoryImpl.class, ProductCategoryDomainServce.class,
+@Import({ProductCategoryService.class, ProductCategoryRepositoryImpl.class, ProductCategoryService.class,
         ProductCategoryRefreshListener.class, ProductCategoryApplicationService.class})
 @DisplayName("产品分类应用服务测试")
 @FixMethodOrder(MethodSorters.DEFAULT)
@@ -65,7 +68,10 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseMockitoUnitTe
     private ProductRepository productRepositoryStub;
     @MockBean
     private ProductCategoryRepository productCategoryRepositoryStub;
-
+    @MockBean
+    private RemoveShouldNotHasChildSpecification removeShouldNoChildSpecificationStub;
+    @MockBean
+    private RemoveShouldNotAssociatedProductSpecification removeShouldNotAssociatedProductSpecificationStub;
     @Autowired
     private ProductCategoryApplicationService productCategoryApplicationService;
     private static final String imgUrl = "https://t7.baidu.com/it/u=3556773076,803642467&fm=3031&app=3031&size=f242,150&n=0&f=JPEG&fmt=auto?s=A51064321779538A505174D6020010B0&sec=1688490000&t=4ef579bd316ebdc454ab321a8676bbdf";
@@ -208,7 +214,9 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseMockitoUnitTe
     @DisplayName("删除产品分类")
     public void removeProductCategory() {
         when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
-        when(productCategoryRepositoryStub.remove(root)).thenReturn(true);
+        when( removeShouldNotAssociatedProductSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(true);
+        when( removeShouldNoChildSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(true);
+        when(productCategoryRepositoryStub.removeById(root.getId())).thenReturn(true);
         Assertions.assertTrue(productCategoryApplicationService.remove(root.getId().id()), "删除产品分类失败");
     }
 
@@ -216,9 +224,10 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseMockitoUnitTe
     @DisplayName("删除关联产品的产品分类")
     public void removeProductCategoryIfProductExists() {
         when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
-        when(productRepositoryStub.existsByProductCategoryId(root.getId())).thenReturn(true);
-        when(productCategoryRepositoryStub.remove(root)).thenReturn(true);
-        Assertions.assertThrows(DomainException.class, () -> {
+        when( removeShouldNotAssociatedProductSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(false);
+        when( removeShouldNoChildSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(true);
+        when(productCategoryRepositoryStub.removeById(root.getId())).thenReturn(true);
+        Assertions.assertThrows(ServiceException.class, () -> {
             productCategoryApplicationService.remove(root.getId().id());
         });
 
@@ -228,10 +237,10 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseMockitoUnitTe
     @DisplayName("删除含有子分类的产品分类")
     public void removeProductCategoryIfSubProductCategoryExists() {
         when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
-        when(productRepositoryStub.existsByProductCategoryId(root.getId())).thenReturn(false);
-        when(productCategoryRepositoryStub.existsChild(root.getId())).thenReturn(true);
-        when(productCategoryRepositoryStub.remove(root)).thenReturn(true);
-        Assertions.assertThrows(DomainException.class, () -> {
+        when( removeShouldNotAssociatedProductSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(true);
+        when( removeShouldNoChildSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(false);
+        when(productCategoryRepositoryStub.removeById(root.getId())).thenReturn(true);
+        Assertions.assertThrows(ServiceException.class, () -> {
             productCategoryApplicationService.remove(root.getId().id());
         });
     }

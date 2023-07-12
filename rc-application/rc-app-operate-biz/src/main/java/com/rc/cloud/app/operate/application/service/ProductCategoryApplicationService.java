@@ -8,7 +8,8 @@ import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepo
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.domain.service.ProductCategoryDomainServce;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
+import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
 import com.rc.cloud.common.core.exception.ApplicationException;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
@@ -19,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
 /**
  * @ClassName: ProductCategoryService
@@ -33,7 +36,9 @@ public class ProductCategoryApplicationService {
 
 
     @Resource
-    private ProductCategoryDomainServce productCategoryDomainServce;
+    private ProductCategoryService productCategoryService;
+
+
 
     public ProductCategoryBO createProductCategory(ProductCategoryCreateDTO productCreateCategoryDTO) {
         AssertUtils.notNull(productCreateCategoryDTO,"productCreateCategoryDTO must be not null");
@@ -76,7 +81,7 @@ public class ProductCategoryApplicationService {
                 ProductCategoryId parentId= new ProductCategoryId(productCategoryDTO.getParentId());
                 if(!parentId.equals(productCategory.getParentId())){
                     ProductCategory parent = productCategoryRepository.findById(parentId);
-                    productCategoryDomainServce.reInherit(productCategory, parent);
+                    productCategoryService.reInherit(productCategory, parent);
                 }
             }
         }
@@ -110,11 +115,10 @@ public class ProductCategoryApplicationService {
     }
 
     public boolean remove(String id){
-        ProductCategory productCategory=productCategoryRepository.findById(new ProductCategoryId(id));
-        if(ObjectUtils.isNull(productCategory)){
-            throw new ApplicationException("产品分类不存在");
+        if(StringUtils.isEmpty(id)){
+            throw exception(ProductCategoryErrorCodeConstants.NOT_EXISTS);
         }
-        return productCategoryDomainServce.remove(productCategory);
+        return productCategoryService.remove(new ProductCategoryId(id));
     }
     public List<ProductCategoryBO> findAll() {
         List<ProductCategoryBO> boList=new ArrayList<>();
@@ -128,10 +132,10 @@ public class ProductCategoryApplicationService {
             throw new ApplicationException("产品分类不存在");
         }
         if(productCategory.getEnabled().isTrue()){
-            productCategoryDomainServce.disable(productCategory.getId() );
+            productCategoryService.disable(productCategory.getId() );
         }
         else{
-            productCategoryDomainServce.enable(productCategory.getId() );
+            productCategoryService.enable(productCategory.getId() );
         }
 
     }

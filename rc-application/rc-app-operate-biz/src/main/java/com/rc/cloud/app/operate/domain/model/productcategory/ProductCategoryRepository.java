@@ -26,5 +26,5 @@ public interface ProductCategoryRepository {
 
     boolean removeById(ProductCategoryId productCategoryId);
 
-    boolean existsChild(ProductCategoryId productCategoryId);
+    boolean existsByParentId(ProductCategoryId productCategoryId);
 }
