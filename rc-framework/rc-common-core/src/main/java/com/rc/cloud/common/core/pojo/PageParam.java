@@ -26,6 +26,9 @@ public class PageParam implements Serializable {
     @Max(value = 100, message = "每页条数最大值为 100")
     private Integer pageSize = PAGE_SIZE;
 
+    @Schema(description = "按哪个字段排序", requiredMode = Schema.RequiredMode.REQUIRED,example = "id")
+    private String order;
 
-
+    @Schema(description = "升序还是降序", requiredMode = Schema.RequiredMode.REQUIRED,example = "true")
+    private Boolean asc;
 }

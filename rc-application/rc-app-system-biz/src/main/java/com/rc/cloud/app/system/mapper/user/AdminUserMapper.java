@@ -1,11 +1,15 @@
 package com.rc.cloud.app.system.mapper.user;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.vo.user.user.UserExportReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
+import jodd.util.StringUtil;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Collection;
@@ -28,14 +32,31 @@ public interface AdminUserMapper extends BaseMapperX<SysUserPO> {
     }
 
     default PageResult<SysUserPO> selectPage(UserPageReqVO reqVO, Collection<String> deptIds) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<SysUserPO>()
-                .likeIfPresent(SysUserPO::getUsername, reqVO.getUsername())
-                .likeIfPresent(SysUserPO::getMobile, reqVO.getMobile())
-                .eqIfPresent(SysUserPO::getStatus, reqVO.getStatus())
-                .eqIfPresent(SysUserPO::getSex, reqVO.getSex())
-                .betweenIfPresent(SysUserPO::getCreateTime, reqVO.getCreateTime())
-                .inIfPresent(SysUserPO::getDeptId, deptIds)
-                .orderByDesc(SysUserPO::getId));
+        if (StringUtil.isEmpty(reqVO.getOrder())) {
+            reqVO.setOrder("id");
+            reqVO.setAsc(false);
+        }
+        QueryWrapper<SysUserPO> wrapper = new QueryWrapper<>();
+        if (StringUtil.isNotEmpty(reqVO.getUsername())) {
+            wrapper.lambda().like(SysUserPO::getUsername, reqVO.getUsername());
+        }
+        if (StringUtil.isNotEmpty(reqVO.getMobile())) {
+            wrapper.lambda().like(SysUserPO::getMobile, reqVO.getMobile());
+        }
+        if (reqVO.getStatus() != null) {
+            wrapper.lambda().eq(SysUserPO::getStatus, reqVO.getStatus());
+        }
+        if (reqVO.getSex() != null) {
+            wrapper.lambda().eq(SysUserPO::getSex, reqVO.getSex());
+        }
+        if (reqVO.getCreateTime() != null) {
+            wrapper.lambda().between(SysUserPO::getCreateTime, reqVO.getCreateTime()[0], reqVO.getCreateTime()[1]);
+        }
+        if (deptIds != null && deptIds.size() > 0) {
+            wrapper.lambda().in(SysUserPO::getDeptId, deptIds);
+        }
+        wrapper.orderBy(true, reqVO.getAsc(), StrUtil.toUnderlineCase(reqVO.getOrder()));
+        return selectPage(reqVO, wrapper);
     }
 
     default List<SysUserPO> selectList(UserExportReqVO reqVO, Collection<String> deptIds) {
