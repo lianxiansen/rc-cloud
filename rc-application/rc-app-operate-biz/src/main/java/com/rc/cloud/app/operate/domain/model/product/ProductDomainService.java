@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.domain.service;
+package com.rc.cloud.app.operate.domain.model.product;
 
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;

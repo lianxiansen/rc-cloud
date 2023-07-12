@@ -44,9 +44,9 @@ public class SecurityConstants
     public static final String LOGIN_USERNAME = "login_username";
 
     /**
-     * app
+     * 手机验证
      */
-    public static final String APP = "app";
+    public static final String MOBILE = "mobile";
     public static final String PASSWORD = "password";
     /**
      * role

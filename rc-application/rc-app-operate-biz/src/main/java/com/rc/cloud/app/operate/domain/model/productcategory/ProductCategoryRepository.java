@@ -15,8 +15,6 @@ import java.util.List;
 public interface ProductCategoryRepository {
     List<ProductCategory> getFirstList(Locked locked, Layer layer, Parent parent);
 
-    ProductCategoryId nextId();
-
     ProductCategory findById(ProductCategoryId productCategoryId);
 
     List<ProductCategory> findAll();
@@ -26,5 +24,5 @@ public interface ProductCategoryRepository {
 
     boolean removeById(ProductCategoryId productCategoryId);
 
-    boolean existsChild(ProductCategoryId productCategoryId);
+    boolean existsByParentId(ProductCategoryId productCategoryId);
 }

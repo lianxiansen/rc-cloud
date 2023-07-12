@@ -1,7 +1,11 @@
 package com.rc.cloud.app.system.service.oauthclient;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsPO;
+import com.rc.cloud.app.system.vo.client.OauthClientDetailsCreateReqVO;
+import com.rc.cloud.app.system.vo.client.OauthClientDetailsPageReqVO;
+import com.rc.cloud.app.system.vo.client.OauthClientDetailsUpdateReqVO;
+import com.rc.cloud.common.core.pojo.PageResult;
 
 /**
  * <p>
@@ -11,25 +15,32 @@ import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsPO;
  * @author lengleng
  * @since 2019/2/1
  */
-public interface OauthClientDetailsService extends IService<SysOauthClientDetailsPO> {
+public interface OauthClientDetailsService {
 
 	/**
-	 * 通过ID删除客户端
-	 * @param id
-	 * @return
+	 * 获得授权客户端分页列表
+	 *
+	 * @param reqVO 分页条件
+	 * @return 授权客户端分页列表
 	 */
-	Boolean removeClientDetailsById(String id);
+	PageResult<SysOauthClientDetailsPO> getPage(OauthClientDetailsPageReqVO reqVO);
+
+	SysOauthClientDetailsPO getOne(LambdaQueryWrapper<SysOauthClientDetailsPO> queryWrapper);
 
 	/**
-	 * 修改客户端信息
-	 * @param sysOauthClientDetails
-	 * @return
+	 * 通过id删除
+	 * @param id id
 	 */
-	Boolean updateClientDetailsById(SysOauthClientDetailsPO sysOauthClientDetails);
+    void removeClientDetailsById(String id);
 
-	/**
-	 * 清除客户端缓存
-	 */
-	void clearClientCache();
+	SysOauthClientDetailsPO getById(String clientId);
+
+	String create(OauthClientDetailsCreateReqVO reqVO);
+
+	void update(OauthClientDetailsUpdateReqVO reqVO);
+//	/**
+//	 * 清除客户端缓存
+//	 */
+//	void clearClientCache();
 
 }

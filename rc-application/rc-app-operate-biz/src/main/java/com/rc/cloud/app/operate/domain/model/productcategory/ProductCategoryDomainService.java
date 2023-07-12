@@ -1,11 +1,11 @@
-package com.rc.cloud.app.operate.domain.service;
+package com.rc.cloud.app.operate.domain.model.productcategory;
 
-import com.rc.cloud.app.operate.domain.common.DomainException;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotAssociatedProductSpecification;
+import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotHasChildSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Enabled;
+import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -14,6 +14,8 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
+
 /**
  * @ClassName: SaveProductCategoryDomainServce
  * @Author: liandy
@@ -21,14 +23,16 @@ import java.util.List;
  * @Description: TODO
  */
 @Service
-public class ProductCategoryDomainServce {
+public class ProductCategoryDomainService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
 
     @Resource
     private ProductRepository productRepository;
-
-
+    @Resource
+    private RemoveShouldNotHasChildSpecification removeShouldNoChildSpecification;
+    @Resource
+    private RemoveShouldNotAssociatedProductSpecification removeShouldNotAssociatedProductSpecification;
 
 
     public void reInherit(ProductCategory sub, ProductCategory parent) {
@@ -40,15 +44,15 @@ public class ProductCategoryDomainServce {
     }
 
 
-    public boolean remove(ProductCategory productCategory){
-        AssertUtils.notNull(productCategory, "productCategory must not be null");
-        if(productRepository.existsByProductCategoryId(productCategory.getId())){
-            throw new DomainException("已关联产品,删除失败");
+    public boolean remove(ProductCategoryId productCategoryId) {
+        AssertUtils.notNull(productCategoryId, "productCategoryId must not be null");
+        if (!removeShouldNotAssociatedProductSpecification.isSatisfiedBy(productCategoryId)) {
+            throw exception(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
         }
-        if(productCategoryRepository.existsChild(productCategory.getId())){
-            throw new DomainException("已关联子分类，删除失败");
+        if (!removeShouldNoChildSpecification.isSatisfiedBy(productCategoryId)) {
+            throw exception(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_HAS_CHILD);
         }
-        return productCategoryRepository.remove(productCategory);
+        return productCategoryRepository.removeById(productCategoryId);
     }
 
     private void reInheritCascade(List<ProductCategory> allList, ProductCategory parent) {
@@ -76,14 +80,16 @@ public class ProductCategoryDomainServce {
         });
         return list;
     }
+
     public void enable(ProductCategoryId productCategoryId) {
-        AssertUtils.notNull(productCategoryId,"productCategoryId must be not null");
+        AssertUtils.notNull(productCategoryId, "productCategoryId must be not null");
         ProductCategory productCategory = productCategoryRepository.findById(productCategoryId);
         productCategory.setEnabled(new Enabled(true));
         productCategoryRepository.save(productCategory);
     }
+
     public void disable(ProductCategoryId productCategoryId) {
-        AssertUtils.notNull(productCategoryId,"productCategoryId must be not null");
+        AssertUtils.notNull(productCategoryId, "productCategoryId must be not null");
         ProductCategory productCategory = productCategoryRepository.findById(productCategoryId);
         productCategory.setEnabled(new Enabled(false));
         productCategoryRepository.save(productCategory);

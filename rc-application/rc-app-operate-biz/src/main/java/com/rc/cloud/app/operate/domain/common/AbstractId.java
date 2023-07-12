@@ -58,7 +58,7 @@ public abstract class AbstractId
 
     private void setId(String anId) {
         this.assertArgumentNotEmpty(anId, "The basic identity is required.");
-        this.assertArgumentLength(anId, 32, "The basic identity must be 36 characters.");
+        this.assertArgumentLength(anId, 32, "The basic identity must be 32 characters.");
 
         this.validateId(anId);
 

@@ -3,12 +3,14 @@ package com.rc.cloud.app.operate.application.service;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
+import com.rc.cloud.app.operate.domain.common.IdRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.domain.service.ProductCategoryDomainServce;
+import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
 import com.rc.cloud.common.core.exception.ApplicationException;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
@@ -20,6 +22,8 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
+
 /**
  * @ClassName: ProductCategoryService
  * @Author: liandy
@@ -30,17 +34,17 @@ import java.util.List;
 public class ProductCategoryApplicationService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
-
-
     @Resource
-    private ProductCategoryDomainServce productCategoryDomainServce;
+    private ProductCategoryDomainService productCategoryService;
+    @Resource
+    private IdRepository idRepository;
+
 
     public ProductCategoryBO createProductCategory(ProductCategoryCreateDTO productCreateCategoryDTO) {
         AssertUtils.notNull(productCreateCategoryDTO,"productCreateCategoryDTO must be not null");
-        ProductCategoryId id = productCategoryRepository.nextId();
         TenantId tenantId = new TenantId(productCreateCategoryDTO.getTenantId());
         ChName name = new ChName(productCreateCategoryDTO.getName());
-        ProductCategory productCategory = new ProductCategory(id, tenantId, name);
+        ProductCategory productCategory = new ProductCategory(new ProductCategoryId(idRepository.nextId()), tenantId, name);
         productCategory.setEnName(new EnName(productCreateCategoryDTO.getEnglishName()));
         productCategory.setIcon(new Icon(productCreateCategoryDTO.getIcon()));
         if(ObjectUtils.isNotNull(productCreateCategoryDTO.getEnabledFlag())){
@@ -76,7 +80,7 @@ public class ProductCategoryApplicationService {
                 ProductCategoryId parentId= new ProductCategoryId(productCategoryDTO.getParentId());
                 if(!parentId.equals(productCategory.getParentId())){
                     ProductCategory parent = productCategoryRepository.findById(parentId);
-                    productCategoryDomainServce.reInherit(productCategory, parent);
+                    productCategoryService.reInherit(productCategory, parent);
                 }
             }
         }
@@ -110,11 +114,10 @@ public class ProductCategoryApplicationService {
     }
 
     public boolean remove(String id){
-        ProductCategory productCategory=productCategoryRepository.findById(new ProductCategoryId(id));
-        if(ObjectUtils.isNull(productCategory)){
-            throw new ApplicationException("产品分类不存在");
+        if(StringUtils.isEmpty(id)){
+            throw exception(ProductCategoryErrorCodeConstants.NOT_EXISTS);
         }
-        return productCategoryDomainServce.remove(productCategory);
+        return productCategoryService.remove(new ProductCategoryId(id));
     }
     public List<ProductCategoryBO> findAll() {
         List<ProductCategoryBO> boList=new ArrayList<>();
@@ -128,10 +131,10 @@ public class ProductCategoryApplicationService {
             throw new ApplicationException("产品分类不存在");
         }
         if(productCategory.getEnabled().isTrue()){
-            productCategoryDomainServce.disable(productCategory.getId() );
+            productCategoryService.disable(productCategory.getId() );
         }
         else{
-            productCategoryDomainServce.enable(productCategory.getId() );
+            productCategoryService.enable(productCategory.getId() );
         }
 
     }

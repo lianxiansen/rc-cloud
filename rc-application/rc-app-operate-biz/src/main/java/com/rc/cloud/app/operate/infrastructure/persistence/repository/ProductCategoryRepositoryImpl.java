@@ -54,10 +54,6 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
         return list;
     }
 
-    @Override
-    public ProductCategoryId nextId() {
-        return new ProductCategoryId(remoteIdGeneratorService.uidGenerator());
-    }
 
     @Override
     public ProductCategory findById(ProductCategoryId productCategoryId) {
@@ -100,13 +96,13 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
         return false;
     }
 
+
     @Override
-    public boolean existsChild(ProductCategoryId productCategoryId) {
+    public boolean existsByParentId(ProductCategoryId productCategoryId) {
         LambdaQueryWrapperX<ProductCategoryPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductCategoryPO::getParentId, productCategoryId.id());
         return this.productCategoryMapper.exists(wrapper);
     }
-
     /**
      * 持久化对象转领域对象
      * @param productCategoryPO

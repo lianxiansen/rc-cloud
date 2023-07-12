@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -26,10 +27,17 @@ public class SysOauthClientDetailsPO extends BaseDO {
 	private static final long serialVersionUID = 1L;
 
 	/**
+	 * ID
+	 */
+	@NotBlank(message = "id 不能为空")
+	@TableId(value = "id", type = IdType.ASSIGN_ID)
+	@Schema(description = "id")
+	private String id;
+
+	/**
 	 * 客户端ID
 	 */
 	@NotBlank(message = "client_id 不能为空")
-	@TableId(value = "client_id", type = IdType.INPUT)
 	@Schema(description = "客户端id")
 	private String clientId;
 
@@ -94,5 +102,4 @@ public class SysOauthClientDetailsPO extends BaseDO {
 	 */
 	@Schema(description = "是否自动放行")
 	private String autoapprove;
-
 }
