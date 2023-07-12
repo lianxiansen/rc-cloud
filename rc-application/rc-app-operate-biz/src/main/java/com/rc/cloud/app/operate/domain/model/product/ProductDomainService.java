@@ -1,18 +1,29 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
+import com.alibaba.fastjson.JSON;
+import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Explosives;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Newest;
+import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Recommend;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Enabled;
+import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class ProductDomainService {
    // public Product clone
 
-    @Repository
+    @Resource
     private ProductRepository productRepository;
 
     public  int createProduct(Product product){
@@ -29,18 +40,20 @@ public class ProductDomainService {
 
     public int updateProduct(Product product){
         int flag=0;
-        flag+= productRepository.updateProduct(product);
+        flag =productRepository.updateProduct(product);
         //判断图片有没有更改
         if(judgeImageChange(product)) {
             //移除相册
             productRepository.removeProductImageByProductId(product.getId());
             if(product.getProductImages()!=null){
-                flag+=productRepository.batchSaveProductImage(product.getProductImages());
+                productRepository.batchSaveProductImage(product.getProductImages());
             }
         }
-        productRepository.removeProductAttributeByProductId(product.getId());
-        flag+=productRepository.insertProductAttribute(product.getProductAttribute());
-        return flag>=3?1:0;
+        if(judgeAttributeChange(product)){
+            productRepository.removeProductAttributeByProductId(product.getId());
+            productRepository.insertProductAttribute(product.getProductAttribute());
+        }
+        return flag;
     }
 
     /**
@@ -67,38 +80,65 @@ public class ProductDomainService {
         return false;
     }
 
-
-
-    public int onShelf(Product product){
-        return 1;
+    private boolean judgeAttributeChange(Product product){
+        ProductAttribute productAttribute = product.getProductAttribute();
+        ProductAttribute ori = productRepository.getProductAttributeByProductId(product.getId());
+        String attr1 = JSON.toJSONString(productAttribute);
+        String attr2 = JSON.toJSONString(ori.getAttributes());
+        if(attr1.equals(attr2)){
+            return false;
+        }else{
+            return true;
+        }
     }
 
-    public int offShelf(Product product){
-        return 1;
+
+    public int onShelf(ProductId productId){
+        Product product = productRepository.findById(productId);
+        product.setOnshelfStatus(new OnshelfStatus(ProductShelfStatusEnum.OnShelf.value));
+        return productRepository.updateProduct(product);
+    }
+
+    public int offShelf(ProductId productId){
+        Product product = productRepository.findById(productId);
+        product.setOnshelfStatus(new OnshelfStatus(ProductShelfStatusEnum.OffShelf.value));
+        return productRepository.updateProduct(product);
     }
 
 
-    public int setRecomend(Product product){
-        return 1;
+    public int setRecomend(ProductId productId){
+        Product product = productRepository.findById(productId);
+        product.setRecommend(new Recommend(true));
+        return productRepository.updateProduct(product);
     }
 
-    public int cancelRecomend(Product product){
-        return 1;
+    public int cancelRecomend(ProductId productId){
+        Product product = productRepository.findById(productId);
+        product.setRecommend(new Recommend(false));
+        return productRepository.updateProduct(product);
     }
-    public int setNews(Product product){
-        return 1;
-    }
-
-    public int cancelNews(Product product){
-        return 1;
-    }
-
-    public int setExplosives(Product product){
-        return 1;
+    public int setNews(ProductId productId){
+        Product product = productRepository.findById(productId);
+        product.setNewest(new Newest(true));
+        return productRepository.updateProduct(product);
     }
 
-    public int cancelExplosives(Product product){
-        return 1;
+    public int cancelNews(ProductId productId){
+        Product product = productRepository.findById(productId);
+        product.setNewest(new Newest(false));
+        return productRepository.updateProduct(product);
+    }
+
+    public int setExplosives(ProductId productId ,String url){
+        Product product = productRepository.findById(productId);
+        product.setExplosives(new Explosives(true,url));
+        return productRepository.updateProduct(product);
+    }
+
+    public int cancelExplosives(ProductId productId){
+        Product product = productRepository.findById(productId);
+        product.setExplosives(new Explosives(false,null));
+        return productRepository.updateProduct(product);
     }
 
 

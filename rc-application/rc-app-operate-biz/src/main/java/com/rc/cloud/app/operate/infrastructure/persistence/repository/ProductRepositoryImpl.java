@@ -91,6 +91,16 @@ public class ProductRepositoryImpl implements  ProductRepository {
     }
 
     @Override
+    public ProductAttribute getProductAttributeByProductId(ProductId productId) {
+
+        LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductAttributePO>();
+        LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductAttributePO::getProductId, productId.id());
+        return ProductAttributeConvert.INSTANCE.convert(this.productAttributeMapper.selectOne(wrapper));
+
+    }
+
+    @Override
     public int removeProductAttributeByProductId(ProductId productId) {
         LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductAttributePO::getProductId, productId);
