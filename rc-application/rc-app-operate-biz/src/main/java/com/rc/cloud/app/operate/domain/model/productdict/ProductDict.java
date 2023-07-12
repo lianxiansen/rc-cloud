@@ -4,11 +4,11 @@ package com.rc.cloud.app.operate.domain.model.productdict;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductDictId;
 import com.rc.cloud.common.core.domain.Entity;
 
-public class ProductDict  extends Entity {
+public class ProductDict {
 
 
-    private ProductDictId id;
-    public ProductDict(ProductDictId id) {
+    private String id;
+    public ProductDict(String id) {
             this.id = id;
         }
 
@@ -42,9 +42,8 @@ public class ProductDict  extends Entity {
         this.sort = sort;
     }
 
-    @Override
-    public ProductDictId getId() {
+
+    public String getId() {
         return id;
     }
-
 }

@@ -88,7 +88,7 @@ public class ProductDOConvert {
     public static ProductAttributePO convert2ProductAttributeDO(String productId, String tenantId, ProductAttribute ProductAttribute){
         ProductAttributePO productAttributePO =new ProductAttributePO();
         String attr = JSON.toJSONString(ProductAttribute.getAttributes());
-        productAttributePO.setId(ProductAttribute.getId().id());
+        productAttributePO.setId(ProductAttribute.getId());
         productAttributePO.setProductId(productId);
         productAttributePO.setTenantId(tenantId);
         productAttributePO.setContent(attr);
@@ -101,7 +101,7 @@ public class ProductDOConvert {
         if(ProductImageList!=null){
             for (ProductImage ProductImage : ProductImageList) {
                 ProductImagePO productImagePO =new ProductImagePO();
-                productImagePO.setId(ProductImage.getId().id());
+                productImagePO.setId(ProductImage.getId());
                 productImagePO.setProductId(productId);
                 productImagePO.setUrl(ProductImage.getUrl());
                 productImagePO.setTenantId(tenantId);
@@ -119,7 +119,7 @@ public class ProductDOConvert {
         if(ProductDictList!=null){
             for (ProductDict ProductDict : ProductDictList) {
                 ProductDictPO productDictPO =new ProductDictPO();
-                productDictPO.setId(ProductDict.getId().id());
+                productDictPO.setId(ProductDict.getId());
                 productDictPO.setProductId(productId);
                 productDictPO.setValue(ProductDict.getValue());
                 productDictPO.setTenantId(tenantId);

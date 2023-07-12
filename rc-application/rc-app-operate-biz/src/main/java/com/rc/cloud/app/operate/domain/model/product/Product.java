@@ -45,9 +45,7 @@ public class Product extends AggregateRoot {
 
     private List<ProductImage> productImages;
 
-    public List<ProductImage> getProductImages() {
-        return productImages;
-    }
+
 
     public Product clone(ProductId id){
 

@@ -29,10 +29,10 @@ public class ProductDomainService {
     public  int createProduct(Product product){
         int flag=productRepository.insertProduct(product);
         if(product.getProductImages()!=null && product.getProductImages().size()!=0){
-            productRepository.batchSaveProductImage(product.getProductImages());
+            productRepository.batchSaveProductImage(product);
         }
         if(product.getProductAttribute()!=null){
-            productRepository.insertProductAttribute(product.getProductAttribute());
+            productRepository.insertProductAttribute(product);
         }
         return flag;
     }
@@ -45,12 +45,12 @@ public class ProductDomainService {
             //移除相册
             productRepository.removeProductImageByProductId(product.getId());
             if(product.getProductImages()!=null){
-                productRepository.batchSaveProductImage(product.getProductImages());
+                productRepository.batchSaveProductImage(product);
             }
         }
         if(judgeAttributeChange(product)){
             productRepository.removeProductAttributeByProductId(product.getId());
-            productRepository.insertProductAttribute(product.getProductAttribute());
+            productRepository.insertProductAttribute(product);
         }
         return flag;
     }

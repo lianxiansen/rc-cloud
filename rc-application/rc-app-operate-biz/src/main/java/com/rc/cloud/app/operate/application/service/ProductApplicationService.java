@@ -140,7 +140,7 @@ public class ProductApplicationService {
         //设置相册
         List<ProductImage> productImages = new ArrayList<>();
         productSaveDTO.getAlbums().forEach(item -> {
-            ProductImage ProductImage = new ProductImage(new ProductImageId(idRepository.nextId()));
+            ProductImage ProductImage = new ProductImage(idRepository.nextId());
             ProductImage.setUrl(item.getUrl());
             ProductImage.setSort(item.getSort());
             productImages.add(ProductImage);
@@ -150,7 +150,7 @@ public class ProductApplicationService {
         List<ProductDict> productDictEntities = new ArrayList<>();
         if (productSaveDTO.getDicts() != null) {
             for (ProductDictSaveDTO dict : productSaveDTO.getDicts()) {
-                ProductDict entity = new ProductDict(new ProductDictId(idRepository.nextId()));
+                ProductDict entity = new ProductDict(idRepository.nextId());
                 entity.setKey(dict.getKey());
                 entity.setValue(dict.getValue());
                 entity.setSort(dict.getSort());
@@ -168,10 +168,9 @@ public class ProductApplicationService {
          *     {"name":"尺寸","value":"XL","sort":9}
          * ]
          */
-        ProductAttribute productAttribute = new ProductAttribute(new ProductAttributeId(idRepository.nextId())
-                , productId, tenantId);
+        ProductAttribute productAttribute = null;//TODO
         for (ProductAttributeSaveDTO attribute : productSaveDTO.getAttributes()) {
-            productAttribute.addAttribute(new ProductAttributeId(attribute.getName()), attribute.getValue(), attribute.getSort());
+            //productAttribute.addAttribute(null), attribute.getValue(), attribute.getSort());
 
             product.setProductAttributeEntity(productAttribute);
         }
@@ -222,14 +221,14 @@ public class ProductApplicationService {
             /**
              * "attributes":[{"name":"颜色","value":"红","sort":9},{"name":"尺寸","value":"X","sort":9}]
              */
-            ProductSkuAttribute productSkuAttribute = new ProductSkuAttribute(
-                    new ProductSkuAttributeId(idRepository.nextId()),
-                    productSkuId, tenantId
-            );
+//            ProductSkuAttribute productSkuAttribute = new ProductSkuAttribute(
+//                    new ProductSkuAttributeId(idRepository.nextId()),
+//                    productSkuId, tenantId
+//            );
             for (ProductSkuAttributeSaveDTO attr : productSkuSaveDTO.getAttributes()) {
-                productSkuAttribute.addSkuAttribute(attr.getName(), attr.getValue(), attr.getSort());
+               // productSkuAttribute.addSkuAttribute(attr.getName(), attr.getValue(), attr.getSort());
             }
-            productSku.setProductSkuAttributeEntity(productSkuAttribute);
+           // productSku.setProductSkuAttributeEntity(productSkuAttribute);
             productSkuRepository.insertProductSku(productSku);
         }
         return null;
@@ -325,7 +324,7 @@ public class ProductApplicationService {
         if (productSaveDTO.getAlbums() != null) {
             List<ProductImage> productImages = new ArrayList<>();
             productSaveDTO.getAlbums().forEach(item -> {
-                ProductImage ProductImage = new ProductImage(new ProductImageId(idRepository.nextId()));
+                ProductImage ProductImage = new ProductImage(idRepository.nextId());
                 ProductImage.setUrl(item.getUrl());
                 ProductImage.setSort(item.getSort());
                 productImages.add(ProductImage);
@@ -336,7 +335,7 @@ public class ProductApplicationService {
             List<ProductDict> productDictEntities = new ArrayList<>();
             if (productSaveDTO.getDicts() != null) {
                 for (ProductDictSaveDTO dict : productSaveDTO.getDicts()) {
-                    ProductDict entity = new ProductDict(new ProductDictId(idRepository.nextId()));
+                    ProductDict entity = new ProductDict(idRepository.nextId());
                     entity.setKey(dict.getKey());
                     entity.setValue(dict.getValue());
                     entity.setSort(dict.getSort());
@@ -348,10 +347,9 @@ public class ProductApplicationService {
         }
         //设置属性
         if (productSaveDTO.getAttributes() != null) {
-            ProductAttribute productAttribute = new ProductAttribute(new ProductAttributeId(idRepository.nextId())
-                    , productId, tenantId);
+            ProductAttribute productAttribute = null;//TODO
             for (ProductAttributeSaveDTO attribute : productSaveDTO.getAttributes()) {
-                productAttribute.addAttribute(new ProductAttributeId(attribute.getName()), attribute.getValue(), attribute.getSort());
+            //    productAttribute.addAttribute(new ProductAttributeId(attribute.getName()), attribute.getValue(), attribute.getSort());
 
                 product.setProductAttributeEntity(productAttribute);
             }
@@ -410,10 +408,7 @@ public class ProductApplicationService {
                     }
                     //sku属性
                     if (productSkuSaveDTO.getAttributes() != null) {
-                        ProductSkuAttribute productSkuAttribute = new ProductSkuAttribute(
-                                new ProductSkuAttributeId(idRepository.nextId()),
-                                productSku.getId(), tenantId
-                        );
+                        ProductSkuAttribute productSkuAttribute = null;//TODO
                         for (ProductSkuAttributeSaveDTO attribute : productSkuSaveDTO.getAttributes()) {
                             productSkuAttribute.addSkuAttribute(attribute.getName(), attribute.getValue(), attribute.getSort());
                         }

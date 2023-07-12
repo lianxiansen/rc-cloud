@@ -16,13 +16,13 @@ public interface ProductDictConvert
 
 
     @Mapping(source = "id",target = "id")
-    @Mapping(source = "key",target = "key")
+   // @Mapping(source = "key",target = "key")
     @Mapping(source = "value",target = "value")
     @Mapping(source = "sortId",target = "sort")
     ProductDict convert(ProductDictPO productDictPO);
 
     @Mapping(source = "id",target = "id")
-    @Mapping(source = "key",target = "key")
+    //Mapping(source = "key",target = "key")
     @Mapping(source = "value",target = "value")
     @Mapping(source = "sort",target = "sortId")
     ProductDictPO convert(ProductDict productDict);

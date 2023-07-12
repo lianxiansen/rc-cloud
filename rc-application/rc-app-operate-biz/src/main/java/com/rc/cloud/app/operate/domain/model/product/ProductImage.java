@@ -11,9 +11,9 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 17:02
  * @Description: TODO
  */
-public class ProductImage  extends Entity {
+public class ProductImage {
 
-    private ProductImageId id;
+    private String id;
 
     private String url;
     private int sort;
@@ -23,7 +23,7 @@ public class ProductImage  extends Entity {
         return url;
     }
 
-    public ProductImage(ProductImageId id){
+    public ProductImage(String id){
         this.id= id;
     }
 
@@ -55,8 +55,7 @@ public class ProductImage  extends Entity {
         return this;
     }
 
-    @Override
-    public ProductImageId getId() {
+    public String getId() {
         return id;
     }
 

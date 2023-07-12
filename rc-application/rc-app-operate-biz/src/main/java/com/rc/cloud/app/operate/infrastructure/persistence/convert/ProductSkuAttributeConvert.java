@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.AttributeValueCombination;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuAttributePO;
 import org.mapstruct.factory.Mappers;

@@ -5,6 +5,7 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuPO;

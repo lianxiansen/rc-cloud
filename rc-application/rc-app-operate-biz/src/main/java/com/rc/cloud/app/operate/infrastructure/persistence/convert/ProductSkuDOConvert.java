@@ -55,7 +55,7 @@ public class ProductSkuDOConvert {
             String productSkuId, String tenantId, ProductSkuAttribute productSkuAttributeEntity){
         ProductSkuAttributePO productSkuAttributePO =new ProductSkuAttributePO();
         String attr = JSON.toJSONString(productSkuAttributeEntity.getSkuAttributes());
-        productSkuAttributePO.setId(productSkuAttributeEntity.getId().id());
+        productSkuAttributePO.setId(productSkuAttributeEntity.getId());
         productSkuAttributePO.setProductSkuId(productSkuId);
         productSkuAttributePO.setTenantId(tenantId);
         productSkuAttributePO.setContent(attr);

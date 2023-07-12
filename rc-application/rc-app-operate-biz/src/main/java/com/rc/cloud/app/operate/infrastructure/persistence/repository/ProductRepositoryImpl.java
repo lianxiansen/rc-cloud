@@ -190,7 +190,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         List<ProductDict> arr=new ArrayList<>();
         for (ProductDictPO productDictPO : productDictPOList) {
 
-            ProductDict ProductDict=new ProductDict(new ProductDictId(productDictPO.getId()));
+            ProductDict ProductDict=new ProductDict(productDictPO.getId());
             ProductDict.setKey(productDictPO.getKey());
             ProductDict.setValue(productDictPO.getValue());
             ProductDict.setSort(productDictPO.getSortId());
@@ -239,7 +239,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         List<ProductImage> urls=new ArrayList<>();
         for (ProductImagePO productImage : productImagePOList) {
 
-            ProductImage ProductImage=new ProductImage(new ProductImageId(productImage.getId()));
+            ProductImage ProductImage=new ProductImage(productImage.getId());
             ProductImage.setUrl(productImage.getUrl());
             ProductImage.setSort(productImage.getSortId());
             urls.add(ProductImage);

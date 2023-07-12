@@ -82,10 +82,7 @@ public class ProductSkuApplicationService
         }
         //sku属性
         if (productSkuSaveDTO.getAttributes() != null) {
-            ProductSkuAttribute productSkuAttribute = new ProductSkuAttribute(
-                    new ProductSkuAttributeId(idRepository.nextId()),
-                    productSku.getId(), tenantId
-            );
+            ProductSkuAttribute productSkuAttribute = null;//TODO
             for (ProductSkuAttributeSaveDTO attribute : productSkuSaveDTO.getAttributes()) {
                 productSkuAttribute.addSkuAttribute(attribute.getName(), attribute.getValue(), attribute.getSort());
             }

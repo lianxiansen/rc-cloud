@@ -182,7 +182,7 @@ public class ProductBO {
         //属性
         target.setAttributes(convert2AttributeBO(product.getProductAttribute()));
         //图片
-        target.setImages(convert2ProductImageBO(product.getProductImages()));
+        //target.setImages(convert2ProductImageBO(product.getProductImages()));
         //字典
         target.setDicts(convert2ProductDictBO(product.getProductDicts()));
 

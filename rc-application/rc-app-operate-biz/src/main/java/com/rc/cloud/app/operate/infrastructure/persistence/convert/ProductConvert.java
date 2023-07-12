@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
-import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
+import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
