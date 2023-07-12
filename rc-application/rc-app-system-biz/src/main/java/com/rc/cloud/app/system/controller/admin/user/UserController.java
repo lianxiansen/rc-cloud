@@ -142,60 +142,6 @@ public class UserController {
         return CodeResult.ok(userPageItemRespVO);
     }
 
-    /**
-     * 获取指定用户全部信息
-     * @return 用户信息
-     */
-    @Inner
-    @GetMapping("/info/{username}")
-    public CodeResult<UserInfo> info(@PathVariable String username) {
-        // 硬编码设置租户ID
-        TenantContextHolder.setTenantId("1");
-        SysUserPO user = userService.getUserByUsername(username);
-        if (user == null) {
-            throw exception(USER_NOT_EXISTS);
-        }
-        UserInfo userInfo = userService.getUserInfo(user);
-        return CodeResult.ok(userInfo);
-    }
-
-    /**
-     * 获取指定用户全部信息
-     * @return 用户信息
-     */
-//    @Inner
-    @GetMapping("/info-by-id/{id}")
-    public CodeResult<SysUserInfoVO> infoById(@PathVariable String id) {
-        // 硬编码设置租户ID
-        TenantContextHolder.setTenantId("1");
-        SysUserPO user = userService.getUser(id);
-        if (user == null) {
-            throw exception(USER_NOT_EXISTS);
-        }
-        SysUserInfoVO sysUserVO = new SysUserInfoVO();
-        BeanUtils.copyProperties(user, sysUserVO);
-        return CodeResult.ok(sysUserVO);
-    }
-
-    /**
-     * 获取指定用户全部信息
-     * @return 用户信息
-     */
-//    @Inner
-    @PostMapping("/info-by-ids")
-    public CodeResult<List<SysUserInfoVO>> infoByIds(@RequestBody List<String> ids) {
-        // 硬编码设置租户ID
-        TenantContextHolder.setTenantId("1");
-        List<SysUserPO> users = userService.getUserList(ids);
-        List<SysUserInfoVO> sysUserVOS = new ArrayList<>();
-        users.forEach(user -> {
-            SysUserInfoVO sysUserVO = new SysUserInfoVO();
-            BeanUtils.copyProperties(user, sysUserVO);
-            sysUserVOS.add(sysUserVO);
-        });
-        return CodeResult.ok(sysUserVOS);
-    }
-
 //    @GetMapping("/export")
 //    @Operation(summary = "导出用户")
 ////    @PreAuthorize("@ss.hasPermission('system:user:export')")

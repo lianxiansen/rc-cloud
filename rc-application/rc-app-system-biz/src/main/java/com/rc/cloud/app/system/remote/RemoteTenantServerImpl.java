@@ -3,6 +3,7 @@ package com.rc.cloud.app.system.remote;
 import com.rc.cloud.app.system.service.tenant.TenantService;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.annotation.Inner;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/sys/tenant")
+@Validated
 public class RemoteTenantServerImpl {
     @Resource
     private TenantService tenantService;
