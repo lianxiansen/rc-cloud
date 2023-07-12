@@ -41,6 +41,9 @@ public class Product extends Entity {
 
     private CategoryName thirdCategory;
 
+
+    private List<ProductImage> productImages;
+
     public Product clone(ProductId id){
 
 
@@ -182,26 +185,6 @@ public class Product extends Entity {
 
     }
 
-
-    /**
-     * 产品相册
-     */
-    private MasterImage masterImage;
-
-  //  private List<ProductImageEntity> productImages;
-
-    /**
-     * K-V
-     */
-   // private List<ProductDictEntity> productDicts;
-
-    public Product setProductDict(List<ProductDict> productDicts){
-        if(productDicts==null || productDicts.size()<= 0){
-            throw new IllegalArgumentException("productDicts must not be null");
-        }
-        this.productDicts=productDicts;
-        return this;
-    }
 
     /**
      * 商品code
@@ -347,10 +330,6 @@ public class Product extends Entity {
 
     public void setProductImages(List<ProductImage> list){
         this.productImages = list;
-        if(list!=null){
-            ProductImage productImage = this.productImages.get(0);
-            this.masterImage=new MasterImage(productImage.getUrl());
-        }
     }
 
     public ProductId getId(){
@@ -427,17 +406,6 @@ public class Product extends Entity {
         return video;
     }
 
-    public MasterImage getMasterImage() {
-        return masterImage;
-    }
-
-    public List<ProductImage> getProductImages() {
-        return productImages;
-    }
-
-    public List<ProductDict> getProductDicts() {
-        return productDicts;
-    }
 
     public SpuCode getSpuCode() {
         return spuCode;
