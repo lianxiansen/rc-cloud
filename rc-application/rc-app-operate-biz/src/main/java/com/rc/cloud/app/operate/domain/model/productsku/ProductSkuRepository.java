@@ -1,12 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.productsku;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductSkuAttributeConvert;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductSkuImageConvert;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuAttributePO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductSkuImagePO;
-import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 
 import java.util.List;
 

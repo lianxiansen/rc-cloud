@@ -1,11 +1,12 @@
 package com.rc.cloud.app.operate.domain.model.productgroup;
 
-import com.rc.cloud.app.operate.domain.common.DomainException;
-import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.productgroup.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.AggregateRoot;
+import com.rc.cloud.common.core.exception.DomainException;
+import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.Collection;
  * @Date: 2023/7/8 16:26
  * @Description: 产品组合
  */
-public class ProductGroup extends Entity {
+public class ProductGroup extends AggregateRoot {
     public static final int MAX_ITEM_SIZE=10;
     private ProductGroupId id;
 
@@ -49,12 +50,13 @@ public class ProductGroup extends Entity {
         return productGroupItems.size();
     }
 
+    @Override
     public ProductGroupId getId() {
         return id;
     }
 
     public void setId(ProductGroupId id) {
-        this.assertArgumentNotNull(id, "id must not be null");
+        AssertUtils.assertArgumentNotNull(id, "id must not be null");
         this.id = id;
     }
 
@@ -63,11 +65,11 @@ public class ProductGroup extends Entity {
     }
 
     public void setName(String name) {
-        this.assertArgumentNotNull(name, "name must not be null");
+        AssertUtils.assertArgumentNotNull(name, "name must not be null");
         this.name = name;
     }
     private void setTenantId(TenantId tenantId) {
-        this.assertArgumentNotNull(tenantId, "tenantId must not be null");
+        AssertUtils.assertArgumentNotNull(tenantId, "tenantId must not be null");
         this.tenantId = tenantId;
     }
     public ProductId getProductId() {
@@ -75,7 +77,7 @@ public class ProductGroup extends Entity {
     }
 
     public void setProductId(ProductId productId) {
-        this.assertArgumentNotNull(productId, "productId must not be null");
+        AssertUtils.assertArgumentNotNull(productId, "productId must not be null");
         this.productId = productId;
     }
 

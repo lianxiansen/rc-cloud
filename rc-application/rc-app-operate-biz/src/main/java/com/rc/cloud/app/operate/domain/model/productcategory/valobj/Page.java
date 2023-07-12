@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.productcategory.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.StringUtils;
 
 /**
@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Page extends ValueObject {
+public class Page implements ValueObject<Page> {
     /**
      * 商品分类页面图片URL
      */
@@ -48,5 +48,10 @@ public class Page extends ValueObject {
 
     public String getListImage() {
         return this.listImage;
+    }
+
+    @Override
+    public boolean sameValueAs(Page other) {
+        return false;
     }
 }

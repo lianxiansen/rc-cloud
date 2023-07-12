@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
-import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
+import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.BrandConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.BrandMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.BrandPO;

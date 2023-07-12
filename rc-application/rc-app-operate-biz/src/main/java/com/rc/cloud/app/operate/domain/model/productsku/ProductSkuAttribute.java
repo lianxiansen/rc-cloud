@@ -16,11 +16,12 @@ package com.rc.cloud.app.operate.domain.model.productsku;
 //        --                 }
 //        --             ]
 
-
-import com.rc.cloud.app.operate.domain.common.Entity;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuAttributeId;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.AttributeValueCombination;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.AbstractId;
+import com.rc.cloud.common.core.domain.Entity;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -28,14 +29,14 @@ import java.util.TreeSet;
 public class ProductSkuAttribute extends Entity {
 
 
-    public ProductSkuAttribute(String id, ProductSkuId productSkuId, TenantId tenantId) {
+    public ProductSkuAttribute(ProductSkuAttributeId id,ProductSkuId productSkuId, TenantId tenantId) {
         this.id =id;
         this.productSkuId = productSkuId;
         this.tenantId = tenantId;
         this.skuAttributes = new TreeSet<>();
     }
 
-    private String id;
+    private ProductSkuAttributeId id;
 
     private ProductSkuId productSkuId;
 
@@ -55,7 +56,8 @@ public class ProductSkuAttribute extends Entity {
         skuAttributes.add(entity);
     }
 
-    public String getId() {
+    @Override
+    public AbstractId getId() {
         return id;
     }
 

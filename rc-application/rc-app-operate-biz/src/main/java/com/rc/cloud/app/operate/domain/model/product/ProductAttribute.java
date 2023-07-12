@@ -1,10 +1,12 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
-import com.rc.cloud.app.operate.domain.common.Entity;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductAttributeId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Attribute;
 import com.rc.cloud.app.operate.domain.model.product.valobj.AttributeValue;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.Entity;
+import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.util.Optional;
 import java.util.SortedSet;
@@ -16,14 +18,14 @@ import java.util.TreeSet;
 public class ProductAttribute extends Entity {
 
 
-    public ProductAttribute(String id, ProductId productId, TenantId tenantId) {
+    public ProductAttribute(ProductAttributeId id, ProductId productId, TenantId tenantId) {
         this.id = id;
         this.productId = productId;
         this.tenantId = tenantId;
         this.attributes = new TreeSet<>();
     }
 
-    private String id;
+    private ProductAttributeId id;
 
     private ProductId productId;
 
@@ -38,13 +40,13 @@ public class ProductAttribute extends Entity {
      * @param value 红
      * @param sort 99
      */
-    public void addAttribute(String attribute,String value , int sort){
-        this.assertArgumentNotNull(attributes,"attributes must not be null");
+    public void addAttribute(ProductAttributeId attribute,String value , int sort){
+        AssertUtils.assertArgumentNotNull(attributes,"attributes must not be null");
 
         Optional<Attribute> first = attributes.stream().filter(u -> u.getAttribute().equals(attribute)).findFirst();
         if(!first.isPresent()){
             Attribute entity=new Attribute();
-            entity.setAttribute(attribute);
+            entity.setAttribute(attribute.id());
             entity.setSort(sort);
             entity.addValue(new AttributeValue(value,sort));
             attributes.add(entity);
@@ -54,7 +56,8 @@ public class ProductAttribute extends Entity {
         }
     }
 
-    public String getId() {
+    @Override
+    public ProductAttributeId getId() {
         return id;
     }
 

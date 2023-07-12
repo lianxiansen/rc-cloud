@@ -1,6 +1,8 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+
+import com.rc.cloud.common.core.domain.ValueObject;
+import com.rc.cloud.common.core.util.AssertUtils;
 
 /**
  * @ClassName: Popularization
@@ -8,7 +10,7 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Date: 2023/6/26 13:43
  * @Description: 超级单品
  */
-public class Explosives extends ValueObject {
+public class Explosives implements ValueObject<Explosives> {
     /**
      * 是否是超级单品 0否，1是
      */
@@ -24,7 +26,7 @@ public class Explosives extends ValueObject {
     public Explosives(boolean flag,String image){
         this.flag =flag;
         if(flag){
-            this.assertArgumentNotNull(image,"image must not be null.");
+            AssertUtils.assertArgumentNotNull(image,"image must not be null.");
         }
     }
 
@@ -34,5 +36,10 @@ public class Explosives extends ValueObject {
 
     public boolean isFlag() {
         return flag;
+    }
+
+    @Override
+    public boolean sameValueAs(Explosives other) {
+        return false;
     }
 }

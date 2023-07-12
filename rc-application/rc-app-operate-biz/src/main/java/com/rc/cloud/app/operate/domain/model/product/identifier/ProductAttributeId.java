@@ -1,23 +1,20 @@
 package com.rc.cloud.app.operate.domain.model.product.identifier;
 
-
 import com.rc.cloud.common.core.domain.AbstractId;
 
 /**
- * @ClassName: ProductCategoryEntryId
+ * @ClassName: ProductAttributeId
  * @Author: liandy
- * @Date: 2023/6/23 13:15
+ * @Date: 2023/7/12 13:14
  * @Description: TODO
  */
-public class ProductId extends AbstractId {
-    public ProductId(String id) {
+public class ProductAttributeId extends AbstractId {
+    public ProductAttributeId(String id) {
         super(id);
     }
 
-    protected ProductId() {
+    protected ProductAttributeId() {
         super();
     }
-
-
 
 }

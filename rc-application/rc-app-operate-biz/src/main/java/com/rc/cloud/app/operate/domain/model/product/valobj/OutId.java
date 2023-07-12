@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 
 /**
  * @ClassName: TenantId
@@ -8,7 +8,7 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class OutId extends ValueObject {
+public class OutId implements ValueObject<OutId> {
     private String value;
     public OutId(String value){
         this.value = value;
@@ -17,4 +17,8 @@ public class OutId extends ValueObject {
         return value;
     }
 
+    @Override
+    public boolean sameValueAs(OutId other) {
+        return false;
+    }
 }

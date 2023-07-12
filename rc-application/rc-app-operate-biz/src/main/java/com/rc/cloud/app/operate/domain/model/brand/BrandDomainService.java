@@ -1,8 +1,8 @@
 package com.rc.cloud.app.operate.domain.model.brand;
 
-import com.rc.cloud.app.operate.domain.common.DomainException;
-import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
+import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
+import com.rc.cloud.common.core.exception.DomainException;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;

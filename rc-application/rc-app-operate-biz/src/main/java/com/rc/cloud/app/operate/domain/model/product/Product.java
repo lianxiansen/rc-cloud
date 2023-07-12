@@ -1,14 +1,15 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
+import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
-import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
-import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.AggregateRoot;
+import com.rc.cloud.common.core.util.AssertUtils;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * @ClassName: ProductEntry
@@ -16,7 +17,7 @@ import java.util.*;
  * @Date: 2023/6/23 13:09
  * @Description: 产品
  */
-public class Product extends Entity {
+public class Product extends AggregateRoot {
 
     /**
      * 产品唯一标识
@@ -59,7 +60,7 @@ public class Product extends Entity {
      * @param thirdCategory
      */
     public Product setCategory(CategoryName firstCategory, CategoryName secondCategory,CategoryName thirdCategory){
-        this.assertArgumentNotNull(firstCategory, "firstCategory must not be null");
+        AssertUtils.assertArgumentNotNull(firstCategory, "firstCategory must not be null");
         this.firstCategory=firstCategory;
         this.secondCategory=secondCategory;
         this.thirdCategory=thirdCategory;
@@ -72,7 +73,7 @@ public class Product extends Entity {
     private Remark remark;
 
     public Product setRemark(Remark remark){
-        this.assertArgumentNotNull(remark, "remark must not be null");
+        AssertUtils.assertArgumentNotNull(remark, "remark must not be null");
         this.remark= remark;
         return this;
     }
@@ -84,7 +85,7 @@ public class Product extends Entity {
     private Tag tag;
 
     public Product setTag(Tag tag){
-        this.assertArgumentNotNull(tag, "tag must not be null");
+        AssertUtils.assertArgumentNotNull(tag, "tag must not be null");
         this.tag = tag;
         return this;
     }
@@ -95,7 +96,7 @@ public class Product extends Entity {
 
 
     public Product setBrandId(BrandId brandId){
-        this.assertArgumentNotNull(brandId, "brandId must not be null");
+        AssertUtils.assertArgumentNotNull(brandId, "brandId must not be null");
         this.brandId = brandId;
         return this;
     }
@@ -108,7 +109,7 @@ public class Product extends Entity {
 
 
     public Product setCustomClassificationId(CustomClassificationId customClassificationId){
-        this.assertArgumentNotNull(customClassificationId, "customClassification must not be null");
+        AssertUtils.assertArgumentNotNull(customClassificationId, "customClassification must not be null");
         this.customClassificationId = customClassificationId;
         return this;
     }
@@ -261,16 +262,16 @@ public class Product extends Entity {
     }
 
     public void setId(ProductId id){
-        this.assertArgumentNotNull(id,"ProductId must not be null");
+        AssertUtils.assertArgumentNotNull(id,"ProductId must not be null");
         this.id=id;
     }
     public void setTenantId(TenantId tenantId){
-        this.assertArgumentNotNull(tenantId,"TenantId must not be null");
+        AssertUtils.assertArgumentNotNull(tenantId,"TenantId must not be null");
         this.tenantId = tenantId;
     }
 
     public void setName(Name name){
-        this.assertArgumentNotNull(name,"Name must not be null");
+        AssertUtils.assertArgumentNotNull(name,"Name must not be null");
         this.name = name;
     }
 
@@ -324,7 +325,7 @@ public class Product extends Entity {
 
 
     public void setType(Type type){
-        this.assertArgumentNotNull(type,"Type must not be null");
+        AssertUtils.assertArgumentNotNull(type,"Type must not be null");
         this.type = type;
     }
 
@@ -332,6 +333,7 @@ public class Product extends Entity {
         this.productImages = list;
     }
 
+    @Override
     public ProductId getId(){
         return id;
     }
@@ -475,4 +477,14 @@ public class Product extends Entity {
     }
 
 
+    public void setProductDict(List<ProductDict> productDictEntities) {
+    }
+
+    public List<ProductImage> getProductImages() {
+        return null;
+    }
+
+    public List<ProductDict> getProductDicts() {
+        return null;
+    }
 }

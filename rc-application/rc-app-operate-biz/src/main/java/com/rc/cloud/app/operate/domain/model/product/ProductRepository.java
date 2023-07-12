@@ -1,12 +1,10 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
-import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
+import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductAttributePO;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 import java.util.List;
@@ -48,4 +46,13 @@ public interface ProductRepository {
     PageResult<Product> getProductPageList(ProductListQueryDTO query);
 
 
+    List<ProductDict> getProductDictByProductId(ProductId productId);
+
+    boolean existsByBrandId(BrandId brandId);
+
+    void insertProductEntity(Product product);
+
+    void updateProductEntity(Product product);
+
+    boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
 }

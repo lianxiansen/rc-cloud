@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 
 /**
  * @ClassName: LowestBuy
@@ -8,6 +8,11 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Date: 2023/6/26 13:43
  * @Description: TODO
  */
-public class LowestBuy extends ValueObject {
+public class LowestBuy implements ValueObject<LowestBuy> {
     private int num;
+
+    @Override
+    public boolean sameValueAs(LowestBuy other) {
+        return false;
+    }
 }

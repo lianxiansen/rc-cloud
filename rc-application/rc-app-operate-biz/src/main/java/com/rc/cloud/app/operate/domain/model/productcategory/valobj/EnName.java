@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.productcategory.valobj;
 
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 
 /**
  * @ClassName: TenantId
@@ -8,7 +8,7 @@ import com.rc.cloud.app.operate.domain.common.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description: 分类名
  */
-public class EnName extends ValueObject {
+public class EnName implements ValueObject<EnName> {
     /**
      * 分类名（英文名）
      */
@@ -26,4 +26,8 @@ public class EnName extends ValueObject {
         return this.value;
     }
 
+    @Override
+    public boolean sameValueAs(EnName other) {
+        return false;
+    }
 }

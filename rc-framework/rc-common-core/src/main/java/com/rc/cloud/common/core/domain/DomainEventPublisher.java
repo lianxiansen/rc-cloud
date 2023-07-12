@@ -1,6 +1,6 @@
 
 
-package com.rc.cloud.app.operate.domain.common;
+package com.rc.cloud.common.core.domain;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -12,18 +12,13 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-package com.rc.cloud.app.operate.domain.common;
+package com.rc.cloud.common.core.domain;
 
+import java.util.Date;
 
-public abstract class ValueObject extends AssertionConcern {
+public interface DomainEvent {
 
-    public ValueObject() {
-        super();
-    }
+    public int eventVersion();
 
-
-    @Override
-    public boolean equals(Object anObject) {
-        return this.equals(anObject);
-    }
+    public Date occurredOn();
 }

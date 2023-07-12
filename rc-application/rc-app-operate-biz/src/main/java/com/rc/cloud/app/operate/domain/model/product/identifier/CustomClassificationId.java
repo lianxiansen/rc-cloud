@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.product.identifier;
 
-import com.rc.cloud.app.operate.domain.common.AbstractId;
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+
+import com.rc.cloud.common.core.domain.AbstractId;
 
 /**
  * @ClassName: CustomClassification

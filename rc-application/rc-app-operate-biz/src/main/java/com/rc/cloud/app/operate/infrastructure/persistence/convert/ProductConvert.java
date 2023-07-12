@@ -1,45 +1,42 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.convert;
 
 import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductAttributePO;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductPO;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+//@Mapper
 public interface ProductConvert {
 
 
     ProductConvert INSTANCE = Mappers.getMapper(ProductConvert.class);
-    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")
-    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")
-
-    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")
+//    @Mapping(source = "id",target = "id")
+//    @Mapping(source = "name",target = "name.value")
+//    @Mapping(source = "id",target = "id")
+//    @Mapping(source = "name",target = "name.value")
+//
+//    @Mapping(source = "id",target = "id")
+//    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
+//    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
+//    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
+//    @Mapping(source = "name",target = "name.value")
 
 
 
     Product convert(ProductPO a);
 
-    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")
-    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")
-
-    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
-    @Mapping(source = "name",target = "name.value")
+//    @Mapping(source = "id",target = "id")
+//    @Mapping(ignore = true,target = "id")
+//    @Mapping(source = "name",target = "name.value")
+//    @Mapping(source = "id",target = "id")
+//    @Mapping(source = "name",target = "name.value")
+//
+//    @Mapping(source = "id",target = "id")
+//    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
+//    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
+//    @Mapping(source = "name",target = "name.value")    @Mapping(source = "id",target = "id")
+//    @Mapping(source = "name",target = "name.value")
 
 //        ProductId productId=new ProductId(productPO.getId());
 //        TenantId tenantId = new TenantId(productPO.getTenantId());

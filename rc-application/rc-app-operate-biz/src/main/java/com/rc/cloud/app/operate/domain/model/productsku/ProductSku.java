@@ -1,13 +1,15 @@
 package com.rc.cloud.app.operate.domain.model.productsku;
 
-import com.rc.cloud.app.operate.domain.common.Entity;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.AggregateRoot;
+import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.util.List;
 
-public class ProductSku extends Entity {
+public class ProductSku extends AggregateRoot {
 
 
     private ProductSkuId id;
@@ -32,7 +34,7 @@ public class ProductSku extends Entity {
 
 
     public ProductSku skuCode(String skuCode){
-        this.assertArgumentNotNull(skuCode, "skuCode must not be null");
+        AssertUtils.assertArgumentNotNull(skuCode, "skuCode must not be null");
         this.skuCode =skuCode;
         return this;
     }
@@ -48,7 +50,7 @@ public class ProductSku extends Entity {
     private SupplyPrice supplyPrice;
 
     public ProductSku supplyPrice(SupplyPrice supplyPrice){
-        this.assertArgumentNotNull(supplyPrice, "supplyPrice must not be null");
+        AssertUtils.assertArgumentNotNull(supplyPrice, "supplyPrice must not be null");
         this.supplyPrice =supplyPrice;
         return this;
     }
@@ -60,7 +62,7 @@ public class ProductSku extends Entity {
     private Weight weight;
 
     public ProductSku weight(Weight weight){
-        this.assertArgumentNotNull(weight, "weight must not be null");
+        AssertUtils.assertArgumentNotNull(weight, "weight must not be null");
         this.weight =weight;
         return this;
     }
@@ -71,7 +73,7 @@ public class ProductSku extends Entity {
     private OutId outId;
 
     public ProductSku outId(OutId outId){
-        this.assertArgumentNotNull(outId, "outId must not be null");
+        AssertUtils.assertArgumentNotNull(outId, "outId must not be null");
         this.outId =outId;
         return this;
     }
@@ -114,16 +116,17 @@ public class ProductSku extends Entity {
     private boolean enabledFlag;
 
     public void setId(ProductSkuId id) {
-        this.assertArgumentNotNull(id, "id must not be null");
+        AssertUtils.assertArgumentNotNull(id, "id must not be null");
         this.id = id;
     }
 
+    @Override
     public ProductSkuId getId(){
         return this.id;
     }
 
     public void setTenantId(TenantId tenantId) {
-        this.assertArgumentNotNull(tenantId, "tenantId must not be null");
+        AssertUtils.assertArgumentNotNull(tenantId, "tenantId must not be null");
         this.tenantId = tenantId;
     }
 
@@ -133,7 +136,7 @@ public class ProductSku extends Entity {
 
 
     public void setPrice(Price price){
-        this.assertArgumentNotNull(tenantId, "price must not be null");
+        AssertUtils.assertArgumentNotNull(tenantId, "price must not be null");
         this.price =price;
     }
 
@@ -145,7 +148,7 @@ public class ProductSku extends Entity {
     }
 
     public void setSort(Sort sort){
-        this.assertArgumentNotNull(sort, "sort must not be null");
+        AssertUtils.assertArgumentNotNull(sort, "sort must not be null");
         this.sort = sort;
     }
 

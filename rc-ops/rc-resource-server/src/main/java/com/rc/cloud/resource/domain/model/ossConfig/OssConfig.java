@@ -1,5 +1,6 @@
 package com.rc.cloud.resource.domain.model.ossConfig;
 
+import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.domain.StatusEnum;
 import com.rc.cloud.resource.domain.model.oss.OssId;
@@ -10,7 +11,7 @@ import com.rc.cloud.resource.domain.model.oss.OssId;
  * @author hqf@rc
  * @date 2022-04-22
  **/
-public class OssConfig implements Entity<OssConfig> {
+public class OssConfig extends Entity {
 
     private OssConfigId ossConfigId;
 
@@ -101,11 +102,6 @@ public class OssConfig implements Entity<OssConfig> {
         this.status = "1";
     }
 
-    @Override
-    public boolean sameIdentityAs(OssConfig other) {
-        return other != null && ossConfigId.sameValueAs(other.ossConfigId);
-    }
-
     public OssConfigId getOssConfigId() {
         return ossConfigId;
     }
@@ -156,5 +152,11 @@ public class OssConfig implements Entity<OssConfig> {
 
     public String getDelFlag() {
         return delFlag;
+    }
+
+
+    @Override
+    public AbstractId getId() {
+        return null;
     }
 }

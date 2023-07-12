@@ -2,10 +2,10 @@ package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.rc.cloud.app.operate.domain.common.ValueObject;
+import com.rc.cloud.common.core.domain.ValueObject;
 import org.apache.commons.lang3.Validate;
 
-public class AttributeValue extends ValueObject implements Comparable<AttributeValue> {
+public class AttributeValue implements Comparable<AttributeValue>, ValueObject<AttributeValue> {
 
     @JSONField(ordinal = 1, name = "attributeValue")
     private String attributeValue;
@@ -54,5 +54,10 @@ public class AttributeValue extends ValueObject implements Comparable<AttributeV
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    @Override
+    public boolean sameValueAs(AttributeValue other) {
+        return this.attributeValue.equals(other.getAttributeValue());
     }
 }

@@ -4,10 +4,10 @@
  */
 package com.rc.cloud.resource.domain.model.ossConfig;
 
-import com.rc.cloud.common.core.domain.ValueObject;
+import com.rc.cloud.common.core.domain.AbstractId;
 import org.apache.commons.lang3.StringUtils;
 
-public class OssConfigId implements ValueObject<OssConfigId> {
+public class OssConfigId extends AbstractId {
 
     private String id;
 
@@ -22,10 +22,7 @@ public class OssConfigId implements ValueObject<OssConfigId> {
         return id;
     }
 
-    @Override
-    public boolean sameValueAs(OssConfigId other) {
-        return other != null && this.id.equals(other.id);
-    }
+
 
     @Override
     public String toString() {
