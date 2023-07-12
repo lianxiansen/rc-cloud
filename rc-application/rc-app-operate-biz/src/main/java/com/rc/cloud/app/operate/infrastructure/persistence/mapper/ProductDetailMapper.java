@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.mapper;
 
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDetailDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDetailPO;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @Description:
  */
 @Mapper
-public interface ProductDetailMapper extends BaseMapperX<ProductDetailDO> {
+public interface ProductDetailMapper extends BaseMapperX<ProductDetailPO> {
 
 
 }

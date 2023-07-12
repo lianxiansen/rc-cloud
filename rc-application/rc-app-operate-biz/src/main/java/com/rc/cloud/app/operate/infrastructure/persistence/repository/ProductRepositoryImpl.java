@@ -11,7 +11,6 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassifica
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductDOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.*;
@@ -62,48 +61,48 @@ public class ProductRepositoryImpl implements  ProductRepository {
     }
 
     public void removeProductImageEntityByProductId(String productId){
-        LambdaQueryWrapperX<ProductImageDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductImageDO::getProductId, productId);
+        LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductImagePO::getProductId, productId);
         productImageMapper.delete(wrapper);
     }
 
 
     public void removeProductDictEntityByProductId(String productId){
-        LambdaQueryWrapperX<ProductDictDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDictDO::getProductId, productId);
+        LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDictPO::getProductId, productId);
         productDictMapper.delete(wrapper);
     }
 
-    public void updateProductImageEntity( ProductImageDO productImageDO){
-        LambdaQueryWrapperX<ProductImageDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductImageDO::getId, productImageDO.getId());
-        productImageMapper.update(productImageDO,wrapper);
+    public void updateProductImageEntity( ProductImagePO productImagePO){
+        LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductImagePO::getId, productImagePO.getId());
+        productImageMapper.update(productImagePO,wrapper);
     }
 
 
-    public void updateProductDictEntity(ProductDictDO productDictDO){
-        LambdaQueryWrapperX<ProductDictDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDictDO::getId, productDictDO.getId());
-        productDictMapper.update(productDictDO,wrapper);
+    public void updateProductDictEntity(ProductDictPO productDictPO){
+        LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDictPO::getId, productDictPO.getId());
+        productDictMapper.update(productDictPO,wrapper);
     }
 
 
     public void removeProductAttributeEntityByProductId(String productId){
-        LambdaQueryWrapperX<ProductAttributeDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductAttributeDO::getProductId, productId);
+        LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductAttributePO::getProductId, productId);
         productAttributeMapper.delete(wrapper);
     }
 
-    public void updateProductAttributeEntity(ProductAttributeDO productAttributeDO){
-        LambdaQueryWrapperX<ProductAttributeDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductAttributeDO::getProductId, productAttributeDO.getProductId());
-        productAttributeMapper.update(productAttributeDO,wrapper);
+    public void updateProductAttributeEntity(ProductAttributePO productAttributePO){
+        LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductAttributePO::getProductId, productAttributePO.getProductId());
+        productAttributeMapper.update(productAttributePO,wrapper);
     }
 
-    public void updateProductDetailEntity(ProductDetailDO productDetailDO){
-        LambdaQueryWrapperX<ProductDetailDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDetailDO::getProductId, productDetailDO.getProductId());
-        productDetailMapper.update(productDetailDO,wrapper);
+    public void updateProductDetailEntity(ProductDetailPO productDetailPO){
+        LambdaQueryWrapperX<ProductDetailPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDetailPO::getProductId, productDetailPO.getProductId());
+        productDetailMapper.update(productDetailPO,wrapper);
     }
 
 
@@ -112,71 +111,71 @@ public class ProductRepositoryImpl implements  ProductRepository {
         if(exist(productEntity.getId())){
             throw new IllegalArgumentException("该商品已存在");
         }
-        ProductDO productDO = ProductDOConvert.convert2ProductDO(productEntity);
-        this.productMapper.insert(productDO);
+        ProductPO productPO = ProductDOConvert.convert2ProductDO(productEntity);
+        this.productMapper.insert(productPO);
         if(productEntity.getProductImages()!=null){
-            List<ProductImageDO> productImageDOS = ProductDOConvert.convert2ProductImageDO(productEntity.getId().id()
+            List<ProductImagePO> productImagePOS = ProductDOConvert.convert2ProductImageDO(productEntity.getId().id()
                     , productEntity.getTenantId().id(), productEntity.getProductImages());
-            for (ProductImageDO productImageDO : productImageDOS) {
-                this.productImageMapper.insert(productImageDO);
+            for (ProductImagePO productImagePO : productImagePOS) {
+                this.productImageMapper.insert(productImagePO);
             }
         }
         if(productEntity.getProductDicts()!=null){
-            List<ProductDictDO> productDictDOList = ProductDOConvert.convert2ProductDictDO(productEntity.getId().id()
+            List<ProductDictPO> productDictPOList = ProductDOConvert.convert2ProductDictDO(productEntity.getId().id()
                     , productEntity.getTenantId().id(), productEntity.getProductDicts());
-            for (ProductDictDO productDictDO : productDictDOList) {
-                this.productDictMapper.insert(productDictDO);
+            for (ProductDictPO productDictPO : productDictPOList) {
+                this.productDictMapper.insert(productDictPO);
             }
         }
-        ProductAttributeDO productAttributeDO = ProductDOConvert.convert2ProductAttributeDO(productEntity.getId().id()
+        ProductAttributePO productAttributePO = ProductDOConvert.convert2ProductAttributeDO(productEntity.getId().id()
                 , productEntity.getTenantId().id(), productEntity.getProductAttributeEntity());
-        this.productAttributeMapper.insert(productAttributeDO);
+        this.productAttributeMapper.insert(productAttributePO);
 
         if(productEntity.getDetail()!=null){
             //商品详情
-            ProductDetailDO productDetailDO = ProductDOConvert.convert2ProductDetailDO(
+            ProductDetailPO productDetailPO = ProductDOConvert.convert2ProductDetailDO(
                         productEntity.getDetail().getId()
                     , productEntity.getId().id()
                     , productEntity.getTenantId().id()
                     , productEntity.getDetail().getValue());
-            this.productDetailMapper.insert(productDetailDO);
+            this.productDetailMapper.insert(productDetailPO);
         }
     }
 
     @Override
     public void updateProductEntity(Product productEntity) {
-        LambdaQueryWrapperX<ProductDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDO::getId, productEntity.getId().id());
-        ProductDO productDO = ProductDOConvert.convert2ProductDO(productEntity);
-        this.productMapper.update(productDO,wrapper);
+        LambdaQueryWrapperX<ProductPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductPO::getId, productEntity.getId().id());
+        ProductPO productPO = ProductDOConvert.convert2ProductDO(productEntity);
+        this.productMapper.update(productPO,wrapper);
         if(productEntity.getProductImages()!=null){
-            List<ProductImageDO> productImageDOS = ProductDOConvert.convert2ProductImageDO(productEntity.getId().id()
+            List<ProductImagePO> productImagePOS = ProductDOConvert.convert2ProductImageDO(productEntity.getId().id()
                     , productEntity.getTenantId().id(), productEntity.getProductImages());
-            for (ProductImageDO productImageDO : productImageDOS) {
-               updateProductImageEntity(productImageDO);
+            for (ProductImagePO productImagePO : productImagePOS) {
+               updateProductImageEntity(productImagePO);
             }
         }
         if(productEntity.getProductDicts()!=null){
             removeProductDictEntityByProductId(productEntity.getId().id());
-            List<ProductDictDO> productDictDOList = ProductDOConvert.convert2ProductDictDO(productEntity.getId().id()
+            List<ProductDictPO> productDictPOList = ProductDOConvert.convert2ProductDictDO(productEntity.getId().id()
                     , productEntity.getTenantId().id(), productEntity.getProductDicts());
-            for (ProductDictDO productDictDO : productDictDOList) {
-               updateProductDictEntity(productDictDO);
+            for (ProductDictPO productDictPO : productDictPOList) {
+               updateProductDictEntity(productDictPO);
             }
         }
         //商品属性
-        ProductAttributeDO productAttributeDO = ProductDOConvert.convert2ProductAttributeDO(
+        ProductAttributePO productAttributePO = ProductDOConvert.convert2ProductAttributeDO(
                 productEntity.getId().id()
                 , productEntity.getTenantId().id(), productEntity.getProductAttributeEntity());
-        updateProductAttributeEntity(productAttributeDO);
+        updateProductAttributeEntity(productAttributePO);
         if(productEntity.getDetail()!=null){
             //商品详情
-            ProductDetailDO productDetailDO = ProductDOConvert.convert2ProductDetailDO(
+            ProductDetailPO productDetailPO = ProductDOConvert.convert2ProductDetailDO(
                     productEntity.getDetail().getId()
                     , productEntity.getId().id()
                     , productEntity.getTenantId().id()
                     , productEntity.getDetail().getValue());
-            updateProductDetailEntity(productDetailDO);
+            updateProductDetailEntity(productDetailPO);
         }
 
     }
@@ -184,14 +183,14 @@ public class ProductRepositoryImpl implements  ProductRepository {
 
     @Override
     public Product findById(ProductId productId) {
-        LambdaQueryWrapperX<ProductDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDO::getId, productId.id());
+        LambdaQueryWrapperX<ProductPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductPO::getId, productId.id());
         return convert2Product(this.productMapper.selectOne(wrapper)) ;
     }
 
     public boolean exist(ProductId productId) {
-        LambdaQueryWrapperX<ProductDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDO::getId, productId.id());
+        LambdaQueryWrapperX<ProductPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductPO::getId, productId.id());
         return this.productMapper.exists(wrapper);
     }
 
@@ -201,12 +200,12 @@ public class ProductRepositoryImpl implements  ProductRepository {
 
         PageResult<Product> productPageResult=new PageResult<>();
 
-        PageResult<ProductDO> productDOPageResult = productMapper.selectPage(productListQueryDTO);
+        PageResult<ProductPO> productDOPageResult = productMapper.selectPage(productListQueryDTO);
         productPageResult.setTotal(productDOPageResult.getTotal());
-        List<ProductDO> list = productDOPageResult.getList();
+        List<ProductPO> list = productDOPageResult.getList();
         List<Product> productList=new ArrayList<>();
-        for (ProductDO productDO : list) {
-            Product product= convert2Product(productDO);
+        for (ProductPO productPO : list) {
+            Product product= convert2Product(productPO);
             productList.add(product);
         }
         productPageResult.setList(productList);
@@ -215,20 +214,20 @@ public class ProductRepositoryImpl implements  ProductRepository {
 
     @Override
     public List<ProductDictEntity> getProductDictByProductId(ProductId productId){
-        LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductDictDO>();
-        LambdaQueryWrapperX<ProductDictDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDictDO::getProductId, productId.id());
+        LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductDictPO>();
+        LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDictPO::getProductId, productId.id());
         return convert2ProductDict(this.productDictMapper.selectList(wrapper));
     }
 
-    private List<ProductDictEntity> convert2ProductDict(List<ProductDictDO> productDictDOList){
+    private List<ProductDictEntity> convert2ProductDict(List<ProductDictPO> productDictPOList){
         List<ProductDictEntity> arr=new ArrayList<>();
-        for (ProductDictDO productDictDO : productDictDOList) {
+        for (ProductDictPO productDictPO : productDictPOList) {
 
-            ProductDictEntity productDictEntity=new ProductDictEntity(productDictDO.getId());
-            productDictEntity.setKey(productDictDO.getKey());
-            productDictEntity.setValue(productDictDO.getValue());
-            productDictEntity.setSort(productDictDO.getSortId());
+            ProductDictEntity productDictEntity=new ProductDictEntity(productDictPO.getId());
+            productDictEntity.setKey(productDictPO.getKey());
+            productDictEntity.setValue(productDictPO.getValue());
+            productDictEntity.setSort(productDictPO.getSortId());
             arr.add(productDictEntity);
         }
         return arr;
@@ -237,9 +236,9 @@ public class ProductRepositoryImpl implements  ProductRepository {
 
     @Override
     public List<ProductImageEntity> getProductImageByProductId(ProductId productId){
-        LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductImageDO>();
-        LambdaQueryWrapperX<ProductImageDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductImageDO::getProductId, productId.id());
+        LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductImagePO>();
+        LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductImagePO::getProductId, productId.id());
         return convert2ProductImage(this.productImageMapper.selectList(wrapper));
     }
 
@@ -260,9 +259,9 @@ public class ProductRepositoryImpl implements  ProductRepository {
     }
 
 
-    private List<ProductImageEntity> convert2ProductImage(List<ProductImageDO> productImageDOList){
+    private List<ProductImageEntity> convert2ProductImage(List<ProductImagePO> productImagePOList){
         List<ProductImageEntity> urls=new ArrayList<>();
-        for (ProductImageDO productImage : productImageDOList) {
+        for (ProductImagePO productImage : productImagePOList) {
 
             ProductImageEntity productImageEntity=new ProductImageEntity(productImage.getId());
             productImageEntity.setUrl(productImage.getUrl());
@@ -274,38 +273,38 @@ public class ProductRepositoryImpl implements  ProductRepository {
 
     /**
      * ProductDO 转领域模型
-     * @param productDO
+     * @param productPO
      * @return
      */
-    private Product convert2Product(ProductDO productDO){
-        ProductId productId=new ProductId(productDO.getId());
-        TenantId tenantId = new TenantId(productDO.getTenantId());
-        Product product=new Product(productId,tenantId,new Name(productDO.getName()));
+    private Product convert2Product(ProductPO productPO){
+        ProductId productId=new ProductId(productPO.getId());
+        TenantId tenantId = new TenantId(productPO.getTenantId());
+        Product product=new Product(productId,tenantId,new Name(productPO.getName()));
         //设置相册
         List<ProductImageEntity> urls = getProductImageByProductId(productId);
         product.setProductImages(urls);
 
         product.setId(productId);
 
-        Remark remark = new Remark(productDO.getRemark());
-        Tag tag = new Tag(productDO.getTag());
-        BrandId brandId = new BrandId(productDO.getBrandId());
-        CategoryName firstCategory = new CategoryName(productDO.getFirstCategory());
-        CategoryName secondCategory = new CategoryName(productDO.getSecondCategory());
-        CategoryName thirdCategory = new CategoryName(productDO.getThirdCategory());
-        CustomClassificationId customClassificationId = new CustomClassificationId(productDO.getCustomClassificationId());
-        Newest newest = new Newest(productDO.getNewFlag());
+        Remark remark = new Remark(productPO.getRemark());
+        Tag tag = new Tag(productPO.getTag());
+        BrandId brandId = new BrandId(productPO.getBrandId());
+        CategoryName firstCategory = new CategoryName(productPO.getFirstCategory());
+        CategoryName secondCategory = new CategoryName(productPO.getSecondCategory());
+        CategoryName thirdCategory = new CategoryName(productPO.getThirdCategory());
+        CustomClassificationId customClassificationId = new CustomClassificationId(productPO.getCustomClassificationId());
+        Newest newest = new Newest(productPO.getNewFlag());
         Explosives explosives = null;
-        if(productDO.getExplosivesFlag()){
-            explosives= new Explosives(productDO.getExplosivesFlag(),productDO.getExplosivesImage());
+        if(productPO.getExplosivesFlag()){
+            explosives= new Explosives(productPO.getExplosivesFlag(), productPO.getExplosivesImage());
         }
 
-        Recommend recommend = new Recommend(productDO.getRecommendFlag());
-        Open open = new Open(productDO.getPublicFlag());
-        OnshelfStatus onshelfStatus = new OnshelfStatus(productDO.getOnshelfStatus());
-        Enable enable = new Enable(productDO.getEnabledFlag());
-        Video video = new Video(productDO.getVideoUrl(),productDO.getVideoImg()
-                ,productDO.getInstallVideoUrl(),productDO.getInstallVideoImg());
+        Recommend recommend = new Recommend(productPO.getRecommendFlag());
+        Open open = new Open(productPO.getPublicFlag());
+        OnshelfStatus onshelfStatus = new OnshelfStatus(productPO.getOnshelfStatus());
+        Enable enable = new Enable(productPO.getEnabledFlag());
+        Video video = new Video(productPO.getVideoUrl(), productPO.getVideoImg()
+                , productPO.getInstallVideoUrl(), productPO.getInstallVideoImg());
 
         product.setRemark(remark);
         product.setTag(tag);

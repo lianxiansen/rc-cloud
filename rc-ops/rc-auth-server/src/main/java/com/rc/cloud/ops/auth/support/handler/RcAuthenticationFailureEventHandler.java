@@ -81,7 +81,7 @@ public class RcAuthenticationFailureEventHandler implements AuthenticationFailur
 
 		// 手机号登录
 		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-		if (SecurityConstants.APP.equals(grantType)) {
+		if (SecurityConstants.MOBILE.equals(grantType)) {
 			errorMessage = MsgUtils.getSecurityMessage("AbstractUserDetailsAuthenticationProvider.smsBadCredentials");
 		}
 

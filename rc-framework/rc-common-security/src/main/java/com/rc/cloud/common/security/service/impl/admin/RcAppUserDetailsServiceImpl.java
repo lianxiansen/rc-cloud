@@ -67,7 +67,7 @@ public class RcAppUserDetailsServiceImpl extends AbstractRcUserDetailsServiceImp
 	 */
 	@Override
 	public boolean support(String clientId, String grantType) {
-		return ADMIN_CLIENT_NAME.equals(clientId)  && SecurityConstants.APP.equals(grantType);
+		return ADMIN_CLIENT_NAME.equals(clientId)  && SecurityConstants.MOBILE.equals(grantType);
 	}
 
 }

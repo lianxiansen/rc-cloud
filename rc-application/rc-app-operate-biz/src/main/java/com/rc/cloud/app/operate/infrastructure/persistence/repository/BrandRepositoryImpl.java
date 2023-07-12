@@ -6,7 +6,7 @@ import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.BrandConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.BrandMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.BrandDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.BrandPO;
 import com.rc.cloud.common.core.pojo.PageParam;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
@@ -26,8 +26,8 @@ public class BrandRepositoryImpl implements BrandRepository {
 
     @Override
     public boolean save(Brand brand) {
-        BrandDO brandDO = BrandConvert.convert2BrandPO(brand);
-        return brandMapper.insert(brandDO) > 0;
+        BrandPO brandPO = BrandConvert.convert2BrandPO(brand);
+        return brandMapper.insert(brandPO) > 0;
     }
 
     @Override
@@ -54,9 +54,9 @@ public class BrandRepositoryImpl implements BrandRepository {
         PageParam pageParam = new PageParam();
         pageParam.setPageNo(pageNo);
         pageParam.setPageSize(pageSize);
-        LambdaQueryWrapperX<BrandDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(BrandDO::getName, name);
-        PageResult<BrandDO> brandDOPageResult = brandMapper.selectPage(pageParam, wrapper);
+        LambdaQueryWrapperX<BrandPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(BrandPO::getName, name);
+        PageResult<BrandPO> brandDOPageResult = brandMapper.selectPage(pageParam, wrapper);
         return BrandConvert.convert2BrandPageResult(brandDOPageResult);
     }
 }

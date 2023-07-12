@@ -34,14 +34,6 @@ public class ProductController {
     }
 
 
-    @PostMapping("copy")
-    @Operation(summary = "拷贝产品")
-    public CodeResult<Long> copyProduct(@Valid @RequestBody ProductCopyDTO productCopyDTO) {
-        //productApplicationService.copyProduct(productCopyDTO);
-        return CodeResult.ok();
-    }
-
-
 
     @PostMapping("edit")
     @Operation(summary = "修改产品")

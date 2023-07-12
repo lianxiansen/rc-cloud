@@ -7,43 +7,34 @@ import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-
-/**
- * 自定义分类
- */
-@TableName("custom_classification")
+@TableName("platform_product_category")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CustomClassificationDO  extends BaseDO {
+public class PlatformProductCategoryPO extends BaseDO {
 
 
-    private static final long serialVersionUID = 23434L;
+    private static final long serialVersionUID = 3452342L;
 
     @TableField("id")
     private Long Id;
-    /**
-     * 租户id
-     */
-    @TableField("tenant_id")
-    private Long tenantId;
 
     @TableField("name")
     private String name;
 
-    @TableField("custom_classification_image")
-    private String customClassificationImage;
+    @TableField("icon")
+    private String icon;
 
-    @TableField("product_poster")
-    private String productPoster;
+    @TableField("parent_id")
+    private Integer parentId;
 
-    @TableField("custom_classification_poster")
-    private String customClassificationPoster;
+    @TableField("layer")
+    private Integer layer;
 
     @TableField("enabled_flag")
     private Boolean enabledFlag;
 
-
     @TableField("sort_id")
     private Integer sortId;
+
 
 }

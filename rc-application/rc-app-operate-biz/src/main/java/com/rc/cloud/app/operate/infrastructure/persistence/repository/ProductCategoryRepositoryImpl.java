@@ -10,7 +10,7 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductCategoryDOConvert;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductCategoryMapper;
 import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductMapper;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryDO;
+import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductCategoryPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.stereotype.Repository;
 
@@ -41,7 +41,7 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
      */
     @Override
     public List<ProductCategory> getFirstList(Locked locked, Layer layer, Parent parent) {
-        QueryWrapper<ProductCategoryDO> wrapper = new QueryWrapper<>();
+        QueryWrapper<ProductCategoryPO> wrapper = new QueryWrapper<>();
         wrapper.eq("IsLock", locked.getFlag());
         wrapper.eq("Layer", layer.getValue());
         wrapper.eq("ParentID", parent.getId());
@@ -61,27 +61,27 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
 
     @Override
     public ProductCategory findById(ProductCategoryId productCategoryId) {
-        LambdaQueryWrapperX<ProductCategoryDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductCategoryDO::getId, productCategoryId.id());
-        ProductCategoryDO productCategoryDO = this.productCategoryMapper.selectOne(wrapper);
-        return convert2ProductCategoryAggregation(productCategoryDO);
+        LambdaQueryWrapperX<ProductCategoryPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductCategoryPO::getId, productCategoryId.id());
+        ProductCategoryPO productCategoryPO = this.productCategoryMapper.selectOne(wrapper);
+        return convert2ProductCategoryAggregation(productCategoryPO);
     }
 
     @Override
     public List<ProductCategory> findAll() {
-        LambdaQueryWrapperX<ProductCategoryDO> wrapper = new LambdaQueryWrapperX<>();
-        List<ProductCategoryDO> list = this.productCategoryMapper.selectList(wrapper);
+        LambdaQueryWrapperX<ProductCategoryPO> wrapper = new LambdaQueryWrapperX<>();
+        List<ProductCategoryPO> list = this.productCategoryMapper.selectList(wrapper);
         List<ProductCategory> resultList=new ArrayList<>();
-        list.forEach(productCategoryDO->{
-            resultList.add(convert2ProductCategoryAggregation(productCategoryDO));
+        list.forEach(productCategoryPO ->{
+            resultList.add(convert2ProductCategoryAggregation(productCategoryPO));
         });
         return resultList;
     }
 
     @Override
     public boolean save(ProductCategory productCategory) {
-        ProductCategoryDO productCategoryDO = ProductCategoryDOConvert.convert2ProductCategoryDO(productCategory);
-        if(this.productCategoryMapper.insert(productCategoryDO)>0){
+        ProductCategoryPO productCategoryPO = ProductCategoryDOConvert.convert2ProductCategoryDO(productCategory);
+        if(this.productCategoryMapper.insert(productCategoryPO)>0){
             return true;
         }
         return false;
@@ -100,30 +100,30 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
         return false;
     }
 
+
     @Override
-    public boolean existsChild(ProductCategoryId productCategoryId) {
-        LambdaQueryWrapperX<ProductCategoryDO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductCategoryDO::getParentId, productCategoryId.id());
+    public boolean existsByParentId(ProductCategoryId productCategoryId) {
+        LambdaQueryWrapperX<ProductCategoryPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductCategoryPO::getParentId, productCategoryId.id());
         return this.productCategoryMapper.exists(wrapper);
     }
-
     /**
      * 持久化对象转领域对象
-     * @param productCategoryDO
+     * @param productCategoryPO
      * @return
      */
-    private ProductCategory convert2ProductCategoryAggregation(ProductCategoryDO productCategoryDO ){
-        ProductCategoryId id = new ProductCategoryId(productCategoryDO.getId());
-        TenantId tenantId = new TenantId(productCategoryDO.getTenantId());
-        ChName name = new ChName(productCategoryDO.getName());
+    private ProductCategory convert2ProductCategoryAggregation(ProductCategoryPO productCategoryPO){
+        ProductCategoryId id = new ProductCategoryId(productCategoryPO.getId());
+        TenantId tenantId = new TenantId(productCategoryPO.getTenantId());
+        ChName name = new ChName(productCategoryPO.getName());
         ProductCategory productCategory = new ProductCategory(id, tenantId, name);
-        productCategory.setEnName(new EnName(productCategoryDO.getEnglishName()));
-        productCategory.setIcon(new Icon(productCategoryDO.getIcon()));
-        productCategory.setEnabled(new Enabled(productCategoryDO.getEnabledFlag()));
-        productCategory.setPage(new Page(productCategoryDO.getProductCategoryPageImage(), productCategoryDO.getProductListPageImage()));
-        productCategory.setSort(new Sort(productCategoryDO.getSortId()));
-        if(null!=productCategoryDO.getParentId()){
-            productCategory.setParentId(new ProductCategoryId(productCategoryDO.getParentId()));
+        productCategory.setEnName(new EnName(productCategoryPO.getEnglishName()));
+        productCategory.setIcon(new Icon(productCategoryPO.getIcon()));
+        productCategory.setEnabled(new Enabled(productCategoryPO.getEnabledFlag()));
+        productCategory.setPage(new Page(productCategoryPO.getProductCategoryPageImage(), productCategoryPO.getProductListPageImage()));
+        productCategory.setSort(new Sort(productCategoryPO.getSortId()));
+        if(null!= productCategoryPO.getParentId()){
+            productCategory.setParentId(new ProductCategoryId(productCategoryPO.getParentId()));
         }
         return productCategory;
     }

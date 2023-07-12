@@ -2,17 +2,16 @@ package com.rc.cloud.app.operate.infrastructure.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDateTime;
-
-@TableName("product_operate")
+@TableName("attribute_value")
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class ProductOperateDO {
+@EqualsAndHashCode(callSuper = true)
+public class AttributeValuePO extends BaseDO {
 
-    private static final long serialVersionUID = 256345L;
+    private static final long serialVersionUID = 2453461L;
 
     @TableField("id")
     private Long Id;
@@ -20,16 +19,12 @@ public class ProductOperateDO {
     @TableField("tenant_id")
     private Long tenantId;
 
-    @TableField("product_id")
-    private Long productId;
+    @TableField("attribute_id")
+    private Long attributeId;
 
     @TableField("name")
     private String name;
 
-    @TableField("ip")
-    private String ip;
-
-    @TableField("operate_time")
-    private LocalDateTime operateTime;
-
+    @TableField("sort_id")
+    private Integer sortId;
 }

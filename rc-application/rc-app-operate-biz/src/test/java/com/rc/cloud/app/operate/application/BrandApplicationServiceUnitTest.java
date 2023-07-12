@@ -10,7 +10,7 @@ import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.valobj.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.service.BrandDomainService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.TenantContext;

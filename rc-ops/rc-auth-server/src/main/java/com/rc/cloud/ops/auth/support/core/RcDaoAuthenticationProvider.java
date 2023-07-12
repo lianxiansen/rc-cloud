@@ -73,7 +73,7 @@ public class RcDaoAuthenticationProvider extends AbstractUserDetailsAuthenticati
 		if (WebFrameworkUtils.getRequest().isPresent()) {
 			grantType = WebFrameworkUtils.getRequest().get().getParameter(OAuth2ParameterNames.GRANT_TYPE);
 		}
-		if (StrUtil.equals(SecurityConstants.APP, grantType)) {
+		if (StrUtil.equals(SecurityConstants.MOBILE, grantType)) {
 			return;
 		}
 

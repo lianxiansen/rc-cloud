@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @TableName("product_sku")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductSkuDO extends BaseDO {
+public class ProductSkuPO extends BaseDO {
 
 
     private static final long serialVersionUID = 23523L;

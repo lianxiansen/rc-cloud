@@ -28,7 +28,7 @@ public class RcAppDistributorUserDetailsServiceImpl extends AbstractRcDistributo
     @Override
     public boolean support(String clientId, String grantType) {
 
-        return DISTRIBUTOR_APP_NAME.equals(clientId) && SecurityConstants.APP.equals(grantType);
+        return DISTRIBUTOR_APP_NAME.equals(clientId) && SecurityConstants.MOBILE.equals(grantType);
     }
 
 }
