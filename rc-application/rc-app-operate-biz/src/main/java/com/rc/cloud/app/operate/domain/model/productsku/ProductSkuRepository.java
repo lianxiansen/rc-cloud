@@ -21,11 +21,11 @@ public interface ProductSkuRepository {
 
     int removeProductSkuImageByProductSkuId(ProductSkuId productSkuId);
 
-    int insertProductSkuImage(ProductSkuImage productSkuImage);
+    int batchSaveProductSkuImage(ProductSku productSku);
 
     int removeProductSkuAttributeByProductSkuId(ProductSkuId productSkuId);
 
-    int insertProductSkuAttribute(ProductSkuAttribute productSkuAttribute);
+    int insertProductSkuAttribute(ProductSku productSku);
 
     List<ProductSku> getProductSkuListByProductId(ProductId productId);
 

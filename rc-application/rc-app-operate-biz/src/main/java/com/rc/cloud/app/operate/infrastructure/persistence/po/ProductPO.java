@@ -25,7 +25,7 @@ public class ProductPO extends BaseDO {
 
     private static final long serialVersionUID = 14345345L;
     @TableField("id")
-    private String Id;
+    private String id;
     /**
      * 租户id
      */
@@ -61,9 +61,6 @@ public class ProductPO extends BaseDO {
      */
     @TableField("spu_code")
     private String spuCode;
-
-    @TableField("master_image")
-    private String masterImage;
 
     /**
      * 商品来源，0：ffcat

@@ -15,85 +15,80 @@ import org.mapstruct.factory.Mappers;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ProductSkuConvert {
-
-
-//    private ProductSku convert2ProductSkuEntity(ProductSkuPO productSkuPO){
-//        ProductId productId=new ProductId(productSkuPO.getProductId());
-//        ProductSkuId id = nextId();
-//        TenantId tenantId = new TenantId(productSkuPO.getTenantId());
-//        Price price=new Price();
-//        price.setValue(productSkuPO.getPrice());
-//        ProductSku productSku=new ProductSku(id,productId,tenantId, price);
-//        //秒杀信息
-//        SeckillSku seckillSku=new SeckillSku();
-//        seckillSku.setSeckillInventory(new Inventory(productSkuPO.getSeckillInventory()));
-//        seckillSku.setSeckillPrice(new Price(productSkuPO.getPrice()));
-//        seckillSku.setSeckillTotalInventory(new TotalInventory(productSkuPO.getSeckillTotalInventory()));
-//        seckillSku.setSeckillLimitBuy(new LimitBuy(productSkuPO.getSeckillLimitBuy()));
-//        productSku.setSeckillSku(seckillSku);
-//        productSku.setInventory(new Inventory(productSkuPO.getInventory()));
-//        productSku.setLimitBuy(new LimitBuy(productSkuPO.getLimitBuy()));
-//        productSku.setOutId(new OutId(productSkuPO.getOutId()));
-//        productSku.setSupplyPrice(new SupplyPrice(productSkuPO.getSupplyPrice()));
-//        productSku.setWeight(new Weight(productSkuPO.getWeight()));
-//        return productSku;
-//    }
+public class ProductSkuConvert {
     
-    ProductSkuConvert INSTANCE = Mappers.getMapper(ProductSkuConvert.class);
 
-    ProductSku convert(ProductSkuPO productPO);
+    public static ProductSku convert(ProductSkuPO po){
+        ProductId productId=new ProductId(po.getProductId());
+        ProductSkuId id = new ProductSkuId(po.getId());
+        TenantId tenantId = new TenantId(po.getTenantId());
+        Price price=new Price();
+        price.setValue(po.getPrice());
+        ProductSku productSku=new ProductSku(id,productId,tenantId, price);
+        //秒杀信息
+        SeckillSku seckillSku=new SeckillSku();
+        seckillSku.setSeckillInventory(new Inventory(po.getSeckillInventory()));
+        seckillSku.setSeckillPrice(new Price(po.getPrice()));
+        seckillSku.setSeckillTotalInventory(new TotalInventory(po.getSeckillTotalInventory()));
+        seckillSku.setSeckillLimitBuy(new LimitBuy(po.getSeckillLimitBuy()));
+        productSku.setSeckillSku(seckillSku);
+        productSku.setInventory(new Inventory(po.getInventory()));
+        productSku.setLimitBuy(new LimitBuy(po.getLimitBuy()));
+        productSku.setOutId(new OutId(po.getOutId()));
+        productSku.setSupplyPrice(new SupplyPrice(po.getSupplyPrice()));
+        productSku.setWeight(new Weight(po.getWeight()));
+        return productSku;
+    }
 
-    ProductSkuPO convert(ProductSku product);
+    public static ProductSkuPO convert(ProductSku productSku){
+        ProductSkuPO po=new ProductSkuPO();
+        po.setId(productSku.getId().id());
+        po.setProductId(productSku.getProductId().id());
+        po.setTenantId(productSku.getTenantId().id());
+        if(productSku.getSkuCode()!=null){
+            po.setSkuCode(productSku.getSkuCode());
+        }
+        if(productSku.getPrice()!=null){
+            po.setPrice(productSku.getPrice().getValue());
+        }
+        if(productSku.getInventory()!=null){
+            po.setInventory(productSku.getInventory().getValue());
+        }
+        if(productSku.getLimitBuy()!=null){
+            po.setLimitBuy(productSku.getLimitBuy().getValue());
+        }
+        if(productSku.getOutId()!=null){
+            po.setOutId(productSku.getOutId().getValue());
+        }
+        if(productSku.getSupplyPrice()!=null){
+            po.setSupplyPrice(productSku.getSupplyPrice().getValue());
+        }
+        if(productSku.getWeight()!=null){
+            po.setWeight(productSku.getWeight().getValue());
+        }
+        if(productSku.getSeckillSku()!=null){
+            po.setSeckillInventory(productSku.getSeckillSku().getSeckillInventory().getValue());
+            po.setSeckillPrice(productSku.getSeckillSku().getSeckillPrice().getValue());
+            po.setSeckillLimitBuy(productSku.getSeckillSku().getSeckillLimitBuy().getValue());
+            po.setSeckillTotalInventory(productSku.getSeckillSku().getSeckillTotalInventory().getValue());
+        }
+        return po;
+    }
 
-    List<ProductSku> convertList(List<ProductSkuPO> list);
+    public static List<ProductSku> convertList(List<ProductSkuPO> list){
+        List<ProductSku> resList =new ArrayList<>();
+        if(list!=null){
+            list.forEach(x-> resList.add(convert(x)));
+        }
+        return  resList;
+    }
 
-//    public static ProductSkuPO convert2ProductSkuDO(ProductSku productSku) {
-//        ProductSkuPO target=new ProductSkuPO();
-//
-//        target.setId(productSku.getId().id());
-//        target.setProductId(productSku.getProductId().id());
-//        target.setTenantId(productSku.getTenantId().id());
-//        if(productSku.getSkuCode()!=null){
-//            target.setSkuCode(productSku.getSkuCode());
-//        }
-//        if(productSku.getPrice()!=null){
-//            target.setPrice(productSku.getPrice().getValue());
-//        }
-//        if(productSku.getInventory()!=null){
-//            target.setInventory(productSku.getInventory().getValue());
-//        }
-//        if(productSku.getLimitBuy()!=null){
-//            target.setLimitBuy(productSku.getLimitBuy().getValue());
-//        }
-//        if(productSku.getOutId()!=null){
-//            target.setOutId(productSku.getOutId().getValue());
-//        }
-//        if(productSku.getSupplyPrice()!=null){
-//            target.setSupplyPrice(productSku.getSupplyPrice().getValue());
-//        }
-//        if(productSku.getWeight()!=null){
-//            target.setWeight(productSku.getWeight().getValue());
-//        }
-//        if(productSku.getSeckillSku()!=null){
-//            target.setSeckillInventory(productSku.getSeckillSku().getSeckillInventory().getValue());
-//            target.setSeckillPrice(productSku.getSeckillSku().getSeckillPrice().getValue());
-//            target.setSeckillLimitBuy(productSku.getSeckillSku().getSeckillLimitBuy().getValue());
-//            target.setSeckillTotalInventory(productSku.getSeckillSku().getSeckillTotalInventory().getValue());
-//        }
-//        return target;
-//    }
-//
+
 //
 //    public static ProductSkuPO convert2ProductSkuDO(
 //            String productSkuId, String tenantId, ProductSku productSku){
-//        ProductSkuPO productSkuPO =new ProductSkuPO();
-//        String attr = JSON.toJSONString(productSku.getSkus());
-//        productSkuPO.setId(productSku.getId());
-//        productSkuPO.setProductSkuId(productSkuId);
-//        productSkuPO.setTenantId(tenantId);
-//        productSkuPO.setContent(attr);
-//        return productSkuPO;
+
+//        return po;
 //    }
 //
 //

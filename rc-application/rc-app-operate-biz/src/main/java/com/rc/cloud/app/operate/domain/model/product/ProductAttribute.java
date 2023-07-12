@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.domain.model.product.valobj.Attribute;
 import com.rc.cloud.app.operate.domain.model.product.valobj.AttributeValue;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -16,18 +17,12 @@ import java.util.TreeSet;
 public class ProductAttribute extends Entity {
 
 
-    public ProductAttribute(String id, ProductId productId, TenantId tenantId) {
+    public ProductAttribute(String id) {
         this.id = id;
-        this.productId = productId;
-        this.tenantId = tenantId;
         this.attributes = new TreeSet<>();
     }
 
     private String id;
-
-    private ProductId productId;
-
-    private TenantId tenantId;
 
     private SortedSet<Attribute> attributes;
 
@@ -51,6 +46,19 @@ public class ProductAttribute extends Entity {
         }else{
             Attribute attribute1 = first.get();
             attribute1.addValue(new AttributeValue(value,sort));
+        }
+    }
+
+    /**
+     * 批量添加产品的属性
+     * @param attributeList
+     */
+    public void addAttributeList(List<Attribute> attributeList){
+        this.assertArgumentNotNull(attributeList,"attributeList must not be null");
+        for (Attribute attribute : attributeList) {
+            for (AttributeValue value : attribute.getValues()) {
+                addAttribute(attribute.getAttribute(),value.getAttributeValue(),value.getSort());
+            }
         }
     }
 

@@ -44,6 +44,10 @@ public class Product extends Entity {
 
     private List<ProductImage> productImages;
 
+    public List<ProductImage> getProductImages() {
+        return productImages;
+    }
+
     public Product clone(ProductId id){
 
 

@@ -76,17 +76,20 @@ public class ProductRepositoryImpl implements  ProductRepository {
         return productImageMapper.delete(wrapper);
     }
 
-    @Override
-    public int insertProductImage(ProductImage productImage) {
-        ProductImagePO productImagePO = ProductImageConvert.INSTANCE.convert(productImage);
-        return this.productImageMapper.insert(productImagePO);
-    }
 
     @Override
-    public int batchSaveProductImage(List<ProductImage> productImageList) {
-        productImageList.forEach(
-                x-> insertProductImage(x)
-        );
+    public int batchSaveProductImage(Product product) {
+        List<ProductImage> productImageList =product.getProductImages();
+        if(productImageList!=null && productImageList.size()>0){
+            productImageList.forEach(
+                    x-> {
+                        ProductImagePO productImagePO = ProductImageConvert.INSTANCE.convert(x);
+                        productImagePO.setTenantId(product.getTenantId().id());
+                        productImagePO.setProductId(product.getId().id());
+                        this.productImageMapper.insert(productImagePO);
+                    }
+            );
+        }
         return 1;
     }
 
@@ -96,7 +99,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductAttributePO>();
         LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductAttributePO::getProductId, productId.id());
-        return ProductAttributeConvert.INSTANCE.convert(this.productAttributeMapper.selectOne(wrapper));
+        return ProductAttributeConvert.convert(this.productAttributeMapper.selectOne(wrapper));
 
     }
 
@@ -108,8 +111,11 @@ public class ProductRepositoryImpl implements  ProductRepository {
     }
 
     @Override
-    public int insertProductAttribute(ProductAttribute productAttribute) {
-        ProductAttributePO productAttributePO = ProductAttributeConvert.INSTANCE.convert(productAttribute);
+    public int insertProductAttribute(Product product) {
+        ProductAttribute productAttribute = product.getProductAttribute();
+        ProductAttributePO productAttributePO = ProductAttributeConvert.convert(productAttribute);
+        productAttributePO.setProductId(product.getId().id());
+        productAttributePO.setTenantId(product.getTenantId().id());
         return this.productAttributeMapper.insert(productAttributePO);
     }
 
@@ -118,7 +124,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         if(exist(product.getId())){
             throw new IllegalArgumentException("该商品已存在");
         }
-        ProductPO productPO = ProductConvert.INSTANCE.convert(product);
+        ProductPO productPO = ProductConvert.convert(product);
         return this.productMapper.insert(productPO);
     }
 
@@ -129,7 +135,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         }
         LambdaQueryWrapperX<ProductPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductPO::getId, product.getId().id());
-        ProductPO productPO = ProductConvert.INSTANCE.convert(product);
+        ProductPO productPO = ProductConvert.convert(product);
         return this.productMapper.update(productPO,wrapper);
     }
 
@@ -137,7 +143,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
     public Product findById(ProductId productId) {
         LambdaQueryWrapperX<ProductPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductPO::getId, productId.id());
-        return ProductConvert.INSTANCE.convert(this.productMapper.selectOne(wrapper));
+        return ProductConvert.convert(this.productMapper.selectOne(wrapper));
     }
 
     @Override
@@ -152,7 +158,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         PageResult<Product> productPageResult=new PageResult<>();
         PageResult<ProductPO> productDOPageResult = productMapper.selectPage(query);
         productPageResult.setTotal(productDOPageResult.getTotal());
-        List<Product> productList= ProductConvert.INSTANCE.convertList(productDOPageResult.getList());
+        List<Product> productList= ProductConvert.convertList(productDOPageResult.getList());
         productPageResult.setList(productList);
         return productPageResult;
     }

@@ -27,15 +27,14 @@ public interface ProductRepository {
 
     int removeProductImageByProductId(ProductId productId);
 
-    int insertProductImage(ProductImage productImage);
 
-    int batchSaveProductImage(List<ProductImage> productImageList);
+    int batchSaveProductImage(Product product);
 
     ProductAttribute getProductAttributeByProductId(ProductId productId);
 
     int removeProductAttributeByProductId(ProductId productId);
 
-    int insertProductAttribute(ProductAttribute productAttribute);
+    int insertProductAttribute(Product product);
 
     int insertProduct(Product product);
 
