@@ -118,13 +118,5 @@ public class OauthClientDetailsController {
 //		return CodeResult.ok();
 //	}
 
-	@Inner
-	@GetMapping("/getClientDetailsById/{clientId}")
-	public CodeResult<SysOauthClientDetailsVO> getClientDetailsById(@PathVariable String clientId) {
-		SysOauthClientDetailsPO sysOauthClientDetailsPO = oauthClientDetailsService.getOne(
-				Wrappers.<SysOauthClientDetailsPO>lambdaQuery().eq(SysOauthClientDetailsPO::getClientId, clientId));
-		SysOauthClientDetailsVO sysOauthClientDetailsVO = new SysOauthClientDetailsVO();
-		BeanUtils.copyProperties(sysOauthClientDetailsPO, sysOauthClientDetailsVO);
-		return CodeResult.ok(sysOauthClientDetailsVO);
-	}
+
 }
