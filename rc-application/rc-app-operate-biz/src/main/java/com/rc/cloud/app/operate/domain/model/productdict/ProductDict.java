@@ -2,10 +2,15 @@ package com.rc.cloud.app.operate.domain.model.productdict;
 
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductDictId;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.Entity;
 
 public class ProductDict {
 
+    private ProductId productId;
+
+    private TenantId tenantId;
 
     private String id;
     public ProductDict(String id) {
@@ -45,5 +50,21 @@ public class ProductDict {
 
     public String getId() {
         return id;
+    }
+
+    public ProductId getProductId() {
+        return productId;
+    }
+
+    public void setProductId(ProductId productId) {
+        this.productId = productId;
+    }
+
+    public TenantId getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(TenantId tenantId) {
+        this.tenantId = tenantId;
     }
 }
