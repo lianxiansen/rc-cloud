@@ -8,6 +8,7 @@ import com.rc.cloud.app.distributor.infrastructure.config.DistributorAutoConfig;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
+import com.rc.cloud.app.system.api.user.feign.RemoteUserService;
 import com.rc.cloud.common.mybatis.core.query.MPJLambdaWrapperX;
 import com.rc.cloud.common.mybatis.core.util.MyBatisUtils;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
@@ -15,6 +16,7 @@ import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -41,6 +43,7 @@ class DistributorApplicationTests{
 
     @Autowired
     DistributorContactService contactService;
+
     @Test
     void contextLoads() {
         TenantContextHolder.setTenantId("1");

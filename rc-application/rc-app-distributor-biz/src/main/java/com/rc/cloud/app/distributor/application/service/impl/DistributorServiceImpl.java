@@ -67,8 +67,8 @@ public class DistributorServiceImpl implements DistributorService {
         List<DistributorContactPO> contactDOList = DistributorContactConvert.INSTANCE.convertList(createReqVO.getContacts());
 
         if (contactDOList.size() > 0) {
-            List<String> names = contactDOList.stream().map(x -> x.getName()).distinct().collect(Collectors.toList());
-            List<String> mobiles = contactDOList.stream().map(x -> x.getMobile()).distinct().collect(Collectors.toList());
+            List<String> names = contactDOList.stream().map(DistributorContactPO::getName).distinct().collect(Collectors.toList());
+            List<String> mobiles = contactDOList.stream().map(DistributorContactPO::getMobile).distinct().collect(Collectors.toList());
             distributorPO.setContact(StringUtils.join(names, ","));
             distributorPO.setMobile(StringUtils.join(mobiles, ","));
         }
@@ -96,8 +96,8 @@ public class DistributorServiceImpl implements DistributorService {
         List<DistributorContactPO> contacts = DistributorContactConvert.INSTANCE.convertList2(updateReqVO.getContacts());
 
         if (contacts.size() > 0) {
-            List<String> names = contacts.stream().map(x -> x.getName()).distinct().collect(Collectors.toList());
-            List<String> mobiles = contacts.stream().map(x -> x.getMobile()).distinct().collect(Collectors.toList());
+            List<String> names = contacts.stream().map(DistributorContactPO::getName).distinct().collect(Collectors.toList());
+            List<String> mobiles = contacts.stream().map(DistributorContactPO::getMobile).distinct().collect(Collectors.toList());
             updateObj.setContact(StringUtils.join(names, ","));
             updateObj.setMobile(StringUtils.join(mobiles, ","));
         }
@@ -107,7 +107,7 @@ public class DistributorServiceImpl implements DistributorService {
         Wrapper<DistributorDetailPO> detailDOQueryWrapper = new QueryWrapper<DistributorDetailPO>().lambda()
                 .eq(DistributorDetailPO::getDistributorId, updateReqVO.getId());
         DistributorDetailPO detailDO = detailMapper.selectOne(detailDOQueryWrapper);
-        if (detailDO == null) {//如果存在原有记录
+        if (detailDO == null) { //如果存在原有记录
             //插入明细表
             detailObj = new DistributorDetailPO();
             detailObj.setDistributorId(updateReqVO.getId());
@@ -210,13 +210,4 @@ public class DistributorServiceImpl implements DistributorService {
         return mapper.selectList(exportReqVO);
     }
 
-    /**
-     * 对密码进行加密
-     *
-     * @param password 密码
-     * @return 加密后的密码
-     */
-    private String encodePassword(String password) {
-        return webPasswordEncoder.encode(password);
-    }
 }

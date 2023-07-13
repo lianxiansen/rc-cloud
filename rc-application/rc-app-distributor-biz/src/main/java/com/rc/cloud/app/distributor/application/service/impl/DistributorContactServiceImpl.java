@@ -39,9 +39,9 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
     @Transactional
     public void updateContacts(String distributorId, List<DistributorContactPO> contactDOS) {
         //需要更新的数据
-        List<String> newMobiles = contactDOS.stream().map(x -> x.getMobile()).collect(Collectors.toList());
+        List<String> newMobiles = contactDOS.stream().map(DistributorContactPO::getMobile).collect(Collectors.toList());
         //如果联系方式重复，则抛出异常
-        if (newMobiles.stream().count() != newMobiles.stream().distinct().count()) {
+        if (newMobiles.size() != newMobiles.stream().distinct().count()) {
             throw exception(DistributorErrorCodeConstants.DISTRIBUTOR_CONTACT_PHONE_DUPLICATE);
         }
         //如果联系方式已被绑定，抛出异常
@@ -53,11 +53,11 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
 
         //已存在的数据
         List<DistributorContactPO> allDOList = contactMapper.selectList(DistributorContactPO::getDistributorId, distributorId);
-        List<String> oldMobiles = allDOList.stream().map(x -> x.getMobile()).collect(Collectors.toList());
+        List<String> oldMobiles = allDOList.stream().map(DistributorContactPO::getMobile).collect(Collectors.toList());
 
         //删除旧联系人的数据
         List<String> olddata = ListUtils.subtract(oldMobiles, newMobiles);
-        if (olddata.stream().count() > 0) {
+        if (olddata.size() > 0) {
             contactMapper.delete(new LambdaQueryWrapperX<DistributorContactPO>()
                     .in(DistributorContactPO::getMobile, olddata)
                     .and(wq -> wq.eq(DistributorContactPO::getDistributorId, distributorId))
@@ -87,18 +87,16 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
     @Override
     public void updatePassword(DistributorContactUpdatePasswordReqVO updatePasswordReqVO) {
         DistributorContactPO contactDO = getBaseMapper().selectById(updatePasswordReqVO.getId());
-        System.out.println(contactDO == null);
         contactDO.setPassword(encodePassword(updatePasswordReqVO.getPassword()));
         getBaseMapper().updateById(contactDO);
     }
 
     /*
-     * 重置密码，手机号后6位
+     * description 重置密码，手机号后6位
      */
     @Override
     public void resetPassword(String id) {
         DistributorContactPO contactDO = contactMapper.selectById(id);
-        System.out.println(contactDO == null);
         contactDO.setPassword(encodePassword(CommonUtil.getFinalMobile(contactDO.getMobile())));
         contactMapper.updateById(contactDO);
     }
