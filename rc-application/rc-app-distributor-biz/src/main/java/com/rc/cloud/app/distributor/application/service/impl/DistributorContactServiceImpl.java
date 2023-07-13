@@ -26,7 +26,8 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  * @description TODO
  */
 @Service
-public class DistributorContactServiceImpl extends ServiceImpl<DistributorContactMapper, DistributorContactPO> implements DistributorContactService {
+public class DistributorContactServiceImpl extends ServiceImpl<DistributorContactMapper, DistributorContactPO>
+        implements DistributorContactService {
 
     @Resource
     private DistributorContactMapper contactMapper;
@@ -34,8 +35,13 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
     @Autowired
     private PasswordEncoder webPasswordEncoder;
 
-    //批量更新经销商联系人
-    // 执行新增和删除。对于已经绑定的联系人，不做任何处理
+    /**
+     * 批量更新经销商联系人
+     * 执行新增和删除。对于已经绑定的联系人，不做任何处理
+     * @param distributorId 经销商id
+     * @param contactDOS 经销商联系人列表
+     * @return
+     * */
     @Transactional
     public void updateContacts(String distributorId, List<DistributorContactPO> contactDOS) {
         //需要更新的数据
@@ -76,7 +82,8 @@ public class DistributorContactServiceImpl extends ServiceImpl<DistributorContac
 
     @Override
     public List<DistributorContactPO> getByDistributorId(String distributorId) {
-        return contactMapper.selectList(new LambdaQueryWrapperX<DistributorContactPO>().eq(DistributorContactPO::getDistributorId, distributorId));
+        return contactMapper.selectList(new LambdaQueryWrapperX<DistributorContactPO>()
+                .eq(DistributorContactPO::getDistributorId, distributorId));
     }
 
     @Override
