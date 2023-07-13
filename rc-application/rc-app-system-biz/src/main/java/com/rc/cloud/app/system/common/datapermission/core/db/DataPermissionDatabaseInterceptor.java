@@ -51,7 +51,8 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
     private final MappedStatementCache mappedStatementCache = new MappedStatementCache();
 
     @Override // SELECT 场景
-    public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) {
+    public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds,
+                            ResultHandler resultHandler, BoundSql boundSql) {
         // 获得 Mapper 对应的数据权限的规则
         List<DataPermissionRule> rules = ruleFactory.getDataPermissionRule(ms.getId());
         if (mappedStatementCache.noRewritable(ms, rules)) { // 如果无需重写，则跳过
@@ -146,6 +147,7 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
     }
 
     /**
+     * @param plainSelect plain选择
      * 处理 PlainSelect
      */
     protected void processPlainSelect(PlainSelect plainSelect) {
@@ -287,6 +289,7 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
     }
 
     /**
+     * @param fromItem fromItem
      * 处理子查询等
      */
     protected void processOtherFromItem(FromItem fromItem) {
@@ -334,7 +337,7 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
      *
      * @param mainTables 可以为 null
      * @param joins      join 集合
-     * @return List<Table> 右连接查询的 Table 列表
+     * @return 右连接查询的 Table 列表
      */
     private List<Table> processJoins(List<Table> mainTables, List<Join> joins) {
         // join 表达式中最终的主表
@@ -439,7 +442,8 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
      * 处理条件
      *
      * @param currentExpression 当前 where 条件
-     * @param table             单个表
+     * @param table 单个表
+     * @return Expression
      */
     protected Expression builderExpression(Expression currentExpression, Table table) {
         return this.builderExpression(currentExpression, Collections.singletonList(table));
@@ -450,6 +454,7 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
      *
      * @param currentExpression 当前 where 条件
      * @param tables 多个表
+     * @return Expression
      */
     protected Expression builderExpression(Expression currentExpression, List<Table> tables) {
         // 没有表需要处理直接返回

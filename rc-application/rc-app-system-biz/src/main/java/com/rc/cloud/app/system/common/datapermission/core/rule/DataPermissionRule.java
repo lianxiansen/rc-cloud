@@ -24,13 +24,13 @@ public interface DataPermissionRule {
      */
     Set<String> getTableNames();
 
-    /**
-     * 根据表名和别名，生成对应的 WHERE / OR 过滤条件
-     *
-     * @param tableName 表名
-     * @param tableAlias 别名，可能为空
-     * @return 过滤条件 Expression 表达式
-     */
+//    /**
+//     * 根据表名和别名，生成对应的 WHERE / OR 过滤条件
+//     *
+//     * @param tableName 表名
+//     * @param tableAlias 别名，可能为空
+//     * @return 过滤条件 Expression 表达式
+//     */
 //    Expression getExpression(String tableName, Alias tableAlias);
 
 }

@@ -10,9 +10,9 @@ import javax.annotation.Resource;
 import java.util.Collection;
 
 /**
- * 字典数据 API 实现类
- *
  * @author 芋道源码
+ * @date 2020/8/30 16:37
+ * @description 字典数据 API 实现类
  */
 @Service
 public class DictDataApiImpl implements DictDataApi {
