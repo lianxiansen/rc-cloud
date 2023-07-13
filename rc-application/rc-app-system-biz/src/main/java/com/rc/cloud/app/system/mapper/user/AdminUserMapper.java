@@ -3,6 +3,7 @@ package com.rc.cloud.app.system.mapper.user;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.vo.user.user.UserExportReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserPageReqVO;
@@ -37,24 +38,12 @@ public interface AdminUserMapper extends BaseMapperX<SysUserPO> {
             reqVO.setAsc(false);
         }
         QueryWrapper<SysUserPO> wrapper = new QueryWrapper<>();
-        if (StringUtil.isNotEmpty(reqVO.getUsername())) {
-            wrapper.lambda().like(SysUserPO::getUsername, reqVO.getUsername());
-        }
-        if (StringUtil.isNotEmpty(reqVO.getMobile())) {
-            wrapper.lambda().like(SysUserPO::getMobile, reqVO.getMobile());
-        }
-        if (reqVO.getStatus() != null) {
-            wrapper.lambda().eq(SysUserPO::getStatus, reqVO.getStatus());
-        }
-        if (reqVO.getSex() != null) {
-            wrapper.lambda().eq(SysUserPO::getSex, reqVO.getSex());
-        }
-        if (reqVO.getCreateTime() != null) {
-            wrapper.lambda().between(SysUserPO::getCreateTime, reqVO.getCreateTime()[0], reqVO.getCreateTime()[1]);
-        }
-        if (deptIds != null && deptIds.size() > 0) {
-            wrapper.lambda().in(SysUserPO::getDeptId, deptIds);
-        }
+        wrapper.lambda()
+                .like(StringUtil.isNotEmpty(reqVO.getUsername()), SysUserPO::getUsername, reqVO.getUsername())
+                .like(StringUtil.isNotEmpty(reqVO.getMobile()), SysUserPO::getMobile, reqVO.getMobile())
+                .eq(reqVO.getStatus() != null, SysUserPO::getStatus, reqVO.getStatus())
+                .eq(reqVO.getSex() != null, SysUserPO::getSex, reqVO.getSex())
+                .in(CollectionUtils.isNotEmpty(deptIds), SysUserPO::getDeptId, deptIds);
         wrapper.orderBy(true, reqVO.getAsc(), StrUtil.toUnderlineCase(reqVO.getOrder()));
         return selectPage(reqVO, wrapper);
     }
