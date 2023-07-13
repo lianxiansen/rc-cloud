@@ -1,5 +1,7 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.alibaba.fastjson.JSON;
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
@@ -62,6 +64,19 @@ public class ProductRepositoryImpl implements  ProductRepository {
     public ProductRepositoryImpl() {
     }
 
+    private boolean judgeAttributeChange(Product product){
+        ProductAttribute productAttribute = product.getProductAttribute();
+        ProductAttribute ori = getProductAttributeByProductId(product.getId());
+        String attr1 = JSON.toJSONString(productAttribute);
+        String attr2 = JSON.toJSONString(ori.getAttributes());
+        if(attr1.equals(attr2)){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+
     @Override
     public ProductId nextId() {
         return new ProductId(remoteIdGeneratorService.uidGenerator());
@@ -76,6 +91,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
     public String nextProductAttributeId() {
         return remoteIdGeneratorService.uidGenerator();
     }
+
 
     @Override
     public List<ProductImage> getProductImageByProductId(ProductId productId) {
@@ -92,16 +108,35 @@ public class ProductRepositoryImpl implements  ProductRepository {
         return productImageMapper.delete(wrapper);
     }
 
+    @Override
+    public int removeProductImageByUrlAndSortId(String url ,int sortId) {
+        LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductImagePO::getUrl, url);
+        wrapper.eq(ProductImagePO::getSortId, sortId);
+        return productImageMapper.delete(wrapper);
+    }
+
+
+    public int updateProductImageByProductId(Product product){
+        List<ProductImage> newList = product.getProductImages();
+        List<ProductImage> oriList = getProductImageByProductId(product.getId());
+        List<ProductImage> addList = CollectionUtil.subtractToList(newList, oriList);
+        List<ProductImage> removeList = CollectionUtil.subtractToList(oriList, newList);
+        removeList.forEach(x->
+                removeProductImageByUrlAndSortId(x.getUrl(),x.getSort())
+                );
+        batchSaveProductImage(addList,product.getId().id(),product.getTenantId().id());
+        return 1;
+    }
 
     @Override
-    public int batchSaveProductImage(Product product) {
-        List<ProductImage> productImageList =product.getProductImages();
+    public int batchSaveProductImage(List<ProductImage> productImageList,String productId,String tenantId) {
         if(productImageList!=null && productImageList.size()>0){
             productImageList.forEach(
                     x-> {
                         ProductImagePO productImagePO = ProductImageConvert.INSTANCE.convert(x);
-                        productImagePO.setTenantId(product.getTenantId().id());
-                        productImagePO.setProductId(product.getId().id());
+                        productImagePO.setTenantId(tenantId);
+                        productImagePO.setProductId(productId);
                         this.productImageMapper.insert(productImagePO);
                     }
             );
@@ -135,24 +170,38 @@ public class ProductRepositoryImpl implements  ProductRepository {
         return this.productAttributeMapper.insert(productAttributePO);
     }
 
+    public int updateProductAttribute(Product product){
+        ProductAttribute productAttribute = product.getProductAttribute();
+        ProductAttributePO productAttributePO = ProductAttributeConvert.convert(productAttribute);
+        productAttributePO.setProductId(product.getId().id());
+        productAttributePO.setTenantId(product.getTenantId().id());
+        LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductAttributePO::getProductId, product.getId().id());
+        return this.productAttributeMapper.update(productAttributePO,wrapper);
+    }
+
     @Override
     public int insertProduct(Product product) {
-        if(exist(product.getId())){
-            throw new IllegalArgumentException("该商品已存在");
-        }
         ProductPO productPO = ProductConvert.convert(product);
-        return this.productMapper.insert(productPO);
+        this.productMapper.insert(productPO);
+        if(product.getProductImages()!=null && product.getProductImages().size()>0){
+            batchSaveProductImage(product.getProductImages(),product.getId().id(),product.getTenantId().id());
+        }
+        if(product.getProductAttribute()!=null){
+            insertProductAttribute(product);
+        }
+        return 1;
     }
 
     @Override
     public int updateProduct(Product product) {
-        if(!exist(product.getId())){
-            throw new IllegalArgumentException("该商品不存在");
-        }
         LambdaQueryWrapperX<ProductPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductPO::getId, product.getId().id());
         ProductPO productPO = ProductConvert.convert(product);
-        return this.productMapper.update(productPO,wrapper);
+        this.productMapper.update(productPO,wrapper);
+        updateProductImageByProductId(product);
+        updateProductAttribute(product);
+        return 1;
     }
 
     @Override

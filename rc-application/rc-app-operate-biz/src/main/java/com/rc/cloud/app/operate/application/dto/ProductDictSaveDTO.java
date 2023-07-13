@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class ProductDictSaveDTO {
 
+    private String id;
 
     private String key;
 

@@ -1,24 +1,19 @@
-package com.rc.cloud.app.operate.application;
+package com.rc.cloud.app.operate.domain.service;
 
-import com.rc.cloud.app.operate.application.bo.BrandBO;
-import com.rc.cloud.app.operate.application.dto.BrandCreateDTO;
-import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
-import com.rc.cloud.app.operate.application.service.BrandApplicationService;
-import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandService;
-import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
+import com.rc.cloud.app.operate.application.event.ProductCategoryRefreshListener;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.LocalIdRepositoryImpl;
-import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
+import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCategoryRepositoryImpl;
+import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductRepositoryImpl;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.util.TenantContext;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
+import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
 import org.junit.FixMethodOrder;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +21,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
@@ -36,11 +30,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * 1.创建商品
  */
 
+
 @ExtendWith({SpringExtension.class})
-@Import({ProductDomainService.class,  LocalIdRepositoryImpl.class})
+@Import({ProductDomainService.class})
 @DisplayName("商品领域服务测试")
-@FixMethodOrder(MethodSorters.DEFAULT)
-public class ProductApplicationServiceUnitTest {
+public class ProductDomainServiceUnitTest extends BaseMockitoUnitTest {
 
     @Autowired
     ProductDomainService productDomainService;
@@ -74,6 +68,9 @@ public class ProductApplicationServiceUnitTest {
         TenantContext.setTenantId("test");
         product = new Product(new ProductId(idRepository.nextId()),new TenantId("test"),
                 new Name("aa"));
+
+
+
 
     }
 

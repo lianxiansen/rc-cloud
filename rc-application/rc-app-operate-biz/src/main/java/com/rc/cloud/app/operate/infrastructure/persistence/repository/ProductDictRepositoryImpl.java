@@ -30,7 +30,7 @@ public class ProductDictRepositoryImpl implements ProductDictRepository {
         LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductDictPO>();
         LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductDictPO::getProductId, productId.id());
-        return ProductDictConvert.INSTANCE.convertList(this.productDictMapper.selectList(wrapper));
+        return ProductDictConvert.convertList(this.productDictMapper.selectList(wrapper));
     }
 
     @Override
