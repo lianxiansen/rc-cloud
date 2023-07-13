@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author haoxin
  * @date 2021-02-02
  **/
-public enum StatusEnum implements ValueObject<StatusEnum>{
+public enum StatusEnum {
 
     /**
      * 有效
@@ -76,9 +76,4 @@ public enum StatusEnum implements ValueObject<StatusEnum>{
 
 
 
-
-    @Override
-    public boolean sameValueAs(StatusEnum other) {
-        return this.equals(other);
-    }
 }

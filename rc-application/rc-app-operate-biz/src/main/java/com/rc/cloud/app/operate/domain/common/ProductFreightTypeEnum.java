@@ -1,8 +1,6 @@
 package com.rc.cloud.app.operate.domain.common;
 
-import com.rc.cloud.common.core.domain.ValueObject;
-
-public enum ProductFreightTypeEnum  implements ValueObject<ProductFreightTypeEnum> {
+public enum ProductFreightTypeEnum  {
 
 
     Fixed(0, "固定"),
@@ -16,9 +14,4 @@ public enum ProductFreightTypeEnum  implements ValueObject<ProductFreightTypeEnu
         this.name = name;
     }
 
-
-    @Override
-    public boolean sameValueAs(ProductFreightTypeEnum other) {
-        return false;
-    }
 }

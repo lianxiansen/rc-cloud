@@ -4,7 +4,7 @@ import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryDomainService;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
@@ -35,7 +35,7 @@ public class ProductCategoryApplicationService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
     @Resource
-    private ProductCategoryDomainService productCategoryService;
+    private ProductCategoryService productCategoryService;
     @Resource
     private IdRepository idRepository;
 

@@ -7,7 +7,7 @@ import com.rc.cloud.app.operate.application.event.ProductCategoryRefreshListener
 import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryDomainService;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotAssociatedProductSpecification;
@@ -60,7 +60,7 @@ import static org.mockito.Mockito.when;
  * |-5.3删除的产品分类有子分类，阻止删除
  */
 @ExtendWith({SpringExtension.class})
-@Import({ProductCategoryDomainService.class, ProductCategoryRepositoryImpl.class, ProductCategoryDomainService.class,
+@Import({ProductCategoryService.class, ProductCategoryRepositoryImpl.class, ProductCategoryService.class,
         ProductCategoryRefreshListener.class, ProductCategoryApplicationService.class, LocalIdRepositoryImpl.class})
 @DisplayName("产品分类应用服务测试")
 @FixMethodOrder(MethodSorters.DEFAULT)

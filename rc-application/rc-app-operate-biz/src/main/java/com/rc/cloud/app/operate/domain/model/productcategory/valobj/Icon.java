@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Icon implements ValueObject<Icon> {
+public class Icon extends ValueObject {
     private String pictureUrl;
     public Icon(){
         setPictureUrl("");
@@ -29,7 +29,10 @@ public class Icon implements ValueObject<Icon> {
     }
 
     @Override
-    public boolean sameValueAs(Icon other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            Icon typedObject = (Icon) other;
+        }
         return false;
     }
 }

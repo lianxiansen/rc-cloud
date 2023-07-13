@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class CreateTime implements ValueObject<CreateTime>,Comparable<CreateTime> {
+public class CreateTime  extends ValueObject implements Comparable<CreateTime> {
     private LocalDateTime time;
     public CreateTime(LocalDateTime time){
         setTime(time);
@@ -41,7 +41,10 @@ public class CreateTime implements ValueObject<CreateTime>,Comparable<CreateTime
     }
 
     @Override
-    public boolean sameValueAs(CreateTime other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            CreateTime typedObject = (CreateTime) other;
+        }
         return false;
     }
 }

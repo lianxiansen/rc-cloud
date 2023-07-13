@@ -88,7 +88,7 @@ public class ProductDOConvert {
     public static ProductAttributePO convert2ProductAttributeDO(String productId, String tenantId, ProductAttribute ProductAttribute){
         ProductAttributePO productAttributePO =new ProductAttributePO();
         String attr = JSON.toJSONString(ProductAttribute.getAttributes());
-        productAttributePO.setId(ProductAttribute.getId());
+        productAttributePO.setId(ProductAttribute.getId().id());
         productAttributePO.setProductId(productId);
         productAttributePO.setTenantId(tenantId);
         productAttributePO.setContent(attr);

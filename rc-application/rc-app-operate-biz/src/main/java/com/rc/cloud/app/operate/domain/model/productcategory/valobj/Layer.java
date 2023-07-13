@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.AssertUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Layer implements ValueObject<Layer> {
+public class Layer extends ValueObject {
     public static final int ROOT =1;
     private int value;
     public Layer(){
@@ -39,18 +39,13 @@ public class Layer implements ValueObject<Layer> {
         return new Layer(this.value+value);
     }
 
-    @Override
-    public boolean equals(Object anObject) {
-        boolean equalObjects = false;
 
-        if (anObject != null && this.getClass() == anObject.getClass()) {
-            equalObjects= this.value == ((Layer)anObject).value;
+    @Override
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            Layer typedObject = (Layer) other;
+            return this.value==typedObject.value;
         }
-        return equalObjects;
-    }
-
-    @Override
-    public boolean sameValueAs(Layer other) {
         return false;
     }
 }

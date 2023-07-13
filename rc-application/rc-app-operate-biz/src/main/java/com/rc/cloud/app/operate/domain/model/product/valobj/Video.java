@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Video implements ValueObject<Video> {
+public class Video extends ValueObject {
     private String videoUrl;
     private String videoImg;
     private String installVideoUrl;
@@ -49,8 +49,9 @@ public class Video implements ValueObject<Video> {
         return installVideoImg;
     }
 
+
     @Override
-    public boolean sameValueAs(Video other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

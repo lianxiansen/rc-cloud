@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/26 13:43
  * @Description: TODO
  */
-public class Open implements ValueObject<Open> {
+public class Open extends ValueObject{
     private boolean flag;
 
     public Open(boolean flag){
@@ -19,8 +19,9 @@ public class Open implements ValueObject<Open> {
         return flag;
     }
 
+
     @Override
-    public boolean sameValueAs(Open other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

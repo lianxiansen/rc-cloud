@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 import com.rc.cloud.common.core.domain.ValueObject;
 
-public class CategoryName  implements ValueObject<CategoryName> {
+public class CategoryName  extends ValueObject {
     private String value;
 
     public CategoryName(String value) {
@@ -18,7 +18,7 @@ public class CategoryName  implements ValueObject<CategoryName> {
     }
 
     @Override
-    public boolean sameValueAs(CategoryName other) {
-        return this.value.equals(other.getValue());
+    public boolean equals(Object other) {
+        return false;
     }
 }

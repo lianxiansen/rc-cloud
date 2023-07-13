@@ -5,7 +5,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.rc.cloud.common.core.domain.ValueObject;
 import org.apache.commons.lang3.Validate;
 
-public class AttributeValue implements Comparable<AttributeValue>, ValueObject<AttributeValue> {
+public class AttributeValue extends ValueObject implements Comparable<AttributeValue>{
 
     @JSONField(ordinal = 1, name = "attributeValue")
     private String attributeValue;
@@ -57,7 +57,7 @@ public class AttributeValue implements Comparable<AttributeValue>, ValueObject<A
     }
 
     @Override
-    public boolean sameValueAs(AttributeValue other) {
-        return this.attributeValue.equals(other.getAttributeValue());
+    public boolean equals(Object other) {
+        return false;
     }
 }

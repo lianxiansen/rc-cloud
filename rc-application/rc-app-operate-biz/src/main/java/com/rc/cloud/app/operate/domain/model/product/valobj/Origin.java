@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Origin implements ValueObject<Origin> {
+public class Origin extends ValueObject{
     private int value;
     public Origin(int value){
         this.value = value;
@@ -18,7 +18,7 @@ public class Origin implements ValueObject<Origin> {
     }
 
     @Override
-    public boolean sameValueAs(Origin other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

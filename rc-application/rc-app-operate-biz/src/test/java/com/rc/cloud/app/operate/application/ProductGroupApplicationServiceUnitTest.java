@@ -9,7 +9,7 @@ import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupDomainService;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -55,7 +55,7 @@ import static org.mockito.Mockito.when;
  *
  */
 @ExtendWith({SpringExtension.class})
-@Import({ProductGroupApplicationService.class, ProductGroupDomainService.class, LocalIdRepositoryImpl.class})
+@Import({ProductGroupApplicationService.class, ProductGroupService.class, LocalIdRepositoryImpl.class})
 @DisplayName("组合应用服务测试")
 @FixMethodOrder(MethodSorters.DEFAULT)
 public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest {

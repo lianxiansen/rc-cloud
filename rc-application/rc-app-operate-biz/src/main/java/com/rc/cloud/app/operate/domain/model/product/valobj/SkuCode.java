@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class SkuCode implements ValueObject<SkuCode> {
+public class SkuCode extends ValueObject{
     private String value;
     public SkuCode(String value){
         this.value = value;
@@ -18,7 +18,7 @@ public class SkuCode implements ValueObject<SkuCode> {
     }
 
     @Override
-    public boolean sameValueAs(SkuCode other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

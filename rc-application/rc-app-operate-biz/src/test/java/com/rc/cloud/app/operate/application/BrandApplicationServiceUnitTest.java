@@ -6,7 +6,7 @@ import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
@@ -53,7 +53,7 @@ import static org.mockito.Mockito.when;
  * |-6.3分页检索品牌，每页大小为10，记录数为25，指定页码3，返回最后5条记录 TODO
  */
 @ExtendWith({SpringExtension.class})
-@Import({BrandApplicationService.class, BrandDomainService.class, LocalIdRepositoryImpl.class})
+@Import({BrandApplicationService.class, BrandService.class, LocalIdRepositoryImpl.class})
 @DisplayName("品牌应用服务测试")
 @FixMethodOrder(MethodSorters.DEFAULT)
 public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {

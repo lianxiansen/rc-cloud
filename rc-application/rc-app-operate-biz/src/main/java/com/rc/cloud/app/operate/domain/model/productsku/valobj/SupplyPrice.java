@@ -5,7 +5,7 @@ import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.math.BigDecimal;
 
-public class SupplyPrice implements ValueObject<SupplyPrice> {
+public class SupplyPrice extends ValueObject {
 
     public static final BigDecimal MIN= BigDecimal.valueOf(0.01);
     private BigDecimal value;
@@ -27,7 +27,10 @@ public class SupplyPrice implements ValueObject<SupplyPrice> {
     }
 
     @Override
-    public boolean sameValueAs(SupplyPrice other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            SupplyPrice typedObject = (SupplyPrice) other;
+        }
         return false;
     }
 }

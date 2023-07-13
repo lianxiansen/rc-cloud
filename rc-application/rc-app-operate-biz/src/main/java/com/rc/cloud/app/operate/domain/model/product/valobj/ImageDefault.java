@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ImageDefault implements ValueObject<ImageDefault> {
+public class ImageDefault extends ValueObject{
     private int value;
     public ImageDefault(int value){
         this.value=value;
@@ -18,7 +18,7 @@ public class ImageDefault implements ValueObject<ImageDefault> {
     }
 
     @Override
-    public boolean sameValueAs(ImageDefault other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

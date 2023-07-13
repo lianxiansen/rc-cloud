@@ -8,14 +8,14 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class ImageSort implements ValueObject<ImageSort> {
+public class ImageSort extends ValueObject {
     private int value;
     public ImageSort(int value){
         this.value=value;
     }
 
     @Override
-    public boolean sameValueAs(ImageSort other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Page implements ValueObject<Page> {
+public class Page extends ValueObject{
     /**
      * 商品分类页面图片URL
      */
@@ -51,7 +51,10 @@ public class Page implements ValueObject<Page> {
     }
 
     @Override
-    public boolean sameValueAs(Page other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            Page typedObject = (Page) other;
+        }
         return false;
     }
 }

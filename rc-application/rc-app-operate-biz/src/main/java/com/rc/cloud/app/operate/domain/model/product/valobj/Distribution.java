@@ -9,11 +9,12 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/26 13:43
  * @Description: TODO
  */
-public class Distribution implements ValueObject<Distribution> {
+public class Distribution extends ValueObject {
     private boolean flag;
 
+
     @Override
-    public boolean sameValueAs(Distribution other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

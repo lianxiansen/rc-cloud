@@ -10,13 +10,12 @@ import java.math.BigDecimal;
  * @Date: 2023/6/26 13:39
  * @Description: TODO
  */
-public class Freight implements ValueObject<Freight> {
+public class Freight extends ValueObject{
     private String type;
     private String templateId;
     private BigDecimal price;
-
     @Override
-    public boolean sameValueAs(Freight other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

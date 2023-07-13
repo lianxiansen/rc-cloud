@@ -9,7 +9,7 @@ import java.util.TreeSet;
 /**
  *
  */
-public class Attribute implements ValueObject<Attribute>, Comparable<Attribute> {
+public class Attribute extends ValueObject implements Comparable<Attribute> {
 
 
     @JSONField(ordinal = 1, name = "attribute")
@@ -77,7 +77,7 @@ public class Attribute implements ValueObject<Attribute>, Comparable<Attribute> 
     }
 
     @Override
-    public boolean sameValueAs(Attribute other) {
-        return this.equals(other.getSort());
+    public boolean equals(Object other) {
+        return false;
     }
 }

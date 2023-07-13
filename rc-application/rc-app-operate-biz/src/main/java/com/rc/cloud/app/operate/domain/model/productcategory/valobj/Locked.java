@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Locked implements ValueObject<Locked> {
+public class Locked extends ValueObject{
     private boolean flag;
     public Locked(boolean flag){
         this.flag=flag;
@@ -17,9 +17,11 @@ public class Locked implements ValueObject<Locked> {
     {
         return flag;
     }
-
     @Override
-    public boolean sameValueAs(Locked other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            Locked typedObject = (Locked) other;
+        }
         return false;
     }
 }

@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Enable implements ValueObject<Enable> {
+public class Enable extends ValueObject{
     private boolean value;
     public Enable(){
         this.value = true;
@@ -22,8 +22,9 @@ public class Enable implements ValueObject<Enable> {
         return value;
     }
 
+
     @Override
-    public boolean sameValueAs(Enable other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

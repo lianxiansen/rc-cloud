@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.AssertUtils;
  * @Date: 2023/6/23 13:26
  * @Description: 分类名
  */
-public class ChName implements ValueObject<ChName> {
+public class ChName extends ValueObject{
     /**
      * 分类名（中文名）
      */
@@ -27,8 +27,14 @@ public class ChName implements ValueObject<ChName> {
         return this.value;
     }
 
+
+
     @Override
-    public boolean sameValueAs(ChName other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            ChName typedObject = (ChName) other;
+            return this.value.equals(typedObject.value);
+        }
         return false;
     }
 }

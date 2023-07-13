@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/26 13:43
  * @Description: TODO
  */
-public class Recommend implements ValueObject<Recommend> {
+public class Recommend extends ValueObject{
     private boolean flag;
     public Recommend(boolean flag){
         this.flag=flag;
@@ -19,7 +19,7 @@ public class Recommend implements ValueObject<Recommend> {
     }
 
     @Override
-    public boolean sameValueAs(Recommend other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

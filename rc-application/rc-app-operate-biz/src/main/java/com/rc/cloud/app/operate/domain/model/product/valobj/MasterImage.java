@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class MasterImage implements ValueObject<MasterImage> {
+public class MasterImage extends ValueObject{
     private String value;
     public MasterImage(String value){
         value=value;
@@ -21,8 +21,9 @@ public class MasterImage implements ValueObject<MasterImage> {
         return value;
     }
 
+
     @Override
-    public boolean sameValueAs(MasterImage other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

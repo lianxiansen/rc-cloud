@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Tag implements ValueObject<Tag> {
+public class Tag extends ValueObject{
     private String value;
     public Tag(String value){
         //检验标签是否合法
@@ -27,7 +27,7 @@ public class Tag implements ValueObject<Tag> {
     }
 
     @Override
-    public boolean sameValueAs(Tag other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

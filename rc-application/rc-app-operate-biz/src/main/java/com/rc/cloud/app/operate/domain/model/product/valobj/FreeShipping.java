@@ -8,11 +8,11 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/26 13:39
  * @Description: TODO
  */
-public class FreeShipping implements ValueObject<FreeShipping> {
+public class FreeShipping extends ValueObject{
     private String value;
 
     @Override
-    public boolean sameValueAs(FreeShipping other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

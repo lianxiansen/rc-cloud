@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Detail implements ValueObject<Detail> {
+public class Detail extends ValueObject {
     private String id;
     private String value;
 
@@ -31,8 +31,9 @@ public class Detail implements ValueObject<Detail> {
         return id;
     }
 
+
     @Override
-    public boolean sameValueAs(Detail other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

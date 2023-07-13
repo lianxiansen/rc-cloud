@@ -2,9 +2,10 @@ package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 import com.rc.cloud.common.core.domain.ValueObject;
 
-public class Weight implements ValueObject<Recommend> {
+public class Weight extends ValueObject{
+
     @Override
-    public boolean sameValueAs(Recommend other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

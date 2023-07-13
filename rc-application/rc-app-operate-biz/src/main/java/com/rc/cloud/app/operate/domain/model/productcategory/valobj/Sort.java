@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.AssertUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Sort implements ValueObject<Sort> {
+public class Sort extends ValueObject{
     private int value;
     public Sort(){
         this(0);
@@ -33,7 +33,11 @@ public class Sort implements ValueObject<Sort> {
     }
 
     @Override
-    public boolean sameValueAs(Sort other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            Sort typedObject = (Sort) other;
+            return this.value==(typedObject.value);
+        }
         return false;
     }
 }

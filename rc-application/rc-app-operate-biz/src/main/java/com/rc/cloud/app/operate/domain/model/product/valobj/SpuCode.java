@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class SpuCode implements ValueObject<SpuCode> {
+public class SpuCode extends ValueObject{
     private String value;
     public SpuCode(String value){
         this.value = value;
@@ -18,7 +18,7 @@ public class SpuCode implements ValueObject<SpuCode> {
     }
 
     @Override
-    public boolean sameValueAs(SpuCode other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

@@ -16,11 +16,10 @@ package com.rc.cloud.app.operate.domain.model.productsku;
 //        --                 }
 //        --             ]
 
-
-import com.rc.cloud.app.operate.domain.common.Entity;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuAttributeId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.AttributeValueCombination;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.ProductSkuId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.Entity;
+import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.util.List;
 import java.util.SortedSet;
@@ -29,12 +28,12 @@ import java.util.TreeSet;
 public class ProductSkuAttribute extends Entity {
 
 
-    public ProductSkuAttribute(String id) {
+    public ProductSkuAttribute(ProductSkuAttributeId id) {
         this.id =id;
         this.skuAttributes = new TreeSet<>();
     }
 
-    private String id;
+    private ProductSkuAttributeId id;
 
     private SortedSet<AttributeValueCombination> skuAttributes;
 
@@ -51,7 +50,7 @@ public class ProductSkuAttribute extends Entity {
     }
 
     public void addAttributeValueCombinations(List<AttributeValueCombination> attributeValueCombinations){
-        this.assertArgumentNotNull(attributeValueCombinations,"attributeValueCombinations must not be null");
+        AssertUtils.assertArgumentNotNull(attributeValueCombinations,"attributeValueCombinations must not be null");
         for (AttributeValueCombination attributeValueCombination : attributeValueCombinations) {
             addSkuAttribute(attributeValueCombination.getAttribute()
                     ,attributeValueCombination.getAttributeValue()
@@ -59,7 +58,8 @@ public class ProductSkuAttribute extends Entity {
         }
     }
 
-    public String getId() {
+    @Override
+    public ProductSkuAttributeId getId() {
         return id;
     }
 

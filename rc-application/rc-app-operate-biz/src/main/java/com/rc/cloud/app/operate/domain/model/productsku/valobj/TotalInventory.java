@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 
 import com.rc.cloud.common.core.domain.ValueObject;
 
-public class TotalInventory implements ValueObject<TotalInventory> {
+public class TotalInventory extends ValueObject{
 
 
     public TotalInventory(int value){
@@ -19,7 +19,10 @@ public class TotalInventory implements ValueObject<TotalInventory> {
     }
 
     @Override
-    public boolean sameValueAs(TotalInventory other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            TotalInventory typedObject = (TotalInventory) other;
+        }
         return false;
     }
 }

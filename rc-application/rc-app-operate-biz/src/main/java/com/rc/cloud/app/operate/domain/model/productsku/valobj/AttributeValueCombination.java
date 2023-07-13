@@ -20,7 +20,7 @@ package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.rc.cloud.common.core.domain.ValueObject;
 
-public class AttributeValueCombination implements ValueObject<AttributeValueCombination>, Comparable<AttributeValueCombination> {
+public class AttributeValueCombination extends ValueObject  implements Comparable<AttributeValueCombination> {
 
     @JSONField(ordinal = 1, name = "attribute")
     private String attribute;
@@ -76,7 +76,10 @@ public class AttributeValueCombination implements ValueObject<AttributeValueComb
     }
 
     @Override
-    public boolean sameValueAs(AttributeValueCombination other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            AttributeValueCombination typedObject = (AttributeValueCombination) other;
+        }
         return false;
     }
 }

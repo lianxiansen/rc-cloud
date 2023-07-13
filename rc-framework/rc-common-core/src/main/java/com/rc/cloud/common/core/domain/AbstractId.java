@@ -11,6 +11,10 @@ public abstract class AbstractId implements Identity, Serializable {
 
     private String id;
 
+    protected AbstractId() {
+        super();
+    }
+
     @Override
     public String id() {
         return this.id;
@@ -43,10 +47,6 @@ public abstract class AbstractId implements Identity, Serializable {
         this.setId(anId);
     }
 
-    protected AbstractId() {
-        super();
-    }
-
 
 
     protected void validateId(String anId) {
@@ -61,5 +61,14 @@ public abstract class AbstractId implements Identity, Serializable {
         this.validateId(anId);
 
         this.id = anId;
+    }
+
+    @Override
+    public boolean equals(Object anObject) {
+        if (anObject != null && this.getClass() == anObject.getClass()) {
+            AbstractId typedObject = (AbstractId) anObject;
+            return this.sameValueAs((AbstractId)anObject);
+        }
+        return false;
     }
 }

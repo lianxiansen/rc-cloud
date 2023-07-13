@@ -10,7 +10,7 @@ import com.rc.cloud.common.core.util.AssertUtils;
  * @Date: 2023/6/26 13:43
  * @Description: 超级单品
  */
-public class Explosives implements ValueObject<Explosives> {
+public class Explosives extends ValueObject{
     /**
      * 是否是超级单品 0否，1是
      */
@@ -39,7 +39,7 @@ public class Explosives implements ValueObject<Explosives> {
     }
 
     @Override
-    public boolean sameValueAs(Explosives other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

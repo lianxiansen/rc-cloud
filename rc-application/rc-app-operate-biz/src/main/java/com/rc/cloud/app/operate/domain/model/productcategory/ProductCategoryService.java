@@ -23,7 +23,7 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  * @Description: TODO
  */
 @Service
-public class ProductCategoryDomainService {
+public class ProductCategoryService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
 
@@ -93,6 +93,20 @@ public class ProductCategoryDomainService {
         ProductCategory productCategory = productCategoryRepository.findById(productCategoryId);
         productCategory.setEnabled(new Enabled(false));
         productCategoryRepository.save(productCategory);
+    }
+
+
+    public void create(){
+        ProductCategory productCategory=new ProductCategory(null,null,null);
+        //触发领域事件
+
+    }
+
+
+
+    public void create2(){
+        ProductCategory productCategory=new ProductCategory(null,null,null);
+
     }
 
 }

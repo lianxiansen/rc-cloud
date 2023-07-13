@@ -5,7 +5,7 @@ import com.rc.cloud.app.operate.application.dto.BrandCreateDTO;
 import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.common.core.domain.IdRepository;
@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 @Service
 public class BrandApplicationService {
     @Autowired
-    private BrandDomainService brandDomainService;
+    private BrandService brandDomainService;
     @Autowired
     private BrandRepository brandRepository;
     @Resource

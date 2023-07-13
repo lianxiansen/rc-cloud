@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Name implements ValueObject<Name> {
+public class Name extends ValueObject{
     private String value;
     public Name(String value){
         this.setValue(value);
@@ -25,7 +25,7 @@ public class Name implements ValueObject<Name> {
     }
 
     @Override
-    public boolean sameValueAs(Name other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

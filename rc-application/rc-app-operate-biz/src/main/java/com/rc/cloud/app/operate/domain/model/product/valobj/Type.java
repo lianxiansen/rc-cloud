@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.util.AssertUtils;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class Type implements ValueObject<Type> {
+public class Type extends ValueObject {
     private Integer value;
     public Type(Integer value){
         this.setValue(value);
@@ -25,8 +25,9 @@ public class Type implements ValueObject<Type> {
 
     }
 
+
     @Override
-    public boolean sameValueAs(Type other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

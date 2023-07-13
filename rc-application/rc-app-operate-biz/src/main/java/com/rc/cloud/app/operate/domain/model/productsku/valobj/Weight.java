@@ -5,7 +5,7 @@ import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.math.BigDecimal;
 
-public class Weight implements ValueObject<Weight> {
+public class Weight extends ValueObject{
 
     public static final BigDecimal MIN= BigDecimal.valueOf(0.01);
     private BigDecimal value;
@@ -27,7 +27,10 @@ public class Weight implements ValueObject<Weight> {
     }
 
     @Override
-    public boolean sameValueAs(Weight other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            Weight typedObject = (Weight) other;
+        }
         return false;
     }
 }

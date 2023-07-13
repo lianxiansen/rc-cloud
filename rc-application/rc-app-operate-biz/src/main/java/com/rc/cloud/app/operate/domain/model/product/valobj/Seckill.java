@@ -8,12 +8,13 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/26 13:43
  * @Description: 抢购
  */
-public class Seckill implements ValueObject<Seckill> {
+public class Seckill extends ValueObject{
     private boolean flag;
 
 
+
     @Override
-    public boolean sameValueAs(Seckill other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

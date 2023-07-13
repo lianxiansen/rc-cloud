@@ -15,8 +15,9 @@
 package com.rc.cloud.common.core.domain;
 
 
-public interface ValueObject<T> {
+public  abstract class ValueObject {
 
 
-    boolean sameValueAs(T other);
+    @Override
+    public abstract boolean equals(Object other);
 }

@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 import com.rc.cloud.common.core.domain.ValueObject;
 
-public class Inventory implements ValueObject<Inventory> {
+public class Inventory extends ValueObject{
 
     private int value;
 
@@ -15,7 +15,7 @@ public class Inventory implements ValueObject<Inventory> {
     }
 
     @Override
-    public boolean sameValueAs(Inventory other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

@@ -29,4 +29,13 @@ public abstract class Entity implements Serializable {
         return this.getId().sameValueAs(other.getId());
     }
     public abstract AbstractId getId();
+
+    @Override
+    public boolean equals(Object anObject) {
+        if (anObject != null && this.getClass() == anObject.getClass()) {
+            Entity typedObject = (Entity) anObject;
+            return this.sameIdentityAs((Entity)anObject);
+        }
+        return false;
+    }
 }

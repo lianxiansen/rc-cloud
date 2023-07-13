@@ -4,7 +4,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
 
 import java.text.DecimalFormat;
 
-public class SeckillSku implements ValueObject<SeckillSku> {
+public class SeckillSku extends ValueObject {
 
     private LimitBuy seckillLimitBuy;
 
@@ -71,8 +71,13 @@ public class SeckillSku implements ValueObject<SeckillSku> {
         return percent;
     }
 
+
+
     @Override
-    public boolean sameValueAs(SeckillSku other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            SeckillSku typedObject = (SeckillSku) other;
+        }
         return false;
     }
 }

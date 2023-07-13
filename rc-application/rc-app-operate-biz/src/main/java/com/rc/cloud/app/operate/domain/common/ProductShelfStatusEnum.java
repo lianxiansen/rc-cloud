@@ -1,8 +1,6 @@
 package com.rc.cloud.app.operate.domain.common;
 
-import com.rc.cloud.common.core.domain.ValueObject;
-
-public enum ProductShelfStatusEnum implements ValueObject<ProductShelfStatusEnum> {
+public enum ProductShelfStatusEnum{
 
     InitShelf(0, "未上架"),
     OnShelf(1, "上架"),
@@ -16,8 +14,4 @@ public enum ProductShelfStatusEnum implements ValueObject<ProductShelfStatusEnum
         this.name = name;
     }
 
-    @Override
-    public boolean sameValueAs(ProductShelfStatusEnum other) {
-        return false;
-    }
 }

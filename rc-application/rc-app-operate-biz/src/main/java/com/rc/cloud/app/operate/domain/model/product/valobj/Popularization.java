@@ -10,14 +10,14 @@ import java.math.BigDecimal;
  * @Date: 2023/6/26 13:43
  * @Description: TODO
  */
-public class Popularization implements ValueObject<Popularization> {
+public class Popularization extends ValueObject{
     /**
      * 比率
      */
     private BigDecimal amountRate;
 
     @Override
-    public boolean sameValueAs(Popularization other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

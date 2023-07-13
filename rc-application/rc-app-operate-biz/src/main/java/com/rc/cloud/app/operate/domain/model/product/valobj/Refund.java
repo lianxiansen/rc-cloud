@@ -8,11 +8,12 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/26 13:43
  * @Description: TODO
  */
-public class Refund implements ValueObject<Refund> {
+public class Refund extends ValueObject{
     private boolean flag;
 
+
     @Override
-    public boolean sameValueAs(Refund other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

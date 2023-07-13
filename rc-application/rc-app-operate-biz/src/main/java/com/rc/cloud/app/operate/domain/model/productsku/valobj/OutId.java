@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class OutId implements ValueObject<OutId> {
+public class OutId extends ValueObject{
     private String value;
     public OutId(String value){
         this.value = value;
@@ -18,7 +18,10 @@ public class OutId implements ValueObject<OutId> {
     }
 
     @Override
-    public boolean sameValueAs(OutId other) {
+    public boolean equals(Object other) {
+        if (other != null && this.getClass() == other.getClass()) {
+            Inventory typedObject = (Inventory) other;
+        }
         return false;
     }
 }

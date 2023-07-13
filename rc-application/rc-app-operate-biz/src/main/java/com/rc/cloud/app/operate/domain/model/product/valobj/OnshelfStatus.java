@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/23 13:26
  * @Description:
  */
-public class OnshelfStatus implements ValueObject<OnshelfStatus> {
+public class OnshelfStatus extends ValueObject{
     private int value;
     public OnshelfStatus(int value){
         this.value = value;
@@ -22,7 +22,7 @@ public class OnshelfStatus implements ValueObject<OnshelfStatus> {
     }
 
     @Override
-    public boolean sameValueAs(OnshelfStatus other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

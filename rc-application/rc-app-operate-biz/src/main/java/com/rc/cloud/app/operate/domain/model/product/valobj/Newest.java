@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.domain.ValueObject;
  * @Date: 2023/6/26 13:43
  * @Description: TODO
  */
-public class Newest implements ValueObject<Newest> {
+public class Newest extends ValueObject{
 
     private boolean flag;
     public Newest(boolean flag){
@@ -19,8 +19,9 @@ public class Newest implements ValueObject<Newest> {
         return flag;
     }
 
+
     @Override
-    public boolean sameValueAs(Newest other) {
+    public boolean equals(Object other) {
         return false;
     }
 }

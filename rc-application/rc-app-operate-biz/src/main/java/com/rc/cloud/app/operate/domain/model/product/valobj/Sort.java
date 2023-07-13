@@ -8,7 +8,7 @@ import com.rc.cloud.common.core.util.AssertUtils;
  * @Date: 2023/6/26 13:43
  * @Description: TODO
  */
-public class Sort implements ValueObject<Sort> {
+public class Sort extends ValueObject{
     private int value;
 
     public Sort(int value){
@@ -24,7 +24,7 @@ public class Sort implements ValueObject<Sort> {
     }
 
     @Override
-    public boolean sameValueAs(Sort other) {
+    public boolean equals(Object other) {
         return false;
     }
 }
