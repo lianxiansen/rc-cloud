@@ -1,15 +1,12 @@
 package com.rc.cloud.app.distributor.appearance.facade;
 
-import com.rc.cloud.app.distributor.appearance.resp.DistributorRespVO;
 import com.rc.cloud.app.distributor.application.convert.DistributorChannelConvert;
-import com.rc.cloud.app.distributor.application.convert.DistributorConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorChannelService;
 import com.rc.cloud.app.distributor.appearance.req.DistributorChannelCreateReqVO;
 import com.rc.cloud.app.distributor.appearance.req.DistributorChannelPageReqVO;
 import com.rc.cloud.app.distributor.appearance.resp.DistributorChannelRespVO;
 import com.rc.cloud.app.distributor.appearance.req.DistributorChannelUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +27,14 @@ import java.util.*;
 @Validated
 public class DistributorChannelController {
 
+    /** @经销商渠道服务 */
     @Resource
     private DistributorChannelService channelService;
 
+    /** @创建经销商渠道 */
     @PostMapping("/create")
     @Operation(summary = "创建经销商渠道")
-
-    public CodeResult<String> createChannel(@Valid @RequestBody DistributorChannelCreateReqVO createReqVO) {
+    public CodeResult<String> createChannel(@Valid @RequestBody final DistributorChannelCreateReqVO createReqVO) {
         return CodeResult.ok(channelService.createChannel(createReqVO));
     }
 

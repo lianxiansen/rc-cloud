@@ -1,5 +1,6 @@
 package com.rc.cloud.app.distributor.infrastructure.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -13,9 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class DistributorAutoConfig{
 
-    @Bean(value = "webPasswordEncoder")
+    @Bean("webPasswordEncoder")
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-
 }
