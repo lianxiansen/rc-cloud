@@ -4,16 +4,16 @@ import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.exception.ApplicationException;
-import com.rc.cloud.common.core.util.AssertUtils;
+import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.StringUtils;
+import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
 /**
  * @ClassName: ProductCategoryService
@@ -40,9 +38,11 @@ public class ProductCategoryApplicationService {
     private IdRepository idRepository;
 
 
-    public ProductCategoryBO createProductCategory(ProductCategoryCreateDTO productCreateCategoryDTO) {
-        AssertUtils.notNull(productCreateCategoryDTO,"productCreateCategoryDTO must be not null");
-        TenantId tenantId = new TenantId(productCreateCategoryDTO.getTenantId());
+    public ProductCategoryBO create(ProductCategoryCreateDTO productCreateCategoryDTO) {
+        if(StringUtils.isEmpty(productCreateCategoryDTO.getName())){
+            throw new ServiceException(ProductCategoryErrorCodeConstants.NAME_NOT_EMPTY);
+        }
+        TenantId tenantId = new TenantId(TenantContext.getTenantId());
         ChName name = new ChName(productCreateCategoryDTO.getName());
         ProductCategory productCategory = new ProductCategory(new ProductCategoryId(idRepository.nextId()), tenantId, name);
         productCategory.setEnName(new EnName(productCreateCategoryDTO.getEnglishName()));
@@ -56,66 +56,61 @@ public class ProductCategoryApplicationService {
         }
         if(!StringUtils.isEmpty(productCreateCategoryDTO.getParentId())){
             ProductCategoryId parentId= new ProductCategoryId(productCreateCategoryDTO.getParentId());
-            ProductCategory parentCategory = productCategoryRepository.findById(parentId);
-            if(ObjectUtils.isNull(parentCategory)){
-                throw new ApplicationException("父级商品分类无效");
-            }
-            productCategory.inherit(parentCategory);
+            productCategory.setParentId(parentId);
         }
-        productCategory.publishSaveEvent();
+        productCategoryService.save(productCategory);
         return ProductCategoryBO.convert(productCategory);
     }
 
 
     @Transactional(rollbackFor = Exception.class)
-    public ProductCategoryBO updateProductCategory(ProductCategoryUpdateDTO productCategoryDTO) {
-        ProductCategory productCategory = productCategoryRepository.findById(new ProductCategoryId(productCategoryDTO.getId()));
-        if(ObjectUtils.isNull(productCategory)){
-            throw new ApplicationException("产品分类不存在");
+    public ProductCategoryBO update(ProductCategoryUpdateDTO productCategoryUpdateDTO) {
+        if(StringUtils.isEmpty(productCategoryUpdateDTO.getId())){
+            throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
         }
-        if (ObjectUtils.isNotNull(productCategoryDTO.getParentId()) ) {
-            if(StringUtils.isEmpty(productCategoryDTO.getParentId())){
-                productCategory.root();
+        ProductCategory productCategory = productCategoryService.findById(new ProductCategoryId(productCategoryUpdateDTO.getId()));
+        if(ObjectUtils.isNull(productCategory)){
+            throw new ServiceException(ProductCategoryErrorCodeConstants.OBJECT_NOT_EXISTS);
+        }
+        if(ObjectUtils.isNotNull(productCategoryUpdateDTO.getParentId())){
+            if(StringUtils.isEmpty(productCategoryUpdateDTO.getParentId())){
+                productCategory.setParentId(null);
             }else{
-                ProductCategoryId parentId= new ProductCategoryId(productCategoryDTO.getParentId());
-                if(!parentId.equals(productCategory.getParentId())){
-                    ProductCategory parent = productCategoryRepository.findById(parentId);
-                    productCategoryService.reInherit(productCategory, parent);
-                }
+                productCategory.setParentId(new ProductCategoryId(productCategoryUpdateDTO.getParentId()));
             }
         }
-        if (ObjectUtils.isNotNull(productCategoryDTO.getName())) {
-            productCategory.setChName(new ChName(productCategoryDTO.getName()));
+        if (ObjectUtils.isNotNull(productCategoryUpdateDTO.getName())) {
+            productCategory.setChName(new ChName(productCategoryUpdateDTO.getName()));
         }
-        if (ObjectUtils.isNotNull(productCategoryDTO.getEnglishName())) {
-            productCategory.setEnName(new EnName(productCategoryDTO.getEnglishName()));
+        if (ObjectUtils.isNotNull(productCategoryUpdateDTO.getEnglishName())) {
+            productCategory.setEnName(new EnName(productCategoryUpdateDTO.getEnglishName()));
         }
-        if (ObjectUtils.isNotNull(productCategoryDTO.getIcon())) {
-            productCategory.setIcon(new Icon(productCategoryDTO.getIcon()));
+        if (ObjectUtils.isNotNull(productCategoryUpdateDTO.getIcon())) {
+            productCategory.setIcon(new Icon(productCategoryUpdateDTO.getIcon()));
         }
-        if (ObjectUtils.isNotNull(productCategoryDTO.getProductCategoryPageImage())) {
-            productCategory.setPage(new Page(productCategoryDTO.getProductCategoryPageImage(), productCategory.getPage().getListImage()));
+        if (ObjectUtils.isNotNull(productCategoryUpdateDTO.getProductCategoryPageImage())) {
+            productCategory.setPage(new Page(productCategoryUpdateDTO.getProductCategoryPageImage(), productCategory.getPage().getListImage()));
         }
-        if (ObjectUtils.isNotNull(productCategoryDTO.getProductListPageImage())) {
-            productCategory.setPage(new Page(productCategory.getPage().getCategoryImage(), productCategoryDTO.getProductListPageImage()));
+        if (ObjectUtils.isNotNull(productCategoryUpdateDTO.getProductListPageImage())) {
+            productCategory.setPage(new Page(productCategory.getPage().getCategoryImage(), productCategoryUpdateDTO.getProductListPageImage()));
         }
-        if (ObjectUtils.isNotNull(productCategoryDTO.getSortId())) {
-            productCategory.setSort(new Sort(productCategoryDTO.getSortId()));
+        if (ObjectUtils.isNotNull(productCategoryUpdateDTO.getSortId())) {
+            productCategory.setSort(new Sort(productCategoryUpdateDTO.getSortId()));
         }
-        if (ObjectUtils.isNotNull(productCategoryDTO.getEnabledFlag())) {
-            if(productCategoryDTO.getEnabledFlag().booleanValue()){
+        if (ObjectUtils.isNotNull(productCategoryUpdateDTO.getEnabledFlag())) {
+            if(productCategoryUpdateDTO.getEnabledFlag().booleanValue()){
                 productCategory.setEnabled(new Enabled(true));
             }else{
                 productCategory.setEnabled(new Enabled(false));
             }
         }
-        productCategory.publishSaveEvent();
+        productCategoryService.update(productCategory);
         return ProductCategoryBO.convert(productCategory);
     }
 
     public boolean remove(String id){
         if(StringUtils.isEmpty(id)){
-            throw exception(ProductCategoryErrorCodeConstants.NOT_EXISTS);
+            throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
         }
         return productCategoryService.remove(new ProductCategoryId(id));
     }
@@ -126,15 +121,18 @@ public class ProductCategoryApplicationService {
     }
 
     public void changeState(String id){
+        if(StringUtils.isEmpty(id)){
+            throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
+        }
         ProductCategory productCategory=productCategoryRepository.findById(new ProductCategoryId(id));
         if(ObjectUtils.isNull(productCategory)){
-            throw new ApplicationException("产品分类不存在");
+            throw new ServiceException(ProductCategoryErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
         if(productCategory.getEnabled().isTrue()){
-            productCategoryService.disable(productCategory.getId() );
+            productCategoryService.disable(productCategory);
         }
         else{
-            productCategoryService.enable(productCategory.getId() );
+            productCategoryService.enable(productCategory);
         }
 
     }
