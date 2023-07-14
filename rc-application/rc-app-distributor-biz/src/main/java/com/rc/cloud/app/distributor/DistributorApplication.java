@@ -1,15 +1,15 @@
 package com.rc.cloud.app.distributor;
 
-/**
- * @author WJF
- * @create 2023-06-23 10:04
- * @description TODO
- */
 import com.rc.cloud.common.feign.EnableRcFeignClients;
 import com.rc.cloud.common.security.annotation.EnableRcResourceServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author WJF
+ * @create 2023-06-23 10:04
+ * @description TODO
+ */
 @SpringBootApplication
 @EnableRcFeignClients
 @EnableRcResourceServer

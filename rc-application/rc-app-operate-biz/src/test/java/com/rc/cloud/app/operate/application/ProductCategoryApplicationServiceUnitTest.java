@@ -7,8 +7,8 @@ import com.rc.cloud.app.operate.application.event.ProductCategoryRefreshListener
 import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotAssociatedProductSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotHasChildSpecification;
@@ -20,7 +20,6 @@ import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCat
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ApplicationException;
-import com.rc.cloud.common.core.exception.DomainException;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
@@ -98,7 +97,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseMockitoUnitTe
     @Test
     @DisplayName("创建根产品分类")
     public void createRootProductCategoryTest() {
-        ProductCategoryBO productCategoryBO = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+        ProductCategoryBO productCategoryBO = productCategoryApplicationService.create(productCategoryCreateDTO);
         Assertions.assertTrue(ObjectUtils.isNotNull(productCategoryBO.getId()) &&
                 productCategoryCreateDTO.getName().equals(productCategoryBO.getName()) &&
                 productCategoryCreateDTO.getEnabledFlag().booleanValue() == productCategoryBO.isEnabled() &&
@@ -116,7 +115,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseMockitoUnitTe
     public void createSubProductCategoryWhenParentValid() {
         productCategoryCreateDTO.setParentId(root.getId().id());
         when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
-        ProductCategoryBO productCategoryBO = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+        ProductCategoryBO productCategoryBO = productCategoryApplicationService.create(productCategoryCreateDTO);
         Assertions.assertTrue(ObjectUtils.isNotNull(productCategoryBO.getId()) &&
                 productCategoryCreateDTO.getName().equals(productCategoryBO.getName()) &&
                 productCategoryCreateDTO.getEnabledFlag().booleanValue() == productCategoryBO.isEnabled()&&
@@ -138,7 +137,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseMockitoUnitTe
         productCategoryCreateDTO.setParentId(parentId.id());
         when(productCategoryRepositoryStub.findById(parentId)).thenReturn(null);
         Assertions.assertThrows(ApplicationException.class, () -> {
-            productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+            productCategoryApplicationService.create(productCategoryCreateDTO);
         });
     }
 
@@ -148,7 +147,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseMockitoUnitTe
     public void updateProductCategoryExceptParent() {
         when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
         productCategoryUpdateDTO.setId(root.getId().id());
-        productCategoryApplicationService.updateProductCategory(productCategoryUpdateDTO);
+        productCategoryApplicationService.update(productCategoryUpdateDTO);
         Assertions.assertTrue(ObjectUtils.isNotNull(root.getId()) &&
                 new Layer(Layer.ROOT).equals(root.getLayer()) &&
                 productCategoryUpdateDTO.getName().equals(root.getChName().value()) &&
@@ -186,7 +185,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseMockitoUnitTe
             }
         });
 
-        productCategoryApplicationService.updateProductCategory(productCategoryUpdateDTO);
+        productCategoryApplicationService.update(productCategoryUpdateDTO);
         Assertions.assertTrue(ObjectUtils.isNotNull(sonFuture.getId()) &&
                 root.getLayer().increment().equals(sonFuture.getLayer()) &&
                 root.getLayer().increment().increment().equals(grandsonFuture.getLayer()) &&
@@ -207,8 +206,8 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseMockitoUnitTe
         productCategoryUpdateDTO.setId(root.getId().id());
         productCategoryUpdateDTO.setParentId(root.getId().id());
         when(productCategoryRepositoryStub.findById(root.getId())).thenReturn(root);
-        Assertions.assertThrows(DomainException.class, () -> {
-            productCategoryApplicationService.updateProductCategory(productCategoryUpdateDTO);
+        Assertions.assertThrows(ServiceException.class, () -> {
+            productCategoryApplicationService.update(productCategoryUpdateDTO);
         });
     }
 

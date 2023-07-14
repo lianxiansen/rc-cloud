@@ -1,10 +1,13 @@
 package com.rc.cloud.app.operate.domain.model.brand;
 
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
+import com.rc.cloud.app.operate.domain.model.brand.specification.RemoveShouldExistsSpecification;
+import com.rc.cloud.app.operate.domain.model.brand.specification.RemoveShouldNotAssociatedProductSpecification;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.common.core.exception.DomainException;
+import com.rc.cloud.app.operate.infrastructure.constants.BrandErrorCodeConstants;
+import com.rc.cloud.common.core.exception.ServiceException;
+import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.AssertUtils;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,15 @@ public class BrandService {
     private BrandRepository brandRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private RemoveShouldExistsSpecification removeShouldExistsSpecification;
+    @Autowired
+    private RemoveShouldNotAssociatedProductSpecification removeShouldNotAssociatedProductSpecification;
+    public Brand findById(BrandId brandId){
+        AssertUtils.notNull(brandId,"brandId must be not null");
+        Brand brand = brandRepository.findById(brandId);
+        return brand;
+    }
     public void enable(BrandId brandId) {
         AssertUtils.notNull(brandId,"brandId must be not null");
         Brand brandtEntry = brandRepository.findById(brandId);
@@ -28,16 +40,27 @@ public class BrandService {
         brandRepository.save(brandtEntry);
     }
 
+    public boolean save(Brand brand){
+        AssertUtils.notNull(brand,"brand must be not null");
+        return brandRepository.save(brand);
+    }
 
-    public boolean removeBrand(BrandId brandId){
+
+    public boolean remove(BrandId brandId){
         AssertUtils.notNull(brandId,"brandId must be not null");
-        if(productRepository.existsByBrandId(brandId)){
-            throw new DomainException("已关联产品,删除失败");
+        if(!removeShouldNotAssociatedProductSpecification.isSatisfiedBy(brandId)){
+            throw new ServiceException(BrandErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
         }
-        Brand brand = brandRepository.findById(brandId);
-        if (ObjectUtils.isNull(brand)) {
-            throw new DomainException("品牌唯一标识无效");
+        if(!removeShouldExistsSpecification.isSatisfiedBy(brandId)){
+            throw new ServiceException(BrandErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
+
         return brandRepository.removeById(brandId);
+    }
+
+    public PageResult<Brand> selectPageResult(Integer pageNo, Integer pageSize, String name) {
+        AssertUtils.notNull(pageNo,"pageNo must be not null");
+        AssertUtils.notNull(pageNo,"pageSize must be not null");
+        return brandRepository.selectPageResult(pageNo,pageSize,name);
     }
 }

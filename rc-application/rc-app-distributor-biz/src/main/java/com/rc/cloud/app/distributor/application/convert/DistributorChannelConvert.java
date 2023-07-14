@@ -1,3 +1,4 @@
+//CHECKSTYLE:OFF
 package com.rc.cloud.app.distributor.application.convert;
 
 import com.rc.cloud.app.distributor.appearance.req.DistributorChannelCreateReqVO;

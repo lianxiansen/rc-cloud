@@ -28,7 +28,7 @@ public class ProductGroupController {
     @PostMapping("create")
     @Operation(summary = "创建产品组合")
     public CodeResult<ProductGroupVO> create(@Valid @RequestBody ProductGroupCreateDTO ProductGroupCreateDTO) {
-        return CodeResult.ok(ProductGroupVO.from(productGroupApplicationService.createProductGroup(ProductGroupCreateDTO)));
+        return CodeResult.ok(ProductGroupVO.from(productGroupApplicationService.create(ProductGroupCreateDTO)));
     }
 
     @GetMapping("release")
