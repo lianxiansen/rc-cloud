@@ -1,3 +1,4 @@
+// CHECKSTYLE:OFF
 package com.rc.cloud.app.system;
 
 import com.rc.cloud.common.feign.EnableRcFeignClients;
@@ -6,9 +7,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
+
 /**
- * @author oliveoil
- * date 2023-06-02 09:19
+ * @author rc@hqf
+ * @date 2023-06-02 09:19
+ * @description 系统服务启动类
  */
 @SuppressWarnings("SpringComponentScan") // 忽略 IDEA 无法识别 ${rc.info.base-package}
 @EnableDiscoveryClient

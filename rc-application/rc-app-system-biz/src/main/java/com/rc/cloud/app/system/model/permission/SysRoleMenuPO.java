@@ -8,9 +8,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 角色和菜单关联
- *
- * @author ruoyi
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 角色菜单关联表
  */
 @TableName("sys_role_menu")
 @Data
@@ -18,17 +18,18 @@ import lombok.EqualsAndHashCode;
 public class SysRoleMenuPO extends TenantBaseDO {
 
     /**
-     * 自增主键
+     * ID主键
      */
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
+
     /**
      * 角色ID
      */
     private String roleId;
+
     /**
      * 菜单ID
      */
     private String menuId;
-
 }

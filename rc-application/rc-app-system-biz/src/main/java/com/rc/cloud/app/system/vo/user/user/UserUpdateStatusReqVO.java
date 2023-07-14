@@ -5,6 +5,11 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 用户更新状态 Request VO
+ */
 @Schema(description = "管理后台 - 用户更新状态 Request VO")
 @Data
 public class UserUpdateStatusReqVO {
@@ -15,7 +20,6 @@ public class UserUpdateStatusReqVO {
 
     @Schema(description = "状态,见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "状态不能为空")
-//    @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")
     private Integer status;
 
 }

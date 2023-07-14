@@ -2,10 +2,10 @@ package com.rc.cloud.app.system.service.dict;
 
 import cn.hutool.core.collection.CollUtil;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.model.dict.SysDictDataPO;
 import com.rc.cloud.app.system.convert.dict.DictDataConvert;
 import com.rc.cloud.app.system.mapper.dict.DictDataMapper;
-import com.rc.cloud.app.system.model.dict.SysDictTypeDO;
+import com.rc.cloud.app.system.model.dict.SysDictDataPO;
+import com.rc.cloud.app.system.model.dict.SysDictTypePO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataExportReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataPageReqVO;
@@ -25,11 +25,10 @@ import java.util.Map;
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
-
 /**
- * 字典数据 Service 实现类
- *
- * @author ruoyi
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 字典数据服务实现类
  */
 @Service
 @Slf4j
@@ -116,6 +115,13 @@ public class DictDataServiceImpl implements DictDataService {
         validateDictDataValueUnique(id, dictType, value);
     }
 
+    /**
+     * 校验字典数据的值的唯一性
+     *
+     * @param id       字典数据 id
+     * @param dictType 字典类型
+     * @param value    字典数据值
+     */
     @VisibleForTesting
     public void validateDictDataValueUnique(String id, String dictType, String value) {
         SysDictDataPO dictData = dictDataMapper.selectByDictTypeAndValue(dictType, value);
@@ -131,6 +137,11 @@ public class DictDataServiceImpl implements DictDataService {
         }
     }
 
+    /**
+     * 校验字典数据是否存在
+     *
+     * @param id 字典数据 id
+     */
     @VisibleForTesting
     public void validateDictDataExists(String id) {
         if (id == null) {
@@ -142,9 +153,14 @@ public class DictDataServiceImpl implements DictDataService {
         }
     }
 
+    /**
+     * 校验字典类型是否存在
+     *
+     * @param type 字典类型
+     */
     @VisibleForTesting
     public void validateDictTypeExists(String type) {
-        SysDictTypeDO dictType = dictTypeService.getDictTypeByType(type);
+        SysDictTypePO dictType = dictTypeService.getDictTypeByType(type);
         if (dictType == null) {
             throw exception(DICT_TYPE_NOT_EXISTS);
         }

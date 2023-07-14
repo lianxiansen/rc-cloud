@@ -1,4 +1,5 @@
 package com.rc.cloud.app.system.vo.dept.post;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -7,17 +8,21 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * 岗位 Base VO，提供给添加、修改、详细的子 VO 使用
+ * @author rc@hqf
+ * @date 2023-07-11 16:49
+ * @description 岗位 Base VO，提供给添加、修改、详细的子 VO 使用
  * 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
  */
 @Data
 public class PostBaseVO {
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "岗位名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "小博主")
     @NotBlank(message = "岗位名称不能为空")
     @Size(max = 50, message = "岗位名称长度不能超过50个字符")
     private String name;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "岗位编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
     @NotBlank(message = "岗位编码不能为空")
     @Size(max = 64, message = "岗位编码长度不能超过64个字符")

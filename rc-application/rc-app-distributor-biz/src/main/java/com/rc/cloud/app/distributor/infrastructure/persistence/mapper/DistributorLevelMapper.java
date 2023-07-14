@@ -15,6 +15,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DistributorLevelMapper extends BaseMapperX<DistributorLevelPO> {
 
+    /**
+     * 获取经销商等级分页
+     *
+     * @param reqVO
+     * @return DistributorLevelPO分页
+     */
     default PageResult<DistributorLevelPO> selectPage(DistributorLevelPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<DistributorLevelPO>()
                 .likeIfPresent(DistributorLevelPO::getName, reqVO.getName())

@@ -13,11 +13,11 @@ import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.persistence.repository.LocalIdRepositoryImpl;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ApplicationException;
-import com.rc.cloud.common.core.exception.DomainException;
+import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
 import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
@@ -85,7 +85,7 @@ public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest 
     @DisplayName("创建组合")
     public void createProductGroup() {
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
-        ProductGroupBO productGroupBO= productGroupApplicationService.createProductGroup(productGroupCreateDTO);
+        ProductGroupBO productGroupBO= productGroupApplicationService.create(productGroupCreateDTO);
         Assertions.assertTrue(ObjectUtils.isNotNull(productGroupBO.getId()) &&
                 productGroupCreateDTO.getName().equals(productGroupBO.getName()), "创建组合失败");
     }
@@ -95,7 +95,7 @@ public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest 
     public void createProductGroupWhenProductIdInvalidThenThrowException() {
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(null);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            productGroupApplicationService.createProductGroup(productGroupCreateDTO);
+            productGroupApplicationService.create(productGroupCreateDTO);
         });
     }
 
@@ -140,7 +140,7 @@ public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest 
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         when(productGroupRepositoryStub.findById(productGroupMock.getId())).thenReturn(productGroupMock);
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
-        Assertions.assertThrows(DomainException.class, () -> {
+        Assertions.assertThrows(ServiceException.class, () -> {
             for(int i=0;i<ProductGroup.MAX_ITEM_SIZE+1;i++){
                 Product groupItem=new Product(new ProductId(idRepository.nextId()),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
                 ProductGroupItemCreateDTO productGroupItemCreateDTO=new ProductGroupItemCreateDTO().setProductGroupId(productGroupMock.getId().id())
@@ -160,7 +160,7 @@ public class ProductGroupApplicationServiceUnitTest extends BaseMockitoUnitTest 
         Product groupItem=new Product(new ProductId(idRepository.nextId()),new TenantId(RandomUtils.randomString()),new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(groupItem.getId())).thenReturn(groupItem);
         when(productGroupRepositoryStub.itemExist(productGroupMock.getId(),groupItem.getId())).thenReturn(true);
-        Assertions.assertThrows(DomainException.class, () -> {
+        Assertions.assertThrows(ServiceException.class, () -> {
             ProductGroupItemCreateDTO productGroupItemCreateDTO=new ProductGroupItemCreateDTO().setProductGroupId(productGroupMock.getId().id())
                     .setProductId(groupItem.getId().id());
             productGroupApplicationService.appendGroupItem(productGroupItemCreateDTO);

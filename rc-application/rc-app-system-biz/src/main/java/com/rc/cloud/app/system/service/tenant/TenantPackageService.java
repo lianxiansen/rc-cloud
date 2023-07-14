@@ -11,9 +11,9 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
- * 租户套餐 Service 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 租户套餐 Service 接口
  */
 public interface TenantPackageService {
 

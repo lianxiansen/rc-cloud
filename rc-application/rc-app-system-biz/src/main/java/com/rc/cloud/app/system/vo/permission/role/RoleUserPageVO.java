@@ -5,6 +5,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 分配角色查询
+ */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "分配角色查询")
@@ -21,5 +26,4 @@ public class RoleUserPageVO extends PageParam {
 
     @Schema(description = "性别")
     private Integer sex;
-
 }

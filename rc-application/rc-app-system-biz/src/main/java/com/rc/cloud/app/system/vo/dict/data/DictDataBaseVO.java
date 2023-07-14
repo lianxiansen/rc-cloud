@@ -8,7 +8,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * 字典数据 Base VO，提供给添加、修改、详细的子 VO 使用
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 字典数据 Base VO，提供给添加、修改、详细的子 VO 使用
  * 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
  */
 @Data
@@ -18,16 +20,19 @@ public class DictDataBaseVO {
     @NotNull(message = "显示顺序不能为空")
     private Integer sort;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "字典标签", requiredMode = Schema.RequiredMode.REQUIRED, example = "柔川")
     @NotBlank(message = "字典标签不能为空")
     @Size(max = 100, message = "字典标签长度不能超过100个字符")
     private String label;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "rc")
     @NotBlank(message = "字典键值不能为空")
     @Size(max = 100, message = "字典键值长度不能超过100个字符")
     private String value;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "字典类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "sys_common_sex")
     @NotBlank(message = "字典类型不能为空")
     @Size(max = 100, message = "字典类型长度不能超过100个字符")
@@ -35,7 +40,6 @@ public class DictDataBaseVO {
 
     @Schema(description = "状态,见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "状态不能为空")
-//    @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")
     private Integer status;
 
     @Schema(description = "颜色类型,default、primary、success、info、warning、danger", example = "default")
@@ -45,5 +49,4 @@ public class DictDataBaseVO {
 
     @Schema(description = "备注", example = "我是一个角色")
     private String remark;
-
 }

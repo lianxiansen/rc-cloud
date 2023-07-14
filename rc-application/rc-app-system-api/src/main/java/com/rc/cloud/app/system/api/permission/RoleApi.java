@@ -3,9 +3,9 @@ package com.rc.cloud.app.system.api.permission;
 import java.util.Collection;
 
 /**
- * 角色 API 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/13
+ * @description 角色 API 接口
  */
 public interface RoleApi {
 
@@ -17,5 +17,4 @@ public interface RoleApi {
      * @param ids 角色编号数组
      */
     void validRoleList(Collection<String> ids);
-
 }

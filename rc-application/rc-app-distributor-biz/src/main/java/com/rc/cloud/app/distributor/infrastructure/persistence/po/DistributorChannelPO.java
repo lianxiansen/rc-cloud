@@ -16,12 +16,12 @@ import com.baomidou.mybatisplus.annotation.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DistributorChannelPO extends BaseDO{
+public class DistributorChannelPO extends BaseDO {
 
     /**
      * id
      */
-    @TableId(type=IdType.ASSIGN_ID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 渠道名称

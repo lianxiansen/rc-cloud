@@ -12,6 +12,11 @@ import java.util.Set;
 
 import static com.rc.cloud.common.core.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 角色信息 Response VO
+ */
 @Schema(description = "管理后台 - 角色信息 Response VO")
 @Data
 @NoArgsConstructor

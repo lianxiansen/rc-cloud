@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 部门编号枚举
+ * @author rc@hqf
+ * @date 2023/07/13
+ * @description 部门编号枚举
  */
 @Getter
 @AllArgsConstructor
@@ -15,6 +17,8 @@ public enum DeptIdEnum {
      */
     ROOT("0");
 
+    /**
+     * 部门编号
+     */
     private final String id;
-
 }

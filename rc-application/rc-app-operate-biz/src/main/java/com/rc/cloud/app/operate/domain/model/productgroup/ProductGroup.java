@@ -4,8 +4,9 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.productgroup.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.infrastructure.constants.ProductGroupErrorCodeConstants;
 import com.rc.cloud.common.core.domain.AggregateRoot;
-import com.rc.cloud.common.core.exception.DomainException;
+import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.time.LocalDateTime;
@@ -87,7 +88,7 @@ public class ProductGroup extends AggregateRoot {
 
     public boolean appendItem(ProductGroupItem item){
         if(productGroupItems.size()>=MAX_ITEM_SIZE){
-            throw new DomainException("单个组合的产品数量不超过10");
+            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_NOT_EXISTS);
         }
         return productGroupItems.add(item);
     }

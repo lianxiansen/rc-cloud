@@ -7,6 +7,11 @@ import lombok.Data;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 用户导入 Response VO
+ */
 @Schema(description = "管理后台 - 用户导入 Response VO")
 @Data
 @Builder

@@ -4,36 +4,66 @@ import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 
 /**
- * <p>
- * 客户端信息
- * </p>
- *
  * @author rc@hqf
- * @since 2023/07/07
+ * @date 2023/07/07
+ * @description 客户端信息
  */
 @Data
 public class SysOauthClientDetailsVO extends BaseDO {
 
-	private String clientId;
+    /**
+     * 客户端ID
+     */
+    private String clientId;
 
-	private String clientSecret;
+    /**
+     * 客户端密钥
+     */
+    private String clientSecret;
 
-	private String resourceIds;
+    /**
+     * 资源ID列表
+     */
+    private String resourceIds;
 
-	private String scope;
+    /**
+     * 作用域
+     */
+    private String scope;
 
-	private String authorizedGrantTypes;
+    /**
+     * 授权方式
+     */
+    private String authorizedGrantTypes;
 
-	private String webServerRedirectUri;
+    /**
+     * 回调地址
+     */
+    private String webServerRedirectUri;
 
-	private String authorities;
+    /**
+     * 权限列表
+     */
+    private String authorities;
 
-	private Integer accessTokenValidity;
+    /**
+     * 请求令牌有效时间
+     */
+    private Integer accessTokenValidity;
 
-	private Integer refreshTokenValidity;
+    /**
+     * 刷新令牌有效时间
+     */
+    private Integer refreshTokenValidity;
 
-	private String additionalInformation;
+    /**
+     * 扩展信息
+     */
+    private String additionalInformation;
 
-	private String autoapprove;
+    /**
+     * 是否自动授权
+     */
+    private String autoapprove;
 }
 

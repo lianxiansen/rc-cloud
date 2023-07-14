@@ -1,13 +1,13 @@
 package com.rc.cloud.app.system.controller.admin.permission;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.rc.cloud.app.system.model.permission.SysMenuPO;
-import com.rc.cloud.app.system.model.permission.SysRolePO;
-import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.convert.permission.RoleConvert;
 import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.mapper.permission.UserRoleMapper;
+import com.rc.cloud.app.system.model.permission.SysMenuPO;
+import com.rc.cloud.app.system.model.permission.SysRolePO;
+import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.service.permission.MenuService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
 import com.rc.cloud.app.system.service.permission.RoleService;
@@ -35,6 +35,11 @@ import java.util.List;
 
 import static java.util.Collections.singleton;
 
+/**
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 角色管理
+ */
 @Tag(name = "管理后台 - 角色")
 @RestController
 @RequestMapping("/sys/role")
@@ -56,6 +61,12 @@ public class RoleController {
     @Resource
     private UserRoleMapper userRoleMapper;
 
+    /**
+     * 创建角色
+     *
+     * @param reqVO 角色信息
+     * @return 创建信息
+     */
     @PostMapping("/create")
     @Operation(summary = "创建角色")
     @PreAuthorize("@pms.hasPermission('sys:role:create')")
@@ -63,6 +74,12 @@ public class RoleController {
         return CodeResult.ok(roleService.createRole(reqVO, null));
     }
 
+    /**
+     * 修改角色
+     *
+     * @param reqVO 角色信息
+     * @return 是否修改成功
+     */
     @PutMapping("/update")
     @Operation(summary = "修改角色")
     @PreAuthorize("@pms.hasPermission('sys:role:update')")
@@ -71,6 +88,12 @@ public class RoleController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 修改角色状态
+     *
+     * @param reqVO 角色状态信息
+     * @return 是否修改成功
+     */
     @PutMapping("/update-status")
     @Operation(summary = "修改角色状态")
     @PreAuthorize("@pms.hasPermission('sys:role:update')")
@@ -79,6 +102,12 @@ public class RoleController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 删除角色
+     *
+     * @param idList 角色编号列表
+     * @return 是否删除成功
+     */
     @DeleteMapping()
     @Operation(summary = "删除角色")
     @Parameter(name = "id", description = "角色编号", required = true, example = "[1024, 2048]")
@@ -88,6 +117,12 @@ public class RoleController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 根据ID获得角色信息
+     *
+     * @param id 角色编号
+     * @return 角色信息
+     */
     @GetMapping("/{id}")
     @Operation(summary = "获得角色信息")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
@@ -98,6 +133,12 @@ public class RoleController {
         return CodeResult.ok(roleRespVO);
     }
 
+    /**
+     * 获得角色分页
+     *
+     * @param reqVO 查询条件
+     * @return 角色分页
+     */
     @GetMapping("/page")
     @Operation(summary = "获得角色分页")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
@@ -111,6 +152,11 @@ public class RoleController {
         return CodeResult.ok(new PageResult<>(roleList, pageResult.getTotal()));
     }
 
+    /**
+     * 获得角色列表
+     *
+     * @return 角色列表
+     */
     @GetMapping("/list-all-simple")
     @Operation(summary = "获取角色精简信息列表", description = "只包含被开启的角色，主要用于前端的下拉选项")
     public CodeResult<List<RoleSimpleRespVO>> getSimpleRoleList() {
@@ -121,6 +167,12 @@ public class RoleController {
         return CodeResult.ok(RoleConvert.INSTANCE.convertList02(list));
     }
 
+    /**
+     * 获得角色用户分页
+     *
+     * @param pageVO 查询条件
+     * @return 角色用户分页
+     */
     @GetMapping("/user/page")
     @Operation(summary = "角色用户-分页")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
@@ -134,6 +186,11 @@ public class RoleController {
         return CodeResult.ok(new PageResult<>(userList, pageResult.getTotal()));
     }
 
+    /**
+     * 获得角色菜单树
+     *
+     * @return 角色菜单树
+     */
     @GetMapping("menu")
     @Operation(summary = "获取菜单")
     @PreAuthorize("@pms.hasPermission('sys:role:query')")
@@ -147,6 +204,13 @@ public class RoleController {
         return CodeResult.ok(TreeUtil.build(list));
     }
 
+    /**
+     * 分配角色给用户列表
+     *
+     * @param roleId  角色编号
+     * @param userIds 用户编号列表
+     * @return 是否分配成功
+     */
     @PostMapping("user/{roleId}")
     @Operation(summary = "分配角色给用户列表")
     @PreAuthorize("hasAuthority('sys:role:update')")
@@ -155,6 +219,13 @@ public class RoleController {
         return CodeResult.ok();
     }
 
+    /**
+     * 删除角色用户
+     *
+     * @param roleId  角色编号
+     * @param userIds 用户编号列表
+     * @return 是否删除成功
+     */
     @DeleteMapping("user/{roleId}")
     @Operation(summary = "删除角色用户")
     @PreAuthorize("hasAuthority('sys:role:update')")

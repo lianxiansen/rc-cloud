@@ -12,6 +12,11 @@ import java.time.LocalDateTime;
 
 import static com.rc.cloud.common.core.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 用户分页 Request VO
+ */
 @Schema(description = "管理后台 - 用户分页 Request VO")
 @Data
 @NoArgsConstructor

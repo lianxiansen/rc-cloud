@@ -1,6 +1,5 @@
 package com.rc.cloud.app.system.vo.permission.menu;
 
-import com.rc.cloud.common.core.util.tree.TreeNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +7,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 菜单精简信息 Response VO
+ */
 @Schema(description = "管理后台 - 菜单精简信息 Response VO")
 @Data
 @NoArgsConstructor

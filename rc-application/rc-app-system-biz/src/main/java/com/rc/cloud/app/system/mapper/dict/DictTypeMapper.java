@@ -1,6 +1,6 @@
 package com.rc.cloud.app.system.mapper.dict;
 
-import com.rc.cloud.app.system.model.dict.SysDictTypeDO;
+import com.rc.cloud.app.system.model.dict.SysDictTypePO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeExportReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypePageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -10,39 +10,70 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 字典类型mapper
+ */
 @Mapper
-public interface DictTypeMapper extends BaseMapperX<SysDictTypeDO> {
+public interface DictTypeMapper extends BaseMapperX<SysDictTypePO> {
 
-    default PageResult<SysDictTypeDO> selectPage(DictTypePageReqVO reqVO) {
-        return selectPage(reqVO, new LambdaQueryWrapperX<SysDictTypeDO>()
-                .likeIfPresent(SysDictTypeDO::getName, reqVO.getName())
-                .likeIfPresent(SysDictTypeDO::getType, reqVO.getType())
-                .eqIfPresent(SysDictTypeDO::getStatus, reqVO.getStatus())
-                .betweenIfPresent(SysDictTypeDO::getCreateTime, reqVO.getCreateTime())
-                .orderByDesc(SysDictTypeDO::getId));
+    /**
+     * 分页查询字典类型
+     *
+     * @param reqVO 查询参数
+     * @return 分页查询结果
+     */
+    default PageResult<SysDictTypePO> selectPage(DictTypePageReqVO reqVO) {
+        return selectPage(reqVO, new LambdaQueryWrapperX<SysDictTypePO>()
+                .likeIfPresent(SysDictTypePO::getName, reqVO.getName())
+                .likeIfPresent(SysDictTypePO::getType, reqVO.getType())
+                .eqIfPresent(SysDictTypePO::getStatus, reqVO.getStatus())
+                .betweenIfPresent(SysDictTypePO::getCreateTime, reqVO.getCreateTime())
+                .orderByDesc(SysDictTypePO::getId));
     }
 
-    default List<SysDictTypeDO> selectList(DictTypeExportReqVO reqVO) {
-        return selectList(new LambdaQueryWrapperX<SysDictTypeDO>()
-                .likeIfPresent(SysDictTypeDO::getName, reqVO.getName())
-                .likeIfPresent(SysDictTypeDO::getType, reqVO.getType())
-                .eqIfPresent(SysDictTypeDO::getStatus, reqVO.getStatus())
-                .betweenIfPresent(SysDictTypeDO::getCreateTime, reqVO.getCreateTime()));
+    /**
+     * 查询字典类型列表
+     *
+     * @param reqVO 查询参数
+     * @return 查询结果
+     */
+    default List<SysDictTypePO> selectList(DictTypeExportReqVO reqVO) {
+        return selectList(new LambdaQueryWrapperX<SysDictTypePO>()
+                .likeIfPresent(SysDictTypePO::getName, reqVO.getName())
+                .likeIfPresent(SysDictTypePO::getType, reqVO.getType())
+                .eqIfPresent(SysDictTypePO::getStatus, reqVO.getStatus())
+                .betweenIfPresent(SysDictTypePO::getCreateTime, reqVO.getCreateTime()));
     }
 
-    default SysDictTypeDO selectByType(String type) {
-        return selectOne(SysDictTypeDO::getType, type);
+    /**
+     * 根据字典类型查询
+     *
+     * @param type 字典类型
+     * @return 查询结果
+     */
+    default SysDictTypePO selectByType(String type) {
+        return selectOne(SysDictTypePO::getType, type);
     }
 
-    default SysDictTypeDO selectByName(String name) {
-        return selectOne(SysDictTypeDO::getName, name);
+    /**
+     * 根据字典名称查询
+     *
+     * @param name 字典名称
+     * @return 查询结果
+     */
+    default SysDictTypePO selectByName(String name) {
+        return selectOne(SysDictTypePO::getName, name);
     }
 
-    int deleteById(@Param("id") String id, @Param("deletedTime") LocalDateTime deletedTime);
-
+    /**
+     * 删除字典类型
+     *
+     * @param id 字典类型id
+     */
     @Update("UPDATE sys_dict_type SET deleted = 1 WHERE id = #{id}")
     void updateToDelete(@Param("id") String id);
 }

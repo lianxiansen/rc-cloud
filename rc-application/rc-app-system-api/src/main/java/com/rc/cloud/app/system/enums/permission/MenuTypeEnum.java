@@ -4,22 +4,31 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 菜单类型枚举类
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 菜单类型枚举类
  */
 @Getter
 @AllArgsConstructor
 public enum MenuTypeEnum {
 
-    DIR(1), // 目录
-    MENU(2), // 菜单
-    BUTTON(3) // 按钮
-    ;
+    /**
+     * 目录
+     */
+    DIR(1),
+
+    /**
+     * 菜单
+     */
+    MENU(2),
+
+    /**
+     * 按钮
+     */
+    BUTTON(3);
 
     /**
      * 类型
      */
     private final Integer type;
-
 }

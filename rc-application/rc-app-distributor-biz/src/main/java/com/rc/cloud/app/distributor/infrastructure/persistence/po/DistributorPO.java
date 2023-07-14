@@ -1,7 +1,6 @@
 package com.rc.cloud.app.distributor.infrastructure.persistence.po;
 
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import com.baomidou.mybatisplus.annotation.*;
 
@@ -25,7 +24,7 @@ public class DistributorPO extends BaseDO {
     /**
      * id
      */
-    @TableId(type=IdType.ASSIGN_ID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 企业名称

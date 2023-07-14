@@ -17,10 +17,6 @@ import java.util.List;
  */
 public interface ProductRepository {
 
-    ProductId nextId();
-    String nextProductImageId();
-    String nextProductAttributeId();
-
     List<ProductImage> getProductImageByProductId(ProductId productId);
 
     int removeProductImageByProductId(ProductId productId);

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.service.dict;
 
 import com.rc.cloud.app.system.model.dict.SysDictDataPO;
-import com.rc.cloud.app.system.model.dict.SysDictTypeDO;
+import com.rc.cloud.app.system.model.dict.SysDictTypePO;
 import com.rc.cloud.app.system.mapper.dict.DictDataMapper;
 import com.rc.cloud.app.system.vo.dict.data.DictDataCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataExportReqVO;
@@ -218,7 +218,7 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         // mock 方法，数据类型被禁用
         String dictType = randomString();
         when(dictTypeService.getDictTypeByType(eq(dictType))).thenReturn(
-                randomPojo(SysDictTypeDO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
+                randomPojo(SysDictTypePO.class, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
 
         // 调用, 并断言异常
         assertServiceException(() -> dictDataService.validateDictTypeExists(dictType), DICT_TYPE_NOT_ENABLE);
@@ -375,8 +375,8 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
      * @param type 字典类型
      * @return DictTypeDO 对象
      */
-    private static SysDictTypeDO randomDictTypeDO(String type) {
-        return randomPojo(SysDictTypeDO.class, o -> {
+    private static SysDictTypePO randomDictTypeDO(String type) {
+        return randomPojo(SysDictTypePO.class, o -> {
             o.setType(type);
             o.setStatus(CommonStatusEnum.ENABLE.getStatus()); // 保证 status 是开启
         });

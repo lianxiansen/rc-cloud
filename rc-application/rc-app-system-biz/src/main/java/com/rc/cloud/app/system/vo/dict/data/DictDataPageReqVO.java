@@ -7,15 +7,22 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.Size;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 字典类型分页列表 Request VO
+ */
 @Schema(description = "管理后台 - 字典类型分页列表 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class DictDataPageReqVO extends PageParam {
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "字典标签", example = "芋道")
     @Size(max = 100, message = "字典标签长度不能超过100个字符")
     private String label;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "字典类型,模糊匹配", example = "sys_common_sex")
     @Size(max = 100, message = "字典类型类型长度不能超过100个字符")
     private String dictType;

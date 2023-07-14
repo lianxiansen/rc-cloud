@@ -9,19 +9,18 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
-import com.rc.cloud.app.system.model.dept.SysDeptPO;
-import com.rc.cloud.app.system.model.permission.SysMenuPO;
-import com.rc.cloud.app.system.model.permission.SysRolePO;
-import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.common.datapermission.core.annotation.DataPermission;
+import com.rc.cloud.app.system.enums.permission.DataScopeEnum;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.mapper.permission.RoleMenuMapper;
 import com.rc.cloud.app.system.mapper.permission.UserRoleMapper;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
+import com.rc.cloud.app.system.model.permission.SysMenuPO;
 import com.rc.cloud.app.system.model.permission.SysRoleMenuPO;
+import com.rc.cloud.app.system.model.permission.SysRolePO;
 import com.rc.cloud.app.system.model.permission.SysUserRolePO;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
-import com.rc.cloud.app.system.enums.permission.DataScopeEnum;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import com.rc.cloud.common.core.util.collection.MapUtils;
@@ -43,9 +42,9 @@ import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertSe
 import static java.util.Collections.singleton;
 
 /**
- * 权限 Service 实现类
- * time: 2023-06-09
- * @author oliveoil
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 权限服务实现类
  */
 @Service
 @Slf4j
@@ -55,7 +54,7 @@ public class PermissionServiceImpl implements PermissionService {
      * 角色编号与菜单编号的缓存映射
      * key：角色编号
      * value：菜单编号的数组
-     *
+     * <p>
      * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
      */
     @Getter
@@ -65,7 +64,7 @@ public class PermissionServiceImpl implements PermissionService {
      * 菜单编号与角色编号的缓存映射
      * key：菜单编号
      * value：角色编号的数组
-     *
+     * <p>
      * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
      */
     @Getter
@@ -76,7 +75,7 @@ public class PermissionServiceImpl implements PermissionService {
      * 用户编号与角色编号的缓存映射
      * key：用户编号
      * value：角色编号的数组
-     *
+     * <p>
      * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
      */
     @Getter
@@ -450,20 +449,6 @@ public class PermissionServiceImpl implements PermissionService {
             log.error("[getDeptDataPermission][LoginUser({}) role({}) 无法处理]", userId, JsonUtils.toJsonString(result));
         }
         return result;
-    }
-
-    @Override
-    public Optional<SysUserPO> findOptionalByUsernameWithAuthorities(String username) {
-        Optional<SysUserPO> optionalByUsername = adminUserService.findOptionalByUsername(username);
-        if (!optionalByUsername.isPresent()) {
-            return Optional.empty();
-        } else {
-            SysUserPO sysUserPO = optionalByUsername.get();
-            Set<String> userAuthority = getPermissionListByUserId(sysUserPO.getId());
-            optionalByUsername.ifPresent(sysUserDomain ->
-                    sysUserDomain.setAuthorities(userAuthority));
-        }
-        return optionalByUsername;
     }
 
 }

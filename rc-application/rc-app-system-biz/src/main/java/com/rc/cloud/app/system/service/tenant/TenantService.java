@@ -8,16 +8,15 @@ import com.rc.cloud.app.system.vo.tenant.tenant.TenantExportReqVO;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantPageReqVO;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantUpdateReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
-import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
 /**
- * 租户 Service 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 租户 Service 接口
  */
 public interface TenantService {
 
@@ -40,7 +39,7 @@ public interface TenantService {
      * 更新租户的角色菜单
      *
      * @param tenantId 租户编号
-     * @param menuIds 菜单编号数组
+     * @param menuIds  菜单编号数组
      */
     void updateTenantRoleMenu(String tenantId, Set<String> menuIds);
 
@@ -109,7 +108,7 @@ public interface TenantService {
 
     /**
      * 进行租户的菜单处理逻辑
-     * 其中，租户编号从 {@link TenantContextHolder} 上下文中获取
+     * 其中，租户编号从 TenantContextHolder 上下文中获取
      *
      * @param handler 处理器
      */

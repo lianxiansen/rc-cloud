@@ -3,26 +3,45 @@ package com.rc.cloud.app.system.api.token.vo;
 import lombok.Data;
 
 /**
- * 前端展示令牌管理
- *
- * @author lengleng
- * @date 2022/6/2
+ * @author rc@hqf
+ * @date 2023/07/13
+ * @description 前端展示令牌管理
  */
 @Data
 public class TokenVo {
 
-	private String id;
+    /**
+     * 令牌id
+     */
+    private String id;
 
-	private String userId;
+    /**
+     * 用户id
+     */
+    private String userId;
 
-	private String clientId;
+    /**
+     * 客户端id
+     */
+    private String clientId;
 
-	private String username;
+    /**
+     * 用户名
+     */
+    private String username;
 
-	private String accessToken;
+    /**
+     * 令牌
+     */
+    private String accessToken;
 
-	private String issuedAt;
+    /**
+     * 允许时间
+     */
+    private String issuedAt;
 
-	private String expiresAt;
-
+    /**
+     * 过期时间
+     */
+    private String expiresAt;
 }

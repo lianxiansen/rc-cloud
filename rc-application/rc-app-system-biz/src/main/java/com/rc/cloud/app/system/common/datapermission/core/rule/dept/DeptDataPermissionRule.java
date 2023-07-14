@@ -3,13 +3,10 @@ package com.rc.cloud.app.system.common.datapermission.core.rule.dept;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.rc.cloud.app.system.api.permission.PermissionApi;
 import com.rc.cloud.app.system.common.datapermission.core.rule.DataPermissionRule;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import com.rc.cloud.common.mybatis.core.util.MyBatisUtils;
-//import com.rc.cloud.common.security.core.LoginUser;
-//import com.rc.cloud.common.security.core.util.SecurityFrameworkUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.*;
@@ -23,21 +20,21 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 基于部门的 {@link DataPermissionRule} 数据权限规则实现
- *
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 基于部门的 {@link DataPermissionRule} 数据权限规则实现
+ * <p>
  * 注意，使用 DeptDataPermissionRule 时，需要保证表中有 dept_id 部门编号的字段，可自定义。
- *
+ * <p>
  * 实际业务场景下，会存在一个经典的问题？当用户修改部门时，冗余的 dept_id 是否需要修改？
  * 1. 一般情况下，dept_id 不进行修改，则会导致用户看到之前的数据。【yudao-server 采用该方案】
  * 2. 部分情况下，希望该用户还是能看到之前的数据，则有两种方式解决：【需要你改造该 DeptDataPermissionRule 的实现代码】
- *  1）编写洗数据的脚本，将 dept_id 修改成新部门的编号；【建议】
- *      最终过滤条件是 WHERE dept_id = ?
- *  2）洗数据的话，可能涉及的数据量较大，也可以采用 user_id 进行过滤的方式，此时需要获取到 dept_id 对应的所有 user_id 用户编号；
- *      最终过滤条件是 WHERE user_id IN (?, ?, ? ...)
- *  3）想要保证原 dept_id 和 user_id 都可以看的到，此时使用 dept_id 和 user_id 一起过滤；
- *      最终过滤条件是 WHERE dept_id = ? OR user_id IN (?, ?, ? ...)
- *
- * @author 芋道源码
+ * 1）编写洗数据的脚本，将 dept_id 修改成新部门的编号；【建议】
+ * 最终过滤条件是 WHERE dept_id = ?
+ * 2）洗数据的话，可能涉及的数据量较大，也可以采用 user_id 进行过滤的方式，此时需要获取到 dept_id 对应的所有 user_id 用户编号；
+ * 最终过滤条件是 WHERE user_id IN (?, ?, ? ...)
+ * 3）想要保证原 dept_id 和 user_id 都可以看的到，此时使用 dept_id 和 user_id 一起过滤；
+ * 最终过滤条件是 WHERE dept_id = ? OR user_id IN (?, ?, ? ...)
  */
 @AllArgsConstructor
 @Slf4j
@@ -53,12 +50,10 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 
     static final Expression EXPRESSION_NULL = new NullValue();
 
-    private final PermissionApi permissionApi;
-
     /**
      * 基于部门的表字段配置
      * 一般情况下，每个表的部门编号字段是 dept_id，通过该配置自定义。
-     *
+     * <p>
      * key：表名
      * value：字段名
      */
@@ -66,7 +61,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
     /**
      * 基于用户的表字段配置
      * 一般情况下，每个表的部门编号字段是 dept_id，通过该配置自定义。
-     *
+     * <p>
      * key：表名
      * value：字段名
      */
@@ -74,11 +69,14 @@ public class DeptDataPermissionRule implements DataPermissionRule {
     /**
      * 所有表名，是 {@link #deptColumns} 和 {@link #userColumns} 的合集
      */
-    private final Set<String> TABLE_NAMES = new HashSet<>();
+    private final Set<String> tableNames = new HashSet<>();
 
+    /**
+     * 获取表名列表
+     */
     @Override
     public Set<String> getTableNames() {
-        return TABLE_NAMES;
+        return tableNames;
     }
 
 //    @Override
@@ -139,6 +137,14 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 //        return new OrExpressionX(deptExpression, userExpression);
 //    }
 
+    /**
+     * 拼接部门的条件
+     *
+     * @param tableName  表名
+     * @param tableAlias 表别名
+     * @param deptIds    部门编号数组
+     * @return 条件
+     */
     private Expression buildDeptExpression(String tableName, Alias tableAlias, Set<String> deptIds) {
         // 如果不存在配置，则无需作为条件
         String columnName = deptColumns.get(tableName);
@@ -154,6 +160,15 @@ public class DeptDataPermissionRule implements DataPermissionRule {
                 new ExpressionList(CollectionUtils.convertList(deptIds, StringValue::new)));
     }
 
+    /**
+     * 拼接用户的条件
+     *
+     * @param tableName  表名
+     * @param tableAlias 表别名
+     * @param self       是否可查看自己
+     * @param userId     用户编号
+     * @return 条件
+     */
     private Expression buildUserExpression(String tableName, Alias tableAlias, Boolean self, String userId) {
         // 如果不查看自己，则无需作为条件
         if (Boolean.FALSE.equals(self)) {
@@ -169,32 +184,66 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 
     // ==================== 添加配置 ====================
 
+    /**
+     * 添加部门字段
+     *
+     * @param entityClass 实体类
+     */
     public void addDeptColumn(Class<? extends BaseDO> entityClass) {
         addDeptColumn(entityClass, DEPT_COLUMN_NAME);
     }
 
+    /**
+     * 添加部门字段
+     *
+     * @param entityClass 实体类
+     * @param columnName  字段名
+     */
     public void addDeptColumn(Class<? extends BaseDO> entityClass, String columnName) {
         String tableName = TableInfoHelper.getTableInfo(entityClass).getTableName();
-       addDeptColumn(tableName, columnName);
+        addDeptColumn(tableName, columnName);
     }
 
+    /**
+     * 添加部门字段
+     *
+     * @param tableName  表名
+     * @param columnName 字段名
+     */
     public void addDeptColumn(String tableName, String columnName) {
         deptColumns.put(tableName, columnName);
-        TABLE_NAMES.add(tableName);
+        tableNames.add(tableName);
     }
 
+    /**
+     * 添加用户字段
+     *
+     * @param entityClass 实体类
+     */
     public void addUserColumn(Class<? extends BaseDO> entityClass) {
         addUserColumn(entityClass, USER_COLUMN_NAME);
     }
 
+    /**
+     * 添加用户字段
+     *
+     * @param entityClass 实体类
+     * @param columnName  字段名
+     */
     public void addUserColumn(Class<? extends BaseDO> entityClass, String columnName) {
         String tableName = TableInfoHelper.getTableInfo(entityClass).getTableName();
         addUserColumn(tableName, columnName);
     }
 
+    /**
+     * 添加用户字段
+     *
+     * @param tableName  表名
+     * @param columnName 字段名
+     */
     public void addUserColumn(String tableName, String columnName) {
         userColumns.put(tableName, columnName);
-        TABLE_NAMES.add(tableName);
+        tableNames.add(tableName);
     }
 
 }

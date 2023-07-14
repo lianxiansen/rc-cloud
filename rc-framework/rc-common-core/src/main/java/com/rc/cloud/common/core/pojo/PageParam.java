@@ -12,9 +12,9 @@ import java.io.Serializable;
 @Data
 public class PageParam implements Serializable {
 
-    private static final Integer PAGE_NO = 1;
-    private static final Integer PAGE_SIZE = 10;
-
+    public static final Integer PAGE_NO = 1;
+    public static final Integer PAGE_SIZE = 10;
+    public static final Integer MAX_PAGE_SIZE = 100;
     @Schema(description = "页码，从 1 开始", requiredMode = Schema.RequiredMode.REQUIRED,example = "1")
     @NotNull(message = "页码不能为空")
     @Min(value = 1, message = "页码最小值为 1")

@@ -1,7 +1,3 @@
-/**
- * @author rc@hqf
- * date 2023-07-11 16:49
- */
 package com.rc.cloud.app.system.vo.client;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,6 +5,11 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 客户端基础信息
+ */
 @Data
 public class OauthClientDetailsBaseVO {
 

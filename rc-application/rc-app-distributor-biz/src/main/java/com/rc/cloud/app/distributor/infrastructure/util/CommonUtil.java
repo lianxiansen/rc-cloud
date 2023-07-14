@@ -4,22 +4,27 @@ import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeCo
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.validation.ValidationUtils;
 
-import java.util.regex.Pattern;
-
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
 /**
  * @author WJF
  * @create 2023-06-27 16:52
- * @description TODO
+ * @description 工具类
  */
 
 public class CommonUtil {
-    //获取手机号后6位
+    private static final int MOBILE_START = 5;
+    private static final int MOBILE_END = 12;
+
+    /**
+     * 获取手机号后6位
+     * @param mobile 手机号
+     * @return 手机号后6位
+     */
     public static String getFinalMobile(String mobile) {
-        if (!ValidationUtils.isMobile(mobile)){
+        if (!ValidationUtils.isMobile(mobile)) {
             throw exception(DistributorErrorCodeConstants.MOBILE_PATTERN_NOT_CORRECT);
         }
-        return StringUtils.substring(mobile, 5, 12);
+        return StringUtils.substring(mobile, MOBILE_START, MOBILE_END);
     }
 }

@@ -7,6 +7,11 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 角色更新状态 Request VO
+ */
 @Schema(description = "管理后台 - 角色更新状态 Request VO")
 @Data
 public class RoleUpdateStatusReqVO {

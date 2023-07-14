@@ -9,17 +9,27 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 /**
- * @author oliveoil
- * @date 2023-07-05
+ * @author rc@hqf
+ * @date 2023/07/05
+ * @description 通过feign远程调用租户服务
  */
 @FeignClient(contextId = "remoteTenantService", value = ServiceNameConstants.SYSTEM_SERVICE)
 public interface RemoteTenantService {
 
-	@GetMapping(value = "/sys/tenant/getTenantIdList", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<List<String>> getTenantIdList();
+    /**
+     * 获取租户id列表
+     *
+     * @return 租户id列表
+     */
+    @GetMapping(value = "/sys/tenant/getTenantIdList", headers = SecurityConstants.HEADER_FROM_IN)
+    CodeResult<List<String>> getTenantIdList();
 
-
-	@GetMapping(value = "/sys/tenant/validateTenant", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult validateTenant(String id);
-
+    /**
+     * 校验租户是否存在
+     *
+     * @param id 租户id
+     * @return 是否成功
+     */
+    @GetMapping(value = "/sys/tenant/validateTenant", headers = SecurityConstants.HEADER_FROM_IN)
+    CodeResult validateTenant(String id);
 }

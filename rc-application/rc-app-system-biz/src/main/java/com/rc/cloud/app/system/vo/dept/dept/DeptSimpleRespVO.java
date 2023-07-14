@@ -6,6 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11 16:49
+ * @description 部门精简信息 Response VO
+ */
 @Schema(description = "管理后台 - 部门精简信息 Response VO")
 @Data
 @NoArgsConstructor

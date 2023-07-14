@@ -7,6 +7,11 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 租户套餐 Response VO
+ */
 @Schema(description = "管理后台 - 租户套餐 Response VO")
 @Data
 @EqualsAndHashCode(callSuper = true)

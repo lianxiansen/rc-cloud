@@ -6,6 +6,11 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 字典数据更新 Request VO
+ */
 @Schema(description = "管理后台 - 字典数据更新 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)

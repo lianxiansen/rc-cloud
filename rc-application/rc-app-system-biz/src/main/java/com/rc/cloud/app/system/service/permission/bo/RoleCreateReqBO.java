@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * 角色创建 Request BO
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 角色创建请求参数
  */
 @Data
 public class RoleCreateReqBO {
@@ -23,6 +23,7 @@ public class RoleCreateReqBO {
     /**
      * 角色名称
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     @NotBlank(message = "角色名称不能为空")
     @Size(max = 30, message = "角色名称长度不能超过30个字符")
     private String name;
@@ -30,6 +31,7 @@ public class RoleCreateReqBO {
     /**
      * 角色标志
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     @NotBlank(message = "角色标志不能为空")
     @Size(max = 100, message = "角色标志长度不能超过100个字符")
     private String code;

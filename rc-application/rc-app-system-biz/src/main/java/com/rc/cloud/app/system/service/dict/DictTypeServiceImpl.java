@@ -2,10 +2,10 @@ package com.rc.cloud.app.system.service.dict;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.model.dict.SysDictDataPO;
-import com.rc.cloud.app.system.model.dict.SysDictTypeDO;
 import com.rc.cloud.app.system.convert.dict.DictTypeConvert;
 import com.rc.cloud.app.system.mapper.dict.DictTypeMapper;
+import com.rc.cloud.app.system.model.dict.SysDictDataPO;
+import com.rc.cloud.app.system.model.dict.SysDictTypePO;
 import com.rc.cloud.app.system.vo.dict.SysDictVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeExportReqVO;
@@ -24,9 +24,9 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
 
 
 /**
- * 字典类型 Service 实现类
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 字典类型服务实现类
  */
 @Service
 @Log4j2
@@ -39,22 +39,22 @@ public class DictTypeServiceImpl implements DictTypeService {
     private DictTypeMapper dictTypeMapper;
 
     @Override
-    public PageResult<SysDictTypeDO> getDictTypePage(DictTypePageReqVO reqVO) {
+    public PageResult<SysDictTypePO> getDictTypePage(DictTypePageReqVO reqVO) {
         return dictTypeMapper.selectPage(reqVO);
     }
 
     @Override
-    public List<SysDictTypeDO> getDictTypeList(DictTypeExportReqVO reqVO) {
+    public List<SysDictTypePO> getDictTypeList(DictTypeExportReqVO reqVO) {
         return dictTypeMapper.selectList(reqVO);
     }
 
     @Override
-    public SysDictTypeDO getDictTypeById(String id) {
+    public SysDictTypePO getDictTypeById(String id) {
         return dictTypeMapper.selectById(id);
     }
 
     @Override
-    public SysDictTypeDO getDictTypeByType(String type) {
+    public SysDictTypePO getDictTypeByType(String type) {
         return dictTypeMapper.selectByType(type);
     }
 
@@ -64,7 +64,7 @@ public class DictTypeServiceImpl implements DictTypeService {
         validateDictTypeForCreateOrUpdate(null, reqVO.getName(), reqVO.getType());
 
         // 插入字典类型
-        SysDictTypeDO dictTypeDO = DictTypeConvert.INSTANCE.convert(reqVO);
+        SysDictTypePO dictTypeDO = DictTypeConvert.INSTANCE.convert(reqVO);
         dictTypeMapper.insert(dictTypeDO);
         return dictTypeDO.getId();
     }
@@ -75,14 +75,14 @@ public class DictTypeServiceImpl implements DictTypeService {
         validateDictTypeForCreateOrUpdate(reqVO.getId(), reqVO.getName(), null);
 
         // 更新字典类型
-        SysDictTypeDO updateObj = DictTypeConvert.INSTANCE.convert(reqVO);
+        SysDictTypePO updateObj = DictTypeConvert.INSTANCE.convert(reqVO);
         dictTypeMapper.updateById(updateObj);
     }
 
     @Override
     public void deleteDictType(String id) {
         // 校验是否存在
-        SysDictTypeDO dictType = validateDictTypeExists(id);
+        SysDictTypePO dictType = validateDictTypeExists(id);
         // 校验是否有字典数据
         if (dictDataService.countByDictType(dictType.getType()) > 0) {
             throw exception(DICT_TYPE_HAS_CHILDREN);
@@ -92,26 +92,27 @@ public class DictTypeServiceImpl implements DictTypeService {
     }
 
     @Override
-    public List<SysDictTypeDO> getDictTypeList() {
+    public List<SysDictTypePO> getDictTypeList() {
         return dictTypeMapper.selectList();
     }
 
     @Override
     public List<SysDictVO> getDictList() {
         // 全部字典类型列表
-        List<SysDictTypeDO> typeList = dictTypeMapper.selectList();
+        List<SysDictTypePO> typeList = dictTypeMapper.selectList();
 
         // 全部字典数据列表
         List<SysDictDataPO> dataList = dictDataService.selectListBySortAsc();
 
         // 全部字典列表
         List<SysDictVO> dictList = new ArrayList<>(typeList.size());
-        for (SysDictTypeDO type : typeList) {
+        for (SysDictTypePO type : typeList) {
             SysDictVO dict = new SysDictVO();
             dict.setType(type.getType());
             for (SysDictDataPO data : dataList) {
                 if (type.getType().equals(data.getDictType())) {
-                    dict.getDataList().add(new SysDictVO.DictData(data.getLabel(), data.getValue(), data.getCssClass(), data.getColorType()));
+                    dict.getDataList()
+                            .add(new SysDictVO.DictData(data.getLabel(), data.getValue(), data.getCssClass(), data.getColorType()));
                 }
             }
 
@@ -140,7 +141,7 @@ public class DictTypeServiceImpl implements DictTypeService {
         }
         // 校验是否有字典数据
         for (String id : idList) {
-            SysDictTypeDO dictType = dictTypeMapper.selectById(id);
+            SysDictTypePO dictType = dictTypeMapper.selectById(id);
             if (dictDataService.countByDictType(dictType.getType()) > 0) {
                 throw exception(DICT_TYPE_HAS_CHILDREN);
             }
@@ -160,7 +161,7 @@ public class DictTypeServiceImpl implements DictTypeService {
 
     @VisibleForTesting
     void validateDictTypeNameUnique(String id, String name) {
-        SysDictTypeDO dictType = dictTypeMapper.selectByName(name);
+        SysDictTypePO dictType = dictTypeMapper.selectByName(name);
         if (dictType == null) {
             return;
         }
@@ -178,7 +179,7 @@ public class DictTypeServiceImpl implements DictTypeService {
         if (StrUtil.isEmpty(type)) {
             return;
         }
-        SysDictTypeDO dictType = dictTypeMapper.selectByType(type);
+        SysDictTypePO dictType = dictTypeMapper.selectByType(type);
         if (dictType == null) {
             return;
         }
@@ -192,11 +193,11 @@ public class DictTypeServiceImpl implements DictTypeService {
     }
 
     @VisibleForTesting
-    SysDictTypeDO validateDictTypeExists(String id) {
+    SysDictTypePO validateDictTypeExists(String id) {
         if (id == null) {
             return null;
         }
-        SysDictTypeDO dictType = dictTypeMapper.selectById(id);
+        SysDictTypePO dictType = dictTypeMapper.selectById(id);
         if (dictType == null) {
             throw exception(DICT_TYPE_NOT_EXISTS);
         }

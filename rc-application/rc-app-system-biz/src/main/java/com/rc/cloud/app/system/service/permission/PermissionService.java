@@ -1,21 +1,17 @@
 package com.rc.cloud.app.system.service.permission;
 
-import com.rc.cloud.app.system.model.permission.SysMenuPO;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
-import com.rc.cloud.app.system.model.user.SysUserPO;
+import com.rc.cloud.app.system.model.permission.SysMenuPO;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 /**
- * 权限 Service 接口
- *
- * 提供用户-角色、角色-菜单、角色-部门的关联权限处理
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 权限 Service 接口
  */
 public interface PermissionService {
 
@@ -26,11 +22,11 @@ public interface PermissionService {
 
     /**
      * 获得角色们拥有的菜单列表，从缓存中获取
-     *
+     * <p>
      * 任一参数为空时，则返回为空
      *
-     * @param roleIds 角色编号数组
-     * @param menuTypes 菜单类型数组
+     * @param roleIds       角色编号数组
+     * @param menuTypes     菜单类型数组
      * @param menusStatuses 菜单状态数组
      * @return 菜单列表
      */
@@ -40,7 +36,7 @@ public interface PermissionService {
     /**
      * 获得用户拥有的角色编号集合，从缓存中获取
      *
-     * @param userId 用户编号
+     * @param userId       用户编号
      * @param roleStatuses 角色状态集合. 允许为空，为空时不过滤
      * @return 角色编号集合
      */
@@ -65,7 +61,7 @@ public interface PermissionService {
     /**
      * 设置角色菜单
      *
-     * @param roleId 角色编号
+     * @param roleId  角色编号
      * @param menuIds 菜单编号集合
      */
     void assignRoleMenu(String roleId, Set<String> menuIds);
@@ -80,6 +76,7 @@ public interface PermissionService {
 
     /**
      * 根据用户编号，获得菜单权限数组
+     *
      * @param userId 用户编号
      * @return 菜单权限数组
      */
@@ -88,7 +85,7 @@ public interface PermissionService {
     /**
      * 设置用户角色
      *
-     * @param userId 角色编号
+     * @param userId  角色编号
      * @param roleIds 角色编号集合
      */
     void assignUserRole(String userId, Set<String> roleIds);
@@ -96,8 +93,8 @@ public interface PermissionService {
     /**
      * 设置角色的数据权限
      *
-     * @param roleId 角色编号
-     * @param dataScope 数据范围
+     * @param roleId           角色编号
+     * @param dataScope        数据范围
      * @param dataScopeDeptIds 部门编号数组
      */
     void assignRoleDataScope(String roleId, Integer dataScope, Set<String> dataScopeDeptIds);
@@ -126,7 +123,7 @@ public interface PermissionService {
     /**
      * 判断是否有权限，任一一个即可
      *
-     * @param userId 用户编号
+     * @param userId      用户编号
      * @param permissions 权限
      * @return 是否
      */
@@ -135,7 +132,8 @@ public interface PermissionService {
     /**
      * 判断是否有角色，任一一个即可
      *
-     * @param roles 角色数组
+     * @param roles  角色数组
+     * @param userId 用户编号
      * @return 是否
      */
     boolean hasAnyRoles(String userId, String... roles);
@@ -147,12 +145,5 @@ public interface PermissionService {
      * @return 部门数据权限
      */
     DeptDataPermissionRespDTO getDeptDataPermission(String userId);
-
-    /**
-     * 根据用户名，获得包含权限列表的用户信息
-     * @param username 用户名
-     * @return 包含权限列表的用户信息
-     */
-    Optional<SysUserPO> findOptionalByUsernameWithAuthorities(String username);
 
 }

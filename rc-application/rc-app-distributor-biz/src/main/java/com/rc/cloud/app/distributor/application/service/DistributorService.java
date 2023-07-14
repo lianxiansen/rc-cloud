@@ -41,7 +41,7 @@ public interface DistributorService {
     void delete(String id);
 
     /**
-     * 删除至回收站
+     * 删除至回收站，更新回收站状态字段
      *
      * @param id 编号
      */
@@ -62,7 +62,7 @@ public interface DistributorService {
     void unlock(String id);
 
     /**
-     * 从回收站恢复
+     * 从回收站恢复，更新回收站状态字段
      *
      * @param id 编号
      */
@@ -100,5 +100,11 @@ public interface DistributorService {
      */
     PageResult<DistributorPO> getPage(DistributorPageReqVO pageReqVO);
 
-    List<DistributorPO> getList(DistributorExportReqVO exportReqVO) ;
+    /**
+     * 获取经销商列表
+     *
+     * @param exportReqVO
+     * @return DistributorPO列表
+     */
+    List<DistributorPO> getList(DistributorExportReqVO exportReqVO);
 }

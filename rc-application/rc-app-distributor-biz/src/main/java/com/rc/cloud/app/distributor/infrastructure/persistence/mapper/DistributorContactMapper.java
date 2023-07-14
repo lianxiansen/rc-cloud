@@ -4,8 +4,6 @@ import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorCon
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Mapper;
 
-import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
-
 /**
  * @author WJF
  * @create 2023-06-27 8:42

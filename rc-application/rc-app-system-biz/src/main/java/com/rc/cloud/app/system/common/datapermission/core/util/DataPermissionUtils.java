@@ -5,23 +5,23 @@ import com.rc.cloud.app.system.common.datapermission.core.aop.DataPermissionCont
 import lombok.SneakyThrows;
 
 /**
- * 数据权限 Util
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 数据权限 Util
  */
 public class DataPermissionUtils {
 
-    private static DataPermission DATA_PERMISSION_DISABLE;
+    private static DataPermission dataPermissionDisable;
 
     @DataPermission(enable = false)
     @SneakyThrows
     private static DataPermission getDisableDataPermissionDisable() {
-        if (DATA_PERMISSION_DISABLE == null) {
-            DATA_PERMISSION_DISABLE = DataPermissionUtils.class
+        if (dataPermissionDisable == null) {
+            dataPermissionDisable = DataPermissionUtils.class
                     .getDeclaredMethod("getDisableDataPermissionDisable")
                     .getAnnotation(DataPermission.class);
         }
-        return DATA_PERMISSION_DISABLE;
+        return dataPermissionDisable;
     }
 
     /**

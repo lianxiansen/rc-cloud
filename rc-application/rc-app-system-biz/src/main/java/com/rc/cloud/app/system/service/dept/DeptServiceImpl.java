@@ -4,10 +4,10 @@ import cn.hutool.core.collection.CollUtil;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.convert.dept.DeptConvert;
 import com.rc.cloud.app.system.enums.dept.DeptIdEnum;
 import com.rc.cloud.app.system.mapper.dept.DeptMapper;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptListReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptUpdateReqVO;
@@ -27,9 +27,9 @@ import static com.rc.cloud.app.system.enums.ErrorCodeConstants.*;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
 /**
- * 部门 Service 实现类
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 部门服务实现类
  */
 @Service
 @Validated
@@ -38,9 +38,9 @@ public class DeptServiceImpl implements DeptService {
 
     /**
      * 部门缓存
-     *
+     * <p>
      * key：部门编号 {@link SysDeptPO#getId()}
-     *
+     * <p>
      * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
      */
     @Getter
@@ -49,7 +49,7 @@ public class DeptServiceImpl implements DeptService {
      * 父部门缓存
      * key：部门编号 {@link SysDeptPO#getParentId()}
      * value: 直接子部门列表
-     *
+     * <p>
      * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
      */
     @Getter
@@ -140,19 +140,19 @@ public class DeptServiceImpl implements DeptService {
         }
         List<SysDeptPO> result = new ArrayList<>();
         // 递归，简单粗暴
-       getDeptsByParentIdFromCache(result, parentId,
-               recursive ? Integer.MAX_VALUE : 1, // 如果递归获取，则无限；否则，只递归 1 次
-               parentDeptCache);
+        getDeptsByParentIdFromCache(result, parentId,
+                recursive ? Integer.MAX_VALUE : 1, // 如果递归获取，则无限；否则，只递归 1 次
+                parentDeptCache);
         return result;
     }
 
     /**
      * 递归获取所有的子部门，添加到 result 结果
      *
-     * @param result 结果
-     * @param parentId 父编号
+     * @param result         结果
+     * @param parentId       父编号
      * @param recursiveCount 递归次数
-     * @param parentDeptMap 父部门 Map，使用缓存，避免变化
+     * @param parentDeptMap  父部门 Map，使用缓存，避免变化
      */
     private void getDeptsByParentIdFromCache(List<SysDeptPO> result, String parentId, int recursiveCount,
                                              Multimap<String, SysDeptPO> parentDeptMap) {

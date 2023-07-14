@@ -5,6 +5,11 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 租户套餐精简 Response VO
+ */
 @Schema(description = "管理后台 - 租户套餐精简 Response VO")
 @Data
 public class TenantPackageSimpleRespVO {

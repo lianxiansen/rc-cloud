@@ -7,18 +7,11 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.convert.dept.PostConvert;
-import com.rc.cloud.app.system.convert.permission.RoleConvert;
-import com.rc.cloud.app.system.model.dept.SysDeptPO;
-import com.rc.cloud.app.system.model.dept.SysPostPO;
-import com.rc.cloud.app.system.model.dept.SysUserPostPO;
-import com.rc.cloud.app.system.model.permission.SysMenuPO;
-import com.rc.cloud.app.system.model.permission.SysRolePO;
-import com.rc.cloud.app.system.model.permission.SysUserRolePO;
 import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import com.rc.cloud.app.system.api.user.vo.SysUserVO;
-import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.common.datapermission.core.util.DataPermissionUtils;
+import com.rc.cloud.app.system.convert.dept.PostConvert;
+import com.rc.cloud.app.system.convert.permission.RoleConvert;
 import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.mapper.dept.PostMapper;
 import com.rc.cloud.app.system.mapper.dept.UserPostMapper;
@@ -26,6 +19,13 @@ import com.rc.cloud.app.system.mapper.permission.MenuMapper;
 import com.rc.cloud.app.system.mapper.permission.RoleMapper;
 import com.rc.cloud.app.system.mapper.permission.UserRoleMapper;
 import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
+import com.rc.cloud.app.system.model.dept.SysPostPO;
+import com.rc.cloud.app.system.model.dept.SysUserPostPO;
+import com.rc.cloud.app.system.model.permission.SysMenuPO;
+import com.rc.cloud.app.system.model.permission.SysRolePO;
+import com.rc.cloud.app.system.model.permission.SysUserRolePO;
+import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
@@ -33,7 +33,10 @@ import com.rc.cloud.app.system.service.tenant.TenantService;
 import com.rc.cloud.app.system.vo.permission.role.RoleUserPageVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
-import com.rc.cloud.app.system.vo.user.user.*;
+import com.rc.cloud.app.system.vo.user.user.UserCreateReqVO;
+import com.rc.cloud.app.system.vo.user.user.UserExportReqVO;
+import com.rc.cloud.app.system.vo.user.user.UserPageReqVO;
+import com.rc.cloud.app.system.vo.user.user.UserUpdateReqVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
@@ -58,9 +61,9 @@ import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertLi
 import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertSet;
 
 /**
- * 后台用户 Service 实现类
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 后台用户 Service 实现类
  */
 @Service("adminUserService")
 @Slf4j
@@ -97,7 +100,6 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Resource
     private MenuMapper menuMapper;
-
 
 
 //    @Resource
@@ -207,7 +209,8 @@ public class AdminUserServiceImpl implements AdminUserService {
                         SysUserPostPO userPostDO = new SysUserPostPO();
                         userPostDO.setUserId(userId);
                         userPostDO.setPostId(postId);
-                        return userPostDO;})
+                        return userPostDO;
+                    })
             );
         }
         if (!CollectionUtil.isEmpty(deletePostIds)) {
@@ -308,6 +311,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     /**
      * 通过查用户的全部信息
+     *
      * @param sysUser 用户
      * @return
      */
@@ -433,6 +437,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     /**
      * 获得部门条件：查询指定部门的子部门编号们，包括自身
+     *
      * @param deptId 部门编号
      * @return 部门编号集合
      */
@@ -447,7 +452,7 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     private void validateUserForCreateOrUpdate(String id, String username, String mobile, String email,
-                                              String deptId, Set<String> postIds) {
+                                               String deptId, Set<String> postIds) {
         // 关闭数据权限，避免因为没有数据权限，查询不到数据，进而导致唯一校验不正确
         DataPermissionUtils.executeIgnore(() -> {
             // 校验用户存在
@@ -532,6 +537,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     /**
      * 校验旧密码
+     *
      * @param id          用户 id
      * @param oldPassword 旧密码
      */

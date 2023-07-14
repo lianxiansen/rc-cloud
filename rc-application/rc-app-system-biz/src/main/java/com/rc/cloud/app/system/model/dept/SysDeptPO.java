@@ -3,17 +3,14 @@ package com.rc.cloud.app.system.model.dept;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.rc.cloud.app.system.api.user.vo.SysUserVO;
-import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 部门表
- *
- * @author ruoyi
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 部门表
  */
 @TableName("sys_dept")
 @Data
@@ -31,7 +28,7 @@ public class SysDeptPO extends TenantBaseDO {
     private String name;
     /**
      * 父部门ID
-     *
+     * <p>
      * 关联 {@link #id}
      */
     private String parentId;
@@ -41,8 +38,8 @@ public class SysDeptPO extends TenantBaseDO {
     private Integer sort;
     /**
      * 负责人
-     *
-     * 关联 {@link SysUserVO#getId()}
+     * <p>
+     * 关联 SysUserVO#getId()
      */
     private String leaderUserId;
     /**
@@ -55,8 +52,8 @@ public class SysDeptPO extends TenantBaseDO {
     private String email;
     /**
      * 部门状态
-     *
-     * 枚举 {@link CommonStatusEnum}
+     * <p>
+     * 枚举 CommonStatusEnum
      */
     private Integer status;
 

@@ -12,9 +12,9 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 字典数据 Service 接口
- *
- * @author ruoyi
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 字典数据服务接口
  */
 public interface DictDataService {
 
@@ -85,7 +85,7 @@ public interface DictDataService {
      * 2. 字典数据被禁用
      *
      * @param dictType 字典类型
-     * @param values 字典数据值的数组
+     * @param values   字典数据值的数组
      */
     void validateDictDataList(String dictType, Collection<String> values);
 
@@ -93,7 +93,7 @@ public interface DictDataService {
      * 获得指定的字典数据
      *
      * @param dictType 字典类型
-     * @param value 字典数据值
+     * @param value    字典数据值
      * @return 字典数据
      */
     SysDictDataPO getDictData(String dictType, String value);
@@ -102,12 +102,22 @@ public interface DictDataService {
      * 解析获得指定的字典数据，从缓存中
      *
      * @param dictType 字典类型
-     * @param label 字典数据标签
+     * @param label    字典数据标签
      * @return 字典数据
      */
     SysDictDataPO parseDictData(String dictType, String label);
 
+    /**
+     * 获得指定字典类型的字典数据列表
+     *
+     * @return 字典数据列表
+     */
     List<SysDictDataPO> selectListBySortAsc();
 
+    /**
+     * 根据字典数据id列表删除字典数据
+     *
+     * @param idList 字典数据id列表
+     */
     void deleteDictDatas(List<String> idList);
 }

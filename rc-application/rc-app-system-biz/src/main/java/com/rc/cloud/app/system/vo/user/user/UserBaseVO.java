@@ -11,18 +11,21 @@ import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
- * 用户 Base VO，提供给添加、修改、详细的子 VO 使用
- * 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 用户 Base VO，提供给添加、修改、详细的子 VO 使用
  */
 @Data
 public class UserBaseVO {
 
-    @Schema(description = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
+    @SuppressWarnings("checkstyle:magicnumber")
+    @Schema(description = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "RC")
     @NotBlank(message = "用户账号不能为空")
     @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "用户账号由 数字、字母 组成")
     @Size(min = 4, max = 30, message = "用户账号长度为 4-30 个字符")
     private String username;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
     @Size(max = 30, message = "用户昵称长度不能超过30个字符")
     private String nickname;
@@ -39,7 +42,8 @@ public class UserBaseVO {
     @Schema(description = "角色编号数组", example = "[1,2,3]")
     private Set<String> roleIds;
 
-    @Schema(description = "用户邮箱", example = "yudao@iocoder.cn")
+    @SuppressWarnings("checkstyle:magicnumber")
+    @Schema(description = "用户邮箱", example = "HQF@RC.cn")
     @Email(message = "邮箱格式不正确")
     @Size(max = 50, message = "邮箱长度不能超过 50 个字符")
     private String email;
@@ -51,7 +55,7 @@ public class UserBaseVO {
     @Schema(description = "用户性别,参见 SexEnum 枚举类", example = "1")
     private Integer sex;
 
-    @Schema(description = "用户头像", example = "https://www.iocoder.cn/xxx.png")
+    @Schema(description = "用户头像", example = "https://www.RC.cn/xxx.png")
     private String avatar;
 
     @Schema(description = "状态", example = "0")

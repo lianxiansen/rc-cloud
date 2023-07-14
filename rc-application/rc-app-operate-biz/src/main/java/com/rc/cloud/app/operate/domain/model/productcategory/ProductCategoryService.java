@@ -1,20 +1,19 @@
 package com.rc.cloud.app.operate.domain.model.productcategory;
 
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotAssociatedProductSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotHasChildSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Enabled;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
+import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
+import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
 /**
  * @ClassName: SaveProductCategoryDomainServce
@@ -26,31 +25,50 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
 public class ProductCategoryService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
-
-    @Resource
-    private ProductRepository productRepository;
     @Resource
     private RemoveShouldNotHasChildSpecification removeShouldNoChildSpecification;
     @Resource
     private RemoveShouldNotAssociatedProductSpecification removeShouldNotAssociatedProductSpecification;
 
-
-    public void reInherit(ProductCategory sub, ProductCategory parent) {
-        AssertUtils.notNull(sub, "sub must not be null");
-        AssertUtils.notNull(parent, "parent must not be null");
-        List<ProductCategory> allList = productCategoryRepository.findAll();
-        sub.reInherit(parent);
-        reInheritCascade(allList, sub);
+    public boolean save(ProductCategory productCategory){
+        if(ObjectUtils.isNotNull(productCategory.getParentId())){
+            ProductCategory parentCategory = productCategoryRepository.findById(productCategory.getParentId());
+            if(ObjectUtils.isNull(parentCategory)){
+                throw new ServiceException(ProductCategoryErrorCodeConstants.PARENT_NOT_EXISTS);
+            }
+            productCategory.inherit(parentCategory);
+        }
+        return productCategoryRepository.save(productCategory);
     }
+    public boolean update(ProductCategory productCategory){
+        List<ProductCategory> allList = productCategoryRepository.findAll();
+        if(ObjectUtils.isNotNull(productCategory.getParentId())){
+            ProductCategory parent = productCategoryRepository.findById(productCategory.getParentId());
+            if(ObjectUtils.isNull(parent)){
+                throw new ServiceException(ProductCategoryErrorCodeConstants.PARENT_NOT_EXISTS);
+            }
+            productCategory.reInherit(parent);
+
+        }else{
+            productCategory.root();
+        }
+        reInheritCascade(allList, productCategory);
+        return productCategoryRepository.save(productCategory);
+    }
+
+    public List<ProductCategory> findAll(){
+        return productCategoryRepository.findAll();
+    }
+
 
 
     public boolean remove(ProductCategoryId productCategoryId) {
         AssertUtils.notNull(productCategoryId, "productCategoryId must not be null");
         if (!removeShouldNotAssociatedProductSpecification.isSatisfiedBy(productCategoryId)) {
-            throw exception(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
+            throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
         }
         if (!removeShouldNoChildSpecification.isSatisfiedBy(productCategoryId)) {
-            throw exception(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_HAS_CHILD);
+            throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_HAS_CHILD);
         }
         return productCategoryRepository.removeById(productCategoryId);
     }
@@ -62,7 +80,7 @@ public class ProductCategoryService {
         }
         subList.forEach(item -> {
             item.reInherit(parent);
-            item.publishSaveEvent();
+            productCategoryRepository.save(item);
             List<ProductCategory> itemSubList = findSubList(allList, item);
             reInheritCascade(allList, item);
         });
@@ -81,32 +99,20 @@ public class ProductCategoryService {
         return list;
     }
 
-    public void enable(ProductCategoryId productCategoryId) {
-        AssertUtils.notNull(productCategoryId, "productCategoryId must be not null");
-        ProductCategory productCategory = productCategoryRepository.findById(productCategoryId);
+    public void enable(ProductCategory productCategory) {
+        AssertUtils.notNull(productCategory, "productCategory must be not null");
         productCategory.setEnabled(new Enabled(true));
         productCategoryRepository.save(productCategory);
     }
 
-    public void disable(ProductCategoryId productCategoryId) {
-        AssertUtils.notNull(productCategoryId, "productCategoryId must be not null");
-        ProductCategory productCategory = productCategoryRepository.findById(productCategoryId);
+    public void disable(ProductCategory productCategory) {
+        AssertUtils.notNull(productCategory, "productCategory must be not null");
         productCategory.setEnabled(new Enabled(false));
         productCategoryRepository.save(productCategory);
     }
 
-
-    public void create(){
-        ProductCategory productCategory=new ProductCategory(null,null,null);
-        //触发领域事件
-
+    public ProductCategory findById(ProductCategoryId productCategoryId){
+        AssertUtils.notNull(productCategoryId, "productCategoryId must be not null");
+        return productCategoryRepository.findById(productCategoryId);
     }
-
-
-
-    public void create2(){
-        ProductCategory productCategory=new ProductCategory(null,null,null);
-
-    }
-
 }

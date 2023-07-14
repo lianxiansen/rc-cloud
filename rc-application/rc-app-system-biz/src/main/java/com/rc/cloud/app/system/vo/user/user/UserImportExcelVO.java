@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 /**
- * 用户 Excel 导入 VO
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 用户 Excel 导入 VO
  */
 @Data
 @Builder

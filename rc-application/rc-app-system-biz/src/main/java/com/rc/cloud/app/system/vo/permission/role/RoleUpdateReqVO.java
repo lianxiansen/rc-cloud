@@ -7,6 +7,11 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 角色更新 Request VO
+ */
 @Schema(description = "管理后台 - 角色更新 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)

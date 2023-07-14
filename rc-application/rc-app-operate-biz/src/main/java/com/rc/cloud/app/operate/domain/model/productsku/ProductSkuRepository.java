@@ -8,10 +8,6 @@ import java.util.List;
 public interface ProductSkuRepository {
 
 
-    ProductSkuId nextId();
-
-    String nextProductSkuImageId();
-    String nextProductSkuAttributeId();
 
 
     int removeProductSkuImageByProductSkuId(ProductSkuId productSkuId);
