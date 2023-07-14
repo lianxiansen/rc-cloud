@@ -8,9 +8,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * 用户和角色关联
- *
- * @author ruoyi
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 用户角色关联表
  */
 @TableName("sys_user_role")
 @Data
@@ -22,10 +22,12 @@ public class SysUserRolePO extends BaseDO {
      */
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
+
     /**
      * 用户 ID
      */
     private String userId;
+
     /**
      * 角色 ID
      */

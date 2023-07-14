@@ -1,7 +1,9 @@
 package com.rc.cloud.app.system.model.tenant;
 
-import com.baomidou.mybatisplus.annotation.*;
-import com.rc.cloud.common.core.enums.CommonStatusEnum;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import com.rc.cloud.common.mybatis.core.type.JsonStringSetTypeHandler;
 import lombok.*;
@@ -9,9 +11,9 @@ import lombok.*;
 import java.util.Set;
 
 /**
- * 租户套餐 DO
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 租户套餐信息表
  */
 @TableName(value = "sys_tenant_package", autoResultMap = true)
 @Data
@@ -27,20 +29,24 @@ public class SysTenantPackagePO extends BaseDO {
      */
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
+
     /**
      * 套餐名，唯一
      */
     private String name;
+
     /**
      * 租户套餐状态
-     *
-     * 枚举 {@link CommonStatusEnum}
+     * <p>
+     * 枚举 CommonStatusEnum
      */
     private Integer status;
+
     /**
      * 备注
      */
     private String remark;
+
     /**
      * 关联的菜单编号
      */
