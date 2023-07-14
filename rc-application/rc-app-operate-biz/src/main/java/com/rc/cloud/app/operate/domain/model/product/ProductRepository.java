@@ -17,12 +17,12 @@ import java.util.List;
  */
 public interface ProductRepository {
 
+
     List<ProductImage> getProductImageByProductId(ProductId productId);
 
     int removeProductImageByProductId(ProductId productId);
 
     int removeProductImageByUrlAndSortId(String url ,int sortId);
-
 
 
     int batchSaveProductImage(List<ProductImage> productImageList,String productId,String tenantId);
@@ -44,13 +44,7 @@ public interface ProductRepository {
     PageResult<Product> getProductPageList(ProductListQueryDTO query);
 
 
-    List<ProductDict> getProductDictByProductId(ProductId productId);
-
     boolean existsByBrandId(BrandId brandId);
-
-    void insertProductEntity(Product product);
-
-    void updateProductEntity(Product product);
 
     boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
 }

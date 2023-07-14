@@ -42,4 +42,13 @@ public class ProductDictConvert
     }
 
 
+    public static List<ProductDictPO> convertPOList(List<ProductDict> list){
+        List<ProductDictPO> resList =new ArrayList<>();
+        if(list!=null && list.size()>0){
+            list.forEach(x->
+                    resList.add(convert(x))
+            );
+        }
+        return resList;
+    }
 }

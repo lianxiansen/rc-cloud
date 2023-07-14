@@ -207,27 +207,6 @@ public class ProductRepositoryImpl implements  ProductRepository {
         productPageResult.setList(productList);
         return productPageResult;
     }
-    @Override
-    public List<ProductDict> getProductDictByProductId(ProductId productId){
-        LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductDictPO>();
-        LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDictPO::getProductId, productId.id());
-        return convert2ProductDict(this.productDictMapper.selectList(wrapper));
-    }
-
-    private List<ProductDict> convert2ProductDict(List<ProductDictPO> productDictPOList){
-        List<ProductDict> arr=new ArrayList<>();
-        for (ProductDictPO productDictPO : productDictPOList) {
-
-            ProductDict ProductDict=new ProductDict(productDictPO.getId());
-            ProductDict.setKey(productDictPO.getKey());
-            ProductDict.setValue(productDictPO.getValue());
-            ProductDict.setSort(productDictPO.getSortId());
-            arr.add(ProductDict);
-        }
-        return arr;
-
-    }
 
 //    @Override
 //    public List<ProductImage> getProductImageByProductId(ProductId productId){
@@ -251,82 +230,6 @@ public class ProductRepositoryImpl implements  ProductRepository {
     @Override
     public boolean existsByBrandId(BrandId brandId) {
         return false;
-    }
-
-    @Override
-    public void insertProductEntity(Product product) {
-
-    }
-
-    @Override
-    public void updateProductEntity(Product product) {
-
-    }
-
-
-    private List<ProductImage> convert2ProductImage(List<ProductImagePO> productImagePOList){
-        List<ProductImage> urls=new ArrayList<>();
-        for (ProductImagePO productImage : productImagePOList) {
-
-            ProductImage ProductImage=new ProductImage(productImage.getId());
-            ProductImage.setUrl(productImage.getUrl());
-            ProductImage.setSort(productImage.getSortId());
-            urls.add(ProductImage);
-        }
-        return urls;
-    }
-
-    /**
-     * ProductDO 转领域模型
-     * @param productPO
-     * @return
-     */
-    private Product convert2Product(ProductPO productPO){
-        ProductId productId=new ProductId(productPO.getId());
-        TenantId tenantId = new TenantId(productPO.getTenantId());
-        Product product=new Product(productId,tenantId,new Name(productPO.getName()));
-        //设置相册
-        List<ProductImage> urls = getProductImageByProductId(productId);
-        product.setProductImages(urls);
-
-        product.setId(productId);
-
-        Remark remark = new Remark(productPO.getRemark());
-        Tag tag = new Tag(productPO.getTag());
-        BrandId brandId = new BrandId(productPO.getBrandId());
-        CategoryName firstCategory = new CategoryName(productPO.getFirstCategory());
-        CategoryName secondCategory = new CategoryName(productPO.getSecondCategory());
-        CategoryName thirdCategory = new CategoryName(productPO.getThirdCategory());
-        CustomClassificationId customClassificationId = new CustomClassificationId(productPO.getCustomClassificationId());
-        Newest newest = new Newest(productPO.getNewFlag());
-        Explosives explosives = null;
-        if(productPO.getExplosivesFlag()){
-            explosives= new Explosives(productPO.getExplosivesFlag(), productPO.getExplosivesImage());
-        }
-
-        Recommend recommend = new Recommend(productPO.getRecommendFlag());
-        Open open = new Open(productPO.getPublicFlag());
-        OnshelfStatus onshelfStatus = new OnshelfStatus(productPO.getOnshelfStatus());
-        Enable enable = new Enable(productPO.getEnabledFlag());
-        Video video = new Video(productPO.getVideoUrl(), productPO.getVideoImg()
-                , productPO.getInstallVideoUrl(), productPO.getInstallVideoImg());
-
-        product.setRemark(remark);
-        product.setTag(tag);
-        product.setBrandId(brandId);
-        product.setCategory(firstCategory,secondCategory,thirdCategory);
-        product.setCustomClassificationId(customClassificationId);
-        product.setNewest(newest);
-        product.setExplosives(explosives);
-        product.setRecommend(recommend);
-        product.setOpen(open);
-        product.setOnshelfStatus(onshelfStatus);
-        product.setEnable(enable);
-        product.setVideo(video);
-
-        //设置字典
-        product.setProductDict(getProductDictByProductId(productId));
-        return product;
     }
 
 

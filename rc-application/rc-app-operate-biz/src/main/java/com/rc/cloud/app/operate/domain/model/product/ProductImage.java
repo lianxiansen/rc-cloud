@@ -13,9 +13,9 @@ import java.util.Objects;
  * @Date: 2023/6/23 17:02
  * @Description: TODO
  */
-public class ProductImage {
+public class ProductImage extends  Entity {
 
-    private String id;
+    private ProductImageId id;
 
     private String url;
     private int sort;
@@ -25,10 +25,10 @@ public class ProductImage {
         return url;
     }
 
-    public ProductImage(String id){
-        this.id= id;
-    }
 
+    public ProductImage(ProductImageId id) {
+        this.id = id;
+    }
 
     public ProductImage setUrl(String url) {
         AssertUtils.assertArgumentNotNull(url, "url must not be null");
@@ -57,10 +57,6 @@ public class ProductImage {
         return this;
     }
 
-    public String getId() {
-        return id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,5 +68,14 @@ public class ProductImage {
     @Override
     public int hashCode() {
         return Objects.hash(getUrl(), getSort());
+    }
+
+    @Override
+    public ProductImageId getId() {
+        return id;
+    }
+
+    public void setId(ProductImageId id) {
+        this.id = id;
     }
 }

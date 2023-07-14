@@ -123,6 +123,8 @@ public class ProductSaveDTO {
 
     private Integer sort;
 
+    private String attributeId;
+
     private List<ProductAttributeSaveDTO> attributes;
 
     private List<ProductSkuSaveDTO> skus;
@@ -137,6 +139,8 @@ public class ProductSaveDTO {
     private String installVideoUrl;
     private String installVideoImg;
 
+
+    private String detailId;
     private String detail;
 
 

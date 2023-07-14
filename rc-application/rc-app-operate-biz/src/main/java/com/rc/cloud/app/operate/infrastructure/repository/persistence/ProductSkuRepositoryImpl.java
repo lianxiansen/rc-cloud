@@ -105,6 +105,14 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
     }
 
     @Override
+    public int batchSaveProductSku(List<ProductSku> productSkuList) {
+        productSkuList.forEach(x->
+                        insertProductSku(x)
+                );
+        return 1;
+    }
+
+    @Override
     public int updateProductSku(ProductSku productSku) {
         if(!exist(productSku.getId())){
             throw new IllegalArgumentException("该商品不存在");
