@@ -93,6 +93,7 @@
         <module name="JavadocType">
             <property name="allowUnknownTags" value="true"/>
         </module>
+        <module name="SuppressWarningsHolder"/>
         <!--    <module name="JavadocVariable"/>-->
         <!--    <module name="JavadocStyle"/>-->
         <module name="MissingJavadocMethod">
@@ -190,5 +191,7 @@
         </module>
 
     </module>
+
+    <module name="SuppressWarningsFilter"/>
 
 </module>
