@@ -9,12 +9,18 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 /**
- * 异步任务 Configuration
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 异步任务 Configuration
  */
 @AutoConfiguration
 @EnableAsync
-public class YudaoAsyncAutoConfiguration {
+public class RcAsyncAutoConfiguration {
 
+    /**
+     * 线程池任务执行器BeanPostProcessor
+     * @return BeanPostProcessor
+     */
     @Bean
     public BeanPostProcessor threadPoolTaskExecutorBeanPostProcessor() {
         return new BeanPostProcessor() {
@@ -29,8 +35,6 @@ public class YudaoAsyncAutoConfiguration {
                 executor.setTaskDecorator(TtlRunnable::get);
                 return executor;
             }
-
         };
     }
-
 }

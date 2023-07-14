@@ -1,10 +1,7 @@
 package com.rc.cloud.app.distributor.appearance.facade;
 
 import com.rc.cloud.app.distributor.appearance.req.DistributorLevelUpdateReqVO;
-import com.rc.cloud.app.distributor.appearance.resp.DistributorChannelRespVO;
-import com.rc.cloud.app.distributor.application.convert.DistributorChannelConvert;
 import com.rc.cloud.app.distributor.application.convert.DistributorLevelConvert;
-import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;
 import com.rc.cloud.app.distributor.application.service.DistributorLevelService;
 import com.rc.cloud.app.distributor.appearance.req.DistributorLevelCreateReqVO;

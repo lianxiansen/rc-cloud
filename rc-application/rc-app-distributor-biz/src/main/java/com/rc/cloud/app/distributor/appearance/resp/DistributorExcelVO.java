@@ -3,6 +3,7 @@ package com.rc.cloud.app.distributor.appearance.resp;
 import com.rc.cloud.common.excel.convert.EasyExcelLocalDateTimeConvert;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+
 import java.time.LocalDateTime;
 
 import com.alibaba.excel.annotation.ExcelProperty;
@@ -54,7 +55,7 @@ public class DistributorExcelVO {
     @ExcelProperty("备注")
     private String remarks;
 
-    @ExcelProperty(value = "创建时间",converter = EasyExcelLocalDateTimeConvert.class)
+    @ExcelProperty(value = "创建时间", converter = EasyExcelLocalDateTimeConvert.class)
     private LocalDateTime createTime;
 
     @ExcelProperty("数据添加人员")

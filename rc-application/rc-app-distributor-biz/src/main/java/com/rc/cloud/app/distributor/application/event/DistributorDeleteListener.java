@@ -1,7 +1,5 @@
 package com.rc.cloud.app.distributor.application.event;
 
-import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorDetailMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 

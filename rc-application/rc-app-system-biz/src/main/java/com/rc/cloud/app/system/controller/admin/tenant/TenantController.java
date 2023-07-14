@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.controller.admin.tenant;
 
-import com.rc.cloud.app.system.model.tenant.SysTenantPO;
 import com.rc.cloud.app.system.convert.tenant.TenantConvert;
+import com.rc.cloud.app.system.model.tenant.SysTenantPO;
 import com.rc.cloud.app.system.service.tenant.TenantService;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantCreateReqVO;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantPageReqVO;
@@ -19,7 +19,11 @@ import javax.annotation.Resource;
 import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 
-
+/**
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 租户管理
+ */
 @Tag(name = "管理后台 - 租户")
 @RestController
 @RequestMapping("/sys/tenant")
@@ -28,6 +32,12 @@ public class TenantController {
     @Resource
     private TenantService tenantService;
 
+    /**
+     * 使用租户名，获得租户编号
+     *
+     * @param name 租户名
+     * @return 租户编号
+     */
     @GetMapping("/get-id-by-name")
     @PermitAll
     @Operation(summary = "使用租户名，获得租户编号", description = "登录界面，根据用户的租户名，获得租户编号")
@@ -37,6 +47,12 @@ public class TenantController {
         return CodeResult.ok(tenantDO != null ? tenantDO.getId() : null);
     }
 
+    /**
+     * 创建租户
+     *
+     * @param createReqVO 创建租户请求
+     * @return 租户编号
+     */
     @PostMapping("/create")
     @Operation(summary = "创建租户")
     @PreAuthorize("@pms.hasPermission('sys:tenant:create')")
@@ -44,6 +60,12 @@ public class TenantController {
         return CodeResult.ok(tenantService.createTenant(createReqVO));
     }
 
+    /**
+     * 更新租户
+     *
+     * @param updateReqVO 更新租户请求
+     * @return 是否成功
+     */
     @PutMapping("/update")
     @Operation(summary = "更新租户")
     @PreAuthorize("@pms.hasPermission('sys:tenant:update')")
@@ -52,6 +74,12 @@ public class TenantController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 删除租户
+     *
+     * @param id 租户编号
+     * @return 是否成功
+     */
     @DeleteMapping("/{id}")
     @Operation(summary = "删除租户")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
@@ -61,6 +89,12 @@ public class TenantController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 获得租户
+     *
+     * @param id 租户编号
+     * @return 租户
+     */
     @GetMapping("/get/{id}")
     @Operation(summary = "获得租户")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
@@ -70,6 +104,12 @@ public class TenantController {
         return CodeResult.ok(TenantConvert.INSTANCE.convert(tenant));
     }
 
+    /**
+     * 获得租户分页
+     *
+     * @param pageVO 分页请求
+     * @return 租户分页
+     */
     @GetMapping("/page")
     @Operation(summary = "获得租户分页")
     @PreAuthorize("@pms.hasPermission('sys:tenant:query')")

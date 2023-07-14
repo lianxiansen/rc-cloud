@@ -20,10 +20,10 @@ public interface DistributorDetailConvert {
 
     DistributorDetailRespVO convert(DistributorDetailPO bean);
 
-    @Mapping(source = "id",target = "distributorId")
-    @Mapping(target = "id",ignore=true)
+    @Mapping(source = "id", target = "distributorId")
+    @Mapping(target = "id", ignore = true)
     DistributorDetailPO convert(DistributorUpdateReqVO bean);
 
-    @Mapping(target = "id",ignore=true)
+    @Mapping(target = "id", ignore = true)
     DistributorDetailPO convert(DistributorCreateReqVO bean);
 }

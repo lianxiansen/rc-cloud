@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public class DistributorDeleteEvent extends ApplicationEvent {
 
-    public DistributorDeleteEvent(Object obj){
+    public DistributorDeleteEvent(Object obj) {
         super(obj);
     }
 }

@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 默认的 DataPermissionRuleFactoryImpl 实现类
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 默认的 DataPermissionRuleFactoryImpl 实现类
  * 支持通过 {@link DataPermissionContextHolder} 过滤数据权限
- *
- * @author 芋道源码
  */
 @RequiredArgsConstructor
 public class DataPermissionRuleFactoryImpl implements DataPermissionRuleFactory {
@@ -24,11 +24,22 @@ public class DataPermissionRuleFactoryImpl implements DataPermissionRuleFactory 
      */
     private final List<DataPermissionRule> rules;
 
+    /**
+     * 获取所有的数据权限规则
+     *
+     * @return 数据权限规则数组
+     */
     @Override
     public List<DataPermissionRule> getDataPermissionRules() {
         return rules;
     }
 
+    /**
+     * 获取当前请求的数据权限规则
+     *
+     * @param mappedStatementId mappedStatementId
+     * @return 数据权限规则数组
+     */
     @Override // mappedStatementId 参数，暂时没有用。以后，可以基于 mappedStatementId + DataPermission 进行缓存
     public List<DataPermissionRule> getDataPermissionRule(String mappedStatementId) {
         // 1. 无数据权限

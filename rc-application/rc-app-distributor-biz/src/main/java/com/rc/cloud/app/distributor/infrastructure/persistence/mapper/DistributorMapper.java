@@ -18,6 +18,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DistributorMapper extends BaseMapperX<DistributorPO> {
 
+    /**
+     * 获取经销商分页
+     *
+     * @param reqVO
+     * @return DistributorPO分页
+     */
     default PageResult<DistributorPO> selectPage(DistributorPageReqVO reqVO) {
 
         // MyBatis Plus 关联表 查询
@@ -77,6 +83,12 @@ public interface DistributorMapper extends BaseMapperX<DistributorPO> {
                 .orderByDesc(DistributorPO::getCreateTime));
     }
 
+    /**
+     * 获取经销商列表
+     *
+     * @param reqVO
+     * @return DistributorPO列表
+     */
     default List<DistributorPO> selectList(DistributorExportReqVO reqVO) {
         return selectList(new LambdaQueryWrapperX<DistributorPO>()
                 .likeIfPresent(DistributorPO::getCompanyName, reqVO.getCompanyName())

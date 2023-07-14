@@ -19,7 +19,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysDictTypeDO extends BaseDO {
+public class SysDictTypePO extends BaseDO {
 
     /**
      * 字典主键

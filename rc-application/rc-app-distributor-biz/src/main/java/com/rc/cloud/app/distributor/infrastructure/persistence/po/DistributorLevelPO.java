@@ -22,7 +22,7 @@ public class DistributorLevelPO extends BaseDO {
     /**
      * id
      */
-    @TableId(type=IdType.ASSIGN_ID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 客户等级

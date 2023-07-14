@@ -18,7 +18,7 @@ public class DistributorContactPO implements Serializable {
     /**
      * id
      */
-    @TableId(type=IdType.ASSIGN_ID)
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 账号名称

@@ -12,11 +12,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * {@link DataPermission} 注解的拦截器
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description DataPermission 注解的拦截器
  * 1. 在执行方法前，将 @DataPermission 注解入栈
  * 2. 在执行方法后，将 @DataPermission 注解出栈
- *
- * @author 芋道源码
  */
 @DataPermission // 该注解，用于 {@link DATA_PERMISSION_NULL} 的空对象
 public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
@@ -29,6 +29,10 @@ public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
     @Getter
     private final Map<MethodClassKey, DataPermission> dataPermissionCache = new ConcurrentHashMap<>();
 
+    /**
+     * 在执行方法前，将 @DataPermission 注解入栈
+     * 在执行方法后，将 @DataPermission 注解出栈
+     */
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         // 入栈

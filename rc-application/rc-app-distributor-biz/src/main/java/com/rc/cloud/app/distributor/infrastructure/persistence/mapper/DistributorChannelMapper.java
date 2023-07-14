@@ -15,6 +15,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DistributorChannelMapper extends BaseMapperX<DistributorChannelPO> {
 
+    /**
+     * 获取分页
+     * @param reqVO
+     * @return DistributorChannelPO分页
+     */
     default PageResult<DistributorChannelPO> selectPage(DistributorChannelPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<DistributorChannelPO>()
                 .likeIfPresent(DistributorChannelPO::getName, reqVO.getName())

@@ -1,25 +1,20 @@
 package com.rc.cloud.app.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
-import com.rc.cloud.app.system.api.user.vo.SysUserInfoVO;
-import com.rc.cloud.app.system.model.dept.SysDeptPO;
-import com.rc.cloud.app.system.api.user.dto.UserInfo;
-import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.convert.user.UserConvert;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
+import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.user.user.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
-import com.rc.cloud.common.security.annotation.Inner;
 import com.rc.cloud.common.security.service.RcUser;
 import com.rc.cloud.common.security.utils.SecurityUtils;
-import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -31,11 +26,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import static com.rc.cloud.app.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
-import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertList;
 
-
+/**
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 用户管理
+ */
 @Tag(name = "管理后台 - 用户")
 @RestController
 @RequestMapping("/sys/user")
@@ -47,6 +44,12 @@ public class UserController {
     @Resource
     private DeptService deptService;
 
+    /**
+     * 新增用户
+     *
+     * @param reqVO 用户信息
+     * @return 用户编号
+     */
     @PostMapping("/create")
     @Operation(summary = "新增用户")
     @PreAuthorize("@pms.hasPermission('sys:user:create')")
@@ -55,6 +58,12 @@ public class UserController {
         return CodeResult.ok(id);
     }
 
+    /**
+     * 修改用户
+     *
+     * @param reqVO 用户信息
+     * @return 是否成功
+     */
     @PutMapping("update")
     @Operation(summary = "修改用户")
     @PreAuthorize("@pms.hasPermission('sys:user:update')")
@@ -63,6 +72,12 @@ public class UserController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 删除用户
+     *
+     * @param idList 用户编号列表
+     * @return 是否成功
+     */
     @DeleteMapping()
     @Operation(summary = "删除用户")
     @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
@@ -79,6 +94,12 @@ public class UserController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 重置用户密码
+     *
+     * @param reqVO 用户信息
+     * @return 是否成功
+     */
     @PutMapping("/update-password")
     @Operation(summary = "重置用户密码")
     @PreAuthorize("@pms.hasPermission('sys:user:update-password')")
@@ -87,6 +108,12 @@ public class UserController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 修改用户状态
+     *
+     * @param reqVO 用户信息
+     * @return 是否成功
+     */
     @PutMapping("/update-status")
     @Operation(summary = "修改用户状态")
     @PreAuthorize("@pms.hasPermission('sys:user:update')")
@@ -95,6 +122,12 @@ public class UserController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 获得用户分页信息
+     *
+     * @param reqVO 查询条件
+     * @return 用户分页信息
+     */
     @GetMapping("/page")
     @Operation(summary = "获得用户分页列表")
     @PreAuthorize("@pms.hasPermission('sys:user:query')")
@@ -119,6 +152,11 @@ public class UserController {
         return CodeResult.ok(new PageResult<>(userList, pageResult.getTotal()));
     }
 
+    /**
+     * 获得用户列表
+     *
+     * @return 用户列表
+     */
     @GetMapping("/list-all-simple")
     @Operation(summary = "获取用户精简信息列表", description = "只包含被开启的用户，主要用于前端的下拉选项")
     public CodeResult<List<UserSimpleRespVO>> getSimpleUserList() {
@@ -128,6 +166,12 @@ public class UserController {
         return CodeResult.ok(UserConvert.INSTANCE.convertList04(list));
     }
 
+    /**
+     * 获得用户详情
+     *
+     * @param id 用户编号
+     * @return 用户详情
+     */
     @GetMapping("/{id}")
     @Operation(summary = "获得用户详情")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
@@ -197,7 +241,8 @@ public class UserController {
 //    })
 //    @PreAuthorize("@ss.hasPermission('system:user:import')")
 //    public CodeResult<UserImportRespVO> importExcel(@RequestParam("file") MultipartFile file,
-//                                                      @RequestParam(value = "updateSupport", required = false, defaultValue = "false") Boolean updateSupport) throws Exception {
+//                                                      @RequestParam(value = "updateSupport", required = false,
+//                                                      defaultValue = "false") Boolean updateSupport) throws Exception {
 //        List<UserImportExcelVO> list = ExcelUtils.read(file, UserImportExcelVO.class);
 //        return CodeResult.ok(userService.importUserList(list, updateSupport));
 //    }
