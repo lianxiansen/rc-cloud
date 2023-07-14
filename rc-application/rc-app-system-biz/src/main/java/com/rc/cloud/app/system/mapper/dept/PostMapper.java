@@ -15,15 +15,33 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 岗位mapper
+ */
 @Mapper
 public interface PostMapper extends BaseMapperX<SysPostPO> {
 
+    /**
+     * 根据id集合和状态集合查询岗位列表
+     *
+     * @param ids      id集合
+     * @param statuses 状态集合
+     * @return 岗位列表
+     */
     default List<SysPostPO> selectList(Collection<String> ids, Collection<Integer> statuses) {
         return selectList(new LambdaQueryWrapperX<SysPostPO>()
                 .inIfPresent(SysPostPO::getId, ids)
                 .inIfPresent(SysPostPO::getStatus, statuses));
     }
 
+    /**
+     * 分页查询岗位列表
+     *
+     * @param reqVO 查询参数
+     * @return 岗位列表
+     */
     default PageResult<SysPostPO> selectPage(PostPageReqVO reqVO) {
         if (StringUtil.isEmpty(reqVO.getOrder())) {
             reqVO.setOrder("id");
@@ -38,6 +56,12 @@ public interface PostMapper extends BaseMapperX<SysPostPO> {
         return selectPage(reqVO, wrapper);
     }
 
+    /**
+     * 导出岗位列表
+     *
+     * @param reqVO 查询参数
+     * @return 岗位列表
+     */
     default List<SysPostPO> selectList(PostExportReqVO reqVO) {
         return selectList(new LambdaQueryWrapperX<SysPostPO>()
                 .likeIfPresent(SysPostPO::getCode, reqVO.getCode())
@@ -45,14 +69,32 @@ public interface PostMapper extends BaseMapperX<SysPostPO> {
                 .eqIfPresent(SysPostPO::getStatus, reqVO.getStatus()));
     }
 
+    /**
+     * 根据岗位名称查询岗位信息
+     *
+     * @param name 岗位名称
+     * @return 岗位信息
+     */
     default SysPostPO selectByName(String name) {
         return selectOne(SysPostPO::getName, name);
     }
 
+    /**
+     * 根据岗位code查询岗位信息
+     *
+     * @param code 岗位编码
+     * @return 岗位信息
+     */
     default SysPostPO selectByCode(String code) {
         return selectOne(SysPostPO::getCode, code);
     }
 
+    /**
+     * 根据岗位id集合查询岗位列表
+     *
+     * @param postIds 岗位id集合
+     * @return 岗位列表
+     */
     default List<SysPostPO> selectPostsByPostIds(Set<String> postIds) {
         return selectList(new LambdaQueryWrapperX<SysPostPO>()
                 .inIfPresent(SysPostPO::getId, postIds));
