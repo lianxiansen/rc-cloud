@@ -7,6 +7,11 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 用户创建 Request VO
+ */
 @Schema(description = "管理后台 - 用户创建 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)

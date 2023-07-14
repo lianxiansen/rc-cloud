@@ -7,6 +7,11 @@ import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.Set;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 赋予角色数据权限 Request VO
+ */
 @Schema(description = "管理后台 - 赋予角色菜单 Request VO")
 @Data
 public class PermissionAssignRoleMenuReqVO {

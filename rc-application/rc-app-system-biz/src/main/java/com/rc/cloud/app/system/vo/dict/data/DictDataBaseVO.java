@@ -8,7 +8,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * 字典数据 Base VO，提供给添加、修改、详细的子 VO 使用
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 字典数据 Base VO，提供给添加、修改、详细的子 VO 使用
  * 如果子 VO 存在差异的字段，请不要添加到这里，影响 Swagger 文档生成
  */
 @Data
@@ -35,7 +37,6 @@ public class DictDataBaseVO {
 
     @Schema(description = "状态,见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "状态不能为空")
-//    @InEnum(value = CommonStatusEnum.class, message = "修改状态必须是 {value}")
     private Integer status;
 
     @Schema(description = "颜色类型,default、primary、success、info、warning、danger", example = "default")

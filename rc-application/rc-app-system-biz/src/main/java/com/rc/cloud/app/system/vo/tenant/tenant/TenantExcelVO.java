@@ -8,11 +8,10 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-
 /**
- * 租户 Excel VO
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 租户 Excel VO
  */
 @Data
 public class TenantExcelVO {

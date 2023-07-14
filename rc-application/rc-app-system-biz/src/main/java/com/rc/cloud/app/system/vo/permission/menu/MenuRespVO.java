@@ -12,6 +12,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 菜单信息 Response VO
+ */
 @Schema(description = "管理后台 - 菜单信息 Response VO")
 @Data
 @NoArgsConstructor

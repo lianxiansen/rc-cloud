@@ -7,7 +7,9 @@ import com.rc.cloud.common.excel.convert.DictConvert;
 import lombok.Data;
 
 /**
- * 岗位 Excel 导出响应 VO
+ * @author rc@hqf
+ * @date 2023-07-11 16:49
+ * @description 岗位 Excel 导出响应 VO
  */
 @Data
 public class PostExcelVO {

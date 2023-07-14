@@ -5,6 +5,11 @@ import lombok.Data;
 
 import javax.validation.constraints.Size;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 字典类型导出 Request VO
+ */
 @Schema(description = "管理后台 - 字典类型导出 Request VO")
 @Data
 public class DictDataExportReqVO {

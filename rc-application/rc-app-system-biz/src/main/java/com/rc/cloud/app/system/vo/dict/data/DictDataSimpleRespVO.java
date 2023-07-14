@@ -3,6 +3,11 @@ package com.rc.cloud.app.system.vo.dict.data;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 数据字典精简 Response VO
+ */
 @Schema(description = "管理后台 - 数据字典精简 Response VO")
 @Data
 public class DictDataSimpleRespVO {

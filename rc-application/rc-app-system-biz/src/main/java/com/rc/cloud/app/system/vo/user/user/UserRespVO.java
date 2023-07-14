@@ -8,7 +8,11 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 用户信息 Response VO
+ */
 @Schema(description = "管理后台 - 用户信息 Response VO")
 @Data
 @NoArgsConstructor

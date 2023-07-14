@@ -3,6 +3,11 @@ package com.rc.cloud.app.system.vo.dept.post;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 岗位导出 Request VO,参数和 PostExcelVO 是一致的"
+ */
 @Schema(description = "管理后台 - 岗位导出 Request VO,参数和 PostExcelVO 是一致的")
 @Data
 public class PostExportReqVO {

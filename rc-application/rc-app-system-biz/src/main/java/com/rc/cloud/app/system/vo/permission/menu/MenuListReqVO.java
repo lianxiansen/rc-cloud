@@ -3,6 +3,11 @@ package com.rc.cloud.app.system.vo.permission.menu;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 菜单列表 Request VO
+ */
 @Schema(description = "管理后台 - 菜单列表 Request VO")
 @Data
 public class MenuListReqVO {

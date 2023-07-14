@@ -6,6 +6,11 @@ import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 岗位信息 Response VO
+ */
 @Schema(description = "管理后台 - 岗位信息 Response VO")
 @Data
 @EqualsAndHashCode(callSuper = true)

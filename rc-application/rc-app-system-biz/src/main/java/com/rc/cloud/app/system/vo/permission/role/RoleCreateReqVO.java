@@ -4,9 +4,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
 import java.util.Set;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 角色创建 Request VO
+ */
 @Schema(description = "管理后台 - 角色创建 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)

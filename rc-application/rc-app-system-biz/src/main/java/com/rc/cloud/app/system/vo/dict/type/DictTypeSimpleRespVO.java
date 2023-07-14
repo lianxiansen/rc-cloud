@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 字典类型精简信息 Response VO
+ */
 @Schema(description = "管理后台 - 字典类型精简信息 Response VO")
 @Data
 @NoArgsConstructor

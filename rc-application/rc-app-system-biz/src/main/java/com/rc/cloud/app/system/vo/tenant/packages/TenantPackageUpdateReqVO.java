@@ -7,6 +7,11 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 租户套餐更新 Request VO
+ */
 @Schema(description = "管理后台 - 租户套餐更新 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)

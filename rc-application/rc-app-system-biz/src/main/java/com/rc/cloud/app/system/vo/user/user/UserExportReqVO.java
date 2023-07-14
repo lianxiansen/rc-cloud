@@ -10,17 +10,21 @@ import java.time.LocalDateTime;
 
 import static com.rc.cloud.common.core.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND;
 
-
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 用户导出 Request VO,参数和 UserPageReqVO 是一致的
+ */
 @Schema(description = "管理后台 - 用户导出 Request VO,参数和 UserPageReqVO 是一致的")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserExportReqVO {
 
-    @Schema(description = "用户账号,模糊匹配", example = "yudao")
+    @Schema(description = "用户账号,模糊匹配", example = "rc")
     private String username;
 
-    @Schema(description = "手机号码,模糊匹配", example = "yudao")
+    @Schema(description = "手机号码,模糊匹配", example = "rc")
     private String mobile;
 
     @Schema(description = "展示状态,参见 CommonStatusEnum 枚举类", example = "1")

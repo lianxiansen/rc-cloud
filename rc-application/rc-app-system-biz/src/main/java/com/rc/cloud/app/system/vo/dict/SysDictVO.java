@@ -1,7 +1,3 @@
-/**
- * @author oliveoil
- * date 2023-04-22 14:31
- */
 package com.rc.cloud.app.system.vo.dict;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 全部字典
- *
- * @author oliveoil
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 全部字典
  */
 @Data
 @Schema(description = "全部字典")

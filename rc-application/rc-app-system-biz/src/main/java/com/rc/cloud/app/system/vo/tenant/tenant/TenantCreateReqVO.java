@@ -11,6 +11,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 租户创建 Request VO
+ */
 @Schema(description = "管理后台 - 租户创建 Request VO")
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -6,6 +6,11 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 用户个人中心更新密码 Request VO
+ */
 @Schema(description = "管理后台 - 用户个人中心更新密码 Request VO")
 @Data
 public class UserProfileUpdatePasswordReqVO {

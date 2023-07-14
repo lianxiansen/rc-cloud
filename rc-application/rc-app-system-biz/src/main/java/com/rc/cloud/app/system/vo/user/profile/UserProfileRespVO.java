@@ -10,7 +10,11 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
+/**
+ * @author rc@hqf
+ * @date 2023-07-11
+ * @description 用户个人中心信息 Response VO
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
