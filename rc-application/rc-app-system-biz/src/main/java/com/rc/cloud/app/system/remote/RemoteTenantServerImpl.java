@@ -12,10 +12,9 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 供多租户远程调用
- *
- * @author oliveoil
- * @date 2023-07-05
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 供多租户远程调用
  */
 @RestController
 @RequestMapping("/sys/tenant")
@@ -24,14 +23,23 @@ public class RemoteTenantServerImpl {
     @Resource
     private TenantService tenantService;
 
-
+    /**
+     * 获取所有租户id
+     *
+     * @return 租户id列表
+     */
     @Inner
     @GetMapping("/getTenantIdList")
     public CodeResult<List<String>> getTenantIdList() {
         return CodeResult.ok(tenantService.getTenantIdList());
     }
 
-
+    /**
+     * 校验租户是否存在
+     *
+     * @param id 租户id
+     * @return 租户id列表
+     */
     @Inner
     @GetMapping("/validateTenant")
     public CodeResult validateTenant(String id) {

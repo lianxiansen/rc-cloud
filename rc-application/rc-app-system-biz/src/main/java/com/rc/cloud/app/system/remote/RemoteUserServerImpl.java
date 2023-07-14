@@ -19,9 +19,9 @@ import static com.rc.cloud.app.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
 /**
- * 供用户远程调用
  * @author rc@hqf
  * date 2023-07-12 13:34
+ * @description 供用户远程调用
  */
 @RestController
 @RequestMapping("/sys/user")
@@ -33,6 +33,8 @@ public class RemoteUserServerImpl {
 
     /**
      * 获取指定用户全部信息
+     *
+     * @param username 用户名
      * @return 用户信息
      */
     @Inner
@@ -50,6 +52,8 @@ public class RemoteUserServerImpl {
 
     /**
      * 获取指定用户全部信息
+     *
+     * @param id 用户ID
      * @return 用户信息
      */
 //    @Inner
@@ -68,6 +72,8 @@ public class RemoteUserServerImpl {
 
     /**
      * 获取指定用户全部信息
+     *
+     * @param ids 用户ID
      * @return 用户信息
      */
 //    @Inner
