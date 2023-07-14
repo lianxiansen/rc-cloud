@@ -3,9 +3,9 @@ package com.rc.cloud.app.system.api.tenant;
 import java.util.List;
 
 /**
- * 多租户的 API 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/13
+ * @description 多租户的 API 接口
  */
 public interface TenantApi {
 

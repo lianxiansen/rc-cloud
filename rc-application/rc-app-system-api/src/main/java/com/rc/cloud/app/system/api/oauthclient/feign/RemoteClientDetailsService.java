@@ -11,25 +11,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 /**
- * @author lengleng
- * @date 2020/12/05
+ * @author rc@hqf
+ * @date 2023/07/13
+ * @description 通过feign远程调用客户端信息
  */
 @FeignClient(contextId = "remoteClientDetailsService", value = ServiceNameConstants.SYSTEM_SERVICE)
 public interface RemoteClientDetailsService {
 
-	/**
-	 * 通过clientId 查询客户端信息
-	 * @param clientId 用户名
-	 * @return CodeResult
-	 */
-	@GetMapping(value = "/sys/client/getClientDetailsById/{clientId}", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<SysOauthClientDetailsVO> getClientDetailsById(@PathVariable("clientId") String clientId);
+    /**
+     * 通过clientId 查询客户端信息
+     *
+     * @param clientId 用户名
+     * @return CodeResult
+     */
+    @GetMapping(value = "/sys/client/getClientDetailsById/{clientId}", headers = SecurityConstants.HEADER_FROM_IN)
+    CodeResult<SysOauthClientDetailsVO> getClientDetailsById(@PathVariable("clientId") String clientId);
 
-	/**
-	 * 查询全部客户端
-	 * @return CodeResult
-	 */
-	@GetMapping(value = "/sys/client/list", headers = SecurityConstants.HEADER_FROM_IN)
-	CodeResult<List<SysOauthClientDetailsVO>> listClientDetails();
-
+    /**
+     * 查询全部客户端
+     *
+     * @return CodeResult
+     */
+    @GetMapping(value = "/sys/client/list", headers = SecurityConstants.HEADER_FROM_IN)
+    CodeResult<List<SysOauthClientDetailsVO>> listClientDetails();
 }

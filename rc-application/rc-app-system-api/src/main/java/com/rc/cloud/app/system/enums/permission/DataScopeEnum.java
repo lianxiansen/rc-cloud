@@ -4,23 +4,38 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 数据范围枚举类
- *
- * 用于实现数据级别的权限
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 数据范围枚举类，用于实现数据级别的权限
  */
 @Getter
 @AllArgsConstructor
 public enum DataScopeEnum {
 
-    ALL(1), // 全部数据权限
+    /**
+     * 全部数据权限
+     */
+    ALL(1),
 
-    DEPT_CUSTOM(2), // 指定部门数据权限
-    DEPT_ONLY(3), // 部门数据权限
-    DEPT_AND_CHILD(4), // 部门及以下数据权限
+    /**
+     * 指定部门数据权限
+     */
+    DEPT_CUSTOM(2),
 
-    SELF(5); // 仅本人数据权限
+    /**
+     * 部门数据权限
+     */
+    DEPT_ONLY(3),
+
+    /**
+     * 部门及以下数据权限
+     */
+    DEPT_AND_CHILD(4),
+
+    /**
+     * 仅本人数据权限
+     */
+    SELF(5);
 
     /**
      * 范围
