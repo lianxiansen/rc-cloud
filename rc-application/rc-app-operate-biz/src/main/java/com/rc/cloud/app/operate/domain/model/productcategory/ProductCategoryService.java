@@ -56,6 +56,10 @@ public class ProductCategoryService {
         return productCategoryRepository.save(productCategory);
     }
 
+    public List<ProductCategory> findAll(){
+        return productCategoryRepository.findAll();
+    }
+
 
 
     public boolean remove(ProductCategoryId productCategoryId) {
@@ -76,7 +80,7 @@ public class ProductCategoryService {
         }
         subList.forEach(item -> {
             item.reInherit(parent);
-            item.publishSaveEvent();
+            productCategoryRepository.save(item);
             List<ProductCategory> itemSubList = findSubList(allList, item);
             reInheritCascade(allList, item);
         });

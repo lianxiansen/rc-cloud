@@ -1,6 +1,7 @@
-delete from  `brand`;
+delete from `brand`;
+delete from `product_category`;
 -- DROP TABLE `platform_product_category`;
--- DROP TABLE `product_category`;
+
 -- DROP TABLE `custom_classification`;
 -- DROP TABLE `attribute`;
 -- DROP TABLE `attribute_value`;

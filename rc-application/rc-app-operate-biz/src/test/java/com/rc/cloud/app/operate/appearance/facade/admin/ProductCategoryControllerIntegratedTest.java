@@ -70,7 +70,6 @@ public class ProductCategoryControllerIntegratedTest {
                 .setEnglishName(RandomUtils.randomString())
                 .setName(RandomUtils.randomString())
                 .setIcon(imgUrl)
-                .setTenantId(RandomUtils.randomString())
                 .setSortId(9)
                 .setEnabledFlag(true)
                 .setProductListPageImage(imgUrl);
