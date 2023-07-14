@@ -40,5 +40,8 @@ public class ProductDictRepositoryImpl implements ProductDictRepository {
         return productDictMapper.delete(wrapper);
     }
 
-
+    @Override
+    public void saveProductDict(List<ProductDict> productDictList) {
+        productDictMapper.insertBatch(ProductDictConvert.convertPOList(productDictList));
+    }
 }

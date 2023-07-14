@@ -25,7 +25,7 @@ public class ProductSkuConvert {
         TenantId tenantId = new TenantId(po.getTenantId());
         Price price=new Price();
         price.setValue(po.getPrice());
-        ProductSku productSku=new ProductSku(id,productId,tenantId, price);
+        ProductSku productSku=new ProductSku(id,productId,tenantId);
         //秒杀信息
         SeckillSku seckillSku=new SeckillSku();
         seckillSku.setSeckillInventory(new Inventory(po.getSeckillInventory()));

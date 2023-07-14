@@ -464,29 +464,13 @@ public class Product extends AggregateRoot {
         return productAttribute;
     }
 
-    public void setProductAttributeEntity(ProductAttribute productAttribute) {
+    public void setProductAttribute(ProductAttribute productAttribute) {
         this.productAttribute = productAttribute;
     }
 
-    private Detail detail;
-
-    public Detail getDetail() {
-        return detail;
-    }
-
-    public void setDetail(Detail detail) {
-        this.detail = detail;
-    }
-
-
-    public void setProductDict(List<ProductDict> productDictEntities) {
-    }
 
     public List<ProductImage> getProductImages() {
         return null;
     }
 
-    public List<ProductDict> getProductDicts() {
-        return null;
-    }
 }

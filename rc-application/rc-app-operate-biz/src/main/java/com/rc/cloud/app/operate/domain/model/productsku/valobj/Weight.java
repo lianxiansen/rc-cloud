@@ -17,6 +17,10 @@ public class Weight extends ValueObject{
         this.value =price;
     }
 
+    public Weight(String price){
+        this.value= BigDecimal.valueOf(Double.valueOf(price));
+    }
+
     public BigDecimal getValue(){
         return value;
     }

@@ -15,12 +15,12 @@ public interface ProductImageConvert {
     ProductImageConvert INSTANCE = Mappers.getMapper(ProductImageConvert.class);
 
 
-    @Mapping(source = "id",target = "id")
+    @Mapping(source = "id",target = "id.id")
     @Mapping(source = "url",target = "url")
     @Mapping(source = "sortId",target = "sort")
     ProductImage convert(ProductImagePO productImagePO);
 
-    @Mapping(source = "id",target = "id")
+    @Mapping(source = "id.id",target = "id")
     @Mapping(source = "url",target = "url")
     @Mapping(source = "sort",target = "sortId")
     ProductImagePO convert(ProductImage productImage);

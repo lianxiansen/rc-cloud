@@ -18,26 +18,17 @@ public class ProductSku extends AggregateRoot {
     private Price price;
 
     public ProductSku(ProductSkuId id, ProductId productId,
-                      TenantId tenantId, Price price) {
+                      TenantId tenantId) {
         init();
         setId(id);
         setProductId(productId);
         setTenantId(tenantId);
-        setPrice(price);
     }
-
 
     /**
      * sku货号，可以为空，为空商品的货号做为它的货号
      */
     private String skuCode;
-
-
-    public ProductSku skuCode(String skuCode){
-        AssertUtils.assertArgumentNotNull(skuCode, "skuCode must not be null");
-        this.skuCode =skuCode;
-        return this;
-    }
 
 
     public String getSkuCode(){
@@ -49,46 +40,17 @@ public class ProductSku extends AggregateRoot {
      */
     private SupplyPrice supplyPrice;
 
-    public ProductSku supplyPrice(SupplyPrice supplyPrice){
-        AssertUtils.assertArgumentNotNull(supplyPrice, "supplyPrice must not be null");
-        this.supplyPrice =supplyPrice;
-        return this;
-    }
-
-
     /**
      * 重量
      */
     private Weight weight;
-
-    public ProductSku weight(Weight weight){
-        AssertUtils.assertArgumentNotNull(weight, "weight must not be null");
-        this.weight =weight;
-        return this;
-    }
 
     /**
      * 外部id
      */
     private OutId outId;
 
-    public ProductSku outId(OutId outId){
-        AssertUtils.assertArgumentNotNull(outId, "outId must not be null");
-        this.outId =outId;
-        return this;
-    }
     private List<ProductSkuImage> skuImageList;
-
-    public ProductSku skuImageList(List<ProductSkuImage> skuImageList){
-        if(skuImageList!=null && skuImageList.size()>0){
-            skuImageList =skuImageList;
-        }
-        return this;
-    }
-
-    public List<ProductSkuImage> getSkuImageList() {
-        return skuImageList;
-    }
 
     /**
      * 限购
@@ -239,6 +201,22 @@ public class ProductSku extends AggregateRoot {
     }
 
     public void setProductSkuAttributeEntity(ProductSkuAttribute productSkuAttribute) {
+        this.productSkuAttribute = productSkuAttribute;
+    }
+
+    public List<ProductSkuImage> getSkuImageList() {
+        return skuImageList;
+    }
+
+    public void setSkuImageList(List<ProductSkuImage> skuImageList) {
+        this.skuImageList = skuImageList;
+    }
+
+    public ProductSkuAttribute getProductSkuAttribute() {
+        return productSkuAttribute;
+    }
+
+    public void setProductSkuAttribute(ProductSkuAttribute productSkuAttribute) {
         this.productSkuAttribute = productSkuAttribute;
     }
 }

@@ -24,7 +24,9 @@ public interface ProductSkuRepository {
 
     List<ProductSku> getProductSkuListByProductId(ProductId productId);
 
-    int insertProductSku(ProductSku productSkuEntity);
+    int insertProductSku(ProductSku productSku);
+
+    int batchSaveProductSku(List<ProductSku> productSkuList);
 
     int updateProductSku(ProductSku productSkuEntity);
 

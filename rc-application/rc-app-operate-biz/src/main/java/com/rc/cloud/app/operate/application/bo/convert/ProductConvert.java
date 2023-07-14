@@ -1,18 +1,26 @@
 package com.rc.cloud.app.operate.application.bo.convert;
 
 import com.rc.cloud.app.operate.application.bo.ProductBO;
+import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductImageSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
+import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductAttributeId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Enable;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
+import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
+import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductPO;
 import com.rc.cloud.common.core.exception.ApplicationException;
+import com.rc.cloud.common.core.util.StringUtils;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
@@ -85,8 +93,14 @@ public class ProductConvert
                 ,productSaveDTO.getInstallVideoUrl()
                 ,productSaveDTO.getInstallVideoImg()
                 ,isCreate,product);
+        //设置图片
+        product= setProductImage(productSaveDTO,isCreate,product);
+        //设置属性
+        product =setProductAttibute(productSaveDTO,isCreate,product);
         return product;
     }
+
+
 
 
     private static Product setName(String name, boolean isCreate, Product product){
@@ -265,8 +279,49 @@ public class ProductConvert
         return product;
     }
 
+    private static Product setProductImage(ProductSaveDTO productSaveDTO,boolean isCreate, Product product){
+        List<ProductImage> productImages = ProductImageConvert.convertList(productSaveDTO.getAlbums());
+        if(isCreate){
+            product.setProductImages(productImages);
+        }
+        if (productSaveDTO.getAlbums() != null) {
+            product.setProductImages(productImages);
+        }
+        return product;
+    }
+
+
+    private static Product setProductAttibute(ProductSaveDTO productSaveDTO, boolean isCreate,Product product){
+        List<ProductAttributeSaveDTO> attributes = productSaveDTO.getAttributes();
+        ProductAttribute productAttribute = new ProductAttribute(new ProductAttributeId(productSaveDTO.getAttributeId()));
+        if(isCreate){
+            if(attributes==null){
+                throw  new IllegalArgumentException("attributes must be not null");
+            }
+            for (ProductAttributeSaveDTO attribute : attributes) {
+                productAttribute.addAttribute(attribute.getName(), attribute.getValue(), attribute.getSort());
+            }
+            product.setProductAttribute(productAttribute);
+        }else{
+            if(attributes!=null){
+                for (ProductAttributeSaveDTO attribute : attributes) {
+                    productAttribute.addAttribute(attribute.getName(), attribute.getValue(), attribute.getSort());
+                }
+            }
+        }
+        return product;
+    }
+
+
 
     public static List<ProductBO> convertList(List<Product> productList){
         return null;
     }
+
+
+    public static ProductBO  convert(Product product, List<ProductDict> productDicts, ProductDetail productDetail, List<ProductSku> productSkuList) {
+
+        return null;
+    }
+
 }

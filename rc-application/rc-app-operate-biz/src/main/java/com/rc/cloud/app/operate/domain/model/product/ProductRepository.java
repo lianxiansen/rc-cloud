@@ -28,7 +28,6 @@ public interface ProductRepository {
     int removeProductImageByUrlAndSortId(String url ,int sortId);
 
 
-
     int batchSaveProductImage(List<ProductImage> productImageList,String productId,String tenantId);
 
     ProductAttribute getProductAttributeByProductId(ProductId productId);
@@ -48,13 +47,7 @@ public interface ProductRepository {
     PageResult<Product> getProductPageList(ProductListQueryDTO query);
 
 
-    List<ProductDict> getProductDictByProductId(ProductId productId);
-
     boolean existsByBrandId(BrandId brandId);
-
-    void insertProductEntity(Product product);
-
-    void updateProductEntity(Product product);
 
     boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
 }

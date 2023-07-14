@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class ProductSkuImageSaveDTO {
 
+    private String id;
 
     private String url;
 

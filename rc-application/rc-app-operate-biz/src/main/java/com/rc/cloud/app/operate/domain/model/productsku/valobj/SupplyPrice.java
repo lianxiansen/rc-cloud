@@ -16,6 +16,17 @@ public class SupplyPrice extends ValueObject {
     public SupplyPrice(BigDecimal price){
         this.value =price;
     }
+    public SupplyPrice(String price){
+        validate(price);
+        this.value= BigDecimal.valueOf(Double.valueOf(price));
+    }
+
+    public void validate(Object obj){
+        if(obj==null){
+            throw  new IllegalArgumentException("price must be not null");
+        }
+    }
+
 
     public BigDecimal getValue(){
         return value;

@@ -15,4 +15,6 @@ public interface ProductDictRepository
 
     int removeProductDictByProductId(String productId);
 
+    void saveProductDict(List<ProductDict> productDictList);
+
 }

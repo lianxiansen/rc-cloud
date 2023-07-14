@@ -21,6 +21,9 @@ public class ProductSkuSaveDTO {
 
     private List<ProductSkuImageSaveDTO> albums;
 
+
+    private String attributeId;
+
     /**
      * "attributes":[{"name":"颜色","value":"红","sort":9},{"name":"尺寸","value":"X","sort":9}]
      */

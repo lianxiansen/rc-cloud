@@ -3,8 +3,10 @@ package com.rc.cloud.app.operate.application.bo;
 import com.alibaba.fastjson.JSON;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
+import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -110,123 +112,6 @@ public class ProductBO {
 
 
     private List<ProductImageBO> images;
-
-
-    private List<ProductDictBO> dicts;
-
-    public static ProductBO convert2ProductBO(Product product) {
-        ProductBO target=new ProductBO();
-
-        target.setId(product.getId().id());
-        target.setTenantId(product.getTenantId().id());
-        if(product.getEnable()!=null){
-            target.setEnabledFlag(product.getEnable().result());
-        }
-        if(product.getName()!=null){
-            target.setName(product.getName().getValue());
-        }
-        if(product.getRemark()!=null){
-            target.setRemark(product.getRemark().getValue());
-        }
-        if(product.getTag()!=null){
-            target.setTag(product.getTag().getValue());
-        }
-        if(product.getBrandId()!=null){
-            target.setBrandId(product.getBrandId().id());
-        }
-        //类别
-        if(product.getFirstCategory()!=null){
-            target.setFirstCategory(product.getFirstCategory().getValue());
-        }
-        if(product.getSecondCategory()!=null){
-            target.setSecondCategory(product.getSecondCategory().getValue());
-        }
-        if(product.getThirdCategory()!=null){
-            target.setThirdCategory(product.getThirdCategory().getValue());
-        }
-        //自定义分类
-        if(product.getCustomClassificationId()!=null){
-            target.setCustomClassificationId(product.getCustomClassificationId().id());
-        }
-        if(product.getNewest()!=null){
-            target.setNewFlag(product.getNewest().getValue());
-        }
-        if(product.getRecommend()!=null){
-            target.setRecommendFlag(product.getRecommend().getValue());
-        }
-        if(product.getExplosives()!=null){
-            target.setExplosivesFlag(product.getExplosives().isFlag());
-            target.setExplosivesImage(product.getExplosives().getImage());
-        }
-        if(product.getOpen()!=null){
-            target.setPublicFlag(product.getOpen().getValue());
-        }
-        //上架状态
-        if(product.getOnshelfStatus()!=null){
-            target.setOnshelfStatus(product.getOnshelfStatus().getValue());
-        }
-        //启用状态
-        if(product.getEnable()!=null){
-            target.setEnabledFlag(product.getEnable().result());
-        }
-        if(product.getVideo()!=null){
-            target.setVideoImg(product.getVideo().getVideoImg());
-            target.setVideoUrl(product.getVideo().getVideoUrl());
-            target.setInstallVideoImg(product.getVideo().getInstallVideoImg());
-            target.setInstallVideoUrl(product.getVideo().getInstallVideoUrl());
-        }
-        //详情
-        if(product.getDetail()!=null){
-            target.setDetail(product.getDetail().getValue());
-        }
-        //属性
-        target.setAttributes(convert2AttributeBO(product.getProductAttribute()));
-        //图片
-        //target.setImages(convert2ProductImageBO(product.getProductImages()));
-        //字典
-        target.setDicts(convert2ProductDictBO(product.getProductDicts()));
-
-
-
-        return target;
-    }
-
-
-
-    public static List<AttributeBO> convert2AttributeBO(ProductAttribute productAttribute){
-        String attr = JSON.toJSONString(productAttribute.getAttributes());
-        List<AttributeBO> arr= JSON.parseArray(attr, AttributeBO.class);
-        return arr;
-    }
-
-
-    public static List<ProductImageBO> convert2ProductImageBO(List<ProductImage> productImageList){
-        List<ProductImageBO> resList =new ArrayList<>();
-        if(productImageList !=null){
-            for (ProductImage item : productImageList) {
-                ProductImageBO bo=new ProductImageBO();
-                bo.setUrl(item.getUrl());
-                bo.setSort(item.getSort());
-                resList.add(bo);
-            }
-        }
-        return resList;
-    }
-
-
-    public static List<ProductDictBO> convert2ProductDictBO(List<ProductDict> productDictList){
-        List<ProductDictBO> resList =new ArrayList<>();
-        if(productDictList !=null){
-            for (ProductDict item : productDictList) {
-                ProductDictBO bo=new ProductDictBO();
-                bo.setKey(item.getKey());
-                bo.setValue(item.getValue());
-                bo.setSort(item.getSort());
-                resList.add(bo);
-            }
-        }
-        return resList;
-    }
 
 
 
