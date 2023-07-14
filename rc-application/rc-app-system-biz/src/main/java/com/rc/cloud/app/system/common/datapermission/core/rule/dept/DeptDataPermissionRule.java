@@ -3,13 +3,10 @@ package com.rc.cloud.app.system.common.datapermission.core.rule.dept;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.rc.cloud.app.system.api.permission.PermissionApi;
 import com.rc.cloud.app.system.common.datapermission.core.rule.DataPermissionRule;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import com.rc.cloud.common.mybatis.core.util.MyBatisUtils;
-//import com.rc.cloud.common.security.core.LoginUser;
-//import com.rc.cloud.common.security.core.util.SecurityFrameworkUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.*;
@@ -52,8 +49,6 @@ public class DeptDataPermissionRule implements DataPermissionRule {
     private static final String USER_COLUMN_NAME = "user_id";
 
     static final Expression EXPRESSION_NULL = new NullValue();
-
-    private final PermissionApi permissionApi;
 
     /**
      * 基于部门的表字段配置
