@@ -24,6 +24,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class MenuRespVO extends TreeNode<MenuRespVO> {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "菜单编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private String id;
 

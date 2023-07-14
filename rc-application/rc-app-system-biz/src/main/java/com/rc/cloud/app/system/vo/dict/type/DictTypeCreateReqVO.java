@@ -17,6 +17,7 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = true)
 public class DictTypeCreateReqVO extends DictTypeBaseVO {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "字典类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "sys_common_sex")
     @NotNull(message = "字典类型不能为空")
     @Size(max = 100, message = "字典类型类型长度不能超过100个字符")

@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class DeptRespVO extends TreeNode<DeptRespVO> {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "部门编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     private String id;
 

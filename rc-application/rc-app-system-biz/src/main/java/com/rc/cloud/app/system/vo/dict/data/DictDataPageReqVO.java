@@ -17,6 +17,7 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = true)
 public class DictDataPageReqVO extends PageParam {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "字典标签", example = "芋道")
     @Size(max = 100, message = "字典标签长度不能超过100个字符")
     private String label;

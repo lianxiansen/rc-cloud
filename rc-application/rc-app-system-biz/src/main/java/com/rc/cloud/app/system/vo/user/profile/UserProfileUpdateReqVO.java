@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 @Data
 public class UserProfileUpdateReqVO {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "RC")
     @Size(max = 30, message = "用户昵称长度不能超过 30 个字符")
     private String nickname;

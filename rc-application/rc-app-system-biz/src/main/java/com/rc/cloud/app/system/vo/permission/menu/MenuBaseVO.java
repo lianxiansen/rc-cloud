@@ -17,6 +17,7 @@ import javax.validation.constraints.Size;
 @Data
 public class MenuBaseVO {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
     @NotBlank(message = "菜单名称不能为空")
     @Size(max = 50, message = "菜单名称长度不能超过50个字符")

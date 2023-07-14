@@ -18,14 +18,13 @@ import java.util.Set;
 @Data
 public class UserBaseVO {
 
-    @SuppressWarnings("checkstyle:MagicNumber")
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "RC")
     @NotBlank(message = "用户账号不能为空")
     @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "用户账号由 数字、字母 组成")
     @Size(min = 4, max = 30, message = "用户账号长度为 4-30 个字符")
     private String username;
 
-    @SuppressWarnings("checkstyle:MagicNumber")
     @Schema(description = "用户昵称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
     @Size(max = 30, message = "用户昵称长度不能超过30个字符")
     private String nickname;
@@ -42,7 +41,6 @@ public class UserBaseVO {
     @Schema(description = "角色编号数组", example = "[1,2,3]")
     private Set<String> roleIds;
 
-    @SuppressWarnings("checkstyle:MagicNumber")
     @Schema(description = "用户邮箱", example = "HQF@RC.cn")
     @Email(message = "邮箱格式不正确")
     @Size(max = 50, message = "邮箱长度不能超过 50 个字符")

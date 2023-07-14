@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 @Data
 public class RoleCreateReqBO {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     /**
      * 租户编号
      */

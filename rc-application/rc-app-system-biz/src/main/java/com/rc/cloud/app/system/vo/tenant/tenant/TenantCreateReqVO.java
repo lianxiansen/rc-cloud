@@ -22,6 +22,7 @@ import javax.validation.constraints.Size;
 @ToString(callSuper = true)
 public class TenantCreateReqVO extends TenantBaseVO {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "用户账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
     @NotBlank(message = "用户账号不能为空")
     @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "用户账号由 数字、字母 组成")

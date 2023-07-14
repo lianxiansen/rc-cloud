@@ -21,6 +21,7 @@ import static com.rc.cloud.common.core.util.date.DateUtils.FORMAT_YEAR_MONTH_DAY
 @EqualsAndHashCode(callSuper = true)
 public class DictTypePageReqVO extends PageParam {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "字典类型名称,模糊匹配", example = "芋道")
     private String name;
 

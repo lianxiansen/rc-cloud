@@ -17,6 +17,7 @@ import javax.validation.constraints.NotEmpty;
 @EqualsAndHashCode(callSuper = true)
 public class UserCreateReqVO extends UserBaseVO {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "密码", requiredMode = Schema.RequiredMode.REQUIRED, example = "123456")
     @NotEmpty(message = "密码不能为空")
     @Length(min = 4, max = 16, message = "密码长度为 4-16 位")

@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 @Data
 public class DictDataBaseVO {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "显示顺序不能为空", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "显示顺序不能为空")
     private Integer sort;

@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 @Data
 public class RoleBaseVO {
 
+    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "角色名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "管理员")
     @NotBlank(message = "角色名称不能为空")
     @Size(max = 30, message = "角色名称长度不能超过30个字符")
