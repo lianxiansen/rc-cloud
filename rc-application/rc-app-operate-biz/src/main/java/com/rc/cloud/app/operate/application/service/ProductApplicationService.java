@@ -4,13 +4,12 @@ import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.convert.ProductConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductDictConvert;
 import com.rc.cloud.app.operate.application.dto.*;
-import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.model.product.identifier.*;
-import com.rc.cloud.app.operate.domain.model.product.valobj.*;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Detail;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailRepository;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictRepository;
@@ -18,14 +17,9 @@ import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
-import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuAttributeId;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.Inventory;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.Price;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.Sort;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.SupplyPrice;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.Weight;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.IdRepository;
@@ -83,7 +77,7 @@ public class ProductApplicationService {
     public ProductBO createProduct(ProductSaveDTO productSaveDTO) {
 
 
-        ProductId productId =new ProductId(productRepository.nextId().id());
+        ProductId productId =new ProductId(idRepository.nextId());
         TenantId tenantId = new TenantId(productSaveDTO.getTenantId());
         Product product= ProductConvert.convert(productId.id()
                 ,tenantId.id(),productSaveDTO,true,null);
@@ -108,7 +102,7 @@ public class ProductApplicationService {
             product.setProductAttributeEntity(productAttribute);
         }
         if (StringUtils.isNotEmpty(productSaveDTO.getDetail())) {
-            Detail detail = new Detail(productDetailRepository.nextId(), productSaveDTO.getDetail());
+            Detail detail = new Detail(idRepository.nextId(), productSaveDTO.getDetail());
             product.setDetail(detail);
         }
         //保存spu
@@ -119,7 +113,7 @@ public class ProductApplicationService {
             throw new IllegalArgumentException("sku不能为空");
         }
         for (ProductSkuSaveDTO productSkuSaveDTO : skus) {
-            ProductSkuId productSkuId = productSkuRepository.nextId();
+            ProductSkuId productSkuId =new ProductSkuId( idRepository.nextId());
             ProductSku productSku = new ProductSku(productSkuId, productId, tenantId, new Price(
                     productSkuSaveDTO.getPrice()
             ));
@@ -223,7 +217,7 @@ public class ProductApplicationService {
             }
 
             if (StringUtils.isNotEmpty(productSaveDTO.getDetail())) {
-                Detail detail = new Detail(productDetailRepository.nextId(), productSaveDTO.getDetail());
+                Detail detail = new Detail(idRepository.nextId(), productSaveDTO.getDetail());
                 product.setDetail(detail);
             }
 

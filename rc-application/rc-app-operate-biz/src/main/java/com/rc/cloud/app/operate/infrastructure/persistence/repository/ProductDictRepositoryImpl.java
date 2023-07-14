@@ -1,6 +1,5 @@
 package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
-import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictRepository;
@@ -10,20 +9,13 @@ import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Repository
 public class ProductDictRepositoryImpl implements ProductDictRepository {
-    @Resource
-    private RemoteIdGeneratorService remoteIdGeneratorService;
 
     private ProductDictMapper productDictMapper;
 
-    @Override
-    public String nextId() {
-        return remoteIdGeneratorService.uidGenerator();
-    }
 
     @Override
     public List<ProductDict> getProductDictByProductId(ProductId productId){

@@ -2,7 +2,6 @@ package com.rc.cloud.app.operate.infrastructure.persistence.repository;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
-import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
@@ -10,9 +9,7 @@ import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductDictId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
@@ -33,7 +30,6 @@ import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,9 +41,6 @@ import java.util.List;
  */
 @Repository
 public class ProductRepositoryImpl implements  ProductRepository {
-
-    @Resource
-    private RemoteIdGeneratorService remoteIdGeneratorService;
 
     @Autowired
     private ProductMapper productMapper;
@@ -77,20 +70,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
     }
 
 
-    @Override
-    public ProductId nextId() {
-        return new ProductId(remoteIdGeneratorService.uidGenerator());
-    }
 
-    @Override
-    public String nextProductImageId() {
-        return remoteIdGeneratorService.uidGenerator();
-    }
-
-    @Override
-    public String nextProductAttributeId() {
-        return remoteIdGeneratorService.uidGenerator();
-    }
 
 
     @Override
