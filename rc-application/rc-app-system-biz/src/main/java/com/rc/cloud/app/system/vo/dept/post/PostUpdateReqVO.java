@@ -19,5 +19,4 @@ public class PostUpdateReqVO extends PostBaseVO {
     @Schema(description = "岗位编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "岗位编号不能为空")
     private String id;
-
 }

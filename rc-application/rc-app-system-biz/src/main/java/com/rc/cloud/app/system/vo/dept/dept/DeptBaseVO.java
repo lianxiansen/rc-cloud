@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
 @Data
 public class DeptBaseVO {
 
-    //CHECKSTYLE:OFF: checkstyle:magicnumber
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
     @NotBlank(message = "部门名称不能为空")
     @Size(max = 30, message = "部门名称长度不能超过30个字符")
@@ -33,10 +33,12 @@ public class DeptBaseVO {
     @Schema(description = "负责人的用户编号", example = "2048")
     private String leaderUserId;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "联系电话", example = "15601691000")
     @Size(max = 11, message = "联系电话长度不能超过11个字符")
     private String phone;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "邮箱", example = "yudao@iocoder.cn")
     @Email(message = "邮箱格式不正确")
     @Size(max = 50, message = "邮箱长度不能超过50个字符")

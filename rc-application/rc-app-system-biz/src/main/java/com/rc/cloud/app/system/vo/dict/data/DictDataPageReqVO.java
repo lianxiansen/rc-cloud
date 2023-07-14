@@ -17,11 +17,12 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = true)
 public class DictDataPageReqVO extends PageParam {
 
-    //CHECKSTYLE:OFF: checkstyle:magicnumber
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "字典标签", example = "芋道")
     @Size(max = 100, message = "字典标签长度不能超过100个字符")
     private String label;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "字典类型,模糊匹配", example = "sys_common_sex")
     @Size(max = 100, message = "字典类型类型长度不能超过100个字符")
     private String dictType;

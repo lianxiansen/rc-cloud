@@ -21,5 +21,4 @@ public class PostSimpleRespVO {
 
     @Schema(description = "岗位名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
     private String name;
-
 }

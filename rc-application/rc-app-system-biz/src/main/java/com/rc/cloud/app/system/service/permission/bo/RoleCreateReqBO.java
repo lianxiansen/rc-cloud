@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 @Data
 public class RoleCreateReqBO {
 
-    //CHECKSTYLE:OFF: checkstyle:magicnumber
     /**
      * 租户编号
      */
@@ -24,6 +23,7 @@ public class RoleCreateReqBO {
     /**
      * 角色名称
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     @NotBlank(message = "角色名称不能为空")
     @Size(max = 30, message = "角色名称长度不能超过30个字符")
     private String name;
@@ -31,6 +31,7 @@ public class RoleCreateReqBO {
     /**
      * 角色标志
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     @NotBlank(message = "角色标志不能为空")
     @Size(max = 100, message = "角色标志长度不能超过100个字符")
     private String code;

@@ -16,21 +16,23 @@ import javax.validation.constraints.Size;
 @Data
 public class DictDataBaseVO {
 
-    //CHECKSTYLE:OFF: checkstyle:magicnumber
     @Schema(description = "显示顺序不能为空", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
     @NotNull(message = "显示顺序不能为空")
     private Integer sort;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "字典标签", requiredMode = Schema.RequiredMode.REQUIRED, example = "柔川")
     @NotBlank(message = "字典标签不能为空")
     @Size(max = 100, message = "字典标签长度不能超过100个字符")
     private String label;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "字典值", requiredMode = Schema.RequiredMode.REQUIRED, example = "rc")
     @NotBlank(message = "字典键值不能为空")
     @Size(max = 100, message = "字典键值长度不能超过100个字符")
     private String value;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "字典类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "sys_common_sex")
     @NotBlank(message = "字典类型不能为空")
     @Size(max = 100, message = "字典类型长度不能超过100个字符")
@@ -47,5 +49,4 @@ public class DictDataBaseVO {
 
     @Schema(description = "备注", example = "我是一个角色")
     private String remark;
-
 }

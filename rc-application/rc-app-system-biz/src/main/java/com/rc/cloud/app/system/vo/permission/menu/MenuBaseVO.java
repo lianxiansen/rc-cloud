@@ -17,12 +17,13 @@ import javax.validation.constraints.Size;
 @Data
 public class MenuBaseVO {
 
-    //CHECKSTYLE:OFF: checkstyle:magicnumber
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
     @NotBlank(message = "菜单名称不能为空")
     @Size(max = 50, message = "菜单名称长度不能超过50个字符")
     private String name;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "权限标识,仅菜单类型为按钮时，才需要传递", example = "sys:menu:add")
     @Size(max = 100)
     private String permission;
@@ -39,6 +40,7 @@ public class MenuBaseVO {
     @NotNull(message = "父菜单 ID 不能为空")
     private String parentId;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "路由地址,仅菜单类型为菜单或者目录时，才需要传", example = "post")
     @Size(max = 200, message = "路由地址不能超过200个字符")
     private String path;
@@ -46,6 +48,7 @@ public class MenuBaseVO {
     @Schema(description = "菜单图标,仅菜单类型为菜单或者目录时，才需要传", example = "/menu/list")
     private String icon;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "组件路径,仅菜单类型为菜单时，才需要传", example = "system/post/index")
     @Size(max = 200, message = "组件路径不能超过255个字符")
     private String component;
