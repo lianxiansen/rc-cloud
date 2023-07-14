@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 @Data
 @Accessors(chain = true)
 public class ProductCategoryCreateDTO {
-    private String tenantId;
     @NotNull(message = "产品分类名称不能为空")
     private String name;
 

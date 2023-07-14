@@ -4,7 +4,6 @@ import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
@@ -30,8 +29,6 @@ import java.util.List;
  */
 @Service
 public class ProductCategoryApplicationService {
-    @Resource
-    private ProductCategoryRepository productCategoryRepository;
     @Resource
     private ProductCategoryService productCategoryService;
     @Resource
@@ -116,7 +113,7 @@ public class ProductCategoryApplicationService {
     }
     public List<ProductCategoryBO> findAll() {
         List<ProductCategoryBO> boList=new ArrayList<>();
-        List<ProductCategory> productCategoryList=productCategoryRepository.findAll();
+        List<ProductCategory> productCategoryList=productCategoryService.findAll();
         return ProductCategoryBO.convertBatch(productCategoryList);
     }
 
@@ -124,7 +121,7 @@ public class ProductCategoryApplicationService {
         if(StringUtils.isEmpty(id)){
             throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
         }
-        ProductCategory productCategory=productCategoryRepository.findById(new ProductCategoryId(id));
+        ProductCategory productCategory=productCategoryService.findById(new ProductCategoryId(id));
         if(ObjectUtils.isNull(productCategory)){
             throw new ServiceException(ProductCategoryErrorCodeConstants.OBJECT_NOT_EXISTS);
         }

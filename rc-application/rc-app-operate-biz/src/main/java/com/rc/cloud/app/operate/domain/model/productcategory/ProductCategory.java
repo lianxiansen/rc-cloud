@@ -1,13 +1,13 @@
 package com.rc.cloud.app.operate.domain.model.productcategory;
 
-import com.rc.cloud.app.operate.domain.model.productcategory.event.ProductCategorySaveEvent;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.model.productcategory.specification.ReInheritShouldNotSpecifyMyselfSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
 import com.rc.cloud.common.core.domain.AggregateRoot;
-import com.rc.cloud.common.core.exception.DomainException;
+import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.AssertUtils;
-import com.rc.cloud.common.core.util.SpringContextHolder;
 
 /**
  * @ClassName: ProductCategoryEntry
@@ -154,8 +154,8 @@ public class ProductCategory extends AggregateRoot {
 
     public void reInherit(ProductCategory parent){
         AssertUtils.assertArgumentNotNull(parent, "parent must not be null");
-        if(this.id.equals(parent.getId())){
-            throw new DomainException("不能指定上级分类为当前分类");
+        if(!new ReInheritShouldNotSpecifyMyselfSpecification(this).isSatisfiedBy(parent.getId())){
+            throw new ServiceException(ProductCategoryErrorCodeConstants.RE_INHERIT_SHOULD_NOT_SPECIFY_MYSELF);
         }
         inherit(parent);
     }
@@ -163,14 +163,6 @@ public class ProductCategory extends AggregateRoot {
     public void root(){
         this.parentId=null;
         this.setLayer(new Layer(Layer.ROOT));
-    }
-
-    /**
-     * 刷新资源库领域对象
-     */
-    public void publishSaveEvent(){
-        ProductCategorySaveEvent event=new ProductCategorySaveEvent(this);
-        SpringContextHolder.publishEvent(event);
     }
 
 
