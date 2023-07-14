@@ -15,6 +15,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface DistributorReputationMapper extends BaseMapperX<DistributorReputationPO> {
 
+    /**
+     * 获取经销商信誉分页
+     *
+     * @param reqVO
+     * @return DistributorReputationPO分页
+     */
     default PageResult<DistributorReputationPO> selectPage(DistributorReputationPageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<DistributorReputationPO>()
                 .likeIfPresent(DistributorReputationPO::getName, reqVO.getName())

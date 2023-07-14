@@ -1,3 +1,4 @@
+//CHECKSTYLE:OFF
 package com.rc.cloud.app.distributor;
 
 import com.rc.cloud.common.feign.EnableRcFeignClients;

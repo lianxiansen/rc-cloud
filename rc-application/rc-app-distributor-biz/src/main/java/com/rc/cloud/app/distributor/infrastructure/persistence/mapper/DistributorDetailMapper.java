@@ -11,7 +11,13 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface DistributorDetailMapper extends BaseMapperX<DistributorDetailPO> {
-    default DistributorDetailPO selectByDistributorId(String id){
-        return selectOne(DistributorDetailPO::getDistributorId,id);
+    /**
+     * 获取经销商详细信息
+     *
+     * @param id 经销商id
+     * @return DistributorDetailPO
+     */
+    default DistributorDetailPO selectByDistributorId(String id) {
+        return selectOne(DistributorDetailPO::getDistributorId, id);
     }
 }
