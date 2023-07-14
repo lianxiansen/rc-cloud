@@ -13,7 +13,7 @@ import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.persistence.repository.LocalIdRepositoryImpl;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ApplicationException;

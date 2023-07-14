@@ -13,9 +13,9 @@ import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductC
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotAssociatedProductSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotHasChildSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Layer;
-import com.rc.cloud.app.operate.infrastructure.persistence.repository.LocalIdRepositoryImpl;
-import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCategoryRepositoryImpl;
-import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductRepositoryImpl;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductCategoryRepositoryImpl;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;

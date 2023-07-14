@@ -1,24 +1,17 @@
 package com.rc.cloud.app.operate.domain.service;
 
-import com.rc.cloud.app.operate.application.event.ProductCategoryRefreshListener;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.persistence.repository.LocalIdRepositoryImpl;
-import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductCategoryRepositoryImpl;
-import com.rc.cloud.app.operate.infrastructure.persistence.repository.ProductRepositoryImpl;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.test.core.ut.BaseMockitoUnitTest;
-import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;

@@ -1,12 +1,9 @@
 package com.rc.cloud.app.operate.application.bo.convert;
 
 import com.rc.cloud.app.operate.application.dto.ProductDictSaveDTO;
-import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
-import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDictPO;
 
 import java.util.ArrayList;
 import java.util.List;
