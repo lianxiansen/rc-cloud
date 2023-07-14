@@ -8,11 +8,4 @@ import javax.annotation.Resource;
 
 @Repository
 public class ProductDetailRepositoryImpl implements ProductDetailRepository {
-    @Resource
-    private RemoteIdGeneratorService remoteIdGeneratorService;
-
-    @Override
-    public String nextId() {
-        return remoteIdGeneratorService.uidGenerator();
-    }
 }
