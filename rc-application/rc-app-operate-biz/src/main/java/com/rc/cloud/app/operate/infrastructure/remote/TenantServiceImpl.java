@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.infrastructure.service;
+package com.rc.cloud.app.operate.infrastructure.remote;
 
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
