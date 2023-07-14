@@ -1,10 +1,10 @@
-package com.rc.cloud.app.operate.infrastructure.persistence.repository;
+package com.rc.cloud.app.operate.infrastructure.repository.persistence;
 
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailRepository;
-import com.rc.cloud.app.operate.infrastructure.persistence.convert.ProductDetailConvert;
-import com.rc.cloud.app.operate.infrastructure.persistence.mapper.ProductDetailMapper;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductDetailConvert;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductDetailMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;

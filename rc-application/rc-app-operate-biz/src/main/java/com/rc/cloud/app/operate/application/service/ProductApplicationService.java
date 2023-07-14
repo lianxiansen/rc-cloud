@@ -86,14 +86,14 @@ public class ProductApplicationService {
     public ProductBO createProduct(ProductSaveDTO productSaveDTO) {
 
 
-        ProductId productId =new ProductId(productRepository.nextId().id());
+        ProductId productId =new ProductId(idRepository.nextId());
         TenantId tenantId = new TenantId(productSaveDTO.getTenantId());
         Product product= ProductConvert.convert(productId.id()
                 ,tenantId.id(),productSaveDTO,true,null);
 
         if(productSaveDTO.getAlbums()!=null){
             productSaveDTO.getAlbums().forEach(x->
-                    x.setId(productRepository.nextProductImageId())
+                    x.setId(idRepository.nextId())
                     );
         }
         productRepository.insertProduct(product);
@@ -114,7 +114,7 @@ public class ProductApplicationService {
         }
         List<ProductSku> productSkuList=new ArrayList<>();
         for (ProductSkuSaveDTO productSkuSaveDTO : skus) {
-            ProductSkuId productSkuId = productSkuRepository.nextId();
+            ProductSkuId productSkuId = new ProductSkuId(idRepository.nextId());
             ProductSku productSku = ProductSkuConvert.convert(productSkuId, productId
                     , tenantId, productSkuSaveDTO, true, null);
             productSkuList.add(productSku);

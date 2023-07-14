@@ -1,10 +1,10 @@
-package com.rc.cloud.app.operate.infrastructure.persistence.convert;
+package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductDetailPO;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductDetailPO;
 
 public class ProductDetailConvert {
 

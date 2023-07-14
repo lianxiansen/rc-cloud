@@ -18,7 +18,6 @@ import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.persistence.po.ProductPO;
 import com.rc.cloud.common.core.exception.ApplicationException;
 import com.rc.cloud.common.core.util.StringUtils;
 import org.mapstruct.Mapping;
