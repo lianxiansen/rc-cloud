@@ -70,10 +70,10 @@ public interface MenuService {
 
     /**
      * 获得所有菜单，从缓存中
-     *
+     * <p>
      * 任一参数为空时，则返回为空
      *
-     * @param menuTypes 菜单类型数组
+     * @param menuTypes     菜单类型数组
      * @param menusStatuses 菜单状态数组
      * @return 菜单列表
      */
@@ -81,11 +81,11 @@ public interface MenuService {
 
     /**
      * 获得指定编号的菜单数组，从缓存中
-     *
+     * <p>
      * 任一参数为空时，则返回为空
      *
-     * @param menuIds 菜单编号数组
-     * @param menuTypes 菜单类型数组
+     * @param menuIds       菜单编号数组
+     * @param menuTypes     菜单类型数组
      * @param menusStatuses 菜单状态数组
      * @return 菜单数组
      */
@@ -108,25 +108,31 @@ public interface MenuService {
      */
     SysMenuPO getMenu(String id);
 
+    /**
+     * 通过用户编号，获得对应的菜单权限标识列表
+     *
+     * @param userId 用户编号
+     * @return 权限标识列表
+     */
     Set<String> getUserAuthorityByUserId(String userId);
 
     /**
      * 获取未禁用的用户的菜单列表
-     * @param userId 用户编号
+     *
+     * @param userId   用户编号
      * @param parentId 父菜单编号
-     * @param type 菜单类型
+     * @param type     菜单类型
      * @return 菜单列表
      */
     List<SysMenuPO> getUsableUserMenuList(String userId, String parentId, Integer type);
 
     /**
      * 获取所有的用户的菜单列表，包括禁用的
-     * @param userId 用户编号
+     *
+     * @param userId   用户编号
      * @param parentId 父菜单编号
-     * @param type 菜单类型
+     * @param type     菜单类型
      * @return 菜单列表
      */
     List<SysMenuPO> getUserMenuList(String userId, String parentId, Integer type);
-
-    List<SysMenuPO> getUserMenuList(String userId, Integer type);
 }

@@ -7,7 +7,10 @@ import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.vo.permission.role.RoleUserPageVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
-import com.rc.cloud.app.system.vo.user.user.*;
+import com.rc.cloud.app.system.vo.user.user.UserCreateReqVO;
+import com.rc.cloud.app.system.vo.user.user.UserExportReqVO;
+import com.rc.cloud.app.system.vo.user.user.UserPageReqVO;
+import com.rc.cloud.app.system.vo.user.user.UserUpdateReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 
@@ -15,9 +18,9 @@ import javax.validation.Valid;
 import java.util.*;
 
 /**
- * 后台用户 Service 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 后台用户 Service 接口
  */
 public interface AdminUserService {
 
@@ -39,7 +42,7 @@ public interface AdminUserService {
     /**
      * 更新用户的最后登陆信息
      *
-     * @param id 用户编号
+     * @param id      用户编号
      * @param loginIp 登陆 IP
      */
     void updateUserLogin(String id, String loginIp);
@@ -47,7 +50,7 @@ public interface AdminUserService {
     /**
      * 修改用户个人信息
      *
-     * @param id 用户编号
+     * @param id    用户编号
      * @param reqVO 用户个人信息
      */
     void updateUserProfile(String id, @Valid UserProfileUpdateReqVO reqVO);
@@ -55,7 +58,7 @@ public interface AdminUserService {
     /**
      * 修改用户个人密码
      *
-     * @param id 用户编号
+     * @param id    用户编号
      * @param reqVO 更新用户个人密码
      */
     void updateUserPassword(String id, @Valid UserProfileUpdatePasswordReqVO reqVO);
@@ -108,6 +111,7 @@ public interface AdminUserService {
 
     /**
      * 查询用户信息
+     *
      * @param sysUser 用户
      * @return userInfo
      */
@@ -227,7 +231,7 @@ public interface AdminUserService {
     /**
      * 判断密码是否匹配
      *
-     * @param rawPassword 未加密的密码
+     * @param rawPassword     未加密的密码
      * @param encodedPassword 加密后的密码
      * @return 是否匹配
      */
@@ -241,5 +245,11 @@ public interface AdminUserService {
      */
     Set<String> getUserRoleIds(String id);
 
+    /**
+     * 获得用户的角色编号列表
+     *
+     * @param pageVO 分页条件
+     * @return 分页列表
+     */
     IPage<SysUserPO> roleUserPage(RoleUserPageVO pageVO);
 }

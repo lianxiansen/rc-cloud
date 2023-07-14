@@ -4,10 +4,10 @@ package com.rc.cloud.app.system.service.tenant.handler;
 import com.rc.cloud.app.system.model.tenant.SysTenantPO;
 
 /**
- * 租户信息处理
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 租户信息处理
  * 目的：尽量减少租户逻辑耦合到系统中
- *
- * @author 芋道源码
  */
 public interface TenantInfoHandler {
 

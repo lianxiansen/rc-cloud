@@ -1,9 +1,9 @@
 package com.rc.cloud.app.system.service.dept;
 
 import cn.hutool.core.collection.CollUtil;
-import com.rc.cloud.app.system.model.dept.SysPostPO;
 import com.rc.cloud.app.system.convert.dept.PostConvert;
 import com.rc.cloud.app.system.mapper.dept.PostMapper;
+import com.rc.cloud.app.system.model.dept.SysPostPO;
 import com.rc.cloud.app.system.vo.dept.post.PostCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostExportReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostPageReqVO;
@@ -24,9 +24,9 @@ import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertMa
 
 
 /**
- * 岗位 Service 实现类
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 岗位服务实现类
  */
 @Service
 @Validated

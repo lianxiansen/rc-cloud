@@ -12,9 +12,9 @@ import com.rc.cloud.common.core.pojo.PageResult;
 import java.util.List;
 
 /**
- * 字典类型 Service 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 字典类型服务接口
  */
 public interface DictTypeService {
 
@@ -79,10 +79,16 @@ public interface DictTypeService {
      */
     List<SysDictTypePO> getDictTypeList();
 
+    /**
+     * 获得全部字典列表
+     *
+     * @return 字典列表
+     */
     List<SysDictVO> getDictList();
 
-/**
+    /**
      * 批量删除字典类型
+     *
      * @param idList 字典类型编号列表
      */
     void deleteDictTypes(List<String> idList);

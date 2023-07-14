@@ -16,9 +16,9 @@ import static com.rc.cloud.common.core.util.collection.SetUtils.asSet;
 
 
 /**
- * 岗位 Service 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 岗位服务接口
  */
 public interface PostService {
 
@@ -57,7 +57,7 @@ public interface PostService {
     /**
      * 获得符合条件的岗位列表
      *
-     * @param ids 岗位编号数组。如果为空，不进行筛选
+     * @param ids      岗位编号数组。如果为空，不进行筛选
      * @param statuses 状态数组。如果为空，不进行筛选
      * @return 部门列表
      */
@@ -98,6 +98,7 @@ public interface PostService {
 
     /**
      * 批量删除岗位
+     *
      * @param idList 岗位编号数组
      */
     void deletePosts(List<String> idList);

@@ -294,11 +294,6 @@ public class MenuServiceImpl implements MenuService {
 //        return menuMapper.selectList(wrapper);
 //    }
 
-    @Override
-    public List<SysMenuPO> getUserMenuList(String userId, Integer type) {
-        return getUserMenuList(userId, null, type);
-    }
-
     /**
      * 校验父菜单是否合法
      *

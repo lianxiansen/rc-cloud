@@ -2,10 +2,10 @@ package com.rc.cloud.app.system.service.dict;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.model.dict.SysDictDataPO;
-import com.rc.cloud.app.system.model.dict.SysDictTypePO;
 import com.rc.cloud.app.system.convert.dict.DictTypeConvert;
 import com.rc.cloud.app.system.mapper.dict.DictTypeMapper;
+import com.rc.cloud.app.system.model.dict.SysDictDataPO;
+import com.rc.cloud.app.system.model.dict.SysDictTypePO;
 import com.rc.cloud.app.system.vo.dict.SysDictVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeExportReqVO;
@@ -24,9 +24,9 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
 
 
 /**
- * 字典类型 Service 实现类
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 字典类型服务实现类
  */
 @Service
 @Log4j2
@@ -111,7 +111,8 @@ public class DictTypeServiceImpl implements DictTypeService {
             dict.setType(type.getType());
             for (SysDictDataPO data : dataList) {
                 if (type.getType().equals(data.getDictType())) {
-                    dict.getDataList().add(new SysDictVO.DictData(data.getLabel(), data.getValue(), data.getCssClass(), data.getColorType()));
+                    dict.getDataList()
+                            .add(new SysDictVO.DictData(data.getLabel(), data.getValue(), data.getCssClass(), data.getColorType()));
                 }
             }
 

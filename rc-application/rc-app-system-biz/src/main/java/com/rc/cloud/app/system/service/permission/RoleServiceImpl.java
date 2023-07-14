@@ -4,16 +4,16 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.google.common.annotations.VisibleForTesting;
-import com.rc.cloud.app.system.model.permission.SysRolePO;
 import com.rc.cloud.app.system.convert.permission.RoleConvert;
+import com.rc.cloud.app.system.enums.permission.DataScopeEnum;
+import com.rc.cloud.app.system.enums.permission.RoleCodeEnum;
+import com.rc.cloud.app.system.enums.permission.RoleTypeEnum;
 import com.rc.cloud.app.system.mapper.permission.RoleMapper;
+import com.rc.cloud.app.system.model.permission.SysRolePO;
 import com.rc.cloud.app.system.vo.permission.role.RoleCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RoleExportReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RolePageReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RoleUpdateReqVO;
-import com.rc.cloud.app.system.enums.permission.DataScopeEnum;
-import com.rc.cloud.app.system.enums.permission.RoleCodeEnum;
-import com.rc.cloud.app.system.enums.permission.RoleTypeEnum;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.tenant.core.util.TenantUtils;
@@ -35,9 +35,9 @@ import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertMa
 
 
 /**
- * 角色 Service 实现类
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 角色服务实现类
  */
 @Service
 @Slf4j
@@ -46,7 +46,7 @@ public class RoleServiceImpl implements RoleService {
     /**
      * 角色缓存
      * key：角色编号 {@link SysRolePO#getId()}
-     *
+     * <p>
      * 这里声明 volatile 修饰的原因是，每次刷新时，直接修改指向
      */
     @Getter
@@ -180,8 +180,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<SysRolePO> getRoleListByStatus(@Nullable Collection<Integer> statuses) {
         if (CollUtil.isEmpty(statuses)) {
-    		return roleMapper.selectList();
-		}
+            return roleMapper.selectList();
+        }
         return roleMapper.selectListByStatus(statuses);
     }
 
@@ -219,13 +219,13 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 校验角色的唯一字段是否重复
-     *
+     * <p>
      * 1. 是否存在相同名字的角色
      * 2. 是否存在相同编码的角色
      *
      * @param name 角色名字
      * @param code 角色额编码
-     * @param id 角色编号
+     * @param id   角色编号
      */
     @VisibleForTesting
     void validateRoleDuplicate(String name, String code, String id) {

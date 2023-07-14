@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 部门 Service 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 部门服务接口
  */
 public interface DeptService {
 
@@ -57,7 +57,7 @@ public interface DeptService {
     /**
      * 获得所有子部门，从缓存中
      *
-     * @param parentId 部门编号
+     * @param parentId  部门编号
      * @param recursive 是否递归获取所有
      * @return 子部门列表
      */

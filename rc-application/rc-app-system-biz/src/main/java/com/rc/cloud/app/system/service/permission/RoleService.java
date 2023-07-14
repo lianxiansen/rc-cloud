@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 角色 Service 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 角色服务接口
  */
 public interface RoleService {
 
@@ -29,7 +29,7 @@ public interface RoleService {
      * 创建角色
      *
      * @param reqVO 创建角色信息
-     * @param type 角色类型
+     * @param type  角色类型
      * @return 角色编号
      */
     String createRole(@Valid RoleCreateReqVO reqVO, Integer type);
@@ -51,7 +51,7 @@ public interface RoleService {
     /**
      * 更新角色状态
      *
-     * @param id 角色编号
+     * @param id     角色编号
      * @param status 状态
      */
     void updateRoleStatus(String id, Integer status);
@@ -59,8 +59,8 @@ public interface RoleService {
     /**
      * 设置角色的数据权限
      *
-     * @param id 角色编号
-     * @param dataScope 数据范围
+     * @param id               角色编号
+     * @param dataScope        数据范围
      * @param dataScopeDeptIds 部门编号数组
      */
     void updateRoleDataScope(String id, Integer dataScope, Set<String> dataScopeDeptIds);
