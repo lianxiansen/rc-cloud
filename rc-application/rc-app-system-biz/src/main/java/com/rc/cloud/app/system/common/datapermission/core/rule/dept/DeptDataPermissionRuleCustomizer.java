@@ -1,9 +1,9 @@
 package com.rc.cloud.app.system.common.datapermission.core.rule.dept;
 
 /**
- * {@link DeptDataPermissionRule} 的自定义配置接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description {@link DeptDataPermissionRule} 的自定义配置接口
  */
 @FunctionalInterface
 public interface DeptDataPermissionRuleCustomizer {

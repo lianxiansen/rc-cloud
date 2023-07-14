@@ -13,18 +13,29 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 /**
- * 数据权限的自动配置类
- *
- * @author 芋道源码
- */
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 数据权限自动配置
+ * */
 @Configuration
-public class YudaoDataPermissionAutoConfiguration {
+public class RcDataPermissionAutoConfiguration {
 
+    /**
+     * 创建 DataPermissionRuleFactory
+     * @param rules 数据权限规则列表
+     * @return DataPermissionRuleFactory
+     */
     @Bean
     public DataPermissionRuleFactory dataPermissionRuleFactory(List<DataPermissionRule> rules) {
         return new DataPermissionRuleFactoryImpl(rules);
     }
 
+    /**
+     * 创建 DataPermissionDatabaseInterceptor
+     * @param interceptor MybatisPlusInterceptor
+     * @param ruleFactory DataPermissionRuleFactory
+     * @return DataPermissionDatabaseInterceptor
+     */
     @Bean
     public DataPermissionDatabaseInterceptor dataPermissionDatabaseInterceptor(MybatisPlusInterceptor interceptor,
                                                                                DataPermissionRuleFactory ruleFactory) {
@@ -36,9 +47,12 @@ public class YudaoDataPermissionAutoConfiguration {
         return inner;
     }
 
+    /**
+     * 创建 DataPermissionAnnotationAdvisor
+     * @return DataPermissionAnnotationAdvisor
+     */
     @Bean
     public DataPermissionAnnotationAdvisor dataPermissionAnnotationAdvisor() {
         return new DataPermissionAnnotationAdvisor();
     }
-
 }

@@ -3,8 +3,8 @@ package com.rc.cloud.app.system.common.job.core.handler;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.thread.ThreadUtil;
-import com.rc.cloud.app.system.common.job.core.service.JobLogFrameworkService;
 import com.rc.cloud.app.system.common.job.core.enums.JobDataKeyEnum;
+import com.rc.cloud.app.system.common.job.core.service.JobLogFrameworkService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
@@ -19,9 +19,9 @@ import java.time.LocalDateTime;
 import static cn.hutool.core.exceptions.ExceptionUtil.getRootCauseMessage;
 
 /**
- * 基础 Job 调用者，负责调用 {@link JobHandler#execute(String)} 执行任务
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 基础 Job 调用者，负责调用 {@link JobHandler#execute(String)} 执行任务
  */
 @DisallowConcurrentExecution
 @PersistJobDataAfterExecution
@@ -40,7 +40,7 @@ public class JobHandlerInvoker extends QuartzJobBean {
         Long jobId = executionContext.getMergedJobDataMap().getLong(JobDataKeyEnum.JOB_ID.name());
         String jobHandlerName = executionContext.getMergedJobDataMap().getString(JobDataKeyEnum.JOB_HANDLER_NAME.name());
         String jobHandlerParam = executionContext.getMergedJobDataMap().getString(JobDataKeyEnum.JOB_HANDLER_PARAM.name());
-        int refireCount  = executionContext.getRefireCount();
+        int refireCount = executionContext.getRefireCount();
         int retryCount = (Integer) executionContext.getMergedJobDataMap().getOrDefault(JobDataKeyEnum.JOB_RETRY_COUNT.name(), 0);
         int retryInterval = (Integer) executionContext.getMergedJobDataMap().getOrDefault(JobDataKeyEnum.JOB_RETRY_INTERVAL.name(), 0);
 
@@ -83,7 +83,8 @@ public class JobHandlerInvoker extends QuartzJobBean {
         }
         // 更新日志
         try {
-            jobLogFrameworkService.updateJobLogResultAsync(jobLogId, endTime, (int) LocalDateTimeUtil.between(startTime, endTime).toMillis(), success, data);
+            jobLogFrameworkService.updateJobLogResultAsync(jobLogId, endTime,
+                    (int) LocalDateTimeUtil.between(startTime, endTime).toMillis(), success, data);
         } catch (Exception ex) {
             log.error("[executeInternal][Job({}) logId({}) 记录执行日志失败({}/{})]",
                     executionContext.getJobDetail().getKey(), jobLogId, success, data);

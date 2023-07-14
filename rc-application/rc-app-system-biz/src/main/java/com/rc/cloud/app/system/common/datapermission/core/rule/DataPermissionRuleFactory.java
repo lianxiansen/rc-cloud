@@ -3,10 +3,10 @@ package com.rc.cloud.app.system.common.datapermission.core.rule;
 import java.util.List;
 
 /**
- * {@link DataPermissionRule} 工厂接口
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description {@link DataPermissionRule} 工厂接口
  * 作为 {@link DataPermissionRule} 的容器，提供管理能力
- *
- * @author 芋道源码
  */
 public interface DataPermissionRuleFactory {
 
@@ -24,5 +24,4 @@ public interface DataPermissionRuleFactory {
      * @return 数据权限规则数组
      */
     List<DataPermissionRule> getDataPermissionRule(String mappedStatementId);
-
 }

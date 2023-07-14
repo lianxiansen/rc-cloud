@@ -50,7 +50,12 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
     @Getter
     private final MappedStatementCache mappedStatementCache = new MappedStatementCache();
 
-    @Override // SELECT 场景
+    /**
+     * SELECT 场景
+     *
+     * @param ms MappedStatement 对象
+     */
+    @Override
     public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds,
                             ResultHandler resultHandler, BoundSql boundSql) {
         // 获得 Mapper 对应的数据权限的规则
@@ -73,7 +78,14 @@ public class DataPermissionDatabaseInterceptor extends JsqlParserSupport impleme
         }
     }
 
-    @Override // 只处理 UPDATE / DELETE 场景，不处理 INSERT 场景（因为 INSERT 不需要数据权限)
+    /**
+     * 只处理 UPDATE / DELETE 场景，不处理 INSERT 场景（因为 INSERT 不需要数据权限)
+     *
+     * @param sh StatementHandler
+     * @param connection Connection
+     * @param transactionTimeout Integer
+     */
+    @Override
     public void beforePrepare(StatementHandler sh, Connection connection, Integer transactionTimeout) {
         PluginUtils.MPStatementHandler mpSh = PluginUtils.mpStatementHandler(sh);
         MappedStatement ms = mpSh.mappedStatement();

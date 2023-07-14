@@ -6,13 +6,15 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * Spring MVC 配置
- *
- * @author oliveoil
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description Spring MVC 配置
  */
 @Configuration(proxyBeanMethods = false)
 @Slf4j
 public class WebConfiguration implements WebMvcConfigurer {
+
+    private final int maxAge = 3600;
 
     /**
      * 跨域
@@ -26,7 +28,7 @@ public class WebConfiguration implements WebMvcConfigurer {
                 .allowedOriginPatterns("*")
                 .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowCredentials(true)
-                .maxAge(3600)
+                .maxAge(maxAge)
                 .allowedHeaders("*");
     }
 }

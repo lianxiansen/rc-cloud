@@ -9,15 +9,21 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 /**
- * 基于部门的数据权限 AutoConfiguration
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 基于部门的数据权限 AutoConfiguration
  */
 @Configuration
 //@ConditionalOnClass(LoginUser.class)
 @ConditionalOnBean(value = {DeptDataPermissionRuleCustomizer.class})
-public class YudaoDeptDataPermissionAutoConfiguration {
+public class RcDeptDataPermissionAutoConfiguration {
 
+    /**
+     * 创建 DeptDataPermissionRule 对象
+     *
+     * @param customizers {@link DeptDataPermissionRuleCustomizer} 集合
+     * @return {@link DeptDataPermissionRule}
+     */
     @Bean
     public DeptDataPermissionRule deptDataPermissionRule(List<DeptDataPermissionRuleCustomizer> customizers) {
         // 创建 DeptDataPermissionRule 对象
@@ -26,5 +32,4 @@ public class YudaoDeptDataPermissionAutoConfiguration {
         customizers.forEach(customizer -> customizer.customize(rule));
         return rule;
     }
-
 }
