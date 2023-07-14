@@ -5,7 +5,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.rc.cloud.app.system.model.dict.SysDictDataPO;
 import com.rc.cloud.app.system.convert.dict.DictDataConvert;
 import com.rc.cloud.app.system.mapper.dict.DictDataMapper;
-import com.rc.cloud.app.system.model.dict.SysDictTypeDO;
+import com.rc.cloud.app.system.model.dict.SysDictTypePO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataExportReqVO;
 import com.rc.cloud.app.system.vo.dict.data.DictDataPageReqVO;
@@ -144,7 +144,7 @@ public class DictDataServiceImpl implements DictDataService {
 
     @VisibleForTesting
     public void validateDictTypeExists(String type) {
-        SysDictTypeDO dictType = dictTypeService.getDictTypeByType(type);
+        SysDictTypePO dictType = dictTypeService.getDictTypeByType(type);
         if (dictType == null) {
             throw exception(DICT_TYPE_NOT_EXISTS);
         }
