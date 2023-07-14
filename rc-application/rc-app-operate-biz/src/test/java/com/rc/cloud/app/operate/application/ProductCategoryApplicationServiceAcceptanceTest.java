@@ -97,7 +97,8 @@ public class ProductCategoryApplicationServiceAcceptanceTest extends BaseDbUnitT
     @DisplayName("创建根产品分类")
     public void createRootProductCategoryTest() {
         ProductCategoryBO productCategoryBO = productCategoryApplicationService.create(productCategoryCreateDTO);
-        Assertions.assertTrue(ObjectUtils.isNotNull(productCategoryBO.getId()) &&
+        ProductCategory productCategory=productCategoryService.findById(new ProductCategoryId(productCategoryBO.getId()));
+        Assertions.assertTrue(ObjectUtils.isNotNull(productCategory) &&
                 productCategoryCreateDTO.getName().equals(productCategoryBO.getName()) &&
                 productCategoryCreateDTO.getEnabledFlag().booleanValue() == productCategoryBO.isEnabled() &&
                 productCategoryCreateDTO.getEnglishName().equals(productCategoryBO.getEnglishName()) &&
@@ -113,7 +114,8 @@ public class ProductCategoryApplicationServiceAcceptanceTest extends BaseDbUnitT
     public void createSubProductCategoryWhenParentValid() {
         productCategoryCreateDTO.setParentId(root.getId().id());
         ProductCategoryBO productCategoryBO = productCategoryApplicationService.create(productCategoryCreateDTO);
-        Assertions.assertTrue(ObjectUtils.isNotNull(productCategoryBO.getId()) &&
+        ProductCategory productCategory=productCategoryService.findById(new ProductCategoryId(productCategoryBO.getId()));
+        Assertions.assertTrue(ObjectUtils.isNotNull(productCategory) &&
                 productCategoryCreateDTO.getName().equals(productCategoryBO.getName()) &&
                 productCategoryCreateDTO.getEnabledFlag().booleanValue() == productCategoryBO.isEnabled() &&
                 productCategoryCreateDTO.getEnglishName().equals(productCategoryBO.getEnglishName()) &&

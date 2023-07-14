@@ -84,8 +84,8 @@ public class BrandApplicationServiceAcceptanceTest extends BaseDbUnitTest {
     @DisplayName("创建品牌")
     public void createBrand() {
         BrandBO brandBO = brandApplicationService.create(createBrandDTO);
-        Assertions.assertTrue(ObjectUtils.isNotNull(brandBO.getId()) && createBrandDTO.getName().equals(brandBO.getName()) && createBrandDTO.getEnabled().booleanValue() == brandBO.isEnable() && createBrandDTO.getSortId().intValue() == brandBO.getSort() && createBrandDTO.getType().equals(brandBO.getType()), "创建品牌失败");
-
+        Brand brand=brandService.findById(new BrandId(brandBO.getId()));
+        Assertions.assertTrue(ObjectUtils.isNotNull(brand) && createBrandDTO.getName().equals(brandBO.getName()) && createBrandDTO.getEnabled().booleanValue() == brandBO.isEnable() && createBrandDTO.getSortId().intValue() == brandBO.getSort() && createBrandDTO.getType().equals(brandBO.getType()), "创建品牌失败");
     }
 
     @Test
