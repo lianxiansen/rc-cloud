@@ -4,6 +4,8 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.rc.cloud.common.security.service.RcRedisOAuth2AuthorizationService ,\
     com.rc.cloud.common.security.service.impl.admin.RcUserDetailsServiceImpl ,\
     com.rc.cloud.common.security.service.impl.admin.RcAppUserDetailsServiceImpl ,\
+  com.rc.cloud.common.security.service.impl.distributor.RcDistributorUserDetailsServiceImpl ,\
+  com.rc.cloud.common.security.service.impl.distributor.RcAppDistributorUserDetailsServiceImpl ,\
     com.rc.cloud.common.security.service.RcRedisOAuth2AuthorizationConsentService ,\
     com.rc.cloud.common.security.component.RcSecurityInnerAspect ,\
     com.rc.cloud.common.security.service.RcRemoteRegisteredClientRepository ,\
