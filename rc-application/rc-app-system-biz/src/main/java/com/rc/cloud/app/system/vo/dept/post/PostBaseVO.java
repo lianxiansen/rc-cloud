@@ -16,12 +16,13 @@ import javax.validation.constraints.Size;
 @Data
 public class PostBaseVO {
 
-    //CHECKSTYLE:OFF: checkstyle:magicnumber
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "岗位名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "小博主")
     @NotBlank(message = "岗位名称不能为空")
     @Size(max = 50, message = "岗位名称长度不能超过50个字符")
     private String name;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "岗位编码", requiredMode = Schema.RequiredMode.REQUIRED, example = "yudao")
     @NotBlank(message = "岗位编码不能为空")
     @Size(max = 64, message = "岗位编码长度不能超过64个字符")
