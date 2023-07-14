@@ -1,8 +1,8 @@
 package com.rc.cloud.app.system.controller.admin.dept;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
-import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.convert.dept.DeptConvert;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.vo.dept.dept.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
@@ -20,7 +20,11 @@ import javax.validation.Valid;
 import java.util.Comparator;
 import java.util.List;
 
-
+/**
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 部门管理
+ */
 @Tag(name = "管理后台 - 部门")
 @RestController
 @RequestMapping("/sys/dept")
@@ -30,6 +34,12 @@ public class DeptController {
     @Resource
     private DeptService deptService;
 
+    /**
+     * 创建部门
+     *
+     * @param reqVO 部门信息
+     * @return 部门编号
+     */
     @PostMapping("create")
     @Operation(summary = "创建部门")
     @PreAuthorize("@pms.hasPermission('sys:dept:create')")
@@ -38,6 +48,12 @@ public class DeptController {
         return CodeResult.ok(deptId);
     }
 
+    /**
+     * 更新部门
+     *
+     * @param reqVO 部门信息
+     * @return 是否成功
+     */
     @PutMapping("update")
     @Operation(summary = "更新部门")
     @PreAuthorize("@pms.hasPermission('sys:dept:update')")
@@ -46,6 +62,12 @@ public class DeptController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 删除部门
+     *
+     * @param id 部门ID
+     * @return 是否成功
+     */
     @DeleteMapping()
     @Operation(summary = "删除部门")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
@@ -55,6 +77,12 @@ public class DeptController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 获取部门列表
+     *
+     * @param reqVO DeptListReqVO
+     * @return 部门列表
+     */
     @GetMapping("/list")
     @Operation(summary = "获取部门列表")
     @PreAuthorize("@pms.hasPermission('sys:dept:query')")
@@ -65,6 +93,11 @@ public class DeptController {
         return CodeResult.ok(TreeUtil.build(deptRespVOS));
     }
 
+    /**
+     * 获取部门精简信息列表
+     *
+     * @return 部门精简信息列表
+     */
     @GetMapping("/list-all-simple")
     @Operation(summary = "获取部门精简信息列表", description = "只包含被开启的部门，主要用于前端的下拉选项")
     public CodeResult<List<DeptSimpleRespVO>> getSimpleDeptList() {
@@ -77,6 +110,12 @@ public class DeptController {
         return CodeResult.ok(TreeUtil.build(DeptConvert.INSTANCE.convertList02(list)));
     }
 
+    /**
+     * 通过id获得部门信息
+     *
+     * @param id 部门ID
+     * @return 部门信息
+     */
     @GetMapping("/{id}")
     @Operation(summary = "获得部门信息")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")

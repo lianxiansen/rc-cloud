@@ -1,8 +1,5 @@
 package com.rc.cloud.app.system.vo.auth;
 
-import cn.hutool.core.util.StrUtil;
-import com.rc.cloud.app.system.enums.social.SocialTypeEnum;
-import com.rc.cloud.common.core.validation.InEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 

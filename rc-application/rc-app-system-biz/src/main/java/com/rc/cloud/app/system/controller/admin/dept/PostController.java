@@ -1,7 +1,7 @@
 package com.rc.cloud.app.system.controller.admin.dept;
 
-import com.rc.cloud.app.system.model.dept.SysPostPO;
 import com.rc.cloud.app.system.convert.dept.PostConvert;
+import com.rc.cloud.app.system.model.dept.SysPostPO;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.vo.dept.post.*;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
@@ -23,7 +23,11 @@ import java.util.List;
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.POST_NOT_FOUND;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
-
+/**
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 岗位管理
+ */
 @Tag(name = "管理后台 - 岗位")
 @RestController
 @RequestMapping("/sys/post")
@@ -33,6 +37,12 @@ public class PostController {
     @Resource
     private PostService postService;
 
+    /**
+     * 创建岗位
+     *
+     * @param reqVO 岗位信息
+     * @return 岗位编号
+     */
     @PostMapping("/create")
     @Operation(summary = "创建岗位")
     @PreAuthorize("@pms.hasPermission('sys:post:create')")
@@ -41,6 +51,12 @@ public class PostController {
         return CodeResult.ok(postId);
     }
 
+    /**
+     * 更新岗位
+     *
+     * @param reqVO 岗位信息
+     * @return 是否成功
+     */
     @PutMapping("/update")
     @Operation(summary = "修改岗位")
     @PreAuthorize("@pms.hasPermission('sys:post:update')")
@@ -49,6 +65,12 @@ public class PostController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 批量删除岗位
+     *
+     * @param idList 岗位编号列表
+     * @return 删除结果
+     */
     @DeleteMapping()
     @Operation(summary = "删除岗位")
     @Parameter(name = "idList", description = "编号列表", required = true, example = "[1024,1025]")
@@ -58,6 +80,12 @@ public class PostController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 根据id获取岗位信息
+     *
+     * @param id 岗位编号
+     * @return 岗位信息
+     */
     @GetMapping(value = "/{id}")
     @Operation(summary = "获得岗位信息")
     @Parameter(name = "id", description = "岗位编号", required = true, example = "1024")
@@ -70,6 +98,11 @@ public class PostController {
         return CodeResult.ok(PostConvert.INSTANCE.convert(postDO));
     }
 
+    /**
+     * 获取岗位精简信息列表
+     *
+     * @return 岗位精简信息列表
+     */
     @GetMapping("/list-all-simple")
     @Operation(summary = "获取岗位精简信息列表", description = "只包含被开启的岗位，主要用于前端的下拉选项")
     public CodeResult<List<PostSimpleRespVO>> getSimplePostList() {
@@ -80,6 +113,12 @@ public class PostController {
         return CodeResult.ok(PostConvert.INSTANCE.convertList02(list));
     }
 
+    /**
+     * 分页获取岗位列表
+     *
+     * @param reqVO 查询条件
+     * @return 岗位列表
+     */
     @GetMapping("/page")
     @Operation(summary = "获得岗位分页列表")
     @PreAuthorize("@pms.hasPermission('sys:post:query')")

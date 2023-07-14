@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Admin 用户 API 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/13
+ * @description Admin 用户 API 接口
  */
 public interface AdminUserApi {
 
@@ -65,5 +65,4 @@ public interface AdminUserApi {
      * @param ids 用户编号数组
      */
     void validateUserList(Collection<String> ids);
-
 }

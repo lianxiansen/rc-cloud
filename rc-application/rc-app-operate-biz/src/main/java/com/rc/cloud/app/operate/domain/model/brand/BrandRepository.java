@@ -8,7 +8,6 @@ public interface BrandRepository {
 
     Brand findById(BrandId brandId);
 
-    boolean exists(BrandId brandId);
 
     boolean removeById(BrandId brandId);
 

@@ -28,14 +28,14 @@ public class ProductCategoryController {
     @PostMapping("create")
     @Operation(summary = "创建产品分类")
     public CodeResult<ProductCategoryVO> create(@Valid @RequestBody ProductCategoryCreateDTO productCategoryCreateRequest) {
-        return CodeResult.ok(ProductCategoryVO.from(productCategoryApplicationService.createProductCategory(productCategoryCreateRequest)));
+        return CodeResult.ok(ProductCategoryVO.from(productCategoryApplicationService.create(productCategoryCreateRequest)));
     }
 
 
     @PostMapping("update")
     @Operation(summary = "更新产品分类")
     public CodeResult<ProductCategoryVO> update(@Valid @RequestBody ProductCategoryUpdateDTO productCategoryUpdateRequest) {
-        return CodeResult.ok(ProductCategoryVO.from(productCategoryApplicationService.updateProductCategory(productCategoryUpdateRequest)));
+        return CodeResult.ok(ProductCategoryVO.from(productCategoryApplicationService.update(productCategoryUpdateRequest)));
     }
 
     @GetMapping("remove")

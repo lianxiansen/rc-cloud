@@ -7,9 +7,9 @@ import javax.annotation.Resource;
 import java.util.Collection;
 
 /**
- * 角色 API 实现类
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 角色 API 实现类
  */
 @Service
 public class RoleApiImpl implements RoleApi {
@@ -17,6 +17,11 @@ public class RoleApiImpl implements RoleApi {
     @Resource
     private RoleService roleService;
 
+    /**
+     * 校验角色
+     *
+     * @param ids 角色 ID 列表
+     */
     @Override
     public void validRoleList(Collection<String> ids) {
         roleService.validateRoleList(ids);

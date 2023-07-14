@@ -1,6 +1,5 @@
 package com.rc.cloud.app.system.common.datapermission.config;
 
-import com.rc.cloud.app.system.api.permission.PermissionApi;
 import com.rc.cloud.app.system.common.datapermission.core.rule.dept.DeptDataPermissionRule;
 import com.rc.cloud.app.system.common.datapermission.core.rule.dept.DeptDataPermissionRuleCustomizer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -10,23 +9,27 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 /**
- * 基于部门的数据权限 AutoConfiguration
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 基于部门的数据权限 AutoConfiguration
  */
 @Configuration
 //@ConditionalOnClass(LoginUser.class)
-@ConditionalOnBean(value = {PermissionApi.class, DeptDataPermissionRuleCustomizer.class})
-public class YudaoDeptDataPermissionAutoConfiguration {
+@ConditionalOnBean(value = {DeptDataPermissionRuleCustomizer.class})
+public class RcDeptDataPermissionAutoConfiguration {
 
+    /**
+     * 创建 DeptDataPermissionRule 对象
+     *
+     * @param customizers {@link DeptDataPermissionRuleCustomizer} 集合
+     * @return {@link DeptDataPermissionRule}
+     */
     @Bean
-    public DeptDataPermissionRule deptDataPermissionRule(PermissionApi permissionApi,
-                                                         List<DeptDataPermissionRuleCustomizer> customizers) {
+    public DeptDataPermissionRule deptDataPermissionRule(List<DeptDataPermissionRuleCustomizer> customizers) {
         // 创建 DeptDataPermissionRule 对象
-        DeptDataPermissionRule rule = new DeptDataPermissionRule(permissionApi);
+        DeptDataPermissionRule rule = new DeptDataPermissionRule();
         // 补全表配置
         customizers.forEach(customizer -> customizer.customize(rule));
         return rule;
     }
-
 }

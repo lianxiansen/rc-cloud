@@ -29,8 +29,6 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     private ProductCategoryMapper productCategoryMapper;
     @Resource
     private ProductMapper productMapper;
-    @Resource
-    private RemoteIdGeneratorService remoteIdGeneratorService;
 
 
 

@@ -5,9 +5,9 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 /**
- * Job 日志 Framework Service 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description Job 日志 Framework Service 接口
  */
 public interface JobLogFrameworkService {
 

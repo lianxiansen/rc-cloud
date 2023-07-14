@@ -1,11 +1,11 @@
 package com.rc.cloud.app.system.controller.admin.user;
 
 import cn.hutool.core.collection.CollUtil;
+import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.model.dept.SysPostPO;
 import com.rc.cloud.app.system.model.permission.SysRolePO;
 import com.rc.cloud.app.system.model.user.SysUserPO;
-import com.rc.cloud.app.system.convert.user.UserConvert;
 import com.rc.cloud.app.system.service.dept.DeptService;
 import com.rc.cloud.app.system.service.dept.PostService;
 import com.rc.cloud.app.system.service.permission.PermissionService;
@@ -33,7 +33,11 @@ import java.util.Optional;
 import static com.rc.cloud.app.system.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
 
-
+/**
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 用户个人中心
+ */
 @Tag(name = "管理后台 - 用户个人中心")
 @RestController
 @RequestMapping("/sys/user/profile")
@@ -53,6 +57,12 @@ public class UserProfileController {
     @Resource
     private RoleService roleService;
 
+    /**
+     * 获得登录用户信息
+     *
+     * @param authentication 登录用户信息
+     * @return 用户信息
+     */
     @GetMapping("/get")
     @Operation(summary = "获得登录用户信息")
 //    @DataPermission(enable = false) // 关闭数据权限，避免只查看自己时，查询不到部门。
@@ -78,6 +88,12 @@ public class UserProfileController {
         return CodeResult.ok(resp);
     }
 
+    /**
+     * 修改用户个人信息
+     *
+     * @param reqVO 用户信息
+     * @return 是否成功
+     */
     @PutMapping("/update")
     @Operation(summary = "修改用户个人信息")
     public CodeResult<Boolean> updateUserProfile(@Valid @RequestBody UserProfileUpdateReqVO reqVO) {
@@ -88,6 +104,12 @@ public class UserProfileController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 修改用户个人密码
+     *
+     * @param reqVO 密码信息
+     * @return 是否成功
+     */
     @PutMapping("/update-password")
     @Operation(summary = "修改用户个人密码")
     public CodeResult<Boolean> updateUserProfilePassword(@Valid @RequestBody UserProfileUpdatePasswordReqVO reqVO) {

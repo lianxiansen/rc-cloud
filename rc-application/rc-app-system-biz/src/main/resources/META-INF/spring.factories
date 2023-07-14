@@ -1,5 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.rc.cloud.app.system.common.datapermission.config.YudaoDataPermissionAutoConfiguration ,\
-  com.rc.cloud.app.system.common.datapermission.config.YudaoDeptDataPermissionAutoConfiguration, \
-   com.rc.cloud.app.system.common.job.config.YudaoQuartzAutoConfiguration, \
-  com.rc.cloud.app.system.common.job.config.YudaoAsyncAutoConfiguration
+  com.rc.cloud.app.system.common.datapermission.config.RcDataPermissionAutoConfiguration ,\
+  com.rc.cloud.app.system.common.datapermission.config.RcDeptDataPermissionAutoConfiguration, \
+   com.rc.cloud.app.system.common.job.config.RcQuartzAutoConfiguration, \
+  com.rc.cloud.app.system.common.job.config.RcAsyncAutoConfiguration

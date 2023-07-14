@@ -29,10 +29,7 @@ public class BrandRepositoryImpl implements BrandRepository {
         return null;
     }
 
-    @Override
-    public boolean exists(BrandId brandId) {
-        return brandMapper.exists(null);
-    }
+
 
 
 

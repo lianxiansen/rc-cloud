@@ -6,14 +6,16 @@ import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
+import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
+import com.rc.cloud.app.operate.domain.model.brand.specification.RemoveShouldExistsSpecification;
+import com.rc.cloud.app.operate.domain.model.brand.specification.RemoveShouldNotAssociatedProductSpecification;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.infrastructure.persistence.repository.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.exception.DomainException;
+import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
@@ -66,7 +68,10 @@ public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {
 
     @MockBean
     private ProductRepository productRepositoryStub;
-
+    @MockBean
+    private RemoveShouldNotAssociatedProductSpecification removeShouldNotAssociatedProductSpecificationStub;
+    @MockBean
+    private RemoveShouldExistsSpecification removeShouldExistsSpecificationStub;
     private BrandCreateDTO createBrandDTO;
 
     private BrandUpdateDTO updateBrandDTO;
@@ -82,7 +87,7 @@ public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {
     @Test
     @DisplayName("创建品牌")
     public void createBrand() {
-        BrandBO brandBO = brandApplicationService.createBrand(createBrandDTO);
+        BrandBO brandBO = brandApplicationService.create(createBrandDTO);
         Assertions.assertTrue(ObjectUtils.isNotNull(brandBO.getId()) && createBrandDTO.getName().equals(brandBO.getName()) && createBrandDTO.getEnabled().booleanValue() == brandBO.isEnable() && createBrandDTO.getSortId().intValue() == brandBO.getSort() && createBrandDTO.getType().equals(brandBO.getType()), "创建品牌失败");
 
     }
@@ -113,7 +118,7 @@ public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {
     public void updateBrand() {
         updateBrandDTO.setId(brandMock.getId().id());
         when(brandRepositoryStub.findById(brandMock.getId())).thenReturn(brandMock);
-        BrandBO brandBO = brandApplicationService.updateBrand(updateBrandDTO);
+        BrandBO brandBO = brandApplicationService.update(updateBrandDTO);
         Assertions.assertTrue(brandMock.getId().id().equals(brandBO.getId()) && updateBrandDTO.getName().equals(brandBO.getName()) && updateBrandDTO.getEnabled().booleanValue() == brandBO.isEnable() && updateBrandDTO.getSortId().intValue() == brandBO.getSort() && updateBrandDTO.getType().equals(brandBO.getType()), "更新品牌失败");
     }
 
@@ -123,6 +128,8 @@ public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {
     public void removeBrand() {
         when(productRepositoryStub.existsByBrandId(brandMock.getId())).thenReturn(false);
         when(brandRepositoryStub.findById(brandMock.getId())).thenReturn(brandMock);
+        when(removeShouldNotAssociatedProductSpecificationStub.isSatisfiedBy(brandMock.getId())).thenReturn(true);
+        when(removeShouldExistsSpecificationStub.isSatisfiedBy(brandMock.getId())).thenReturn(true);
         when(brandRepositoryStub.removeById(brandMock.getId())).thenReturn(true);
         Assertions.assertTrue(brandApplicationService.remove(brandMock.getId().id()), "删除品牌失败");
     }
@@ -131,9 +138,11 @@ public class BrandApplicationServiceUnitTest extends BaseMockitoUnitTest {
     @DisplayName("删除已关联产品的品牌")
     public void removeBrandWhenAssocatedProductThenThrowException() {
         when(productRepositoryStub.existsByBrandId(brandMock.getId())).thenReturn(true);
-        when(brandRepositoryStub.exists(brandMock.getId())).thenReturn(true);
+        when(brandRepositoryStub.findById(brandMock.getId())).thenReturn(brandMock);
+        when(removeShouldNotAssociatedProductSpecificationStub.isSatisfiedBy(brandMock.getId())).thenReturn(false);
+        when(removeShouldExistsSpecificationStub.isSatisfiedBy(brandMock.getId())).thenReturn(true);
         when(brandRepositoryStub.removeById(brandMock.getId())).thenReturn(true);
-        Assertions.assertThrows(DomainException.class, () -> {
+        Assertions.assertThrows(ServiceException.class, () -> {
             brandApplicationService.remove(brandMock.getId().id());
         });
     }

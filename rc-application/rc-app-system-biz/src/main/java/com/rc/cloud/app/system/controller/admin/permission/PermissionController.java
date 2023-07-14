@@ -18,11 +18,10 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.Set;
 
-
 /**
- * 权限 Controller，提供赋予用户、角色的权限的 API 接口
- *
- * @author 芋道源码
+ * @author rc@hqf
+ * @date 2023/07/14
+ * @description 权限 Controller，提供赋予用户、角色的权限的 API 接口
  */
 @Tag(name = "管理后台 - 权限")
 @RestController
@@ -34,6 +33,12 @@ public class PermissionController {
     @Resource
     private TenantService tenantService;
 
+    /**
+     * 获得角色拥有的菜单编号
+     *
+     * @param roleId 角色编号
+     * @return 菜单编号集合
+     */
     @Operation(summary = "获得角色拥有的菜单编号")
     @Parameter(name = "roleId", description = "角色编号", required = true)
     @GetMapping("/list-role-resources/{roleId}")
@@ -42,6 +47,12 @@ public class PermissionController {
         return CodeResult.ok(permissionService.getRoleMenuIds(roleId));
     }
 
+    /**
+     * 赋予角色菜单
+     *
+     * @param reqVO 赋予角色菜单请求
+     * @return 是否成功
+     */
     @PostMapping("/assign-role-menu")
     @Operation(summary = "赋予角色菜单")
     @PreAuthorize("@pms.hasPermission('sys:permission:assign-role-menu')")
@@ -54,6 +65,12 @@ public class PermissionController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 赋予角色数据权限
+     *
+     * @param reqVO 赋予角色数据权限请求
+     * @return 是否成功
+     */
     @PostMapping("/assign-role-data-scope")
     @Operation(summary = "赋予角色数据权限")
     @PreAuthorize("@pms.hasPermission('sys:permission:assign-role-data-scope')")
@@ -62,6 +79,12 @@ public class PermissionController {
         return CodeResult.ok(true);
     }
 
+    /**
+     * 获得管理员拥有的角色编号列表
+     *
+     * @param userId 用户编号
+     * @return 角色编号列表
+     */
     @Operation(summary = "获得管理员拥有的角色编号列表")
     @Parameter(name = "userId", description = "用户编号", required = true)
     @GetMapping("/list-user-roles/{userId}")
@@ -70,6 +93,12 @@ public class PermissionController {
         return CodeResult.ok(permissionService.getUserRoleIdListByUserId(userId));
     }
 
+    /**
+     * 赋予用户角色
+     *
+     * @param reqVO 赋予用户角色请求
+     * @return 是否成功
+     */
     @Operation(summary = "赋予用户角色")
     @PostMapping("/assign-user-role")
     @PreAuthorize("@pms.hasPermission('sys:permission:assign-user-role')")
