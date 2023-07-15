@@ -22,52 +22,55 @@ import org.springframework.security.core.userdetails.UserDetails;
 @RequiredArgsConstructor
 public class RcAppUserDetailsServiceImpl extends AbstractRcUserDetailsServiceImpl {
 
-	private final RemoteUserService remoteUserService;
+    private final RemoteUserService remoteUserService;
 
-	private final CacheManager cacheManager;
+    private final CacheManager cacheManager;
 
-	private final String ADMIN_CLIENT_NAME = "rc_admin";
+    private static final String ADMIN_CLIENT_NAME = "rc_admin";
 
-	/**
-	 * 手机号登录
-	 * @param phone 手机号
-	 * @return
-	 */
-	@Override
-	@SneakyThrows
-	public UserDetails loadUserByUsername(String phone) {
-		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
-		if (cache != null && cache.get(phone) != null) {
-			return (RcUser) cache.get(phone).get();
-		}
+    /**
+     * 手机号登录
+     *
+     * @param phone 手机号
+     * @return
+     */
+    @Override
+    @SneakyThrows
+    public UserDetails loadUserByUsername(String phone) {
+        Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
+        if (cache != null && cache.get(phone) != null) {
+            return (RcUser) cache.get(phone).get();
+        }
 
-		CodeResult<UserInfo> result = remoteUserService.infoByMobile(phone);
+        CodeResult<UserInfo> result = remoteUserService.infoByMobile(phone);
 
-		UserDetails userDetails = getUserDetails(result);
-		if (cache != null) {
-			cache.put(phone, userDetails);
-		}
-		return userDetails;
-	}
+        UserDetails userDetails = getUserDetails(result);
+        if (cache != null) {
+            cache.put(phone, userDetails);
+        }
+        return userDetails;
+    }
 
-	/**
-	 * check-token 使用
-	 * @param rcUser user
-	 * @return
-	 */
-	@Override
-	public UserDetails loadUserByUser(RcUser rcUser) {
-		return this.loadUserByUsername(rcUser.getMobile());
-	}
+    /**
+     * check-token 使用
+     *
+     * @param rcUser user
+     * @return
+     */
+    @Override
+    public UserDetails loadUserByUser(RcUser rcUser) {
+        return this.loadUserByUsername(rcUser.getMobile());
+    }
 
-	/**
-	 * 后台管理手机号登录
-	 * @param clientId 目标客户端
-	 * @return true/false
-	 */
-	@Override
-	public boolean support(String clientId, String grantType) {
-		return ADMIN_CLIENT_NAME.equals(clientId)  && SecurityConstants.MOBILE.equals(grantType);
-	}
+    /**
+     * 后台管理手机号登录
+     *
+     * @param clientId 目标客户端
+     * @return true/false
+     */
+    @Override
+    public boolean support(String clientId, String grantType) {
+        return ADMIN_CLIENT_NAME.equals(clientId) && SecurityConstants.MOBILE.equals(grantType);
+    }
 
 }
