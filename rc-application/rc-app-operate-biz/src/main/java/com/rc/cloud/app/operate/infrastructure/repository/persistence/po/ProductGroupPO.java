@@ -21,5 +21,7 @@ public class ProductGroupPO extends BaseDO {
 
     @TableField("tenant_id")
     private String tenantId;
+    @TableField("product_id")
+    private String productId;
 
 }

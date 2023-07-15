@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.application;
+package com.rc.cloud.app.operate.acceptance;
 
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
@@ -56,9 +56,9 @@ import static org.mockito.Mockito.when;
 @ExtendWith({SpringExtension.class})
 @Import({ProductCategoryService.class, ProductCategoryRepositoryImpl.class, ProductCategoryService.class,
         ProductCategoryRefreshListener.class, ProductCategoryApplicationService.class, LocalIdRepositoryImpl.class, ProductRepositoryImpl.class})
-@DisplayName("产品分类应用服务验收测试")
+@DisplayName("产品分类验收测试")
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class ProductCategoryApplicationServiceAcceptanceTest extends BaseDbUnitTest {
+public class ProductCategoryAcceptanceTest extends BaseDbUnitTest {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
