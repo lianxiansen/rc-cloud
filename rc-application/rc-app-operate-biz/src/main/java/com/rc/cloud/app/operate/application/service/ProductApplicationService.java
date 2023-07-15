@@ -233,36 +233,40 @@ public class ProductApplicationService {
     }
 
 
-    public ProductBO modifyProductField(ProductModifyDTO productModifyDTO) {
-
-        if (productModifyDTO.getModifyValue() == null) {
-            throw new IllegalArgumentException("修改属性不能为空");
-        }
+    public ProductBO changeNewStatus(String productId, boolean newFlag){
         ProductSaveDTO productSaveDTO = new ProductSaveDTO();
-        productSaveDTO.setId(productModifyDTO.getProductId());
-        String modifyValue = productModifyDTO.getModifyValue();
-        if (modifyValue.equals(ProductModifyDTO.NEW)) {
-
-            productSaveDTO.setNewFlag(productModifyDTO.getModifyValue() == "1" ? true : false);
-        } else if (modifyValue.equals(ProductModifyDTO.ENABLED)) {
-
-            productSaveDTO.setEnabledFlag(productModifyDTO.getModifyValue() == "1" ? true : false);
-        } else if (modifyValue.equals(ProductModifyDTO.ONSHELF)) {
-
-            productSaveDTO.setOnShelfStatus(Integer.valueOf(productModifyDTO.getModifyValue()));
-        } else if (modifyValue.equals(ProductModifyDTO.PUBLIC)) {
-
-            productSaveDTO.setPublicFlag(productModifyDTO.getModifyValue() == "1" ? true : false);
-        } else if (modifyValue.equals(ProductModifyDTO.RECOMMEND)) {
-
-            productSaveDTO.setRecommendFlag(productModifyDTO.getModifyValue() == "1" ? true : false);
-        } else {
-            throw new IllegalArgumentException("修改属性不存在");
-        }
-
+        productSaveDTO.setId(productId);
+        productSaveDTO.setNewFlag(newFlag);
         return updateProduct(productSaveDTO);
-
-
     }
+
+    public ProductBO changeEnableStatus(String productId, boolean enableFlag){
+        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
+        productSaveDTO.setId(productId);
+        productSaveDTO.setEnableFlag(enableFlag);
+        return updateProduct(productSaveDTO);
+    }
+
+    public ProductBO changeOnShelfStatus(String productId, int onShelfStatus){
+        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
+        productSaveDTO.setId(productId);
+        productSaveDTO.setOnShelfStatus(onShelfStatus);
+        return updateProduct(productSaveDTO);
+    }
+
+    public ProductBO changePublicStatus(String productId, boolean publicFlag){
+        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
+        productSaveDTO.setId(productId);
+        productSaveDTO.setPublicFlag(publicFlag);
+        return updateProduct(productSaveDTO);
+    }
+
+    public ProductBO changeRecommendStatus(String productId, boolean recommendFlag){
+        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
+        productSaveDTO.setId(productId);
+        productSaveDTO.setRecommendFlag(recommendFlag);
+        return updateProduct(productSaveDTO);
+    }
+
 
 }

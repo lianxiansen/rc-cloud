@@ -1,9 +1,6 @@
 package com.rc.cloud.app.operate.appearance.facade.admin;
 
-import com.rc.cloud.app.operate.application.dto.ProductCopyDTO;
-import com.rc.cloud.app.operate.application.dto.ProductModifyDTO;
-import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
-import com.rc.cloud.app.operate.application.dto.ProductSaveVO;
+import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,10 +39,40 @@ public class ProductController {
         return CodeResult.ok();
     }
 
-    @PostMapping("modifyField")
+    @PostMapping("changeNewStatus")
+    @Operation(summary = "修改New字段")
+    public CodeResult<Long> changeNewStatus(@Valid @RequestBody ProductChangeNewStatusDTO dto){
+        productApplicationService.changeNewStatus(dto.getProductId(), dto.isNewFlag());
+        return CodeResult.ok();
+    }
+
+    @PostMapping("changeEnableStatus")
+    @Operation(summary = "修改Enable字段")
+    public CodeResult<Long> changeEnableStatus(@Valid @RequestBody ProductChangeEnableStatusDTO dto){
+        productApplicationService.changeEnableStatus(dto.getProductId(), dto.isEnableFlag());
+        return CodeResult.ok();
+    }
+
+
+    @PostMapping("changeOnShelfStatus")
     @Operation(summary = "修改产品字段")
-    public CodeResult<Long> modifyProductStatus(@Valid @RequestBody ProductModifyDTO productModifyDTO){
-        productApplicationService.modifyProductField(productModifyDTO);
+    public CodeResult<Long> changeOnShelfStatus(@Valid @RequestBody ProductChangeOnShelfStatusDTO dto){
+        productApplicationService.changeOnShelfStatus(dto.getProductId(), dto.getOnShelfStatus());
+        return CodeResult.ok();
+    }
+
+
+    @PostMapping("changePublicStatus")
+    @Operation(summary = "修改Public字段")
+    public CodeResult<Long> changePublicStatus(@Valid @RequestBody ProductChangePublicStatusDTO dto){
+        productApplicationService.changePublicStatus(dto.getProductId(), dto.isPublicFlag());
+        return CodeResult.ok();
+    }
+
+    @PostMapping("changeRecommendStatus")
+    @Operation(summary = "修改Recommend字段")
+    public CodeResult<Long> changeRecommendStatus(@Valid @RequestBody ProductChangeRecommendStatusDTO dto){
+        productApplicationService.changeRecommendStatus(dto.getProductId(), dto.isRecommendFlag());
         return CodeResult.ok();
     }
 
