@@ -20,59 +20,67 @@ import java.util.List;
 @UtilityClass
 public class SecurityUtils {
 
-	/**
-	 * 获取Authentication
-	 */
-	public Authentication getAuthentication() {
-		return SecurityContextHolder.getContext().getAuthentication();
-	}
+    /**
+     * 获取Authentication
+     * @return Authentication
+     */
+    public Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
 
-	/**
-	 * 获取用户
-	 */
-	public RcUser getUser(Authentication authentication) {
-		Object principal = authentication.getPrincipal();
-		if (principal instanceof RcUser) {
-			return (RcUser) principal;
-		}
-		return null;
-	}
+    /**
+     * 获取用户
+     *
+     * @param authentication
+     * @return RcUser
+     */
+    public RcUser getUser(Authentication authentication) {
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof RcUser) {
+            return (RcUser) principal;
+        }
+        return null;
+    }
 
-	public String getUsername() {
-		Authentication authentication = getAuthentication();
-		if (authentication == null) {
-			return null;
-		}
-		return authentication.getName();
-	}
+    @SuppressWarnings("checkstyle:MissingJavadocMethod")
+    public String getUsername() {
+        Authentication authentication = getAuthentication();
+        if (authentication == null) {
+            return null;
+        }
+        return authentication.getName();
+    }
 
-	/**
-	 * 获取用户
-	 */
-	public RcUser getUser() {
-		Authentication authentication = getAuthentication();
-		if (authentication == null) {
-			return null;
-		}
-		return getUser(authentication);
-	}
+    /**
+     * 获取用户
+     *
+     * @return RcUser
+     */
+    public RcUser getUser() {
+        Authentication authentication = getAuthentication();
+        if (authentication == null) {
+            return null;
+        }
+        return getUser(authentication);
+    }
 
-	/**
-	 * 获取用户角色信息
-	 * @return 角色集合
-	 */
-	public List<String> getRoles() {
-		Authentication authentication = getAuthentication();
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+    /**
+     * 获取用户角色信息
+     *
+     * @return 角色集合
+     */
+    public List<String> getRoles() {
+        Authentication authentication = getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-		List<String> roleIds = new ArrayList<>();
-		authorities.stream()
-			.filter(granted -> CharSequenceUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
-			.forEach(granted -> {
-				String id = CharSequenceUtil.removePrefix(granted.getAuthority(), SecurityConstants.ROLE);
-				roleIds.add(id);
-			});
-		return roleIds;
-	}
+        List<String> roleIds = new ArrayList<>();
+        authorities.stream()
+                .filter(granted -> CharSequenceUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
+                .forEach(granted -> {
+                    String id = CharSequenceUtil.removePrefix(granted.getAuthority(), SecurityConstants.ROLE);
+                    roleIds.add(id);
+                });
+        return roleIds;
+    }
 
 }

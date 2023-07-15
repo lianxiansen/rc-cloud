@@ -12,38 +12,38 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RcRedisOAuth2AuthorizationConsentService implements OAuth2AuthorizationConsentService {
 
-	private final StringRedisTemplate stringRedisTemplate;
+    private final StringRedisTemplate stringRedisTemplate;
 
-	private final static Long TIMEOUT = 10L;
+    private static final Long TIMEOUT = 10L;
 
-	@Override
-	public void save(OAuth2AuthorizationConsent authorizationConsent) {
-		Assert.notNull(authorizationConsent, "authorizationConsent cannot be null");
-		stringRedisTemplate.opsForValue()
-			.set(buildKey(authorizationConsent), JSONObject.toJSONString(authorizationConsent), TIMEOUT, TimeUnit.MINUTES);
-	}
+    @Override
+    public void save(OAuth2AuthorizationConsent authorizationConsent) {
+        Assert.notNull(authorizationConsent, "authorizationConsent cannot be null");
+        stringRedisTemplate.opsForValue()
+                .set(buildKey(authorizationConsent), JSONObject.toJSONString(authorizationConsent), TIMEOUT, TimeUnit.MINUTES);
+    }
 
-	@Override
-	public void remove(OAuth2AuthorizationConsent authorizationConsent) {
-		Assert.notNull(authorizationConsent, "authorizationConsent cannot be null");
-		stringRedisTemplate.delete(buildKey(authorizationConsent));
-	}
+    @Override
+    public void remove(OAuth2AuthorizationConsent authorizationConsent) {
+        Assert.notNull(authorizationConsent, "authorizationConsent cannot be null");
+        stringRedisTemplate.delete(buildKey(authorizationConsent));
+    }
 
-	@Override
-	public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
-		Assert.hasText(registeredClientId, "registeredClientId cannot be empty");
-		Assert.hasText(principalName, "principalName cannot be empty");
-		String oAuth2AuthorizationConsentString = stringRedisTemplate.opsForValue()
-				.get(buildKey(registeredClientId, principalName));
-		return JSONObject.parseObject(oAuth2AuthorizationConsentString, OAuth2AuthorizationConsent.class);
-	}
+    @Override
+    public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
+        Assert.hasText(registeredClientId, "registeredClientId cannot be empty");
+        Assert.hasText(principalName, "principalName cannot be empty");
+        String oAuth2AuthorizationConsentString = stringRedisTemplate.opsForValue()
+                .get(buildKey(registeredClientId, principalName));
+        return JSONObject.parseObject(oAuth2AuthorizationConsentString, OAuth2AuthorizationConsent.class);
+    }
 
-	private static String buildKey(String registeredClientId, String principalName) {
-		return "token:consent:" + registeredClientId + ":" + principalName;
-	}
+    private static String buildKey(String registeredClientId, String principalName) {
+        return "token:consent:" + registeredClientId + ":" + principalName;
+    }
 
-	private static String buildKey(OAuth2AuthorizationConsent authorizationConsent) {
-		return buildKey(authorizationConsent.getRegisteredClientId(), authorizationConsent.getPrincipalName());
-	}
+    private static String buildKey(OAuth2AuthorizationConsent authorizationConsent) {
+        return buildKey(authorizationConsent.getRegisteredClientId(), authorizationConsent.getPrincipalName());
+    }
 
 }

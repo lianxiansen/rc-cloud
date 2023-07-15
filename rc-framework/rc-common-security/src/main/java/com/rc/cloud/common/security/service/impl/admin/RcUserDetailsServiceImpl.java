@@ -22,48 +22,50 @@ import org.springframework.security.core.userdetails.UserDetails;
 @RequiredArgsConstructor
 public class RcUserDetailsServiceImpl extends AbstractRcUserDetailsServiceImpl {
 
-	private final RemoteUserService remoteUserService;
+    private final RemoteUserService remoteUserService;
 
-	private final RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-	private final String ADMIN_CLIENT_NAME = "rc_admin";
+    private static final String ADMIN_CLIENT_NAME = "rc_admin";
 
-	/**
-	 * 用户名密码登录
-	 * @param username 用户名
-	 * @return
-	 */
-	@Override
-	@SneakyThrows
-	public UserDetails loadUserByUsername(String username) {
-		String userDetailsKey = CacheConstants.USER_DETAILS + ":" + username;
-		redisTemplate.setValueSerializer(RedisSerializer.java());
-		RcUser rcUser = (RcUser)redisTemplate.opsForValue().get(userDetailsKey);
-		if (rcUser != null && rcUser.getUsername() != null) {
-			return rcUser;
-		}
+    /**
+     * 用户名密码登录
+     *
+     * @param username 用户名
+     * @return
+     */
+    @Override
+    @SneakyThrows
+    public UserDetails loadUserByUsername(String username) {
+        String userDetailsKey = CacheConstants.USER_DETAILS + ":" + username;
+        redisTemplate.setValueSerializer(RedisSerializer.java());
+        RcUser rcUser = (RcUser) redisTemplate.opsForValue().get(userDetailsKey);
+        if (rcUser != null && rcUser.getUsername() != null) {
+            return rcUser;
+        }
 
-		CodeResult<UserInfo> result = remoteUserService.info(username);
-		UserDetails userDetails = getUserDetails(result);
-		if (userDetails != null) {
-			redisTemplate.setValueSerializer(RedisSerializer.java());
-			redisTemplate.opsForValue().set(userDetailsKey, userDetails);
-		}
-		return userDetails;
-	}
+        CodeResult<UserInfo> result = remoteUserService.info(username);
+        UserDetails userDetails = getUserDetails(result);
+        if (userDetails != null) {
+            redisTemplate.setValueSerializer(RedisSerializer.java());
+            redisTemplate.opsForValue().set(userDetailsKey, userDetails);
+        }
+        return userDetails;
+    }
 
-	@Override
-	public int getOrder() {
-		return Integer.MIN_VALUE;
-	}
+    @Override
+    public int getOrder() {
+        return Integer.MIN_VALUE;
+    }
 
-	/**
-	 * 后台管理账号密码登录
-	 * @param clientId 目标客户端
-	 * @return true/false
-	 */
-	@Override
-	public boolean support(String clientId, String grantType) {
-		return ADMIN_CLIENT_NAME.equals(clientId)  && SecurityConstants.PASSWORD.equals(grantType);
-	}
+    /**
+     * 后台管理账号密码登录
+     *
+     * @param clientId 目标客户端
+     * @return true/false
+     */
+    @Override
+    public boolean support(String clientId, String grantType) {
+        return ADMIN_CLIENT_NAME.equals(clientId) && SecurityConstants.PASSWORD.equals(grantType);
+    }
 }
