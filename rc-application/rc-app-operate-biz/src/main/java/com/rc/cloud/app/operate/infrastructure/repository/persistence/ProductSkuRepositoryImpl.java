@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
@@ -18,7 +19,11 @@ import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
 public class ProductSkuRepositoryImpl implements ProductSkuRepository{
@@ -31,9 +36,6 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
 
     @Autowired
     ProductSkuAttributeMapper productSkuAttributeMapper;
-
-
-
 
 
     @Override
@@ -95,19 +97,41 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
 
 
     @Override
-    public int insertProductSku(ProductSku productSku) {
-
-        if(exist(productSku.getId())){
-            throw new IllegalArgumentException("该商品已存在");
-        }
-        ProductSkuPO productSkuPO = ProductSkuConvert.convert(productSku);
-        return productSkuMapper.insert(productSkuPO);
-    }
-
-    @Override
     public int batchSaveProductSku(List<ProductSku> productSkuList) {
-        productSkuList.forEach(x->
-                        insertProductSku(x)
+        //保存ProductSku
+        //这里的规格有可能是原有的基础上新增
+        //比如：1 2 3 新增 4 5 6 结果是 1 2 3 4 5 6
+        //也有可能是减少 1 2 3 4 减少 3 4 结果是 1 2
+        //也可能是重新洗牌 1 2 3 4 结果是 5 6 7 8
+        ProductId productId=null;
+        Set<String> oldList=new HashSet<>();
+        Set<String> newList =new HashSet<>();
+        if(productSkuList!=null && productSkuList.size()>0){
+            productId=productSkuList.get(0).getProductId();
+        }
+        List<ProductSku> oriList = getProductSkuListByProductId(productId);
+        if(oriList!=null && oriList.size()>0){
+            oldList =oriList.stream().map(x->x.getId().id()).distinct().collect(Collectors.toSet());
+        }
+        newList = productSkuList.stream().map(x->x.getId().id()).distinct().collect(Collectors.toSet());
+        //添加
+        List<String> addList = CollectionUtil.subtractToList(newList, oldList);
+        addList.forEach(x->
+                insertProductSku(productSkuList.stream().filter(u->
+                            u.getId().id().equals(x)
+                        ).findFirst().get())
+                );
+        //移除
+        List<String> reduceList = CollectionUtil.subtractToList(oldList, newList);
+        reduceList.forEach(x->
+                removeProductSku(new ProductSkuId(x))
+        );
+        //更新
+        Collection<String> intersection = CollectionUtil.intersection(newList, oldList);
+        intersection.forEach(x->
+                        updateProductSku(productSkuList.stream().filter(u->
+                            u.getId().id().equals(x)
+                        ).findFirst().get())
                 );
         return 1;
     }
@@ -119,8 +143,21 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         }
         LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductSkuPO::getId, productSku.getId().id());
-        ProductSkuPO ProductSkuPO = ProductSkuConvert.convert(productSku);
-        return this.productSkuMapper.update(ProductSkuPO,wrapper);
+        ProductSkuPO po = ProductSkuConvert.convert(productSku);
+        return this.productSkuMapper.update(po,wrapper);
+    }
+
+    @Override
+    public int insertProductSku(ProductSku productSku) {
+        ProductSkuPO po = ProductSkuConvert.convert(productSku);
+        return this.productSkuMapper.insert(po);
+    }
+
+    @Override
+    public int removeProductSku(ProductSkuId productSkuId) {
+        LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuPO::getId, productSkuId.id());
+        return this.productSkuMapper.delete(wrapper);
     }
 
 

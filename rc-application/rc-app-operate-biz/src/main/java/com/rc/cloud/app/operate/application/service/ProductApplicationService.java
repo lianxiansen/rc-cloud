@@ -169,12 +169,19 @@ public class ProductApplicationService {
             //比如：1 2 3 新增 4 5 6 结果是 1 2 3 4 5 6
             //也有可能是减少 1 2 3 4 减少 3 4 结果是 1 2
             //也可能是重新洗牌 1 2 3 4 结果是 5 6 7 8
+            //但是在这一层不需要做这事情，但是需要记录sku_id
             for (ProductSkuSaveDTO productSkuSaveDTO :  productSaveDTO.getSkus()) {
-                ProductSku productSku= productSkuRepository.findById(new ProductSkuId(productSkuSaveDTO.getId()));
-                //TODO
-
-//                ProductSku productSku = ProductSkuConvert.convert(productSkuId, productId
-//                        , tenantId, productSkuSaveDTO, true, null);
+                ProductSku productSku=null;
+                if(productSkuSaveDTO.getId()!=null){
+                    productSkuRepository.findById(new ProductSkuId(productSkuSaveDTO.getId()));
+                }
+                if(productSku==null){
+                    productSku = ProductSkuConvert.convert(new ProductSkuId(idRepository.nextId()), productId
+                            , tenantId, productSkuSaveDTO, true, productSku);
+                }else{
+                    productSku = ProductSkuConvert.convert(productSku.getId(), productId
+                            , tenantId, productSkuSaveDTO, false, productSku);
+                }
                 productSkuList.add(productSku);
             }
             productSkuRepository.batchSaveProductSku(productSkuList);

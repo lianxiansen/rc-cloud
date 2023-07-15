@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.application.bo.convert;
 
+import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuAttributeSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuImageSaveDTO;
@@ -142,4 +143,54 @@ public class ProductSkuConvert {
         return productSku;
     }
 
+    public static ProductSkuBO convert(ProductSku productSku){
+        ProductSkuBO bo=new ProductSkuBO();
+        bo.setId(productSku.getId().id());
+        if(productSku.getPrice()!=null){
+            bo.setPrice(productSku.getPrice().getValue());
+        }
+        if(productSku.getLimitBuy()!=null){
+            bo.setLimitBuy(productSku.getLimitBuy().getValue());
+        }
+        if(productSku.getWeight()!=null){
+            bo.setWeight(productSku.getWeight().getValue());
+        }
+        if(productSku.getOutId()!=null){
+            bo.setOutId(productSku.getOutId().getValue());
+        }
+        if(productSku.getSort()!=null){
+            bo.setSort(productSku.getSort().getValue());
+        }
+        bo.setSkuCode(productSku.getSkuCode());
+        if(productSku.getInventory()!=null){
+            bo.setInventory(productSku.getInventory().getValue());
+        }
+        if(productSku.getSupplyPrice()!=null){
+            bo.setSupplyPrice(productSku.getSupplyPrice().getValue());
+        }
+        if(productSku.getSeckillSku()!=null){
+            SeckillSku seckillSku = productSku.getSeckillSku();
+            if(seckillSku.getSeckillInventory()!=null){
+                bo.setSeckillInventory(seckillSku.getSeckillInventory().getValue());
+            }
+            if(seckillSku.getSeckillPrice()!=null){
+                bo.setSeckillPrice(seckillSku.getSeckillPrice().getValue());
+            }
+            if(seckillSku.getSeckillLimitBuy()!=null){
+                bo.setSeckillLimitBuy(seckillSku.getSeckillLimitBuy().getValue());
+            }
+            if(seckillSku.getSeckillTotalInventory()!=null){
+                bo.setSeckillTotalInventory(seckillSku.getSeckillTotalInventory().getValue());
+            }
+            bo.setSeckillBuyRate(seckillSku.getSeckillBuyRate());
+        }
+
+        return bo;
+    }
+
+    public static List<ProductSkuBO> convertList(List<ProductSku> productSkuList) {
+        List<ProductSkuBO> resList =new ArrayList<>();
+        productSkuList.forEach(x->resList.add(convert(x)));
+        return resList;
+    }
 }

@@ -31,11 +31,7 @@ public class ProductConvert
 
 
 
-    public static ProductBO convert(Product product){
 
-        return null;
-
-    }
 
     /**
      * 填充product参数
@@ -321,6 +317,12 @@ public class ProductConvert
     public static ProductBO  convert(Product product, List<ProductDict> productDicts, ProductDetail productDetail, List<ProductSku> productSkuList) {
 
         return null;
+    }
+
+    public static ProductBO convert(Product product){
+
+        return null;
+
     }
 
 }
