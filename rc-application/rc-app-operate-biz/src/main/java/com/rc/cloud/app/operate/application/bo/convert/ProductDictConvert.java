@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.application.bo.convert;
 
+import com.rc.cloud.app.operate.application.bo.ProductDictBO;
 import com.rc.cloud.app.operate.application.dto.ProductDictSaveDTO;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
@@ -30,4 +31,21 @@ public  class ProductDictConvert {
         }
         return resList;
     }
+
+    public static ProductDictBO convert(ProductDict productDict){
+        ProductDictBO bo =new ProductDictBO();
+        bo.setSort(productDict.getSort());
+        bo.setKey(productDict.getKey());
+        bo.setValue(productDict.getValue());
+        return bo;
+    }
+
+    public static List<ProductDictBO> convertProductDictBOList(List<ProductDict> list){
+        List<ProductDictBO> resList =new ArrayList<>();
+        for (ProductDict productDict : list) {
+            resList.add(convert(productDict));
+        }
+        return resList;
+    }
+
 }

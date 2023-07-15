@@ -110,9 +110,8 @@ public class ProductBO {
 
     private List<ProductSkuBO> skus;
 
-
     private List<ProductImageBO> images;
 
-
+    private List<ProductDictBO> dicts;
 
 }

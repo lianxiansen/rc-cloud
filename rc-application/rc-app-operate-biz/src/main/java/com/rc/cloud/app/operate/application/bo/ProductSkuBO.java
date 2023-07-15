@@ -45,6 +45,8 @@ public class ProductSkuBO {
 
     private String seckillBuyRate;
 
-    private List<AttributeValueCombination> skuAttributes;
+    private List<AttributeValueCombinationBO> skuAttributes;
+
+    private List<ProductSkuImageBO> skuImages;
 
 }

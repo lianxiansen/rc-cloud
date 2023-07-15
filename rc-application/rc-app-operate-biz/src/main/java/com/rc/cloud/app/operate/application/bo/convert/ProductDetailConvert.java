@@ -15,13 +15,5 @@ public class ProductDetailConvert {
     }
 
 
-//    public static ProductDetailPO convert(ProductDetail productDetail){
-//        ProductDetailPO po=new ProductDetailPO();
-//        po.setProductId(productDetail.getProductId().id());
-//        po.setTenantId(productDetail.getTenantId().id());
-//        po.setDetail(productDetail.getDetail());
-//        po.setId(productDetail.getId().id());
-//        return po;
-//    }
-    
+
 }

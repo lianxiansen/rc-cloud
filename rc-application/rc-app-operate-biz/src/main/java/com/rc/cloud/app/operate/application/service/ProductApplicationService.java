@@ -192,13 +192,25 @@ public class ProductApplicationService {
 
     /**
      * 获取商品
-     *
-     * @param productId
+     * TODO
+     * @param productQueryDTO
      * @return
      */
-    public ProductBO getProduct(String productId) {
-        Product product = productRepository.findById(new ProductId(productId));
-        return ProductConvert.convert(product);
+    public ProductBO getProduct(ProductQueryDTO productQueryDTO) {
+        Product product = productRepository.findById(new ProductId(productQueryDTO.getProductId()));
+        ProductDetail productDetail=null;
+        List<ProductDict> productDictList=null;
+        List<ProductSku> productSkuList=null;
+        if(productQueryDTO.isNeedProductDetail()){
+            productDetail = productDetailRepository.findById(new ProductId(productQueryDTO.getProductId()));
+        }
+        if(productQueryDTO.isNeedProductDict()){
+            productDictList = productDictRepository.getProductDictByProductId(new ProductId(productQueryDTO.getProductId()));
+        }
+        if(productQueryDTO.isNeedProductSku()){
+            productSkuList = productSkuRepository.getProductSkuListByProductId(new ProductId(productQueryDTO.getProductId()));
+        }
+        return ProductConvert.convert(product,productDictList,productDetail,productSkuList);
     }
 
 
@@ -209,7 +221,11 @@ public class ProductApplicationService {
      */
     public PageResult<ProductBO> getProductList(ProductListQueryDTO productListQueryDTO) {
         PageResult<Product> productPageList = productRepository.getProductPageList(productListQueryDTO);
-        List<ProductBO> productBOS = ProductConvert.convertList(productPageList.getList());
+        List<ProductBO> productBOS = new ArrayList<>();
+        for (Product product : productPageList.getList()) {
+            ProductBO productBO = ProductConvert.convert(product);
+            productBOS.add(productBO);
+        }
         PageResult<ProductBO> pageResult = new PageResult<>();
         pageResult.setTotal(productPageList.getTotal());
         pageResult.setList(productBOS);

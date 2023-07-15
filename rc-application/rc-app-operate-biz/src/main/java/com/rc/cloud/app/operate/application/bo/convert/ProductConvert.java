@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.application.bo.convert;
 
-import com.rc.cloud.app.operate.application.bo.ProductBO;
+import com.rc.cloud.app.operate.application.bo.*;
 import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductImageSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
@@ -25,6 +25,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
 
 public class ProductConvert
 {
@@ -308,21 +309,120 @@ public class ProductConvert
     }
 
 
-
-    public static List<ProductBO> convertList(List<Product> productList){
-        return null;
-    }
-
-
     public static ProductBO  convert(Product product, List<ProductDict> productDicts, ProductDetail productDetail, List<ProductSku> productSkuList) {
-
-        return null;
+        ProductBO bo=convert(product);
+        if(productDicts!=null){
+            List<ProductDictBO> productDictBOS = ProductDictConvert.convertProductDictBOList(productDicts);
+            bo.setDicts(productDictBOS);
+        }
+        if(productDetail!=null){
+            bo.setDetail(productDetail.getDetail());
+        }
+        if(productSkuList!=null){
+            List<ProductSkuBO> productSkuBOS = ProductSkuConvert.convertList(productSkuList);
+            bo.setSkus(productSkuBOS);
+        }
+        return bo;
     }
 
     public static ProductBO convert(Product product){
 
-        return null;
+        ProductBO bo=new ProductBO();
 
+        bo.setId(product.getId().id());
+        bo.setTenantId(product.getTenantId().id());
+        if(product.getEnable()!=null){
+            bo.setEnabledFlag(product.getEnable().result());
+        }
+        if(product.getName()!=null){
+            bo.setName(product.getName().getValue());
+        }
+        if(product.getRemark()!=null){
+            bo.setRemark(product.getRemark().getValue());
+        }
+        if(product.getTag()!=null){
+            bo.setTag(product.getTag().getValue());
+        }
+        if(product.getBrandId()!=null){
+            bo.setBrandId(product.getBrandId().id());
+        }
+        //类别
+        if(product.getFirstCategory()!=null){
+            bo.setFirstCategory(product.getFirstCategory().getValue());
+        }
+        if(product.getSecondCategory()!=null){
+            bo.setSecondCategory(product.getSecondCategory().getValue());
+        }
+        if(product.getThirdCategory()!=null){
+            bo.setThirdCategory(product.getThirdCategory().getValue());
+        }
+        //自定义分类
+        if(product.getCustomClassificationId()!=null){
+            bo.setCustomClassificationId(product.getCustomClassificationId().id());
+        }
+        if(product.getNewest()!=null){
+            bo.setNewFlag(product.getNewest().getValue());
+        }
+        if(product.getRecommend()!=null){
+            bo.setRecommendFlag(product.getRecommend().getValue());
+        }
+        if(product.getExplosives()!=null){
+            bo.setExplosivesFlag(product.getExplosives().isFlag());
+            bo.setExplosivesImage(product.getExplosives().getImage());
+        }
+        if(product.getOpen()!=null){
+            bo.setPublicFlag(product.getOpen().getValue());
+        }
+        //上架状态
+        if(product.getOnshelfStatus()!=null){
+            bo.setOnshelfStatus(product.getOnshelfStatus().getValue());
+        }
+        //启用状态
+        if(product.getEnable()!=null){
+            bo.setEnabledFlag(product.getEnable().result());
+        }
+        if(product.getVideo()!=null){
+            bo.setVideoImg(product.getVideo().getVideoImg());
+            bo.setVideoUrl(product.getVideo().getVideoUrl());
+            bo.setInstallVideoImg(product.getVideo().getInstallVideoImg());
+            bo.setInstallVideoUrl(product.getVideo().getInstallVideoUrl());
+        }
+        //转换图片
+        if(product.getProductImages()!=null){
+            bo.setImages(ProductImageConvert.convertProductImageBOList(product.getProductImages()));
+        }
+        //转换属性
+        if(product.getProductAttribute()!=null){
+            ProductAttribute productAttribute = product.getProductAttribute();
+            SortedSet<Attribute> attributes = productAttribute.getAttributes();
+            bo.setAttributes(convertAttributeBOList(attributes));
+        }
+        return bo;
+
+    }
+
+    private  static List<AttributeBO> convertAttributeBOList(SortedSet<Attribute> attributes){
+
+        List<AttributeBO> resList =new ArrayList<>();
+        for (Attribute attribute : attributes) {
+            AttributeBO attributeBO=new AttributeBO();
+            attributeBO.setAttribute(attribute.getAttribute());
+            attributeBO.setSort(attribute.getSort());
+            attributeBO.setValues(convertAttributeValueBOList(attribute.getValues()));
+            resList.add(attributeBO);
+        }
+        return resList;
+    }
+
+    private static List<AttributeValueBO> convertAttributeValueBOList(SortedSet<AttributeValue> attributeValues){
+        List<AttributeValueBO> resList =new ArrayList<>();
+        for (AttributeValue attributeValue : attributeValues) {
+            AttributeValueBO attributeValueBO=new AttributeValueBO();
+            attributeValueBO.setAttributeValue(attributeValue.getAttributeValue());
+            attributeValueBO.setSort(attributeValue.getSort());
+            resList.add(attributeValueBO);
+        }
+        return resList;
     }
 
 }
