@@ -3,17 +3,23 @@ package com.rc.cloud.app.operate.domain.model.productgroup;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductGroupItemPO;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductGroupPO;
 
 import java.util.List;
 
 public interface ProductGroupRepository {
-    boolean save(ProductGroup ProductGroupEntity);
+    boolean save(ProductGroup productGroup);
 
-    ProductGroup findById(ProductGroupId ProductGroupId);
+    boolean saveProductGroupPO(ProductGroupPO po);
 
-    boolean removeById(ProductGroupId ProductGroupId);
+    boolean saveProductGroupItemPO(ProductGroupItemPO po);
+
+    ProductGroup findById(ProductGroupId productGroupId);
+
+    boolean removeById(ProductGroupId productGroupId);
 
     boolean itemExist(ProductGroupId productGroupId, ProductId productId);
 
-    List<ProductGroup> selectList(ProductId productId);
+    List<ProductGroup> selectListBy(ProductId productId);
 }

@@ -1,18 +1,20 @@
 delete from `brand`;
 delete from `product_category`;
--- DROP TABLE `platform_product_category`;
+delete from `platform_product_category`;
+delete from `product_group`;
+delete from `product_group_item`;
 
--- DROP TABLE `custom_classification`;
--- DROP TABLE `attribute`;
--- DROP TABLE `attribute_value`;
--- DROP TABLE `product`;
--- DROP TABLE `product_sku`;
--- DROP TABLE `product_dict`;
--- DROP TABLE `product_operate`;
--- DROP TABLE `product_detail`;
--- DROP TABLE `product_attribute`;
--- DROP TABLE `product_sku_attribute`;
--- DROP TABLE `product_image`;
--- DROP TABLE `product_sku_image`;
--- DROP TABLE `product_related_group`;
+delete from `custom_classification`;
+delete from `attribute`;
+delete from `attribute_value`;
+delete from `product`;
+delete from `product_sku`;
+delete from `product_dict`;
+delete from `product_operate`;
+delete from `product_detail`;
+delete from `product_attribute`;
+delete from `product_sku_attribute`;
+delete from `product_image`;
+delete from `product_sku_image`;
+
 

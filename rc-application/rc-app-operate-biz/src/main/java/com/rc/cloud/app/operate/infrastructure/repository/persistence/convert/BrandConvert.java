@@ -8,10 +8,10 @@ import com.rc.cloud.common.core.pojo.PageResult;
 import java.util.ArrayList;
 import java.util.List;
 
-public  class BrandConvert {
+public class BrandConvert {
 
-    public static BrandPO convert2BrandPO(Brand brandEntity){
-        BrandPO brandPO =new BrandPO();
+    public static BrandPO convert2BrandPO(Brand brandEntity) {
+        BrandPO brandPO = new BrandPO();
         brandPO.setId(brandEntity.getId().id());
         brandPO.setName(brandEntity.getName());
         brandPO.setType(brandEntity.getType());
@@ -20,26 +20,26 @@ public  class BrandConvert {
         return brandPO;
     }
 
-    public static Brand  convert2Brand( BrandPO brandPO){
-        Brand brand=new Brand(new BrandId(brandPO.getId()), brandPO.getName());
+    public static Brand convert2Brand(BrandPO brandPO) {
+        Brand brand = new Brand(new BrandId(brandPO.getId()), brandPO.getName());
         brand.setType(brandPO.getType());
         brand.setSort(brandPO.getSortId());
-        if(brandPO.isEnabledFlag()){
+        if (brandPO.isEnabledFlag()) {
             brand.enable();
-        }else {
+        } else {
             brand.disable();
         }
         return brand;
     }
 
 
-    public static PageResult<Brand> convert2BrandPageResult(PageResult<BrandPO> brandDOPageResult){
-        List<Brand> brandList=new ArrayList<>();
-        brandDOPageResult.getList().forEach(item->{
-            Brand brand=BrandConvert.convert2Brand(item);
+    public static PageResult<Brand> convert2BrandPageResult(PageResult<BrandPO> brandDOPageResult) {
+        List<Brand> brandList = new ArrayList<>();
+        brandDOPageResult.getList().forEach(item -> {
+            Brand brand = BrandConvert.convert2Brand(item);
             brandList.add(brand);
         });
-        PageResult<Brand> brandPageResult=new PageResult<>();
+        PageResult<Brand> brandPageResult = new PageResult<>();
         brandPageResult.setTotal(brandDOPageResult.getTotal());
         brandPageResult.setList(brandList);
         return brandPageResult;

@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.domain.model.productgroup;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
+import com.rc.cloud.app.operate.domain.model.productgroup.specification.AppendProductGroupItemLimitSpecification;
 import com.rc.cloud.app.operate.domain.model.productgroup.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductGroupErrorCodeConstants;
@@ -11,7 +12,7 @@ import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * @ClassName: ProductGroup
@@ -20,22 +21,23 @@ import java.util.Collection;
  * @Description: 产品组合
  */
 public class ProductGroup extends AggregateRoot {
-    public static final int MAX_ITEM_SIZE=10;
     private ProductGroupId id;
 
     private String name;
 
     private TenantId tenantId;
 
+
+
     private ProductId productId;
 
-    private Collection<ProductGroupItem> productGroupItems;
-
+    private List<ProductGroupItem> productGroupItems;
+    private CreateTime createTime;
     public CreateTime getCreateTime() {
         return createTime;
     }
 
-    private CreateTime createTime;
+
     public ProductGroup(ProductGroupId id, String name,TenantId tenantId,ProductId productId){
         setId(id);
         setName(name);
@@ -43,6 +45,9 @@ public class ProductGroup extends AggregateRoot {
         setProductId(productId);
         this.createTime=new CreateTime(LocalDateTime.now());
         productGroupItems=new ArrayList<ProductGroupItem>();
+    }
+    public void setCreateTime(CreateTime createTime){
+        this.createTime = createTime;
     }
 
 
@@ -73,6 +78,9 @@ public class ProductGroup extends AggregateRoot {
         AssertUtils.assertArgumentNotNull(tenantId, "tenantId must not be null");
         this.tenantId = tenantId;
     }
+    public TenantId getTenantId() {
+        return tenantId;
+    }
     public ProductId getProductId() {
         return productId;
     }
@@ -82,18 +90,18 @@ public class ProductGroup extends AggregateRoot {
         this.productId = productId;
     }
 
-    public void remove(){
+    public void clear(){
         productGroupItems.clear();
     }
 
     public boolean appendItem(ProductGroupItem item){
-        if(productGroupItems.size()>=MAX_ITEM_SIZE){
-            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_NOT_EXISTS);
+        if(!new AppendProductGroupItemLimitSpecification().isSatisfiedBy(this)){
+            throw new ServiceException(ProductGroupErrorCodeConstants.ProductGroupItemNumMoreThenLimit);
         }
         return productGroupItems.add(item);
     }
 
-    public Collection<ProductGroupItem> getProductGroupItemList(){
+    public List<ProductGroupItem> getProductGroupItems(){
         return this.productGroupItems;
     }
 }
