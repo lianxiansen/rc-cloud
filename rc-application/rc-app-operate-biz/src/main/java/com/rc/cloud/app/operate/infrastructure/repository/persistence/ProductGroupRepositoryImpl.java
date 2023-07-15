@@ -35,7 +35,7 @@ public class ProductGroupRepositoryImpl implements ProductGroupRepository {
     public boolean save(ProductGroup productGroup) {
         ProductGroupPO po = ProductGroupConvert.convert2ProductGroupPO(productGroup);
         saveProductGroupPO(po);
-        List<ProductGroupItemPO> items = ProductGroupConvert.convert2ProductGroupItemPOs(productGroup.getProductGroupItems());
+        List<ProductGroupItemPO> items = ProductGroupConvert.convert2ProductGroupItemPOBatch(productGroup.getProductGroupItems());
 //        LambdaQueryWrapperX<ProductGroupItemPO> wrapper = new LambdaQueryWrapperX<>();
 //        wrapper.eq(ProductGroupItemPO::getProductGroupId, productGroup.getId().id());
 //        productGroupItemMapper.delete(wrapper);

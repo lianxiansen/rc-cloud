@@ -30,17 +30,8 @@ public class ProductGroupConvert {
         return productGroupPO;
     }
 
-    public static ProductGroup convert2ProductGroup(ProductGroupPO productGroupPO) {
-        ProductGroupId id = new ProductGroupId(productGroupPO.getId());
-        String name = productGroupPO.getName();
-        TenantId tenantId = new TenantId(productGroupPO.getTenantId());
-        ProductId productId = new ProductId(productGroupPO.getProductId());
-        ProductGroup productGroup = new ProductGroup(id, name, tenantId, productId);
-        productGroup.setCreateTime(new CreateTime(productGroupPO.getCreateTime()));
-        return productGroup;
-    }
 
-    public static List<ProductGroupItemPO> convert2ProductGroupItemPOs(List<ProductGroupItem> items) {
+    public static List<ProductGroupItemPO> convert2ProductGroupItemPOBatch(List<ProductGroupItem> items) {
         List<ProductGroupItemPO> pos = new ArrayList<>();
         items.forEach(item -> {
             ProductGroupItemPO po = convert2ProductGroupItemPO(item);
@@ -56,8 +47,16 @@ public class ProductGroupConvert {
                 .setProductId(item.getProductId().id());
         return po;
     }
-
-    public static List<ProductGroupItem> convert2ProductGroupItems(List<ProductGroupItemPO> pos) {
+    public static ProductGroup convert2ProductGroup(ProductGroupPO productGroupPO) {
+        ProductGroupId id = new ProductGroupId(productGroupPO.getId());
+        String name = productGroupPO.getName();
+        TenantId tenantId = new TenantId(productGroupPO.getTenantId());
+        ProductId productId = new ProductId(productGroupPO.getProductId());
+        ProductGroup productGroup = new ProductGroup(id, name, tenantId, productId);
+        productGroup.setCreateTime(new CreateTime(productGroupPO.getCreateTime()));
+        return productGroup;
+    }
+    public static List<ProductGroupItem> convert2ProductGroupItemBatch(List<ProductGroupItemPO> pos) {
         List<ProductGroupItem> items = new ArrayList<>();
         pos.forEach(po -> {
             items.add(convert2ProductGroupItem(po));
@@ -79,7 +78,7 @@ public class ProductGroupConvert {
         pos.forEach(po->{
             ProductGroup productGroup=ProductGroupConvert.convert2ProductGroup(po);
             List<ProductGroupItemPO> productGroupItemPOs =itemPOs.stream().filter(s->s.getProductGroupId().equals(productGroup.getId().id())).collect(Collectors.toList());
-            ProductGroupConvert.convert2ProductGroupItems(productGroupItemPOs).forEach(item->{
+            ProductGroupConvert.convert2ProductGroupItemBatch(productGroupItemPOs).forEach(item->{
                 productGroup.appendItem(item);
             });
             productGroups.add(productGroup);
