@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.application;
+package com.rc.cloud.app.operate.acceptance;
 
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
@@ -65,8 +65,8 @@ import static org.mockito.Mockito.when;
  * 4.检索产品组合列表 OK
  */
 @Import({ProductGroupApplicationService.class, ProductGroupService.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
-@DisplayName("产品组合应用服务验收测试")
-public class ProductGroupApplicationServiceAcceptanceTest extends BaseDbUnitTest {
+@DisplayName("产品组合验收测试")
+public class ProductGroupAcceptanceTest extends BaseDbUnitTest {
 
     @MockBean
     private ProductRepository productRepositoryStub;
