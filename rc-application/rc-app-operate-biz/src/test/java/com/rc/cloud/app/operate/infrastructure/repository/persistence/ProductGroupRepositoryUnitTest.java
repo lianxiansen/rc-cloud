@@ -14,7 +14,7 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.util.TenantContext;
-import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
+import com.rc.cloud.common.test.core.ut.OperateDbUnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +36,7 @@ import static org.mockito.Mockito.when;
  */
 @Import({  LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
 @DisplayName("产品组合资源库单元测试")
-public class ProductGroupRepositoryUnitTest extends BaseDbUnitTest {
+public class ProductGroupRepositoryUnitTest extends OperateDbUnitTest {
     @Autowired
     private ProductGroupRepository productGroupRepository;
     @Resource

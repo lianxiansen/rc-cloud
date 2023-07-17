@@ -59,6 +59,7 @@ public class ProductGroupControllerUnitTest extends SpringMockitoUnitTest {
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
     }
     @Test
+    @DisplayName(value = "创建组合")
     public void create(){
         Product productMock = new Product(new ProductId(idRepository.nextId()), new TenantId(RandomUtils.randomString()), new Name(RandomUtils.randomString()));
         ProductGroupCreateDTO productGroupCreateDTO = new ProductGroupCreateDTO();
