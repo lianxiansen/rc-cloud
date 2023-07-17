@@ -1,0 +1,32 @@
+# 数据库连接
+spring:
+  datasource:
+    dynamic: # 多数据源配置
+      primary: master
+      datasource:
+        master:
+          name: rc-cloud-resource
+          url: jdbc:mysql://hqf:3306/${spring.datasource.dynamic.datasource.master.name}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          username: root
+          password: 123456
+
+# 本地文件上传
+file:
+  domain: http://127.0.0.1:9300
+  path: D:/ruoyi/uploadPath
+  prefix: /statics
+
+# FastDFS配置
+fdfs:
+  domain: http://8.129.231.12
+  soTimeout: 3000
+  connectTimeout: 2000
+  trackerList: 8.129.231.12:22122
+
+# Minio配置
+minio:
+  url: http://127.0.0.1:9000
+  accessKey: minioadmin
+  secretKey: minioadmin
+  bucketName: rc-cloud-oss

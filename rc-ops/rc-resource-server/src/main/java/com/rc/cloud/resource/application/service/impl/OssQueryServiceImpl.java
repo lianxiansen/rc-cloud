@@ -49,8 +49,8 @@ public class OssQueryServiceImpl implements OssQueryService {
         lqw.eq(StringUtils.isNotBlank(ossCommand.getFileSuffix()), SysOssDO::getFileSuffix, ossCommand.getFileSuffix());
         lqw.eq(StringUtils.isNotBlank(ossCommand.getUrl()), SysOssDO::getUrl, ossCommand.getUrl());
         lqw.between(params.get("beginCreateTime") != null && params.get("endCreateTime") != null,
-                SysOssDO::getCreatedTime, params.get("beginCreateTime"), params.get("endCreateTime"));
-        lqw.eq(StringUtils.isNotBlank(ossCommand.getCreatedBy()), SysOssDO::getCreatedBy, ossCommand.getCreatedBy());
+                SysOssDO::getCreateTime, params.get("beginCreateTime"), params.get("endCreateTime"));
+        lqw.eq(StringUtils.isNotBlank(ossCommand.getCreator()), SysOssDO::getCreator, ossCommand.getCreator());
         lqw.eq(StringUtils.isNotBlank(ossCommand.getService()), SysOssDO::getService, ossCommand.getService());
         return lqw;
     }

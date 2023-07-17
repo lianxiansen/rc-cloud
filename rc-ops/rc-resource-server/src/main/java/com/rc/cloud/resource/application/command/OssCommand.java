@@ -1,7 +1,7 @@
 package com.rc.cloud.resource.application.command;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.rc.cloud.common.mybatis.util.BaseDO;
+import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -18,6 +18,12 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel("OSS对象存储分页查询对象")
 public class OssCommand extends BaseDO {
+
+    /**
+     * ID
+     */
+    @ApiModelProperty("ID")
+    private String id;
 
     /**
      * 文件名
