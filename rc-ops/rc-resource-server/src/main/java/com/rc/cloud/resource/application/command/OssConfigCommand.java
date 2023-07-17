@@ -2,7 +2,7 @@ package com.rc.cloud.resource.application.command;
 
 import com.rc.cloud.common.core.validate.AddGroup;
 import com.rc.cloud.common.core.validate.EditGroup;
-import com.rc.cloud.common.mybatis.util.BaseDO;
+import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -23,6 +23,12 @@ import javax.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel("对象存储配置业务对象")
 public class OssConfigCommand extends BaseDO {
+
+    /**
+     * ID
+     */
+    @ApiModelProperty("ID")
+    private String id;
 
     /**
      * 主建
