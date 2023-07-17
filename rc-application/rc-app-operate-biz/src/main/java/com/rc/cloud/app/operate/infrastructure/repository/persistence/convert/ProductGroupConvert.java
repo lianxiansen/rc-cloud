@@ -79,7 +79,7 @@ public class ProductGroupConvert {
             ProductGroup productGroup=ProductGroupConvert.convert2ProductGroup(po);
             List<ProductGroupItemPO> productGroupItemPOs =itemPOs.stream().filter(s->s.getProductGroupId().equals(productGroup.getId().id())).collect(Collectors.toList());
             ProductGroupConvert.convert2ProductGroupItemBatch(productGroupItemPOs).forEach(item->{
-                productGroup.appendItem(item);
+                productGroup.createItem(item);
             });
             productGroups.add(productGroup);
         });

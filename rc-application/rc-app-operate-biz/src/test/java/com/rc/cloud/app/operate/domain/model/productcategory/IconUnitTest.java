@@ -6,8 +6,7 @@ import com.rc.cloud.common.core.util.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 /**
  * @ClassName: IconTest
@@ -15,8 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @Date: 2023/6/30 09:08
  * @Description: TODO
  */
-@RunWith(SpringRunner.class)
-public class IconTest {
+public class IconUnitTest extends MockitoExtension {
     String invalidUrl;
     String validUrl;
     String emptyUrl;

@@ -385,8 +385,6 @@ CREATE TABLE `product_group`  (
       `name` varchar(200)  NULL DEFAULT NULL COMMENT '商品组名',
       `tenant_id` varchar(32)  NULL DEFAULT NULL COMMENT '所属租户',
       `product_id` varchar(32)  NULL DEFAULT NULL COMMENT '当前商品id',
-      `related_product_id` varchar(32)  NULL DEFAULT NULL COMMENT '相关商品id',
-      `sort_id` int(11) NULL DEFAULT 99 COMMENT '排序',
       `deleted` bit(1) NULL DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
       `creator` varchar(32)  NULL DEFAULT NULL COMMENT '创建人',
       `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -398,8 +396,6 @@ CREATE TABLE `product_group`  (
 DROP TABLE IF EXISTS `product_group_item`;
 CREATE TABLE `product_group_item`  (
     `id` varchar(32)  NOT NULL COMMENT '主键',
-    `name` varchar(200)  NULL DEFAULT NULL COMMENT '商品组名',
-    `tenant_id` varchar(32)  NULL DEFAULT NULL COMMENT '所属租户',
     `product_group_id` varchar(32)  NULL DEFAULT NULL COMMENT '组合id',
     `product_id` varchar(32)  NULL DEFAULT NULL COMMENT '当前商品id',
     `deleted` bit(1) NULL DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',

@@ -1,12 +1,14 @@
 package com.rc.cloud.app.operate.application.service;
 
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
+import com.rc.cloud.app.operate.application.bo.ProductGroupItemBO;
 import com.rc.cloud.app.operate.application.bo.convert.ProductGroupConvert;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupItem;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
@@ -32,11 +34,12 @@ public class ProductGroupApplicationService {
     private ProductRepository productRepository;
     @Resource
     private IdRepository idRepository;
+
     public ProductGroupBO create(ProductGroupCreateDTO productGroupCreateDTO) {
-        if(StringUtils.isEmpty(productGroupCreateDTO.getProductId())){
+        if (StringUtils.isEmpty(productGroupCreateDTO.getProductId())) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
         }
-        if(StringUtils.isEmpty(productGroupCreateDTO.getName())){
+        if (StringUtils.isEmpty(productGroupCreateDTO.getName())) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NAME_NOT_EMPTY);
         }
         ProductGroup productGroup = productGroupService.create(productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()), new ProductId(productGroupCreateDTO.getProductId()));
@@ -44,28 +47,29 @@ public class ProductGroupApplicationService {
     }
 
     public boolean release(String id) {
-        if(StringUtils.isEmpty(id)){
+        if (StringUtils.isEmpty(id)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.ID_NOT_EMPTY);
         }
         return productGroupService.release(new ProductGroupId(id));
     }
 
-    public boolean appendGroupItem(ProductGroupItemCreateDTO productGroupItemCreateDTO) {
-        if(StringUtils.isEmpty(productGroupItemCreateDTO.getProductGroupId())){
-            throw new ServiceException(ProductGroupErrorCodeConstants.OBJECT_NOT_EXISTS);
+    public ProductGroupItemBO createItem(ProductGroupItemCreateDTO productGroupItemCreateDTO) {
+        if (StringUtils.isEmpty(productGroupItemCreateDTO.getProductGroupId())) {
+            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NOT_EXISTS);
         }
-        if(StringUtils.isEmpty(productGroupItemCreateDTO.getProductId())){
+        if (StringUtils.isEmpty(productGroupItemCreateDTO.getProductId())) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_IN_GROUP_NOT_EMPTY);
         }
-        return  productGroupService.appendGroupItem(new ProductGroupId(productGroupItemCreateDTO.getProductGroupId()), new ProductId(productGroupItemCreateDTO.getProductId()));
+        ProductGroupItem productGroupItem= productGroupService.createItem(new ProductGroupId(productGroupItemCreateDTO.getProductGroupId()), new ProductId(productGroupItemCreateDTO.getProductId()));
+        return ProductGroupConvert.convert2productGroupItemBO(productGroupItem);
     }
 
 
-    public List<ProductGroupBO> selectList(String productId){
-        if(StringUtils.isEmpty(productId)){
+    public List<ProductGroupBO> selectList(String productId) {
+        if (StringUtils.isEmpty(productId)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
         }
-        List<ProductGroup> groupList=productGroupRepository.selectListBy(new ProductId(productId));
+        List<ProductGroup> groupList = productGroupRepository.selectList(new ProductId(productId));
         return ProductGroupConvert.convert2ProductGroupBOBatch(groupList);
     }
 

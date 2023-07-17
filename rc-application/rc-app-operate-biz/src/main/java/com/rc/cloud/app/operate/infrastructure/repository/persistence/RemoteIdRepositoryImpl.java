@@ -2,8 +2,7 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence;
 
 import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.common.core.domain.IdRepository;
-import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
@@ -13,8 +12,7 @@ import javax.annotation.Resource;
  * @Date: 2023/7/12 10:21
  * @Description: TODO
  */
-@Service
-@Primary
+@Component
 public class RemoteIdRepositoryImpl implements IdRepository {
     @Resource
     private RemoteIdGeneratorService remoteIdGeneratorService;

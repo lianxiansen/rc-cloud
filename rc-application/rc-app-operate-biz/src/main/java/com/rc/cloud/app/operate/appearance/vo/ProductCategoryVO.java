@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.appearance.vo;
 
-import com.rc.cloud.app.operate.appearance.assemble.ProductCategoryAssemble;
+import com.rc.cloud.app.operate.appearance.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import lombok.Data;
 
@@ -35,7 +35,7 @@ public class ProductCategoryVO {
     private int sort;
 
     public static ProductCategoryVO from(ProductCategoryBO productCategory){
-        return ProductCategoryAssemble.INSTANCE.convert2ProductCategoryVO(productCategory);
+        return ProductCategoryConvert.INSTANCE.convert2ProductCategoryVO(productCategory);
     }
 
 

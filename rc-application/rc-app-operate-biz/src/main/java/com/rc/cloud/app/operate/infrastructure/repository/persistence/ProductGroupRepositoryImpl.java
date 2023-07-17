@@ -64,7 +64,12 @@ public class ProductGroupRepositoryImpl implements ProductGroupRepository {
         return productGroupItemMapper.insert(po) > 0;
     }
 
-
+    @Override
+    public boolean exists(ProductGroupId productGroupId) {
+        LambdaQueryWrapperX<ProductGroupPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.in(ProductGroupPO::getId, productGroupId.id());
+        return productGroupMapper.exists(wrapper);
+    }
 
     @Override
     public ProductGroup findById(ProductGroupId productGroupId) {
@@ -99,7 +104,7 @@ public class ProductGroupRepositoryImpl implements ProductGroupRepository {
     }
 
     @Override
-    public List<ProductGroup> selectListBy(ProductId productId) {
+    public List<ProductGroup> selectList(ProductId productId) {
         LambdaQueryWrapperX<ProductGroupPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductGroupPO::getProductId, productId.id());
         List<ProductGroupPO> pos = productGroupMapper.selectList(wrapper);

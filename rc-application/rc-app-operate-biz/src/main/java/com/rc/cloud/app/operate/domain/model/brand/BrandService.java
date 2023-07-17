@@ -18,10 +18,6 @@ public class BrandService {
     private BrandRepository brandRepository;
     @Autowired
     private ProductRepository productRepository;
-    @Autowired
-    private RemoveShouldExistsSpecification removeShouldExistsSpecification;
-    @Autowired
-    private RemoveShouldNotAssociatedProductSpecification removeShouldNotAssociatedProductSpecification;
     public Brand findById(BrandId brandId){
         AssertUtils.notNull(brandId,"brandId must be not null");
         Brand brand = brandRepository.findById(brandId);
@@ -48,10 +44,10 @@ public class BrandService {
 
     public boolean remove(BrandId brandId){
         AssertUtils.notNull(brandId,"brandId must be not null");
-        if(!removeShouldNotAssociatedProductSpecification.isSatisfiedBy(brandId)){
+        if(!new RemoveShouldNotAssociatedProductSpecification(productRepository).isSatisfiedBy(brandId)){
             throw new ServiceException(BrandErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
         }
-        if(!removeShouldExistsSpecification.isSatisfiedBy(brandId)){
+        if(!new RemoveShouldExistsSpecification(brandRepository).isSatisfiedBy(brandId)){
             throw new ServiceException(BrandErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
 

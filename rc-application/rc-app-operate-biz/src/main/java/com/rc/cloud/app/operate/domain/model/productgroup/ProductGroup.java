@@ -94,7 +94,7 @@ public class ProductGroup extends AggregateRoot {
         productGroupItems.clear();
     }
 
-    public boolean appendItem(ProductGroupItem item){
+    public boolean createItem(ProductGroupItem item){
         if(!new AppendProductGroupItemLimitSpecification().isSatisfiedBy(this)){
             throw new ServiceException(ProductGroupErrorCodeConstants.ProductGroupItemNumMoreThenLimit);
         }

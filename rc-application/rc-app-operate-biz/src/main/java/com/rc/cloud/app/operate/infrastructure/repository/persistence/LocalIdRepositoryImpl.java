@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence;
 
 import com.rc.cloud.common.core.domain.IdRepository;
 import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
@@ -12,7 +12,7 @@ import java.util.UUID;
  * @Date: 2023/7/12 10:21
  * @Description: TODO
  */
-@Service
+@Component
 @Primary
 public class LocalIdRepositoryImpl implements IdRepository {
     @Override

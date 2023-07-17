@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.appearance.vo;
 
-import com.rc.cloud.app.operate.appearance.assemble.BrandAssemble;
+import com.rc.cloud.app.operate.appearance.convert.BrandConvert;
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import lombok.Data;
@@ -36,6 +36,6 @@ public class BrandVO {
     }
 
     public static BrandVO from (BrandBO brand){
-        return BrandAssemble.INSTANCE.convert2BrandVO(brand);
+        return BrandConvert.INSTANCE.convert2BrandVO(brand);
     }
 }

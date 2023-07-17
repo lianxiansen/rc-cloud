@@ -15,11 +15,13 @@ public interface ProductGroupRepository {
 
     boolean saveProductGroupItemPO(ProductGroupItemPO po);
 
+    boolean exists(ProductGroupId productGroupId);
+
     ProductGroup findById(ProductGroupId productGroupId);
 
     boolean removeById(ProductGroupId productGroupId);
 
     boolean itemExist(ProductGroupId productGroupId, ProductId productId);
 
-    List<ProductGroup> selectListBy(ProductId productId);
+    List<ProductGroup> selectList(ProductId productId);
 }

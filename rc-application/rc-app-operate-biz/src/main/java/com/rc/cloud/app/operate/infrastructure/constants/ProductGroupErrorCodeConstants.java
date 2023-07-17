@@ -9,7 +9,7 @@ import com.rc.cloud.common.core.exception.ErrorCode;
 public interface ProductGroupErrorCodeConstants extends ErrorCodeConstants{
     // ========== 产品组合 模块 2003000000 ==========
     ErrorCode ID_NOT_EMPTY = new ErrorCode(2003000000, "产品组合唯一标识不为空");
-    ErrorCode OBJECT_NOT_EXISTS = new ErrorCode(2003000001, "产品组合不存在");
+    ErrorCode PRODUCT_GROUP_NOT_EXISTS = new ErrorCode(2003000001, "产品组合不存在");
     ErrorCode PRODUCT_ID_NOT_EMPTY = new ErrorCode(2003000002, "产品唯一标识不为空");
     ErrorCode PRODUCT_NOT_EXISTS = new ErrorCode(2003000003, "产品不存在");
     ErrorCode PRODUCT_GROUP_ID_NOT_EMPTY = new ErrorCode(2003000004, "产品组合唯一标识不为空");
