@@ -1,17 +1,16 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
 import com.alibaba.fastjson.JSON;
+import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Explosives;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Newest;
-import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Recommend;
+import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Enabled;
+import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -58,19 +57,50 @@ public class ProductDomainService {
     }
 
 
-    public int setRecomend(ProductId productId){
+    public int setRecommend(ProductId productId){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
         product.setRecommend(new Recommend(true));
         return productRepository.updateProduct(product);
     }
 
-    public int cancelRecomend(ProductId productId){
+    public int cancelRecommend(ProductId productId){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
         product.setRecommend(new Recommend(false));
         return productRepository.updateProduct(product);
     }
+
+    public int setPublic(ProductId productId){
+        Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
+        product.setOpen(new Open(true));
+        return productRepository.updateProduct(product);
+    }
+
+    public int cancelPublic(ProductId productId){
+        Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
+        product.setOpen(new Open(false));
+        return productRepository.updateProduct(product);
+    }
+
+    public int setEnable(ProductId productId){
+        Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
+        product.setEnable(new Enable(true));
+        return productRepository.updateProduct(product);
+    }
+
+    public int cancelEnable(ProductId productId){
+        Product product = productRepository.findById(productId);
+        AssertUtils.notNull(product, "product must not be null");
+        product.setEnable(new Enable(false));
+        return productRepository.updateProduct(product);
+    }
+
+
+
     public int setNews(ProductId productId){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
@@ -100,5 +130,11 @@ public class ProductDomainService {
     }
 
 
+    public Product findProductById(ProductId productId) {
+        return  productRepository.findById(productId);
+    }
 
+    public PageResult<Product> getProductPageList(ProductListQueryDTO productListQueryDTO) {
+        return productRepository.getProductPageList(productListQueryDTO);
+    }
 }
