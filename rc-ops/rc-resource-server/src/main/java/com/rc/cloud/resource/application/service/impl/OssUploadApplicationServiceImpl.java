@@ -14,7 +14,6 @@ import com.rc.cloud.resource.application.assembler.OssDTOAssembler;
 import com.rc.cloud.resource.application.dto.OssDTO;
 import com.rc.cloud.resource.application.service.OssUploadApplicationService;
 import com.rc.cloud.resource.domain.model.oss.Oss;
-import com.rc.cloud.resource.domain.model.oss.OssId;
 import com.rc.cloud.resource.domain.model.oss.OssRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,8 @@ public class OssUploadApplicationServiceImpl implements OssUploadApplicationServ
     @Autowired
     private OssRepository ossRepository;
 
-    @Autowired
-    private RemoteIdGeneratorService remoteIdGeneratorService;
+//    @Autowired
+//    private RemoteIdGeneratorService remoteIdGeneratorService;
 //
 //    public OssUploadApplicationServiceImpl(RemoteIdGeneratorService remoteIdGeneratorService) {
 //        this.remoteIdGeneratorService = remoteIdGeneratorService;
@@ -57,9 +56,9 @@ public class OssUploadApplicationServiceImpl implements OssUploadApplicationServ
         }
         // 保存文件信息
         // 生成分布式id
-        String id = remoteIdGeneratorService.uidGenerator();
-        OssId ossId = new OssId(id); // 应该是自动生成
-        Oss oss = new Oss(ossId, uploadResult.getFilename(), originalfileName, suffix, uploadResult.getUrl(), storage.getServiceType().getValue());
+//        String id = remoteIdGeneratorService.uidGenerator();
+//        OssId ossId = new OssId(id); // 应该是自动生成
+        Oss oss = new Oss(null, uploadResult.getFilename(), originalfileName, suffix, uploadResult.getUrl(), storage.getServiceType().getValue());
         ossRepository.store(oss);
         OssDTO ossDTO = OssDTOAssembler.fromOss(oss);
         return ossDTO;

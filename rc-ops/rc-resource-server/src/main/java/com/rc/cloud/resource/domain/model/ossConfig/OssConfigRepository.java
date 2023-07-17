@@ -22,13 +22,15 @@ public interface OssConfigRepository {
 
     /**
      * 根据id查找文件存储配置
-     * @param ossConfigId
+     *
+     * @param id
      * @return
      */
-    OssConfig find(OssConfigId ossConfigId);
+    OssConfig find(String id);
 
     /**
      * 保存文件存储配置
+     *
      * @param ossConfig
      */
     Boolean store(OssConfig ossConfig);
@@ -39,9 +41,10 @@ public interface OssConfigRepository {
 
     /**
      * 删除文件存储配置
-     * @param ossConfigId
+     *
+     * @param id
      */
-    void remove(OssConfigId ossConfigId);
+    void remove(String id);
 
     List<OssConfig> selectList();
 

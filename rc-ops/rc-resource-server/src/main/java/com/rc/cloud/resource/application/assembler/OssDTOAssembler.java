@@ -16,7 +16,7 @@ public class OssDTOAssembler {
     public static OssDTO fromOss(final Oss oss) {
         OssDTO ossDTO = new OssDTO();
         BeanUtil.copyProperties(oss, ossDTO);
-        ossDTO.setOssId(oss.getOssId().getId());
+        ossDTO.setOssId(oss.getId());
         return ossDTO;
     }
 }

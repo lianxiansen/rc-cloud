@@ -10,6 +10,18 @@ import lombok.Data;
 @Data
 public class OssProperties {
 
+    private String id;
+
+    private String configKey;
+
+    private String status;
+
+    private String ext1;
+
+    private String remark;
+
+    private String delFlag;
+
     /**
      * 域名
      */

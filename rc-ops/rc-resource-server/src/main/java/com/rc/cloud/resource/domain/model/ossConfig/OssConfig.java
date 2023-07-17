@@ -1,9 +1,7 @@
 package com.rc.cloud.resource.domain.model.ossConfig;
 
 import com.rc.cloud.common.core.domain.AbstractId;
-import com.rc.cloud.common.core.domain.Entity;
-import com.rc.cloud.common.core.domain.StatusEnum;
-import com.rc.cloud.resource.domain.model.oss.OssId;
+import lombok.Data;
 
 /**
  * Oss文件
@@ -11,9 +9,10 @@ import com.rc.cloud.resource.domain.model.oss.OssId;
  * @author hqf@rc
  * @date 2022-04-22
  **/
-public class OssConfig extends Entity {
+@Data
+public class OssConfig {
 
-    private OssConfigId ossConfigId;
+    private String id;
 
     /**
      * 配置key
@@ -73,8 +72,8 @@ public class OssConfig extends Entity {
     private String delFlag;
 
 
-    public OssConfig(OssConfigId ossConfigId, String configKey, String accessKey, String secretKey, String bucketName, String prefix, String endpoint, String isHttps, String region, String status, String ext1, String remark) {
-        this.ossConfigId = ossConfigId;
+    public OssConfig(String id, String configKey, String accessKey, String secretKey, String bucketName, String prefix, String endpoint, String isHttps, String region, String status, String ext1, String remark) {
+        this.id = id;
         this.configKey = configKey;
         this.accessKey = accessKey;
         this.secretKey = secretKey;
@@ -100,10 +99,6 @@ public class OssConfig extends Entity {
      */
     public void disable() {
         this.status = "1";
-    }
-
-    public OssConfigId getOssConfigId() {
-        return ossConfigId;
     }
 
     public String getConfigKey() {
@@ -154,9 +149,4 @@ public class OssConfig extends Entity {
         return delFlag;
     }
 
-
-    @Override
-    public AbstractId getId() {
-        return null;
-    }
 }

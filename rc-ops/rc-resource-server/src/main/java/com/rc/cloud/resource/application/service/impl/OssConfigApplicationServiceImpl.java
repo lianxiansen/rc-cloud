@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import com.rc.cloud.common.core.constant.UserConstants;
 import com.rc.cloud.common.core.exception.ServiceException2;
-import com.rc.cloud.common.core.util.json.JsonUtils;
 import com.rc.cloud.common.core.util.StringUtils;
+import com.rc.cloud.common.core.util.json.JsonUtils;
 import com.rc.cloud.common.mybatis.page.PageQuery;
 import com.rc.cloud.common.mybatis.page.TableDataInfo;
 import com.rc.cloud.common.oss.constant.OssConstant;
@@ -18,10 +18,9 @@ import com.rc.cloud.common.oss.factory.OssFactory;
 import com.rc.cloud.common.redis.util.RedisUtils;
 import com.rc.cloud.resource.application.assembler.OssConfigDTOAssembler;
 import com.rc.cloud.resource.application.command.OssConfigCommand;
-import com.rc.cloud.resource.application.service.OssConfigApplicationService;
 import com.rc.cloud.resource.application.dto.OssConfigDTO;
+import com.rc.cloud.resource.application.service.OssConfigApplicationService;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfig;
-import com.rc.cloud.resource.domain.model.ossConfig.OssConfigId;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfigRepository;
 import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssConfigDO;
 import com.rc.cloud.resource.infrastructure.persistence.mapper.SysOssConfigMapper;
@@ -71,7 +70,7 @@ public class OssConfigApplicationServiceImpl implements OssConfigApplicationServ
 
     @Override
     public OssConfigDTO queryById(String ossConfigId) {
-        OssConfig ossConfig = ossConfigRepository.find(new OssConfigId(ossConfigId));
+        OssConfig ossConfig = ossConfigRepository.find(ossConfigId);
         OssConfigDTO ossConfigDTO = OssConfigDTOAssembler.fromOssConfig(ossConfig);
         return ossConfigDTO;
     }
@@ -107,7 +106,7 @@ public class OssConfigApplicationServiceImpl implements OssConfigApplicationServ
         luw.set(StringUtils.isBlank(ossConfig.getPrefix()), SysOssConfigDO::getPrefix, "");
         luw.set(StringUtils.isBlank(ossConfig.getRegion()), SysOssConfigDO::getRegion, "");
         luw.set(StringUtils.isBlank(ossConfig.getExt1()), SysOssConfigDO::getExt1, "");
-        luw.eq(SysOssConfigDO::getId, ossConfig.getOssConfigId().getId());
+        luw.eq(SysOssConfigDO::getId, ossConfig.getId());
         int storeRes = ossConfigRepository.store(ossConfig, luw);
         return setConfigCache(storeRes > 0, ossConfig);
     }
@@ -130,8 +129,8 @@ public class OssConfigApplicationServiceImpl implements OssConfigApplicationServ
             }
         }
         List<OssConfig> list = Lists.newArrayList();
-        for (String configId : ids) {
-            OssConfig ossConfig = ossConfigRepository.find(new OssConfigId(configId));
+        for (String id : ids) {
+            OssConfig ossConfig = ossConfigRepository.find(id);
             list.add(ossConfig);
         }
         Integer delRes = ossConfigRepository.deleteBatchIds(ids);
@@ -148,7 +147,7 @@ public class OssConfigApplicationServiceImpl implements OssConfigApplicationServ
      * 判断configKey是否唯一
      */
     private String checkConfigKeyUnique(OssConfig ossConfig) {
-        String ossConfigId = ObjectUtil.isNull(ossConfig.getOssConfigId().getId()) ? "-1" : ossConfig.getOssConfigId().getId();
+        String ossConfigId = ObjectUtil.isNull(ossConfig.getId()) ? "-1" : ossConfig.getId();
         // TODO:: 这段代码应该放仓库中处理
         SysOssConfigDO info = baseMapper.selectOne(new LambdaQueryWrapper<SysOssConfigDO>()
             .select(SysOssConfigDO::getId, SysOssConfigDO::getConfigKey)
@@ -165,7 +164,7 @@ public class OssConfigApplicationServiceImpl implements OssConfigApplicationServ
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean updateOssConfigStatus(OssConfigCommand cmd) {
-        OssConfig ossConfig = ossConfigRepository.find(new OssConfigId(cmd.getOssConfigId()));
+        OssConfig ossConfig = ossConfigRepository.find(cmd.getOssConfigId());
         ossConfig.disable();
         Boolean storeRes = ossConfigRepository.store(ossConfig);
         if (storeRes) {

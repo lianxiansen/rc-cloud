@@ -1,9 +1,5 @@
 package com.rc.cloud.resource.domain.model.oss;
 
-
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssDO;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -17,10 +13,10 @@ public interface OssRepository {
 
     /**
      * 根据id查找Oss文件
-     * @param ossId
+     * @param id
      * @return
      */
-    Oss find(OssId ossId);
+    Oss find(String id);
 
     /**
      * 保存Oss文件
@@ -30,9 +26,9 @@ public interface OssRepository {
 
     /**
      * 删除oss文件，做的是软删除
-     * @param ossId
+     * @param id
      */
-    void remove(OssId ossId);
+    void remove(String id);
 
     List<Oss> selectBatchIds(Collection<Long> ids);
 

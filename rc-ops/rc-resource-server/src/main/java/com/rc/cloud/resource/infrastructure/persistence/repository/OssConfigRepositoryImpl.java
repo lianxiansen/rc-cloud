@@ -6,11 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rc.cloud.common.mybatis.page.PageQuery;
-import com.rc.cloud.resource.application.assembler.OssConfigDTOAssembler;
-import com.rc.cloud.resource.application.assembler.OssDTOAssembler;
 import com.rc.cloud.resource.application.dto.OssConfigDTO;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfig;
-import com.rc.cloud.resource.domain.model.ossConfig.OssConfigId;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfigRepository;
 import com.rc.cloud.resource.infrastructure.persistence.converter.OssConfigConverter;
 import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssConfigDO;
@@ -31,8 +28,8 @@ import java.util.List;
 public class OssConfigRepositoryImpl extends ServiceImpl<SysOssConfigMapper, SysOssConfigDO> implements OssConfigRepository, IService<SysOssConfigDO> {
 
     @Override
-    public OssConfig find(OssConfigId ossConfigId) {
-        SysOssConfigDO sysOssConfigDO = this.getById(ossConfigId.getId());
+    public OssConfig find(String id) {
+        SysOssConfigDO sysOssConfigDO = this.getById(id);
         return OssConfigConverter.toOssConfig(sysOssConfigDO);
     }
 
@@ -52,16 +49,16 @@ public class OssConfigRepositoryImpl extends ServiceImpl<SysOssConfigMapper, Sys
     }
 
     @Override
-    public void remove(OssConfigId ossConfigId) {
-        this.removeById(ossConfigId.getId());
+    public void remove(String id) {
+        this.removeById(id);
     }
 
     @Override
     public List<OssConfig> selectList() {
         List<SysOssConfigDO> sysOssConfigDOS = baseMapper.selectList();
         List<OssConfig> ossConfigs = new ArrayList<>();
-        for (SysOssConfigDO item:
-             sysOssConfigDOS) {
+        for (SysOssConfigDO item :
+                sysOssConfigDOS) {
             OssConfig ossConfig = OssConfigConverter.toOssConfig(item);
             ossConfigs.add(ossConfig);
         }

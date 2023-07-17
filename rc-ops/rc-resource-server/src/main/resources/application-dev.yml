@@ -1,3 +1,6 @@
+server:
+  port: 8100
+
 # 数据库连接
 spring:
   datasource:

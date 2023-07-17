@@ -11,7 +11,6 @@ import com.rc.cloud.resource.application.command.OssConfigCommand;
 import com.rc.cloud.resource.application.dto.OssConfigDTO;
 import com.rc.cloud.resource.application.service.OssConfigQueryService;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfig;
-import com.rc.cloud.resource.domain.model.ossConfig.OssConfigId;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfigRepository;
 import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssConfigDO;
 import com.rc.cloud.resource.infrastructure.persistence.mapper.SysOssConfigMapper;
@@ -38,8 +37,8 @@ public class OssConfigQueryServiceImpl implements OssConfigQueryService {
 
     @Override
     // 2022-04-25 改成ddd模式
-    public OssConfigDTO queryById(String ossConfigId) {
-        OssConfig ossConfig = ossConfigRepository.find(new OssConfigId(ossConfigId));
+    public OssConfigDTO queryById(String id) {
+        OssConfig ossConfig = ossConfigRepository.find(id);
         OssConfigDTO ossConfigDTO = OssConfigDTOAssembler.fromOssConfig(ossConfig);
         return ossConfigDTO;
     }

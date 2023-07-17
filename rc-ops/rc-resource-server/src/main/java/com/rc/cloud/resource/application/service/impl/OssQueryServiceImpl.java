@@ -10,7 +10,6 @@ import com.rc.cloud.resource.application.command.OssCommand;
 import com.rc.cloud.resource.application.dto.OssDTO;
 import com.rc.cloud.resource.application.service.OssQueryService;
 import com.rc.cloud.resource.domain.model.oss.Oss;
-import com.rc.cloud.resource.domain.model.oss.OssId;
 import com.rc.cloud.resource.domain.model.oss.OssRepository;
 import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssDO;
 import com.rc.cloud.resource.infrastructure.persistence.mapper.SysOssMapper;
@@ -56,8 +55,8 @@ public class OssQueryServiceImpl implements OssQueryService {
     }
 
     @Override
-    public Oss getById(String ossId) {
-        Oss oss = ossRepository.find(new OssId(ossId));
+    public Oss getById(String id) {
+        Oss oss = ossRepository.find(id);
         return oss;
     }
 }

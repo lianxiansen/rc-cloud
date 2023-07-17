@@ -1,6 +1,7 @@
 package com.rc.cloud.resource.domain.model.oss;
 
 import com.rc.cloud.common.core.domain.Entity;
+import lombok.Data;
 
 /**
  * Oss文件
@@ -8,9 +9,10 @@ import com.rc.cloud.common.core.domain.Entity;
  * @author hqf@rc
  * @date 2022-04-22
  **/
-public class Oss extends Entity{
+@Data
+public class Oss {
 
-    private OssId ossId;
+    private String id;
 
     /**
      * 文件名
@@ -33,11 +35,11 @@ public class Oss extends Entity{
      */
     private String service;
 
-    private String delFlag;
+    private String deleted;
 
 
-    public Oss(OssId ossId, String fileName, String originalName, String fileSuffix, String url, String service) {
-        this.ossId = ossId;
+    public Oss(String id, String fileName, String originalName, String fileSuffix, String url, String service) {
+        this.id = id;
         this.fileName = fileName;
         this.originalName = originalName;
         this.fileSuffix = fileSuffix;
@@ -49,15 +51,7 @@ public class Oss extends Entity{
      * 删除
      */
     public void delete() {
-        this.delFlag = "1";
-    }
-
-    public boolean sameIdentityAs(Oss other) {
-        return this.sameIdentityAs(other);
-    }
-
-    public OssId getOssId() {
-        return ossId;
+        this.deleted = "1";
     }
 
     public String getFileName() {
@@ -78,10 +72,5 @@ public class Oss extends Entity{
 
     public String getService() {
         return service;
-    }
-
-    @Override
-    public OssId getId() {
-        return ossId;
     }
 }
