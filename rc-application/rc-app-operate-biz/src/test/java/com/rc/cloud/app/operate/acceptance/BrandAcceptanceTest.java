@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.application;
+package com.rc.cloud.app.operate.acceptance;
 
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.app.operate.application.dto.BrandCreateDTO;
@@ -50,8 +50,8 @@ import static org.mockito.Mockito.when;
  * |-6.1分页检索品牌，每页大小为10，记录数26，指定页码3，返回记录数6
  */
 @Import({BrandApplicationService.class, LocalIdRepositoryImpl.class, BrandService.class, BrandRepositoryImpl.class, ProductRepositoryImpl.class, RemoveShouldExistsSpecification.class, RemoveShouldNotAssociatedProductSpecification.class})
-@DisplayName("品牌应用服务验收测试")
-public class BrandApplicationServiceAcceptanceTest extends BaseDbUnitTest {
+@DisplayName("品牌验收测试")
+public class BrandAcceptanceTest extends BaseDbUnitTest {
     @Autowired
     private BrandApplicationService brandApplicationService;
 

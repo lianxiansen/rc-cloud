@@ -35,7 +35,11 @@ public class BrandRepositoryImpl implements BrandRepository {
 
     @Override
     public Brand findById(BrandId brandId) {
-        return BrandConvert.convert2Brand(brandMapper.selectById((Serializable)brandId.id()));
+        BrandPO brandPO=brandMapper.selectById((Serializable)brandId.id());
+        if(Objects.isNull(brandPO)){
+            return null;
+        }
+        return BrandConvert.convert2Brand(brandPO);
     }
 
 

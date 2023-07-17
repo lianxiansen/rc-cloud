@@ -1,12 +1,16 @@
 package com.rc.cloud.app.operate.application.bo.convert;
 
+import com.rc.cloud.app.operate.application.bo.AttributeValueCombinationBO;
+import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuAttributeSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuImageSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuSaveDTO;
 import com.rc.cloud.app.operate.domain.model.product.Product;
+import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Attribute;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
@@ -20,6 +24,7 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SortedSet;
 
 public class ProductSkuConvert {
 
@@ -142,4 +147,79 @@ public class ProductSkuConvert {
         return productSku;
     }
 
+    public static ProductSkuBO convert(ProductSku productSku){
+        ProductSkuBO bo=new ProductSkuBO();
+        bo.setId(productSku.getId().id());
+        if(productSku.getPrice()!=null){
+            bo.setPrice(productSku.getPrice().getValue());
+        }
+        if(productSku.getLimitBuy()!=null){
+            bo.setLimitBuy(productSku.getLimitBuy().getValue());
+        }
+        if(productSku.getWeight()!=null){
+            bo.setWeight(productSku.getWeight().getValue());
+        }
+        if(productSku.getOutId()!=null){
+            bo.setOutId(productSku.getOutId().getValue());
+        }
+        if(productSku.getSort()!=null){
+            bo.setSort(productSku.getSort().getValue());
+        }
+        bo.setSkuCode(productSku.getSkuCode());
+        if(productSku.getInventory()!=null){
+            bo.setInventory(productSku.getInventory().getValue());
+        }
+        if(productSku.getSupplyPrice()!=null){
+            bo.setSupplyPrice(productSku.getSupplyPrice().getValue());
+        }
+        if(productSku.getSeckillSku()!=null){
+            SeckillSku seckillSku = productSku.getSeckillSku();
+            if(seckillSku.getSeckillInventory()!=null){
+                bo.setSeckillInventory(seckillSku.getSeckillInventory().getValue());
+            }
+            if(seckillSku.getSeckillPrice()!=null){
+                bo.setSeckillPrice(seckillSku.getSeckillPrice().getValue());
+            }
+            if(seckillSku.getSeckillLimitBuy()!=null){
+                bo.setSeckillLimitBuy(seckillSku.getSeckillLimitBuy().getValue());
+            }
+            if(seckillSku.getSeckillTotalInventory()!=null){
+                bo.setSeckillTotalInventory(seckillSku.getSeckillTotalInventory().getValue());
+            }
+            bo.setSeckillBuyRate(seckillSku.getSeckillBuyRate());
+        }
+        //转换图片
+        if(productSku.getSkuImageList()!=null){
+            bo.setSkuImages(ProductSkuImageConvert.convertProductSkuImageBOList(productSku.getSkuImageList()));
+        }
+        //转换属性
+        if(productSku.getProductSkuAttribute()!=null ){
+           if(productSku.getProductSkuAttribute().getSkuAttributes()!=null){
+               bo.setSkuAttributes(convertAttributeValueCombinationBOList(
+                       productSku.getProductSkuAttribute().getSkuAttributes()
+               ));
+           }
+        }
+        return bo;
+    }
+
+    public static List<ProductSkuBO> convertList(List<ProductSku> productSkuList) {
+        List<ProductSkuBO> resList =new ArrayList<>();
+        productSkuList.forEach(x->resList.add(convert(x)));
+        return resList;
+    }
+
+    public static List<AttributeValueCombinationBO> convertAttributeValueCombinationBOList(SortedSet<AttributeValueCombination> skuAttributes){
+        List<AttributeValueCombinationBO> resList =new ArrayList<>();
+        skuAttributes.forEach(
+                x->{
+                    AttributeValueCombinationBO bo =new AttributeValueCombinationBO();
+                    bo.setAttribute(x.getAttribute());
+                    bo.setAttributeValue(x.getAttributeValue());
+                    bo.setSort(x.getSort());
+                    resList.add(bo);
+                }
+        );
+        return resList;
+    }
 }

@@ -1,6 +1,5 @@
 package com.rc.cloud.common.security.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.util.RequestUtils;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RcRedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
-    private final static Long TIMEOUT = 10L;
+    private static final Long TIMEOUT = 10L;
 
     private static final String AUTHORIZATION = "token";
 
@@ -119,9 +118,11 @@ public class RcRedisOAuth2AuthorizationService implements OAuth2AuthorizationSer
         Assert.hasText(token, "token cannot be empty");
         Assert.notNull(tokenType, "tokenType cannot be empty");
         redisTemplate.setValueSerializer(RedisSerializer.java());
-        OAuth2Authorization oAuth2Authorization = (OAuth2Authorization) redisTemplate.opsForValue().get(buildKey(tokenType.getValue(), token));
+        OAuth2Authorization oAuth2Authorization = (OAuth2Authorization) redisTemplate.opsForValue()
+                .get(buildKey(tokenType.getValue(), token));
         if (oAuth2Authorization != null) {
-            RequestUtils.getRequest().setAttribute(SecurityConstants.LOGIN_USERNAME, oAuth2Authorization.getPrincipalName());
+            RequestUtils.getRequest().setAttribute(SecurityConstants.LOGIN_USERNAME,
+                    oAuth2Authorization.getPrincipalName());
         }
         return oAuth2Authorization;
     }

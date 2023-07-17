@@ -19,11 +19,11 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 @ConditionalOnWebApplication(type = SERVLET)
 public class RcSecurityMessageSourceConfiguration implements WebMvcConfigurer {
 
-	@Bean
-	public MessageSource securityMessageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.addBasenames("classpath:i18n/errors/messages");
-		messageSource.setDefaultLocale(Locale.CHINA);
-		return messageSource;
-	}
+    @Bean
+    public MessageSource securityMessageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.addBasenames("classpath:i18n/errors/messages");
+        messageSource.setDefaultLocale(Locale.CHINA);
+        return messageSource;
+    }
 }

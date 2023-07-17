@@ -9,6 +9,10 @@ public class ProductSkuSaveDTO {
 
     private String id;
 
+    private String productId;
+
+    private String tenantId;
+
     private String skuCode;
 
     private String price;

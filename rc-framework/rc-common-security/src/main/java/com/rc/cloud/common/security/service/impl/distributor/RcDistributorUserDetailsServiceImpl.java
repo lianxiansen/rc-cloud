@@ -2,24 +2,19 @@ package com.rc.cloud.common.security.service.impl.distributor;
 
 import com.rc.cloud.app.distributor.user.DistributorUser;
 import com.rc.cloud.app.distributor.user.RemoteDistributorUserService;
-import com.rc.cloud.app.system.enums.oauth2.OAuth2GrantTypeEnum;
 import com.rc.cloud.common.core.constant.CacheConstants;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.service.RcUser;
-import com.rc.cloud.common.security.service.RcUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.time.Duration;
-import java.util.Collection;
 
 /**
  * @author WJF
@@ -31,12 +26,13 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class RcDistributorUserDetailsServiceImpl extends AbstractRcDistributorUserDetailsServiceImpl {
 
-    private final String DISTRIBUTOR_NAME = "distributor";
-    private final String DISTRIBUTOR_APP_NAME = "rc_distributor";
+    private static final String DISTRIBUTOR_NAME = "distributor";
+    private static final String DISTRIBUTOR_APP_NAME = "rc_distributor";
     private final RemoteDistributorUserService remoteUserService;
 
     private final RedisTemplate<String, Object> redisTemplate;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String userDetailsKey = CacheConstants.USER_DETAILS + "-" + DISTRIBUTOR_NAME + ":" + username;

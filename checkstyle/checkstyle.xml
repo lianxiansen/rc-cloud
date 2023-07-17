@@ -97,7 +97,7 @@
         <!--    <module name="JavadocVariable"/>-->
         <!--    <module name="JavadocStyle"/>-->
         <module name="MissingJavadocMethod">
-            <property name="allowedAnnotations" value="Override,Deprecated,Operation,Schema"/>
+            <property name="allowedAnnotations" value="Override,Deprecated,Operation,Schema,Bean"/>
             <!--        mapper转换类不必检查-->
             <property name="ignoreMethodNamesRegex" value=".*convert.*"></property>
             <property name="tokens" value="METHOD_DEF,ANNOTATION_FIELD_DEF"/>

@@ -80,7 +80,7 @@ public class ProductControllerIntegratedTest {
         productSaveDTO.setAlbums(productImageSaveDTOS);
 
         productSaveDTO.setBrandId("1234567");
-        productSaveDTO.setEnabledFlag(true);
+        productSaveDTO.setEnableFlag(true);
         productSaveDTO.setCustomClassificationId("1234");
 
         String dics="[{\"key\":\"材质\",\"value\":\"塑料\",\"sort\":1}," +

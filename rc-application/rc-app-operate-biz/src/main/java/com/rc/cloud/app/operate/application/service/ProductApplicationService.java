@@ -169,12 +169,19 @@ public class ProductApplicationService {
             //比如：1 2 3 新增 4 5 6 结果是 1 2 3 4 5 6
             //也有可能是减少 1 2 3 4 减少 3 4 结果是 1 2
             //也可能是重新洗牌 1 2 3 4 结果是 5 6 7 8
+            //但是在这一层不需要做这事情，但是需要记录sku_id
             for (ProductSkuSaveDTO productSkuSaveDTO :  productSaveDTO.getSkus()) {
-                ProductSku productSku= productSkuRepository.findById(new ProductSkuId(productSkuSaveDTO.getId()));
-                //TODO
-
-//                ProductSku productSku = ProductSkuConvert.convert(productSkuId, productId
-//                        , tenantId, productSkuSaveDTO, true, null);
+                ProductSku productSku=null;
+                if(productSkuSaveDTO.getId()!=null){
+                    productSkuRepository.findById(new ProductSkuId(productSkuSaveDTO.getId()));
+                }
+                if(productSku==null){
+                    productSku = ProductSkuConvert.convert(new ProductSkuId(idRepository.nextId()), productId
+                            , tenantId, productSkuSaveDTO, true, productSku);
+                }else{
+                    productSku = ProductSkuConvert.convert(productSku.getId(), productId
+                            , tenantId, productSkuSaveDTO, false, productSku);
+                }
                 productSkuList.add(productSku);
             }
             productSkuRepository.batchSaveProductSku(productSkuList);
@@ -185,13 +192,25 @@ public class ProductApplicationService {
 
     /**
      * 获取商品
-     *
-     * @param productId
+     * TODO
+     * @param productQueryDTO
      * @return
      */
-    public ProductBO getProduct(String productId) {
-        Product product = productRepository.findById(new ProductId(productId));
-        return ProductConvert.convert(product);
+    public ProductBO getProduct(ProductQueryDTO productQueryDTO) {
+        Product product = productRepository.findById(new ProductId(productQueryDTO.getProductId()));
+        ProductDetail productDetail=null;
+        List<ProductDict> productDictList=null;
+        List<ProductSku> productSkuList=null;
+        if(productQueryDTO.isNeedProductDetail()){
+            productDetail = productDetailRepository.findById(new ProductId(productQueryDTO.getProductId()));
+        }
+        if(productQueryDTO.isNeedProductDict()){
+            productDictList = productDictRepository.getProductDictByProductId(new ProductId(productQueryDTO.getProductId()));
+        }
+        if(productQueryDTO.isNeedProductSku()){
+            productSkuList = productSkuRepository.getProductSkuListByProductId(new ProductId(productQueryDTO.getProductId()));
+        }
+        return ProductConvert.convert(product,productDictList,productDetail,productSkuList);
     }
 
 
@@ -202,7 +221,11 @@ public class ProductApplicationService {
      */
     public PageResult<ProductBO> getProductList(ProductListQueryDTO productListQueryDTO) {
         PageResult<Product> productPageList = productRepository.getProductPageList(productListQueryDTO);
-        List<ProductBO> productBOS = ProductConvert.convertList(productPageList.getList());
+        List<ProductBO> productBOS = new ArrayList<>();
+        for (Product product : productPageList.getList()) {
+            ProductBO productBO = ProductConvert.convert(product);
+            productBOS.add(productBO);
+        }
         PageResult<ProductBO> pageResult = new PageResult<>();
         pageResult.setTotal(productPageList.getTotal());
         pageResult.setList(productBOS);
@@ -210,36 +233,40 @@ public class ProductApplicationService {
     }
 
 
-    public ProductBO modifyProductField(ProductModifyDTO productModifyDTO) {
-
-        if (productModifyDTO.getModifyValue() == null) {
-            throw new IllegalArgumentException("修改属性不能为空");
-        }
+    public ProductBO changeNewStatus(String productId, boolean newFlag){
         ProductSaveDTO productSaveDTO = new ProductSaveDTO();
-        productSaveDTO.setId(productModifyDTO.getProductId());
-        String modifyValue = productModifyDTO.getModifyValue();
-        if (modifyValue.equals(ProductModifyDTO.NEW)) {
-
-            productSaveDTO.setNewFlag(productModifyDTO.getModifyValue() == "1" ? true : false);
-        } else if (modifyValue.equals(ProductModifyDTO.ENABLED)) {
-
-            productSaveDTO.setEnabledFlag(productModifyDTO.getModifyValue() == "1" ? true : false);
-        } else if (modifyValue.equals(ProductModifyDTO.ONSHELF)) {
-
-            productSaveDTO.setOnShelfStatus(Integer.valueOf(productModifyDTO.getModifyValue()));
-        } else if (modifyValue.equals(ProductModifyDTO.PUBLIC)) {
-
-            productSaveDTO.setPublicFlag(productModifyDTO.getModifyValue() == "1" ? true : false);
-        } else if (modifyValue.equals(ProductModifyDTO.RECOMMEND)) {
-
-            productSaveDTO.setRecommendFlag(productModifyDTO.getModifyValue() == "1" ? true : false);
-        } else {
-            throw new IllegalArgumentException("修改属性不存在");
-        }
-
+        productSaveDTO.setId(productId);
+        productSaveDTO.setNewFlag(newFlag);
         return updateProduct(productSaveDTO);
-
-
     }
+
+    public ProductBO changeEnableStatus(String productId, boolean enableFlag){
+        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
+        productSaveDTO.setId(productId);
+        productSaveDTO.setEnableFlag(enableFlag);
+        return updateProduct(productSaveDTO);
+    }
+
+    public ProductBO changeOnShelfStatus(String productId, int onShelfStatus){
+        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
+        productSaveDTO.setId(productId);
+        productSaveDTO.setOnShelfStatus(onShelfStatus);
+        return updateProduct(productSaveDTO);
+    }
+
+    public ProductBO changePublicStatus(String productId, boolean publicFlag){
+        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
+        productSaveDTO.setId(productId);
+        productSaveDTO.setPublicFlag(publicFlag);
+        return updateProduct(productSaveDTO);
+    }
+
+    public ProductBO changeRecommendStatus(String productId, boolean recommendFlag){
+        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
+        productSaveDTO.setId(productId);
+        productSaveDTO.setRecommendFlag(recommendFlag);
+        return updateProduct(productSaveDTO);
+    }
+
 
 }

@@ -38,6 +38,7 @@ public class ProductGroupService {
         productGroupRepository.save(productGroup);
         return productGroup;
     }
+
     public boolean appendGroupItem(ProductGroupId productGroupId, ProductId productId) {
         ProductGroup productGroup = productGroupRepository.findById(productGroupId);
         if (ObjectUtils.isNull(productGroup)) {
@@ -48,7 +49,8 @@ public class ProductGroupService {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_IN_GROUP_NOT_EXISTS);
         }
         ProductGroupItem item = new ProductGroupItem(new ProductGroupItemId(idRepository.nextId()), productGroup.getId(), product.getId());
-        return productGroup.appendItem(item);
+        productGroup.appendItem(item);
+        return productGroupRepository.save(productGroup);
     }
 
 
@@ -56,7 +58,7 @@ public class ProductGroupService {
         return productGroupRepository.findById(productGroupId);
     }
 
-    public boolean release(ProductGroupId productGroupId){
+    public boolean release(ProductGroupId productGroupId) {
         ProductGroup productGroup = this.findById(productGroupId);
         if (ObjectUtils.isNull(productGroup)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.OBJECT_NOT_EXISTS);

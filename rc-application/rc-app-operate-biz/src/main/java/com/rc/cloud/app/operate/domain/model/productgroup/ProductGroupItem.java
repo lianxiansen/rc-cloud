@@ -17,9 +17,18 @@ import java.time.LocalDateTime;
 public class ProductGroupItem extends Entity {
     private ProductGroupItemId id;
     private ProductGroupId productGroupId;
+
     private ProductId productId;
     private String productName;
     private CreateTime createTime;
+    public ProductId getProductId() {
+        return productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
 
     public ProductGroupItem(ProductGroupItemId id,ProductGroupId productGroupId,ProductId productId){
         this.id=id;
@@ -41,17 +50,11 @@ public class ProductGroupItem extends Entity {
 
 
 
-    public ProductId getProductId() {
-        return productId;
-    }
-
 
 
     public CreateTime getCreateTime() {
         return createTime;
     }
 
-    public String getProductName() {
-        return productName;
-    }
+
 }

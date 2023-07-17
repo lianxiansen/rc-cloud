@@ -1,5 +1,7 @@
 package com.rc.cloud.app.operate.application.bo.convert;
 
+import com.rc.cloud.app.operate.application.bo.ProductImageBO;
+import com.rc.cloud.app.operate.application.bo.ProductSkuImageBO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuImageSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuImageSaveDTO;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
@@ -25,5 +27,23 @@ public class ProductSkuImageConvert {
         }
         return resList;
     }
+
+
+    public static ProductSkuImageBO convert(ProductSkuImage productSkuImage){
+        ProductSkuImageBO bo =new ProductSkuImageBO();
+        bo.setSort(productSkuImage.getSort());
+        bo.setUrl(productSkuImage.getUrl());
+        return bo;
+    }
+
+    public static List<ProductSkuImageBO> convertProductSkuImageBOList(List<ProductSkuImage> list){
+        List<ProductSkuImageBO> resList =new ArrayList<>();
+        for (ProductSkuImage productSkuImage : list) {
+            resList.add(convert(productSkuImage));
+        }
+        return resList;
+    }
+
+
 
 }

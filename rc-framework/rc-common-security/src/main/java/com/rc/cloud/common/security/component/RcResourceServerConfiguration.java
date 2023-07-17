@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 /**
  * @author lengleng
  * @date 2022-06-04
- *
+ * <p>
  * 资源服务器认证授权配置
  */
 @Slf4j
@@ -22,35 +22,35 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class RcResourceServerConfiguration {
 
-	protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
+    private final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
-	private final PermitAllUrlProperties permitAllUrl;
+    private final PermitAllUrlProperties permitAllUrl;
 
-	private final RcBearerTokenExtractor rcBearerTokenExtractor;
+    private final RcBearerTokenExtractor rcBearerTokenExtractor;
 
-	private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
+    private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
-	@Bean
-	@Order(Ordered.HIGHEST_PRECEDENCE)
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests(authorizeRequests -> authorizeRequests
-			.antMatchers(ArrayUtil.toArray(permitAllUrl.getUrls(), String.class))
-			.permitAll()
-			.anyRequest()
-			.authenticated())
-			.oauth2ResourceServer(
-					oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
-						.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
-						.bearerTokenResolver(rcBearerTokenExtractor))
-			.headers()
-			.frameOptions()
-			.disable()
-			.and()
-			.csrf()
-			.disable();
+        http.authorizeRequests(authorizeRequests -> authorizeRequests
+                        .antMatchers(ArrayUtil.toArray(permitAllUrl.getUrls(), String.class))
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                .oauth2ResourceServer(
+                        oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
+                                .authenticationEntryPoint(resourceAuthExceptionEntryPoint)
+                                .bearerTokenResolver(rcBearerTokenExtractor))
+                .headers()
+                .frameOptions()
+                .disable()
+                .and()
+                .csrf()
+                .disable();
 
-		return http.build();
-	}
+        return http.build();
+    }
 
 }

@@ -18,6 +18,7 @@ import java.util.Collection;
  */
 
 public abstract class AbstractRcDistributorUserDetailsServiceImpl implements RcUserDetailsService {
+    @SuppressWarnings("checkstyle:MissingJavadocMethod")
     public UserDetails getUserDetails(CodeResult<DistributorUser> result) {
         DistributorUser userInfo = result.getData();
         if (userInfo == null) {

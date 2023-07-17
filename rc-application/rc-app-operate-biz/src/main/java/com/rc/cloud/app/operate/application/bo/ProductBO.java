@@ -32,19 +32,19 @@ public class ProductBO {
 
     private String tag;
 
-    private Integer productType;
+    private int productType;
 
     private String spuCode;
 
     private String masterImage;
 
-    private String productOrigin;
+    private int productOrigin;
 
     private String outId;
 
-    private Boolean enabledFlag;
+    private boolean enabledFlag;
 
-    private Integer onshelfStatus;
+    private int onshelfStatus;
 
     private String firstCategory;
 
@@ -60,25 +60,25 @@ public class ProductBO {
 
     private String installVideoImg;
 
-    private Boolean freeShippingFlag;
+    private boolean freeShippingFlag;
 
-    private Integer freightType;
+    private int freightType;
 
-    private Long freightTemplateId;
+    private String freightTemplateId;
 
     private BigDecimal freightPrice;
 
-    private Integer lowestBuy;
+    private int lowestBuy;
 
     private BigDecimal popularizationAmountRate;
 
     private BigDecimal getIntegral;
 
-    private Boolean distributionFlag;
+    private boolean distributionFlag;
 
-    private Boolean refundFlag;
+    private boolean refundFlag;
 
-    private Boolean seckillFlag;
+    private boolean seckillFlag;
 
     private String seckillName;
 
@@ -88,15 +88,15 @@ public class ProductBO {
 
     private LocalDateTime seckillEndTime;
 
-    private Boolean newFlag;
+    private boolean newFlag;
 
-    private Boolean explosivesFlag;
+    private boolean explosivesFlag;
 
     private String explosivesImage;
 
-    private Boolean publicFlag;
+    private boolean publicFlag;
 
-    private Boolean recommendFlag;
+    private boolean recommendFlag;
 
     private int sort;
 
@@ -110,9 +110,8 @@ public class ProductBO {
 
     private List<ProductSkuBO> skus;
 
-
     private List<ProductImageBO> images;
 
-
+    private List<ProductDictBO> dicts;
 
 }

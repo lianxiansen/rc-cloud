@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.application.service;
 
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
+import com.rc.cloud.app.operate.application.bo.convert.ProductGroupConvert;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
@@ -35,8 +36,11 @@ public class ProductGroupApplicationService {
         if(StringUtils.isEmpty(productGroupCreateDTO.getProductId())){
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
         }
+        if(StringUtils.isEmpty(productGroupCreateDTO.getName())){
+            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NAME_NOT_EMPTY);
+        }
         ProductGroup productGroup = productGroupService.create(productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()), new ProductId(productGroupCreateDTO.getProductId()));
-        return ProductGroupBO.convert(productGroup);
+        return ProductGroupConvert.convert2ProductGroupBO(productGroup);
     }
 
     public boolean release(String id) {
@@ -45,6 +49,7 @@ public class ProductGroupApplicationService {
         }
         return productGroupService.release(new ProductGroupId(id));
     }
+
     public boolean appendGroupItem(ProductGroupItemCreateDTO productGroupItemCreateDTO) {
         if(StringUtils.isEmpty(productGroupItemCreateDTO.getProductGroupId())){
             throw new ServiceException(ProductGroupErrorCodeConstants.OBJECT_NOT_EXISTS);
@@ -52,7 +57,7 @@ public class ProductGroupApplicationService {
         if(StringUtils.isEmpty(productGroupItemCreateDTO.getProductId())){
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_IN_GROUP_NOT_EMPTY);
         }
-        return productGroupService.appendGroupItem(new ProductGroupId(productGroupItemCreateDTO.getProductGroupId()), new ProductId(productGroupItemCreateDTO.getProductId()));
+        return  productGroupService.appendGroupItem(new ProductGroupId(productGroupItemCreateDTO.getProductGroupId()), new ProductId(productGroupItemCreateDTO.getProductId()));
     }
 
 
@@ -60,8 +65,8 @@ public class ProductGroupApplicationService {
         if(StringUtils.isEmpty(productId)){
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
         }
-        List<ProductGroup> groupList=productGroupRepository.selectList(new ProductId(productId));
-        return ProductGroupBO.convertBatch(groupList);
+        List<ProductGroup> groupList=productGroupRepository.selectListBy(new ProductId(productId));
+        return ProductGroupConvert.convert2ProductGroupBOBatch(groupList);
     }
 
 }
