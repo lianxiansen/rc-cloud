@@ -34,5 +34,10 @@ public interface ProductSkuRepository {
     ProductSku findById(ProductSkuId productSkuId);
 
 
+    List<ProductSkuImage> getProductSkuImageByProductSkuId(ProductSkuId productSkuId);
+
+
+    ProductSkuAttribute getProductSkuAttributeByProductSkuId(ProductSkuId productSkuId);
+
 
 }

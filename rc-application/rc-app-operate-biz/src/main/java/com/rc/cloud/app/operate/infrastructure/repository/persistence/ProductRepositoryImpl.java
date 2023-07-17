@@ -13,18 +13,12 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductAttributeConvert;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductConvert;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductImageConvert;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductAttributeMapper;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductDictMapper;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductImageMapper;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductMapper;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductAttributePO;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductDictPO;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductImagePO;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductPO;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.*;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.*;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.*;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +46,12 @@ public class ProductRepositoryImpl implements  ProductRepository {
     private ProductAttributeMapper productAttributeMapper;
     @Autowired
     private ProductDictMapper productDictMapper;
+
+    @Autowired
+    public ProductSkuImageMapper productSkuImageMapper;
+
+    @Autowired
+    private ProductSkuAttributeMapper productSkuAttributeMapper;
 
 
     public ProductRepositoryImpl() {
@@ -184,12 +184,16 @@ public class ProductRepositoryImpl implements  ProductRepository {
         return 1;
     }
 
-    //TODO
     @Override
     public Product findById(ProductId productId) {
         LambdaQueryWrapperX<ProductPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductPO::getId, productId.id());
-        return ProductConvert.convert(this.productMapper.selectOne(wrapper));
+        Product product = ProductConvert.convert(this.productMapper.selectOne(wrapper));
+        List<ProductImage> productImageList = getProductImageByProductId(productId);
+        product.setProductImages(productImageList);
+        ProductAttribute productAttribute = getProductAttributeByProductId(productId);
+        product.setProductAttribute(productAttribute);
+        return product;
     }
 
     @Override
@@ -205,6 +209,12 @@ public class ProductRepositoryImpl implements  ProductRepository {
         PageResult<ProductPO> productDOPageResult = productMapper.selectPage(query);
         productPageResult.setTotal(productDOPageResult.getTotal());
         List<Product> productList= ProductConvert.convertList(productDOPageResult.getList());
+        for (Product product : productList) {
+            List<ProductImage> productImageList = getProductImageByProductId(product.getId());
+            product.setProductImages(productImageList);
+            ProductAttribute productAttribute = getProductAttributeByProductId(product.getId());
+            product.setProductAttribute(productAttribute);
+        }
         productPageResult.setList(productList);
         return productPageResult;
     }
@@ -238,6 +248,10 @@ public class ProductRepositoryImpl implements  ProductRepository {
     public boolean existsByProductCategoryId(ProductCategoryId productCategoryId) {
         return false;
     }
+
+
+
+
 }
 
 

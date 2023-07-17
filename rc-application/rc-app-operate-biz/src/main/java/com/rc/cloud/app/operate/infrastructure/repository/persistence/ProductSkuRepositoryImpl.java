@@ -3,6 +3,7 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence;
 import cn.hutool.core.collection.CollectionUtil;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
@@ -91,7 +92,10 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductSkuPO::getId, productSkuId.id());
         ProductSkuPO ProductSkuPO = this.productSkuMapper.selectOne(wrapper);
-        return ProductSkuConvert.convert(ProductSkuPO);
+        ProductSku productSku = ProductSkuConvert.convert(ProductSkuPO);
+        productSku.setSkuImageList(getProductSkuImageByProductSkuId(productSkuId));
+        productSku.setProductSkuAttribute(getProductSkuAttributeByProductSkuId(productSkuId));
+        return productSku;
     }
 
 
@@ -167,9 +171,29 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         wrapper.eq(ProductSkuPO::getProductId, productId.id());
         List<ProductSkuPO> productSkuPOList = this.productSkuMapper.selectList(wrapper);
         List<ProductSku> resList = ProductSkuConvert.convertList(productSkuPOList);
+        for (ProductSku productSku : resList) {
+            productSku.setSkuImageList(getProductSkuImageByProductSkuId(productSku.getId()));
+            productSku.setProductSkuAttribute(getProductSkuAttributeByProductSkuId(productSku.getId()));
+        }
         return resList;
     }
 
 
+    @Override
+    public List<ProductSkuImage> getProductSkuImageByProductSkuId(ProductSkuId productSkuId) {
+        LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductSkuImagePO>();
+        LambdaQueryWrapperX<ProductSkuImagePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuImagePO::getProductSkuId, productSkuId.id());
+        return ProductSkuImageConvert.INSTANCE.convertList(this.productSkuImageMapper.selectList(wrapper));
+    }
 
+    @Override
+    public ProductSkuAttribute getProductSkuAttributeByProductSkuId(ProductSkuId productSkuId) {
+
+        LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductSkuAttributePO>();
+        LambdaQueryWrapperX<ProductSkuAttributePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuAttributePO::getProductSkuId, productSkuId.id());
+        return ProductSkuAttributeConvert.convert(this.productSkuAttributeMapper.selectOne(wrapper));
+
+    }
 }
