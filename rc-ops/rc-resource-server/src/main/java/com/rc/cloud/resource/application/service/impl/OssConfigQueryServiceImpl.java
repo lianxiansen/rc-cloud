@@ -12,7 +12,7 @@ import com.rc.cloud.resource.application.dto.OssConfigDTO;
 import com.rc.cloud.resource.application.service.OssConfigQueryService;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfig;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfigRepository;
-import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssConfigDO;
+import com.rc.cloud.resource.infrastructure.persistence.bo.SysOssConfigBO;
 import com.rc.cloud.resource.infrastructure.persistence.mapper.SysOssConfigMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,16 +45,16 @@ public class OssConfigQueryServiceImpl implements OssConfigQueryService {
 
     @Override
     public TableDataInfo<OssConfigDTO> queryPageList(OssConfigCommand ossConfigCommand, PageQuery pageQuery) {
-        LambdaQueryWrapper<SysOssConfigDO> lqw = buildQueryWrapper(ossConfigCommand);
+        LambdaQueryWrapper<SysOssConfigBO> lqw = buildQueryWrapper(ossConfigCommand);
         Page<OssConfigDTO> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
 
-    private LambdaQueryWrapper<SysOssConfigDO> buildQueryWrapper(OssConfigCommand ossConfigCommand) {
-        LambdaQueryWrapper<SysOssConfigDO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(ossConfigCommand.getConfigKey()), SysOssConfigDO::getConfigKey, ossConfigCommand.getConfigKey());
-        lqw.like(StringUtils.isNotBlank(ossConfigCommand.getBucketName()), SysOssConfigDO::getBucketName, ossConfigCommand.getBucketName());
-        lqw.eq(StringUtils.isNotBlank(ossConfigCommand.getStatus()), SysOssConfigDO::getStatus, ossConfigCommand.getStatus());
+    private LambdaQueryWrapper<SysOssConfigBO> buildQueryWrapper(OssConfigCommand ossConfigCommand) {
+        LambdaQueryWrapper<SysOssConfigBO> lqw = Wrappers.lambdaQuery();
+        lqw.eq(StringUtils.isNotBlank(ossConfigCommand.getConfigKey()), SysOssConfigBO::getConfigKey, ossConfigCommand.getConfigKey());
+        lqw.like(StringUtils.isNotBlank(ossConfigCommand.getBucketName()), SysOssConfigBO::getBucketName, ossConfigCommand.getBucketName());
+        lqw.eq(StringUtils.isNotBlank(ossConfigCommand.getStatus()), SysOssConfigBO::getStatus, ossConfigCommand.getStatus());
         return lqw;
     }
 }

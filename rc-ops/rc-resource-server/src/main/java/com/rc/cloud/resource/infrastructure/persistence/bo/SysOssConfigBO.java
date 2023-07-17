@@ -1,4 +1,4 @@
-package com.rc.cloud.resource.infrastructure.persistence.entity;
+package com.rc.cloud.resource.infrastructure.persistence.bo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -19,7 +19,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_oss_config")
-public class SysOssConfigDO extends BaseDO {
+public class SysOssConfigBO extends BaseDO {
 
     /**
      * ID

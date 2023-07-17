@@ -10,7 +10,7 @@ import com.rc.cloud.resource.application.dto.OssConfigDTO;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfig;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfigRepository;
 import com.rc.cloud.resource.infrastructure.persistence.converter.OssConfigConverter;
-import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssConfigDO;
+import com.rc.cloud.resource.infrastructure.persistence.bo.SysOssConfigBO;
 import com.rc.cloud.resource.infrastructure.persistence.mapper.SysOssConfigMapper;
 import org.springframework.stereotype.Repository;
 
@@ -25,12 +25,12 @@ import java.util.List;
  * @date 2022-04-25 08:38
  **/
 @Repository
-public class OssConfigRepositoryImpl extends ServiceImpl<SysOssConfigMapper, SysOssConfigDO> implements OssConfigRepository, IService<SysOssConfigDO> {
+public class OssConfigRepositoryImpl extends ServiceImpl<SysOssConfigMapper, SysOssConfigBO> implements OssConfigRepository, IService<SysOssConfigBO> {
 
     @Override
     public OssConfig find(String id) {
-        SysOssConfigDO sysOssConfigDO = this.getById(id);
-        return OssConfigConverter.toOssConfig(sysOssConfigDO);
+        SysOssConfigBO sysOssConfigBO = this.getById(id);
+        return OssConfigConverter.toOssConfig(sysOssConfigBO);
     }
 
     @Override
@@ -39,12 +39,12 @@ public class OssConfigRepositoryImpl extends ServiceImpl<SysOssConfigMapper, Sys
     }
 
     @Override
-    public int store(OssConfig ossConfig, LambdaUpdateWrapper<SysOssConfigDO> luw) {
+    public int store(OssConfig ossConfig, LambdaUpdateWrapper<SysOssConfigBO> luw) {
         return this.baseMapper.update(OssConfigConverter.fromOssConfig(ossConfig), luw);
     }
 
     @Override
-    public Page<OssConfigDTO> store(PageQuery pageQuery, LambdaQueryWrapper<SysOssConfigDO> luw) {
+    public Page<OssConfigDTO> store(PageQuery pageQuery, LambdaQueryWrapper<SysOssConfigBO> luw) {
         return baseMapper.selectVoPage(pageQuery.build(), luw);
     }
 
@@ -55,10 +55,10 @@ public class OssConfigRepositoryImpl extends ServiceImpl<SysOssConfigMapper, Sys
 
     @Override
     public List<OssConfig> selectList() {
-        List<SysOssConfigDO> sysOssConfigDOS = baseMapper.selectList();
+        List<SysOssConfigBO> sysOssConfigBOS = baseMapper.selectList();
         List<OssConfig> ossConfigs = new ArrayList<>();
-        for (SysOssConfigDO item :
-                sysOssConfigDOS) {
+        for (SysOssConfigBO item :
+                sysOssConfigBOS) {
             OssConfig ossConfig = OssConfigConverter.toOssConfig(item);
             ossConfigs.add(ossConfig);
         }

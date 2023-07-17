@@ -2,7 +2,7 @@ package com.rc.cloud.resource.infrastructure.persistence.converter;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfig;
-import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssConfigDO;
+import com.rc.cloud.resource.infrastructure.persistence.bo.SysOssConfigBO;
 
 /**
  * Oss转换类
@@ -12,21 +12,20 @@ import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssConfigDO;
  **/
 public class OssConfigConverter {
 
-    public static SysOssConfigDO fromOssConfig(OssConfig ossConfig) {
-        SysOssConfigDO sysOssConfigDO = new SysOssConfigDO();
-        BeanUtil.copyProperties(ossConfig, sysOssConfigDO);
-        sysOssConfigDO.setId(ossConfig.getId());
-        return sysOssConfigDO;
+    public static SysOssConfigBO fromOssConfig(OssConfig ossConfig) {
+        SysOssConfigBO sysOssConfigBO = new SysOssConfigBO();
+        BeanUtil.copyProperties(ossConfig, sysOssConfigBO);
+        return sysOssConfigBO;
     }
 
-    public static OssConfig toOssConfig(SysOssConfigDO sysOssConfigDO) {
-        if (sysOssConfigDO == null) {
+    public static OssConfig toOssConfig(SysOssConfigBO sysOssConfigBO) {
+        if (sysOssConfigBO == null) {
             return null;
         }
-        OssConfig ossConfig = new OssConfig(sysOssConfigDO.getId(), sysOssConfigDO.getConfigKey(),
-                sysOssConfigDO.getAccessKey(), sysOssConfigDO.getSecretKey(), sysOssConfigDO.getBucketName(), sysOssConfigDO.getPrefix(),
-                sysOssConfigDO.getEndpoint(), sysOssConfigDO.getIsHttps(), sysOssConfigDO.getRegion(), sysOssConfigDO.getStatus(),
-                sysOssConfigDO.getExt1(), sysOssConfigDO.getRemark());
+        OssConfig ossConfig = new OssConfig(sysOssConfigBO.getId(), sysOssConfigBO.getConfigKey(),
+                sysOssConfigBO.getAccessKey(), sysOssConfigBO.getSecretKey(), sysOssConfigBO.getBucketName(), sysOssConfigBO.getPrefix(),
+                sysOssConfigBO.getEndpoint(), sysOssConfigBO.getIsHttps(), sysOssConfigBO.getRegion(), sysOssConfigBO.getStatus(),
+                sysOssConfigBO.getExt1(), sysOssConfigBO.getRemark());
         return ossConfig;
     }
 }

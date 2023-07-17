@@ -22,7 +22,7 @@ import com.rc.cloud.resource.application.dto.OssConfigDTO;
 import com.rc.cloud.resource.application.service.OssConfigApplicationService;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfig;
 import com.rc.cloud.resource.domain.model.ossConfig.OssConfigRepository;
-import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssConfigDO;
+import com.rc.cloud.resource.infrastructure.persistence.bo.SysOssConfigBO;
 import com.rc.cloud.resource.infrastructure.persistence.mapper.SysOssConfigMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,16 +77,16 @@ public class OssConfigApplicationServiceImpl implements OssConfigApplicationServ
 
     @Override
     public TableDataInfo<OssConfigDTO> queryPageList(OssConfigCommand cmd, PageQuery pageQuery) {
-        LambdaQueryWrapper<SysOssConfigDO> lqw = buildQueryWrapper(cmd);
+        LambdaQueryWrapper<SysOssConfigBO> lqw = buildQueryWrapper(cmd);
         Page<OssConfigDTO> result = ossConfigRepository.store(pageQuery, lqw);
         return TableDataInfo.build(result);
     }
 
-    private LambdaQueryWrapper<SysOssConfigDO> buildQueryWrapper(OssConfigCommand cmd) {
-        LambdaQueryWrapper<SysOssConfigDO> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(cmd.getConfigKey()), SysOssConfigDO::getConfigKey, cmd.getConfigKey());
-        lqw.like(StringUtils.isNotBlank(cmd.getBucketName()), SysOssConfigDO::getBucketName, cmd.getBucketName());
-        lqw.eq(StringUtils.isNotBlank(cmd.getStatus()), SysOssConfigDO::getStatus, cmd.getStatus());
+    private LambdaQueryWrapper<SysOssConfigBO> buildQueryWrapper(OssConfigCommand cmd) {
+        LambdaQueryWrapper<SysOssConfigBO> lqw = Wrappers.lambdaQuery();
+        lqw.eq(StringUtils.isNotBlank(cmd.getConfigKey()), SysOssConfigBO::getConfigKey, cmd.getConfigKey());
+        lqw.like(StringUtils.isNotBlank(cmd.getBucketName()), SysOssConfigBO::getBucketName, cmd.getBucketName());
+        lqw.eq(StringUtils.isNotBlank(cmd.getStatus()), SysOssConfigBO::getStatus, cmd.getStatus());
         return lqw;
     }
 
@@ -102,11 +102,11 @@ public class OssConfigApplicationServiceImpl implements OssConfigApplicationServ
     public Boolean updateByCmd(OssConfigCommand cmd) {
         OssConfig ossConfig = OssConfigDTOAssembler.toOssConfig(cmd);
         validEntityBeforeSave(ossConfig);
-        LambdaUpdateWrapper<SysOssConfigDO> luw = new LambdaUpdateWrapper<>();
-        luw.set(StringUtils.isBlank(ossConfig.getPrefix()), SysOssConfigDO::getPrefix, "");
-        luw.set(StringUtils.isBlank(ossConfig.getRegion()), SysOssConfigDO::getRegion, "");
-        luw.set(StringUtils.isBlank(ossConfig.getExt1()), SysOssConfigDO::getExt1, "");
-        luw.eq(SysOssConfigDO::getId, ossConfig.getId());
+        LambdaUpdateWrapper<SysOssConfigBO> luw = new LambdaUpdateWrapper<>();
+        luw.set(StringUtils.isBlank(ossConfig.getPrefix()), SysOssConfigBO::getPrefix, "");
+        luw.set(StringUtils.isBlank(ossConfig.getRegion()), SysOssConfigBO::getRegion, "");
+        luw.set(StringUtils.isBlank(ossConfig.getExt1()), SysOssConfigBO::getExt1, "");
+        luw.eq(SysOssConfigBO::getId, ossConfig.getId());
         int storeRes = ossConfigRepository.store(ossConfig, luw);
         return setConfigCache(storeRes > 0, ossConfig);
     }
@@ -149,9 +149,9 @@ public class OssConfigApplicationServiceImpl implements OssConfigApplicationServ
     private String checkConfigKeyUnique(OssConfig ossConfig) {
         String ossConfigId = ObjectUtil.isNull(ossConfig.getId()) ? "-1" : ossConfig.getId();
         // TODO:: 这段代码应该放仓库中处理
-        SysOssConfigDO info = baseMapper.selectOne(new LambdaQueryWrapper<SysOssConfigDO>()
-            .select(SysOssConfigDO::getId, SysOssConfigDO::getConfigKey)
-            .eq(SysOssConfigDO::getConfigKey, ossConfig.getConfigKey()));
+        SysOssConfigBO info = baseMapper.selectOne(new LambdaQueryWrapper<SysOssConfigBO>()
+            .select(SysOssConfigBO::getId, SysOssConfigBO::getConfigKey)
+            .eq(SysOssConfigBO::getConfigKey, ossConfig.getConfigKey()));
         if (ObjectUtil.isNotNull(info) && info.getId() != ossConfigId) {
             return UserConstants.NOT_UNIQUE;
         }

@@ -11,7 +11,7 @@ import com.rc.cloud.resource.application.dto.OssDTO;
 import com.rc.cloud.resource.application.service.OssQueryService;
 import com.rc.cloud.resource.domain.model.oss.Oss;
 import com.rc.cloud.resource.domain.model.oss.OssRepository;
-import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssDO;
+import com.rc.cloud.resource.infrastructure.persistence.bo.SysOssBO;
 import com.rc.cloud.resource.infrastructure.persistence.mapper.SysOssMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -35,22 +35,22 @@ public class OssQueryServiceImpl implements OssQueryService {
 
     @Override
     public TableDataInfo<OssDTO> queryPage(OssCommand ossCommand, PageQuery pageQuery) {
-        LambdaQueryWrapper<SysOssDO> lqw = buildQueryWrapper(ossCommand);
+        LambdaQueryWrapper<SysOssBO> lqw = buildQueryWrapper(ossCommand);
         Page<OssDTO> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
         return TableDataInfo.build(result);
     }
 
-    private LambdaQueryWrapper<SysOssDO> buildQueryWrapper(OssCommand ossCommand) {
+    private LambdaQueryWrapper<SysOssBO> buildQueryWrapper(OssCommand ossCommand) {
         Map<String, Object> params = ossCommand.getParams();
-        LambdaQueryWrapper<SysOssDO> lqw = Wrappers.lambdaQuery();
-        lqw.like(StringUtils.isNotBlank(ossCommand.getFileName()), SysOssDO::getFileName, ossCommand.getFileName());
-        lqw.like(StringUtils.isNotBlank(ossCommand.getOriginalName()), SysOssDO::getOriginalName, ossCommand.getOriginalName());
-        lqw.eq(StringUtils.isNotBlank(ossCommand.getFileSuffix()), SysOssDO::getFileSuffix, ossCommand.getFileSuffix());
-        lqw.eq(StringUtils.isNotBlank(ossCommand.getUrl()), SysOssDO::getUrl, ossCommand.getUrl());
+        LambdaQueryWrapper<SysOssBO> lqw = Wrappers.lambdaQuery();
+        lqw.like(StringUtils.isNotBlank(ossCommand.getFileName()), SysOssBO::getFileName, ossCommand.getFileName());
+        lqw.like(StringUtils.isNotBlank(ossCommand.getOriginalName()), SysOssBO::getOriginalName, ossCommand.getOriginalName());
+        lqw.eq(StringUtils.isNotBlank(ossCommand.getFileSuffix()), SysOssBO::getFileSuffix, ossCommand.getFileSuffix());
+        lqw.eq(StringUtils.isNotBlank(ossCommand.getUrl()), SysOssBO::getUrl, ossCommand.getUrl());
         lqw.between(params.get("beginCreateTime") != null && params.get("endCreateTime") != null,
-                SysOssDO::getCreateTime, params.get("beginCreateTime"), params.get("endCreateTime"));
-        lqw.eq(StringUtils.isNotBlank(ossCommand.getCreator()), SysOssDO::getCreator, ossCommand.getCreator());
-        lqw.eq(StringUtils.isNotBlank(ossCommand.getService()), SysOssDO::getService, ossCommand.getService());
+                SysOssBO::getCreateTime, params.get("beginCreateTime"), params.get("endCreateTime"));
+        lqw.eq(StringUtils.isNotBlank(ossCommand.getCreator()), SysOssBO::getCreator, ossCommand.getCreator());
+        lqw.eq(StringUtils.isNotBlank(ossCommand.getService()), SysOssBO::getService, ossCommand.getService());
         return lqw;
     }
 
