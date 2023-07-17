@@ -6,21 +6,18 @@ import com.rc.cloud.app.operate.application.bo.convert.ProductDetailConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductDictConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductSkuConvert;
 import com.rc.cloud.app.operate.application.dto.*;
+import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
-import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
-import com.rc.cloud.app.operate.domain.model.product.ProductImage;
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
+import com.rc.cloud.app.operate.domain.model.product.*;
 import com.rc.cloud.app.operate.domain.model.product.identifier.*;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
+import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailRepository;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
+import com.rc.cloud.app.operate.domain.model.productdict.ProductDictDomainService;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictRepository;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
+import com.rc.cloud.app.operate.domain.model.productsku.*;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuAttributeId;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
@@ -53,19 +50,19 @@ import java.util.List;
 public class ProductApplicationService {
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductDomainService productDomainService;
 
     @Autowired
-    private ProductSkuRepository productSkuRepository;
+    private ProductSkuDomainService productSkuDomainService;
 
     @Autowired
     private TenantService tenantService;
 
     @Autowired
-    private ProductDictRepository productDictRepository;
+    private ProductDictDomainService productDictDomainService;
 
     @Autowired
-    private ProductDetailRepository productDetailRepository;
+    private ProductDetailDomainService productDetailDomainService;
 
     @Resource
     private IdRepository idRepository;
@@ -96,17 +93,17 @@ public class ProductApplicationService {
                     x.setId(idRepository.nextId())
                     );
         }
-        productRepository.insertProduct(product);
+        productDomainService.createProduct(product);
         //设置字典
         List<ProductDict> productDicts = ProductDictConvert.convertList(productId.id(), tenantId.id(), productSaveDTO.getDicts());
-        productDictRepository.saveProductDict(productDicts);
+        productDictDomainService.saveProductDict(productDicts);
 
         ProductDetail productDetail = ProductDetailConvert.convert(
                 productSaveDTO.getDetailId(),
                 tenantId.id(),
                 productId.id(),
                 productSaveDTO.getDetail());
-        productDetailRepository.saveProductDetail(productDetail);
+        productDetailDomainService.saveProductDetail(productDetail);
         //保存sku
         List<ProductSkuSaveDTO> skus = productSaveDTO.getSkus();
         if (skus == null || skus.size() <= 0) {
@@ -119,7 +116,7 @@ public class ProductApplicationService {
                     , tenantId, productSkuSaveDTO, true, null);
             productSkuList.add(productSku);
         }
-        productSkuRepository.batchSaveProductSku(productSkuList);
+        productSkuDomainService.batchSaveProductSku(productSkuList);
         return ProductConvert.convert(product,productDicts,productDetail,productSkuList);
 
     }
@@ -137,14 +134,14 @@ public class ProductApplicationService {
         ProductId productId = new ProductId(productSaveDTO.getId());
         TenantId tenantId = new TenantId(productSaveDTO.getTenantId());
         //修改
-        Product product = productRepository.findById(productId);
+        Product product = productDomainService.findProductById(productId);
         if (null == product) {
             throw new IllegalArgumentException("未找到当前商品");
         }
         product= ProductConvert.convert(productId.id()
                 ,tenantId.id(),productSaveDTO,false,product);
 
-        productRepository.insertProduct(product);
+        productDomainService.createProduct(product);
 
         List<ProductDict> productDicts=null;
         ProductDetail productDetail=null;
@@ -152,7 +149,7 @@ public class ProductApplicationService {
 
         if(productSaveDTO.getDicts()!=null){
             productDicts = ProductDictConvert.convertList(productId.id(), tenantId.id(), productSaveDTO.getDicts());
-            productDictRepository.saveProductDict(productDicts);
+            productDictDomainService.saveProductDict(productDicts);
         }
 
         if (StringUtils.isNotEmpty(productSaveDTO.getDetail())) {
@@ -161,7 +158,7 @@ public class ProductApplicationService {
                     tenantId.id(),
                     productId.id(),
                     productSaveDTO.getDetail());
-            productDetailRepository.saveProductDetail(productDetail);
+            productDetailDomainService.saveProductDetail(productDetail);
         }
         if(productSaveDTO.getSkus()!=null && productSaveDTO.getSkus().size()>0){
             productSkuList=new ArrayList<>();
@@ -173,7 +170,7 @@ public class ProductApplicationService {
             for (ProductSkuSaveDTO productSkuSaveDTO :  productSaveDTO.getSkus()) {
                 ProductSku productSku=null;
                 if(productSkuSaveDTO.getId()!=null){
-                    productSkuRepository.findById(new ProductSkuId(productSkuSaveDTO.getId()));
+                    productSkuDomainService.findProductSkuById(new ProductSkuId(productSkuSaveDTO.getId()));
                 }
                 if(productSku==null){
                     productSku = ProductSkuConvert.convert(new ProductSkuId(idRepository.nextId()), productId
@@ -184,7 +181,7 @@ public class ProductApplicationService {
                 }
                 productSkuList.add(productSku);
             }
-            productSkuRepository.batchSaveProductSku(productSkuList);
+            productSkuDomainService.batchSaveProductSku(productSkuList);
         }
 
         return ProductConvert.convert(product,productDicts,productDetail,productSkuList);
@@ -197,18 +194,18 @@ public class ProductApplicationService {
      * @return
      */
     public ProductBO getProduct(ProductQueryDTO productQueryDTO) {
-        Product product = productRepository.findById(new ProductId(productQueryDTO.getProductId()));
+        Product product = productDomainService.findProductById(new ProductId(productQueryDTO.getProductId()));
         ProductDetail productDetail=null;
         List<ProductDict> productDictList=null;
         List<ProductSku> productSkuList=null;
         if(productQueryDTO.isNeedProductDetail()){
-            productDetail = productDetailRepository.findById(new ProductId(productQueryDTO.getProductId()));
+            productDetail = productDetailDomainService.findProductDetailById(new ProductId(productQueryDTO.getProductId()));
         }
         if(productQueryDTO.isNeedProductDict()){
-            productDictList = productDictRepository.getProductDictByProductId(new ProductId(productQueryDTO.getProductId()));
+            productDictList = productDictDomainService.getProductDictByProductId(new ProductId(productQueryDTO.getProductId()));
         }
         if(productQueryDTO.isNeedProductSku()){
-            productSkuList = productSkuRepository.getProductSkuListByProductId(new ProductId(productQueryDTO.getProductId()));
+            productSkuList = productSkuDomainService.getProductSkuListByProductId(new ProductId(productQueryDTO.getProductId()));
         }
         return ProductConvert.convert(product,productDictList,productDetail,productSkuList);
     }
@@ -220,7 +217,7 @@ public class ProductApplicationService {
      * @return
      */
     public PageResult<ProductBO> getProductList(ProductListQueryDTO productListQueryDTO) {
-        PageResult<Product> productPageList = productRepository.getProductPageList(productListQueryDTO);
+        PageResult<Product> productPageList = productDomainService.getProductPageList(productListQueryDTO);
         List<ProductBO> productBOS = new ArrayList<>();
         for (Product product : productPageList.getList()) {
             ProductBO productBO = ProductConvert.convert(product);
@@ -233,39 +230,49 @@ public class ProductApplicationService {
     }
 
 
-    public ProductBO changeNewStatus(String productId, boolean newFlag){
-        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
-        productSaveDTO.setId(productId);
-        productSaveDTO.setNewFlag(newFlag);
-        return updateProduct(productSaveDTO);
+    public int changeNewStatus(String productId, boolean newFlag){
+        if(newFlag){
+            productDomainService.setNews(new ProductId(productId));
+        }else{
+            productDomainService.cancelNews(new ProductId(productId));
+        }
+        return 1;
     }
 
-    public ProductBO changeEnableStatus(String productId, boolean enableFlag){
-        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
-        productSaveDTO.setId(productId);
-        productSaveDTO.setEnableFlag(enableFlag);
-        return updateProduct(productSaveDTO);
+    public int changeEnableStatus(String productId, boolean enableFlag){
+        if(enableFlag){
+            productDomainService.setEnable(new ProductId(productId));
+        }else{
+            productDomainService.cancelEnable(new ProductId(productId));
+        }
+        return 1;
     }
 
-    public ProductBO changeOnShelfStatus(String productId, int onShelfStatus){
-        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
-        productSaveDTO.setId(productId);
-        productSaveDTO.setOnShelfStatus(onShelfStatus);
-        return updateProduct(productSaveDTO);
+    public int changeOnShelfStatus(String productId, int onShelfStatus){
+        if(onShelfStatus== ProductShelfStatusEnum.OnShelf.value){
+            productDomainService.onShelf(new ProductId(productId));
+        }else  if(onShelfStatus== ProductShelfStatusEnum.OffShelf.value){
+            productDomainService.offShelf(new ProductId(productId));
+        }
+        return 1;
     }
 
-    public ProductBO changePublicStatus(String productId, boolean publicFlag){
-        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
-        productSaveDTO.setId(productId);
-        productSaveDTO.setPublicFlag(publicFlag);
-        return updateProduct(productSaveDTO);
+    public int changePublicStatus(String productId, boolean publicFlag){
+        if(publicFlag){
+            productDomainService.setPublic(new ProductId(productId));
+        }else{
+            productDomainService.cancelPublic(new ProductId(productId));
+        }
+        return 1;
     }
 
-    public ProductBO changeRecommendStatus(String productId, boolean recommendFlag){
-        ProductSaveDTO productSaveDTO = new ProductSaveDTO();
-        productSaveDTO.setId(productId);
-        productSaveDTO.setRecommendFlag(recommendFlag);
-        return updateProduct(productSaveDTO);
+    public int changeRecommendStatus(String productId, boolean recommendFlag){
+        if(recommendFlag){
+            productDomainService.setRecommend(new ProductId(productId));
+        }else{
+            productDomainService.cancelRecommend(new ProductId(productId));
+        }
+        return 1;
     }
 
 
