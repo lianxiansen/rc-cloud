@@ -22,8 +22,10 @@ public class ProductSkuImageConvert {
 
     public static List<ProductSkuImage> convertList(List<ProductSkuImageSaveDTO> list){
         List<ProductSkuImage> resList =new ArrayList<>();
-        for (ProductSkuImageSaveDTO productImageSaveDTO : list) {
-            resList.add(convert(productImageSaveDTO));
+        if(list!=null){
+            for (ProductSkuImageSaveDTO productImageSaveDTO : list) {
+                resList.add(convert(productImageSaveDTO));
+            }
         }
         return resList;
     }

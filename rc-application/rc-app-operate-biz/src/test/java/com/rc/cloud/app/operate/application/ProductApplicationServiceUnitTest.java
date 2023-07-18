@@ -3,6 +3,7 @@ package com.rc.cloud.app.operate.application;
 import cn.hutool.json.JSONUtil;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
+import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.model.product.Product;
@@ -60,8 +61,7 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
     @Autowired
     ProductApplicationService productApplicationService;
 
-    @MockBean
-    ProductDomainService productDomainServiceStub;
+
 
     @Autowired
     private IdRepository idRepository;
@@ -78,21 +78,84 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
     @DisplayName("创建商品")
     public void createProduct() {
 
-        //Product product = new Product(new ProductId(idRepository.nextId()),new TenantId("test"),
-        //        new Name("aa"));
-        //when(productDomainServiceStub.createProduct(product)).thenReturn();
         ProductSaveDTO productSaveDTO = createProductSaveDTO();
         ProductBO productBO = productApplicationService.createProduct(createProductSaveDTO());
         int random = RandomUtils.randomInteger();
         Assertions.assertTrue(ObjectUtils.isNotNull(
                 productBO.getId()) , "创建失败");
-        productSaveDTO.setAlbums(null);
-
-        ProductBO productBO2= productApplicationService.createProduct(productSaveDTO);
-        Assertions.assertTrue(ObjectUtils.isNull(
-                productBO2.getImages()) , "创建失败");
+        Assertions.assertTrue(ObjectUtils.isNotNull(
+                productBO.getDetail()!=null) , "创建失败");
+        Assertions.assertTrue(ObjectUtils.isNotNull(
+                productBO.getDicts().size()==productSaveDTO.getDicts().size()) , "创建失败");
+        Assertions.assertTrue(ObjectUtils.isNotNull(
+                productBO.getSkus().size()==productSaveDTO.getSkus().size()) , "创建失败");
 
     }
+
+    @Test
+    @DisplayName("创建商品-相册为空")
+    public void createProductWhenAlbumsIsNull() {
+        //Product product = new Product(new ProductId(idRepository.nextId()),new TenantId("test"),
+        //        new Name("aa"));
+        //when(productDomainServiceStub.createProduct(product)).thenReturn();
+        ProductSaveDTO productSaveDTO = createProductSaveDTO();
+        productSaveDTO.setAlbums(null);
+        ProductBO productBO = productApplicationService.createProduct(createProductSaveDTO());
+        Assertions.assertTrue(ObjectUtils.isNull(
+                productBO.getImages()) , "创建失败");
+
+    }
+
+
+    @Test
+    @DisplayName("创建商品-字典为空")
+    public void createProductWhenDictIsNull() {
+        //Product product = new Product(new ProductId(idRepository.nextId()),new TenantId("test"),
+        //        new Name("aa"));
+        //when(productDomainServiceStub.createProduct(product)).thenReturn();
+        ProductSaveDTO productSaveDTO = createProductSaveDTO();
+        productSaveDTO.setDicts(null);
+        ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
+        Assertions.assertTrue(
+                productBO.getDicts()==null ||
+                        productBO.getDicts().size()==0
+                 , "创建失败");
+
+    }
+
+    @Test
+    @DisplayName("创建商品-详情为空")
+    public void createProductWhenDetailIsNull() {
+        //Product product = new Product(new ProductId(idRepository.nextId()),new TenantId("test"),
+        //        new Name("aa"));
+        //when(productDomainServiceStub.createProduct(product)).thenReturn();
+        ProductSaveDTO productSaveDTO = createProductSaveDTO();
+        productSaveDTO.setDetail(null);
+        ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
+        Assertions.assertTrue(
+                productBO.getDetail()==null
+                , "创建失败");
+
+    }
+
+
+    @Test
+    @DisplayName("创建商品-规格相册为空")
+    public void createProductWhenSkuAlbumsIsNull() {
+
+        ProductSaveDTO productSaveDTO = createProductSaveDTO();
+        productSaveDTO.getSkus().forEach(
+                x-> x.setAlbums(null)
+        );
+        ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
+        for (ProductSkuBO skus : productBO.getSkus()) {
+            Assertions.assertTrue(
+                    skus.getSkuImages()==null || skus.getSkuImages().size()==0
+                     , "创建失败");
+        }
+
+    }
+
 
 
     public void createSku(String productId){

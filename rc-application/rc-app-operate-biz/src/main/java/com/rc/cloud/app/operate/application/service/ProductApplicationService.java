@@ -93,7 +93,7 @@ public class ProductApplicationService {
                     x.setId(idRepository.nextId())
             );
         }
-        if(productSaveDTO.getAttributes()!=null){
+        if(CollectionUtil.isNotEmpty(productSaveDTO.getAttributes())){
             productSaveDTO.setAttributeId(idRepository.nextId());
         }
         Product product= ProductConvert.convert(productId.id()
@@ -110,7 +110,7 @@ public class ProductApplicationService {
             productDicts = ProductDictConvert.convertList(productId.id(), tenantId.id(), productSaveDTO.getDicts());
             productDictDomainService.saveProductDict(productDicts);
         }
-        if(productSaveDTO.getDetail()!=null){
+        if(StringUtils.isNotEmpty(productSaveDTO.getDetail())){
             productSaveDTO.setDetailId(idRepository.nextId());
             productDetail = ProductDetailConvert.convert(
                     productSaveDTO.getDetailId(),
@@ -162,7 +162,7 @@ public class ProductApplicationService {
         product= ProductConvert.convert(productId.id()
                 ,tenantId.id(),productSaveDTO,false,product);
 
-        productDomainService.createProduct(product);
+        productDomainService.updateProduct(product);
 
         List<ProductDict> productDicts=null;
         ProductDetail productDetail=null;
