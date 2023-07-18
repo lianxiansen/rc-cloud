@@ -1,4 +1,4 @@
-package com.rc.cloud.app.distributor.appearance.facade;
+package com.rc.cloud.app.distributor.appearance.facade.admin;
 
 import com.rc.cloud.app.distributor.appearance.resp.DistributorContactRespVO;
 import com.rc.cloud.app.distributor.appearance.resp.DistributorContactUserRespVO;
