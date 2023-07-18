@@ -12,10 +12,10 @@ import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.brand.specification.RemoveShouldExistsSpecification;
 import com.rc.cloud.app.operate.domain.model.brand.specification.RemoveShouldNotAssociatedProductSpecification;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.BrandMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.BrandRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductRepositoryImpl;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.BrandMapper;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
@@ -62,12 +62,9 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
     @Autowired
     private BrandRepository brandRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
     @MockBean
-    private RemoveShouldNotAssociatedProductSpecification removeShouldNotAssociatedProductSpecificationStub;
-    @MockBean
-    private RemoveShouldExistsSpecification removeShouldExistsSpecificationStub;
+    private ProductRepository productRepositoryStub;
+
     private BrandCreateDTO createBrandDTO;
 
     private BrandUpdateDTO updateBrandDTO;
@@ -88,11 +85,6 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
         Assertions.assertTrue(ObjectUtils.isNotNull(brand) && createBrandDTO.getName().equals(brandBO.getName()) && createBrandDTO.getEnabled().booleanValue() == brandBO.isEnable() && createBrandDTO.getSortId().intValue() == brandBO.getSort() && createBrandDTO.getType().equals(brandBO.getType()), "创建品牌失败");
     }
 
-    @Test
-    @DisplayName("启用/禁用品牌")
-    public void changeState() {
-        Assertions.assertTrue(brandApplicationService.changeState(brandMock.getId().id()), "启用/禁用品牌");
-    }
 
 
 
@@ -109,16 +101,13 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
     @Test
     @DisplayName("删除品牌")
     public void removeBrand() {
-        when(removeShouldNotAssociatedProductSpecificationStub.isSatisfiedBy(brandMock.getId())).thenReturn(true);
-        when(removeShouldExistsSpecificationStub.isSatisfiedBy(brandMock.getId())).thenReturn(true);
+        when(productRepositoryStub.existsByBrandId(brandMock.getId())).thenReturn(true);
         Assertions.assertTrue(brandApplicationService.remove(brandMock.getId().id()), "删除品牌失败");
     }
 
     @Test
     @DisplayName("删除已关联产品的品牌")
     public void removeBrandWhenAssocatedProductThenThrowException() {
-        when(removeShouldNotAssociatedProductSpecificationStub.isSatisfiedBy(brandMock.getId())).thenReturn(false);
-        when(removeShouldExistsSpecificationStub.isSatisfiedBy(brandMock.getId())).thenReturn(true);
         Assertions.assertThrows(ServiceException.class, () -> {
             brandApplicationService.remove(brandMock.getId().id());
         });

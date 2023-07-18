@@ -41,23 +41,19 @@ public class BrandController {
 
     @GetMapping("remove")
     @Operation(summary = "删除品牌")
-    public CodeResult<Long> remove(String id) {
-        brandApplicationService.remove(id);
-        return CodeResult.ok();
+    public CodeResult<Boolean> remove(String id) {
+        if(brandApplicationService.remove(id)){
+            return CodeResult.ok();
+        }
+        return CodeResult.fail();
     }
 
 
 
-    @GetMapping("changeState")
-    @Operation(summary = "修改品牌状态")
-    public CodeResult<Long> changeState(String id) {
-        brandApplicationService.changeState(id);
-        return CodeResult.ok();
-    }
 
-    @GetMapping("selectPageResult")
+    @PostMapping("selectPageResult")
     @Operation(summary = "品牌分页查询")
-    public CodeResult<PageResult<BrandVO>> selectPageResult(BrandQueryPageDTO brandQueryPageDTO) {
+    public CodeResult<PageResult<BrandVO>> selectPageResult(@Valid @RequestBody BrandQueryPageDTO brandQueryPageDTO) {
         PageResult<BrandBO> boList = brandApplicationService.selectPageResult(brandQueryPageDTO);
         return CodeResult.ok(BrandVO.from(boList));
     }

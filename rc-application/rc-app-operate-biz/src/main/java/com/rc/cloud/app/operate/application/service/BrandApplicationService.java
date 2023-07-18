@@ -15,7 +15,6 @@ import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +22,6 @@ public class BrandApplicationService {
     @Autowired
     private BrandService brandService;
     @Autowired
-    @Qualifier("localIdRepositoryImpl")
     private IdRepository idRepository;
 
     public BrandBO create(BrandCreateDTO createBrandDTO) {
@@ -46,22 +44,6 @@ public class BrandApplicationService {
         }
         brandService.save(brand);
         return BrandBO.convert(brand);
-    }
-
-    public boolean changeState(String id) {
-        if(StringUtils.isEmpty(id)){
-            throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
-        }
-        Brand brand = brandService.findById(new BrandId(id));
-        if (ObjectUtils.isNull(brand)) {
-            throw new ServiceException(BrandErrorCodeConstants.OBJECT_NOT_EXISTS);
-        }
-        if (brand.isEnable()) {
-            brand.disable();
-        } else {
-            brand.enable();
-        }
-        return brandService.save(brand);
     }
 
 

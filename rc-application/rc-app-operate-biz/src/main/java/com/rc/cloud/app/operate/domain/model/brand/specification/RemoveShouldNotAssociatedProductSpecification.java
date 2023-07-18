@@ -18,6 +18,6 @@ public class RemoveShouldNotAssociatedProductSpecification extends AbstractSpeci
     @Override
     public boolean isSatisfiedBy(Object o) {
         BrandId brandId = (BrandId) o;
-        return productRepository.existsByBrandId(brandId);
+        return !productRepository.existsByBrandId(brandId);
     }
 }
