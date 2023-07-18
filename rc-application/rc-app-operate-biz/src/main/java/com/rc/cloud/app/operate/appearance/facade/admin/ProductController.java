@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.appearance.facade.admin;
 
+import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -25,18 +26,16 @@ public class ProductController {
     private ProductApplicationService productApplicationService;
     @PostMapping("create")
     @Operation(summary = "创建产品")
-    public CodeResult<Long> createProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
-        productApplicationService.createProduct(productSaveDTO);
-        return CodeResult.ok();
+    public CodeResult<ProductBO> createProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
+        return CodeResult.ok( productApplicationService.createProduct(productSaveDTO));
     }
 
 
 
     @PostMapping("edit")
     @Operation(summary = "修改产品")
-    public CodeResult<Long> editProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
-        productApplicationService.updateProduct(productSaveDTO);
-        return CodeResult.ok();
+    public CodeResult<ProductBO> editProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
+        return CodeResult.ok( productApplicationService.updateProduct(productSaveDTO));
     }
 
     @PostMapping("changeNewStatus")
