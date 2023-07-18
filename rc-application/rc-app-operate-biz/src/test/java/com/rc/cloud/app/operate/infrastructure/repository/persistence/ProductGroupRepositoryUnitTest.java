@@ -14,7 +14,7 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.util.TenantContext;
-import com.rc.cloud.common.test.core.ut.OperateDbUnitTest;
+import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.jdbc.Sql;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -36,7 +37,8 @@ import static org.mockito.Mockito.when;
  */
 @Import({  LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
 @DisplayName("产品组合资源库单元测试")
-public class ProductGroupRepositoryUnitTest extends OperateDbUnitTest {
+@Sql(scripts = {"/sql/clean.sql","/sql/init_data.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+public class ProductGroupRepositoryUnitTest extends BaseDbUnitTest {
     @Autowired
     private ProductGroupRepository productGroupRepository;
     @Resource
@@ -53,14 +55,13 @@ public class ProductGroupRepositoryUnitTest extends OperateDbUnitTest {
     private ProductId productId;
     @BeforeEach
     public void beforeEach() {
-        productGroupId=new ProductGroupId("870ef1f5-39d2-4f48-8c67-ae45206");
-        productId=new ProductId("5c491caf-1df2-4bad-a04b-67976a7");
+        initFixture();
     }
 
 
     @Test
     public void save() {
-        ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), productGroupCreateDTO.getName(),
+        ProductGroup productGroup = new ProductGroup(productGroupId, productGroupCreateDTO.getName(),
                 new TenantId(TenantContext.getTenantId()), new ProductId(productGroupCreateDTO.getProductId()));
         for(int i=0;i<10;i++){
             ProductGroupItem item = new ProductGroupItem(new ProductGroupItemId(idRepository.nextId()), productGroup.getId(), productMock.getId());
@@ -83,19 +84,19 @@ public class ProductGroupRepositoryUnitTest extends OperateDbUnitTest {
         Assertions.assertNotNull(productGroup);
     }
 
-    private void initStub() {
-
-    }
 
     /**
      * 初始化夹具
      */
     private void initFixture() {
         TenantContext.setTenantId("test");
-        productMock = new Product(new ProductId(idRepository.nextId()), new TenantId(RandomUtils.randomString()), new Name(RandomUtils.randomString()));
+        productGroupId=new ProductGroupId("870ef1f5-39d2-4f48-8c67-ae45206");
+        productId=new ProductId("5c491caf-1df2-4bad-a04b-67976a7");
+        productMock = new Product(productId, new TenantId(RandomUtils.randomString()), new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         productGroupCreateDTO = new ProductGroupCreateDTO();
         productGroupCreateDTO.setName(RandomUtils.randomString());
         productGroupCreateDTO.setProductId(productMock.getId().id());
+
     }
 }
