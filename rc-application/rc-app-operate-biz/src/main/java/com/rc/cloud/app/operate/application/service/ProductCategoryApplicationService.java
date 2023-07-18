@@ -117,21 +117,5 @@ public class ProductCategoryApplicationService {
         return ProductCategoryBO.convertBatch(productCategoryList);
     }
 
-    public void changeState(String id){
-        if(StringUtils.isEmpty(id)){
-            throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
-        }
-        ProductCategory productCategory=productCategoryService.findById(new ProductCategoryId(id));
-        if(ObjectUtils.isNull(productCategory)){
-            throw new ServiceException(ProductCategoryErrorCodeConstants.OBJECT_NOT_EXISTS);
-        }
-        if(productCategory.getEnabled().isTrue()){
-            productCategoryService.disable(productCategory);
-        }
-        else{
-            productCategoryService.enable(productCategory);
-        }
-
-    }
 
 }

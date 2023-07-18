@@ -23,6 +23,6 @@ public class RemoveShouldNotHasChildSpecification extends AbstractSpecification 
     @Override
     public boolean isSatisfiedBy(Object o) {
         ProductCategoryId productCategoryId= (ProductCategoryId) o;
-        return productCategoryRepository.existsByParentId(productCategoryId);
+        return !productCategoryRepository.existsByParentId(productCategoryId);
     }
 }

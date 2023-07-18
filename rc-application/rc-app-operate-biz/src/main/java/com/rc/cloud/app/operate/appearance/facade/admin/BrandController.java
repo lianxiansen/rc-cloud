@@ -28,27 +28,25 @@ public class BrandController {
 
     @PostMapping("create")
     @Operation(summary = "创建品牌")
-    public CodeResult<BrandBO> create(@Valid @RequestBody BrandCreateDTO brandCreateDTO) {
-        return CodeResult.ok(brandApplicationService.create(brandCreateDTO));
+    public CodeResult<BrandVO> create(@Valid @RequestBody BrandCreateDTO brandCreateDTO) {
+        return CodeResult.ok(BrandVO.from(brandApplicationService.create(brandCreateDTO)));
     }
 
 
     @PostMapping("update")
     @Operation(summary = "更新品牌")
-    public CodeResult<BrandBO> update(@Valid @RequestBody BrandUpdateDTO brandUpdateDTO) {
-        return CodeResult.ok(brandApplicationService.update(brandUpdateDTO));
+    public CodeResult<BrandVO> update(@Valid @RequestBody BrandUpdateDTO brandUpdateDTO) {
+        return CodeResult.ok(BrandVO.from(brandApplicationService.update(brandUpdateDTO)));
     }
 
     @GetMapping("remove")
     @Operation(summary = "删除品牌")
-    public CodeResult<Boolean> remove(String id) {
-        if(brandApplicationService.remove(id)){
+    public CodeResult remove(String id) {
+        if (brandApplicationService.remove(id)) {
             return CodeResult.ok();
         }
         return CodeResult.fail();
     }
-
-
 
 
     @PostMapping("selectPageResult")

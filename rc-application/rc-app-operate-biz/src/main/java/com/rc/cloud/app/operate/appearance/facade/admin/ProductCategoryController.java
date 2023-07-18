@@ -41,22 +41,18 @@ public class ProductCategoryController {
     @GetMapping("remove")
     @Operation(summary = "删除产品分类")
     public CodeResult<Long> remove(String id) {
-        productCategoryApplicationService.remove(id);
-        return CodeResult.ok();
+        if(productCategoryApplicationService.remove(id)){
+            return CodeResult.ok();
+        }
+        return CodeResult.fail();
     }
 
-    @GetMapping("findAll")
-    @Operation(summary = "产品类目分类")
+    @PostMapping("findAll")
+    @Operation(summary = "产品分类列表")
     public CodeResult<List<ProductCategoryVO>> findAll() {
         List<ProductCategoryBO> boList = productCategoryApplicationService.findAll();
         return CodeResult.ok(ProductCategoryVO.from(boList));
     }
 
-    @GetMapping("changeState")
-    @Operation(summary = "产品分类状态")
-    public CodeResult<Long> changeState(String id) {
-        productCategoryApplicationService.changeState(id);
-        return CodeResult.ok();
-    }
 
 }

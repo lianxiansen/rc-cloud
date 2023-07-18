@@ -19,6 +19,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 
+import java.nio.charset.Charset;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -54,6 +56,7 @@ public class BrandControllerIntegratedTest {
                 .writeValueAsString(dto);
         mvc.perform(post("/operate/brand/create")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -77,6 +80,7 @@ public class BrandControllerIntegratedTest {
                 .writeValueAsString(dto);
         mvc.perform(post("/operate/brand/update")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -104,12 +108,13 @@ public class BrandControllerIntegratedTest {
         BrandQueryPageDTO dto = new BrandQueryPageDTO();
         dto.setPageNo(1);
         dto.setPageSize(10);
-        dto.setName("pinpai");
+//        dto.setName("pinpai");
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
         mvc.perform(post("/operate/brand/selectPageResult")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
