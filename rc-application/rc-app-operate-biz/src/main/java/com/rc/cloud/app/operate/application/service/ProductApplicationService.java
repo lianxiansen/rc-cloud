@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.application.service;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.convert.ProductConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductDetailConvert;
@@ -31,6 +32,7 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.StringUtils;
+import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,25 +87,38 @@ public class ProductApplicationService {
 
         ProductId productId =new ProductId(idRepository.nextId());
         TenantId tenantId = new TenantId(productSaveDTO.getTenantId());
+
+        if(CollectionUtil.isNotEmpty(productSaveDTO.getAlbums())){
+            productSaveDTO.getAlbums().forEach(x->
+                    x.setId(idRepository.nextId())
+            );
+        }
+        if(productSaveDTO.getAttributes()!=null){
+            productSaveDTO.setAttributeId(idRepository.nextId());
+        }
         Product product= ProductConvert.convert(productId.id()
                 ,tenantId.id(),productSaveDTO,true,null);
 
-        if(productSaveDTO.getAlbums()!=null){
-            productSaveDTO.getAlbums().forEach(x->
-                    x.setId(idRepository.nextId())
-                    );
-        }
         productDomainService.createProduct(product);
+        List<ProductDict> productDicts=null;
+        ProductDetail productDetail =null;
         //设置字典
-        List<ProductDict> productDicts = ProductDictConvert.convertList(productId.id(), tenantId.id(), productSaveDTO.getDicts());
-        productDictDomainService.saveProductDict(productDicts);
-
-        ProductDetail productDetail = ProductDetailConvert.convert(
-                productSaveDTO.getDetailId(),
-                tenantId.id(),
-                productId.id(),
-                productSaveDTO.getDetail());
-        productDetailDomainService.saveProductDetail(productDetail);
+        if(CollectionUtil.isNotEmpty(productSaveDTO.getDicts())){
+            productSaveDTO.getDicts().forEach(
+                    x->x.setId(idRepository.nextId())
+            );
+            productDicts = ProductDictConvert.convertList(productId.id(), tenantId.id(), productSaveDTO.getDicts());
+            productDictDomainService.saveProductDict(productDicts);
+        }
+        if(productSaveDTO.getDetail()!=null){
+            productSaveDTO.setDetailId(idRepository.nextId());
+            productDetail = ProductDetailConvert.convert(
+                    productSaveDTO.getDetailId(),
+                    tenantId.id(),
+                    productId.id(),
+                    productSaveDTO.getDetail());
+            productDetailDomainService.saveProductDetail(productDetail);
+        }
         //保存sku
         List<ProductSkuSaveDTO> skus = productSaveDTO.getSkus();
         if (skus == null || skus.size() <= 0) {
@@ -111,6 +126,12 @@ public class ProductApplicationService {
         }
         List<ProductSku> productSkuList=new ArrayList<>();
         for (ProductSkuSaveDTO productSkuSaveDTO : skus) {
+            if(CollectionUtil.isNotEmpty(productSkuSaveDTO.getAlbums())){
+                productSkuSaveDTO.getAlbums().forEach(
+                        x->x.setId(idRepository.nextId())
+                );
+            }
+            productSkuSaveDTO.setAttributeId(idRepository.nextId());
             ProductSkuId productSkuId = new ProductSkuId(idRepository.nextId());
             ProductSku productSku = ProductSkuConvert.convert(productSkuId, productId
                     , tenantId, productSkuSaveDTO, true, null);

@@ -4,6 +4,7 @@ import com.rc.cloud.app.operate.application.bo.*;
 import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductImageSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
+import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
@@ -238,7 +239,11 @@ public class ProductConvert
 
     private static Product setOnShelfStatus(Integer onshelfStatus, boolean isCreate, Product product){
         if(isCreate){
-            product.setOnshelfStatus(new OnshelfStatus(onshelfStatus));
+            if(onshelfStatus!=null){
+                product.setOnshelfStatus(new OnshelfStatus(onshelfStatus));
+            }else{
+                product.setOnshelfStatus(new OnshelfStatus(ProductShelfStatusEnum.InitShelf.value));
+            }
         }else{
             if (onshelfStatus != null) {
                 product.setOnshelfStatus(new OnshelfStatus(onshelfStatus));

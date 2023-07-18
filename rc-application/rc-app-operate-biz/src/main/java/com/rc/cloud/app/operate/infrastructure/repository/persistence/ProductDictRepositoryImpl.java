@@ -7,6 +7,7 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.Pr
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductDictMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductDictPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +15,8 @@ import java.util.List;
 @Repository
 public class ProductDictRepositoryImpl implements ProductDictRepository {
 
+
+    @Autowired
     private ProductDictMapper productDictMapper;
 
 
