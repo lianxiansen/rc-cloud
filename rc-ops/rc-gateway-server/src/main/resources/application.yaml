@@ -57,6 +57,11 @@ spring:
           uri: lb://rc-base-config
           predicates:
             - Path=/base-config/**
+        # 文件上传 模块
+        - id: rc-ops-resource
+          uri: lb://rc-ops-resource
+          predicates:
+            - Path=/resource/**
         # 代码生成模块
 #        - id: rc-codegen
 #          uri: lb://rc-codegen
