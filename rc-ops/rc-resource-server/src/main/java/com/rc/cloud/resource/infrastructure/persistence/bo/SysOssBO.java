@@ -1,4 +1,4 @@
-package com.rc.cloud.resource.infrastructure.persistence.entity;
+package com.rc.cloud.resource.infrastructure.persistence.bo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_oss")
-public class SysOssDO extends BaseDO {
+public class SysOssBO extends BaseDO {
 
     /**
      * ID

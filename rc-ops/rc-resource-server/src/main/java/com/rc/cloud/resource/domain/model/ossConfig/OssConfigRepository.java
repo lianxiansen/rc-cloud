@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.rc.cloud.common.mybatis.page.PageQuery;
 import com.rc.cloud.resource.application.dto.OssConfigDTO;
-import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssConfigDO;
+import com.rc.cloud.resource.infrastructure.persistence.bo.SysOssConfigBO;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,9 +35,9 @@ public interface OssConfigRepository {
      */
     Boolean store(OssConfig ossConfig);
 
-    int store(OssConfig ossConfig, LambdaUpdateWrapper<SysOssConfigDO> luw);
+    int store(OssConfig ossConfig, LambdaUpdateWrapper<SysOssConfigBO> luw);
 
-    Page<OssConfigDTO> store(PageQuery pageQuery, LambdaQueryWrapper<SysOssConfigDO> luw);
+    Page<OssConfigDTO> store(PageQuery pageQuery, LambdaQueryWrapper<SysOssConfigBO> luw);
 
     /**
      * 删除文件存储配置

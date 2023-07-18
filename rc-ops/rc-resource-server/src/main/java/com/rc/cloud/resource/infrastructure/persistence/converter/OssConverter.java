@@ -3,7 +3,7 @@ package com.rc.cloud.resource.infrastructure.persistence.converter;
 import cn.hutool.core.bean.BeanUtil;
 import com.rc.cloud.resource.application.command.OssCommand;
 import com.rc.cloud.resource.domain.model.oss.Oss;
-import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssDO;
+import com.rc.cloud.resource.infrastructure.persistence.bo.SysOssBO;
 
 /**
  * Oss转换类
@@ -14,19 +14,18 @@ import com.rc.cloud.resource.infrastructure.persistence.entity.SysOssDO;
 public class OssConverter {
 
 
-    public static SysOssDO fromOss(Oss oss) {
-        SysOssDO sysOssDO = new SysOssDO();
-        BeanUtil.copyProperties(oss, sysOssDO);
-        sysOssDO.setId(oss.getId());
-        return sysOssDO;
+    public static SysOssBO fromOss(Oss oss) {
+        SysOssBO sysOssBO = new SysOssBO();
+        BeanUtil.copyProperties(oss, sysOssBO);
+        return sysOssBO;
     }
 
-    public static Oss toOss(SysOssDO sysOssDO) {
-        if (sysOssDO == null) {
+    public static Oss toOss(SysOssBO sysOssBO) {
+        if (sysOssBO == null) {
             return null;
         }
-        Oss oss = new Oss(sysOssDO.getId(), sysOssDO.getFileName(),
-                sysOssDO.getOriginalName(), sysOssDO.getFileSuffix(), sysOssDO.getUrl(), sysOssDO.getService());
+        Oss oss = new Oss(sysOssBO.getId(), sysOssBO.getFileName(),
+                sysOssBO.getOriginalName(), sysOssBO.getFileSuffix(), sysOssBO.getUrl(), sysOssBO.getService());
         return oss;
     }
 
