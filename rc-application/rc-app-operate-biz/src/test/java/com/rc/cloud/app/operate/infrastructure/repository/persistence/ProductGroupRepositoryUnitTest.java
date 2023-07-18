@@ -80,7 +80,7 @@ public class ProductGroupRepositoryUnitTest extends BaseDbUnitTest {
     @Test
     @DisplayName("获取产品组合列表")
     public void selectList(){
-        List<ProductGroup> productGroup=  productGroupRepository.selectList(productId);
+        List<ProductGroup> productGroup=  productGroupRepository.findAll(productId);
         Assertions.assertNotNull(productGroup);
     }
 

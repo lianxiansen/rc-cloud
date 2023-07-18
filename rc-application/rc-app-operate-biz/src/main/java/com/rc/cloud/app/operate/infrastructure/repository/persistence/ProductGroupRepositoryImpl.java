@@ -104,7 +104,7 @@ public class ProductGroupRepositoryImpl implements ProductGroupRepository {
     }
 
     @Override
-    public List<ProductGroup> selectList(ProductId productId) {
+    public List<ProductGroup> findAll(ProductId productId) {
         LambdaQueryWrapperX<ProductGroupPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductGroupPO::getProductId, productId.id());
         List<ProductGroupPO> pos = productGroupMapper.selectList(wrapper);

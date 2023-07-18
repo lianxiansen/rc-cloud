@@ -65,11 +65,11 @@ public class ProductGroupApplicationService {
     }
 
 
-    public List<ProductGroupBO> selectList(String productId) {
+    public List<ProductGroupBO> findAll(String productId) {
         if (StringUtils.isEmpty(productId)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
         }
-        List<ProductGroup> groupList = productGroupRepository.selectList(new ProductId(productId));
+        List<ProductGroup> groupList = productGroupRepository.findAll(new ProductId(productId));
         return ProductGroupConvert.convert2ProductGroupBOBatch(groupList);
     }
 
