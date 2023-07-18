@@ -1,4 +1,4 @@
-package com.rc.cloud.app.distributor.appearance.facade;
+package com.rc.cloud.app.distributor.appearance.facade.admin;
 
 import com.rc.cloud.app.distributor.appearance.req.DistributorReputationPageReqVO;
 import com.rc.cloud.app.distributor.appearance.req.DistributorReputationUpdateReqVO;
