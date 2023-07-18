@@ -22,11 +22,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.annotation.Resource;
 
@@ -40,7 +38,6 @@ import static org.mockito.Mockito.when;
  */
 @Import({ProductGroupApplicationService.class, LocalIdRepositoryImpl.class,ProductGroupController.class})
 @DisplayName("产品组合控制器单元测试")
-@ExtendWith(SpringExtension.class)
 public class ProductGroupControllerUnitTest extends SpringMockitoUnitTest {
     @Autowired
     private ProductGroupController productGroupControler;

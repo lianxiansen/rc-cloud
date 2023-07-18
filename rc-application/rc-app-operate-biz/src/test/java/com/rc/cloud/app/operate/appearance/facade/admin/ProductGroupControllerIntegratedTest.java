@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.acceptance;
+package com.rc.cloud.app.operate.appearance.facade.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * 3.添加组合项
  */
 @RcTest
-public class ProductGroupAcceptanceTest {
+public class ProductGroupControllerIntegratedTest {
     private MockMvc mvc;
     @Autowired
     private WebApplicationContext context;
