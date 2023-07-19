@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.appearance.convert;
+package com.rc.cloud.app.operate.appearance.admin.convert;
 
 import com.rc.cloud.app.operate.appearance.admin.res.BrandResponse;
 import com.rc.cloud.app.operate.application.bo.BrandBO;

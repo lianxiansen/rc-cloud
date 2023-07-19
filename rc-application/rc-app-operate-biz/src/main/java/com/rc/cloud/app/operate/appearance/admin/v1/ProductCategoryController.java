@@ -18,7 +18,7 @@ import java.util.List;
 
 @Tag(name = "产品分类")
 @RestController
-@RequestMapping("/operate/productCategory")
+@RequestMapping("/operate/admin/productCategory")
 @Validated
 public class ProductCategoryController {
 

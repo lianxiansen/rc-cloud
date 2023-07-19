@@ -1,8 +1,8 @@
 package com.rc.cloud.app.operate.appearance.admin.res;
 
 
-import com.rc.cloud.app.operate.appearance.convert.ProductGroupConvert;
-import com.rc.cloud.app.operate.appearance.convert.ProductGroupItemConvert;
+import com.rc.cloud.app.operate.appearance.admin.convert.ProductGroupConvert;
+import com.rc.cloud.app.operate.appearance.admin.convert.ProductGroupItemConvert;
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
 import lombok.Data;
 import lombok.experimental.Accessors;

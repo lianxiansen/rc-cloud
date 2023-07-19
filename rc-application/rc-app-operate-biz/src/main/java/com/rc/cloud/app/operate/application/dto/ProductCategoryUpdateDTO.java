@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Accessors(chain = true)
 public class ProductCategoryUpdateDTO {
     @NotNull(message = "产品分类唯一标识不为空")
-    private String Id;
+    private String id;
 
     private String name;
 

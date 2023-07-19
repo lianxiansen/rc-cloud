@@ -1,8 +1,8 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
 import com.rc.cloud.app.operate.appearance.admin.res.ProductGroupItemResponse;
-import com.rc.cloud.app.operate.appearance.convert.ProductGroupConvert;
-import com.rc.cloud.app.operate.appearance.convert.ProductGroupItemConvert;
+import com.rc.cloud.app.operate.appearance.admin.convert.ProductGroupConvert;
+import com.rc.cloud.app.operate.appearance.admin.convert.ProductGroupItemConvert;
 import com.rc.cloud.app.operate.appearance.admin.res.ProductGroupResponse;
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
 import com.rc.cloud.app.operate.application.bo.ProductGroupItemBO;
@@ -22,7 +22,7 @@ import java.util.List;
 
 @Tag(name = "产品组合")
 @RestController
-@RequestMapping("/operate/productGroup")
+@RequestMapping("/operate/admin/productGroup")
 @Validated
 public class ProductGroupController {
 
