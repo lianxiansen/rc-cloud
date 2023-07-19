@@ -22,9 +22,12 @@ public class ProductImageConvert {
 
     public static List<ProductImage> convertList(List<ProductImageSaveDTO> list){
         List<ProductImage> resList =new ArrayList<>();
-        for (ProductImageSaveDTO productImageSaveDTO : list) {
-            resList.add(convert(productImageSaveDTO));
+        if(list!=null){
+            for (ProductImageSaveDTO productImageSaveDTO : list) {
+                resList.add(convert(productImageSaveDTO));
+            }
         }
+
         return resList;
     }
 

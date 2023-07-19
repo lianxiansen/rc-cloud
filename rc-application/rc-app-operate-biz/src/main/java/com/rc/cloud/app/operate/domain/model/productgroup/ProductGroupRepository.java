@@ -23,5 +23,5 @@ public interface ProductGroupRepository {
 
     boolean itemExist(ProductGroupId productGroupId, ProductId productId);
 
-    List<ProductGroup> selectList(ProductId productId);
+    List<ProductGroup> findAll(ProductId productId);
 }

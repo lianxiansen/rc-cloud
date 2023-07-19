@@ -10,6 +10,7 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.Pro
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductDetailPO;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -17,14 +18,9 @@ import javax.annotation.Resource;
 @Repository
 public class ProductDetailRepositoryImpl implements ProductDetailRepository {
 
+    @Autowired
     ProductDetailMapper productDetailMapper;
-    @Resource
-    private RemoteIdGeneratorService remoteIdGeneratorService;
 
-    @Override
-    public String nextId() {
-        return remoteIdGeneratorService.uidGenerator();
-    }
 
     @Override
     public void saveProductDetail(ProductDetail productDetail) {
