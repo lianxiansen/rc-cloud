@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @Tag(name = "管理后台 - 登录日志")
 @RestController
-@RequestMapping("/admin/v1/login-log")
+@RequestMapping("/admin/login-log")
 @Validated
 public class LoginLogController {
 

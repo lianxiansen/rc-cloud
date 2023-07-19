@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Tag(name = "管理后台 - 租户")
 @RestController
-@RequestMapping("/admin/v1/tenant")
+@RequestMapping("/admin/tenant")
 public class TenantController {
 
     @Resource

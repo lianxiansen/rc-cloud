@@ -35,7 +35,7 @@ import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertLi
  */
 @Tag(name = "管理后台 - 用户")
 @RestController
-@RequestMapping("/admin/v1/user")
+@RequestMapping("/admin/user")
 @Validated
 public class UserController {
 
