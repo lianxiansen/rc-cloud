@@ -47,7 +47,7 @@ public class BrandControllerIntegratedTest {
     public void create() throws Exception {
         BrandCreateDTO dto = new BrandCreateDTO();
         dto = new BrandCreateDTO();
-        dto.setName(RandomUtils.randomString()).setSortId(RandomUtils.randomInteger()).setEnabled(new Boolean(true)).setType(RandomUtils.randomString());
+        dto.setName(RandomUtils.randomString()).setSortId(1).setEnabled(new Boolean(true)).setType(RandomUtils.randomString());
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
@@ -68,7 +68,7 @@ public class BrandControllerIntegratedTest {
     public void update() throws Exception {
         BrandUpdateDTO dto = new BrandUpdateDTO();
         dto.setName(RandomUtils.randomString())
-                .setSortId(RandomUtils.randomInteger())
+                .setSortId(1)
                 .setEnabled(new Boolean(true))
                 .setType(RandomUtils.randomString());
         dto.setId("f7570440-f052-462c-b6a8-984b799");
@@ -92,7 +92,7 @@ public class BrandControllerIntegratedTest {
     @Test
     public void remove() throws Exception {
         String brandId="f7570440-f052-462c-b6a8-984b799";
-        mvc.perform(get("/operate/admin/brand/remove").param("id", brandId))
+        mvc.perform(delete("/operate/admin/brand/remove").param("id", brandId))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))

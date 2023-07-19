@@ -1,3 +1,4 @@
+/*产品组合*/
 INSERT INTO `product_group` VALUES ('870ef1f5-39d2-4f48-8c67-ae45206', '测试', 'test', '5c491caf-1df2-4bad-a04b-67976a7', '0', NULL, '2023-07-17 10:18:08', NULL, '2023-07-17 10:18:37');
 
 INSERT INTO `product_group_item` (`id`, `product_group_id`, `product_id`, `deleted`, `creator`, `create_time`, `updater`, `update_time`) VALUES ('2b4cfb6d-07df-4086-8549-8d6194c', '870ef1f5-39d2-4f48-8c67-ae45206', '5c491caf-1df2-4bad-a04b-67976a7', '0', NULL, '2023-07-17 14:12:57', NULL, '2023-07-17 14:16:01');
