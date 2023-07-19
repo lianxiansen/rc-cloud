@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @Tag(name = "品牌")
 @RestController
-@RequestMapping("/operate/admin/brand")
+@RequestMapping("/admin/brand")
 @Validated
 public class BrandController {
 
@@ -54,6 +54,14 @@ public class BrandController {
     public CodeResult<PageResult<BrandResponse>> selectPageResult(@Valid BrandQueryPageDTO brandQueryPageDTO) {
         PageResult<BrandBO> boList = brandApplicationService.selectPageResult(brandQueryPageDTO);
         return CodeResult.ok(BrandResponse.from(boList));
+    }
+
+
+    @GetMapping("findById")
+    @Operation(summary = "根据唯一标识查找品牌")
+    public CodeResult<BrandResponse> findById(@RequestParam(name = "id",required = true) String id) {
+        BrandBO bo = brandApplicationService.findById(id);
+        return CodeResult.ok(BrandResponse.from(bo));
     }
 
 }
