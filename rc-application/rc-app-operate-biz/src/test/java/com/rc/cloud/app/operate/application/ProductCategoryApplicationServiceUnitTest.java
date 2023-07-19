@@ -157,7 +157,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
                 productCategoryUpdateDTO.getIcon().equals(productCategory.getIcon().getPictureUrl()) &&
                 productCategoryUpdateDTO.getProductCategoryPageImage().equals(productCategory.getPage().getCategoryImage()) &&
                 productCategoryUpdateDTO.getProductListPageImage().equals(productCategory.getPage().getListImage()) &&
-                productCategoryUpdateDTO.getSortId().equals(productCategory.getSort().getValue()), "修改产品分类属性失败");
+                productCategoryUpdateDTO.getSort().equals(productCategory.getSort().getValue()), "修改产品分类属性失败");
 
     }
 
@@ -187,7 +187,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
                 productCategoryUpdateDTO.getIcon().equals(sonFuture.getIcon().getPictureUrl()) &&
                 productCategoryUpdateDTO.getProductCategoryPageImage().equals(sonFuture.getPage().getCategoryImage()) &&
                 productCategoryUpdateDTO.getProductListPageImage().equals(sonFuture.getPage().getListImage()) &&
-                productCategoryUpdateDTO.getSortId().equals(sonFuture.getSort().getValue()) &&
+                productCategoryUpdateDTO.getSort().equals(sonFuture.getSort().getValue()) &&
                 root.getId().equals(sonFuture.getParentId()), "创建子产品分类失败");
 
     }
@@ -241,7 +241,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
         productCategoryCreateDTO = new ProductCategoryCreateDTO();
         productCategoryCreateDTO.setProductCategoryPageImage(imgUrl).setEnglishName(RandomUtils.randomString()).setName(RandomUtils.randomString()).setIcon(imgUrl).setSortId(9).setEnabled(true).setProductListPageImage(imgUrl);
         productCategoryUpdateDTO = new ProductCategoryUpdateDTO();
-        productCategoryUpdateDTO.setProductCategoryPageImage(imgUrl).setEnglishName(RandomUtils.randomString()).setName(RandomUtils.randomString()).setIcon(imgUrl).setSortId(9).setEnabled(true).setProductListPageImage(imgUrl);
+        productCategoryUpdateDTO.setProductCategoryPageImage(imgUrl).setEnglishName(RandomUtils.randomString()).setName(RandomUtils.randomString()).setIcon(imgUrl).setSort(9).setEnabled(true).setProductListPageImage(imgUrl);
         ProductCategoryBO productCategoryBO = productCategoryApplicationService.create(productCategoryCreateDTO);
         root = productCategoryService.findById(new ProductCategoryId(productCategoryBO.getId()));
     }

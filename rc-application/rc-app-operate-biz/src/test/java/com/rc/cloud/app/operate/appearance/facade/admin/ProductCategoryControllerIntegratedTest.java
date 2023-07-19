@@ -89,7 +89,7 @@ public class ProductCategoryControllerIntegratedTest {
         dto.setProductCategoryPageImage(imgUrl)
                 .setEnglishName(RandomUtils.randomString())
                 .setName(RandomUtils.randomString())
-                .setIcon(imgUrl).setSortId(9)
+                .setIcon(imgUrl).setSort(9)
                 .setEnabled(true)
                 .setProductListPageImage(imgUrl)
                 .setId("72f7ae9e-2ff8-45aa-b61b-59ee913")

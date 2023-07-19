@@ -92,8 +92,8 @@ public class ProductCategoryApplicationService {
         if (StringUtils.isNotEmpty(productCategoryUpdateDTO.getProductListPageImage())) {
             productCategory.setPage(new Page(productCategory.getPage().getCategoryImage(), productCategoryUpdateDTO.getProductListPageImage()));
         }
-        if (Objects.nonNull(productCategoryUpdateDTO.getSortId())) {
-            productCategory.setSort(new Sort(productCategoryUpdateDTO.getSortId()));
+        if (Objects.nonNull(productCategoryUpdateDTO.getSort())) {
+            productCategory.setSort(new Sort(productCategoryUpdateDTO.getSort()));
         }
         if (Objects.nonNull(productCategoryUpdateDTO.getEnabled())) {
             if(productCategoryUpdateDTO.getEnabled().booleanValue()){
