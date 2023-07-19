@@ -15,7 +15,7 @@ public class BrandPO extends BaseDO {
 
     private static final long serialVersionUID = 2343242L;
     @TableField("id")
-    private String Id;
+    private String id;
 
     @TableField("name")
     private String name;

@@ -4,7 +4,6 @@ import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
-import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.AggregateRoot;
 import com.rc.cloud.common.core.util.AssertUtils;
@@ -222,7 +221,7 @@ public class Product extends AggregateRoot {
     /**
      * 最低起购量
      */
-    private LowestBuy lowestBuy;
+    private PackingLowestBuy packingLowestBuy;
 
     /**
      * 推广
@@ -233,11 +232,6 @@ public class Product extends AggregateRoot {
      * 分销
      */
     private Distribution distribution;
-
-    /**
-     * 退款
-     */
-    private Refund refund;
 
     /**
      * 秒杀
@@ -435,8 +429,8 @@ public class Product extends AggregateRoot {
         return freight;
     }
 
-    public LowestBuy getLowestBuy() {
-        return lowestBuy;
+    public PackingLowestBuy getLowestBuy() {
+        return packingLowestBuy;
     }
 
     public Popularization getPopularization() {
@@ -445,10 +439,6 @@ public class Product extends AggregateRoot {
 
     public Distribution getDistribution() {
         return distribution;
-    }
-
-    public Refund getRefund() {
-        return refund;
     }
 
     public Seckill getSeckill() {

@@ -35,8 +35,8 @@ public class BrandRepositoryImpl implements BrandRepository {
 
     @Override
     public Brand findById(BrandId brandId) {
-        BrandPO brandPO=brandMapper.selectById((Serializable)brandId.id());
-        if(Objects.isNull(brandPO)){
+        BrandPO brandPO = brandMapper.selectById((Serializable) brandId.id());
+        if (Objects.isNull(brandPO)) {
             return null;
         }
         return BrandConvert.convert2Brand(brandPO);
@@ -45,7 +45,7 @@ public class BrandRepositoryImpl implements BrandRepository {
 
     @Override
     public boolean removeById(BrandId brandId) {
-        return brandMapper.deleteById((Serializable)brandId.id()) > 0;
+        return brandMapper.deleteById((Serializable) brandId.id()) > 0;
     }
 
     @Override
@@ -54,15 +54,16 @@ public class BrandRepositoryImpl implements BrandRepository {
         param.setPageNo(pageNo);
         param.setPageSize(pageSize);
         param.setName(name);
-        PageResult<BrandPO> brandDOPageResult=brandMapper.selectPage(param, new LambdaQueryWrapperX<BrandPO>()
-                .likeIfPresent(BrandPO::getName, param.getName())
-                .orderByDesc(BrandPO::getId));
+        LambdaQueryWrapperX wrapper = new LambdaQueryWrapperX<BrandPO>()
+                .likeIfPresent(BrandPO::getName, param.getName()).orderByDesc(BrandPO::getId);
+        PageResult<BrandPO> brandDOPageResult = brandMapper.selectPage(param, wrapper);
+
         return BrandConvert.convert2BrandPageResult(brandDOPageResult);
     }
 
 
-
 }
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)

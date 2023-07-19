@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 @Tag(name = "产品")
 @RestController
-@RequestMapping("/operate/product")
+@RequestMapping("/operate/admin/product")
 @Validated
 public class ProductController {
 

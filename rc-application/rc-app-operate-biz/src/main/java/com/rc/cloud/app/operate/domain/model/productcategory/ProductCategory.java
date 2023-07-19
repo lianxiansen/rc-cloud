@@ -13,18 +13,42 @@ import com.rc.cloud.common.core.util.AssertUtils;
  * @ClassName: ProductCategoryEntry
  * @Author: liandy
  * @Date: 2023/6/23 13:09
- * @Description: 商品分类
+ * @Description: 产品分类
  */
 public class ProductCategory extends AggregateRoot {
     private ProductCategoryId id;
     private TenantId tenantId;
+    /**
+     * 分类名
+     */
     private ChName chName;
+    /**
+     * 分类名（英文名）
+     */
     private EnName enName;
+    /**
+     * 图标图片
+     */
     private Icon icon;
+    /**
+     * 页面
+     */
     private Page page;
+    /**
+     * 层级
+     */
     private Layer layer;
+    /**
+     * 父级产品分类唯一标识
+     */
     private ProductCategoryId parentId;
+    /**
+     * 状态，是否启用
+     */
     private Enabled enabled;
+    /**
+     * 排序
+     */
     private Sort sort;
 
     public ProductCategory(ProductCategoryId id, TenantId tenantId, ChName name) {

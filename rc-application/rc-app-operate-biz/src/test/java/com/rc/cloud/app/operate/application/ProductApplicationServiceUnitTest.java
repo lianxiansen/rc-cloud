@@ -89,7 +89,6 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
                 productBO.getDicts().size()==productSaveDTO.getDicts().size()) , "创建失败");
         Assertions.assertTrue(ObjectUtils.isNotNull(
                 productBO.getSkus().size()==productSaveDTO.getSkus().size()) , "创建失败");
-
     }
 
     @Test
