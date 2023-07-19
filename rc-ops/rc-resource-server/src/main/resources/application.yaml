@@ -1,6 +1,6 @@
 spring:
   application:
-    name: rc-resource-server
+    name: rc-ops-resource
   profiles:
     # 环境配置
     active: dev

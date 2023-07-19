@@ -1,7 +1,8 @@
 package com.rc.cloud.app.operate.appearance.facade.admin;
 
-import com.rc.cloud.app.operate.appearance.vo.ProductGroupItemVO;
-import com.rc.cloud.app.operate.appearance.vo.ProductGroupVO;
+import com.rc.cloud.app.operate.appearance.admin.v1.ProductGroupController;
+import com.rc.cloud.app.operate.appearance.admin.res.ProductGroupItemResponse;
+import com.rc.cloud.app.operate.appearance.admin.res.ProductGroupResponse;
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
 import com.rc.cloud.app.operate.application.bo.ProductGroupItemBO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
@@ -36,7 +37,7 @@ import static org.mockito.Mockito.when;
  * @Date: 2023/7/17 09:28
  * @Description: TODO
  */
-@Import({ProductGroupApplicationService.class, LocalIdRepositoryImpl.class,ProductGroupController.class})
+@Import({ProductGroupApplicationService.class, LocalIdRepositoryImpl.class, ProductGroupController.class})
 @DisplayName("产品组合控制器单元测试")
 public class ProductGroupControllerUnitTest extends SpringMockitoUnitTest {
     @Autowired
@@ -67,7 +68,7 @@ public class ProductGroupControllerUnitTest extends SpringMockitoUnitTest {
         bo.setProductId(productGroupCreateDTO.getProductId());
         bo.setName(productGroupCreateDTO.getName());
         when(productGroupApplicationServiceStub.create(productGroupCreateDTO)).thenReturn(bo);
-        CodeResult<ProductGroupVO> codeResult= productGroupControler.create(productGroupCreateDTO);
+        CodeResult<ProductGroupResponse> codeResult= productGroupControler.create(productGroupCreateDTO);
         Assertions.assertTrue(codeResult.isSuccess());
     }
 
@@ -86,7 +87,7 @@ public class ProductGroupControllerUnitTest extends SpringMockitoUnitTest {
                 .setProductId(productMock.getId().id());
         ProductGroupItemBO itemBO=new ProductGroupItemBO().setProductId(productMock.getId().id());
         when(productGroupApplicationServiceStub.createItem(productGroupItemCreateDTO)).thenReturn(itemBO);
-        CodeResult<ProductGroupItemVO> codeResult= productGroupControler.createItem(productGroupItemCreateDTO);
+        CodeResult<ProductGroupItemResponse> codeResult= productGroupControler.createItem(productGroupItemCreateDTO);
         Assertions.assertTrue(codeResult.isSuccess());
     }
 }

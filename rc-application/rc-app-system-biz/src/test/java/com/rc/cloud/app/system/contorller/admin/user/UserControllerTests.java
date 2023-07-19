@@ -5,7 +5,7 @@
 package com.rc.cloud.app.system.contorller.admin.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.controller.admin.user.UserController;
+import com.rc.cloud.app.system.controller.admin.v1.user.UserController;
 import com.rc.cloud.app.system.vo.user.user.UserCreateReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserUpdateReqVO;

@@ -5,7 +5,7 @@
 package com.rc.cloud.app.system.contorller.admin.tenant;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.controller.admin.tenant.TenantPackageController;
+import com.rc.cloud.app.system.controller.admin.v1.tenant.TenantPackageController;
 import com.rc.cloud.app.system.service.tenant.TenantPackageService;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageUpdateReqVO;
