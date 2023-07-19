@@ -19,8 +19,14 @@ public class DictTypeBaseVO {
     @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "字典名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "性别")
     @NotBlank(message = "字典名称不能为空")
-    @Size(max = 100, message = "字典类型名称长度不能超过100个字符")
+    @Size(max = 100, message = "字典名称长度不能超过100个字符")
     private String name;
+
+    @SuppressWarnings("checkstyle:magicnumber")
+    @Schema(description = "字典类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "sex")
+    @NotBlank(message = "字典类型不能为空")
+    @Size(max = 50, message = "字典类型长度不能超过50个字符")
+    private String type;
 
     @Schema(description = "状态,参见 CommonStatusEnum 枚举类", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "状态不能为空")
