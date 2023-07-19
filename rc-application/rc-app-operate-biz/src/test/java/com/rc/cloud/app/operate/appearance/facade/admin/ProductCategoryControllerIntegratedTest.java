@@ -64,7 +64,7 @@ public class ProductCategoryControllerIntegratedTest {
                 .setName(RandomUtils.randomString())
                 .setIcon(imgUrl)
                 .setSortId(9)
-                .setEnabledFlag(true)
+                .setEnabled(true)
                 .setProductListPageImage(imgUrl)
                 .setParentId("72f7ae9e-2ff8-45aa-b61b-59ee900");
         ObjectMapper mapper = new ObjectMapper();
@@ -91,7 +91,7 @@ public class ProductCategoryControllerIntegratedTest {
                 .setEnglishName(RandomUtils.randomString())
                 .setName(RandomUtils.randomString())
                 .setIcon(imgUrl).setSortId(9)
-                .setEnabledFlag(true)
+                .setEnabled(true)
                 .setProductListPageImage(imgUrl)
                 .setId("72f7ae9e-2ff8-45aa-b61b-59ee913")
                 .setParentId("72f7ae9e-2ff8-45aa-b61b-59ee910");

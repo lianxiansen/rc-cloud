@@ -15,13 +15,14 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @Accessors(chain = true)
+@Schema(description = "品牌分类创建request")
 public class BrandCreateDTO {
     @Schema(description = "品牌名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "振信")
     @NotBlank(message = "品牌名称不能为空")
     private String name;
     @Schema(description = "品牌类型", example = "自有")
     private String type;
-    @Schema(description = "状态，是否启动", example = "true")
+    @Schema(description = "状态，是否启用", example = "true")
     private Boolean enabled;
     @Schema(description = "排序，最大值不能超过99", example = "99")
     @Max(value = 99,message = "最大值不能超过99")

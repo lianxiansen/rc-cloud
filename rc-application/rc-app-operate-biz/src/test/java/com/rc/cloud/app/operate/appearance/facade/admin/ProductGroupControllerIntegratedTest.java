@@ -26,8 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.Resource;
 
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -88,7 +87,7 @@ public class ProductGroupControllerIntegratedTest {
     @Test
     public void release() throws Exception {
         String productGroupId="870ef1f5-39d2-4f48-8c67-ae45206";
-        mvc.perform(get("/operate/admin/productGroup/release").param("id", productGroupId))
+        mvc.perform(delete("/operate/admin/productGroup/release").param("id", productGroupId))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))

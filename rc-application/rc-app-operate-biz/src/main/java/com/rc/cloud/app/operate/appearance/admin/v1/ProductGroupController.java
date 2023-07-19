@@ -32,13 +32,13 @@ public class ProductGroupController {
     @PostMapping("create")
     @Operation(summary = "创建产品组合")
     public CodeResult<ProductGroupResponse> create(@Valid @RequestBody ProductGroupCreateDTO productGroupCreateDTO) {
-        ProductGroupBO bo= productGroupApplicationService.create(productGroupCreateDTO);
+        ProductGroupBO bo = productGroupApplicationService.create(productGroupCreateDTO);
         return CodeResult.ok(ProductGroupConvert.INSTANCE.convert2ProductGroupVO(bo));
     }
 
     @DeleteMapping("release")
     @Operation(summary = "解除产品组合")
-    public CodeResult<Boolean> release(String id) {
+    public CodeResult<Boolean> release(@RequestParam(name = "id", required = true) String id) {
         return CodeResult.ok(productGroupApplicationService.release(id));
     }
 
@@ -52,7 +52,7 @@ public class ProductGroupController {
 
     @GetMapping("findAll")
     @Operation(summary = "获取产品组合列表")
-    public CodeResult<List<ProductGroupResponse>> findAll(String productId) {
+    public CodeResult<List<ProductGroupResponse>> findAll(@RequestParam(name = "productId", required = true) String productId) {
         List<ProductGroupBO> boList = productGroupApplicationService.findAll(productId);
         return CodeResult.ok(ProductGroupResponse.from(boList));
     }

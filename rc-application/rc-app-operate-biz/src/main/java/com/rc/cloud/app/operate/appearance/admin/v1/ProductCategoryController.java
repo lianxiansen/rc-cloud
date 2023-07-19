@@ -40,7 +40,7 @@ public class ProductCategoryController {
 
     @DeleteMapping("remove")
     @Operation(summary = "删除产品分类")
-    public CodeResult<Long> remove(String id) {
+    public CodeResult<Long> remove(@RequestParam(name = "id",required = true) String id) {
         if(productCategoryApplicationService.remove(id)){
             return CodeResult.ok();
         }
@@ -55,7 +55,7 @@ public class ProductCategoryController {
     }
     @GetMapping("findById")
     @Operation(summary = "根据唯一标识查找产品分类")
-    public CodeResult<ProductCategoryResponse> findById(String id) {
+    public CodeResult<ProductCategoryResponse> findById(@RequestParam(name = "id",required = true) String id) {
         ProductCategoryBO bo = productCategoryApplicationService.findById(id);
         return CodeResult.ok(ProductCategoryResponse.from(bo));
     }

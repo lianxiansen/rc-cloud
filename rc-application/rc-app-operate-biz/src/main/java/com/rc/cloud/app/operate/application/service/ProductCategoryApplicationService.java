@@ -44,8 +44,8 @@ public class ProductCategoryApplicationService {
         ProductCategory productCategory = new ProductCategory(new ProductCategoryId(idRepository.nextId()), tenantId, name);
         productCategory.setEnName(new EnName(productCreateCategoryDTO.getEnglishName()));
         productCategory.setIcon(new Icon(productCreateCategoryDTO.getIcon()));
-        if(ObjectUtils.isNotNull(productCreateCategoryDTO.getEnabledFlag())){
-            productCategory.setEnabled(new Enabled(productCreateCategoryDTO.getEnabledFlag()));
+        if(ObjectUtils.isNotNull(productCreateCategoryDTO.getEnabled())){
+            productCategory.setEnabled(new Enabled(productCreateCategoryDTO.getEnabled()));
         }
         productCategory.setPage(new Page(productCreateCategoryDTO.getProductCategoryPageImage(), productCreateCategoryDTO.getProductListPageImage()));
         if(ObjectUtils.isNotNull(productCreateCategoryDTO.getSortId())){
@@ -94,8 +94,8 @@ public class ProductCategoryApplicationService {
         if (ObjectUtils.isNotNull(productCategoryUpdateDTO.getSortId())) {
             productCategory.setSort(new Sort(productCategoryUpdateDTO.getSortId()));
         }
-        if (ObjectUtils.isNotNull(productCategoryUpdateDTO.getEnabledFlag())) {
-            if(productCategoryUpdateDTO.getEnabledFlag().booleanValue()){
+        if (ObjectUtils.isNotNull(productCategoryUpdateDTO.getEnabled())) {
+            if(productCategoryUpdateDTO.getEnabled().booleanValue()){
                 productCategory.setEnabled(new Enabled(true));
             }else{
                 productCategory.setEnabled(new Enabled(false));
