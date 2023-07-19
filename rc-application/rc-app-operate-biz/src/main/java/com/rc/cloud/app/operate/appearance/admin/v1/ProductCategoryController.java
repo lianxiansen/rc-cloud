@@ -1,6 +1,6 @@
-package com.rc.cloud.app.operate.appearance.facade.admin;
+package com.rc.cloud.app.operate.appearance.admin.v1;
 
-import com.rc.cloud.app.operate.appearance.vo.ProductCategoryVO;
+import com.rc.cloud.app.operate.appearance.admin.res.ProductCategoryResponse;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
@@ -27,18 +27,18 @@ public class ProductCategoryController {
 
     @PostMapping("create")
     @Operation(summary = "创建产品分类")
-    public CodeResult<ProductCategoryVO> create(@Valid @RequestBody ProductCategoryCreateDTO productCategoryCreateRequest) {
-        return CodeResult.ok(ProductCategoryVO.from(productCategoryApplicationService.create(productCategoryCreateRequest)));
+    public CodeResult<ProductCategoryResponse> create(@Valid @RequestBody ProductCategoryCreateDTO productCategoryCreateRequest) {
+        return CodeResult.ok(ProductCategoryResponse.from(productCategoryApplicationService.create(productCategoryCreateRequest)));
     }
 
 
-    @PostMapping("update")
+    @PutMapping("update")
     @Operation(summary = "更新产品分类")
-    public CodeResult<ProductCategoryVO> update(@Valid @RequestBody ProductCategoryUpdateDTO productCategoryUpdateRequest) {
-        return CodeResult.ok(ProductCategoryVO.from(productCategoryApplicationService.update(productCategoryUpdateRequest)));
+    public CodeResult<ProductCategoryResponse> update(@Valid @RequestBody ProductCategoryUpdateDTO productCategoryUpdateRequest) {
+        return CodeResult.ok(ProductCategoryResponse.from(productCategoryApplicationService.update(productCategoryUpdateRequest)));
     }
 
-    @GetMapping("remove")
+    @DeleteMapping("remove")
     @Operation(summary = "删除产品分类")
     public CodeResult<Long> remove(String id) {
         if(productCategoryApplicationService.remove(id)){
@@ -47,12 +47,17 @@ public class ProductCategoryController {
         return CodeResult.fail();
     }
 
-    @PostMapping("findAll")
+    @GetMapping("findAll")
     @Operation(summary = "产品分类列表")
-    public CodeResult<List<ProductCategoryVO>> findAll() {
+    public CodeResult<List<ProductCategoryResponse>> findAll() {
         List<ProductCategoryBO> boList = productCategoryApplicationService.findAll();
-        return CodeResult.ok(ProductCategoryVO.from(boList));
+        return CodeResult.ok(ProductCategoryResponse.from(boList));
     }
-
+    @GetMapping("findById")
+    @Operation(summary = "根据唯一标识查找产品分类")
+    public CodeResult<ProductCategoryResponse> findById(String id) {
+        ProductCategoryBO bo = productCategoryApplicationService.findById(id);
+        return CodeResult.ok(ProductCategoryResponse.from(bo));
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.appearance.vo;
+package com.rc.cloud.app.operate.appearance.admin.res;
 
 
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class ProductGroupItemVO {
+public class ProductGroupItemResponse {
 
     private String Id;
 

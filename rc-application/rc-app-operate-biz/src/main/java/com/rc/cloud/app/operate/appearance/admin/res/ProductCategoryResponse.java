@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.appearance.vo;
+package com.rc.cloud.app.operate.appearance.admin.res;
 
 import com.rc.cloud.app.operate.appearance.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
@@ -14,7 +14,7 @@ import java.util.List;
  * @Description: TODO
  */
 @Data
-public class ProductCategoryVO {
+public class ProductCategoryResponse {
     private String Id;
     private String tenantId;
 
@@ -34,13 +34,13 @@ public class ProductCategoryVO {
 
     private int sort;
 
-    public static ProductCategoryVO from(ProductCategoryBO productCategory){
+    public static ProductCategoryResponse from(ProductCategoryBO productCategory){
         return ProductCategoryConvert.INSTANCE.convert2ProductCategoryVO(productCategory);
     }
 
 
-    public static List<ProductCategoryVO> from(List<ProductCategoryBO> productCategoryList){
-        List<ProductCategoryVO> list=new ArrayList<ProductCategoryVO>();
+    public static List<ProductCategoryResponse> from(List<ProductCategoryBO> productCategoryList){
+        List<ProductCategoryResponse> list=new ArrayList<ProductCategoryResponse>();
         productCategoryList.forEach(item->{
             list.add(from(item));
         });

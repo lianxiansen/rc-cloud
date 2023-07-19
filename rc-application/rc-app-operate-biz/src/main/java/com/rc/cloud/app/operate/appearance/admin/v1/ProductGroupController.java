@@ -1,9 +1,9 @@
-package com.rc.cloud.app.operate.appearance.facade.admin;
+package com.rc.cloud.app.operate.appearance.admin.v1;
 
+import com.rc.cloud.app.operate.appearance.admin.res.ProductGroupItemResponse;
 import com.rc.cloud.app.operate.appearance.convert.ProductGroupConvert;
 import com.rc.cloud.app.operate.appearance.convert.ProductGroupItemConvert;
-import com.rc.cloud.app.operate.appearance.vo.ProductGroupItemVO;
-import com.rc.cloud.app.operate.appearance.vo.ProductGroupVO;
+import com.rc.cloud.app.operate.appearance.admin.res.ProductGroupResponse;
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
 import com.rc.cloud.app.operate.application.bo.ProductGroupItemBO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
@@ -31,12 +31,12 @@ public class ProductGroupController {
 
     @PostMapping("create")
     @Operation(summary = "创建产品组合")
-    public CodeResult<ProductGroupVO> create(@Valid @RequestBody ProductGroupCreateDTO productGroupCreateDTO) {
+    public CodeResult<ProductGroupResponse> create(@Valid @RequestBody ProductGroupCreateDTO productGroupCreateDTO) {
         ProductGroupBO bo= productGroupApplicationService.create(productGroupCreateDTO);
         return CodeResult.ok(ProductGroupConvert.INSTANCE.convert2ProductGroupVO(bo));
     }
 
-    @GetMapping("release")
+    @DeleteMapping("release")
     @Operation(summary = "解除产品组合")
     public CodeResult<Boolean> release(String id) {
         return CodeResult.ok(productGroupApplicationService.release(id));
@@ -45,16 +45,16 @@ public class ProductGroupController {
 
     @PostMapping("createItem")
     @Operation(summary = "添加组合项")
-    public CodeResult<ProductGroupItemVO> createItem(@Valid @RequestBody ProductGroupItemCreateDTO productGroupCreateDTO) {
+    public CodeResult<ProductGroupItemResponse> createItem(@Valid @RequestBody ProductGroupItemCreateDTO productGroupCreateDTO) {
         ProductGroupItemBO itemBO = productGroupApplicationService.createItem(productGroupCreateDTO);
         return CodeResult.ok(ProductGroupItemConvert.INSTANCE.convert2ProductGroupItemVO(itemBO));
     }
 
     @GetMapping("findAll")
     @Operation(summary = "获取产品组合列表")
-    public CodeResult<List<ProductGroupVO>> findAll(String productId) {
+    public CodeResult<List<ProductGroupResponse>> findAll(String productId) {
         List<ProductGroupBO> boList = productGroupApplicationService.findAll(productId);
-        return CodeResult.ok(ProductGroupVO.from(boList));
+        return CodeResult.ok(ProductGroupResponse.from(boList));
     }
 
 }

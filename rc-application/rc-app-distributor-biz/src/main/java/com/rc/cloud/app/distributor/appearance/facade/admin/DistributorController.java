@@ -20,6 +20,7 @@ import com.rc.cloud.common.security.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -196,7 +197,7 @@ public class DistributorController {
      * @param updatePasswordReqVO
      * @return 更新结果
      */
-    @PostMapping("/updateContactPassword")
+    @PutMapping("/updateContactPassword")
     @Operation(summary = "更新联系人密码")
     public CodeResult<Boolean> updateContactPassword(@Valid @RequestBody DistributorContactUpdatePasswordReqVO updatePasswordReqVO) {
         contactService.updatePassword(updatePasswordReqVO);
@@ -209,7 +210,7 @@ public class DistributorController {
      * @param id 联系人id
      * @return 重置结果
      */
-    @PostMapping("/resetContactPassword")
+    @PutMapping("/resetContactPassword")
     @Operation(summary = "重置联系人密码")
     public CodeResult<Boolean> resetContactPassword(@RequestParam("id") String id) {
         contactService.resetPassword(id);
@@ -222,7 +223,7 @@ public class DistributorController {
      * @param id 经销商id
      * @return DistributorContactBaseVO集合
      */
-    @PostMapping("/getContacts")
+    @GetMapping("/getContacts")
     @Operation(summary = "获取经销商联系人")
     public CodeResult<List<DistributorContactBaseVO>> getContacts(@RequestParam("id") String id) {
         return CodeResult.ok(DistributorContactConvert.INSTANCE.convertList3(contactService.getByDistributorId(id)));
@@ -234,7 +235,7 @@ public class DistributorController {
      * @param id 经销商id
      * @return 删除结果
      */
-    @GetMapping("/deleteToRecycle")
+    @DeleteMapping("/deleteToRecycle")
     @Operation(summary = "删除经销商至回收站")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     public CodeResult<Boolean> deleteToRecycle(@RequestParam("id") String id) {
@@ -248,7 +249,7 @@ public class DistributorController {
      * @param id 经销商id
      * @return 操作结果
      */
-    @GetMapping("/recycle")
+    @PutMapping("/recycle")
     @Operation(summary = "从回收站恢复经销商")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     public CodeResult<Boolean> recycle(@RequestParam("id") String id) {
@@ -262,7 +263,7 @@ public class DistributorController {
      * @param id 经销商id
      * @return 操作结果
      */
-    @GetMapping("/lock")
+    @PutMapping("/lock")
     @Operation(summary = "锁定经销商")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     public CodeResult<Boolean> lock(@RequestParam("id") String id) {
@@ -276,7 +277,7 @@ public class DistributorController {
      * @param id 经销商id
      * @return 操作结果
      */
-    @GetMapping("/unlock")
+    @PutMapping("/unlock")
     @Operation(summary = "解除锁定")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
     public CodeResult<Boolean> unlock(@RequestParam("id") String id) {

@@ -1,6 +1,6 @@
-package com.rc.cloud.app.operate.appearance.facade.admin;
+package com.rc.cloud.app.operate.appearance.admin.v1;
 
-import com.rc.cloud.app.operate.appearance.vo.BrandVO;
+import com.rc.cloud.app.operate.appearance.admin.res.BrandResponse;
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.app.operate.application.dto.BrandCreateDTO;
 import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
@@ -28,20 +28,20 @@ public class BrandController {
 
     @PostMapping("create")
     @Operation(summary = "创建品牌")
-    public CodeResult<BrandVO> create(@Valid @RequestBody BrandCreateDTO brandCreateDTO) {
-        return CodeResult.ok(BrandVO.from(brandApplicationService.create(brandCreateDTO)));
+    public CodeResult<BrandResponse> create(@Valid @RequestBody BrandCreateDTO brandCreateDTO) {
+        return CodeResult.ok(BrandResponse.from(brandApplicationService.create(brandCreateDTO)));
     }
 
 
-    @PostMapping("update")
+    @PutMapping("update")
     @Operation(summary = "更新品牌")
-    public CodeResult<BrandVO> update(@Valid @RequestBody BrandUpdateDTO brandUpdateDTO) {
-        return CodeResult.ok(BrandVO.from(brandApplicationService.update(brandUpdateDTO)));
+    public CodeResult<BrandResponse> update(@Valid @RequestBody BrandUpdateDTO brandUpdateDTO) {
+        return CodeResult.ok(BrandResponse.from(brandApplicationService.update(brandUpdateDTO)));
     }
 
-    @PostMapping("remove")
+    @DeleteMapping("remove")
     @Operation(summary = "删除品牌")
-    public CodeResult remove(@RequestParam String id) {
+    public CodeResult remove(String id) {
         if (brandApplicationService.remove(id)) {
             return CodeResult.ok();
         }
@@ -51,9 +51,9 @@ public class BrandController {
 
     @PostMapping("selectPageResult")
     @Operation(summary = "品牌分页查询")
-    public CodeResult<PageResult<BrandVO>> selectPageResult(@Valid @RequestBody BrandQueryPageDTO brandQueryPageDTO) {
+    public CodeResult<PageResult<BrandResponse>> selectPageResult(@Valid @RequestBody BrandQueryPageDTO brandQueryPageDTO) {
         PageResult<BrandBO> boList = brandApplicationService.selectPageResult(brandQueryPageDTO);
-        return CodeResult.ok(BrandVO.from(boList));
+        return CodeResult.ok(BrandResponse.from(boList));
     }
 
 }

@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.appearance.vo;
+package com.rc.cloud.app.operate.appearance.admin.res;
 
 
 import com.rc.cloud.app.operate.appearance.convert.ProductGroupConvert;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class ProductGroupVO {
+public class ProductGroupResponse {
 
     private String Id;
 
@@ -22,20 +22,20 @@ public class ProductGroupVO {
 
     private String createTime;
 
-    private Collection<ProductGroupItemVO> itemList;
+    private Collection<ProductGroupItemResponse> itemList;
 
-    public static List<ProductGroupVO> from(List<ProductGroupBO> boList) {
-        List<ProductGroupVO> vos = new ArrayList<>();
+    public static List<ProductGroupResponse> from(List<ProductGroupBO> boList) {
+        List<ProductGroupResponse> vos = new ArrayList<>();
         boList.stream().sorted(new Comparator<ProductGroupBO>() {
             @Override
             public int compare(ProductGroupBO o1, ProductGroupBO o2) {
                 return o1.getCreateTime().compareTo(o2.getCreateTime());
             }
         }).forEach(item -> {
-            ProductGroupVO vo = ProductGroupConvert.INSTANCE.convert2ProductGroupVO(item);
-            List<ProductGroupItemVO> itemVOs=new ArrayList<>();
+            ProductGroupResponse vo = ProductGroupConvert.INSTANCE.convert2ProductGroupVO(item);
+            List<ProductGroupItemResponse> itemVOs=new ArrayList<>();
             item.getItemList().forEach(itemBO->{
-                ProductGroupItemVO itemVO= ProductGroupItemConvert.INSTANCE.convert2ProductGroupItemVO(itemBO);
+                ProductGroupItemResponse itemVO= ProductGroupItemConvert.INSTANCE.convert2ProductGroupItemVO(itemBO);
                 itemVOs.add(itemVO);
             });
             vo.setItemList(itemVOs);

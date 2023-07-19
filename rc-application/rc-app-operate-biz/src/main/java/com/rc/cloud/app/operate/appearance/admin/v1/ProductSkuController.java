@@ -1,9 +1,7 @@
-package com.rc.cloud.app.operate.appearance.facade.admin;
+package com.rc.cloud.app.operate.appearance.admin.v1;
 
-import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuGetDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuSaveDTO;
-import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.application.service.ProductSkuApplicationService;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;

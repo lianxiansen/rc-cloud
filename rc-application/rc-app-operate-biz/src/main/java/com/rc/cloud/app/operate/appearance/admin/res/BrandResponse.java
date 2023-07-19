@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.appearance.vo;
+package com.rc.cloud.app.operate.appearance.admin.res;
 
 import com.rc.cloud.app.operate.appearance.convert.BrandConvert;
 import com.rc.cloud.app.operate.application.bo.BrandBO;
@@ -17,25 +17,25 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class BrandVO {
+public class BrandResponse {
     private String Id;
     private String name;
     private String type;
     private int sort;
     private boolean enable;
 
-    public static PageResult<BrandVO> from(PageResult<BrandBO> brandPageResult){
-        List<BrandVO> brandVOList=new ArrayList<>();
+    public static PageResult<BrandResponse> from(PageResult<BrandBO> brandPageResult){
+        List<BrandResponse> brandVOList=new ArrayList<>();
         brandPageResult.getList().forEach(item->{
             brandVOList.add(from(item));
         });
-        PageResult<BrandVO> brandVOPageResult=new PageResult<>();
+        PageResult<BrandResponse> brandVOPageResult=new PageResult<>();
         brandVOPageResult.setTotal(brandPageResult.getTotal());
         brandVOPageResult.setList(brandVOList);
         return brandVOPageResult;
     }
 
-    public static BrandVO from (BrandBO brand){
+    public static BrandResponse from (BrandBO brand){
         return BrandConvert.INSTANCE.convert2BrandVO(brand);
     }
 }
