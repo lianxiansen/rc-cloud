@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.oauthclient;
+package com.rc.cloud.app.system.controller.admin.v1.oauthclient;
 
 import com.rc.cloud.app.system.convert.client.OAuthClientDetailsConvert;
 import com.rc.cloud.app.system.model.oauthclient.SysOauthClientDetailsPO;
@@ -27,7 +27,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/sys/client")
+@RequestMapping("/admin/v1/client")
 @Tag(name = "客户端管理模块")
 @Validated
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)

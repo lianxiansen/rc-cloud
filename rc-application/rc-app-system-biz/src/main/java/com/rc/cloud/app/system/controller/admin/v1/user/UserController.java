@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.user;
+package com.rc.cloud.app.system.controller.admin.v1.user;
 
 import cn.hutool.core.collection.CollUtil;
 import com.rc.cloud.app.system.convert.user.UserConvert;
@@ -35,7 +35,7 @@ import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertLi
  */
 @Tag(name = "管理后台 - 用户")
 @RestController
-@RequestMapping("/sys/user")
+@RequestMapping("/admin/v1/user")
 @Validated
 public class UserController {
 

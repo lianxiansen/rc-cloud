@@ -5,7 +5,7 @@
 package com.rc.cloud.app.system.contorller.admin.dept;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.controller.admin.dept.PostController;
+import com.rc.cloud.app.system.controller.admin.v1.dept.PostController;
 import com.rc.cloud.app.system.vo.dept.post.PostCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostUpdateReqVO;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;

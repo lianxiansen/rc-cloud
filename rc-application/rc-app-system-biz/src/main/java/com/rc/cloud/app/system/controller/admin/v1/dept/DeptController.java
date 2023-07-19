@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.dept;
+package com.rc.cloud.app.system.controller.admin.v1.dept;
 
 import com.alibaba.cloud.commons.lang.StringUtils;
 import com.rc.cloud.app.system.convert.dept.DeptConvert;
@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Tag(name = "管理后台 - 部门")
 @RestController
-@RequestMapping("/sys/dept")
+@RequestMapping("/admin/v1/dept")
 @Validated
 public class DeptController {
 

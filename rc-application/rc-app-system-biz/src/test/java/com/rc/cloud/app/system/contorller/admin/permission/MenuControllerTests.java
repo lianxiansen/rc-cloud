@@ -5,7 +5,7 @@
 package com.rc.cloud.app.system.contorller.admin.permission;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.controller.admin.permission.MenuController;
+import com.rc.cloud.app.system.controller.admin.v1.permission.MenuController;
 import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
 import com.rc.cloud.app.system.service.permission.MenuService;
 import com.rc.cloud.app.system.vo.permission.menu.MenuCreateReqVO;

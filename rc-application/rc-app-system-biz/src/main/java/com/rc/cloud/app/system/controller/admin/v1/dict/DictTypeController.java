@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.dict;
+package com.rc.cloud.app.system.controller.admin.v1.dict;
 
 import com.rc.cloud.app.system.convert.dict.DictTypeConvert;
 import com.rc.cloud.app.system.model.dict.SysDictTypePO;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Tag(name = "管理后台 - 字典类型")
 @RestController
-@RequestMapping("/sys/dict-type")
+@RequestMapping("/admin/v1/dict-type")
 @Validated
 public class DictTypeController {
 

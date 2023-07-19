@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.user;
+package com.rc.cloud.app.system.controller.admin.v1.user;
 
 import cn.hutool.core.collection.CollUtil;
 import com.rc.cloud.app.system.convert.user.UserConvert;
@@ -40,7 +40,7 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  */
 @Tag(name = "管理后台 - 用户个人中心")
 @RestController
-@RequestMapping("/sys/user/profile")
+@RequestMapping("/admin/v1/user/profile")
 @Validated
 @Slf4j
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)

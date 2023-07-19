@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.dept;
+package com.rc.cloud.app.system.controller.admin.v1.dept;
 
 import com.rc.cloud.app.system.convert.dept.PostConvert;
 import com.rc.cloud.app.system.model.dept.SysPostPO;
@@ -30,7 +30,7 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  */
 @Tag(name = "管理后台 - 岗位")
 @RestController
-@RequestMapping("/sys/post")
+@RequestMapping("/admin/v1/post")
 @Validated
 public class PostController {
 

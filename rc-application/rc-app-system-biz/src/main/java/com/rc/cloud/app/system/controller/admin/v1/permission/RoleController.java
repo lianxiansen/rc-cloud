@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.permission;
+package com.rc.cloud.app.system.controller.admin.v1.permission;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
@@ -42,7 +42,7 @@ import static java.util.Collections.singleton;
  */
 @Tag(name = "管理后台 - 角色")
 @RestController
-@RequestMapping("/sys/role")
+@RequestMapping("/admin/v1/role")
 @Validated
 public class RoleController {
 

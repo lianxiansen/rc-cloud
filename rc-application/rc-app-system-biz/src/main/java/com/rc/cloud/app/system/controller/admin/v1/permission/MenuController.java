@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.permission;
+package com.rc.cloud.app.system.controller.admin.v1.permission;
 
 import com.rc.cloud.app.system.convert.permission.MenuConvert;
 import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
@@ -32,7 +32,7 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  */
 @Tag(name = "管理后台 - 菜单")
 @RestController
-@RequestMapping("/sys/menu")
+@RequestMapping("/admin/v1/menu")
 @Validated
 public class MenuController {
 

@@ -5,7 +5,7 @@
 package com.rc.cloud.app.system.contorller.admin.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.controller.admin.user.UserProfileController;
+import com.rc.cloud.app.system.controller.admin.v1.user.UserProfileController;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdatePasswordReqVO;
 import com.rc.cloud.app.system.vo.user.profile.UserProfileUpdateReqVO;
 import com.rc.cloud.common.core.enums.SexEnum;

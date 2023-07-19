@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.remote;
+package com.rc.cloud.app.system.controller.remote;
 
 import com.rc.cloud.app.system.service.tenant.TenantService;
 import com.rc.cloud.common.core.web.CodeResult;

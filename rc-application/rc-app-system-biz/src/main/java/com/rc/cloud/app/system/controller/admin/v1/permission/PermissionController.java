@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.permission;
+package com.rc.cloud.app.system.controller.admin.v1.permission;
 
 import cn.hutool.core.collection.CollUtil;
 import com.rc.cloud.app.system.service.permission.PermissionService;
@@ -25,7 +25,7 @@ import java.util.Set;
  */
 @Tag(name = "管理后台 - 权限")
 @RestController
-@RequestMapping("/sys/permission")
+@RequestMapping("/admin/v1/permission")
 public class PermissionController {
 
     @Resource
