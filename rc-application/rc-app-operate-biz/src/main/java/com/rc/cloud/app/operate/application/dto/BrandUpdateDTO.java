@@ -23,7 +23,7 @@ public class BrandUpdateDTO {
     private String name;
     @Schema(description = "品牌类型", example = "自有")
     private String type;
-    @Schema(description = "状态，是否启动", example = "true")
+    @Schema(description = "状态，是否启用", example = "true")
     private Boolean enabled;
     @Schema(description = "排序，最大值不能超过99", example = "99")
     @Max(value = 99,message = "最大值不能超过99")
