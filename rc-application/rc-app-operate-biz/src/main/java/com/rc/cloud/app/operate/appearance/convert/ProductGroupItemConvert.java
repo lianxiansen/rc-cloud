@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.appearance.convert;
 
-import com.rc.cloud.app.operate.appearance.vo.ProductGroupItemVO;
+import com.rc.cloud.app.operate.appearance.admin.res.ProductGroupItemResponse;
 import com.rc.cloud.app.operate.application.bo.ProductGroupItemBO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -9,5 +9,5 @@ import org.mapstruct.factory.Mappers;
 public interface ProductGroupItemConvert {
     ProductGroupItemConvert INSTANCE = Mappers.getMapper(ProductGroupItemConvert.class);
 
-    ProductGroupItemVO convert2ProductGroupItemVO(ProductGroupItemBO a);
+    ProductGroupItemResponse convert2ProductGroupItemVO(ProductGroupItemBO a);
 }

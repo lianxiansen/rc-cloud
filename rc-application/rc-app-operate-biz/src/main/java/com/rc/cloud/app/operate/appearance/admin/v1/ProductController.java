@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.appearance.facade.admin;
+package com.rc.cloud.app.operate.appearance.admin.v1;
 
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.dto.*;

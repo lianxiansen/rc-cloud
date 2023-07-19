@@ -116,6 +116,8 @@ public class ProductCategoryApplicationService {
         List<ProductCategory> productCategoryList=productCategoryService.findAll();
         return ProductCategoryBO.convertBatch(productCategoryList);
     }
-
+    public  ProductCategoryBO findById(String id) {
+        return ProductCategoryBO.convert( productCategoryService.findById(new ProductCategoryId(id)));
+    }
 
 }
