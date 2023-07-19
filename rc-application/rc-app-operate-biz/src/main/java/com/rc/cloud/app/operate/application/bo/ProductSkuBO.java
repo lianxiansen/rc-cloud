@@ -49,4 +49,12 @@ public class ProductSkuBO {
 
     private List<ProductSkuImageBO> skuImages;
 
+    private int packingNumber;
+
+    private int cartonSizeLength;
+
+    private int cartonSizeWidth;
+
+    private int cartonSizeHeight;
+
 }

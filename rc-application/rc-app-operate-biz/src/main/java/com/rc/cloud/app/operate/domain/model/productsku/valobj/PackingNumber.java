@@ -25,4 +25,8 @@ public class PackingNumber extends ValueObject {
         }
         return false;
     }
+
+    public PackingNumber(int value) {
+        this.value = value;
+    }
 }
