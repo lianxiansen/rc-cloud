@@ -45,6 +45,18 @@ public class ProductSku extends AggregateRoot {
      */
     private Weight weight;
 
+
+    /**
+     * 装箱数
+     */
+    private PackingNumber packingNumber;
+
+
+    /**
+     * 箱规
+     */
+    private CartonSize cartonSize;
+
     /**
      * 外部id
      */

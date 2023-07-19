@@ -71,4 +71,18 @@ public class ProductSkuPO extends BaseDO {
     @TableField("sort_id")
     private Integer sortId;
 
+    @TableField("carton_size_height")
+    private int cartonSizeHeight;
+
+
+    @TableField("carton_size_width")
+    private int cartonSizeWidth;
+
+    @TableField("carton_size_length")
+    private int cartonSizeLength;
+
+    @TableField("packing_number")
+    private int packingNumber;
+
+
 }
