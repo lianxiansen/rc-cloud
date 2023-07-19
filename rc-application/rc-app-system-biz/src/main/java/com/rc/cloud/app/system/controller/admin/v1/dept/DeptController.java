@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Tag(name = "管理后台 - 部门")
 @RestController
-@RequestMapping("/admin/v1/dept")
+@RequestMapping("/admin/dept")
 @Validated
 public class DeptController {
 

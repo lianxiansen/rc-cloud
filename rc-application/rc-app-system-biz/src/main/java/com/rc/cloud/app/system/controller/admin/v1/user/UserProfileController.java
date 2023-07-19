@@ -40,7 +40,7 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  */
 @Tag(name = "管理后台 - 用户个人中心")
 @RestController
-@RequestMapping("/admin/v1/user/profile")
+@RequestMapping("/admin/user/profile")
 @Validated
 @Slf4j
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)

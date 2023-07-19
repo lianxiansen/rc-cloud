@@ -22,7 +22,7 @@ import java.util.List;
 
 @Tag(name = "产品组合")
 @RestController
-@RequestMapping("/operate/admin/productGroup")
+@RequestMapping("/admin/productGroup")
 @Validated
 public class ProductGroupController {
 

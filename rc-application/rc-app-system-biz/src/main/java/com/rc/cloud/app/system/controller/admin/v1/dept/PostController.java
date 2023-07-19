@@ -30,7 +30,7 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  */
 @Tag(name = "管理后台 - 岗位")
 @RestController
-@RequestMapping("/admin/v1/post")
+@RequestMapping("/admin/post")
 @Validated
 public class PostController {
 

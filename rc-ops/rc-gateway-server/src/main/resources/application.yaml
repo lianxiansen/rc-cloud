@@ -51,7 +51,7 @@ spring:
         - id: rrc-app-operate-biz
           uri: lb://rc-app-operate-biz
           predicates:
-            - Path=/opt/**
+            - Path=/operate/**
         # 经销商 模块
         - id: rc-app-distributor-biz
           uri: lb://rc-app-distributor-biz

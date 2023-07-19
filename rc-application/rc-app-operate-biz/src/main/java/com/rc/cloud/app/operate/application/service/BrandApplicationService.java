@@ -101,6 +101,13 @@ public class BrandApplicationService {
         PageResult<Brand> brandPageResult = brandService.selectPageResult(queryBrandDTO.getPageNo(), queryBrandDTO.getPageSize(), queryBrandDTO.getName());
         return BrandBO.convertBatch(brandPageResult);
     }
+
+    public BrandBO findById(String id){
+        if (StringUtils.isEmpty(id)) {
+            throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
+        }
+        return BrandBO.convert(brandService.findById(new BrandId(id)));
+    }
 }
 
 

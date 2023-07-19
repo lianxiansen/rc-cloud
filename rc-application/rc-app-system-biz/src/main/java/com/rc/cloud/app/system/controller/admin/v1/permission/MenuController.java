@@ -32,7 +32,7 @@ import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.excep
  */
 @Tag(name = "管理后台 - 菜单")
 @RestController
-@RequestMapping("/admin/v1/menu")
+@RequestMapping("/admin/menu")
 @Validated
 public class MenuController {
 

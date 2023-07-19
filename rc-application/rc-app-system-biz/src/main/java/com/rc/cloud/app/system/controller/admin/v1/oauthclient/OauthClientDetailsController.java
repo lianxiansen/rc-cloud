@@ -27,7 +27,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/v1/client")
+@RequestMapping("/admin/client")
 @Tag(name = "客户端管理模块")
 @Validated
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)

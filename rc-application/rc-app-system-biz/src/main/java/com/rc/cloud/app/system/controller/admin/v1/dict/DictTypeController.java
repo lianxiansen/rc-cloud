@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Tag(name = "管理后台 - 字典类型")
 @RestController
-@RequestMapping("/admin/v1/dict-type")
+@RequestMapping("/admin/dict-type")
 @Validated
 public class DictTypeController {
 
