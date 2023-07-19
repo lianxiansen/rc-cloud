@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.remote;
+package com.rc.cloud.app.system.controller.remote;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.rc.cloud.app.system.api.oauthclient.vo.SysOauthClientDetailsVO;
