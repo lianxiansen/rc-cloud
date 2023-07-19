@@ -39,9 +39,9 @@ public class BrandController {
         return CodeResult.ok(BrandVO.from(brandApplicationService.update(brandUpdateDTO)));
     }
 
-    @GetMapping("remove")
+    @PostMapping("remove")
     @Operation(summary = "删除品牌")
-    public CodeResult remove(String id) {
+    public CodeResult remove(@RequestParam String id) {
         if (brandApplicationService.remove(id)) {
             return CodeResult.ok();
         }

@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.dict;
+package com.rc.cloud.app.system.controller.admin.v1.dict;
 
 import com.rc.cloud.app.system.convert.dict.DictDataConvert;
 import com.rc.cloud.app.system.model.dict.SysDictDataPO;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Tag(name = "管理后台 - 字典数据")
 @RestController
-@RequestMapping("/sys/dict-data")
+@RequestMapping("/admin/v1/dict-data")
 @Validated
 public class DictDataController {
 

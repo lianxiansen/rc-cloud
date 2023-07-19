@@ -5,7 +5,7 @@
 package com.rc.cloud.app.system.contorller.admin.permission;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.controller.admin.permission.RoleController;
+import com.rc.cloud.app.system.controller.admin.v1.permission.RoleController;
 import com.rc.cloud.app.system.vo.permission.role.RoleCreateReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RoleUpdateReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RoleUpdateStatusReqVO;

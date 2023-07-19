@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.tenant;
+package com.rc.cloud.app.system.controller.admin.v1.tenant;
 
 import com.rc.cloud.app.system.convert.tenant.TenantConvert;
 import com.rc.cloud.app.system.model.tenant.SysTenantPO;
@@ -26,7 +26,7 @@ import javax.validation.Valid;
  */
 @Tag(name = "管理后台 - 租户")
 @RestController
-@RequestMapping("/sys/tenant")
+@RequestMapping("/admin/v1/tenant")
 public class TenantController {
 
     @Resource

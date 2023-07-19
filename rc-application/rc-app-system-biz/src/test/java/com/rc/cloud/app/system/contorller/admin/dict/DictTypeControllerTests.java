@@ -5,7 +5,7 @@
 package com.rc.cloud.app.system.contorller.admin.dict;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rc.cloud.app.system.controller.admin.dict.DictTypeController;
+import com.rc.cloud.app.system.controller.admin.v1.dict.DictTypeController;
 import com.rc.cloud.app.system.service.dict.DictTypeService;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeUpdateReqVO;

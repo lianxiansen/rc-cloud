@@ -1,4 +1,4 @@
-package com.rc.cloud.app.system.controller.admin.tenant;
+package com.rc.cloud.app.system.controller.admin.v1.tenant;
 
 import com.rc.cloud.app.system.convert.tenant.TenantPackageConvert;
 import com.rc.cloud.app.system.model.tenant.SysTenantPackagePO;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Tag(name = "管理后台 - 租户套餐")
 @RestController
-@RequestMapping("/sys/tenant-package")
+@RequestMapping("/admin/v1/tenant-package")
 @Validated
 public class TenantPackageController {
 
