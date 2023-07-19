@@ -2,7 +2,6 @@ package com.rc.cloud.app.operate.appearance.facade.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.operate.application.dto.BrandCreateDTO;
-import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
@@ -18,11 +17,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
-
 import java.nio.charset.Charset;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -54,7 +51,7 @@ public class BrandControllerIntegratedTest {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
-        mvc.perform(post("/operate/brand/create")
+        mvc.perform(post("/operate/admin/brand/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
@@ -78,7 +75,7 @@ public class BrandControllerIntegratedTest {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
-        mvc.perform(post("/operate/brand/update")
+        mvc.perform(put("/operate/admin/brand/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
@@ -95,7 +92,7 @@ public class BrandControllerIntegratedTest {
     @Test
     public void remove() throws Exception {
         String brandId="f7570440-f052-462c-b6a8-984b799";
-        mvc.perform(get("/operate/brand/remove").param("id", brandId))
+        mvc.perform(get("/operate/admin/brand/remove").param("id", brandId))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -105,17 +102,11 @@ public class BrandControllerIntegratedTest {
     @DisplayName(value = "品牌分页查询")
     @Test
     public void selectPageResult() throws Exception {
-        BrandQueryPageDTO dto = new BrandQueryPageDTO();
-        dto.setPageNo(1);
-        dto.setPageSize(10);
-//        dto.setName("pinpai");
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(dto);
-        mvc.perform(post("/operate/brand/selectPageResult")
-                        .contentType(MediaType.APPLICATION_JSON)
+        mvc.perform(get("/operate/admin/brand/selectPageResult")
+                        .param("pageNo","1")
+                        .param("pageSize","10")
+                        .param("name","pinpai")
                         .characterEncoding(Charset.defaultCharset())
-                        .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

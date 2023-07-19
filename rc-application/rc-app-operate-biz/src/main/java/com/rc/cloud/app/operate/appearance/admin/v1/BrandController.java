@@ -19,7 +19,7 @@ import javax.validation.Valid;
 
 @Tag(name = "品牌")
 @RestController
-@RequestMapping("/operate/brand")
+@RequestMapping("/operate/admin/brand")
 @Validated
 public class BrandController {
 
@@ -41,7 +41,7 @@ public class BrandController {
 
     @DeleteMapping("remove")
     @Operation(summary = "删除品牌")
-    public CodeResult remove(String id) {
+    public CodeResult remove(@RequestParam(name = "id",required = true) String id) {
         if (brandApplicationService.remove(id)) {
             return CodeResult.ok();
         }
@@ -49,9 +49,9 @@ public class BrandController {
     }
 
 
-    @PostMapping("selectPageResult")
+    @GetMapping("selectPageResult")
     @Operation(summary = "品牌分页查询")
-    public CodeResult<PageResult<BrandResponse>> selectPageResult(@Valid @RequestBody BrandQueryPageDTO brandQueryPageDTO) {
+    public CodeResult<PageResult<BrandResponse>> selectPageResult(@Valid BrandQueryPageDTO brandQueryPageDTO) {
         PageResult<BrandBO> boList = brandApplicationService.selectPageResult(brandQueryPageDTO);
         return CodeResult.ok(BrandResponse.from(boList));
     }

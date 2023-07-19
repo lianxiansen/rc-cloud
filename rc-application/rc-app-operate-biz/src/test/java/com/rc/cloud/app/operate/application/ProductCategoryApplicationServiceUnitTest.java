@@ -100,7 +100,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
         ProductCategory productCategory=productCategoryService.findById(new ProductCategoryId(productCategoryBO.getId()));
         Assertions.assertTrue(ObjectUtils.isNotNull(productCategory) &&
                 productCategoryCreateDTO.getName().equals(productCategoryBO.getName()) &&
-                productCategoryCreateDTO.getEnabledFlag().booleanValue() == productCategoryBO.isEnabled() &&
+                productCategoryCreateDTO.getEnabled().booleanValue() == productCategoryBO.isEnabled() &&
                 productCategoryCreateDTO.getEnglishName().equals(productCategoryBO.getEnglishName()) &&
                 productCategoryCreateDTO.getIcon().equals(productCategoryBO.getIcon()) &&
                 productCategoryCreateDTO.getProductCategoryPageImage().equals(productCategoryBO.getProductCategoryPageImage()) &&
@@ -117,7 +117,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
         ProductCategory productCategory=productCategoryService.findById(new ProductCategoryId(productCategoryBO.getId()));
         Assertions.assertTrue(ObjectUtils.isNotNull(productCategory) &&
                 productCategoryCreateDTO.getName().equals(productCategoryBO.getName()) &&
-                productCategoryCreateDTO.getEnabledFlag().booleanValue() == productCategoryBO.isEnabled() &&
+                productCategoryCreateDTO.getEnabled().booleanValue() == productCategoryBO.isEnabled() &&
                 productCategoryCreateDTO.getEnglishName().equals(productCategoryBO.getEnglishName()) &&
                 productCategoryCreateDTO.getIcon().equals(productCategoryBO.getIcon()) &&
                 productCategoryCreateDTO.getProductCategoryPageImage().equals(productCategoryBO.getProductCategoryPageImage()) &&
@@ -152,7 +152,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
         Assertions.assertTrue(ObjectUtils.isNotNull(productCategory) &&
                 new Layer(Layer.ROOT).equals(productCategory.getLayer()) &&
                 productCategoryUpdateDTO.getName().equals(productCategory.getChName().value()) &&
-                productCategoryUpdateDTO.getEnabledFlag().equals(productCategory.getEnabled().value()) &&
+                productCategoryUpdateDTO.getEnabled().equals(productCategory.getEnabled().value()) &&
                 productCategoryUpdateDTO.getEnglishName().equals(productCategory.getEnName().value()) &&
                 productCategoryUpdateDTO.getIcon().equals(productCategory.getIcon().getPictureUrl()) &&
                 productCategoryUpdateDTO.getProductCategoryPageImage().equals(productCategory.getPage().getCategoryImage()) &&
@@ -182,7 +182,7 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
                 root.getLayer().increment().equals(sonFuture.getLayer()) &&
                 root.getLayer().increment().increment().equals(grandsonFuture.getLayer()) &&
                 productCategoryUpdateDTO.getName().equals(sonFuture.getChName().value()) &&
-                productCategoryUpdateDTO.getEnabledFlag().equals(sonFuture.getEnabled().value()) &&
+                productCategoryUpdateDTO.getEnabled().equals(sonFuture.getEnabled().value()) &&
                 productCategoryUpdateDTO.getEnglishName().equals(sonFuture.getEnName().value()) &&
                 productCategoryUpdateDTO.getIcon().equals(sonFuture.getIcon().getPictureUrl()) &&
                 productCategoryUpdateDTO.getProductCategoryPageImage().equals(sonFuture.getPage().getCategoryImage()) &&
@@ -239,9 +239,9 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
     private void initFixture() {
         TenantContext.setTenantId("test");
         productCategoryCreateDTO = new ProductCategoryCreateDTO();
-        productCategoryCreateDTO.setProductCategoryPageImage(imgUrl).setEnglishName(RandomUtils.randomString()).setName(RandomUtils.randomString()).setIcon(imgUrl).setSortId(9).setEnabledFlag(true).setProductListPageImage(imgUrl);
+        productCategoryCreateDTO.setProductCategoryPageImage(imgUrl).setEnglishName(RandomUtils.randomString()).setName(RandomUtils.randomString()).setIcon(imgUrl).setSortId(9).setEnabled(true).setProductListPageImage(imgUrl);
         productCategoryUpdateDTO = new ProductCategoryUpdateDTO();
-        productCategoryUpdateDTO.setProductCategoryPageImage(imgUrl).setEnglishName(RandomUtils.randomString()).setName(RandomUtils.randomString()).setIcon(imgUrl).setSortId(9).setEnabledFlag(true).setProductListPageImage(imgUrl);
+        productCategoryUpdateDTO.setProductCategoryPageImage(imgUrl).setEnglishName(RandomUtils.randomString()).setName(RandomUtils.randomString()).setIcon(imgUrl).setSortId(9).setEnabled(true).setProductListPageImage(imgUrl);
         ProductCategoryBO productCategoryBO = productCategoryApplicationService.create(productCategoryCreateDTO);
         root = productCategoryService.findById(new ProductCategoryId(productCategoryBO.getId()));
     }

@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.appearance.admin.res;
 
-import com.rc.cloud.app.operate.appearance.convert.ProductCategoryConvert;
+import com.rc.cloud.app.operate.appearance.admin.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import lombok.Data;
 

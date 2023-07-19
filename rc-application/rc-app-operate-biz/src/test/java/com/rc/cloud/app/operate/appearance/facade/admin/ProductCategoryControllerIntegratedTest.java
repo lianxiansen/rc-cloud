@@ -64,13 +64,13 @@ public class ProductCategoryControllerIntegratedTest {
                 .setName(RandomUtils.randomString())
                 .setIcon(imgUrl)
                 .setSortId(9)
-                .setEnabledFlag(true)
+                .setEnabled(true)
                 .setProductListPageImage(imgUrl)
                 .setParentId("72f7ae9e-2ff8-45aa-b61b-59ee900");
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
-        mvc.perform(post("/operate/productCategory/create")
+        mvc.perform(post("/operate/admin/productCategory/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
@@ -91,7 +91,7 @@ public class ProductCategoryControllerIntegratedTest {
                 .setEnglishName(RandomUtils.randomString())
                 .setName(RandomUtils.randomString())
                 .setIcon(imgUrl).setSortId(9)
-                .setEnabledFlag(true)
+                .setEnabled(true)
                 .setProductListPageImage(imgUrl)
                 .setId("72f7ae9e-2ff8-45aa-b61b-59ee913")
                 .setParentId("72f7ae9e-2ff8-45aa-b61b-59ee910");
@@ -99,7 +99,7 @@ public class ProductCategoryControllerIntegratedTest {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
-        mvc.perform(post("/operate/productCategory/update")
+        mvc.perform(post("/operate/admin/productCategory/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
@@ -115,7 +115,7 @@ public class ProductCategoryControllerIntegratedTest {
     @Test
     public void remove() throws Exception {
         String id="72f7ae9e-2ff8-45aa-b61b-59ee913";
-        mvc.perform(get("/operate/productCategory/remove").param("id", id))
+        mvc.perform(get("/operate/admin/productCategory/remove").param("id", id))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -126,7 +126,7 @@ public class ProductCategoryControllerIntegratedTest {
     @DisplayName(value = "产品分类列表")
     @Test
     public void findAll() throws Exception {
-        mvc.perform(post("/operate/productCategory/findAll")
+        mvc.perform(post("/operate/admin/productCategory/findAll")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .accept(MediaType.APPLICATION_JSON))

@@ -31,7 +31,9 @@ public class TenantContext {
      * @return String
      */
     public String getTenantId() {
-        return THREAD_LOCAL_TENANT.get();
+        //TODO 测试用 先注释掉
+        return "110ef1f5-39d2-4f48-8c67-ae11111";
+//        return THREAD_LOCAL_TENANT.get();
     }
 
     /**

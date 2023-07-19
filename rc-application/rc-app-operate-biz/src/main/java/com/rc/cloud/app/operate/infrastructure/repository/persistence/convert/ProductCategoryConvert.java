@@ -5,6 +5,7 @@ import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductC
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductCategoryPO;
+import com.rc.cloud.common.core.util.StringUtils;
 
 import java.util.Objects;
 
@@ -29,7 +30,7 @@ public class ProductCategoryConvert {
         target.setIcon(source.getIcon().getPictureUrl());
         target.setName(source.getChName().value());
         target.setEnglishName(source.getEnName().value());
-        target.setParentId(source.getParentId()==null?null:source.getParentId().id());
+        target.setParentId(source.getParentId()==null?"":source.getParentId().id());
         target.setSortId(source.getSort().getValue());
         target.setTenantId(source.getTenantId().id());
         return target;
@@ -49,7 +50,7 @@ public class ProductCategoryConvert {
         productCategory.setPage(new Page(productCategoryPO.getProductCategoryPageImage(), productCategoryPO.getProductListPageImage()));
         productCategory.setSort(new Sort(productCategoryPO.getSortId()));
         productCategory.setLayer(new Layer(productCategoryPO.getLayer()));
-        if(null!= productCategoryPO.getParentId()){
+        if(StringUtils.isNotEmpty(productCategoryPO.getParentId())){
             productCategory.setParentId(new ProductCategoryId(productCategoryPO.getParentId()));
         }
         return productCategory;
