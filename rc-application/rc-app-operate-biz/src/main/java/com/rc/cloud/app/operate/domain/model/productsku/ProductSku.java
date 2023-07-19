@@ -231,4 +231,20 @@ public class ProductSku extends AggregateRoot {
     public void setProductSkuAttribute(ProductSkuAttribute productSkuAttribute) {
         this.productSkuAttribute = productSkuAttribute;
     }
+
+    public PackingNumber getPackingNumber() {
+        return packingNumber;
+    }
+
+    public void setPackingNumber(PackingNumber packingNumber) {
+        this.packingNumber = packingNumber;
+    }
+
+    public CartonSize getCartonSize() {
+        return cartonSize;
+    }
+
+    public void setCartonSize(CartonSize cartonSize) {
+        this.cartonSize = cartonSize;
+    }
 }

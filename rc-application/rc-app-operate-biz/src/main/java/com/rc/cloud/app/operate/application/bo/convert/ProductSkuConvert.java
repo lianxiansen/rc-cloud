@@ -20,6 +20,7 @@ import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -45,6 +46,13 @@ public class ProductSkuConvert {
         productSku =setProductSkuImage(productSkuSaveDTO,isCreate,productSku);
         //sku属性
         productSku =setProductSkuAttibute(productSkuSaveDTO,isCreate,productSku);
+        //装箱数
+        productSku =setPackingNumber(productSkuSaveDTO.getPackingNumber(),isCreate,productSku);
+        //箱规
+        productSku =setCartonSize(productSkuSaveDTO.getCartonSizeLength(),productSkuSaveDTO.getCartonSizeWidth(),
+                productSkuSaveDTO.getCartonSizeHeight(),
+                isCreate,productSku);
+
         return productSku;
     }
 
@@ -115,6 +123,39 @@ public class ProductSkuConvert {
         return productSku;
     }
 
+
+    private static ProductSku setPackingNumber(Integer packingNumber, boolean isCreate, ProductSku productSku){
+        if(isCreate){
+           if(packingNumber!=null){
+               productSku.setPackingNumber(new PackingNumber(packingNumber));
+           }else{
+               productSku.setPackingNumber(new PackingNumber(1));
+           }
+        }else{
+            if (packingNumber != null) {
+                productSku.setPackingNumber(new PackingNumber(packingNumber));
+            }
+        }
+        return productSku;
+    }
+
+
+    private static ProductSku setCartonSize(Integer length, Integer width, Integer height, boolean isCreate, ProductSku productSku){
+        if(isCreate){
+            if(length!=null && width!=null && height!=null){
+                productSku.setCartonSize(new CartonSize(length,width,height));
+            }else{
+                productSku.setCartonSize(null);
+            }
+        }else{
+            if (length!=null && width!=null && height!=null) {
+                productSku.setCartonSize(new CartonSize(length,width,height));
+            }
+        }
+        return productSku;
+    }
+
+
     private static ProductSku setProductSkuImage(ProductSkuSaveDTO dto,boolean isCreate, ProductSku productSku){
         List<ProductSkuImage> productImages = ProductSkuImageConvert.convertList(dto.getAlbums());
         if(isCreate){
@@ -171,6 +212,14 @@ public class ProductSkuConvert {
         }
         if(productSku.getSupplyPrice()!=null){
             bo.setSupplyPrice(productSku.getSupplyPrice().getValue());
+        }
+        if(productSku.getPackingNumber()!=null){
+            bo.setPackingNumber(productSku.getPackingNumber().getValue());
+        }
+        if(productSku.getCartonSize()!=null){
+            bo.setCartonSizeHeight(productSku.getCartonSize().getHeight());
+            bo.setCartonSizeWidth(productSku.getCartonSize().getWidth());
+            bo.setCartonSizeLength(productSku.getCartonSize().getHeight());
         }
         if(productSku.getSeckillSku()!=null){
             SeckillSku seckillSku = productSku.getSeckillSku();

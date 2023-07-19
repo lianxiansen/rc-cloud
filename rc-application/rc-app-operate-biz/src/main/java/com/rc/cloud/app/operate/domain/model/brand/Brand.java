@@ -40,7 +40,7 @@ public class Brand extends Entity {
     }
 
     public void setName(String name) {
-        AssertUtils.assertArgumentNotNull(name, "name must not be null");
+        AssertUtils.assertArgumentNotEmpty(name, "name must not be empty");
         this.name = name;
     }
 

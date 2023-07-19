@@ -17,6 +17,8 @@ import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class BrandApplicationService {
     @Autowired
@@ -52,23 +54,26 @@ public class BrandApplicationService {
             throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
         }
         Brand brand = brandService.findById(new BrandId(updateBrandDTO.getId()));
-        if (ObjectUtils.isNull(brand)) {
+        if (Objects.isNull(brand)) {
             throw new ServiceException(BrandErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
-        if (StringUtils.isNotEmpty(updateBrandDTO.getName())) {
+        if (Objects.nonNull(updateBrandDTO.getName())) {
+            if(StringUtils.isEmpty(updateBrandDTO.getName())){
+                throw new ServiceException(BrandErrorCodeConstants.NAME_NOT_EMPTY);
+            }
             brand.setName(updateBrandDTO.getName());
         }
-        if (ObjectUtils.isNotNull(updateBrandDTO.getEnabled())) {
+        if (Objects.nonNull(updateBrandDTO.getEnabled())) {
             if (updateBrandDTO.getEnabled().booleanValue()) {
                 brand.enable();
             } else {
                 brand.disable();
             }
         }
-        if (ObjectUtils.isNotNull(updateBrandDTO.getSortId())) {
+        if (Objects.nonNull(updateBrandDTO.getSortId())) {
             brand.setSort(updateBrandDTO.getSortId().intValue());
         }
-        if (StringUtils.isNotEmpty(updateBrandDTO.getType())) {
+        if (Objects.nonNull(updateBrandDTO.getType())) {
             brand.setType(updateBrandDTO.getType());
         }
         brandService.save(brand);
