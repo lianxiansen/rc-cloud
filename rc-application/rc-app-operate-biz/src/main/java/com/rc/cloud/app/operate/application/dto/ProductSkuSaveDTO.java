@@ -37,5 +37,15 @@ public class ProductSkuSaveDTO {
 
     private Integer sort;
 
+    private Integer packingNumber;
+
+    private Integer cartonSizeLength;
+
+    private Integer cartonSizeWidth;
+
+    private Integer cartonSizeHeight;
+
+
+
 
 }
