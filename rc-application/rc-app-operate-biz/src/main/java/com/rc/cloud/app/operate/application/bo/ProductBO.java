@@ -68,7 +68,7 @@ public class ProductBO {
 
     private BigDecimal freightPrice;
 
-    private int lowestBuy;
+    private boolean packingLowestBuyFlag;
 
     private BigDecimal popularizationAmountRate;
 

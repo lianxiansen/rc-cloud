@@ -463,4 +463,11 @@ public class Product extends AggregateRoot {
         return null;
     }
 
+    public PackingLowestBuy getPackingLowestBuy() {
+        return packingLowestBuy;
+    }
+
+    public void setPackingLowestBuy(PackingLowestBuy packingLowestBuy) {
+        this.packingLowestBuy = packingLowestBuy;
+    }
 }

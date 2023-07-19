@@ -105,7 +105,7 @@ public class ProductSaveDTO {
 
     private String popularizationAmountRate;
 
-    private Integer lowestBuy;
+    private Boolean packingLowestBuyFlag;
 
     private Integer getIntegral;
 

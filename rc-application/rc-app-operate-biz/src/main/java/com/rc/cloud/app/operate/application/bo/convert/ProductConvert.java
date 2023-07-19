@@ -84,6 +84,8 @@ public class ProductConvert
         product = setOnShelfStatus(productSaveDTO.getOnShelfStatus(),isCreate,product);
         //设置Recommend
         product = setRecommend(productSaveDTO.getRecommendFlag(),isCreate,product);
+        //设置PackingLowestBuy
+        product = setPackingLowestBuy(productSaveDTO.getPackingLowestBuyFlag(),isCreate,product);
         //设置Video
         product = setVideo(productSaveDTO.getVideoUrl()
                 ,productSaveDTO.getVideoImg()
@@ -94,6 +96,7 @@ public class ProductConvert
         product= setProductImage(productSaveDTO,isCreate,product);
         //设置属性
         product =setProductAttibute(productSaveDTO,isCreate,product);
+
         return product;
     }
 
@@ -221,6 +224,19 @@ public class ProductConvert
         }
         return product;
     }
+
+    private static Product setPackingLowestBuy(Boolean packingLowestBuyFlag, boolean isCreate, Product product){
+        if(isCreate){
+            product.setPackingLowestBuy(new PackingLowestBuy(packingLowestBuyFlag));
+        }else{
+            if (packingLowestBuyFlag != null) {
+                PackingLowestBuy packingLowestBuy = new PackingLowestBuy(packingLowestBuyFlag);
+                product.setPackingLowestBuy(packingLowestBuy);
+            }
+        }
+        return product;
+    }
+
 
 
     private static Product setPublic(Boolean publicFlag, boolean isCreate, Product product){
@@ -391,6 +407,9 @@ public class ProductConvert
             bo.setVideoUrl(product.getVideo().getVideoUrl());
             bo.setInstallVideoImg(product.getVideo().getInstallVideoImg());
             bo.setInstallVideoUrl(product.getVideo().getInstallVideoUrl());
+        }
+        if(product.getPackingLowestBuy()!=null){
+            bo.setPackingLowestBuyFlag(product.getPackingLowestBuy().result());
         }
         //转换图片
         if(product.getProductImages()!=null){
