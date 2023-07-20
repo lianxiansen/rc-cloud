@@ -49,8 +49,8 @@ public class ProductCategoryApplicationService {
             productCategory.setEnabled(new Enabled(productCreateCategoryDTO.getEnabled()));
         }
         productCategory.setPage(new Page(productCreateCategoryDTO.getProductCategoryPageImage(), productCreateCategoryDTO.getProductListPageImage()));
-        if(ObjectUtils.isNotNull(productCreateCategoryDTO.getSortId())){
-            productCategory.setSort(new Sort(productCreateCategoryDTO.getSortId()));
+        if(ObjectUtils.isNotNull(productCreateCategoryDTO.getSort())){
+            productCategory.setSort(new Sort(productCreateCategoryDTO.getSort()));
         }
         if(!StringUtils.isEmpty(productCreateCategoryDTO.getParentId())){
             ProductCategoryId parentId= new ProductCategoryId(productCreateCategoryDTO.getParentId());

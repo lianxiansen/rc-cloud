@@ -1,9 +1,9 @@
 package com.rc.cloud.app.operate.domain.model.productgroup;
 
+import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupItemId;
-import com.rc.cloud.app.operate.domain.model.productgroup.valobj.CreateTime;
 import com.rc.cloud.common.core.domain.Entity;
 
 import java.time.LocalDateTime;
@@ -47,9 +47,6 @@ public class ProductGroupItem extends Entity {
     public ProductGroupId getProductGroupId() {
         return productGroupId;
     }
-
-
-
 
 
     public CreateTime getCreateTime() {

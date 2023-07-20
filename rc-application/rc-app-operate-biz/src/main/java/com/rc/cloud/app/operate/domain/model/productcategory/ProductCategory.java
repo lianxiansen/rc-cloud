@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.productcategory;
 
+import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.ReInheritShouldNotSpecifyMyselfSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
@@ -8,6 +9,8 @@ import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCod
 import com.rc.cloud.common.core.domain.AggregateRoot;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.AssertUtils;
+
+import java.time.LocalDateTime;
 
 /**
  * @ClassName: ProductCategoryEntry
@@ -51,6 +54,8 @@ public class ProductCategory extends AggregateRoot {
      */
     private Sort sort;
 
+    private CreateTime createTime;
+
     public ProductCategory(ProductCategoryId id, TenantId tenantId, ChName name) {
         setId(id);
         setTenantId(tenantId);
@@ -59,18 +64,21 @@ public class ProductCategory extends AggregateRoot {
     }
 
     private void init(){
-        enName=new EnName("");
-        icon=new Icon();
-        page = new Page();
-        layer = new Layer();
-        enabled=new Enabled();
-        sort=new Sort();
-        setEnName(enName);
-        setIcon(icon);
-        setPage(page);
-        setLayer(layer);
-        setEnabled(enabled);
-        setSort(sort);
+        setEnName(new EnName(""));
+        setIcon(new Icon());
+        setPage(new Page());
+        setLayer(new Layer());
+        setEnabled(new Enabled());
+        setSort(new Sort());
+        setCreateTime(new CreateTime(LocalDateTime.now()));
+
+    }
+    public void setCreateTime(CreateTime createTime){
+        this.createTime = createTime;
+    }
+
+    public CreateTime getCreateTime(){
+        return this.createTime;
     }
 
     public void setId(ProductCategoryId id) {

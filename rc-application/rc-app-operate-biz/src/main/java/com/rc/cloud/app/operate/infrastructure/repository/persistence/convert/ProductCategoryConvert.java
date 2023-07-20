@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 
+import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
@@ -33,6 +34,7 @@ public class ProductCategoryConvert {
         target.setParentId(source.getParentId()==null?"":source.getParentId().id());
         target.setSortId(source.getSort().getValue());
         target.setTenantId(source.getTenantId().id());
+        target.setCreateTime(source.getCreateTime().getTime());
         return target;
     }
 
@@ -53,6 +55,7 @@ public class ProductCategoryConvert {
         if(StringUtils.isNotEmpty(productCategoryPO.getParentId())){
             productCategory.setParentId(new ProductCategoryId(productCategoryPO.getParentId()));
         }
+        productCategory.setCreateTime(new CreateTime(productCategoryPO.getCreateTime()));
         return productCategory;
     }
 

@@ -5,6 +5,7 @@ import com.rc.cloud.common.core.pojo.PageResult;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class BrandBO {
     private String type;
     private int sort;
     private boolean enable;
-
+    private LocalDateTime createTime;
     public static PageResult<BrandBO> convertBatch(PageResult<Brand> brandPageResult){
         List<BrandBO> brandVOList=new ArrayList<>();
         brandPageResult.getList().forEach(item->{
@@ -37,10 +38,11 @@ public class BrandBO {
     public static BrandBO convert(Brand brand){
         BrandBO brandBO=new BrandBO();
         brandBO.setId(brand.getId().id())
-                .setEnable(brand.isEnable())
+                .setEnable(brand.isEnabled())
                 .setName(brand.getName())
                 .setSort(brand.getSort())
-                .setType(brand.getType());
+                .setType(brand.getType())
+                .setCreateTime(brand.getCreateTime().getTime());
         return brandBO;
     }
 }

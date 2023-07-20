@@ -3,6 +3,7 @@ package com.rc.cloud.app.operate.appearance.admin.res;
 import com.rc.cloud.app.operate.appearance.admin.res.convert.BrandConvert;
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.core.util.date.LocalDateTimeUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -29,8 +30,9 @@ public class BrandResponse {
     @Schema(description = "排序")
     private int sort;
     @Schema(description = "状态，是否启用")
-    private boolean enable;
-
+    private boolean enabled;
+    @Schema(description = "创建时间")
+    private String createTime;
     public static PageResult<BrandResponse> from(PageResult<BrandBO> brandPageResult){
         List<BrandResponse> brandVOList=new ArrayList<>();
         brandPageResult.getList().forEach(item->{
@@ -43,6 +45,8 @@ public class BrandResponse {
     }
 
     public static BrandResponse from (BrandBO brand){
-        return BrandConvert.INSTANCE.convert2BrandVO(brand);
+        BrandResponse response= BrandConvert.INSTANCE.convert2BrandVO(brand);
+        response.setCreateTime(LocalDateTimeUtils.format(brand.getCreateTime()));
+        return response;
     }
 }
