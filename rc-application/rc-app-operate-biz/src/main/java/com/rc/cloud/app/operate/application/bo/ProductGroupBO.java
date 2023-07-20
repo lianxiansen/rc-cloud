@@ -11,7 +11,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class ProductGroupBO {
 
-    private String Id;
+    private String id;
     private String productId;
     private String name;
 

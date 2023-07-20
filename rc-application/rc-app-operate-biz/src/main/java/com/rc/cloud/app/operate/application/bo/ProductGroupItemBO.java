@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 public class ProductGroupItemBO {
 
-    private String Id;
+    private String id;
 
     private String productId;
 

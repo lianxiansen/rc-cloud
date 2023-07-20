@@ -20,7 +20,7 @@ public class CustomClassificationPO extends BaseDO {
     private static final long serialVersionUID = 23434L;
 
     @TableField("id")
-    private Long Id;
+    private Long id;
     /**
      * 租户id
      */

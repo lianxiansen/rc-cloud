@@ -37,7 +37,7 @@ public class ProductAttributePO {
     private static final long serialVersionUID = 245345L;
 
     @TableField("id")
-    private String Id;
+    private String id;
 
     @TableField("tenant_id")
     private String tenantId;

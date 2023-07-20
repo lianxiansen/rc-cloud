@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 public class BrandBO {
-    private String Id;
+    private String id;
     private String name;
     private String type;
     private int sort;

@@ -44,6 +44,8 @@ public class ProductController {
     @PostMapping("list")
     @Operation(summary = "产品列表")
     public CodeResult<PageResult<ProductListResponse>> listProduct(@Valid @RequestBody ProductListQueryDTO query) {
+        query.setNeedBrandName(true);
+        query.setNeedProductDetail(false);
         PageResult<ProductBO> productList = productApplicationService.getProductList(query);
         return CodeResult.ok(ProductListResponse.from(productList));
     }

@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 public class ProductCategoryBO {
-    private String Id;
+    private String id;
     private String tenantId;
 
     private String name;

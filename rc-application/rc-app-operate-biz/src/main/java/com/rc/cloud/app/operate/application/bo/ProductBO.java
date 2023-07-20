@@ -20,7 +20,7 @@ import java.util.List;
 public class ProductBO {
 
 
-    private String Id;
+    private String id;
 
     private String tenantId;
 
