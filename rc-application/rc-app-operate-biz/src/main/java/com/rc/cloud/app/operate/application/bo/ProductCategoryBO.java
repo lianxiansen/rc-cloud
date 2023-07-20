@@ -5,6 +5,7 @@ import com.rc.cloud.common.core.util.object.ObjectUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class ProductCategoryBO {
     private boolean enabled;
 
     private int sort;
-
+    private LocalDateTime createTime;
     public static List<ProductCategoryBO> convertBatch(List<ProductCategory> productCategoryList) {
         List<ProductCategoryBO> boList=new ArrayList<>();
         productCategoryList.forEach(item->{
@@ -54,7 +55,8 @@ public class ProductCategoryBO {
                 .setProductCategoryPageImage(productCategory.getPage().getCategoryImage())
                 .setProductListPageImage(productCategory.getPage().getListImage())
                 .setTenantId(productCategory.getTenantId().id())
-                .setSort(productCategory.getSort().getValue());
+                .setSort(productCategory.getSort().getValue())
+                .setCreateTime(productCategory.getCreateTime().getTime());
         if(ObjectUtils.isNotNull(productCategory.getParentId())){
             bo.setParentId(productCategory.getParentId().id());
         }

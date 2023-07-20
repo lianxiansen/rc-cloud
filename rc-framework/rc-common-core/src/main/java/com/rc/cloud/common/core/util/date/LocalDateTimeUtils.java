@@ -4,6 +4,7 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 时间工具类，用于 {@link LocalDateTime}
@@ -50,7 +51,7 @@ public class LocalDateTimeUtils {
      * 判断当前时间是否在该时间范围内
      *
      * @param startTime 开始时间
-     * @param endTime 结束时间
+     * @param endTime   结束时间
      * @return 是否
      */
     public static boolean isBetween(LocalDateTime startTime, LocalDateTime endTime) {
@@ -60,4 +61,13 @@ public class LocalDateTimeUtils {
         return LocalDateTimeUtil.isIn(LocalDateTime.now(), startTime, endTime);
     }
 
+    public static String format(LocalDateTime localDateTime) {
+        return format(localDateTime, DateFormat.FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND);
+    }
+
+
+    public static String format(LocalDateTime localDateTime, String format) {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern(format);
+        return localDateTime.format(fmt);
+    }
 }

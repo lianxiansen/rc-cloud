@@ -52,7 +52,7 @@ public class ProductControllerIntegratedTest {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(product);
-        mvc.perform(post("/operate/admin/product/create")
+        mvc.perform(post("/admin/product/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)

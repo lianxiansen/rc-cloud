@@ -32,7 +32,7 @@ public class ProductCategoryCreateDTO {
     @Schema(description = "状态，是否启用")
     private Boolean enabled;
     @Schema(description = "排序")
-    private Integer sortId;
+    private Integer sort;
 
 
 }

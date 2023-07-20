@@ -23,9 +23,9 @@ public class DateUtils {
      */
     public static final long SECOND_MILLIS = 1000;
 
-    public static final String FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND = "yyyy-MM-dd HH:mm:ss";
-
-    public static final String FORMAT_HOUR_MINUTE_SECOND = "HH:mm:ss";
+//    public static final String FORMAT_YEAR_MONTH_DAY_HOUR_MINUTE_SECOND = "yyyy-MM-dd HH:mm:ss";
+//
+//    public static final String FORMAT_HOUR_MINUTE_SECOND = "HH:mm:ss";
 
     /**
      * 将 LocalDateTime 转换成 Date

@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 
+import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.BrandPO;
@@ -16,7 +17,7 @@ public class BrandConvert {
         brandPO.setName(brandEntity.getName());
         brandPO.setType(brandEntity.getType());
         brandPO.setSortId(brandEntity.getSort());
-        brandPO.setEnabledFlag(brandEntity.isEnable());
+        brandPO.setEnabledFlag(brandEntity.isEnabled());
         return brandPO;
     }
 
@@ -29,6 +30,7 @@ public class BrandConvert {
         } else {
             brand.disable();
         }
+        brand.setCreateTime(new CreateTime(brandPO.getCreateTime()));
         return brand;
     }
 

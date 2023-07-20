@@ -73,7 +73,7 @@ public class ProductGroupControllerIntegratedTest {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(productGroupCreateDTO);
-        mvc.perform(post("/operate/admin/productGroup/create")
+        mvc.perform(post("/admin/productGroup/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -87,7 +87,7 @@ public class ProductGroupControllerIntegratedTest {
     @Test
     public void release() throws Exception {
         String productGroupId="870ef1f5-39d2-4f48-8c67-ae45206";
-        mvc.perform(delete("/operate/admin/productGroup/release").param("id", productGroupId))
+        mvc.perform(delete("/admin/productGroup/release").param("id", productGroupId))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -103,7 +103,7 @@ public class ProductGroupControllerIntegratedTest {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(productGroupItemCreateDTO);
-        mvc.perform(post("/operate/admin/productGroup/createItem")
+        mvc.perform(post("/admin/productGroup/createItem")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -117,7 +117,7 @@ public class ProductGroupControllerIntegratedTest {
     @DisplayName(value = "获取产品组合列表")
     @Test
     public void selectList() throws Exception {
-        mvc.perform(get("/operate/admin/productGroup/findAll").param("productId", productId.id()))
+        mvc.perform(get("/admin/productGroup/findAll").param("productId", productId.id()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
