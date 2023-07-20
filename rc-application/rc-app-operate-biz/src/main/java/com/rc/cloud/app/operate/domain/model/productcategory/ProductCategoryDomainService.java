@@ -9,7 +9,6 @@ import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCod
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,7 +23,7 @@ import java.util.Objects;
  * @Description: TODO
  */
 @Service
-public class ProductCategoryService {
+public class ProductCategoryDomainService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
     @Resource
@@ -32,9 +31,9 @@ public class ProductCategoryService {
 
     public ProductCategory create(ProductCategoryBuildFactory.ProductCategoryBuilder builder) {
         ProductCategory productCategory = builder.build();
-        if (ObjectUtils.isNotNull(productCategory.getParentId())) {
+        if (Objects.nonNull(productCategory.getParentId())) {
             ProductCategory parentCategory = productCategoryRepository.findById(productCategory.getParentId());
-            if (ObjectUtils.isNull(parentCategory)) {
+            if (Objects.isNull(parentCategory)) {
                 throw new ServiceException(ProductCategoryErrorCodeConstants.PARENT_NOT_EXISTS);
             }
             productCategory.inherit(parentCategory);
@@ -48,9 +47,9 @@ public class ProductCategoryService {
     public boolean update(ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder) {
         ProductCategory productCategory = rebuilder.rebuild();
         List<ProductCategory> allList = productCategoryRepository.findAll();
-        if (ObjectUtils.isNotNull(productCategory.getParentId())) {
+        if (Objects.nonNull(productCategory.getParentId())) {
             ProductCategory parent = productCategoryRepository.findById(productCategory.getParentId());
-            if (ObjectUtils.isNull(parent)) {
+            if (Objects.isNull(parent)) {
                 throw new ServiceException(ProductCategoryErrorCodeConstants.PARENT_NOT_EXISTS);
             }
             productCategory.reInherit(parent);

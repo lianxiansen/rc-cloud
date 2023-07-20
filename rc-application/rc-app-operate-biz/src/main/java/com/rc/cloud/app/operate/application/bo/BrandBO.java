@@ -23,7 +23,7 @@ public class BrandBO {
     private String logo;
     private String type;
     private int sort;
-    private boolean enable;
+    private boolean enabled;
     private LocalDateTime createTime;
     public static PageResult<BrandBO> convertBatch(PageResult<Brand> brandPageResult){
         List<BrandBO> brandVOList=new ArrayList<>();
@@ -39,7 +39,7 @@ public class BrandBO {
     public static BrandBO convert(Brand brand){
         BrandBO brandBO=new BrandBO();
         brandBO.setId(brand.getId().id())
-                .setEnable(brand.isEnabled())
+                .setEnabled(brand.isEnabled())
                 .setName(brand.getName())
                 .setSort(brand.getSort())
                 .setType(brand.getType())

@@ -14,7 +14,6 @@ import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageParam;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.StringUtils;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +34,7 @@ public class BrandApplicationService {
         if(StringUtils.isNotEmpty(createBrandDTO.getLogo())){
             brand.setLogo(createBrandDTO.getLogo());
         }
-        if (ObjectUtils.isNotNull(createBrandDTO.getEnabled())) {
+        if (Objects.nonNull(createBrandDTO.getEnabled())) {
             if (createBrandDTO.getEnabled().booleanValue()) {
                 brand.enable();
             } else {
@@ -43,7 +42,7 @@ public class BrandApplicationService {
             }
         }
 
-        if (ObjectUtils.isNotNull(createBrandDTO.getSort())) {
+        if (Objects.nonNull(createBrandDTO.getSort())) {
             brand.setSort(createBrandDTO.getSort().intValue());
         }
         if (StringUtils.isNotEmpty(createBrandDTO.getType())) {
