@@ -1,30 +1,22 @@
 package com.rc.cloud.app.distributor;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.yulichang.autoconfigure.MybatisPlusJoinAutoConfiguration;
-import com.rc.cloud.app.distributor.appearance.req.DistributorPageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorPageReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
-import com.rc.cloud.app.distributor.infrastructure.config.DistributorAutoConfig;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorPO;
-import com.rc.cloud.app.system.api.user.feign.RemoteUserService;
 import com.rc.cloud.common.mybatis.core.query.MPJLambdaWrapperX;
 import com.rc.cloud.common.mybatis.core.util.MyBatisUtils;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import com.rc.cloud.common.test.annotation.RcTest;
-import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants.DISTRIBUTOR_CONTACT_PHONE_DUPLICATE;
-import static com.rc.cloud.common.test.core.util.AssertUtils.assertServiceException;
 import static com.rc.cloud.common.test.core.util.RandomUtils.randomPojo;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.distributor.infrastructure.persistence.mapper;
 
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorReputationPageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorReputationPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;

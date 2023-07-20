@@ -1,9 +1,9 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.DistributorContactCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorContactCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorPageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.application.service.DistributorService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorAutoConfig;

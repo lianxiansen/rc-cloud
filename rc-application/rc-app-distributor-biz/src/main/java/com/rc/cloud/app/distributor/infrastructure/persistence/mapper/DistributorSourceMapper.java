@@ -1,6 +1,6 @@
 package com.rc.cloud.app.distributor.infrastructure.persistence.mapper;
 
-import com.rc.cloud.app.distributor.appearance.req.DistributorSourcePageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorSourcePageReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;

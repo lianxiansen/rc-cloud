@@ -1,9 +1,9 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.DistributorSourceCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorSourcePageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorSourceUpdateReqVO;
-import com.rc.cloud.app.distributor.application.convert.DistributorSourceConvert;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorSourceCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorSourcePageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorSourceUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.convert.DistributorSourceConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorSourceService;
 import com.rc.cloud.app.distributor.infrastructure.config.DistributorErrorCodeConstants;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;

@@ -1,7 +1,7 @@
 package com.rc.cloud.app.distributor.application.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.rc.cloud.app.distributor.appearance.req.DistributorContactUpdatePasswordReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorContactUpdatePasswordReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
 
 import java.util.List;
