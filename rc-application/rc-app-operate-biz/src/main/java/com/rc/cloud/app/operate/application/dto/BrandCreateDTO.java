@@ -20,6 +20,8 @@ public class BrandCreateDTO {
     @Schema(description = "品牌名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "振信")
     @NotBlank(message = "品牌名称不能为空")
     private String name;
+    @Schema(description = "logo图标url地址", example = "")
+    private String logo;
     @Schema(description = "品牌类型", example = "自有")
     private String type;
     @Schema(description = "状态，是否启用", example = "true")

@@ -8,6 +8,7 @@ import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.infrastructure.constants.BrandErrorCodeConstants;
+import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageParam;
@@ -31,6 +32,9 @@ public class BrandApplicationService {
             throw new ServiceException(BrandErrorCodeConstants.NAME_NOT_EMPTY);
         }
         Brand brand = new Brand(new BrandId(idRepository.nextId()), createBrandDTO.getName());
+        if(StringUtils.isNotEmpty(createBrandDTO.getLogo())){
+            brand.setLogo(createBrandDTO.getLogo());
+        }
         if (ObjectUtils.isNotNull(createBrandDTO.getEnabled())) {
             if (createBrandDTO.getEnabled().booleanValue()) {
                 brand.enable();
@@ -38,6 +42,7 @@ public class BrandApplicationService {
                 brand.disable();
             }
         }
+
         if (ObjectUtils.isNotNull(createBrandDTO.getSort())) {
             brand.setSort(createBrandDTO.getSort().intValue());
         }
@@ -55,13 +60,16 @@ public class BrandApplicationService {
         }
         Brand brand = brandDomainService.findById(new BrandId(updateBrandDTO.getId()));
         if (Objects.isNull(brand)) {
-            throw new ServiceException(BrandErrorCodeConstants.OBJECT_NOT_EXISTS);
+            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
         if (Objects.nonNull(updateBrandDTO.getName())) {
             if(StringUtils.isEmpty(updateBrandDTO.getName())){
                 throw new ServiceException(BrandErrorCodeConstants.NAME_NOT_EMPTY);
             }
             brand.setName(updateBrandDTO.getName());
+        }
+        if (Objects.nonNull(updateBrandDTO.getLogo())) {
+            brand.setLogo(updateBrandDTO.getLogo());
         }
         if (Objects.nonNull(updateBrandDTO.getEnabled())) {
             if (updateBrandDTO.getEnabled().booleanValue()) {

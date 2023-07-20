@@ -11,13 +11,14 @@ import java.util.List;
 
 public class BrandConvert {
 
-    public static BrandPO convert2BrandPO(Brand brandEntity) {
+    public static BrandPO convert2BrandPO(Brand brand) {
         BrandPO brandPO = new BrandPO();
-        brandPO.setId(brandEntity.getId().id());
-        brandPO.setName(brandEntity.getName());
-        brandPO.setType(brandEntity.getType());
-        brandPO.setSort(brandEntity.getSort());
-        brandPO.setEnabledFlag(brandEntity.isEnabled());
+        brandPO.setId(brand.getId().id());
+        brandPO.setName(brand.getName());
+        brandPO.setType(brand.getType());
+        brandPO.setSort(brand.getSort());
+        brandPO.setEnabledFlag(brand.isEnabled());
+        brandPO.setLogo(brand.getLogo());
         return brandPO;
     }
 
@@ -31,6 +32,7 @@ public class BrandConvert {
             brand.disable();
         }
         brand.setCreateTime(new CreateTime(brandPO.getCreateTime()));
+        brand.setLogo(brandPO.getLogo());
         return brand;
     }
 

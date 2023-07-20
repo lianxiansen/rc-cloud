@@ -19,7 +19,8 @@ public class BrandPO extends BaseDO {
 
     @TableField("name")
     private String name;
-
+    @TableField("logo")
+    private String logo;
     @TableField("type")
     private String type;
 

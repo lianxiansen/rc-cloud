@@ -4,6 +4,7 @@ import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.util.AssertUtils;
+import com.rc.cloud.common.core.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,10 @@ public class Brand extends Entity {
      * 品牌名
      */
     private String name;
+
+
+
+    private String logo;
 
     private String type;
 
@@ -51,6 +56,19 @@ public class Brand extends Entity {
         AssertUtils.assertArgumentNotEmpty(name, "name must not be empty");
         this.name = name;
     }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        if(StringUtils.isNotEmpty(logo)&&!StringUtils.ishttp(logo)){
+            throw new IllegalArgumentException("http地址无效");
+        }
+        this.logo = logo;
+    }
+
+
     public void setCreateTime(CreateTime createTime){
         this.createTime = createTime;
     }
@@ -85,4 +103,6 @@ public class Brand extends Entity {
     public void disable() {
         this.enabled = false;
     }
+
+
 }

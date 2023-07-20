@@ -2,6 +2,7 @@ CREATE TABLE `brand`
 (
     `id`           varchar(32) NOT NULL COMMENT '主键',
     `name`         varchar(50) DEFAULT NULL COMMENT '品牌名',
+    `logo` varchar(256) NULL DEFAULT NULL COMMENT 'logo',
     `type`         varchar(50) DEFAULT NULL COMMENT '品牌类型',
     `enabled_flag` bit         DEFAULT false COMMENT '状态 1-正常状态，0-未启用',
     `sort`      int(11) DEFAULT 99 COMMENT '排序',

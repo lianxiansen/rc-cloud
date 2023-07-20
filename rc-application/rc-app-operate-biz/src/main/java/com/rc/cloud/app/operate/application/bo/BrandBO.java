@@ -20,6 +20,7 @@ import java.util.List;
 public class BrandBO {
     private String id;
     private String name;
+    private String logo;
     private String type;
     private int sort;
     private boolean enable;
@@ -42,7 +43,8 @@ public class BrandBO {
                 .setName(brand.getName())
                 .setSort(brand.getSort())
                 .setType(brand.getType())
-                .setCreateTime(brand.getCreateTime().getTime());
+                .setCreateTime(brand.getCreateTime().getTime())
+                .setLogo(brand.getLogo());
         return brandBO;
     }
 }

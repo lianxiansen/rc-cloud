@@ -25,6 +25,8 @@ public class BrandResponse {
     private String Id;
     @Schema(description = "品牌名称")
     private String name;
+    @Schema(description = "logo")
+    private String logo;
     @Schema(description = "品牌类型")
     private String type;
     @Schema(description = "排序")
