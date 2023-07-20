@@ -47,7 +47,7 @@ public class BrandControllerIntegratedTest {
     public void create() throws Exception {
         BrandCreateDTO dto = new BrandCreateDTO();
         dto = new BrandCreateDTO();
-        dto.setName(RandomUtils.randomString()).setSortId(1).setEnabled(new Boolean(true)).setType(RandomUtils.randomString());
+        dto.setName(RandomUtils.randomString()).setSort(1).setEnabled(new Boolean(true)).setType(RandomUtils.randomString());
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
@@ -68,7 +68,7 @@ public class BrandControllerIntegratedTest {
     public void update() throws Exception {
         BrandUpdateDTO dto = new BrandUpdateDTO();
         dto.setName(RandomUtils.randomString())
-                .setSortId(1)
+                .setSort(1)
                 .setEnabled(new Boolean(true))
                 .setType(RandomUtils.randomString());
         dto.setId("f7570440-f052-462c-b6a8-984b799");

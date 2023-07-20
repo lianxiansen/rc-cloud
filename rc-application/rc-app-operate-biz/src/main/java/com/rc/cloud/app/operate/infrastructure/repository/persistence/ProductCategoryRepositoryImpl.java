@@ -1,13 +1,9 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Layer;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Locked;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Parent;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductCategoryMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductMapper;
@@ -32,29 +28,6 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     private ProductCategoryMapper productCategoryMapper;
     @Resource
     private ProductMapper productMapper;
-
-
-
-    /**
-     * 津贴用的
-     *
-     * @return
-     */
-    @Override
-    public List<ProductCategory> getFirstList(Locked locked, Layer layer, Parent parent) {
-        QueryWrapper<ProductCategoryPO> wrapper = new QueryWrapper<>();
-        wrapper.eq("IsLock", locked.getFlag());
-        wrapper.eq("Layer", layer.getValue());
-        wrapper.eq("ParentID", parent.getId());
-        wrapper.eq("deleted", '0');
-        wrapper.orderByAsc("SortID");
-        List<ProductCategory> list = new ArrayList<>();
-        productCategoryMapper.selectList(wrapper).forEach(item -> {
-            list.add(ProductCategoryConvert.convert2ProductCategory(item));
-        });
-        return list;
-    }
-
 
     @Override
     public ProductCategory findById(ProductCategoryId productCategoryId) {

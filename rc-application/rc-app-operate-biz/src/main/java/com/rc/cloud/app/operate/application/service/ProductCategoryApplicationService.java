@@ -3,11 +3,19 @@ package com.rc.cloud.app.operate.application.service;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
+import com.rc.cloud.app.operate.domain.common.valobj.Enabled;
+import com.rc.cloud.app.operate.domain.common.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryBuildFactory;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRebuildFactory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.ChName;
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.EnName;
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Icon;
+import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Page;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
@@ -37,88 +45,87 @@ public class ProductCategoryApplicationService {
 
 
     public ProductCategoryBO create(ProductCategoryCreateDTO productCreateCategoryDTO) {
-        if(StringUtils.isEmpty(productCreateCategoryDTO.getName())){
+        if (StringUtils.isEmpty(productCreateCategoryDTO.getName())) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.NAME_NOT_EMPTY);
         }
         TenantId tenantId = new TenantId(TenantContext.getTenantId());
         ChName name = new ChName(productCreateCategoryDTO.getName());
-        ProductCategory productCategory = new ProductCategory(new ProductCategoryId(idRepository.nextId()), tenantId, name);
-        productCategory.setEnName(new EnName(productCreateCategoryDTO.getEnglishName()));
-        productCategory.setIcon(new Icon(productCreateCategoryDTO.getIcon()));
-        if(ObjectUtils.isNotNull(productCreateCategoryDTO.getEnabled())){
-            productCategory.setEnabled(new Enabled(productCreateCategoryDTO.getEnabled()));
+        ProductCategoryBuildFactory.ProductCategoryBuilder builder = new ProductCategoryBuildFactory.ProductCategoryBuilder(new ProductCategoryId(idRepository.nextId()), tenantId, name);
+        builder.enName(new EnName(productCreateCategoryDTO.getEnglishName()));
+        builder.icon(new Icon(productCreateCategoryDTO.getIcon()));
+        if (ObjectUtils.isNotNull(productCreateCategoryDTO.getEnabled())) {
+            builder.setEnabled(new Enabled(productCreateCategoryDTO.getEnabled()));
         }
-        productCategory.setPage(new Page(productCreateCategoryDTO.getProductCategoryPageImage(), productCreateCategoryDTO.getProductListPageImage()));
-        if(ObjectUtils.isNotNull(productCreateCategoryDTO.getSort())){
-            productCategory.setSort(new Sort(productCreateCategoryDTO.getSort()));
+        builder.page(new Page(productCreateCategoryDTO.getProductCategoryPageImage(), productCreateCategoryDTO.getProductListPageImage()));
+        if (ObjectUtils.isNotNull(productCreateCategoryDTO.getSort())) {
+            builder.sort(new Sort(productCreateCategoryDTO.getSort()));
         }
-        if(!StringUtils.isEmpty(productCreateCategoryDTO.getParentId())){
-            ProductCategoryId parentId= new ProductCategoryId(productCreateCategoryDTO.getParentId());
-            productCategory.setParentId(parentId);
+        if (!StringUtils.isEmpty(productCreateCategoryDTO.getParentId())) {
+            ProductCategoryId parentId = new ProductCategoryId(productCreateCategoryDTO.getParentId());
+            builder.parentId(parentId);
         }
-        productCategoryService.save(productCategory);
+        ProductCategory productCategory = productCategoryService.create(builder);
         return ProductCategoryBO.convert(productCategory);
     }
 
 
     @Transactional(rollbackFor = Exception.class)
     public ProductCategoryBO update(ProductCategoryUpdateDTO productCategoryUpdateDTO) {
-        if(StringUtils.isEmpty(productCategoryUpdateDTO.getId())){
+        if (StringUtils.isEmpty(productCategoryUpdateDTO.getId())) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
         }
         ProductCategory productCategory = productCategoryService.findById(new ProductCategoryId(productCategoryUpdateDTO.getId()));
-        if(Objects.isNull(productCategory)){
-            throw new ServiceException(ProductCategoryErrorCodeConstants.OBJECT_NOT_EXISTS);
+        if (Objects.isNull(productCategory)) {
+            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
-        if(Objects.nonNull(productCategoryUpdateDTO.getParentId())){
-            if(StringUtils.isEmpty(productCategoryUpdateDTO.getParentId())){
-                productCategory.setParentId(null);
-            }else{
-                productCategory.setParentId(new ProductCategoryId(productCategoryUpdateDTO.getParentId()));
+        ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder=ProductCategoryRebuildFactory.create(productCategory);
+        if (Objects.nonNull(productCategoryUpdateDTO.getParentId())) {
+            if (StringUtils.isEmpty(productCategoryUpdateDTO.getParentId())) {
+                rebuilder.parentId(null);
+            } else {
+                rebuilder.parentId(new ProductCategoryId(productCategoryUpdateDTO.getParentId()));
             }
         }
         if (StringUtils.isNotEmpty(productCategoryUpdateDTO.getName())) {
-            productCategory.setChName(new ChName(productCategoryUpdateDTO.getName()));
+            rebuilder.chName(new ChName(productCategoryUpdateDTO.getName()));
         }
         if (StringUtils.isNotEmpty(productCategoryUpdateDTO.getEnglishName())) {
-            productCategory.setEnName(new EnName(productCategoryUpdateDTO.getEnglishName()));
+            rebuilder.enName(new EnName(productCategoryUpdateDTO.getEnglishName()));
         }
         if (StringUtils.isNotEmpty(productCategoryUpdateDTO.getIcon())) {
-            productCategory.setIcon(new Icon(productCategoryUpdateDTO.getIcon()));
+            rebuilder.icon(new Icon(productCategoryUpdateDTO.getIcon()));
         }
         if (StringUtils.isNotEmpty(productCategoryUpdateDTO.getProductCategoryPageImage())) {
-            productCategory.setPage(new Page(productCategoryUpdateDTO.getProductCategoryPageImage(), productCategory.getPage().getListImage()));
+            rebuilder.page(new Page(productCategoryUpdateDTO.getProductCategoryPageImage(), productCategory.getPage().getListImage()));
         }
         if (StringUtils.isNotEmpty(productCategoryUpdateDTO.getProductListPageImage())) {
-            productCategory.setPage(new Page(productCategory.getPage().getCategoryImage(), productCategoryUpdateDTO.getProductListPageImage()));
+            rebuilder.page(new Page(productCategory.getPage().getCategoryImage(), productCategoryUpdateDTO.getProductListPageImage()));
         }
         if (Objects.nonNull(productCategoryUpdateDTO.getSort())) {
-            productCategory.setSort(new Sort(productCategoryUpdateDTO.getSort()));
+            rebuilder.sort(new Sort(productCategoryUpdateDTO.getSort()));
         }
         if (Objects.nonNull(productCategoryUpdateDTO.getEnabled())) {
-            if(productCategoryUpdateDTO.getEnabled().booleanValue()){
-                productCategory.setEnabled(new Enabled(true));
-            }else{
-                productCategory.setEnabled(new Enabled(false));
-            }
+            rebuilder.setEnabled(new Enabled(productCategoryUpdateDTO.getEnabled().booleanValue()));
         }
-        productCategoryService.update(productCategory);
+        productCategoryService.update(rebuilder);
         return ProductCategoryBO.convert(productCategory);
     }
 
-    public boolean remove(String id){
-        if(StringUtils.isEmpty(id)){
+    public boolean remove(String id) {
+        if (StringUtils.isEmpty(id)) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
         }
         return productCategoryService.remove(new ProductCategoryId(id));
     }
+
     public List<ProductCategoryBO> findAll() {
-        List<ProductCategoryBO> boList=new ArrayList<>();
-        List<ProductCategory> productCategoryList=productCategoryService.findAll();
+        List<ProductCategoryBO> boList = new ArrayList<>();
+        List<ProductCategory> productCategoryList = productCategoryService.findAll();
         return ProductCategoryBO.convertBatch(productCategoryList);
     }
-    public  ProductCategoryBO findById(String id) {
-        return ProductCategoryBO.convert( productCategoryService.findById(new ProductCategoryId(id)));
+
+    public ProductCategoryBO findById(String id) {
+        return ProductCategoryBO.convert(productCategoryService.findById(new ProductCategoryId(id)));
     }
 
 }

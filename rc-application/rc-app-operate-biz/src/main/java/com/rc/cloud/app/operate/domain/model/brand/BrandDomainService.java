@@ -1,15 +1,17 @@
 package com.rc.cloud.app.operate.domain.model.brand;
 
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
-import com.rc.cloud.app.operate.domain.model.brand.specification.RemoveShouldExistsSpecification;
 import com.rc.cloud.app.operate.domain.model.brand.specification.RemoveShouldNotAssociatedProductSpecification;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.infrastructure.constants.BrandErrorCodeConstants;
+import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Service
 public class BrandDomainService {
@@ -44,13 +46,13 @@ public class BrandDomainService {
 
     public boolean remove(BrandId brandId){
         AssertUtils.notNull(brandId,"brandId must be not null");
-        if(!new RemoveShouldNotAssociatedProductSpecification(productRepository).isSatisfiedBy(brandId)){
+        Brand brand=brandRepository.findById(brandId);
+        if(Objects.isNull(brand)){
+            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
+        }
+        if(!new RemoveShouldNotAssociatedProductSpecification(productRepository).isSatisfiedBy(brand)){
             throw new ServiceException(BrandErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
         }
-        if(!new RemoveShouldExistsSpecification(brandRepository).isSatisfiedBy(brandId)){
-            throw new ServiceException(BrandErrorCodeConstants.OBJECT_NOT_EXISTS);
-        }
-
         return brandRepository.removeById(brandId);
     }
 

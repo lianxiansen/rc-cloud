@@ -6,11 +6,9 @@ import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
-import com.rc.cloud.app.operate.domain.model.brand.specification.RemoveShouldExistsSpecification;
-import com.rc.cloud.app.operate.domain.model.brand.specification.RemoveShouldNotAssociatedProductSpecification;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.BrandRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
@@ -49,7 +47,7 @@ import static org.mockito.Mockito.when;
  * 6.分页检索品牌，每页大小为10，记录数26，指定页码1，返回记录数10
  * |-6.1分页检索品牌，每页大小为10，记录数26，指定页码3，返回记录数6
  */
-@Import({BrandApplicationService.class, LocalIdRepositoryImpl.class, BrandDomainService.class, BrandRepositoryImpl.class, ProductRepositoryImpl.class, RemoveShouldExistsSpecification.class, RemoveShouldNotAssociatedProductSpecification.class})
+@Import({BrandApplicationService.class, LocalIdRepositoryImpl.class, BrandDomainService.class, BrandRepositoryImpl.class, ProductRepositoryImpl.class})
 @DisplayName("品牌单元测试")
 public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
     @Autowired
@@ -70,6 +68,7 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
     private BrandUpdateDTO updateBrandDTO;
 
     private Brand brandMock;
+
     @BeforeEach
     public void beforeEach() {
         initStub();
@@ -81,12 +80,9 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
     @DisplayName("创建品牌")
     public void createBrand() {
         BrandBO brandBO = brandApplicationService.create(createBrandDTO);
-        Brand brand= brandDomainService.findById(new BrandId(brandBO.getId()));
-        Assertions.assertTrue(ObjectUtils.isNotNull(brand) && createBrandDTO.getName().equals(brandBO.getName()) && createBrandDTO.getEnabled().booleanValue() == brandBO.isEnable() && createBrandDTO.getSortId().intValue() == brandBO.getSort() && createBrandDTO.getType().equals(brandBO.getType()), "创建品牌失败");
+        Brand brand = brandDomainService.findById(new BrandId(brandBO.getId()));
+        Assertions.assertTrue(ObjectUtils.isNotNull(brand) && createBrandDTO.getName().equals(brandBO.getName()) && createBrandDTO.getLogo().equals(brandBO.getLogo()) && createBrandDTO.getEnabled().booleanValue() == brandBO.isEnable() && createBrandDTO.getSort().intValue() == brandBO.getSort() && createBrandDTO.getType().equals(brandBO.getType()), "创建品牌失败");
     }
-
-
-
 
 
     @Test
@@ -94,24 +90,26 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
     public void updateBrand() {
         updateBrandDTO.setId(brandMock.getId().id());
         BrandBO brandBO = brandApplicationService.update(updateBrandDTO);
-        Assertions.assertTrue(brandMock.getId().id().equals(brandBO.getId()) && updateBrandDTO.getName().equals(brandBO.getName()) && updateBrandDTO.getEnabled().booleanValue() == brandBO.isEnable() && updateBrandDTO.getSortId().intValue() == brandBO.getSort() && updateBrandDTO.getType().equals(brandBO.getType()), "更新品牌失败");
+        Assertions.assertTrue(brandMock.getId().id().equals(brandBO.getId()) && updateBrandDTO.getName().equals(brandBO.getName()) && updateBrandDTO.getLogo().equals(brandBO.getLogo()) && updateBrandDTO.getEnabled().booleanValue() == brandBO.isEnable() && updateBrandDTO.getSort().intValue() == brandBO.getSort() && updateBrandDTO.getType().equals(brandBO.getType()), "更新品牌失败");
     }
 
 
     @Test
     @DisplayName("删除品牌")
     public void removeBrand() {
-        when(productRepositoryStub.existsByBrandId(brandMock.getId())).thenReturn(true);
+        when(productRepositoryStub.existsByBrandId(brandMock.getId())).thenReturn(false);
         Assertions.assertTrue(brandApplicationService.remove(brandMock.getId().id()), "删除品牌失败");
     }
 
     @Test
     @DisplayName("删除已关联产品的品牌")
     public void removeBrandWhenAssocatedProductThenThrowException() {
+        when(productRepositoryStub.existsByBrandId(brandMock.getId())).thenReturn(true);
         Assertions.assertThrows(ServiceException.class, () -> {
             brandApplicationService.remove(brandMock.getId().id());
         });
     }
+
     @Autowired
     private BrandMapper brandMapper;
 
@@ -144,7 +142,7 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
             brandApplicationService.create(createBrandDTO);
         }
         PageResult<BrandBO> brandVOPageResult = brandApplicationService.selectPageResult(queryBrandDTO);
-        Assertions.assertTrue(brandVOPageResult.getTotal().longValue() == totalCount&& brandVOPageResult.getList().size() == totalCount%queryBrandDTO.getPageSize() , "分页检索品牌失败");
+        Assertions.assertTrue(brandVOPageResult.getTotal().longValue() == totalCount && brandVOPageResult.getList().size() == totalCount % queryBrandDTO.getPageSize(), "分页检索品牌失败");
     }
 
     private void initStub() {
@@ -152,13 +150,22 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
     }
 
     private void initFixture() {
+        String imgUrl = "http://127.0.0.1:9000/test/2023/07/20/56a3d87acd3b4105950be3647abc5383.jpg";
         TenantContext.setTenantId("test");
         createBrandDTO = new BrandCreateDTO();
-        createBrandDTO.setName(RandomUtils.randomString()).setSortId(RandomUtils.randomInteger()).setEnabled(new Boolean(true)).setType(RandomUtils.randomString());
+        createBrandDTO.setName(RandomUtils.randomString())
+                .setSort(RandomUtils.randomInteger())
+                .setEnabled(new Boolean(true))
+                .setType(RandomUtils.randomString())
+                .setLogo(imgUrl);
         updateBrandDTO = new BrandUpdateDTO();
-        updateBrandDTO.setName(RandomUtils.randomString()).setSortId(RandomUtils.randomInteger()).setEnabled(new Boolean(true)).setType(RandomUtils.randomString());
+        updateBrandDTO.setName(RandomUtils.randomString())
+                .setSort(RandomUtils.randomInteger())
+                .setEnabled(new Boolean(true))
+                .setType(RandomUtils.randomString())
+                .setLogo(imgUrl);
         BrandBO brandBO = brandApplicationService.create(createBrandDTO);
-        brandMock= brandDomainService.findById(new BrandId(brandBO.getId()));
+        brandMock = brandDomainService.findById(new BrandId(brandBO.getId()));
     }
 
 

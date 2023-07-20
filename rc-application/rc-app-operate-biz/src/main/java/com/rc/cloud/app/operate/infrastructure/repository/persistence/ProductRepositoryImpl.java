@@ -8,23 +8,20 @@ import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.*;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductAttributeConvert;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductConvert;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductImageConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.*;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.*;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductAttributePO;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductImagePO;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -217,25 +214,6 @@ public class ProductRepositoryImpl implements  ProductRepository {
         productPageResult.setList(productList);
         return productPageResult;
     }
-
-//    @Override
-//    public List<ProductImage> getProductImageByProductId(ProductId productId){
-//        LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductImagePO>();
-//        LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
-//        wrapper.eq(ProductImagePO::getProductId, productId.id());
-//        return convert2ProductImage(this.productImageMapper.selectList(wrapper));
-//    }
-
-//    @Override
-//    public boolean existsByProductCategoryId(ProductCategoryId productCategoryId) {
-//        return false;
-//    }
-
-
-//    @Override
-//    public boolean existsByProductCategoryId(ProductCategoryId productCategoryId) {
-//        return false;
-//    }
 
     @Override
     public boolean existsByBrandId(BrandId brandId) {
