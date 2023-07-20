@@ -38,8 +38,8 @@ public class BrandApplicationService {
                 brand.disable();
             }
         }
-        if (ObjectUtils.isNotNull(createBrandDTO.getSortId())) {
-            brand.setSort(createBrandDTO.getSortId().intValue());
+        if (ObjectUtils.isNotNull(createBrandDTO.getSort())) {
+            brand.setSort(createBrandDTO.getSort().intValue());
         }
         if (StringUtils.isNotEmpty(createBrandDTO.getType())) {
             brand.setType(createBrandDTO.getType());
@@ -70,8 +70,8 @@ public class BrandApplicationService {
                 brand.disable();
             }
         }
-        if (Objects.nonNull(updateBrandDTO.getSortId())) {
-            brand.setSort(updateBrandDTO.getSortId().intValue());
+        if (Objects.nonNull(updateBrandDTO.getSort())) {
+            brand.setSort(updateBrandDTO.getSort().intValue());
         }
         if (Objects.nonNull(updateBrandDTO.getType())) {
             brand.setType(updateBrandDTO.getType());

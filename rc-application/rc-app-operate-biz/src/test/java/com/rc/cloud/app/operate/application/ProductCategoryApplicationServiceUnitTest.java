@@ -7,11 +7,10 @@ import com.rc.cloud.app.operate.application.event.ProductCategoryRefreshListener
 import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRebuildFactory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotAssociatedProductSpecification;
-import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotHasChildSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Layer;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductCategoryRepositoryImpl;
@@ -59,16 +58,13 @@ import static org.mockito.Mockito.when;
 @DisplayName("产品分类单元测试")
 @FixMethodOrder(MethodSorters.DEFAULT)
 public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
-    @Autowired
-    private ProductRepository productRepository;
+    @MockBean
+    private ProductRepository productRepositoryStub;
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
     @Autowired
     private ProductCategoryService productCategoryService;
-    @MockBean
-    private RemoveShouldNotHasChildSpecification removeShouldNoChildSpecificationStub;
-    @MockBean
-    private RemoveShouldNotAssociatedProductSpecification removeShouldNotAssociatedProductSpecificationStub;
+
     @Autowired
     private ProductCategoryApplicationService productCategoryApplicationService;
     @Resource
@@ -131,11 +127,8 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
     @Test
     @DisplayName("创建产品分类指定父产品分类,指定无效的父产品分类")
     public void createSubProductCategoryIfParentInvalidTest() {
-        ProductCategoryId parentId = new ProductCategoryId(idRepository.nextId());
-        when(removeShouldNotAssociatedProductSpecificationStub.isSatisfiedBy(parentId)).thenReturn(true);
-        when(removeShouldNoChildSpecificationStub.isSatisfiedBy(parentId)).thenReturn(true);
-        productCategoryService.remove(parentId);
-        productCategoryCreateDTO.setParentId(parentId.id());
+        productCategoryService.remove(root.getId());
+        productCategoryCreateDTO.setParentId(root.getId().id());
         Assertions.assertThrows(ServiceException.class, () -> {
             productCategoryApplicationService.create(productCategoryCreateDTO);
         });
@@ -145,7 +138,9 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
     @Test
     @DisplayName("修改产品分类属性，除了上级分类")
     public void updateProductCategoryWhenParentIdIsNull() {
-        root.setParentId(null);
+        ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder=ProductCategoryRebuildFactory.create(root);
+        rebuilder.parentId(null);
+        ProductCategory root=rebuilder.rebuild();
         productCategoryUpdateDTO.setId(root.getId().id());
         productCategoryApplicationService.update(productCategoryUpdateDTO);
         ProductCategory productCategory = productCategoryService.findById(root.getId());
@@ -167,10 +162,9 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
         //测试数据准备
         ProductCategoryBO sonFutureBO = productCategoryApplicationService.create(productCategoryCreateDTO);
         ProductCategory sonFuture = productCategoryService.findById(new ProductCategoryId(sonFutureBO.getId()));
+        productCategoryCreateDTO.setParentId(sonFutureBO.getId());
         ProductCategoryBO grandsonFutureBO = productCategoryApplicationService.create(productCategoryCreateDTO);
         ProductCategory grandsonFuture = productCategoryService.findById(new ProductCategoryId(grandsonFutureBO.getId()));
-        grandsonFuture.inherit(sonFuture);
-        productCategoryService.save(grandsonFuture);
         productCategoryUpdateDTO.setId(sonFutureBO.getId());
         productCategoryUpdateDTO.setParentId(root.getId().id());
         //测试执行
@@ -206,16 +200,14 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
     @Test
     @DisplayName("删除产品分类")
     public void removeProductCategory() {
-        when(removeShouldNotAssociatedProductSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(true);
-        when(removeShouldNoChildSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(true);
+        when(productRepositoryStub.existsByProductCategoryId(root.getId())).thenReturn(false);
         Assertions.assertTrue(productCategoryApplicationService.remove(root.getId().id()), "删除产品分类失败");
     }
 
     @Test
     @DisplayName("删除关联产品的产品分类")
     public void removeProductCategoryIfProductExists() {
-        when(removeShouldNotAssociatedProductSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(false);
-        when(removeShouldNoChildSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(true);
+        when(productRepositoryStub.existsByProductCategoryId(root.getId())).thenReturn(true);
         Assertions.assertThrows(ServiceException.class, () -> {
             productCategoryApplicationService.remove(root.getId().id());
         });
@@ -225,8 +217,10 @@ public class ProductCategoryApplicationServiceUnitTest extends BaseDbUnitTest {
     @Test
     @DisplayName("删除含有子分类的产品分类")
     public void removeProductCategoryIfSubProductCategoryExists() {
-        when(removeShouldNotAssociatedProductSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(true);
-        when(removeShouldNoChildSpecificationStub.isSatisfiedBy(root.getId())).thenReturn(false);
+        productCategoryCreateDTO.setParentId(root.getId().id());
+        productCategoryApplicationService.create(productCategoryCreateDTO);
+        when(productRepositoryStub.existsByProductCategoryId(root.getId())).thenReturn(false);
+
         Assertions.assertThrows(ServiceException.class, () -> {
             productCategoryApplicationService.remove(root.getId().id());
         });

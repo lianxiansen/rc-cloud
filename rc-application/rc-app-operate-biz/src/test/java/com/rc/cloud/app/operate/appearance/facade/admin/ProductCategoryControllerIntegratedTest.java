@@ -135,4 +135,18 @@ public class ProductCategoryControllerIntegratedTest {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data").isNotEmpty());
     }
+
+    @DisplayName(value = "产品分类树形列表")
+    @Test
+    public void findTreeList() throws Exception {
+        mvc.perform(get("/admin/productCategory/findTreeList")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").isNotEmpty());
+    }
 }

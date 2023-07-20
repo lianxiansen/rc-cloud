@@ -1,9 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.productcategory;
 
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Layer;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Locked;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Parent;
 
 import java.util.List;
 
@@ -13,8 +10,6 @@ import java.util.List;
  * @Description:
  */
 public interface ProductCategoryRepository {
-    List<ProductCategory> getFirstList(Locked locked, Layer layer, Parent parent);
-
     ProductCategory findById(ProductCategoryId productCategoryId);
 
     List<ProductCategory> findAll();

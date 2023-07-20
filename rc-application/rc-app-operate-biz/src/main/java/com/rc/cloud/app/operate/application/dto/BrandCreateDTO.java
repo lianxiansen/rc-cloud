@@ -26,5 +26,5 @@ public class BrandCreateDTO {
     private Boolean enabled;
     @Schema(description = "排序，最大值不能超过99", example = "99")
     @Max(value = 99,message = "最大值不能超过99")
-    private Integer sortId;
+    private Integer sort;
 }
