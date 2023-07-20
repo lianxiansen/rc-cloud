@@ -1,7 +1,8 @@
 package com.rc.cloud.app.operate.appearance.admin.res;
 
-import com.rc.cloud.app.operate.appearance.admin.convert.ProductCategoryConvert;
+import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
+import com.rc.cloud.common.core.util.tree.TreeNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @Data
 @Schema(description = "产品分类response")
-public class ProductCategoryResponse {
+public class ProductCategoryResponse extends TreeNode {
     @Schema(description = "产品分类唯一标识")
     private String Id;
     private String tenantId;

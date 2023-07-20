@@ -5,6 +5,7 @@ import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
 import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
+import com.rc.cloud.common.core.util.tree.TreeUtil;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -13,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -50,14 +52,25 @@ public class ProductCategoryController {
     @GetMapping("findAll")
     @Operation(summary = "产品分类列表")
     public CodeResult<List<ProductCategoryResponse>> findAll() {
-        List<ProductCategoryBO> boList = productCategoryApplicationService.findAll();
-        return CodeResult.ok(ProductCategoryResponse.from(boList));
+        List<ProductCategoryBO> bos =productCategoryApplicationService.findAll();
+        List<ProductCategoryResponse> responses=ProductCategoryResponse.from(bos);
+        return CodeResult.ok(responses);
     }
+
     @GetMapping("findById")
     @Operation(summary = "根据唯一标识查找产品分类")
     public CodeResult<ProductCategoryResponse> findById(@RequestParam(name = "id",required = true) String id) {
         ProductCategoryBO bo = productCategoryApplicationService.findById(id);
         return CodeResult.ok(ProductCategoryResponse.from(bo));
+    }
+
+    @GetMapping("findTreeList")
+    @Operation(summary = "产品分类树形列表")
+    public CodeResult<List<ProductCategoryResponse>> findTreeList() {
+        List<ProductCategoryBO> bos =productCategoryApplicationService.findAll();
+        List<ProductCategoryResponse> responses=ProductCategoryResponse.from(bos);
+        responses.sort(Comparator.comparing(ProductCategoryResponse::getSort));
+        return CodeResult.ok(TreeUtil.build(responses));
     }
 
 }

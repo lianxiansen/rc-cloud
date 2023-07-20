@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.appearance.admin.res;
 
-import com.rc.cloud.app.operate.appearance.admin.convert.BrandConvert;
+import com.rc.cloud.app.operate.appearance.admin.res.convert.BrandConvert;
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import io.swagger.v3.oas.annotations.media.Schema;

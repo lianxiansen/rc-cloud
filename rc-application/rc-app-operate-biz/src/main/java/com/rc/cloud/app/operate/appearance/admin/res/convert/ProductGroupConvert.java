@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.appearance.admin.convert;
+package com.rc.cloud.app.operate.appearance.admin.res.convert;
 
 import com.rc.cloud.app.operate.appearance.admin.res.ProductGroupResponse;
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
