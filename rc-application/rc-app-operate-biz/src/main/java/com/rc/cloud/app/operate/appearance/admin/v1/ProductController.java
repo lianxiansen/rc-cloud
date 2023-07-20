@@ -1,8 +1,10 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
+import com.rc.cloud.app.operate.appearance.admin.res.ProductListResponse;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
+import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,6 +38,14 @@ public class ProductController {
     @Operation(summary = "修改产品")
     public CodeResult<ProductBO> editProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
         return CodeResult.ok( productApplicationService.updateProduct(productSaveDTO));
+    }
+
+
+    @PostMapping("list")
+    @Operation(summary = "产品列表")
+    public CodeResult<PageResult<ProductListResponse>> listProduct(@Valid @RequestBody ProductListQueryDTO query) {
+        PageResult<ProductBO> productList = productApplicationService.getProductList(query);
+        return CodeResult.ok(ProductListResponse.from(productList));
     }
 
     @PostMapping("changeNewStatus")

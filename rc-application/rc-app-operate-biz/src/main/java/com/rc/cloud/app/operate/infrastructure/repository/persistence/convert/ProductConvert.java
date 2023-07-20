@@ -18,7 +18,6 @@ public class ProductConvert {
 
     ProductConvert INSTANCE = Mappers.getMapper(ProductConvert.class);
 
-
     public static Product convert(ProductPO po){
         ProductId productId=new ProductId(po.getId());
         TenantId tenantId = new TenantId(po.getTenantId());
@@ -31,16 +30,14 @@ public class ProductConvert {
         CategoryName secondCategory = new CategoryName(po.getSecondCategory());
         CategoryName thirdCategory = new CategoryName(po.getThirdCategory());
         CustomClassificationId customClassificationId = new CustomClassificationId(po.getCustomClassificationId());
-        Newest newest = new Newest(po.getNewFlag());
         Explosives explosives = null;
         if(po.getExplosivesFlag()){
             explosives= new Explosives(po.getExplosivesFlag(), po.getExplosivesImage());
         }
 
         Recommend recommend = new Recommend(po.getRecommendFlag());
-        Open open = new Open(po.getPublicFlag());
         OnshelfStatus onshelfStatus = new OnshelfStatus(po.getOnshelfStatus());
-        Enable enable = new Enable(po.getEnabledFlag());
+        Enabled enabled = new Enabled(po.getEnabledFlag());
         Video video = new Video(po.getVideoUrl(), po.getVideoImg()
                 , po.getInstallVideoUrl(), po.getInstallVideoImg());
 
@@ -49,79 +46,78 @@ public class ProductConvert {
         product.setBrandId(brandId);
         product.setCategory(firstCategory,secondCategory,thirdCategory);
         product.setCustomClassificationId(customClassificationId);
-        product.setNewest(newest);
+        product.setNewFlag(po.getNewFlag());
         product.setExplosives(explosives);
         product.setRecommend(recommend);
-        product.setOpen(open);
+        product.setPublicFlag(po.getPublicFlag());
         product.setOnshelfStatus(onshelfStatus);
-        product.setEnable(enable);
+        product.setEnable(enabled);
         product.setVideo(video);
         return product;
 
     }
 
     public static ProductPO convert(Product product){
-         ProductPO target=new ProductPO();
-
-        target.setId(product.getId().id());
-        target.setTenantId(product.getTenantId().id());
+         ProductPO po=new ProductPO();
+        po.setId(product.getId().id());
+        po.setTenantId(product.getTenantId().id());
         if(product.getEnable()!=null){
-            target.setEnabledFlag(product.getEnable().result());
+            po.setEnabledFlag(product.getEnable().result());
         }
         if(product.getName()!=null){
-            target.setName(product.getName().getValue());
+            po.setName(product.getName().getValue());
         }
         if(product.getRemark()!=null){
-            target.setRemark(product.getRemark().getValue());
+            po.setRemark(product.getRemark().getValue());
         }
         if(product.getTag()!=null){
-            target.setTag(product.getTag().getValue());
+            po.setTag(product.getTag().getValue());
         }
         if(product.getBrandId()!=null){
-            target.setBrandId(product.getBrandId().id());
+            po.setBrandId(product.getBrandId().id());
         }
         //类别
         if(product.getFirstCategory()!=null){
-            target.setFirstCategory(product.getFirstCategory().getValue());
+            po.setFirstCategory(product.getFirstCategory().getValue());
         }
         if(product.getSecondCategory()!=null){
-            target.setSecondCategory(product.getSecondCategory().getValue());
+            po.setSecondCategory(product.getSecondCategory().getValue());
         }
         if(product.getThirdCategory()!=null){
-            target.setThirdCategory(product.getThirdCategory().getValue());
+            po.setThirdCategory(product.getThirdCategory().getValue());
         }
         //自定义分类
         if(product.getCustomClassificationId()!=null){
-            target.setCustomClassificationId(product.getCustomClassificationId().id());
+            po.setCustomClassificationId(product.getCustomClassificationId().id());
         }
-        if(product.getNewest()!=null){
-            target.setNewFlag(product.getNewest().getValue());
+        if(product.getNewFlag()!=null){
+            po.setNewFlag(product.getNewFlag());
         }
         if(product.getRecommend()!=null){
-            target.setRecommendFlag(product.getRecommend().getValue());
+            po.setRecommendFlag(product.getRecommend().getValue());
         }
         if(product.getExplosives()!=null){
-            target.setExplosivesFlag(product.getExplosives().isFlag());
-            target.setExplosivesImage(product.getExplosives().getImage());
+            po.setExplosivesFlag(product.getExplosives().isFlag());
+            po.setExplosivesImage(product.getExplosives().getImage());
         }
-        if(product.getOpen()!=null){
-            target.setPublicFlag(product.getOpen().getValue());
+        if(product.getPublicFlag()!=null){
+            po.setPublicFlag(product.getPublicFlag());
         }
         //上架状态
         if(product.getOnshelfStatus()!=null){
-            target.setOnshelfStatus(product.getOnshelfStatus().getValue());
+            po.setOnshelfStatus(product.getOnshelfStatus().getValue());
         }
         //启用状态
         if(product.getEnable()!=null){
-            target.setEnabledFlag(product.getEnable().result());
+            po.setEnabledFlag(product.getEnable().result());
         }
         if(product.getVideo()!=null){
-            target.setVideoImg(product.getVideo().getVideoImg());
-            target.setVideoUrl(product.getVideo().getVideoUrl());
-            target.setInstallVideoImg(product.getVideo().getInstallVideoImg());
-            target.setInstallVideoUrl(product.getVideo().getInstallVideoUrl());
+            po.setVideoImg(product.getVideo().getVideoImg());
+            po.setVideoUrl(product.getVideo().getVideoUrl());
+            po.setInstallVideoImg(product.getVideo().getInstallVideoImg());
+            po.setInstallVideoUrl(product.getVideo().getInstallVideoUrl());
         }
-        return target;
+        return po;
     }
 
     public static List<Product> convertList(List<ProductPO> list){

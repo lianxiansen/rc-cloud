@@ -2,7 +2,6 @@ package com.rc.cloud.app.operate.application.bo.convert;
 
 import com.rc.cloud.app.operate.application.bo.*;
 import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
-import com.rc.cloud.app.operate.application.dto.ProductImageSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
@@ -11,7 +10,7 @@ import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductAttributeId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Enable;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Enabled;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
@@ -19,10 +18,6 @@ import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.common.core.exception.ApplicationException;
-import com.rc.cloud.common.core.util.StringUtils;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -182,13 +177,15 @@ public class ProductConvert
 
     private static Product setNewest(Boolean newFlag, boolean isCreate, Product product){
         if(isCreate){
-            product.setNewest(new Newest(newFlag));
+            if(newFlag==null){
+                product.setNewFlag(false);
+            }else{
+                product.setNewFlag(newFlag);
+            }
         }else{
             if (newFlag != null) {
-                Newest newest = new Newest(newFlag);
-                product.setNewest(newest);
+                product.setNewFlag(newFlag);
             }
-
         }
         return product;
     }
@@ -241,13 +238,15 @@ public class ProductConvert
 
     private static Product setPublic(Boolean publicFlag, boolean isCreate, Product product){
         if(isCreate){
-            product.setOpen(new Open(publicFlag));
+            if(publicFlag==null){
+                product.setPublicFlag(false);
+            }else{
+                product.setPublicFlag(publicFlag);
+            }
         }else{
             if (publicFlag != null) {
-                Open open = new Open(publicFlag);
-                product.setOpen(open);
+                product.setPublicFlag(publicFlag);
             }
-
         }
         return product;
     }
@@ -270,11 +269,11 @@ public class ProductConvert
 
     private static Product setEnable(Boolean enableFlag, boolean isCreate, Product product){
         if(isCreate){
-            product.setEnable(new Enable(enableFlag));
+            product.setEnable(new Enabled(enableFlag));
         }else{
             if (enableFlag != null) {
-                Enable enable = new Enable(enableFlag);
-                product.setEnable(enable);
+                Enabled enabled = new Enabled(enableFlag);
+                product.setEnable(enabled);
             }
         }
         return product;
@@ -381,8 +380,10 @@ public class ProductConvert
         if(product.getCustomClassificationId()!=null){
             bo.setCustomClassificationId(product.getCustomClassificationId().id());
         }
-        if(product.getNewest()!=null){
-            bo.setNewFlag(product.getNewest().getValue());
+        if(product.getNewFlag()!=null){
+            bo.setNewFlag(product.getNewFlag());
+        }else{
+            bo.setNewFlag(false);
         }
         if(product.getRecommend()!=null){
             bo.setRecommendFlag(product.getRecommend().getValue());
@@ -391,8 +392,10 @@ public class ProductConvert
             bo.setExplosivesFlag(product.getExplosives().isFlag());
             bo.setExplosivesImage(product.getExplosives().getImage());
         }
-        if(product.getOpen()!=null){
-            bo.setPublicFlag(product.getOpen().getValue());
+        if(product.getPublicFlag()!=null){
+            bo.setPublicFlag(product.getPublicFlag());
+        }else{
+            bo.setPublicFlag(false);
         }
         //上架状态
         if(product.getOnshelfStatus()!=null){
@@ -448,5 +451,6 @@ public class ProductConvert
         }
         return resList;
     }
+
 
 }

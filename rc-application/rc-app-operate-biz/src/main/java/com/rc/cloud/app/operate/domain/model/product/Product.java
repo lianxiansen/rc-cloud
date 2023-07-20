@@ -115,11 +115,28 @@ public class Product extends AggregateRoot {
         return this;
     }
 
-
     /**
      * 新品
      */
-    private Newest newest;
+    private Boolean newFlag;
+    private Boolean publicFlag;
+
+
+    public Boolean getNewFlag() {
+        return newFlag;
+    }
+
+    public void setNewFlag(Boolean newFlag) {
+        this.newFlag = newFlag;
+    }
+
+    public Boolean getPublicFlag() {
+        return publicFlag;
+    }
+
+    public void setPublicFlag(Boolean publicFlag) {
+        this.publicFlag = publicFlag;
+    }
 
     /**
      * 超级单品
@@ -131,14 +148,6 @@ public class Product extends AggregateRoot {
      */
     private Recommend recommend;
 
-    /**
-     * 公开
-     */
-    private Open open;
-
-    public void setNewest(Newest newest){
-        this.newest = newest;
-    }
 
     public void setExplosives(Explosives explosives){
         this.explosives = explosives;
@@ -146,10 +155,6 @@ public class Product extends AggregateRoot {
 
     public void setRecommend(Recommend recommend){
         this.recommend = recommend;
-    }
-
-    public void setOpen(Open open){
-        this.open = open;
     }
 
 
@@ -169,10 +174,10 @@ public class Product extends AggregateRoot {
     /**
      * 状态 1-正常状态，0-未启用
      */
-    private Enable enable;
+    private Enabled enabled;
 
-    public void setEnable(Enable enable){
-        this.enable = enable;
+    public void setEnable(Enabled enabled){
+        this.enabled = enabled;
     }
 
 
@@ -308,14 +313,14 @@ public class Product extends AggregateRoot {
      * 禁用
      */
     public void disable(){
-        this.enable =new Enable(false);
+        this.enabled =new Enabled(false);
     }
 
     /**
      * 启用
      */
     public void enable(){
-        this.enable =new Enable(true);
+        this.enabled =new Enabled(true);
     }
 
 
@@ -376,10 +381,6 @@ public class Product extends AggregateRoot {
         return customClassificationId;
     }
 
-    public Newest getNewest() {
-        return newest;
-    }
-
     public Explosives getExplosives() {
         return explosives;
     }
@@ -388,16 +389,13 @@ public class Product extends AggregateRoot {
         return recommend;
     }
 
-    public Open getOpen() {
-        return open;
-    }
 
     public OnshelfStatus getOnshelfStatus() {
         return onshelfStatus;
     }
 
-    public Enable getEnable() {
-        return enable;
+    public Enabled getEnable() {
+        return enabled;
     }
 
     public Video getVideo() {
@@ -470,4 +468,6 @@ public class Product extends AggregateRoot {
     public void setPackingLowestBuy(PackingLowestBuy packingLowestBuy) {
         this.packingLowestBuy = packingLowestBuy;
     }
+
+
 }

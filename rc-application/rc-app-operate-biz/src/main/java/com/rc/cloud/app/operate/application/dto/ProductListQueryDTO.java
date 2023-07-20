@@ -54,7 +54,7 @@ public class ProductListQueryDTO extends PageParam {
 
     private Boolean needProductDetail;
 
-
+    private Boolean needBrandName;
 
 
 }
