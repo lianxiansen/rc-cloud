@@ -25,6 +25,6 @@ public class AttributeValuePO extends BaseDO {
     @TableField("name")
     private String name;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 }

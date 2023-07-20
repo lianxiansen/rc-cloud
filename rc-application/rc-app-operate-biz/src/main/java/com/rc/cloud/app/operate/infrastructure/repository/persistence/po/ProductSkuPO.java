@@ -68,8 +68,8 @@ public class ProductSkuPO extends BaseDO {
     @TableField("seckill_total_inventory")
     private int seckillTotalInventory;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 
     @TableField("carton_size_height")
     private int cartonSizeHeight;

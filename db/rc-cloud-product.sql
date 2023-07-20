@@ -29,7 +29,7 @@ CREATE TABLE `brand`
     `name`         varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌名',
     `type`         varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '品牌类型',
     `enabled_flag` bit COLLATE utf8mb4_bin         DEFAULT false COMMENT '状态 1-正常状态，0-未启用',
-    `sort_id`      int(11)                         DEFAULT 99 COMMENT '排序',
+    `sort`      int(11)                         DEFAULT 99 COMMENT '排序',
     `deleted`      bit COLLATE utf8mb4_bin         DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`      varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
     `create_time`  datetime                        DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -53,7 +53,7 @@ CREATE TABLE `platform_product_category`
     `parent_id`    varchar(32) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '父级id',
     `layer`        int(11)                          DEFAULT 0 COMMENT '层级',
     `enabled_flag` bit COLLATE utf8mb4_bin          DEFAULT false COMMENT '状态 1-正常状态，0-未启用',
-    `sort_id`      int(11)                          DEFAULT 99 COMMENT '排序',
+    `sort`      int(11)                          DEFAULT 99 COMMENT '排序',
     `deleted`      bit COLLATE utf8mb4_bin          DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`      varchar(32) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '创建人',
     `create_time`  datetime                         DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -81,7 +81,7 @@ CREATE TABLE `product_category`  (
  `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '父级id',
  `layer` int(11) NULL DEFAULT 0 COMMENT '层级',
  `enabled_flag` bit(1) NULL DEFAULT b'0' COMMENT '状态 1-正常状态，0-未启用',
- `sort_id` int(11) NULL DEFAULT 99 COMMENT '排序',
+ `sort` int(11) NULL DEFAULT 99 COMMENT '排序',
  `deleted` bit(1) NULL DEFAULT b'0' COMMENT '删除标识 0未删除，1已删除',
  `creator` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL COMMENT '创建人',
  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -104,7 +104,7 @@ CREATE TABLE `custom_classification`
     `product_poster`               varchar(256) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品海报URL',
     `custom_classification_poster` varchar(256) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '分类海报URL',
     `enabled_flag`                 bit COLLATE utf8mb4_bin          DEFAULT false COMMENT '状态 1-正常状态，0-未启用',
-    `sort_id`                      int(11)                          DEFAULT 99 COMMENT '排序',
+    `sort`                      int(11)                          DEFAULT 99 COMMENT '排序',
     `deleted`                      bit COLLATE utf8mb4_bin          DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`                      varchar(32) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '创建人',
     `create_time`                  datetime                         DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -127,7 +127,7 @@ CREATE TABLE `attribute`
     `id`          varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '主键',
     `tenant_id`   varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
     `name`        varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '属性名',
-    `sort_id`     int(11)                         DEFAULT 99 COMMENT '排序',
+    `sort`     int(11)                         DEFAULT 99 COMMENT '排序',
     `deleted`     bit COLLATE utf8mb4_bin         DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`     varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
     `create_time` datetime                        DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -151,7 +151,7 @@ CREATE TABLE `attribute_value`
     `tenant_id`    varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '所属租户',
     `attribute_id` varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '属性ID',
     `name`         varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '属性值名',
-    `sort_id`      int(11)                         DEFAULT 99 COMMENT '排序',
+    `sort`      int(11)                         DEFAULT 99 COMMENT '排序',
     `deleted`      bit COLLATE utf8mb4_bin         DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`      varchar(32) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
     `create_time`  datetime                        DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -209,7 +209,7 @@ CREATE TABLE `product`
     `explosives_image`           varchar(256) COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '超级单品海报URL，分类海报显示在产品分类页，尺寸500*280',
     `public_flag`                bit COLLATE utf8mb4_bin            DEFAULT false COMMENT '是否公开 0否，1是',
     `recommend_flag`             bit COLLATE utf8mb4_bin            DEFAULT false COMMENT '是否推荐 0否，1是',
-    `sort_id`                    int(11)                            DEFAULT 99 COMMENT '排序',
+    `sort`                    int(11)                            DEFAULT 99 COMMENT '排序',
     `creator`                    varchar(32) COLLATE utf8mb4_bin    DEFAULT NULL COMMENT '创建人',
     `create_time`                datetime                           DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updater`                    varchar(32) COLLATE utf8mb4_bin    DEFAULT NULL COMMENT '更新人',
@@ -245,7 +245,7 @@ CREATE TABLE `product_sku`
     `seckill_price`           decimal(18, 2) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '秒杀价格',
     `seckill_inventory`       int(11) COLLATE utf8mb4_bin        DEFAULT NULL COMMENT '秒杀库存',
     `seckill_total_inventory` int(11) COLLATE utf8mb4_bin        DEFAULT NULL COMMENT '秒杀总库存，计算已抢购百分比使用',
-    `sort_id`                 int(11)                            DEFAULT 99 COMMENT '排序',
+    `sort`                 int(11)                            DEFAULT 99 COMMENT '排序',
     `deleted`                 bit COLLATE utf8mb4_bin            DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`                 varchar(32) COLLATE utf8mb4_bin    DEFAULT NULL COMMENT '创建人',
     `create_time`             datetime                           DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -269,7 +269,7 @@ CREATE TABLE `product_dict`
     `product_id` varchar(32) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '商品ID',
     `dict_key`   varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品展示key',
     `dict_value` varchar(200) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品展示value',
-    `sort_id`    int(11)                          DEFAULT 99 COMMENT '排序',
+    `sort`    int(11)                          DEFAULT 99 COMMENT '排序',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -320,22 +320,22 @@ CREATE TABLE `product_detail`
 -- {
 --             "attribute_name" : "尺码",
 --             "attribute_value" : "42",
---             "sort_id" : 42
+--             "sort" : 42
 --         },
 --         {
 --             "attribute_name" : "尺码",
 --             "attribute_value" : "44",
---             "sort_id" : 42
+--             "sort" : 42
 --         },
 --         {
 --             "attribute_name" : "颜色",
 --             "attribute_value" : "卡其色",
---             "sort_id" : 42
+--             "sort" : 42
 --         },
 --         {
 --             "attribute_name" : "尺码",
 --             "attribute_value" : "39",
---             "sort_id" : 42
+--             "sort" : 42
 --         }
 --     ]
 -- ----------------------------
@@ -359,12 +359,12 @@ CREATE TABLE `product_attribute`
 -- {
 --                     "attribute_name" : "颜色",
 --                     "attribute_value" : "卡其色",
---                     "sort_id" : 42
+--                     "sort" : 42
 --                 },
 --                 {
 --                     "attribute_name" : "尺码",
 --                     "attribute_value" : "44",
---                     "sort_id" : 42
+--                     "sort" : 42
 --                 }
 --             ]
 -- ----------------------------
@@ -393,7 +393,7 @@ CREATE TABLE `product_image`
     `product_id` varchar(32) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '商品ID',
     `url`        varchar(256) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'URL',
     -- `default_flag` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否是默认',
-    `sort_id`    int(11)                          DEFAULT 99 COMMENT '排序',
+    `sort`    int(11)                          DEFAULT 99 COMMENT '排序',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -411,7 +411,7 @@ CREATE TABLE `product_sku_image`
     `product_sku_id` varchar(32) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '商品skuID',
     `url`            varchar(256) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'URL',
     -- `default_flag` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否是默认',
-    `sort_id`        int(11)                          DEFAULT 99 COMMENT '排序',
+    `sort`        int(11)                          DEFAULT 99 COMMENT '排序',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

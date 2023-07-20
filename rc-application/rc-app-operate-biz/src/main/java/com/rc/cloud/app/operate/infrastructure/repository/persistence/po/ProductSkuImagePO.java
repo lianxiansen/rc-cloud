@@ -26,7 +26,7 @@ public class ProductSkuImagePO {
     private String url;
 
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 
 }

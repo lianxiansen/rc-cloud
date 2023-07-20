@@ -51,14 +51,14 @@ public interface ProductMapper extends BaseMapperX<ProductPO> {
 
         }else if(ProductListQueryDTO.SORT_ID.equals(queryDTO.getOrderByCondition())
                 && ProductListQueryDTO.DESC.equals(queryDTO.getOrderByType())){
-            wrapper.orderByDesc(ProductPO::getSortId);
+            wrapper.orderByDesc(ProductPO::getSort);
         }
         else if(ProductListQueryDTO.CREATE_TIME.equals(queryDTO.getOrderByCondition())
                 && ProductListQueryDTO.ASC.equals(queryDTO.getOrderByType())){
             wrapper.orderByAsc(ProductPO::getCreateTime);
         }else if(ProductListQueryDTO.SORT_ID.equals(queryDTO.getOrderByCondition())
                 && ProductListQueryDTO.ASC.equals(queryDTO.getOrderByType())){
-            wrapper.orderByAsc(ProductPO::getSortId);
+            wrapper.orderByAsc(ProductPO::getSort);
         }
         return wrapper;
     }

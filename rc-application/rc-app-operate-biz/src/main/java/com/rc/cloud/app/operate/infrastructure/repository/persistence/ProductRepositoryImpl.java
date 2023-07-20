@@ -92,7 +92,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
     public int removeProductImageByUrlAndSortId(String url ,int sortId) {
         LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductImagePO::getUrl, url);
-        wrapper.eq(ProductImagePO::getSortId, sortId);
+        wrapper.eq(ProductImagePO::getSort, sortId);
         return productImageMapper.delete(wrapper);
     }
 

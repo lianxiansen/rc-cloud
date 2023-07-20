@@ -36,7 +36,7 @@ public class ProductImagePO {
     //private Boolean defaultFlag;
 
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 
 }

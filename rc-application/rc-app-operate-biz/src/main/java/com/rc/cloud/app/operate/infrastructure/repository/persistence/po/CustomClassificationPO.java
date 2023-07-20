@@ -43,7 +43,7 @@ public class CustomClassificationPO extends BaseDO {
     private Boolean enabledFlag;
 
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 
 }

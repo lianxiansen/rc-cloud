@@ -16,7 +16,7 @@ public class BrandConvert {
         brandPO.setId(brandEntity.getId().id());
         brandPO.setName(brandEntity.getName());
         brandPO.setType(brandEntity.getType());
-        brandPO.setSortId(brandEntity.getSort());
+        brandPO.setSort(brandEntity.getSort());
         brandPO.setEnabledFlag(brandEntity.isEnabled());
         return brandPO;
     }
@@ -24,7 +24,7 @@ public class BrandConvert {
     public static Brand convert2Brand(BrandPO brandPO) {
         Brand brand = new Brand(new BrandId(brandPO.getId()), brandPO.getName());
         brand.setType(brandPO.getType());
-        brand.setSort(brandPO.getSortId());
+        brand.setSort(brandPO.getSort());
         if (brandPO.isEnabledFlag()) {
             brand.enable();
         } else {

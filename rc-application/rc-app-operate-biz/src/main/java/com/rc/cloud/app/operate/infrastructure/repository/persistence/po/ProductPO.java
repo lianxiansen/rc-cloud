@@ -191,8 +191,8 @@ public class ProductPO extends BaseDO {
     @TableField("recommend_flag")
     private Boolean recommendFlag;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 
     @TableField("custom_classification_id")
     private String customClassificationId;

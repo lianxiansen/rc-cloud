@@ -27,6 +27,6 @@ public class ProductDictPO {
     @TableField("dict_value")
     private String value;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 }

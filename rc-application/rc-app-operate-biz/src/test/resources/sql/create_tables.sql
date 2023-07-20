@@ -4,7 +4,7 @@ CREATE TABLE `brand`
     `name`         varchar(50) DEFAULT NULL COMMENT '品牌名',
     `type`         varchar(50) DEFAULT NULL COMMENT '品牌类型',
     `enabled_flag` bit         DEFAULT false COMMENT '状态 1-正常状态，0-未启用',
-    `sort_id`      int(11) DEFAULT 99 COMMENT '排序',
+    `sort`      int(11) DEFAULT 99 COMMENT '排序',
     `deleted`      bit         DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`      varchar(32) DEFAULT NULL COMMENT '创建人',
     `create_time`  datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -25,7 +25,7 @@ CREATE TABLE `platform_product_category`
     `parent_id`    varchar(32)  DEFAULT NULL COMMENT '父级id',
     `layer`        int(11) DEFAULT 0 COMMENT '层级',
     `enabled_flag` bit          DEFAULT '0' COMMENT '状态 1-正常状态，0-未启用',
-    `sort_id`      int(11) DEFAULT 99 COMMENT '排序',
+    `sort`      int(11) DEFAULT 99 COMMENT '排序',
     `deleted`      bit          DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
     `creator`      varchar(32)  DEFAULT NULL COMMENT '创建人',
     `create_time`  datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -52,7 +52,7 @@ CREATE TABLE `product_category`
     `parent_id`                   varchar(32)  DEFAULT NULL COMMENT '父级id',
     `layer`                       int(11) DEFAULT 0 COMMENT '层级',
     `enabled_flag`                bit          DEFAULT '0' COMMENT '状态 1-正常状态，0-未启用',
-    `sort_id`                     int(11) DEFAULT 99 COMMENT '排序',
+    `sort`                     int(11) DEFAULT 99 COMMENT '排序',
     `deleted`                     bit          DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
     `creator`                     varchar(32)  DEFAULT NULL COMMENT '创建人',
     `create_time`                 datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -74,7 +74,7 @@ CREATE TABLE `custom_classification`
     `product_poster`               varchar(128) DEFAULT NULL COMMENT '商品海报URL',
     `custom_classification_poster` varchar(128) DEFAULT NULL COMMENT '分类海报URL',
     `enabled_flag`                 bit          DEFAULT '0' COMMENT '状态 1-正常状态，0-未启用',
-    `sort_id`                      int(11) DEFAULT 99 COMMENT '排序',
+    `sort`                      int(11) DEFAULT 99 COMMENT '排序',
     `deleted`                      bit          DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
     `creator`                      varchar(32)  DEFAULT NULL COMMENT '创建人',
     `create_time`                  datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -95,7 +95,7 @@ CREATE TABLE `attribute`
     `id`          varchar(32) NOT NULL COMMENT '主键',
     `tenant_id`   varchar(32) DEFAULT NULL COMMENT '所属租户',
     `name`        varchar(32) DEFAULT NULL COMMENT '属性名',
-    `sort_id`     int(11) DEFAULT 99 COMMENT '排序',
+    `sort`     int(11) DEFAULT 99 COMMENT '排序',
     `deleted`     bit         DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`     varchar(32) DEFAULT NULL COMMENT '创建人',
     `create_time` datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -117,7 +117,7 @@ CREATE TABLE `attribute_value`
     `tenant_id`    varchar(32) DEFAULT NULL COMMENT '所属租户',
     `attribute_id` varchar(32) DEFAULT NULL COMMENT '属性ID',
     `name`         varchar(32) DEFAULT NULL COMMENT '属性值名',
-    `sort_id`      int(11) DEFAULT 99 COMMENT '排序',
+    `sort`      int(11) DEFAULT 99 COMMENT '排序',
     `deleted`      bit         DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`      varchar(32) DEFAULT NULL COMMENT '创建人',
     `create_time`  datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -173,7 +173,7 @@ CREATE TABLE `product`
     `explosives_image`           varchar(128)   DEFAULT NULL COMMENT '超级单品海报URL，分类海报显示在产品分类页，尺寸500*280',
     `public_flag`                bit            DEFAULT '0' COMMENT '是否公开 0否，1是',
     `recommend_flag`             bit            DEFAULT '0' COMMENT '是否推荐 0否，1是',
-    `sort_id`                    int(11) DEFAULT 99 COMMENT '排序',
+    `sort`                    int(11) DEFAULT 99 COMMENT '排序',
     `creator`                    varchar(32)    DEFAULT NULL COMMENT '创建人',
     `create_time`                datetime       DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updater`                    varchar(32)    DEFAULT NULL COMMENT '更新人',
@@ -207,7 +207,7 @@ CREATE TABLE `product_sku`
     `carton_size_width`       int(11) DEFAULT NULL COMMENT '箱规：宽',
     `carton_size_height`      int(11) DEFAULT NULL COMMENT '箱规：高',
     `packing_number`          int(11) DEFAULT NULL COMMENT '装箱数',
-    `sort_id`                 int(11) DEFAULT 99 COMMENT '排序',
+    `sort`                 int(11) DEFAULT 99 COMMENT '排序',
     `deleted`                 bit            DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
     `creator`                 varchar(32)    DEFAULT NULL COMMENT '创建人',
     `create_time`             datetime       DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -229,7 +229,7 @@ CREATE TABLE `product_dict`
     `product_id` varchar(32)  DEFAULT NULL COMMENT '商品ID',
     `dict_key`   varchar(200) DEFAULT NULL COMMENT '商品展示key',
     `dict_value` varchar(200) DEFAULT NULL COMMENT '商品展示value',
-    `sort_id`    int(11) DEFAULT 99 COMMENT '排序',
+    `sort`    int(11) DEFAULT 99 COMMENT '排序',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  COMMENT='商品字典表 ';
 
@@ -274,22 +274,22 @@ CREATE TABLE `product_detail`
 -- {
 --             "attribute_name" : "尺码",
 --             "attribute_value" : "42",
---             "sort_id" : 42
+--             "sort" : 42
 --         },
 --         {
 --             "attribute_name" : "尺码",
 --             "attribute_value" : "44",
---             "sort_id" : 42
+--             "sort" : 42
 --         },
 --         {
 --             "attribute_name" : "颜色",
 --             "attribute_value" : "卡其色",
---             "sort_id" : 42
+--             "sort" : 42
 --         },
 --         {
 --             "attribute_name" : "尺码",
 --             "attribute_value" : "39",
---             "sort_id" : 42
+--             "sort" : 42
 --         }
 --     ]
 -- ----------------------------
@@ -311,12 +311,12 @@ CREATE TABLE `product_attribute`
 -- {
 --                     "attribute_name" : "颜色",
 --                     "attribute_value" : "卡其色",
---                     "sort_id" : 42
+--                     "sort" : 42
 --                 },
 --                 {
 --                     "attribute_name" : "尺码",
 --                     "attribute_value" : "44",
---                     "sort_id" : 42
+--                     "sort" : 42
 --                 }
 --             ]
 -- ----------------------------
@@ -342,7 +342,7 @@ CREATE TABLE `product_image`
     `tenant_id`  varchar(32)  DEFAULT NULL COMMENT '所属租户',
     `product_id` varchar(32)  DEFAULT NULL COMMENT '商品ID',
     `url`        varchar(128) DEFAULT NULL COMMENT 'URL',
-    `sort_id`    int(11) DEFAULT 99 COMMENT '排序',
+    `sort`    int(11) DEFAULT 99 COMMENT '排序',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  COMMENT='商品SPU图片表 ';
 
@@ -357,7 +357,7 @@ CREATE TABLE `product_sku_image`
     `tenant_id`      varchar(32)  DEFAULT NULL COMMENT '所属租户',
     `product_sku_id` varchar(32)  DEFAULT NULL COMMENT '商品skuID',
     `url`            varchar(128) DEFAULT NULL COMMENT 'URL',
-    `sort_id`        int(11) DEFAULT 99 COMMENT '排序',
+    `sort`        int(11) DEFAULT 99 COMMENT '排序',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  COMMENT='商品SKU图片表';
 
@@ -372,7 +372,7 @@ CREATE TABLE `product_sku_image`
 --     `tenant_id`          varchar(32)  DEFAULT NULL COMMENT '所属租户',
 --     `product_id`         varchar(32)  DEFAULT NULL COMMENT '当前商品id',
 --     `related_product_id` varchar(32)  DEFAULT NULL COMMENT '相关商品id',
---     `sort_id`            int(11) DEFAULT 99 COMMENT '排序',
+--     `sort`            int(11) DEFAULT 99 COMMENT '排序',
 --     `deleted`            bit      DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
 --     `creator`            varchar(32)  DEFAULT NULL COMMENT '创建人',
 --     `create_time`        datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

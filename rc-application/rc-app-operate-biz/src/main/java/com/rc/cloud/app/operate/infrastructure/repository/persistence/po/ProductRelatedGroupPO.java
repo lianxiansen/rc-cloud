@@ -36,8 +36,8 @@ public class ProductRelatedGroupPO extends BaseDO {
     @TableField("related_product_id")
     private Long relatedProductId;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 
 
 }

@@ -43,8 +43,8 @@ public class ProductCategoryPO extends BaseDO {
     @TableField("enabled_flag")
     private Boolean enabledFlag;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 
 
 }

@@ -32,7 +32,7 @@ public class ProductCategoryConvert {
         target.setName(source.getChName().value());
         target.setEnglishName(source.getEnName().value());
         target.setParentId(source.getParentId()==null?"":source.getParentId().id());
-        target.setSortId(source.getSort().getValue());
+        target.setSort(source.getSort().getValue());
         target.setTenantId(source.getTenantId().id());
         target.setCreateTime(source.getCreateTime().getTime());
         return target;
@@ -50,7 +50,7 @@ public class ProductCategoryConvert {
         productCategory.setIcon(new Icon(productCategoryPO.getIcon()));
         productCategory.setEnabled(new Enabled(productCategoryPO.getEnabledFlag()));
         productCategory.setPage(new Page(productCategoryPO.getProductCategoryPageImage(), productCategoryPO.getProductListPageImage()));
-        productCategory.setSort(new Sort(productCategoryPO.getSortId()));
+        productCategory.setSort(new Sort(productCategoryPO.getSort()));
         productCategory.setLayer(new Layer(productCategoryPO.getLayer()));
         if(StringUtils.isNotEmpty(productCategoryPO.getParentId())){
             productCategory.setParentId(new ProductCategoryId(productCategoryPO.getParentId()));

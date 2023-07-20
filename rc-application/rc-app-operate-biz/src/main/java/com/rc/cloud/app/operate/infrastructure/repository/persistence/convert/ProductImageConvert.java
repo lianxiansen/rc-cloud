@@ -17,12 +17,12 @@ public interface ProductImageConvert {
 
     @Mapping(source = "id",target = "id.id")
     @Mapping(source = "url",target = "url")
-    @Mapping(source = "sortId",target = "sort")
+    @Mapping(source = "sort",target = "sort")
     ProductImage convert(ProductImagePO productImagePO);
 
     @Mapping(source = "id.id",target = "id")
     @Mapping(source = "url",target = "url")
-    @Mapping(source = "sort",target = "sortId")
+    @Mapping(source = "sort",target = "sort")
     ProductImagePO convert(ProductImage productImage);
 
     List<ProductImage> convertList(List<ProductImagePO> list);
