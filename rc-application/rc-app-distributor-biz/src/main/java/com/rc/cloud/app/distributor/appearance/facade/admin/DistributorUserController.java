@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.appearance.facade.admin;
 
-import com.rc.cloud.app.distributor.appearance.resp.DistributorContactRespVO;
-import com.rc.cloud.app.distributor.appearance.resp.DistributorContactUserRespVO;
-import com.rc.cloud.app.distributor.application.convert.DistributorContactConvert;
+import com.rc.cloud.app.distributor.appearance.facade.admin.resp.DistributorContactRespVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.resp.DistributorContactUserRespVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.convert.DistributorContactConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorContactPO;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * @create 2023-07-11 10:34
  * @description TODO
  */
-@Tag(name = "用户 APP - 经销商")
+@Tag(name = "用户 APP - 经销商（后台）")
 @RestController
 @RequestMapping("/distributor/user")
 @Validated
@@ -30,7 +30,7 @@ public class DistributorUserController {
 
     @Inner
     @GetMapping("/getById/{id}")
-    @Operation(summary = "获得经销商")
+    @Operation(summary = "获得经销商用户")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
 
     public CodeResult<DistributorContactRespVO> getById(@PathVariable("id") String id) {
@@ -41,7 +41,7 @@ public class DistributorUserController {
 
     @Inner
     @GetMapping("/getByMobile/{mobile}")
-    @Operation(summary = "获得经销商")
+    @Operation(summary = "通过手机号获得经销商")
     @Parameter(name = "mobile", description = "编号", required = true, example = "1024")
     public CodeResult<DistributorContactUserRespVO> getByMobile(@PathVariable("mobile") String mobile) {
         DistributorContactPO user = contactService.getByMobile(mobile);

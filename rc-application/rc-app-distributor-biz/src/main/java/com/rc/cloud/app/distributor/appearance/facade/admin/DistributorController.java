@@ -1,12 +1,15 @@
 package com.rc.cloud.app.distributor.appearance.facade.admin;
 
-import com.rc.cloud.app.distributor.appearance.req.*;
-import com.rc.cloud.app.distributor.appearance.resp.DistributorDetailRespVO;
-import com.rc.cloud.app.distributor.appearance.resp.DistributorRespVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorContactUpdatePasswordReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorPageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.resp.DistributorDetailRespVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.resp.DistributorRespVO;
 import com.rc.cloud.app.distributor.appearance.vo.DistributorContactBaseVO;
-import com.rc.cloud.app.distributor.application.convert.DistributorContactConvert;
-import com.rc.cloud.app.distributor.application.convert.DistributorConvert;
-import com.rc.cloud.app.distributor.application.convert.DistributorDetailConvert;
+import com.rc.cloud.app.distributor.appearance.facade.admin.convert.DistributorContactConvert;
+import com.rc.cloud.app.distributor.appearance.facade.admin.convert.DistributorConvert;
+import com.rc.cloud.app.distributor.appearance.facade.admin.convert.DistributorDetailConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorContactService;
 import com.rc.cloud.app.distributor.application.service.DistributorService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorDetailPO;
@@ -20,7 +23,6 @@ import com.rc.cloud.common.security.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

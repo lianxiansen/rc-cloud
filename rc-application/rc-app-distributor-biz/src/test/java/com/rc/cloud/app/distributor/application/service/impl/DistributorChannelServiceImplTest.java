@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.DistributorChannelCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorChannelPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorChannelUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorChannelCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorChannelPageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorChannelUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorChannelService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorChannelMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;

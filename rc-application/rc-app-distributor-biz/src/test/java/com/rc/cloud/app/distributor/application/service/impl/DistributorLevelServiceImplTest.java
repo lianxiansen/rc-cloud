@@ -1,8 +1,8 @@
 package com.rc.cloud.app.distributor.application.service.impl;
 
-import com.rc.cloud.app.distributor.appearance.req.DistributorLevelCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorLevelPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorLevelUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorLevelCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorLevelPageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorLevelUpdateReqVO;
 import com.rc.cloud.app.distributor.application.service.DistributorLevelService;
 import com.rc.cloud.app.distributor.infrastructure.persistence.mapper.DistributorLevelMapper;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;

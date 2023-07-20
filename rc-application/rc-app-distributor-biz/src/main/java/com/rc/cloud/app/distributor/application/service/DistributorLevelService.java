@@ -4,9 +4,9 @@ import java.util.*;
 import javax.validation.*;
 
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorLevelPO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorLevelCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorLevelPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorLevelUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorLevelCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorLevelPageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorLevelUpdateReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 /**

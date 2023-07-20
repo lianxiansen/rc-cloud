@@ -1,11 +1,11 @@
 package com.rc.cloud.app.distributor.appearance.facade.admin;
 
-import com.rc.cloud.app.distributor.application.convert.DistributorChannelConvert;
+import com.rc.cloud.app.distributor.appearance.facade.admin.convert.DistributorChannelConvert;
 import com.rc.cloud.app.distributor.application.service.DistributorChannelService;
-import com.rc.cloud.app.distributor.appearance.req.DistributorChannelCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorChannelPageReqVO;
-import com.rc.cloud.app.distributor.appearance.resp.DistributorChannelRespVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorChannelUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorChannelCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorChannelPageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.resp.DistributorChannelRespVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorChannelUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorChannelPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;

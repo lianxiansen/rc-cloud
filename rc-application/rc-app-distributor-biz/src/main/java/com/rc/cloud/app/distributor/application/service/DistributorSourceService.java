@@ -2,9 +2,9 @@ package com.rc.cloud.app.distributor.application.service;
 
 import java.util.*;
 import javax.validation.*;
-import com.rc.cloud.app.distributor.appearance.req.DistributorSourceCreateReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorSourcePageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorSourceUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorSourceCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorSourcePageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorSourceUpdateReqVO;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorSourcePO;
 import com.rc.cloud.common.core.pojo.PageResult;
 

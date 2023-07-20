@@ -1,12 +1,12 @@
 package com.rc.cloud.app.distributor.appearance.facade.admin;
 
-import com.rc.cloud.app.distributor.appearance.req.DistributorReputationPageReqVO;
-import com.rc.cloud.app.distributor.appearance.req.DistributorReputationUpdateReqVO;
-import com.rc.cloud.app.distributor.appearance.resp.DistributorReputationRespVO;
-import com.rc.cloud.app.distributor.application.convert.DistributorReputationConvert;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorReputationPageReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorReputationUpdateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.resp.DistributorReputationRespVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.convert.DistributorReputationConvert;
 import com.rc.cloud.app.distributor.infrastructure.persistence.po.DistributorReputationPO;
 import com.rc.cloud.app.distributor.application.service.DistributorReputationService;
-import com.rc.cloud.app.distributor.appearance.req.DistributorReputationCreateReqVO;
+import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorReputationCreateReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import org.springframework.web.bind.annotation.*;
