@@ -4,6 +4,7 @@ import com.rc.cloud.app.operate.appearance.admin.res.ProductListResponse;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.core.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,11 +20,18 @@ public class ProductConvert {
         response.setExplosivesFlag(bo.isExplosivesFlag());
         response.setPublicFlag(bo.isPublicFlag());
         response.setRecommendFlag(bo.isRecommendFlag());
-        response.setCategoryName(bo.getFirstCategory()+"-"+bo.getSecondCategory()
-        +"-"+bo.getThirdCategory());
+        response.setCategoryName(format(bo.getFirstCategory(), bo.getSecondCategory(), bo.getThirdCategory()));
         return response;
     }
 
+
+    public static String format(String firstCategory,String secondCategory, String thirdCategory){
+        String s=firstCategory+"-"+secondCategory;
+        if(StringUtils.isNotEmpty(thirdCategory)){
+            s+= "-"+thirdCategory;
+        }
+        return s;
+    }
 
 
 }

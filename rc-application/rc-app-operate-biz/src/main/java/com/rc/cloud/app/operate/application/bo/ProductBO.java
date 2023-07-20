@@ -28,6 +28,8 @@ public class ProductBO {
 
     private String name;
 
+    private String brandName;
+
     private String remark;
 
     private String tag;

@@ -52,9 +52,9 @@ public class ProductListQueryDTO extends PageParam {
     private String orderByType;
 
 
-    private Boolean needProductDetail;
+    private boolean needProductDetail;
 
-    private Boolean needBrandName;
+    private boolean needBrandName;
 
 
 }

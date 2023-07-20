@@ -8,37 +8,26 @@ import com.rc.cloud.app.operate.application.bo.convert.ProductDictConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductSkuConvert;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
-import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
+import com.rc.cloud.app.operate.domain.model.brand.Brand;
+import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
 import com.rc.cloud.app.operate.domain.model.product.*;
 import com.rc.cloud.app.operate.domain.model.product.identifier.*;
-import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
-import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailRepository;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictDomainService;
-import com.rc.cloud.app.operate.domain.model.productdict.ProductDictRepository;
 import com.rc.cloud.app.operate.domain.model.productsku.*;
-import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuAttributeId;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
-import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.Inventory;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.Price;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.Sort;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.SupplyPrice;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.Weight;
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.StringUtils;
-import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +54,9 @@ public class ProductApplicationService {
 
     @Autowired
     private ProductDetailDomainService productDetailDomainService;
+
+    @Autowired
+    private BrandDomainService brandDomainService;
 
     @Resource
     private IdRepository idRepository;
@@ -237,15 +229,22 @@ public class ProductApplicationService {
      *
      * @return
      */
-    public PageResult<ProductBO> getProductList(ProductListQueryDTO productListQueryDTO) {
-        PageResult<Product> productPageList = productDomainService.getProductPageList(productListQueryDTO);
+    public PageResult<ProductBO> getProductList(ProductListQueryDTO query) {
+        PageResult<Product> resultList = productDomainService.getProductPageList(query);
         List<ProductBO> productBOS = new ArrayList<>();
-        for (Product product : productPageList.getList()) {
+        for (Product product : resultList.getList()) {
             ProductBO productBO = ProductConvert.convert(product);
+            if(query.isNeedBrandName()){
+                //查询品牌名
+                Brand brand = brandDomainService.findById(product.getBrandId());
+                if(brand!=null){
+                    productBO.setBrandName(brand.getName());
+                }
+            }
             productBOS.add(productBO);
         }
         PageResult<ProductBO> pageResult = new PageResult<>();
-        pageResult.setTotal(productPageList.getTotal());
+        pageResult.setTotal(resultList.getTotal());
         pageResult.setList(productBOS);
         return pageResult;
     }
