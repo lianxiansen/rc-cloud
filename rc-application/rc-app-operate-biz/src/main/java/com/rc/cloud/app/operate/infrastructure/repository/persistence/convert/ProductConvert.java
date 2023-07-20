@@ -37,7 +37,6 @@ public class ProductConvert {
 
         Recommend recommend = new Recommend(po.getRecommendFlag());
         OnshelfStatus onshelfStatus = new OnshelfStatus(po.getOnshelfStatus());
-        Enabled enabled = new Enabled(po.getEnabledFlag());
         Video video = new Video(po.getVideoUrl(), po.getVideoImg()
                 , po.getInstallVideoUrl(), po.getInstallVideoImg());
 
@@ -51,7 +50,6 @@ public class ProductConvert {
         product.setRecommend(recommend);
         product.setPublicFlag(po.getPublicFlag());
         product.setOnshelfStatus(onshelfStatus);
-        product.setEnable(enabled);
         product.setVideo(video);
         return product;
 
@@ -61,9 +59,6 @@ public class ProductConvert {
          ProductPO po=new ProductPO();
         po.setId(product.getId().id());
         po.setTenantId(product.getTenantId().id());
-        if(product.getEnable()!=null){
-            po.setEnabledFlag(product.getEnable().result());
-        }
         if(product.getName()!=null){
             po.setName(product.getName().getValue());
         }
@@ -107,15 +102,9 @@ public class ProductConvert {
         if(product.getOnshelfStatus()!=null){
             po.setOnshelfStatus(product.getOnshelfStatus().getValue());
         }
-        //启用状态
-        if(product.getEnable()!=null){
-            po.setEnabledFlag(product.getEnable().result());
-        }
         if(product.getVideo()!=null){
             po.setVideoImg(product.getVideo().getVideoImg());
             po.setVideoUrl(product.getVideo().getVideoUrl());
-            po.setInstallVideoImg(product.getVideo().getInstallVideoImg());
-            po.setInstallVideoUrl(product.getVideo().getInstallVideoUrl());
         }
         return po;
     }

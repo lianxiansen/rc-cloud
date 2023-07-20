@@ -12,8 +12,7 @@ import com.rc.cloud.common.core.util.StringUtils;
 public class Video extends ValueObject {
     private String videoUrl;
     private String videoImg;
-    private String installVideoUrl;
-    private String installVideoImg;
+
     public Video(String videoUrl, String videoImg, String installVideoUrl, String installVideoImg){
         if(StringUtils.isNotEmpty(videoUrl)&&!StringUtils.ishttp(videoUrl)){
             throw new IllegalArgumentException("http地址无效");
@@ -29,8 +28,6 @@ public class Video extends ValueObject {
         }
         this.videoUrl = videoUrl;
         this.videoImg = videoImg;
-        this.installVideoUrl=installVideoUrl;
-        this.installVideoImg = installVideoImg;
     }
 
     public String getVideoUrl() {
@@ -39,14 +36,6 @@ public class Video extends ValueObject {
 
     public String getVideoImg() {
         return videoImg;
-    }
-
-    public String getInstallVideoUrl() {
-        return installVideoUrl;
-    }
-
-    public String getInstallVideoImg() {
-        return installVideoImg;
     }
 
 

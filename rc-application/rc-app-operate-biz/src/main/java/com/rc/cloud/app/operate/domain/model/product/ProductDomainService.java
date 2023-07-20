@@ -76,21 +76,6 @@ public class ProductDomainService {
         return productRepository.updateProduct(product);
     }
 
-    public int setEnable(ProductId productId){
-        Product product = productRepository.findById(productId);
-        AssertUtils.notNull(product, "product must not be null");
-        product.setEnable(new Enabled(true));
-        return productRepository.updateProduct(product);
-    }
-
-    public int cancelEnable(ProductId productId){
-        Product product = productRepository.findById(productId);
-        AssertUtils.notNull(product, "product must not be null");
-        product.setEnable(new Enabled(false));
-        return productRepository.updateProduct(product);
-    }
-
-
 
     public int setNews(ProductId productId){
         Product product = productRepository.findById(productId);

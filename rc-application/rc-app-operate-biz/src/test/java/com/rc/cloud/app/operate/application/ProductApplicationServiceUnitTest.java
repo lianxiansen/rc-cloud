@@ -2,22 +2,13 @@ package com.rc.cloud.app.operate.application;
 
 import cn.hutool.json.JSONUtil;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
-import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
-import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
-import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailRepository;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictDomainService;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
-import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuDomainService;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.*;
 import com.rc.cloud.app.operate.infrastructure.repository.remote.TenantServiceImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
@@ -25,21 +16,14 @@ import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
-import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
-
-import static org.mockito.Mockito.when;
 
 /**
  * @ClassName: ProductApplicationServiceUnitTest
@@ -89,20 +73,6 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
                 productBO.getDicts().size()==productSaveDTO.getDicts().size()) , "创建失败");
         Assertions.assertTrue(ObjectUtils.isNotNull(
                 productBO.getSkus().size()==productSaveDTO.getSkus().size()) , "创建失败");
-    }
-
-    @Test
-    @DisplayName("创建商品-相册为空")
-    public void createProductWhenAlbumsIsNull() {
-        //Product product = new Product(new ProductId(idRepository.nextId()),new TenantId("test"),
-        //        new Name("aa"));
-        //when(productDomainServiceStub.createProduct(product)).thenReturn();
-        ProductSaveDTO productSaveDTO = createProductSaveDTO();
-        productSaveDTO.setAlbums(null);
-        ProductBO productBO = productApplicationService.createProduct(createProductSaveDTO());
-        Assertions.assertTrue(ObjectUtils.isNull(
-                productBO.getImages()) , "创建失败");
-
     }
 
 
@@ -187,9 +157,6 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
 
         String images="[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
                 "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}]";
-
-        java.util.List<ProductImageSaveDTO> productImageSaveDTOS = JSONUtil.toList(images, ProductImageSaveDTO.class);
-        productSaveDTO.setAlbums(productImageSaveDTOS);
 
         productSaveDTO.setBrandId("1234567");
         productSaveDTO.setEnableFlag(true);

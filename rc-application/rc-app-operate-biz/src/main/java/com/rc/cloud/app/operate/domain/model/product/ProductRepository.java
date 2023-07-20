@@ -24,7 +24,7 @@ public interface ProductRepository {
 
     int removeProductImageByProductId(ProductId productId);
 
-    int removeProductImageByUrlAndSortId(String url ,int sortId);
+    int removeProductImageByUrlAndSortAndType(String url ,int sort , int type);
 
 
     int batchSaveProductImage(List<ProductImage> productImageList,String productId,String tenantId);

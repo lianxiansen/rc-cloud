@@ -71,14 +71,12 @@ public class ProductRepositoryImpl implements  ProductRepository {
 
 
 
-
-
     @Override
     public List<ProductImage> getProductImageByProductId(ProductId productId) {
         LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductImagePO>();
         LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductImagePO::getProductId, productId.id());
-        return ProductImageConvert.INSTANCE.convertList(this.productImageMapper.selectList(wrapper));
+        return ProductImageConvert.convertList(this.productImageMapper.selectList(wrapper));
     }
 
     @Override
@@ -89,10 +87,11 @@ public class ProductRepositoryImpl implements  ProductRepository {
     }
 
     @Override
-    public int removeProductImageByUrlAndSortId(String url ,int sortId) {
+    public int removeProductImageByUrlAndSortAndType(String url ,int sort , int type) {
         LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductImagePO::getUrl, url);
-        wrapper.eq(ProductImagePO::getSort, sortId);
+        wrapper.eq(ProductImagePO::getSort, sort);
+        wrapper.eq(ProductImagePO::getImage_type, type);
         return productImageMapper.delete(wrapper);
     }
 
@@ -103,7 +102,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         List<ProductImage> addList = CollectionUtil.subtractToList(newList, oriList);
         List<ProductImage> removeList = CollectionUtil.subtractToList(oriList, newList);
         removeList.forEach(x->
-                removeProductImageByUrlAndSortId(x.getUrl(),x.getSort())
+                        removeProductImageByUrlAndSortAndType(x.getUrl().getValue(),x.getSort().getValue(),x.getType().value)
                 );
         batchSaveProductImage(addList,product.getId().id(),product.getTenantId().id());
         return 1;
@@ -114,7 +113,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         if(productImageList!=null && productImageList.size()>0){
             productImageList.forEach(
                     x-> {
-                        ProductImagePO productImagePO = ProductImageConvert.INSTANCE.convert(x);
+                        ProductImagePO productImagePO = ProductImageConvert.convert(x);
                         productImagePO.setTenantId(tenantId);
                         productImagePO.setProductId(productId);
                         this.productImageMapper.insert(productImagePO);
@@ -190,7 +189,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         wrapper.eq(ProductPO::getId, productId.id());
         Product product = ProductConvert.convert(this.productMapper.selectOne(wrapper));
         List<ProductImage> productImageList = getProductImageByProductId(productId);
-        product.setProductImages(productImageList);
+        product.addProductImageList(productImageList);
         ProductAttribute productAttribute = getProductAttributeByProductId(productId);
         product.setProductAttribute(productAttribute);
         return product;
@@ -211,7 +210,7 @@ public class ProductRepositoryImpl implements  ProductRepository {
         List<Product> productList= ProductConvert.convertList(productDOPageResult.getList());
         for (Product product : productList) {
             List<ProductImage> productImageList = getProductImageByProductId(product.getId());
-            product.setProductImages(productImageList);
+            product.addProductImageList(productImageList);
             ProductAttribute productAttribute = getProductAttributeByProductId(product.getId());
             product.setProductAttribute(productAttribute);
         }

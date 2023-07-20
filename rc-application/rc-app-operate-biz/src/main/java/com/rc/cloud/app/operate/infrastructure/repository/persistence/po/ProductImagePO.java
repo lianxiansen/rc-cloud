@@ -39,4 +39,7 @@ public class ProductImagePO {
     @TableField("sort")
     private Integer sort;
 
+    @TableField("image_type")
+    private Integer image_type;
+
 }
