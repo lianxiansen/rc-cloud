@@ -14,5 +14,6 @@ public class ProductGroupItemBO {
     private String productGroupId;
     private String productId;
     private String productName;
+    private String productImage;
     private LocalDateTime createTime;
 }

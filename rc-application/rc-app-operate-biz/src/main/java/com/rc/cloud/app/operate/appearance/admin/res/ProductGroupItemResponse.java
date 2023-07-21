@@ -15,6 +15,8 @@ public class ProductGroupItemResponse {
     private String productId;
     @Schema(description = "产品名称")
     private String productName;
+    @Schema(description = "产品图片")
+    private String productImage;
     @Schema(description = "创建时间")
     private String createTime;
 }
