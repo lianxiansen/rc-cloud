@@ -69,7 +69,7 @@ public class ProductRecommendApplicationService {
     }
 
     private List<ProductId> findProductIds(List<ProductRecommend> productRecommends ){
-        return productRecommends.stream().map(item->item.getRecommendProductId()).collect(Collectors.toList());
+        return productRecommends.stream().map(item->item.getRecommendProductId()).distinct().collect(Collectors.toList());
     }
 
 

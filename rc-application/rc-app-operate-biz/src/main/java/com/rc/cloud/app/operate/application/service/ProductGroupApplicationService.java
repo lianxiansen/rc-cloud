@@ -24,7 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductGroupApplicationService {
@@ -38,6 +40,7 @@ public class ProductGroupApplicationService {
     private IdRepository idRepository;
     @Autowired
     private ProductDomainService productDomainService;
+
     public ProductGroupBO create(ProductGroupCreateDTO productGroupCreateDTO) {
         if (StringUtils.isEmpty(productGroupCreateDTO.getProductId())) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
@@ -63,9 +66,9 @@ public class ProductGroupApplicationService {
         if (StringUtils.isEmpty(productGroupItemCreateDTO.getProductId())) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_IN_GROUP_NOT_EMPTY);
         }
-        ProductGroupItem productGroupItem= productGroupService.createItem(new ProductGroupId(productGroupItemCreateDTO.getProductGroupId()), new ProductId(productGroupItemCreateDTO.getProductId()));
-        Product product=productRepository.findById(new ProductId(productGroupItem.getProductId().id()));
-        ProductGroupItemBO bo=ProductGroupConvert.convert2productGroupItemBO(productGroupItem, product);
+        ProductGroupItem productGroupItem = productGroupService.createItem(new ProductGroupId(productGroupItemCreateDTO.getProductGroupId()), new ProductId(productGroupItemCreateDTO.getProductId()));
+        Product product = productRepository.findById(new ProductId(productGroupItem.getProductId().id()));
+        ProductGroupItemBO bo = ProductGroupConvert.convert2productGroupItemBO(productGroupItem, product);
         return bo;
     }
 
@@ -75,13 +78,17 @@ public class ProductGroupApplicationService {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
         }
         List<ProductGroup> groupList = productGroupRepository.findAll(new ProductId(productId));
-        List<Product> list= productRepository.selectBatchIds(findProductIds(groupList));
-        List<ProductGroupBO> bos=ProductGroupConvert.convert2ProductGroupBOBatch(groupList,list);
+        List<Product> list = productRepository.selectBatchIds(findProductIds(groupList));
+        List<ProductGroupBO> bos = ProductGroupConvert.convert2ProductGroupBOBatch(groupList, list);
         return bos;
     }
 
-    private List<ProductId> findProductIds(List<ProductGroup> productGroups ){
-        return null;
+    private List<ProductId> findProductIds(List<ProductGroup> productGroups) {
+        List<ProductId> productIds = new ArrayList<>();
+        productGroups.forEach(group -> {
+            productIds.addAll(group.getProductGroupItems().stream().map(e -> e.getProductId()).collect(Collectors.toList()));
+        });
+        return productIds.stream().distinct().collect(Collectors.toList());
     }
 
 
