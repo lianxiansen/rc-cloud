@@ -8,6 +8,8 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public  class ProductDictConvert {
 
@@ -40,12 +42,9 @@ public  class ProductDictConvert {
         return bo;
     }
 
-    public static List<ProductDictBO> convertProductDictBOList(List<ProductDict> list){
-        List<ProductDictBO> resList =new ArrayList<>();
-        for (ProductDict productDict : list) {
-            resList.add(convert(productDict));
-        }
-        return resList;
+    public static Map<String, String> convertProductDictMap(List<ProductDict> list){
+        Map<String, String> dicts = list.stream().collect(Collectors.toMap(ProductDict::getKey, ProductDict::getValue));
+        return dicts;
     }
 
 }

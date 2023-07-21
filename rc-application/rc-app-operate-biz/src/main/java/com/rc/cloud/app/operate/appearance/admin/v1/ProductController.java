@@ -44,10 +44,9 @@ public class ProductController {
 
     @PostMapping("get")
     @Operation(summary = "获得产品")
-    public CodeResult<ProductDetailResponse> listProduct(@Valid @RequestBody ProductQueryDTO query) {
+    public CodeResult<ProductDetailResponse> getProduct(@Valid @RequestBody ProductQueryDTO query) {
         ProductBO product = productApplicationService.getProduct(query);
-        //return CodeResult.ok(ProductDetailResponse.from(product));
-        return null;
+        return CodeResult.ok(ProductDetailResponse.from(product));
     }
 
 

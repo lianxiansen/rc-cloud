@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Accessors(chain = true)
@@ -110,7 +111,7 @@ public class ProductBO {
 
     private List<ProductImageBO> sizeImages;
 
-    private List<ProductDictBO> dicts;
+    private Map<String,String> dicts;
 
     private String productListImage;
 
