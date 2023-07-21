@@ -7,29 +7,23 @@ import com.rc.cloud.common.core.util.StringUtils;
  */
 public class InstallInformation {
 
-    private String installVideoUrl;
-    private String installVideoImg;
+    private Url installVideoUrl;
+    private Url installVideoImg;
     private String installDetail;
 
-    public String getInstallVideoUrl() {
+    public Url getInstallVideoUrl() {
         return installVideoUrl;
     }
 
-    public String getInstallVideoImg() {
-        return installVideoImg;
-    }
-
-    public void setInstallVideoUrl(String installVideoUrl) {
-        if(StringUtils.isNotEmpty(installVideoUrl)&&!StringUtils.ishttp(installVideoUrl)){
-            throw new IllegalArgumentException("http地址无效");
-        }
+    public void setInstallVideoUrl(Url installVideoUrl) {
         this.installVideoUrl = installVideoUrl;
     }
 
-    public void setInstallVideoImg(String installVideoImg) {
-        if(StringUtils.isNotEmpty(installVideoImg)&&!StringUtils.ishttp(installVideoImg)){
-            throw new IllegalArgumentException("http地址无效");
-        }
+    public Url getInstallVideoImg() {
+        return installVideoImg;
+    }
+
+    public void setInstallVideoImg(Url installVideoImg) {
         this.installVideoImg = installVideoImg;
     }
 

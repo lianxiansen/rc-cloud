@@ -276,12 +276,22 @@ public class ProductConvert
 
     private static Product setVideo(String videoUrl, String videoImg
             , boolean isCreate, Product product){
-        Video video2 = new Video(videoUrl, videoImg);
+        Video video=null;
         if(isCreate){
-            product.setVideo(video2);
+            if(videoUrl!=null){
+                video = new Video(new Url(videoUrl));
+                product.setVideo(video);
+                if(videoImg!=null){
+                    video.setVideoImg(new Url(videoImg));
+                }
+            }
         }else{
             if (videoUrl != null || videoImg != null) {
-                product.setVideo(video2);
+                video = new Video(new Url(videoUrl));
+                product.setVideo(video);
+                if(videoImg!=null){
+                    video.setVideoImg(new Url(videoImg));
+                }
             }
         }
         return product;
@@ -306,15 +316,15 @@ public class ProductConvert
         InstallInformation installInformation = null;
         if(isCreate){
             installInformation =new InstallInformation();
-            installInformation.setInstallVideoUrl(installVideoUrl);
-            installInformation.setInstallVideoImg(installVideoImg);
+            installInformation.setInstallVideoUrl(new Url(installVideoUrl));
+            installInformation.setInstallVideoImg(new Url(installVideoImg));
             installInformation.setInstallDetail(installDetail);
         }else{
             if (installVideoUrl != null || installVideoImg != null
                     || installDetail != null) {
                 installInformation =new InstallInformation();
-                installInformation.setInstallVideoUrl(installVideoUrl);
-                installInformation.setInstallVideoImg(installVideoImg);
+                installInformation.setInstallVideoUrl(new Url(installVideoUrl));
+                installInformation.setInstallVideoImg(new Url(installVideoImg));
                 installInformation.setInstallDetail(installDetail);
 
             }
@@ -440,13 +450,21 @@ public class ProductConvert
         }
         //视频
         if(product.getVideo()!=null){
-            bo.setVideoImg(product.getVideo().getVideoImg());
-            bo.setVideoUrl(product.getVideo().getVideoUrl());
+            if(product.getVideo().getVideoImg()!=null){
+                bo.setVideoImg(product.getVideo().getVideoImg().getValue());
+            }
+            if(product.getVideo().getVideoUrl()!=null){
+                bo.setVideoUrl(product.getVideo().getVideoUrl().getValue());
+            }
         }
         //安装视频
         if(product.getInstallInformation()!=null){
-            bo.setInstallVideoUrl(product.getInstallInformation().getInstallVideoUrl());
-            bo.setInstallVideoImg(product.getInstallInformation().getInstallVideoImg());
+            if(product.getInstallInformation().getInstallVideoUrl()!=null){
+                bo.setInstallVideoUrl(product.getInstallInformation().getInstallVideoUrl().getValue());
+            }
+            if(product.getInstallInformation().getInstallVideoImg()!=null){
+                bo.setInstallVideoImg(product.getInstallInformation().getInstallVideoImg().getValue());
+            }
             bo.setInstallDetail(product.getInstallInformation().getInstallDetail());
         }
         if(product.getPackingLowestBuy()!=null){
