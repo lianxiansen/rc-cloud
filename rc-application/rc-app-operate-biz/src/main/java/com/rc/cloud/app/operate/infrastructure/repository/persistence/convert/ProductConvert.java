@@ -8,6 +8,7 @@ import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Remark;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductPO;
+import com.rc.cloud.common.core.util.StringUtils;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
@@ -56,12 +57,19 @@ public class ProductConvert {
         OnshelfStatus onshelfStatus = new OnshelfStatus(po.getOnshelfStatus());
         product.setOnshelfStatus(onshelfStatus);
         //Video
-        Video video = new Video(po.getVideoUrl(), po.getVideoImg());
+        Video video = new Video(new Url(po.getVideoUrl()));
+        if(StringUtils.isNotEmpty(po.getVideoImg())){
+            video.setVideoImg(new Url(po.getVideoImg()));
+        }
         product.setVideo(video);
         //InstallInformation
         InstallInformation installInformation =new InstallInformation();
-        installInformation.setInstallVideoImg(po.getInstallVideoImg());
-        installInformation.setInstallVideoUrl(po.getInstallVideoImg());
+        if(StringUtils.isNotEmpty(po.getInstallVideoImg())){
+            installInformation.setInstallVideoImg(new Url(po.getInstallVideoImg()));
+        }
+        if(StringUtils.isNotEmpty(po.getInstallVideoUrl())){
+            installInformation.setInstallVideoUrl(new Url(po.getInstallVideoUrl()));
+        }
         installInformation.setInstallDetail(po.getInstallDetail());
         product.setInstallInformation(installInformation);
         //NewFlag
@@ -122,15 +130,22 @@ public class ProductConvert {
         if(product.getOnshelfStatus()!=null){
             po.setOnshelfStatus(product.getOnshelfStatus().getValue());
         }
+        //视频
         if(product.getVideo()!=null){
-            po.setVideoImg(product.getVideo().getVideoImg());
-            po.setVideoUrl(product.getVideo().getVideoUrl());
+            if(product.getVideo().getVideoImg()!=null){
+                po.setVideoImg(product.getVideo().getVideoImg().getValue());
+            }
+            po.setVideoUrl(product.getVideo().getVideoUrl().getValue());
         }
+        //安装信息
         if(product.getInstallInformation()!=null){
-            po.setInstallVideoUrl(product.getInstallInformation().getInstallVideoUrl());
-            po.setInstallVideoImg(product.getInstallInformation().getInstallVideoImg());
+            if(product.getInstallInformation().getInstallVideoUrl()!=null){
+                po.setInstallVideoUrl(product.getInstallInformation().getInstallVideoUrl().getValue());
+            }
+            if(product.getInstallInformation().getInstallVideoImg()!=null){
+                po.setInstallVideoImg(product.getInstallInformation().getInstallVideoImg().getValue());
+            }
             po.setInstallDetail(product.getInstallInformation().getInstallDetail());
-
         }
         return po;
     }

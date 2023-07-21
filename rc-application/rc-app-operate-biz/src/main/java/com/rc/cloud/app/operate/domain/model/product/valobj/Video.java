@@ -10,28 +10,28 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Description:
  */
 public class Video extends ValueObject {
-    private String videoUrl;
-    private String videoImg;
+    private Url videoUrl;
+    private Url videoImg;
 
-    public Video(String videoUrl, String videoImg){
-        if(StringUtils.isNotEmpty(videoUrl)&&!StringUtils.ishttp(videoUrl)){
-            throw new IllegalArgumentException("http地址无效");
-        }
-        if(StringUtils.isNotEmpty(videoImg)&&!StringUtils.ishttp(videoImg)){
-            throw new IllegalArgumentException("http地址无效");
-        }
+    public Video(Url videoUrl){
         this.videoUrl = videoUrl;
-        this.videoImg = videoImg;
     }
 
-    public String getVideoUrl() {
+    public Url getVideoUrl() {
         return videoUrl;
     }
 
-    public String getVideoImg() {
+    public Url getVideoImg() {
         return videoImg;
     }
 
+    public void setVideoUrl(Url videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public void setVideoImg(Url videoImg) {
+        this.videoImg = videoImg;
+    }
 
     @Override
     public boolean equals(Object other) {
