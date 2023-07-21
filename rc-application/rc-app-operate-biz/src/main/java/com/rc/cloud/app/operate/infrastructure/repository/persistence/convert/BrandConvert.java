@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 
+import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.BrandPO;
@@ -10,25 +11,28 @@ import java.util.List;
 
 public class BrandConvert {
 
-    public static BrandPO convert2BrandPO(Brand brandEntity) {
+    public static BrandPO convert2BrandPO(Brand brand) {
         BrandPO brandPO = new BrandPO();
-        brandPO.setId(brandEntity.getId().id());
-        brandPO.setName(brandEntity.getName());
-        brandPO.setType(brandEntity.getType());
-        brandPO.setSortId(brandEntity.getSort());
-        brandPO.setEnabledFlag(brandEntity.isEnable());
+        brandPO.setId(brand.getId().id());
+        brandPO.setName(brand.getName());
+        brandPO.setType(brand.getType());
+        brandPO.setSort(brand.getSort());
+        brandPO.setEnabledFlag(brand.isEnabled());
+        brandPO.setLogo(brand.getLogo());
         return brandPO;
     }
 
     public static Brand convert2Brand(BrandPO brandPO) {
         Brand brand = new Brand(new BrandId(brandPO.getId()), brandPO.getName());
         brand.setType(brandPO.getType());
-        brand.setSort(brandPO.getSortId());
+        brand.setSort(brandPO.getSort());
         if (brandPO.isEnabledFlag()) {
             brand.enable();
         } else {
             brand.disable();
         }
+        brand.setCreateTime(new CreateTime(brandPO.getCreateTime()));
+        brand.setLogo(brandPO.getLogo());
         return brand;
     }
 

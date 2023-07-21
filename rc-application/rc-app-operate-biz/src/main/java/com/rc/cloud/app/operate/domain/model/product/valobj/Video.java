@@ -10,45 +10,28 @@ import com.rc.cloud.common.core.util.StringUtils;
  * @Description:
  */
 public class Video extends ValueObject {
-    private String videoUrl;
-    private String videoImg;
-    private String installVideoUrl;
-    private String installVideoImg;
-    public Video(String videoUrl, String videoImg, String installVideoUrl, String installVideoImg){
-        if(StringUtils.isNotEmpty(videoUrl)&&!StringUtils.ishttp(videoUrl)){
-            throw new IllegalArgumentException("http地址无效");
-        }
-        if(StringUtils.isNotEmpty(videoImg)&&!StringUtils.ishttp(videoImg)){
-            throw new IllegalArgumentException("http地址无效");
-        }
-        if(StringUtils.isNotEmpty(installVideoUrl)&&!StringUtils.ishttp(installVideoUrl)){
-            throw new IllegalArgumentException("http地址无效");
-        }
-        if(StringUtils.isNotEmpty(installVideoImg)&&!StringUtils.ishttp(installVideoImg)){
-            throw new IllegalArgumentException("http地址无效");
-        }
+    private Url videoUrl;
+    private Url videoImg;
+
+    public Video(Url videoUrl){
         this.videoUrl = videoUrl;
-        this.videoImg = videoImg;
-        this.installVideoUrl=installVideoUrl;
-        this.installVideoImg = installVideoImg;
     }
 
-    public String getVideoUrl() {
+    public Url getVideoUrl() {
         return videoUrl;
     }
 
-    public String getVideoImg() {
+    public Url getVideoImg() {
         return videoImg;
     }
 
-    public String getInstallVideoUrl() {
-        return installVideoUrl;
+    public void setVideoUrl(Url videoUrl) {
+        this.videoUrl = videoUrl;
     }
 
-    public String getInstallVideoImg() {
-        return installVideoImg;
+    public void setVideoImg(Url videoImg) {
+        this.videoImg = videoImg;
     }
-
 
     @Override
     public boolean equals(Object other) {

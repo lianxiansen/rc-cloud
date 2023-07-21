@@ -33,7 +33,6 @@ public interface ProductMapper extends BaseMapperX<ProductPO> {
                 .eqIfPresent(ProductPO::getSecondCategory, queryDTO.getSecondCategory())
                 .eqIfPresent(ProductPO::getThirdCategory, queryDTO.getThirdCategory())
                 .eqIfPresent(ProductPO::getTenantId,queryDTO.getTenantId())
-                .eqIfPresent(ProductPO::getBrandId,queryDTO.getBrandId())
                 .eqIfPresent(ProductPO::getOnshelfStatus,queryDTO.getOnshelfStatus())
                 .betweenIfPresent(ProductPO::getCreateTime,queryDTO.getStartTime(),
                         queryDTO.getEndTime()
@@ -51,14 +50,14 @@ public interface ProductMapper extends BaseMapperX<ProductPO> {
 
         }else if(ProductListQueryDTO.SORT_ID.equals(queryDTO.getOrderByCondition())
                 && ProductListQueryDTO.DESC.equals(queryDTO.getOrderByType())){
-            wrapper.orderByDesc(ProductPO::getSortId);
+            wrapper.orderByDesc(ProductPO::getSort);
         }
         else if(ProductListQueryDTO.CREATE_TIME.equals(queryDTO.getOrderByCondition())
                 && ProductListQueryDTO.ASC.equals(queryDTO.getOrderByType())){
             wrapper.orderByAsc(ProductPO::getCreateTime);
         }else if(ProductListQueryDTO.SORT_ID.equals(queryDTO.getOrderByCondition())
                 && ProductListQueryDTO.ASC.equals(queryDTO.getOrderByType())){
-            wrapper.orderByAsc(ProductPO::getSortId);
+            wrapper.orderByAsc(ProductPO::getSort);
         }
         return wrapper;
     }

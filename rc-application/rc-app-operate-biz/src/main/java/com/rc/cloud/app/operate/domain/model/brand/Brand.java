@@ -1,8 +1,12 @@
 package com.rc.cloud.app.operate.domain.model.brand;
 
+import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.util.AssertUtils;
+import com.rc.cloud.common.core.util.StringUtils;
+
+import java.time.LocalDateTime;
 
 
 public class Brand extends Entity {
@@ -13,16 +17,25 @@ public class Brand extends Entity {
      */
     private String name;
 
+
+
+    private String logo;
+
     private String type;
 
     private int sort;
-    private boolean enable;
+    private boolean enabled;
+
+
+
+    private CreateTime createTime;
 
     public Brand(BrandId id, String name) {
         setId(id);
         setName(name);
         setSort(0);
         disable();
+        setCreateTime(new CreateTime(LocalDateTime.now()));
     }
 
     private void setId(BrandId id) {
@@ -44,6 +57,24 @@ public class Brand extends Entity {
         this.name = name;
     }
 
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        if(StringUtils.isNotEmpty(logo)&&!StringUtils.ishttp(logo)){
+            throw new IllegalArgumentException("http地址无效");
+        }
+        this.logo = logo;
+    }
+
+
+    public void setCreateTime(CreateTime createTime){
+        this.createTime = createTime;
+    }
+    public CreateTime getCreateTime() {
+        return createTime;
+    }
     public String getType() {
         return type;
     }
@@ -60,16 +91,18 @@ public class Brand extends Entity {
         this.sort = sort;
     }
 
-    public boolean isEnable() {
-        return enable;
+    public boolean isEnabled() {
+        return enabled;
     }
 
 
     public void enable() {
-        this.enable = true;
+        this.enabled = true;
     }
 
     public void disable() {
-        this.enable = false;
+        this.enabled = false;
     }
+
+
 }

@@ -2,8 +2,8 @@ package com.rc.cloud.app.operate.application.bo.convert;
 
 import com.rc.cloud.app.operate.application.bo.*;
 import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
-import com.rc.cloud.app.operate.application.dto.ProductImageSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
+import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
@@ -11,7 +11,6 @@ import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductAttributeId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Enable;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
@@ -19,14 +18,11 @@ import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.common.core.exception.ApplicationException;
-import com.rc.cloud.common.core.util.StringUtils;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
+import java.util.stream.Collectors;
 
 public class ProductConvert
 {
@@ -59,6 +55,8 @@ public class ProductConvert
         }
         //设置商品名
         product = setName(productSaveDTO.getName(),isCreate,product);
+        //商品图片
+        product = setProductListImage(productSaveDTO.getListImage(),isCreate,product);
         //商品标签
         product = setRemark(productSaveDTO.getRemark(),isCreate,product);
         //商品tag
@@ -78,8 +76,6 @@ public class ProductConvert
         product = setExplosives(productSaveDTO.getExplosivesFlag(),productSaveDTO.getExplosivesImage(),isCreate,product);
         //设置公开
         product = setPublic(productSaveDTO.getPublicFlag(),isCreate,product);
-        //设置Enabled
-        product = setEnable(productSaveDTO.getEnableFlag(),isCreate,product);
         //设置OnShelfStatus
         product = setOnShelfStatus(productSaveDTO.getOnShelfStatus(),isCreate,product);
         //设置Recommend
@@ -89,9 +85,10 @@ public class ProductConvert
         //设置Video
         product = setVideo(productSaveDTO.getVideoUrl()
                 ,productSaveDTO.getVideoImg()
-                ,productSaveDTO.getInstallVideoUrl()
-                ,productSaveDTO.getInstallVideoImg()
                 ,isCreate,product);
+        //设置安装信息
+        product =setInstallInformation(productSaveDTO.getInstallVideoUrl(), productSaveDTO.getInstallVideoImg()
+        ,productSaveDTO.getInstallDetail(),isCreate,product);
         //设置图片
         product= setProductImage(productSaveDTO,isCreate,product);
         //设置属性
@@ -182,13 +179,15 @@ public class ProductConvert
 
     private static Product setNewest(Boolean newFlag, boolean isCreate, Product product){
         if(isCreate){
-            product.setNewest(new Newest(newFlag));
+            if(newFlag==null){
+                product.setNewFlag(false);
+            }else{
+                product.setNewFlag(newFlag);
+            }
         }else{
             if (newFlag != null) {
-                Newest newest = new Newest(newFlag);
-                product.setNewest(newest);
+                product.setNewFlag(newFlag);
             }
-
         }
         return product;
     }
@@ -196,13 +195,17 @@ public class ProductConvert
     private static Product setExplosives(Boolean explosivesFlag,String explosivesImage
             , boolean isCreate, Product product){
         if(isCreate){
-            product.setExplosives(new Explosives(explosivesFlag,explosivesImage));
+            if(explosivesFlag!=null && explosivesFlag){
+                product.setExplosives(new Explosives(explosivesFlag,new Url(explosivesImage)));
+            }else{
+                product.setExplosives(new Explosives(false,null));
+            }
         }else{
             //是否有爆品图片
             if (explosivesFlag != null) {
                 Explosives explosives = null;
                 if (explosivesFlag) {
-                    explosives = new Explosives(explosivesFlag, explosivesImage);
+                    explosives = new Explosives(explosivesFlag, new Url(explosivesImage));
                 } else {
                     explosives = new Explosives(explosivesFlag, null);
                 }
@@ -241,13 +244,15 @@ public class ProductConvert
 
     private static Product setPublic(Boolean publicFlag, boolean isCreate, Product product){
         if(isCreate){
-            product.setOpen(new Open(publicFlag));
+            if(publicFlag==null){
+                product.setPublicFlag(false);
+            }else{
+                product.setPublicFlag(publicFlag);
+            }
         }else{
             if (publicFlag != null) {
-                Open open = new Open(publicFlag);
-                product.setOpen(open);
+                product.setPublicFlag(publicFlag);
             }
-
         }
         return product;
     }
@@ -268,41 +273,82 @@ public class ProductConvert
         return product;
     }
 
-    private static Product setEnable(Boolean enableFlag, boolean isCreate, Product product){
-        if(isCreate){
-            product.setEnable(new Enable(enableFlag));
-        }else{
-            if (enableFlag != null) {
-                Enable enable = new Enable(enableFlag);
-                product.setEnable(enable);
-            }
-        }
-        return product;
-    }
 
-
-    private static Product setVideo(String videoUrl, String videoImg, String installVideoUrl, String installVideoImg
+    private static Product setVideo(String videoUrl, String videoImg
             , boolean isCreate, Product product){
-        Video video2 = new Video(videoUrl, videoImg
-                , installVideoUrl,installVideoImg);
+        Video video=null;
         if(isCreate){
-            product.setVideo(video2);
+            if(videoUrl!=null){
+                video = new Video(new Url(videoUrl));
+                product.setVideo(video);
+                if(videoImg!=null){
+                    video.setVideoImg(new Url(videoImg));
+                }
+            }
         }else{
-            if (videoUrl != null || videoImg != null
-                    || installVideoUrl != null || installVideoImg != null) {
-                product.setVideo(video2);
+            if (videoUrl != null || videoImg != null) {
+                video = new Video(new Url(videoUrl));
+                product.setVideo(video);
+                if(videoImg!=null){
+                    video.setVideoImg(new Url(videoImg));
+                }
             }
         }
         return product;
     }
 
-    private static Product setProductImage(ProductSaveDTO productSaveDTO,boolean isCreate, Product product){
-        List<ProductImage> productImages = ProductImageConvert.convertList(productSaveDTO.getAlbums());
+    private static Product setProductListImage(String productListImage, boolean isCreate, Product product){
         if(isCreate){
-            product.setProductImages(productImages);
+            Url url=new Url(productListImage);
+            product.setProductListImage(url);
+        }else{
+            if (productListImage != null) {
+                Url url=new Url(productListImage);
+                product.setProductListImage(url);
+            }
         }
-        if (productSaveDTO.getAlbums() != null) {
-            product.setProductImages(productImages);
+        return product;
+    }
+
+
+    private static Product setInstallInformation(String installVideoUrl, String installVideoImg, String installDetail
+            , boolean isCreate, Product product){
+        InstallInformation installInformation = null;
+        if(isCreate){
+            installInformation =new InstallInformation();
+            installInformation.setInstallVideoUrl(new Url(installVideoUrl));
+            installInformation.setInstallVideoImg(new Url(installVideoImg));
+            installInformation.setInstallDetail(installDetail);
+        }else{
+            if (installVideoUrl != null || installVideoImg != null
+                    || installDetail != null) {
+                installInformation =new InstallInformation();
+                installInformation.setInstallVideoUrl(new Url(installVideoUrl));
+                installInformation.setInstallVideoImg(new Url(installVideoImg));
+                installInformation.setInstallDetail(installDetail);
+
+            }
+        }
+        product.setInstallInformation(installInformation);
+        return product;
+    }
+
+    private static Product setProductImage(ProductSaveDTO productSaveDTO
+            ,boolean isCreate, Product product){
+        List<ProductImage> images1 = ProductImageConvert
+                .convertList(productSaveDTO.getMasterAlbums(), ProductImageTypeEnum.MasterImage);
+        List<ProductImage> images2 = ProductImageConvert
+                .convertList(productSaveDTO.getSizeAlbums(), ProductImageTypeEnum.SizeImage);
+        if(isCreate){
+           product.addProductImageList(images1);
+           product.addProductImageList(images2);
+        }else{
+            if (images1 != null) {
+                product.addProductImageList(images1);
+            }
+            if (images2 != null) {
+                product.addProductImageList(images2);
+            }
         }
         return product;
     }
@@ -352,11 +398,11 @@ public class ProductConvert
 
         bo.setId(product.getId().id());
         bo.setTenantId(product.getTenantId().id());
-        if(product.getEnable()!=null){
-            bo.setEnabledFlag(product.getEnable().result());
-        }
         if(product.getName()!=null){
             bo.setName(product.getName().getValue());
+        }
+        if(product.getProductListImage()!=null){
+            bo.setProductListImage(product.getProductListImage().getValue());
         }
         if(product.getRemark()!=null){
             bo.setRemark(product.getRemark().getValue());
@@ -381,39 +427,56 @@ public class ProductConvert
         if(product.getCustomClassificationId()!=null){
             bo.setCustomClassificationId(product.getCustomClassificationId().id());
         }
-        if(product.getNewest()!=null){
-            bo.setNewFlag(product.getNewest().getValue());
+        if(product.getNewFlag()!=null){
+            bo.setNewFlag(product.getNewFlag());
+        }else{
+            bo.setNewFlag(false);
         }
         if(product.getRecommend()!=null){
             bo.setRecommendFlag(product.getRecommend().getValue());
         }
         if(product.getExplosives()!=null){
             bo.setExplosivesFlag(product.getExplosives().isFlag());
-            bo.setExplosivesImage(product.getExplosives().getImage());
+            bo.setExplosivesImage(product.getExplosives().getImage().getValue());
         }
-        if(product.getOpen()!=null){
-            bo.setPublicFlag(product.getOpen().getValue());
+        if(product.getPublicFlag()!=null){
+            bo.setPublicFlag(product.getPublicFlag());
+        }else{
+            bo.setPublicFlag(false);
         }
         //上架状态
         if(product.getOnshelfStatus()!=null){
             bo.setOnshelfStatus(product.getOnshelfStatus().getValue());
         }
-        //启用状态
-        if(product.getEnable()!=null){
-            bo.setEnabledFlag(product.getEnable().result());
-        }
+        //视频
         if(product.getVideo()!=null){
-            bo.setVideoImg(product.getVideo().getVideoImg());
-            bo.setVideoUrl(product.getVideo().getVideoUrl());
-            bo.setInstallVideoImg(product.getVideo().getInstallVideoImg());
-            bo.setInstallVideoUrl(product.getVideo().getInstallVideoUrl());
+            if(product.getVideo().getVideoImg()!=null){
+                bo.setVideoImg(product.getVideo().getVideoImg().getValue());
+            }
+            if(product.getVideo().getVideoUrl()!=null){
+                bo.setVideoUrl(product.getVideo().getVideoUrl().getValue());
+            }
+        }
+        //安装视频
+        if(product.getInstallInformation()!=null){
+            if(product.getInstallInformation().getInstallVideoUrl()!=null){
+                bo.setInstallVideoUrl(product.getInstallInformation().getInstallVideoUrl().getValue());
+            }
+            if(product.getInstallInformation().getInstallVideoImg()!=null){
+                bo.setInstallVideoImg(product.getInstallInformation().getInstallVideoImg().getValue());
+            }
+            bo.setInstallDetail(product.getInstallInformation().getInstallDetail());
         }
         if(product.getPackingLowestBuy()!=null){
             bo.setPackingLowestBuyFlag(product.getPackingLowestBuy().result());
         }
         //转换图片
         if(product.getProductImages()!=null){
-            bo.setImages(ProductImageConvert.convertProductImageBOList(product.getProductImages()));
+            List<ProductImageBO> productImageBOS = ProductImageConvert.convertProductImageBOList(product.getProductImages());
+            bo.setMasterImages(productImageBOS.stream().filter(x->x.getType()==
+                 ProductImageTypeEnum.MasterImage).collect(Collectors.toList()));
+            bo.setSizeImages(productImageBOS.stream().filter(x->x.getType()==
+                    ProductImageTypeEnum.SizeImage).collect(Collectors.toList()));
         }
         //转换属性
         if(product.getProductAttribute()!=null){
@@ -448,5 +511,6 @@ public class ProductConvert
         }
         return resList;
     }
+
 
 }

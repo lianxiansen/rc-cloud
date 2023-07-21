@@ -1,6 +1,10 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 
+import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
+import com.rc.cloud.app.operate.domain.common.valobj.Enabled;
+import com.rc.cloud.app.operate.domain.common.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRebuildFactory;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -31,8 +35,9 @@ public class ProductCategoryConvert {
         target.setName(source.getChName().value());
         target.setEnglishName(source.getEnName().value());
         target.setParentId(source.getParentId()==null?"":source.getParentId().id());
-        target.setSortId(source.getSort().getValue());
+        target.setSort(source.getSort().getValue());
         target.setTenantId(source.getTenantId().id());
+        target.setCreateTime(source.getCreateTime().getTime());
         return target;
     }
 
@@ -43,17 +48,21 @@ public class ProductCategoryConvert {
         ProductCategoryId id = new ProductCategoryId(productCategoryPO.getId());
         TenantId tenantId = new TenantId(productCategoryPO.getTenantId());
         ChName name = new ChName(productCategoryPO.getName());
-        ProductCategory productCategory = new ProductCategory(id, tenantId, name);
-        productCategory.setEnName(new EnName(productCategoryPO.getEnglishName()));
-        productCategory.setIcon(new Icon(productCategoryPO.getIcon()));
-        productCategory.setEnabled(new Enabled(productCategoryPO.getEnabledFlag()));
-        productCategory.setPage(new Page(productCategoryPO.getProductCategoryPageImage(), productCategoryPO.getProductListPageImage()));
-        productCategory.setSort(new Sort(productCategoryPO.getSortId()));
-        productCategory.setLayer(new Layer(productCategoryPO.getLayer()));
-        if(StringUtils.isNotEmpty(productCategoryPO.getParentId())){
-            productCategory.setParentId(new ProductCategoryId(productCategoryPO.getParentId()));
+        CreateTime createTime= new CreateTime(productCategoryPO.getCreateTime());
+        ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder=ProductCategoryRebuildFactory.create(id,tenantId,name,createTime);
+
+        rebuilder.enName(new EnName(productCategoryPO.getEnglishName()));
+        rebuilder.icon(new Icon(productCategoryPO.getIcon()));
+        if(Objects.nonNull(productCategoryPO.getEnabledFlag())){
+            rebuilder.setEnabled(new Enabled(productCategoryPO.getEnabledFlag()));
         }
-        return productCategory;
+        rebuilder.page(new Page(productCategoryPO.getProductCategoryPageImage(), productCategoryPO.getProductListPageImage()));
+        rebuilder.sort(new Sort(productCategoryPO.getSort()));
+        rebuilder.layer(new Layer(productCategoryPO.getLayer()));
+        if(StringUtils.isNotEmpty(productCategoryPO.getParentId())){
+            rebuilder.parentId(new ProductCategoryId(productCategoryPO.getParentId()));
+        }
+        return rebuilder.rebuild();
     }
 
 }

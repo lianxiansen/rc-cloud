@@ -2,9 +2,10 @@ CREATE TABLE `brand`
 (
     `id`           varchar(32) NOT NULL COMMENT '主键',
     `name`         varchar(50) DEFAULT NULL COMMENT '品牌名',
+    `logo`         varchar(256) NULL DEFAULT NULL COMMENT 'logo',
     `type`         varchar(50) DEFAULT NULL COMMENT '品牌类型',
     `enabled_flag` bit         DEFAULT false COMMENT '状态 1-正常状态，0-未启用',
-    `sort_id`      int(11) DEFAULT 99 COMMENT '排序',
+    `sort`         int(11) DEFAULT 99 COMMENT '排序',
     `deleted`      bit         DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`      varchar(32) DEFAULT NULL COMMENT '创建人',
     `create_time`  datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -25,7 +26,7 @@ CREATE TABLE `platform_product_category`
     `parent_id`    varchar(32)  DEFAULT NULL COMMENT '父级id',
     `layer`        int(11) DEFAULT 0 COMMENT '层级',
     `enabled_flag` bit          DEFAULT '0' COMMENT '状态 1-正常状态，0-未启用',
-    `sort_id`      int(11) DEFAULT 99 COMMENT '排序',
+    `sort`         int(11) DEFAULT 99 COMMENT '排序',
     `deleted`      bit          DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
     `creator`      varchar(32)  DEFAULT NULL COMMENT '创建人',
     `create_time`  datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -52,7 +53,7 @@ CREATE TABLE `product_category`
     `parent_id`                   varchar(32)  DEFAULT NULL COMMENT '父级id',
     `layer`                       int(11) DEFAULT 0 COMMENT '层级',
     `enabled_flag`                bit          DEFAULT '0' COMMENT '状态 1-正常状态，0-未启用',
-    `sort_id`                     int(11) DEFAULT 99 COMMENT '排序',
+    `sort`                        int(11) DEFAULT 99 COMMENT '排序',
     `deleted`                     bit          DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
     `creator`                     varchar(32)  DEFAULT NULL COMMENT '创建人',
     `create_time`                 datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -74,7 +75,7 @@ CREATE TABLE `custom_classification`
     `product_poster`               varchar(128) DEFAULT NULL COMMENT '商品海报URL',
     `custom_classification_poster` varchar(128) DEFAULT NULL COMMENT '分类海报URL',
     `enabled_flag`                 bit          DEFAULT '0' COMMENT '状态 1-正常状态，0-未启用',
-    `sort_id`                      int(11) DEFAULT 99 COMMENT '排序',
+    `sort`                         int(11) DEFAULT 99 COMMENT '排序',
     `deleted`                      bit          DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
     `creator`                      varchar(32)  DEFAULT NULL COMMENT '创建人',
     `create_time`                  datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -95,7 +96,7 @@ CREATE TABLE `attribute`
     `id`          varchar(32) NOT NULL COMMENT '主键',
     `tenant_id`   varchar(32) DEFAULT NULL COMMENT '所属租户',
     `name`        varchar(32) DEFAULT NULL COMMENT '属性名',
-    `sort_id`     int(11) DEFAULT 99 COMMENT '排序',
+    `sort`        int(11) DEFAULT 99 COMMENT '排序',
     `deleted`     bit         DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`     varchar(32) DEFAULT NULL COMMENT '创建人',
     `create_time` datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -117,7 +118,7 @@ CREATE TABLE `attribute_value`
     `tenant_id`    varchar(32) DEFAULT NULL COMMENT '所属租户',
     `attribute_id` varchar(32) DEFAULT NULL COMMENT '属性ID',
     `name`         varchar(32) DEFAULT NULL COMMENT '属性值名',
-    `sort_id`      int(11) DEFAULT 99 COMMENT '排序',
+    `sort`         int(11) DEFAULT 99 COMMENT '排序',
     `deleted`      bit         DEFAULT false COMMENT '删除标识 0未删除，1已删除',
     `creator`      varchar(32) DEFAULT NULL COMMENT '创建人',
     `create_time`  datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -134,51 +135,51 @@ CREATE TABLE `attribute_value`
 CREATE TABLE `product`
 (
     `id`                         varchar(32) NOT NULL COMMENT '主键',
-    `tenant_id`                  varchar(32)    DEFAULT NULL COMMENT '所属租户',
-    `custom_classification_id`   varchar(32)    DEFAULT NULL COMMENT '自定义分类id',
-    `name`                       varchar(200)   DEFAULT NULL COMMENT '商品名',
-    `remark`                     varchar(200)   DEFAULT NULL COMMENT '商品简介',
-    `tag`                        varchar(200)   DEFAULT NULL COMMENT '商品标签',
-    `master_image`               varchar(128)   DEFAULT NULL COMMENT '主图URL',
-    `spu_code`                   varchar(200)   DEFAULT NULL COMMENT '商品code',
+    `tenant_id`                  varchar(32)              DEFAULT NULL COMMENT '所属租户',
+    `custom_classification_id`   varchar(32)              DEFAULT NULL COMMENT '自定义分类id',
+    `name`                       varchar(200)             DEFAULT NULL COMMENT '商品名',
+    `remark`                     varchar(200)             DEFAULT NULL COMMENT '商品简介',
+    `tag`                        varchar(200)             DEFAULT NULL COMMENT '商品标签',
+    `list_image`               varchar(128)             DEFAULT NULL COMMENT '主图URL',
+    `spu_code`                   varchar(200)             DEFAULT NULL COMMENT '商品code',
     `product_origin`             int(11) DEFAULT 0 COMMENT '商品来源，0：自营',
-    `out_id`                     varchar(32)    DEFAULT NULL COMMENT '外部id',
+    `out_id`                     varchar(32)              DEFAULT NULL COMMENT '外部id',
     `product_type`               int(11) DEFAULT 0 COMMENT '商品类型，0：普通商品',
-    `enabled_flag`               bit            DEFAULT false COMMENT '状态 1-正常状态，0-未启用',
     `onshelf_status`             int(11) DEFAULT 0 COMMENT '上架状态 0-上架初始，1-上架中，2-下架中',
-    `brand_id`                   varchar(32)    DEFAULT NULL COMMENT '品牌ID',
-    `first_category`             varchar(32)    DEFAULT NULL COMMENT '1级类目',
-    `second_category`            varchar(32)    DEFAULT NULL COMMENT '2级类目',
-    `third_category`             varchar(32)    DEFAULT NULL COMMENT '3级类目',
-    `video_url`                  varchar(128)   DEFAULT NULL COMMENT '视频URL',
-    `video_img`                  varchar(128)   DEFAULT NULL COMMENT '视频封面URL',
-    `install_video_url`          varchar(128)   DEFAULT NULL COMMENT '安装视频URL',
-    `install_video_img`          varchar(128)   DEFAULT NULL COMMENT '安装视频封面URL',
-    `free_shipping_flag`         bit            DEFAULT '0' COMMENT '是否包邮 0不包邮，1包邮',
+    `brand_id`                   varchar(32)              DEFAULT NULL COMMENT '品牌ID',
+    `first_category`             varchar(32)              DEFAULT NULL COMMENT '1级类目',
+    `second_category`            varchar(32)              DEFAULT NULL COMMENT '2级类目',
+    `third_category`             varchar(32)              DEFAULT NULL COMMENT '3级类目',
+    `video_url`                  varchar(128)             DEFAULT NULL COMMENT '视频URL',
+    `video_img`                  varchar(128)             DEFAULT NULL COMMENT '视频封面URL',
+    `install_video_url`          varchar(128)             DEFAULT NULL COMMENT '安装视频URL',
+    `install_video_img`          varchar(128)             DEFAULT NULL COMMENT '安装视频封面URL',
+    `install_detail`             text                     DEFAULT NULL COMMENT '安装详情',
+    `free_shipping_flag`         bit                      DEFAULT '0' COMMENT '是否包邮 0不包邮，1包邮',
     `freight_type`               int(11) DEFAULT 0 COMMENT '运费类型，0统一运费，1运费模板',
-    `freight_template_id`        varchar(32)    DEFAULT NULL COMMENT '商品使用运费模板',
-    `freight_price`              decimal(18, 2) DEFAULT 0 COMMENT '运费价格',
-    `get_integral`               decimal(18, 2) DEFAULT 0 COMMENT '可获得积分',
-    `packing_lowest_buy_flag`    bit            DEFAULT false COMMENT '按照装箱数起购 0否，1是',
-    `popularization_amount_rate` decimal(18, 2) DEFAULT NULL COMMENT '推广佣金比例',
-    `distribution_flag`          bit            DEFAULT '0' COMMENT '是否参与分销 0否，1是',
-    `refund_flag`                bit            DEFAULT '0' COMMENT '是否可以退款 0无法退款，1可以退款',
-    `seckill_flag`               bit            DEFAULT '0' COMMENT '是否是抢购活动 0否，1是',
-    `seckill_name`               varchar(128)   DEFAULT NULL COMMENT '抢购名',
-    `seckill_master_image`       varchar(128)   DEFAULT NULL COMMENT '抢购主图',
-    `seckill_begin_time`         datetime       DEFAULT CURRENT_TIMESTAMP COMMENT '抢购开始时间',
-    `seckill_end_time`           datetime       DEFAULT CURRENT_TIMESTAMP COMMENT '抢购结束时间',
-    `new_flag`                   bit            DEFAULT '0' COMMENT '是否新品 0否，1是',
-    `explosives_flag`            bit            DEFAULT '0' COMMENT '是否是超级单品 0否，1是',
-    `explosives_image`           varchar(128)   DEFAULT NULL COMMENT '超级单品海报URL，分类海报显示在产品分类页，尺寸500*280',
-    `public_flag`                bit            DEFAULT '0' COMMENT '是否公开 0否，1是',
-    `recommend_flag`             bit            DEFAULT '0' COMMENT '是否推荐 0否，1是',
-    `sort_id`                    int(11) DEFAULT 99 COMMENT '排序',
-    `creator`                    varchar(32)    DEFAULT NULL COMMENT '创建人',
-    `create_time`                datetime       DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updater`                    varchar(32)    DEFAULT NULL COMMENT '更新人',
-    `update_time`                datetime       DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `deleted`                    bit            DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
+    `freight_template_id`        varchar(32)              DEFAULT NULL COMMENT '商品使用运费模板',
+    `freight_price`              decimal(18, 2)           DEFAULT 0 COMMENT '运费价格',
+    `get_integral`               decimal(18, 2)           DEFAULT 0 COMMENT '可获得积分',
+    `packing_lowest_buy_flag`    bit                      DEFAULT false COMMENT '按照装箱数起购 0否，1是',
+    `popularization_amount_rate` decimal(18, 2)           DEFAULT NULL COMMENT '推广佣金比例',
+    `distribution_flag`          bit                      DEFAULT '0' COMMENT '是否参与分销 0否，1是',
+    `refund_flag`                bit                      DEFAULT '0' COMMENT '是否可以退款 0无法退款，1可以退款',
+    `seckill_flag`               bit                      DEFAULT '0' COMMENT '是否是抢购活动 0否，1是',
+    `seckill_name`               varchar(128)             DEFAULT NULL COMMENT '抢购名',
+    `seckill_master_image`       varchar(128)             DEFAULT NULL COMMENT '抢购主图',
+    `seckill_begin_time`         datetime                 DEFAULT CURRENT_TIMESTAMP COMMENT '抢购开始时间',
+    `seckill_end_time`           datetime                 DEFAULT CURRENT_TIMESTAMP COMMENT '抢购结束时间',
+    `new_flag`                   bit                      DEFAULT '0' COMMENT '是否新品 0否，1是',
+    `explosives_flag`            bit                      DEFAULT '0' COMMENT '是否是超级单品 0否，1是',
+    `explosives_image`           varchar(128)             DEFAULT NULL COMMENT '超级单品海报URL，分类海报显示在产品分类页，尺寸500*280',
+    `public_flag`                bit                      DEFAULT '0' COMMENT '是否公开 0否，1是',
+    `recommend_flag`             bit                      DEFAULT '0' COMMENT '是否推荐 0否，1是',
+    `sort`                       int(11) DEFAULT 99 COMMENT '排序',
+    `creator`                    varchar(32)              DEFAULT NULL COMMENT '创建人',
+    `create_time`                datetime                 DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updater`                    varchar(32)              DEFAULT NULL COMMENT '更新人',
+    `update_time`                datetime                 DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `deleted`                    bit                      DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  COMMENT='商品SPU表 ';
 
@@ -207,7 +208,7 @@ CREATE TABLE `product_sku`
     `carton_size_width`       int(11) DEFAULT NULL COMMENT '箱规：宽',
     `carton_size_height`      int(11) DEFAULT NULL COMMENT '箱规：高',
     `packing_number`          int(11) DEFAULT NULL COMMENT '装箱数',
-    `sort_id`                 int(11) DEFAULT 99 COMMENT '排序',
+    `sort`                    int(11) DEFAULT 99 COMMENT '排序',
     `deleted`                 bit            DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
     `creator`                 varchar(32)    DEFAULT NULL COMMENT '创建人',
     `create_time`             datetime       DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -229,7 +230,7 @@ CREATE TABLE `product_dict`
     `product_id` varchar(32)  DEFAULT NULL COMMENT '商品ID',
     `dict_key`   varchar(200) DEFAULT NULL COMMENT '商品展示key',
     `dict_value` varchar(200) DEFAULT NULL COMMENT '商品展示value',
-    `sort_id`    int(11) DEFAULT 99 COMMENT '排序',
+    `sort`       int(11) DEFAULT 99 COMMENT '排序',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  COMMENT='商品字典表 ';
 
@@ -274,22 +275,22 @@ CREATE TABLE `product_detail`
 -- {
 --             "attribute_name" : "尺码",
 --             "attribute_value" : "42",
---             "sort_id" : 42
+--             "sort" : 42
 --         },
 --         {
 --             "attribute_name" : "尺码",
 --             "attribute_value" : "44",
---             "sort_id" : 42
+--             "sort" : 42
 --         },
 --         {
 --             "attribute_name" : "颜色",
 --             "attribute_value" : "卡其色",
---             "sort_id" : 42
+--             "sort" : 42
 --         },
 --         {
 --             "attribute_name" : "尺码",
 --             "attribute_value" : "39",
---             "sort_id" : 42
+--             "sort" : 42
 --         }
 --     ]
 -- ----------------------------
@@ -311,12 +312,12 @@ CREATE TABLE `product_attribute`
 -- {
 --                     "attribute_name" : "颜色",
 --                     "attribute_value" : "卡其色",
---                     "sort_id" : 42
+--                     "sort" : 42
 --                 },
 --                 {
 --                     "attribute_name" : "尺码",
 --                     "attribute_value" : "44",
---                     "sort_id" : 42
+--                     "sort" : 42
 --                 }
 --             ]
 -- ----------------------------
@@ -342,7 +343,8 @@ CREATE TABLE `product_image`
     `tenant_id`  varchar(32)  DEFAULT NULL COMMENT '所属租户',
     `product_id` varchar(32)  DEFAULT NULL COMMENT '商品ID',
     `url`        varchar(128) DEFAULT NULL COMMENT 'URL',
-    `sort_id`    int(11) DEFAULT 99 COMMENT '排序',
+    `image_type` int(11) DEFAULT 0 COMMENT '图片类型',
+    `sort`       int(11) DEFAULT 99 COMMENT '排序',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  COMMENT='商品SPU图片表 ';
 
@@ -357,7 +359,7 @@ CREATE TABLE `product_sku_image`
     `tenant_id`      varchar(32)  DEFAULT NULL COMMENT '所属租户',
     `product_sku_id` varchar(32)  DEFAULT NULL COMMENT '商品skuID',
     `url`            varchar(128) DEFAULT NULL COMMENT 'URL',
-    `sort_id`        int(11) DEFAULT 99 COMMENT '排序',
+    `sort`           int(11) DEFAULT 99 COMMENT '排序',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  COMMENT='商品SKU图片表';
 
@@ -372,7 +374,7 @@ CREATE TABLE `product_sku_image`
 --     `tenant_id`          varchar(32)  DEFAULT NULL COMMENT '所属租户',
 --     `product_id`         varchar(32)  DEFAULT NULL COMMENT '当前商品id',
 --     `related_product_id` varchar(32)  DEFAULT NULL COMMENT '相关商品id',
---     `sort_id`            int(11) DEFAULT 99 COMMENT '排序',
+--     `sort`            int(11) DEFAULT 99 COMMENT '排序',
 --     `deleted`            bit      DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
 --     `creator`            varchar(32)  DEFAULT NULL COMMENT '创建人',
 --     `create_time`        datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -410,3 +412,18 @@ CREATE TABLE `product_group_item`
     `update_time`      datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB COMMENT = '商品组合项表';
+
+
+DROP TABLE IF EXISTS `product_recommend`;
+CREATE TABLE `product_recommend`  (
+  `id` varchar(32)  NOT NULL COMMENT '主键',
+  `tenant_id` varchar(32)  NULL DEFAULT NULL COMMENT '所属租户',
+  `product_id` varchar(32)  NULL DEFAULT NULL COMMENT '当前商品id',
+  `recommend_product_id` varchar(32)  NULL DEFAULT NULL COMMENT '推荐商品id',
+  `deleted` bit(1) NULL DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
+  `creator` varchar(32)  NULL DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(32)  NULL DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB  COMMENT = '商品推荐' ROW_FORMAT = DYNAMIC;

@@ -18,7 +18,7 @@ public class ProductSkuPO extends BaseDO {
     private static final long serialVersionUID = 23523L;
 
     @TableField("id")
-    private String Id;
+    private String id;
     /**
      * 租户id
      */
@@ -68,8 +68,8 @@ public class ProductSkuPO extends BaseDO {
     @TableField("seckill_total_inventory")
     private int seckillTotalInventory;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 
     @TableField("carton_size_height")
     private int cartonSizeHeight;

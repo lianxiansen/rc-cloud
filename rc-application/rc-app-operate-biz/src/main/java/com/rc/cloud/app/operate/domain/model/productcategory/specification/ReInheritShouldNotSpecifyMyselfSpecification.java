@@ -12,14 +12,13 @@ import lombok.Data;
  * @Description: 重新指定上级分类不能是自己
  */
 @Data
-public class ReInheritShouldNotSpecifyMyselfSpecification extends AbstractSpecification {
-    private ProductCategory sourceProductCategory;
-    public ReInheritShouldNotSpecifyMyselfSpecification(ProductCategory sourceProductCategory){
-        this.sourceProductCategory=sourceProductCategory;
+public class ReInheritShouldNotSpecifyMyselfSpecification extends AbstractSpecification <ProductCategory>{
+    private ProductCategoryId productCategoryId;
+    public ReInheritShouldNotSpecifyMyselfSpecification(ProductCategoryId productCategoryId){
+        this.productCategoryId=productCategoryId;
     }
     @Override
-    public boolean isSatisfiedBy(Object o) {
-        ProductCategoryId targetParentProductCategoryId= (ProductCategoryId) o;
-        return !targetParentProductCategoryId.equals(sourceProductCategory.getId());
+    public boolean isSatisfiedBy(ProductCategory productCategory) {
+        return !productCategoryId.equals(productCategory.getId());
     }
 }

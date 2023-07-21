@@ -1,6 +1,9 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
+import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
@@ -16,58 +19,15 @@ import java.util.Objects;
 public class ProductImage extends  Entity {
 
     private ProductImageId id;
+    private Url url;
+    private Sort sort;
+    private ProductImageTypeEnum type;
 
-    private String url;
-    private int sort;
-    //private boolean defaultFlag;
-
-    public String getUrl() {
-        return url;
-    }
-
-
-    public ProductImage(ProductImageId id) {
+    public ProductImage(ProductImageId id, Url url, Sort sort, ProductImageTypeEnum type) {
         this.id = id;
-    }
-
-    public ProductImage setUrl(String url) {
-        AssertUtils.assertArgumentNotNull(url, "url must not be null");
-        if(!StringUtils.ishttp(url)){
-            throw new IllegalArgumentException("http地址无效");
-        }
-        this.url =url;
-        //this.defaultFlag=false;//暂时没有用
-        return this;
-    }
-
-    public int getSort() {
-        return sort;
-    }
-
-    public ProductImage setSort(int sort) {
-        AssertUtils.assertArgumentNotNull(sort, "sort must not be null");
+        this.url = url;
         this.sort = sort;
-        return this;
-    }
-
-    public ProductImage setDefaultFlag(boolean defaultFlag) {
-
-        AssertUtils.assertArgumentNotNull(defaultFlag, "defaultFlag must not be null");
-
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProductImage that = (ProductImage) o;
-        return getSort() == that.getSort() && Objects.equals(getUrl(), that.getUrl());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getUrl(), getSort());
+        this.type = type;
     }
 
     @Override
@@ -77,5 +37,43 @@ public class ProductImage extends  Entity {
 
     public void setId(ProductImageId id) {
         this.id = id;
+    }
+
+    public Url getUrl() {
+        return url;
+    }
+
+    public void setUrl(Url url) {
+        this.url = url;
+    }
+
+    public Sort getSort() {
+        return sort;
+    }
+
+    public void setSort(Sort sort) {
+        this.sort = sort;
+    }
+
+    public ProductImageTypeEnum getType() {
+        return type;
+    }
+
+    public void setType(ProductImageTypeEnum type) {
+        this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ProductImage that = (ProductImage) o;
+        return Objects.equals(getUrl(), that.getUrl()) && Objects.equals(getSort(), that.getSort()) && getType() == that.getType();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUrl(), getSort(), getType());
     }
 }

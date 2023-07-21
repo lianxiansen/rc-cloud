@@ -1,18 +1,10 @@
 package com.rc.cloud.app.operate.application.bo;
 
-import com.alibaba.fastjson.JSON;
-import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
-import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
-import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
-import com.rc.cloud.app.operate.domain.model.product.ProductImage;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,13 +12,15 @@ import java.util.List;
 public class ProductBO {
 
 
-    private String Id;
+    private String id;
 
     private String tenantId;
 
     private String brandId;
 
     private String name;
+
+    private String brandName;
 
     private String remark;
 
@@ -59,6 +53,8 @@ public class ProductBO {
     private String installVideoUrl;
 
     private String installVideoImg;
+
+    private String installDetail;
 
     private boolean freeShippingFlag;
 
@@ -110,8 +106,14 @@ public class ProductBO {
 
     private List<ProductSkuBO> skus;
 
-    private List<ProductImageBO> images;
+    private List<ProductImageBO> masterImages;
+
+    private List<ProductImageBO> sizeImages;
 
     private List<ProductDictBO> dicts;
+
+    private String productListImage;
+
+    private LocalDateTime createTime;
 
 }

@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.appearance.admin.res;
 
 import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
+import com.rc.cloud.common.core.util.date.LocalDateTimeUtils;
 import com.rc.cloud.common.core.util.tree.TreeNode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -37,9 +38,13 @@ public class ProductCategoryResponse extends TreeNode {
     private boolean enabled;
     @Schema(description = "排序")
     private int sort;
+    @Schema(description = "创建时间")
+    private String createTime;
 
     public static ProductCategoryResponse from(ProductCategoryBO productCategory){
-        return ProductCategoryConvert.INSTANCE.convert2ProductCategoryVO(productCategory);
+        ProductCategoryResponse response= ProductCategoryConvert.INSTANCE.convert2ProductCategoryVO(productCategory);
+        response.setCreateTime(LocalDateTimeUtils.format(productCategory.getCreateTime()));
+        return response;
     }
 
 

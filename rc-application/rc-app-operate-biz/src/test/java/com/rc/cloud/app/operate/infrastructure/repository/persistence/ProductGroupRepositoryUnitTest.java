@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.jdbc.Sql;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -37,7 +36,6 @@ import static org.mockito.Mockito.when;
  */
 @Import({  LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
 @DisplayName("产品组合资源库单元测试")
-@Sql(scripts = {"/sql/clean.sql","/sql/init_data.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class ProductGroupRepositoryUnitTest extends BaseDbUnitTest {
     @Autowired
     private ProductGroupRepository productGroupRepository;

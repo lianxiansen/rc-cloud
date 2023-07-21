@@ -1,12 +1,13 @@
 package com.rc.cloud.app.operate.application.bo;
 
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @ClassName: ProductCategoryUpdateRequest
@@ -17,7 +18,7 @@ import java.util.List;
 @Data
 @Accessors(chain = true)
 public class ProductCategoryBO {
-    private String Id;
+    private String id;
     private String tenantId;
 
     private String name;
@@ -35,7 +36,7 @@ public class ProductCategoryBO {
     private boolean enabled;
 
     private int sort;
-
+    private LocalDateTime createTime;
     public static List<ProductCategoryBO> convertBatch(List<ProductCategory> productCategoryList) {
         List<ProductCategoryBO> boList=new ArrayList<>();
         productCategoryList.forEach(item->{
@@ -54,8 +55,9 @@ public class ProductCategoryBO {
                 .setProductCategoryPageImage(productCategory.getPage().getCategoryImage())
                 .setProductListPageImage(productCategory.getPage().getListImage())
                 .setTenantId(productCategory.getTenantId().id())
-                .setSort(productCategory.getSort().getValue());
-        if(ObjectUtils.isNotNull(productCategory.getParentId())){
+                .setSort(productCategory.getSort().getValue())
+                .setCreateTime(productCategory.getCreateTime().getTime());
+        if(Objects.nonNull(productCategory.getParentId())){
             bo.setParentId(productCategory.getParentId().id());
         }
         return bo;

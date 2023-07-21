@@ -36,8 +36,7 @@ public class ProductCategoryControllerIntegratedTest {
     @Autowired
     private WebApplicationContext context;
 
-    private
-    MockMvc mvc;
+    private MockMvc mvc;
     @Autowired
     private ProductCategoryApplicationService productCategoryApplicationService;
     private static final String imgUrl = "https://t7.baidu.com/it/u=3556773076,803642467&fm=3031&app=3031&size=f242,150&n=0&f=JPEG&fmt=auto?s=A51064321779538A505174D6020010B0&sec=1688490000&t=4ef579bd316ebdc454ab321a8676bbdf";
@@ -51,7 +50,7 @@ public class ProductCategoryControllerIntegratedTest {
                 .webAppContextSetup(context)
 //                .apply(springSecurity())
                 .build();
-        TenantContext.setTenantId("test");
+        TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
     }
 
     @Test
@@ -62,14 +61,14 @@ public class ProductCategoryControllerIntegratedTest {
                 .setEnglishName(RandomUtils.randomString())
                 .setName(RandomUtils.randomString())
                 .setIcon(imgUrl)
-                .setSortId(9)
+                .setSort(9)
                 .setEnabled(true)
                 .setProductListPageImage(imgUrl)
                 .setParentId("72f7ae9e-2ff8-45aa-b61b-59ee900");
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
-        mvc.perform(post("/operate/admin/productCategory/create")
+        mvc.perform(post("/admin/productCategory/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
@@ -98,7 +97,7 @@ public class ProductCategoryControllerIntegratedTest {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
-        mvc.perform(put("/operate/admin/productCategory/update")
+        mvc.perform(put("/admin/productCategory/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
@@ -114,7 +113,7 @@ public class ProductCategoryControllerIntegratedTest {
     @Test
     public void remove() throws Exception {
         String id="72f7ae9e-2ff8-45aa-b61b-59ee913";
-        mvc.perform(delete("/operate/admin/productCategory/remove").param("id", id))
+        mvc.perform(delete("/admin/productCategory/remove").param("id", id))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -125,8 +124,36 @@ public class ProductCategoryControllerIntegratedTest {
     @DisplayName(value = "产品分类列表")
     @Test
     public void findAll() throws Exception {
-        mvc.perform(get("/operate/admin/productCategory/findAll")
+        mvc.perform(get("/admin/productCategory/findAll")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").isNotEmpty());
+    }
+
+    @DisplayName(value = "产品分类树形列表")
+    @Test
+    public void findTreeList() throws Exception {
+        mvc.perform(get("/admin/productCategory/findTreeList")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").isNotEmpty());
+    }
+
+    @DisplayName(value = "根据唯一标识查找产品分类")
+    @Test
+    public void findById() throws Exception {
+        mvc.perform(get("/admin/productCategory/findById")
+                        .param("id","72f7ae9e-2ff8-45aa-b61b-59ee900")
                         .characterEncoding(Charset.defaultCharset())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

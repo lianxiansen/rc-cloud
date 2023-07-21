@@ -15,7 +15,7 @@ public class ProductCategoryPO extends BaseDO {
 
     private static final long serialVersionUID = 2123435L;
     @TableField("id")
-    private String Id;
+    private String id;
     @TableField("tenant_id")
     private String tenantId;
 
@@ -43,8 +43,8 @@ public class ProductCategoryPO extends BaseDO {
     @TableField("enabled_flag")
     private Boolean enabledFlag;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 
 
 }

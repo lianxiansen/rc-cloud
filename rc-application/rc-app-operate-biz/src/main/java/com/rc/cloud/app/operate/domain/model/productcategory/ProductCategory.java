@@ -1,5 +1,8 @@
 package com.rc.cloud.app.operate.domain.model.productcategory;
 
+import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
+import com.rc.cloud.app.operate.domain.common.valobj.Enabled;
+import com.rc.cloud.app.operate.domain.common.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.ReInheritShouldNotSpecifyMyselfSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
@@ -51,26 +54,30 @@ public class ProductCategory extends AggregateRoot {
      */
     private Sort sort;
 
-    public ProductCategory(ProductCategoryId id, TenantId tenantId, ChName name) {
+    private CreateTime createTime;
+
+    ProductCategory(ProductCategoryId id, TenantId tenantId, ChName name) {
         setId(id);
         setTenantId(tenantId);
         setChName(name);
         init();
     }
 
-    private void init(){
-        enName=new EnName("");
-        icon=new Icon();
-        page = new Page();
-        layer = new Layer();
-        enabled=new Enabled();
-        sort=new Sort();
-        setEnName(enName);
-        setIcon(icon);
-        setPage(page);
-        setLayer(layer);
-        setEnabled(enabled);
-        setSort(sort);
+    private void init() {
+        setEnName(new EnName(""));
+        setIcon(new Icon());
+        setPage(new Page());
+        setLayer(new Layer());
+        enable();
+        setSort(new Sort());
+    }
+
+    public void setCreateTime(CreateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public CreateTime getCreateTime() {
+        return this.createTime;
     }
 
     public void setId(ProductCategoryId id) {
@@ -79,7 +86,7 @@ public class ProductCategory extends AggregateRoot {
     }
 
     @Override
-    public ProductCategoryId getId(){
+    public ProductCategoryId getId() {
         return this.id;
     }
 
@@ -88,11 +95,11 @@ public class ProductCategory extends AggregateRoot {
         this.tenantId = tenantId;
     }
 
-    public TenantId getTenantId(){
+    public TenantId getTenantId() {
         return this.tenantId;
     }
 
-    public ProductCategory setChName(ChName chName) {
+     ProductCategory setChName(ChName chName) {
         AssertUtils.assertArgumentNotNull(chName, "name must not be null");
         this.chName = chName;
         return this;
@@ -102,7 +109,7 @@ public class ProductCategory extends AggregateRoot {
         return this.chName;
     }
 
-    public ProductCategory setEnName(EnName enName) {
+    ProductCategory setEnName(EnName enName) {
         AssertUtils.assertArgumentNotNull(enName, "name must not be null");
         this.enName = enName;
         return this;
@@ -112,7 +119,7 @@ public class ProductCategory extends AggregateRoot {
         return this.enName;
     }
 
-    public ProductCategory setIcon(Icon icon) {
+    ProductCategory setIcon(Icon icon) {
         AssertUtils.assertArgumentNotNull(icon, "icon must not be null");
         this.icon = icon;
         return this;
@@ -122,16 +129,17 @@ public class ProductCategory extends AggregateRoot {
         return this.icon;
     }
 
-    public ProductCategory setPage(Page page) {
+    ProductCategory setPage(Page page) {
         AssertUtils.assertArgumentNotNull(page, "page must not be null");
         this.page = page;
         return this;
     }
+
     public Page getPage() {
         return this.page;
     }
 
-    public ProductCategory setParentId(ProductCategoryId parentId) {
+    ProductCategory setParentId(ProductCategoryId parentId) {
         this.parentId = parentId;
         return this;
     }
@@ -140,26 +148,33 @@ public class ProductCategory extends AggregateRoot {
         return this.parentId;
     }
 
-    public ProductCategory setEnabled(Enabled enabled){
-        AssertUtils.assertArgumentNotNull(enabled, "enabled must not be null");
-        this.enabled =enabled;
+    ProductCategory enable() {
+        this.enabled = new Enabled(true);
         return this;
     }
 
-    public Enabled getEnabled(){
+    ProductCategory disable() {
+        AssertUtils.assertArgumentNotNull(enabled, "enabled must not be null");
+        this.enabled = new Enabled(false);
+        return this;
+    }
+
+    public Enabled getEnabled() {
         return this.enabled;
     }
 
 
-    public ProductCategory setLayer(Layer layer) {
+    ProductCategory setLayer(Layer layer) {
         AssertUtils.assertArgumentNotNull(layer, "layer must not be null");
         this.layer = layer;
         return this;
     }
-    public Layer getLayer(){
+
+    public Layer getLayer() {
         return this.layer;
     }
-    public ProductCategory setSort(Sort sort){
+
+    ProductCategory setSort(Sort sort) {
         AssertUtils.assertArgumentNotNull(sort, "sort must not be null");
         this.sort = sort;
         return this;
@@ -169,26 +184,25 @@ public class ProductCategory extends AggregateRoot {
         return this.sort;
     }
 
-    public void inherit(ProductCategory parent){
+    void inherit(ProductCategory parent) {
         AssertUtils.assertArgumentNotNull(parent, "parent must not be null");
-        Layer layer= parent.getLayer().increment();
+        Layer layer = parent.getLayer().increment();
         setLayer(layer);
-        this.parentId=parent.getId();
+        this.parentId = parent.getId();
     }
 
-    public void reInherit(ProductCategory parent){
+    void reInherit(ProductCategory parent) {
         AssertUtils.assertArgumentNotNull(parent, "parent must not be null");
-        if(!new ReInheritShouldNotSpecifyMyselfSpecification(this).isSatisfiedBy(parent.getId())){
+        if (!new ReInheritShouldNotSpecifyMyselfSpecification(parent.getId()).isSatisfiedBy(this)) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.RE_INHERIT_SHOULD_NOT_SPECIFY_MYSELF);
         }
         inherit(parent);
     }
 
-    public void root(){
-        this.parentId=null;
+    void root() {
+        this.parentId = null;
         this.setLayer(new Layer(Layer.ROOT));
     }
-
 
 
 }

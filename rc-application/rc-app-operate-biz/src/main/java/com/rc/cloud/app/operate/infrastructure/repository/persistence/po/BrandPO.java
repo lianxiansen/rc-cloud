@@ -19,14 +19,15 @@ public class BrandPO extends BaseDO {
 
     @TableField("name")
     private String name;
-
+    @TableField("logo")
+    private String logo;
     @TableField("type")
     private String type;
 
     @TableField("enabled_flag")
     private boolean enabledFlag;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 
 }

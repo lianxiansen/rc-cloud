@@ -44,6 +44,12 @@ public class ProductPO extends BaseDO {
     @TableField("name")
     private String name;
 
+    /**
+     * 商品列表图片
+     */
+    @TableField("list_image")
+    private String listImage;
+
     @TableField("remark")
     private String remark;
 
@@ -74,9 +80,6 @@ public class ProductPO extends BaseDO {
     @TableField("out_id")
     private String outId;
 
-    @TableField("enabled_flag")
-    private Boolean enabledFlag;
-
     /**
      * 上架状态 0-上架初始，1-上架中，2-下架中
      */
@@ -103,6 +106,9 @@ public class ProductPO extends BaseDO {
 
     @TableField("install_video_img")
     private String installVideoImg;
+
+    @TableField("install_detail")
+    private String installDetail;
 
     @TableField("free_shipping_flag")
     private Boolean freeShippingFlag;
@@ -191,8 +197,8 @@ public class ProductPO extends BaseDO {
     @TableField("recommend_flag")
     private Boolean recommendFlag;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 
     @TableField("custom_classification_id")
     private String customClassificationId;

@@ -14,7 +14,7 @@ public class AttributeValuePO extends BaseDO {
     private static final long serialVersionUID = 2453461L;
 
     @TableField("id")
-    private Long Id;
+    private Long id;
 
     @TableField("tenant_id")
     private Long tenantId;
@@ -25,6 +25,6 @@ public class AttributeValuePO extends BaseDO {
     @TableField("name")
     private String name;
 
-    @TableField("sort_id")
-    private Integer sortId;
+    @TableField("sort")
+    private Integer sort;
 }

@@ -52,7 +52,7 @@ public class ProductControllerIntegratedTest {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(product);
-        mvc.perform(post("/operate/admin/product/create")
+        mvc.perform(post("/admin/product/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
@@ -79,8 +79,6 @@ public class ProductControllerIntegratedTest {
         String images="[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
                 "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}]";
 
-        java.util.List<ProductImageSaveDTO> productImageSaveDTOS = JSONUtil.toList(images, ProductImageSaveDTO.class);
-        productSaveDTO.setAlbums(productImageSaveDTOS);
 
         productSaveDTO.setBrandId("1234567");
         productSaveDTO.setEnableFlag(true);

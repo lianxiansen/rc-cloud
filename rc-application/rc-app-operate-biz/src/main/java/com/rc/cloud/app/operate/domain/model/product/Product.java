@@ -1,13 +1,17 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
+import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.AggregateRoot;
 import com.rc.cloud.common.core.util.AssertUtils;
+import com.rc.cloud.common.core.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,17 +46,15 @@ public class Product extends AggregateRoot {
     private CategoryName thirdCategory;
 
 
-    private List<ProductImage> productImages;
+    private Url productListImage;
 
-
-
-    public Product clone(ProductId id){
-
-
-        return null;
+    public Url getProductListImage() {
+        return productListImage;
     }
 
-
+    public void setProductListImage(Url productListImage) {
+        this.productListImage = productListImage;
+    }
 
     /**
      * 如果只有两
@@ -110,16 +112,33 @@ public class Product extends AggregateRoot {
 
 
     public Product setCustomClassificationId(CustomClassificationId customClassificationId){
-        AssertUtils.assertArgumentNotNull(customClassificationId, "customClassification must not be null");
+        AssertUtils.assertArgumentNotNull(customClassificationId, "customClassificationId must not be null");
         this.customClassificationId = customClassificationId;
         return this;
     }
 
-
     /**
      * 新品
      */
-    private Newest newest;
+    private Boolean newFlag;
+    private Boolean publicFlag;
+
+
+    public Boolean getNewFlag() {
+        return newFlag;
+    }
+
+    public void setNewFlag(Boolean newFlag) {
+        this.newFlag = newFlag;
+    }
+
+    public Boolean getPublicFlag() {
+        return publicFlag;
+    }
+
+    public void setPublicFlag(Boolean publicFlag) {
+        this.publicFlag = publicFlag;
+    }
 
     /**
      * 超级单品
@@ -131,14 +150,6 @@ public class Product extends AggregateRoot {
      */
     private Recommend recommend;
 
-    /**
-     * 公开
-     */
-    private Open open;
-
-    public void setNewest(Newest newest){
-        this.newest = newest;
-    }
 
     public void setExplosives(Explosives explosives){
         this.explosives = explosives;
@@ -148,10 +159,6 @@ public class Product extends AggregateRoot {
         this.recommend = recommend;
     }
 
-    public void setOpen(Open open){
-        this.open = open;
-    }
-
 
     /**
      * 上架状态 0-上架初始，1-上架中，2-下架中
@@ -159,20 +166,8 @@ public class Product extends AggregateRoot {
     private OnshelfStatus onshelfStatus;
 
     public void setOnshelfStatus(OnshelfStatus onshelfStatus){
-
         this.onshelfStatus = onshelfStatus;
 
-    }
-
-
-
-    /**
-     * 状态 1-正常状态，0-未启用
-     */
-    private Enable enable;
-
-    public void setEnable(Enable enable){
-        this.enable = enable;
     }
 
 
@@ -276,10 +271,6 @@ public class Product extends AggregateRoot {
     }
 
 
-
-
-
-
     /**
      * 上架
      */
@@ -304,19 +295,6 @@ public class Product extends AggregateRoot {
         }
     }
 
-    /**
-     * 禁用
-     */
-    public void disable(){
-        this.enable =new Enable(false);
-    }
-
-    /**
-     * 启用
-     */
-    public void enable(){
-        this.enable =new Enable(true);
-    }
 
 
 
@@ -325,9 +303,6 @@ public class Product extends AggregateRoot {
         this.type = type;
     }
 
-    public void setProductImages(List<ProductImage> list){
-        this.productImages = list;
-    }
 
     @Override
     public ProductId getId(){
@@ -376,10 +351,6 @@ public class Product extends AggregateRoot {
         return customClassificationId;
     }
 
-    public Newest getNewest() {
-        return newest;
-    }
-
     public Explosives getExplosives() {
         return explosives;
     }
@@ -388,17 +359,11 @@ public class Product extends AggregateRoot {
         return recommend;
     }
 
-    public Open getOpen() {
-        return open;
-    }
 
     public OnshelfStatus getOnshelfStatus() {
         return onshelfStatus;
     }
 
-    public Enable getEnable() {
-        return enable;
-    }
 
     public Video getVideo() {
         return video;
@@ -469,5 +434,67 @@ public class Product extends AggregateRoot {
 
     public void setPackingLowestBuy(PackingLowestBuy packingLowestBuy) {
         this.packingLowestBuy = packingLowestBuy;
+    }
+
+    private List<ProductImage> masterImages;
+    private List<ProductImage> sizeImages;
+
+    private void addMasterImages(ProductImageId id, Url url,Sort sort) {
+        if(masterImages==null){
+            masterImages=new ArrayList<>();
+        }
+        ProductImage productImage=new ProductImage(id,url,sort,ProductImageTypeEnum.MasterImage);
+        this.masterImages.add(productImage);
+    }
+
+    private void addSizeImages(ProductImageId id, Url url,Sort sort) {
+        if(sizeImages==null){
+            sizeImages=new ArrayList<>();
+        }
+        ProductImage productImage=new ProductImage(id,url,sort,ProductImageTypeEnum.SizeImage);
+        this.sizeImages.add(productImage);
+    }
+
+    public void addProductImageList(List<ProductImage> productImageList){
+        for (ProductImage productImage : productImageList) {
+            if(!existProductImage(productImage)){
+                if(productImage.getType()==ProductImageTypeEnum.MasterImage){
+                    addMasterImages(productImage.getId(),productImage.getUrl(),productImage.getSort());
+                }else  if(productImage.getType()==ProductImageTypeEnum.SizeImage){
+                    addSizeImages(productImage.getId(),productImage.getUrl(),productImage.getSort());
+                }
+            }
+        }
+    }
+
+    public boolean existProductImage(ProductImage productImage){
+        boolean exits=false;
+        if(masterImages!=null){
+            exits= masterImages.stream().anyMatch(x -> x.equals(productImage));
+        }
+        if(!exits){
+            if(sizeImages!=null){
+                exits= sizeImages.stream().anyMatch(x -> x.equals(productImage));
+            }
+        }
+        return exits;
+    }
+
+    public List<ProductImage> getMasterImages() {
+        return masterImages;
+    }
+
+    public List<ProductImage> getSizeImages() {
+        return sizeImages;
+    }
+
+    private InstallInformation installInformation;
+
+    public InstallInformation getInstallInformation() {
+        return installInformation;
+    }
+
+    public void setInstallInformation(InstallInformation installInformation) {
+        this.installInformation = installInformation;
     }
 }

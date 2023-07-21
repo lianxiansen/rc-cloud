@@ -18,20 +18,25 @@ public class Explosives extends ValueObject{
     /**
      * 超级单品海报URL，分类海报显示在产品分类页，尺寸500*280
      */
-    private String image;
+    private Url image;
     public Explosives(){
         this.flag = false;
     }
 
-    public Explosives(boolean flag,String image){
+    public Explosives(boolean flag,Url image){
         this.flag =flag;
         if(flag){
             AssertUtils.assertArgumentNotNull(image,"image must not be null.");
         }
+        this.image=image;
     }
 
-    public String getImage() {
+    public Url getImage() {
         return image;
+    }
+
+    public void setImage(Url image) {
+        this.image = image;
     }
 
     public boolean isFlag() {
@@ -42,4 +47,5 @@ public class Explosives extends ValueObject{
     public boolean equals(Object other) {
         return false;
     }
+
 }

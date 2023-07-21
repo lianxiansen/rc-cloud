@@ -15,7 +15,7 @@ public class ProductDictConvert
         ProductDict productDict=new ProductDict(po.getId());
         productDict.setKey(po.getKey());
         productDict.setValue(po.getValue());
-        productDict.setSort(po.getSortId());
+        productDict.setSort(po.getSort());
         productDict.setProductId(new ProductId(po.getProductId()));
         productDict.setTenantId(new TenantId(po.getTenantId()));
         return productDict;

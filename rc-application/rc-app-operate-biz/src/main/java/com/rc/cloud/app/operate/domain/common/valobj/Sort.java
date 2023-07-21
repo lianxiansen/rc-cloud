@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.domain.model.productcategory.valobj;
+package com.rc.cloud.app.operate.domain.common.valobj;
 
 import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.AssertUtils;

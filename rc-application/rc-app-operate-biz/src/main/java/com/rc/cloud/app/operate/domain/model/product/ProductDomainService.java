@@ -1,23 +1,16 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
-import com.alibaba.fastjson.JSON;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
-import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductImage;
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.*;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Enabled;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Explosives;
+import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Recommend;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class ProductDomainService {
@@ -25,6 +18,7 @@ public class ProductDomainService {
 
     @Autowired
     private ProductRepository productRepository;
+
 
     public  int createProduct(Product product){
         if(productRepository.exist(product.getId())){
@@ -75,51 +69,36 @@ public class ProductDomainService {
     public int setPublic(ProductId productId){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
-        product.setOpen(new Open(true));
+        product.setPublicFlag(true);
         return productRepository.updateProduct(product);
     }
 
     public int cancelPublic(ProductId productId){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
-        product.setOpen(new Open(false));
+        product.setPublicFlag(false);
         return productRepository.updateProduct(product);
     }
-
-    public int setEnable(ProductId productId){
-        Product product = productRepository.findById(productId);
-        AssertUtils.notNull(product, "product must not be null");
-        product.setEnable(new Enable(true));
-        return productRepository.updateProduct(product);
-    }
-
-    public int cancelEnable(ProductId productId){
-        Product product = productRepository.findById(productId);
-        AssertUtils.notNull(product, "product must not be null");
-        product.setEnable(new Enable(false));
-        return productRepository.updateProduct(product);
-    }
-
 
 
     public int setNews(ProductId productId){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
-        product.setNewest(new Newest(true));
+        product.setNewFlag(true);
         return productRepository.updateProduct(product);
     }
 
     public int cancelNews(ProductId productId){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
-        product.setNewest(new Newest(false));
+        product.setPublicFlag(false);
         return productRepository.updateProduct(product);
     }
 
     public int setExplosives(ProductId productId ,String url){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
-        product.setExplosives(new Explosives(true,url));
+        product.setExplosives(new Explosives(true,new Url(url)));
         return productRepository.updateProduct(product);
     }
 

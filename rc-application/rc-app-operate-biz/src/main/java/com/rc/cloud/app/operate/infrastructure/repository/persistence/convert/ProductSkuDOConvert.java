@@ -72,7 +72,7 @@ public class ProductSkuDOConvert {
                 productSkuImagePO.setProductSkuId(productSkuId);
                 productSkuImagePO.setUrl(productSkuImageEntity.getUrl());
                 productSkuImagePO.setTenantId(tenantId);
-                productSkuImagePO.setSortId(productSkuImageEntity.getSort());
+                productSkuImagePO.setSort(productSkuImageEntity.getSort());
                 resList.add(productSkuImagePO);
             }
         }

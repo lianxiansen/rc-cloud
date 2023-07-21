@@ -59,13 +59,5 @@ public class ObjectUtils {
     public static <T> boolean equalsAny(T obj, T... array) {
         return Arrays.asList(array).contains(obj);
     }
-    public static boolean isNull(Object object)
-    {
-        return object == null;
-    }
 
-    public static boolean isNotNull(Object object)
-    {
-        return !(object == null);
-    }
 }

@@ -61,6 +61,7 @@ rc:
       - sys_dict_data
       - sys_dict_type
       - sys_oauth_client_details
+      - sys_login_log
 
 # Quartz 配置项，对应 QuartzProperties 配置类
 spring:
@@ -105,4 +106,4 @@ knife4j:
 security:
   oauth2:
     ignore:
-      urls: ["/sys/user/info-by-id/**", "/sys/user/info-by-ids"] # 忽略的 URL 地址，多个逗号分隔
+      urls: ["/sys/user/info-by-id/**", "/sys/user/info-by-ids", "/sys/login-log/save-log"] # 忽略的 URL 地址，多个逗号分隔
