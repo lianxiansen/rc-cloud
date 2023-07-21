@@ -94,7 +94,7 @@ public class ProductDomainService {
     public int setExplosives(ProductId productId ,String url){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
-        product.setExplosives(new Explosives(true,url));
+        product.setExplosives(new Explosives(true,new Url(url)));
         return productRepository.updateProduct(product);
     }
 

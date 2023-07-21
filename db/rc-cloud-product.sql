@@ -173,7 +173,7 @@ CREATE TABLE `product`
     `name`                       varchar(200) COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '商品名',
     `remark`                     varchar(200) COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '商品简介',
     `tag`                        varchar(200) COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '商品标签',
-    `master_image`               varchar(256) COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '主图URL',
+    `list_image`               varchar(256) COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '主图URL',
     `spu_code`                   varchar(200) COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '商品code',
     `product_origin`             int(11)                            DEFAULT 0 COMMENT '商品来源，0：自营',
     `out_id`                     varchar(32) COLLATE utf8mb4_bin    DEFAULT NULL COMMENT '外部id',

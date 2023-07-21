@@ -22,6 +22,9 @@ public class ProductDetailResponse {
     @Schema(description = "产品名称")
     private String name;
 
+    @Schema(description = "产品列表图片")
+    private String listImage;
+
     @Schema(description = "产品描述")
     private String remark;
 

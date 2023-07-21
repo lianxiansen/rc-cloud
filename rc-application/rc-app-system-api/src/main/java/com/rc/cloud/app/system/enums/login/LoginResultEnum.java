@@ -34,7 +34,13 @@ public enum LoginResultEnum {
     /*
      * 图片验证码不正确
      */
-    CAPTCHA_CODE_ERROR(31);
+    CAPTCHA_CODE_ERROR(31),
+
+
+    /*
+     * 错误日志类型
+     */
+    ERROR(99);
 
     /**
      * 结果
