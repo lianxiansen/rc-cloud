@@ -10,7 +10,7 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupItem;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupDomainService;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductGroupErrorCodeConstants;
@@ -27,7 +27,7 @@ import java.util.List;
 @Service
 public class ProductGroupApplicationService {
     @Autowired
-    private ProductGroupService productGroupService;
+    private ProductGroupDomainService productGroupService;
     @Autowired
     private ProductGroupRepository productGroupRepository;
     @Autowired

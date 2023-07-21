@@ -13,17 +13,11 @@ public class Video extends ValueObject {
     private String videoUrl;
     private String videoImg;
 
-    public Video(String videoUrl, String videoImg, String installVideoUrl, String installVideoImg){
+    public Video(String videoUrl, String videoImg){
         if(StringUtils.isNotEmpty(videoUrl)&&!StringUtils.ishttp(videoUrl)){
             throw new IllegalArgumentException("http地址无效");
         }
         if(StringUtils.isNotEmpty(videoImg)&&!StringUtils.ishttp(videoImg)){
-            throw new IllegalArgumentException("http地址无效");
-        }
-        if(StringUtils.isNotEmpty(installVideoUrl)&&!StringUtils.ishttp(installVideoUrl)){
-            throw new IllegalArgumentException("http地址无效");
-        }
-        if(StringUtils.isNotEmpty(installVideoImg)&&!StringUtils.ishttp(installVideoImg)){
             throw new IllegalArgumentException("http地址无效");
         }
         this.videoUrl = videoUrl;

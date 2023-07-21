@@ -6,9 +6,9 @@ import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupDomainService;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupItem;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
@@ -17,7 +17,6 @@ import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.TenantContext;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import com.rc.cloud.common.test.core.ut.SpringMockitoUnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,13 +31,13 @@ import java.util.Objects;
 
 import static org.mockito.Mockito.when;
 
-@Import({ProductGroupService.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
+@Import({ProductGroupDomainService.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
 @DisplayName("产品组合服务单元测试")
 public class ProductGroupServiceUnitTest extends SpringMockitoUnitTest {
 
 
     @Autowired
-    private ProductGroupService productGroupService;
+    private ProductGroupDomainService productGroupService;
     @Resource
     private IdRepository idRepository;
     @MockBean
@@ -71,7 +70,7 @@ public class ProductGroupServiceUnitTest extends SpringMockitoUnitTest {
     @DisplayName("创建产品组合领域对象")
     public void create() {
         ProductGroup productGroup = productGroupService.create(productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()), new ProductId(productGroupCreateDTO.getProductId()));
-        Assertions.assertTrue(ObjectUtils.isNotNull(productGroup.getId()) && productGroupCreateDTO.sameValueAs(productGroup) && TenantContext.getTenantId().equals(productGroup.getTenantId().id()), "创建组合失败");
+        Assertions.assertTrue(Objects.nonNull(productGroup.getId()) && productGroupCreateDTO.sameValueAs(productGroup) && TenantContext.getTenantId().equals(productGroup.getTenantId().id()), "创建组合失败");
     }
 
     @Test

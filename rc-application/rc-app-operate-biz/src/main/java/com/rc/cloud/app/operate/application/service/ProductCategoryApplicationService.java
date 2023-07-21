@@ -8,7 +8,7 @@ import com.rc.cloud.app.operate.domain.common.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryBuildFactory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRebuildFactory;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryDomainService;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.ChName;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.EnName;
@@ -21,7 +21,6 @@ import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.TenantContext;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,7 +38,7 @@ import java.util.Objects;
 @Service
 public class ProductCategoryApplicationService {
     @Resource
-    private ProductCategoryService productCategoryService;
+    private ProductCategoryDomainService productCategoryService;
     @Resource
     private IdRepository idRepository;
 
@@ -53,11 +52,11 @@ public class ProductCategoryApplicationService {
         ProductCategoryBuildFactory.ProductCategoryBuilder builder = new ProductCategoryBuildFactory.ProductCategoryBuilder(new ProductCategoryId(idRepository.nextId()), tenantId, name);
         builder.enName(new EnName(productCreateCategoryDTO.getEnglishName()));
         builder.icon(new Icon(productCreateCategoryDTO.getIcon()));
-        if (ObjectUtils.isNotNull(productCreateCategoryDTO.getEnabled())) {
+        if (Objects.nonNull(productCreateCategoryDTO.getEnabled())) {
             builder.setEnabled(new Enabled(productCreateCategoryDTO.getEnabled()));
         }
         builder.page(new Page(productCreateCategoryDTO.getProductCategoryPageImage(), productCreateCategoryDTO.getProductListPageImage()));
-        if (ObjectUtils.isNotNull(productCreateCategoryDTO.getSort())) {
+        if (Objects.nonNull(productCreateCategoryDTO.getSort())) {
             builder.sort(new Sort(productCreateCategoryDTO.getSort()));
         }
         if (!StringUtils.isEmpty(productCreateCategoryDTO.getParentId())) {

@@ -55,6 +55,8 @@ public class ProductConvert
         }
         //设置商品名
         product = setName(productSaveDTO.getName(),isCreate,product);
+        //商品图片
+        product = setProductListImage(productSaveDTO.getListImage(),isCreate,product);
         //商品标签
         product = setRemark(productSaveDTO.getRemark(),isCreate,product);
         //商品tag
@@ -83,9 +85,10 @@ public class ProductConvert
         //设置Video
         product = setVideo(productSaveDTO.getVideoUrl()
                 ,productSaveDTO.getVideoImg()
-                ,productSaveDTO.getInstallVideoUrl()
-                ,productSaveDTO.getInstallVideoImg()
                 ,isCreate,product);
+        //设置安装信息
+        product =setInstallInformation(productSaveDTO.getInstallVideoUrl(), productSaveDTO.getInstallVideoImg()
+        ,productSaveDTO.getInstallDetail(),isCreate,product);
         //设置图片
         product= setProductImage(productSaveDTO,isCreate,product);
         //设置属性
@@ -192,13 +195,17 @@ public class ProductConvert
     private static Product setExplosives(Boolean explosivesFlag,String explosivesImage
             , boolean isCreate, Product product){
         if(isCreate){
-            product.setExplosives(new Explosives(explosivesFlag,explosivesImage));
+            if(explosivesFlag!=null && explosivesFlag){
+                product.setExplosives(new Explosives(explosivesFlag,new Url(explosivesImage)));
+            }else{
+                product.setExplosives(new Explosives(false,null));
+            }
         }else{
             //是否有爆品图片
             if (explosivesFlag != null) {
                 Explosives explosives = null;
                 if (explosivesFlag) {
-                    explosives = new Explosives(explosivesFlag, explosivesImage);
+                    explosives = new Explosives(explosivesFlag, new Url(explosivesImage));
                 } else {
                     explosives = new Explosives(explosivesFlag, null);
                 }
@@ -267,18 +274,52 @@ public class ProductConvert
     }
 
 
-    private static Product setVideo(String videoUrl, String videoImg, String installVideoUrl, String installVideoImg
+    private static Product setVideo(String videoUrl, String videoImg
             , boolean isCreate, Product product){
-        Video video2 = new Video(videoUrl, videoImg
-                , installVideoUrl,installVideoImg);
+        Video video2 = new Video(videoUrl, videoImg);
         if(isCreate){
             product.setVideo(video2);
         }else{
-            if (videoUrl != null || videoImg != null
-                    || installVideoUrl != null || installVideoImg != null) {
+            if (videoUrl != null || videoImg != null) {
                 product.setVideo(video2);
             }
         }
+        return product;
+    }
+
+    private static Product setProductListImage(String productListImage, boolean isCreate, Product product){
+        if(isCreate){
+            Url url=new Url(productListImage);
+            product.setProductListImage(url);
+        }else{
+            if (productListImage != null) {
+                Url url=new Url(productListImage);
+                product.setProductListImage(url);
+            }
+        }
+        return product;
+    }
+
+
+    private static Product setInstallInformation(String installVideoUrl, String installVideoImg, String installDetail
+            , boolean isCreate, Product product){
+        InstallInformation installInformation = null;
+        if(isCreate){
+            installInformation =new InstallInformation();
+            installInformation.setInstallVideoUrl(installVideoUrl);
+            installInformation.setInstallVideoImg(installVideoImg);
+            installInformation.setInstallDetail(installDetail);
+        }else{
+            if (installVideoUrl != null || installVideoImg != null
+                    || installDetail != null) {
+                installInformation =new InstallInformation();
+                installInformation.setInstallVideoUrl(installVideoUrl);
+                installInformation.setInstallVideoImg(installVideoImg);
+                installInformation.setInstallDetail(installDetail);
+
+            }
+        }
+        product.setInstallInformation(installInformation);
         return product;
     }
 
@@ -350,6 +391,9 @@ public class ProductConvert
         if(product.getName()!=null){
             bo.setName(product.getName().getValue());
         }
+        if(product.getProductListImage()!=null){
+            bo.setProductListImage(product.getProductListImage().getValue());
+        }
         if(product.getRemark()!=null){
             bo.setRemark(product.getRemark().getValue());
         }
@@ -383,7 +427,7 @@ public class ProductConvert
         }
         if(product.getExplosives()!=null){
             bo.setExplosivesFlag(product.getExplosives().isFlag());
-            bo.setExplosivesImage(product.getExplosives().getImage());
+            bo.setExplosivesImage(product.getExplosives().getImage().getValue());
         }
         if(product.getPublicFlag()!=null){
             bo.setPublicFlag(product.getPublicFlag());
@@ -394,9 +438,16 @@ public class ProductConvert
         if(product.getOnshelfStatus()!=null){
             bo.setOnshelfStatus(product.getOnshelfStatus().getValue());
         }
+        //视频
         if(product.getVideo()!=null){
             bo.setVideoImg(product.getVideo().getVideoImg());
             bo.setVideoUrl(product.getVideo().getVideoUrl());
+        }
+        //安装视频
+        if(product.getInstallInformation()!=null){
+            bo.setInstallVideoUrl(product.getInstallInformation().getInstallVideoUrl());
+            bo.setInstallVideoImg(product.getInstallInformation().getInstallVideoImg());
+            bo.setInstallDetail(product.getInstallInformation().getInstallDetail());
         }
         if(product.getPackingLowestBuy()!=null){
             bo.setPackingLowestBuyFlag(product.getPackingLowestBuy().result());

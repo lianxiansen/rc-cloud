@@ -1,13 +1,13 @@
 package com.rc.cloud.app.operate.application.bo;
 
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @ClassName: ProductCategoryUpdateRequest
@@ -57,7 +57,7 @@ public class ProductCategoryBO {
                 .setTenantId(productCategory.getTenantId().id())
                 .setSort(productCategory.getSort().getValue())
                 .setCreateTime(productCategory.getCreateTime().getTime());
-        if(ObjectUtils.isNotNull(productCategory.getParentId())){
+        if(Objects.nonNull(productCategory.getParentId())){
             bo.setParentId(productCategory.getParentId().id());
         }
         return bo;

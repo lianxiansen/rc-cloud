@@ -40,4 +40,6 @@ public class InstallInformation {
     public void setInstallDetail(String installDetail) {
         this.installDetail = installDetail;
     }
+
+
 }
