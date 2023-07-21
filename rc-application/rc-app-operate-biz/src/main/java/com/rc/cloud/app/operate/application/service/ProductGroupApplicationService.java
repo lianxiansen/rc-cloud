@@ -61,16 +61,18 @@ public class ProductGroupApplicationService {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_IN_GROUP_NOT_EMPTY);
         }
         ProductGroupItem productGroupItem= productGroupService.createItem(new ProductGroupId(productGroupItemCreateDTO.getProductGroupId()), new ProductId(productGroupItemCreateDTO.getProductId()));
-        return ProductGroupConvert.convert2productGroupItemBO(productGroupItem);
+        ProductGroupItemBO bo=ProductGroupConvert.convert2productGroupItemBO(productGroupItem);
+        return bo;
     }
 
 
-    public List<ProductGroupBO> findAll(String productId) {
+    public List<ProductGroupBO> findListByProductId(String productId) {
         if (StringUtils.isEmpty(productId)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
         }
         List<ProductGroup> groupList = productGroupRepository.findAll(new ProductId(productId));
-        return ProductGroupConvert.convert2ProductGroupBOBatch(groupList);
+        List<ProductGroupBO> bos=ProductGroupConvert.convert2ProductGroupBOBatch(groupList);
+        return bos;
     }
 
 }

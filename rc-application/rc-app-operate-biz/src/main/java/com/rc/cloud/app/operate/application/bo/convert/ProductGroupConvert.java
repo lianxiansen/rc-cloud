@@ -34,8 +34,8 @@ public class ProductGroupConvert {
     public static ProductGroupItemBO convert2productGroupItemBO(ProductGroupItem productGroupItem){
         ProductGroupItemBO itemBO=new ProductGroupItemBO()
                 .setId(productGroupItem.getId().id())
+                .setProductGroupId(productGroupItem.getProductGroupId().id())
                 .setProductId(productGroupItem.getProductId().id())
-                .setProductName(productGroupItem.getProductName())
                 .setCreateTime(productGroupItem.getCreateTime().getTime());
         return itemBO;
     }
@@ -53,8 +53,7 @@ public class ProductGroupConvert {
                 ProductGroupItemBO itemBO=new ProductGroupItemBO()
                         .setId(item.getId().id())
                         .setProductId(item.getProductId().id())
-                        .setCreateTime(item.getCreateTime().getTime())
-                        .setProductName(item.getProductName());
+                        .setCreateTime(item.getCreateTime().getTime());
                 itemBOList.add(itemBO);
             });
         }
