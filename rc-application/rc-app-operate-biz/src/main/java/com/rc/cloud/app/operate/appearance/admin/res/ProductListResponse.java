@@ -22,6 +22,9 @@ public class ProductListResponse {
     @Schema(description = "产品名称")
     private String name;
 
+    @Schema(description = "产品图片")
+    private String listImage;
+
     @Schema(description = "产品货号")
     private String spuCode;
 

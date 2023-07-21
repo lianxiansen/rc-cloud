@@ -54,6 +54,8 @@ public class ProductBO {
 
     private String installVideoImg;
 
+    private String installDetail;
+
     private boolean freeShippingFlag;
 
     private int freightType;
@@ -109,5 +111,7 @@ public class ProductBO {
     private List<ProductImageBO> sizeImages;
 
     private List<ProductDictBO> dicts;
+
+    private String productListImage;
 
 }

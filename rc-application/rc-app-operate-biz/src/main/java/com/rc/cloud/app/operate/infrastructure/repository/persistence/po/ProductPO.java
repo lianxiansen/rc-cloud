@@ -44,6 +44,12 @@ public class ProductPO extends BaseDO {
     @TableField("name")
     private String name;
 
+    /**
+     * 商品列表图片
+     */
+    @TableField("list_image")
+    private String listImage;
+
     @TableField("remark")
     private String remark;
 
@@ -100,6 +106,9 @@ public class ProductPO extends BaseDO {
 
     @TableField("install_video_img")
     private String installVideoImg;
+
+    @TableField("install_detail")
+    private String installDetail;
 
     @TableField("free_shipping_flag")
     private Boolean freeShippingFlag;

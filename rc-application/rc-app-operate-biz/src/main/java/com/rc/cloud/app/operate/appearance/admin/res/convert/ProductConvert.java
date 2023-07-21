@@ -15,6 +15,7 @@ public class ProductConvert {
         ProductListResponse response=new ProductListResponse();
         response.setId(bo.getId());
         response.setName(bo.getName());
+        response.setListImage(bo.getProductListImage());
         response.setNewFlag(bo.isNewFlag());
         response.setBrandName(bo.getName());
         response.setExplosivesFlag(bo.isExplosivesFlag());

@@ -79,6 +79,8 @@ public class ProductSaveDTO {
 
     private String name;
 
+    private String listImage;
+
     private String remark;
 
     private String tag;
@@ -138,7 +140,7 @@ public class ProductSaveDTO {
     private String videoImg;
     private String installVideoUrl;
     private String installVideoImg;
-
+    private String installDetail;
 
     private String detailId;
     private String detail;

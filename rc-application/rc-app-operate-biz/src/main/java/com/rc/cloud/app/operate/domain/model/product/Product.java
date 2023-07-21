@@ -46,19 +46,15 @@ public class Product extends AggregateRoot {
     private CategoryName thirdCategory;
 
 
-    private String productListImage;
+    private Url productListImage;
 
-    public String getProductListImage() {
+    public Url getProductListImage() {
         return productListImage;
     }
 
-    public void setProductListImage(String productListImage) {
-        if(StringUtils.isNotEmpty(productListImage)&&!StringUtils.ishttp(productListImage)){
-            throw new IllegalArgumentException("http地址无效");
-        }
+    public void setProductListImage(Url productListImage) {
         this.productListImage = productListImage;
     }
-
 
     /**
      * 如果只有两
@@ -170,12 +166,9 @@ public class Product extends AggregateRoot {
     private OnshelfStatus onshelfStatus;
 
     public void setOnshelfStatus(OnshelfStatus onshelfStatus){
-
         this.onshelfStatus = onshelfStatus;
 
     }
-
-
 
 
     /**
@@ -276,10 +269,6 @@ public class Product extends AggregateRoot {
     public Name getName(){
         return this.name;
     }
-
-
-
-
 
 
     /**
@@ -497,5 +486,15 @@ public class Product extends AggregateRoot {
 
     public List<ProductImage> getSizeImages() {
         return sizeImages;
+    }
+
+    private InstallInformation installInformation;
+
+    public InstallInformation getInstallInformation() {
+        return installInformation;
+    }
+
+    public void setInstallInformation(InstallInformation installInformation) {
+        this.installInformation = installInformation;
     }
 }
