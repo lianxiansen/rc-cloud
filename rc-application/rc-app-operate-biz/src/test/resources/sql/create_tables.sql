@@ -412,3 +412,18 @@ CREATE TABLE `product_group_item`
     `update_time`      datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB COMMENT = '商品组合项表';
+
+
+DROP TABLE IF EXISTS `product_recommend`;
+CREATE TABLE `product_recommend`  (
+  `id` varchar(32)  NOT NULL COMMENT '主键',
+  `tenant_id` varchar(32)  NULL DEFAULT NULL COMMENT '所属租户',
+  `product_id` varchar(32)  NULL DEFAULT NULL COMMENT '当前商品id',
+  `recommend_product_id` varchar(32)  NULL DEFAULT NULL COMMENT '推荐商品id',
+  `deleted` bit(1) NULL DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
+  `creator` varchar(32)  NULL DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(32)  NULL DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB  COMMENT = '商品推荐' ROW_FORMAT = DYNAMIC;

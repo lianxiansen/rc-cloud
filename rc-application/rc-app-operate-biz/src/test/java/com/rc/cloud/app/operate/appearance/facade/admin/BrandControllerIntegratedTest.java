@@ -38,7 +38,7 @@ public class BrandControllerIntegratedTest {
         mvc = MockMvcBuilders.webAppContextSetup(context)
 //                .apply(springSecurity())
                 .build();
-        TenantContext.setTenantId("test");
+        TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
 
     }
 

@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.application.bo.convert.ProductGroupConvert;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
 import com.rc.cloud.app.operate.domain.model.product.Product;
+import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
@@ -35,7 +36,8 @@ public class ProductGroupApplicationService {
     private ProductRepository productRepository;
     @Resource
     private IdRepository idRepository;
-
+    @Autowired
+    private ProductDomainService productDomainService;
     public ProductGroupBO create(ProductGroupCreateDTO productGroupCreateDTO) {
         if (StringUtils.isEmpty(productGroupCreateDTO.getProductId())) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
@@ -73,16 +75,12 @@ public class ProductGroupApplicationService {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
         }
         List<ProductGroup> groupList = productGroupRepository.findAll(new ProductId(productId));
-        List<Product> list=findListBatch(findProductIds(groupList));
+        List<Product> list= productRepository.selectBatchIds(findProductIds(groupList));
         List<ProductGroupBO> bos=ProductGroupConvert.convert2ProductGroupBOBatch(groupList,list);
         return bos;
     }
 
-    private List<ProductId> findProductIds(List<ProductGroup> groupList ){
-        return null;
-    }
-
-    private List<Product> findListBatch(List<ProductId> productIds){
+    private List<ProductId> findProductIds(List<ProductGroup> productGroups ){
         return null;
     }
 

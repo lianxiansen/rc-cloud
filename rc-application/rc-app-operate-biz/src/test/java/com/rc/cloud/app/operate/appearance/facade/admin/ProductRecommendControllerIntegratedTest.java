@@ -2,12 +2,11 @@ package com.rc.cloud.app.operate.appearance.facade.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
-import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
-import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
+import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
@@ -32,15 +31,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * @ClassName: ProductGroupAcceptanceTest
+ * @ClassName: ProductRecommendControllerIntegratedTest
  * @Author: liandy
- * @Date: 2023/7/17 07:57
- * 1.创建产品组合
- * 2.解除产品组合
- * 3.添加组合项
  */
 @RcTest
-public class ProductGroupControllerIntegratedTest {
+public class ProductRecommendControllerIntegratedTest {
     private MockMvc mvc;
     @Autowired
     private WebApplicationContext context;
@@ -50,7 +45,7 @@ public class ProductGroupControllerIntegratedTest {
     @Resource
     private IdRepository idRepository;
     private Product productMock;
-    private ProductGroupId productGroupId;
+    private ProductRecommendId productRecommendId;
     private ProductId productId;
     @BeforeEach
     public void setup() {
@@ -60,11 +55,11 @@ public class ProductGroupControllerIntegratedTest {
         TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
         productMock = new Product(new ProductId(idRepository.nextId()), new TenantId(RandomUtils.randomString()), new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
-        productGroupId=new ProductGroupId("870ef1f5-39d2-4f48-8c67-ae45206");
+        productRecommendId =new ProductRecommendId("870ef1f5-39d2-4f48-8c67-ae45206");
         productId=new ProductId("5c491caf-1df2-4bad-a04b-67976a7");
     }
 
-    @DisplayName(value = "创建产品组合")
+    @DisplayName(value = "创建产品推荐")
     @Test
     public void create() throws Exception {
         ProductGroupCreateDTO productGroupCreateDTO = new ProductGroupCreateDTO();
@@ -73,7 +68,7 @@ public class ProductGroupControllerIntegratedTest {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(productGroupCreateDTO);
-        mvc.perform(post("/admin/productGroup/create")
+        mvc.perform(post("/admin/productRecommend/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -83,11 +78,11 @@ public class ProductGroupControllerIntegratedTest {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data").isNotEmpty());
     }
-    @DisplayName(value = "解除产品组合")
+    @DisplayName(value = "解除产品推荐")
     @Test
     public void release() throws Exception {
         String productGroupId="870ef1f5-39d2-4f48-8c67-ae45206";
-        mvc.perform(delete("/admin/productGroup/release").param("id", productGroupId))
+        mvc.perform(delete("/admin/productRecommend/release").param("id", productGroupId))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -95,29 +90,12 @@ public class ProductGroupControllerIntegratedTest {
                 .andExpect(jsonPath("$.data").isBoolean());
     }
 
-    @DisplayName(value = "添加组合项")
-    @Test
-    public void createItem() throws Exception {
-        ProductGroupItemCreateDTO productGroupItemCreateDTO = new ProductGroupItemCreateDTO().setProductGroupId(productGroupId.id())
-                .setProductId(productMock.getId().id());
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(productGroupItemCreateDTO);
-        mvc.perform(post("/admin/productGroup/createItem")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isNotEmpty());
-    }
 
-    @DisplayName(value = "获取产品组合列表")
+
+    @DisplayName(value = "获取产品推荐列表")
     @Test
     public void selectList() throws Exception {
-        mvc.perform(get("/admin/productGroup/findAll").param("productId", productId.id()))
+        mvc.perform(get("/admin/productRecommend/findAll").param("productId", productId.id()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))

@@ -42,7 +42,7 @@ public class ProductGroupConvert {
                 .setCreateTime(productGroupItem.getCreateTime().getTime());
         if(Objects.nonNull(product)){
             itemBO.setProductName(product.getName().getValue());
-            itemBO.setProductImage(product.getProductListImage().getValue());
+            itemBO.setProductImage(Objects.isNull(product.getProductListImage())?"":product.getProductListImage().getValue());
         }
         return itemBO;
     }
