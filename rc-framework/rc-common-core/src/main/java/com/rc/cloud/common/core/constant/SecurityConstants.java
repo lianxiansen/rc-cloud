@@ -122,4 +122,6 @@ public class SecurityConstants
      * 验证码有效期,默认 60秒
      */
     public static final long CODE_TIME = 60;
+
+    public static final String ADMIN_CLIENT_NAME = "rc_admin";
 }
