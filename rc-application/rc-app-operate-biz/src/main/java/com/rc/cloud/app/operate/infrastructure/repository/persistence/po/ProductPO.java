@@ -74,9 +74,6 @@ public class ProductPO extends BaseDO {
     @TableField("out_id")
     private String outId;
 
-    @TableField("enabled_flag")
-    private Boolean enabledFlag;
-
     /**
      * 上架状态 0-上架初始，1-上架中，2-下架中
      */
