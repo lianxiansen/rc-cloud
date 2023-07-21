@@ -36,8 +36,8 @@ public class RemoteLoginLogServerImpl {
      * @param reqDTO 登录日志DTO
      */
     @Inner
-    @PostMapping("/create")
-    public void create(@Valid @RequestBody LoginLogCreateReqDTO reqDTO) {
+    @PostMapping("/save-log")
+    public void saveLog(@Valid @RequestBody LoginLogCreateReqDTO reqDTO) {
         loginLogService.createLoginLog(reqDTO);
     }
 }
