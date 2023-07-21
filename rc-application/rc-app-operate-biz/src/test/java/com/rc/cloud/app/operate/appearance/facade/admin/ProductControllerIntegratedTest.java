@@ -84,10 +84,6 @@ public class ProductControllerIntegratedTest {
         productSaveDTO.setEnableFlag(true);
         productSaveDTO.setCustomClassificationId("1234");
 
-        String dics="[{\"key\":\"材质\",\"value\":\"塑料\",\"sort\":1}," +
-                "{\"key\":\"包装\",\"value\":\"纸箱\",\"sort\":2}]";
-        java.util.List<ProductDictSaveDTO> productDictSaveDTOS = JSONUtil.toList(dics, ProductDictSaveDTO.class);
-        productSaveDTO.setDicts(productDictSaveDTOS);
 
         java.util.List<ProductSkuSaveDTO> skus = new ArrayList<>();
         String sku1="{\n" +

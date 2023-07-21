@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.application.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.Valid;
@@ -95,13 +96,6 @@ public class ProductSaveDTO {
     @Valid
     private List<ProductImageSaveDTO> sizeAlbums;
 
-    /**
-     * 存放
-     * 材质 石头
-     * 尺寸 xx
-     * 承重 xx
-     * 等一些K-V参数
-     */
     private List<ProductDictSaveDTO> dicts;
 
     private String price;

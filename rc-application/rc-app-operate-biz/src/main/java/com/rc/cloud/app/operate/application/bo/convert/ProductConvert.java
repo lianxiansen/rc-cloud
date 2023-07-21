@@ -19,10 +19,7 @@ import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProductConvert
@@ -377,7 +374,7 @@ public class ProductConvert
     }
 
 
-    public static ProductBO  convert(Product product, List<ProductDict> productDicts, ProductDetail productDetail, List<ProductSku> productSkuList) {
+    public static ProductBO  convert(Product product, Set<ProductDict> productDicts, ProductDetail productDetail, List<ProductSku> productSkuList) {
         ProductBO bo=convert(product);
         if(productDicts!=null){
             bo.setDicts(ProductDictConvert.convertProductDictMap(productDicts));

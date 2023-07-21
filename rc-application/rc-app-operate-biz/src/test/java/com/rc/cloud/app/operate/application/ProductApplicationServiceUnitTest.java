@@ -73,8 +73,6 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
         Assertions.assertTrue(Objects.nonNull(
                 productBO.getDetail()!=null) , "创建失败");
         Assertions.assertTrue(Objects.nonNull(
-                productBO.getDicts().size()==productSaveDTO.getDicts().size()) , "创建失败");
-        Assertions.assertTrue(Objects.nonNull(
                 productBO.getSkus().size()==productSaveDTO.getSkus().size()) , "创建失败");
     }
 
@@ -86,7 +84,6 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
         //        new Name("aa"));
         //when(productDomainServiceStub.createProduct(product)).thenReturn();
         ProductSaveDTO productSaveDTO = createProductSaveDTO();
-        productSaveDTO.setDicts(null);
         ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
         Assertions.assertTrue(
                 productBO.getDicts()==null ||
@@ -164,11 +161,6 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
         productSaveDTO.setBrandId("1234567");
         productSaveDTO.setEnableFlag(true);
         productSaveDTO.setCustomClassificationId("1234");
-
-        String dics="[{\"key\":\"材质\",\"value\":\"塑料\",\"sort\":1}," +
-                "{\"key\":\"包装\",\"value\":\"纸箱\",\"sort\":2}]";
-        java.util.List<ProductDictSaveDTO> productDictSaveDTOS = JSONUtil.toList(dics, ProductDictSaveDTO.class);
-        productSaveDTO.setDicts(productDictSaveDTOS);
 
         java.util.List<ProductSkuSaveDTO> skus = new ArrayList<>();
         String sku1="{\n" +

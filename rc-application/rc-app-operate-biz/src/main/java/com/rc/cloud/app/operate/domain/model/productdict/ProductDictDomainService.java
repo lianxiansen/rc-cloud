@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductDictDomainService {
@@ -12,11 +14,12 @@ public class ProductDictDomainService {
     @Autowired
     private ProductDictRepository productDictRepository;
 
-    public List<ProductDict> getProductDictByProductId(ProductId productId){
-        return productDictRepository.getProductDictByProductId(productId);
+    public Set<ProductDict> getProductDictSetByProductId(ProductId productId){
+        List<ProductDict> dicts = productDictRepository.getProductDictByProductId(productId);
+        return dicts.stream().collect(Collectors.toSet());
     }
 
-    public void saveProductDict(List<ProductDict> productDictList){
-        productDictRepository.saveProductDict(productDictList);
+    public void saveProductDict(Set<ProductDict> productDictList){
+        productDictRepository.saveProductDict(productDictList.stream().collect(Collectors.toList()));
     }
 }
