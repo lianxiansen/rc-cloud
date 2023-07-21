@@ -115,4 +115,18 @@ public class BrandControllerIntegratedTest {
                 .andExpect(jsonPath("$.data").isNotEmpty());
     }
 
+    @DisplayName(value = "根据唯一标识查找品牌")
+    @Test
+    public void findById() throws Exception {
+        mvc.perform(get("/admin/brand/findById")
+                        .param("id","f7570440-f052-462c-b6a8-984b701")
+                        .characterEncoding(Charset.defaultCharset())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").isNotEmpty());
+    }
+
 }
