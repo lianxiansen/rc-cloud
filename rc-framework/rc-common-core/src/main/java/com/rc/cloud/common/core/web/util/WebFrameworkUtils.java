@@ -1,7 +1,6 @@
 package com.rc.cloud.common.core.web.util;
 
 import cn.hutool.core.codec.Base64;
-import cn.hutool.core.util.NumberUtil;
 import com.rc.cloud.common.core.enums.UserTypeEnum;
 import com.rc.cloud.common.core.exception.CheckedException;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -17,7 +16,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
@@ -65,6 +63,7 @@ public class WebFrameworkUtils {
 
     /**
      * 获取 HttpServletResponse
+     *
      * @return {HttpServletResponse}
      */
     public static HttpServletResponse getResponse() {
@@ -160,6 +159,7 @@ public class WebFrameworkUtils {
 
     /**
      * 获取 HttpServletRequest
+     *
      * @return {HttpServletRequest}
      */
     public static Optional<HttpServletRequest> getRequest() {
@@ -172,11 +172,18 @@ public class WebFrameworkUtils {
 
     /**
      * 从request 获取CLIENT_ID
+     *
      * @return
      */
     @SneakyThrows
     public static String getClientId(ServerHttpRequest request) {
         String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        return splitClient(header)[0];
+    }
+
+    @SneakyThrows
+    public static String getClientId(HttpServletRequest request) {
+        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
         return splitClient(header)[0];
     }
 
@@ -189,8 +196,7 @@ public class WebFrameworkUtils {
         byte[] decoded;
         try {
             decoded = Base64.decode(base64Token);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new CheckedException("Failed to decode basic authentication token");
         }
 
@@ -201,7 +207,7 @@ public class WebFrameworkUtils {
         if (delim == -1) {
             throw new CheckedException("Invalid basic authentication token");
         }
-        return new String[] { token.substring(0, delim), token.substring(delim + 1) };
+        return new String[]{token.substring(0, delim), token.substring(delim + 1)};
     }
 
 }

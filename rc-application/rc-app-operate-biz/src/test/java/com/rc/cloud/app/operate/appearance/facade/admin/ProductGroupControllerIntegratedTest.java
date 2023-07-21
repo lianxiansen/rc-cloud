@@ -57,7 +57,7 @@ public class ProductGroupControllerIntegratedTest {
         mvc = MockMvcBuilders.webAppContextSetup(context)
 //                .apply(springSecurity())
                 .build();
-        TenantContext.setTenantId("test");
+        TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
         productMock = new Product(new ProductId(idRepository.nextId()), new TenantId(RandomUtils.randomString()), new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         productGroupId=new ProductGroupId("870ef1f5-39d2-4f48-8c67-ae45206");

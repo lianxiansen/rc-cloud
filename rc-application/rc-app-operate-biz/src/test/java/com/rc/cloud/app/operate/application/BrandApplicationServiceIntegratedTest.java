@@ -50,8 +50,8 @@ import static org.mockito.Mockito.when;
  * 7.根据唯一标识获取品牌
  */
 @Import({BrandApplicationService.class, LocalIdRepositoryImpl.class, BrandDomainService.class, BrandRepositoryImpl.class, ProductRepositoryImpl.class})
-@DisplayName("品牌单元测试")
-public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
+@DisplayName("品牌集成测试")
+public class BrandApplicationServiceIntegratedTest extends BaseDbUnitTest {
     @Autowired
     private BrandApplicationService brandApplicationService;
 
@@ -188,7 +188,7 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
         brandMock = brandDomainService.findById(new BrandId(brandBO.getId()));
     }
 
-    public void assertEquals(BrandCreateDTO expected, BrandBO actual, boolean... condition) {
+    private void assertEquals(BrandCreateDTO expected, BrandBO actual, boolean... condition) {
         Assertions.assertTrue(Objects.nonNull(actual.getId()) &&
                 expected.getName().equals(actual.getName()) &&
                 expected.getLogo().equals(actual.getLogo()) &&
@@ -198,7 +198,7 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
                 Objects.nonNull(actual.getCreateTime())&&
                 ConditionUtil.booleanValue(condition), "创建品牌失败");
     }
-    public void assertEquals(BrandUpdateDTO expected, BrandBO actual, boolean... condition) {
+    private void assertEquals(BrandUpdateDTO expected, BrandBO actual, boolean... condition) {
         Assertions.assertTrue(Objects.nonNull(actual.getId()) &&
                 expected.getName().equals(actual.getName()) &&
                 expected.getLogo().equals(actual.getLogo()) &&
@@ -208,7 +208,7 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
                 Objects.nonNull(actual.getCreateTime())&&
                 ConditionUtil.booleanValue(condition), "创建品牌失败");
     }
-    public void assertEquals(Brand expected, BrandBO actual, boolean... condition) {
+    private void assertEquals(Brand expected, BrandBO actual, boolean... condition) {
         Assertions.assertTrue(Objects.nonNull(actual.getId()) &&
                 expected.getName().equals(actual.getName()) &&
                 expected.getLogo().equals(actual.getLogo()) &&

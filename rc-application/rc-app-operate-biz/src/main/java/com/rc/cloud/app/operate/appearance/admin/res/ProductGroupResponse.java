@@ -4,6 +4,7 @@ package com.rc.cloud.app.operate.appearance.admin.res;
 import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductGroupConvert;
 import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductGroupItemConvert;
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
+import com.rc.cloud.common.core.util.date.LocalDateTimeUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -23,8 +24,17 @@ public class ProductGroupResponse {
     private String name;
     @Schema(description = "创建时间")
     private String createTime;
+    @Schema(description = "产品组合描述",example = "共7款产品")
+    private String description;
     @Schema(description = "产品组合项列表")
     private Collection<ProductGroupItemResponse> itemList;
+
+
+    public static ProductGroupResponse from(ProductGroupBO bo) {
+        ProductGroupResponse response = ProductGroupConvert.INSTANCE.convert2ProductGroupVO(bo);
+        response.setCreateTime(LocalDateTimeUtils.format(bo.getCreateTime()));
+        return response;
+    }
 
     public static List<ProductGroupResponse> from(List<ProductGroupBO> boList) {
         List<ProductGroupResponse> vos = new ArrayList<>();
@@ -34,13 +44,14 @@ public class ProductGroupResponse {
                 return o1.getCreateTime().compareTo(o2.getCreateTime());
             }
         }).forEach(item -> {
-            ProductGroupResponse vo = ProductGroupConvert.INSTANCE.convert2ProductGroupVO(item);
+            ProductGroupResponse vo = from(item);
             List<ProductGroupItemResponse> itemVOs=new ArrayList<>();
             item.getItemList().forEach(itemBO->{
                 ProductGroupItemResponse itemVO= ProductGroupItemConvert.INSTANCE.convert2ProductGroupItemVO(itemBO);
                 itemVOs.add(itemVO);
             });
             vo.setItemList(itemVOs);
+            vo.setDescription("共"+item.getItemList().size()+"款产品");
             vos.add(vo);
         });
         return vos;

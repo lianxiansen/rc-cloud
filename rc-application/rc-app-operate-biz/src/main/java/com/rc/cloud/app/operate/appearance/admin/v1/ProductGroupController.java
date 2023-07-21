@@ -50,10 +50,10 @@ public class ProductGroupController {
         return CodeResult.ok(ProductGroupItemConvert.INSTANCE.convert2ProductGroupItemVO(itemBO));
     }
 
-    @GetMapping("findAll")
+    @GetMapping("findListByProductId")
     @Operation(summary = "获取产品组合列表")
     public CodeResult<List<ProductGroupResponse>> findAll(@RequestParam(name = "productId", required = true) String productId) {
-        List<ProductGroupBO> boList = productGroupApplicationService.findAll(productId);
+        List<ProductGroupBO> boList = productGroupApplicationService.findListByProductId(productId);
         return CodeResult.ok(ProductGroupResponse.from(boList));
     }
 
