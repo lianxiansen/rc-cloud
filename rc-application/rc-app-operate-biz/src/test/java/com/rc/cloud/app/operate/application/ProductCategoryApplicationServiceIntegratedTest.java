@@ -57,7 +57,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith({SpringExtension.class})
 @Import({ProductCategoryDomainService.class, ProductCategoryRepositoryImpl.class, ProductCategoryDomainService.class,
         ProductCategoryRefreshListener.class, ProductCategoryApplicationService.class, LocalIdRepositoryImpl.class, ProductRepositoryImpl.class})
-@DisplayName("产品分类集成测试")
+@DisplayName("产品分类应用服务集成测试")
 public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitTest {
     @MockBean
     private ProductRepository productRepositoryStub;
