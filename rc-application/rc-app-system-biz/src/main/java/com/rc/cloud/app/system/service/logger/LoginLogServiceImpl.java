@@ -38,7 +38,7 @@ public class LoginLogServiceImpl implements LoginLogService {
     @Override
     public void createLoginLog(LoginLogCreateReqDTO reqDTO) {
         LoginLogPO loginLog = LoginLogConvert.INSTANCE.convert(reqDTO);
+        loginLog.setTenantId("1");
         loginLogMapper.insert(loginLog);
     }
-
 }

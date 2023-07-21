@@ -20,6 +20,7 @@ public class LoginLogCreateReqDTO {
      */
     @NotNull(message = "日志类型不能为空")
     private Integer logType;
+
     /**
      * 链路追踪编号
      */
@@ -29,11 +30,13 @@ public class LoginLogCreateReqDTO {
      * 用户编号
      */
     private String userId;
+
     /**
      * 用户类型
      */
     @NotNull(message = "用户类型不能为空")
     private Integer userType;
+
     /**
      * 用户账号
      */
@@ -54,6 +57,7 @@ public class LoginLogCreateReqDTO {
      */
     @NotEmpty(message = "用户 IP 不能为空")
     private String userIp;
+
     /**
      * 浏览器 UserAgent
      * <p>
