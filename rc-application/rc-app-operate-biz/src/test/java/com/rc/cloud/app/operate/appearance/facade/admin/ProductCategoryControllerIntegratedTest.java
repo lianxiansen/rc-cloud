@@ -36,8 +36,7 @@ public class ProductCategoryControllerIntegratedTest {
     @Autowired
     private WebApplicationContext context;
 
-    private
-    MockMvc mvc;
+    private MockMvc mvc;
     @Autowired
     private ProductCategoryApplicationService productCategoryApplicationService;
     private static final String imgUrl = "https://t7.baidu.com/it/u=3556773076,803642467&fm=3031&app=3031&size=f242,150&n=0&f=JPEG&fmt=auto?s=A51064321779538A505174D6020010B0&sec=1688490000&t=4ef579bd316ebdc454ab321a8676bbdf";
@@ -141,6 +140,20 @@ public class ProductCategoryControllerIntegratedTest {
     public void findTreeList() throws Exception {
         mvc.perform(get("/admin/productCategory/findTreeList")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").isNotEmpty());
+    }
+
+    @DisplayName(value = "根据唯一标识查找产品分类")
+    @Test
+    public void findById() throws Exception {
+        mvc.perform(get("/admin/productCategory/findById")
+                        .param("id","72f7ae9e-2ff8-45aa-b61b-59ee900")
                         .characterEncoding(Charset.defaultCharset())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
