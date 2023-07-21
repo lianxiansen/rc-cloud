@@ -195,13 +195,17 @@ public class ProductConvert
     private static Product setExplosives(Boolean explosivesFlag,String explosivesImage
             , boolean isCreate, Product product){
         if(isCreate){
-            product.setExplosives(new Explosives(explosivesFlag,explosivesImage));
+            if(explosivesFlag!=null && explosivesFlag){
+                product.setExplosives(new Explosives(explosivesFlag,new Url(explosivesImage)));
+            }else{
+                product.setExplosives(new Explosives(false,null));
+            }
         }else{
             //是否有爆品图片
             if (explosivesFlag != null) {
                 Explosives explosives = null;
                 if (explosivesFlag) {
-                    explosives = new Explosives(explosivesFlag, explosivesImage);
+                    explosives = new Explosives(explosivesFlag, new Url(explosivesImage));
                 } else {
                     explosives = new Explosives(explosivesFlag, null);
                 }
@@ -423,7 +427,7 @@ public class ProductConvert
         }
         if(product.getExplosives()!=null){
             bo.setExplosivesFlag(product.getExplosives().isFlag());
-            bo.setExplosivesImage(product.getExplosives().getImage());
+            bo.setExplosivesImage(product.getExplosives().getImage().getValue());
         }
         if(product.getPublicFlag()!=null){
             bo.setPublicFlag(product.getPublicFlag());

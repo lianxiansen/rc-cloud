@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.StringUtils;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class ProductConvert {
         response.setPublicFlag(bo.isPublicFlag());
         response.setRecommendFlag(bo.isRecommendFlag());
         response.setCategoryName(format(bo.getFirstCategory(), bo.getSecondCategory(), bo.getThirdCategory()));
+        response.setOnShelfStatus(bo.getOnshelfStatus());
+        response.setCreateTime( DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(bo.getCreateTime()));
         return response;
     }
 

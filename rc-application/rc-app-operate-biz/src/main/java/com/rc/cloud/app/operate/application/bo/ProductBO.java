@@ -114,4 +114,6 @@ public class ProductBO {
 
     private String productListImage;
 
+    private LocalDateTime createTime;
+
 }
