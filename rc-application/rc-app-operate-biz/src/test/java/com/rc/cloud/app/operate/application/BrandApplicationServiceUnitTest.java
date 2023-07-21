@@ -19,7 +19,6 @@ import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.TenantContext;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Assertions;
@@ -31,6 +30,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 import static org.mockito.Mockito.when;
 
@@ -81,7 +81,7 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
     public void createBrand() {
         BrandBO brandBO = brandApplicationService.create(createBrandDTO);
         Brand brand = brandDomainService.findById(new BrandId(brandBO.getId()));
-        Assertions.assertTrue(ObjectUtils.isNotNull(brand) && createBrandDTO.getName().equals(brandBO.getName()) && createBrandDTO.getLogo().equals(brandBO.getLogo()) && createBrandDTO.getEnabled().booleanValue() == brandBO.isEnable() && createBrandDTO.getSort().intValue() == brandBO.getSort() && createBrandDTO.getType().equals(brandBO.getType()), "创建品牌失败");
+        Assertions.assertTrue(Objects.nonNull(brand) && createBrandDTO.getName().equals(brandBO.getName()) && createBrandDTO.getLogo().equals(brandBO.getLogo()) && createBrandDTO.getEnabled().booleanValue() == brandBO.isEnabled() && createBrandDTO.getSort().intValue() == brandBO.getSort() && createBrandDTO.getType().equals(brandBO.getType()), "创建品牌失败");
     }
 
 
@@ -90,7 +90,7 @@ public class BrandApplicationServiceUnitTest extends BaseDbUnitTest {
     public void updateBrand() {
         updateBrandDTO.setId(brandMock.getId().id());
         BrandBO brandBO = brandApplicationService.update(updateBrandDTO);
-        Assertions.assertTrue(brandMock.getId().id().equals(brandBO.getId()) && updateBrandDTO.getName().equals(brandBO.getName()) && updateBrandDTO.getLogo().equals(brandBO.getLogo()) && updateBrandDTO.getEnabled().booleanValue() == brandBO.isEnable() && updateBrandDTO.getSort().intValue() == brandBO.getSort() && updateBrandDTO.getType().equals(brandBO.getType()), "更新品牌失败");
+        Assertions.assertTrue(brandMock.getId().id().equals(brandBO.getId()) && updateBrandDTO.getName().equals(brandBO.getName()) && updateBrandDTO.getLogo().equals(brandBO.getLogo()) && updateBrandDTO.getEnabled().booleanValue() == brandBO.isEnabled() && updateBrandDTO.getSort().intValue() == brandBO.getSort() && updateBrandDTO.getType().equals(brandBO.getType()), "更新品牌失败");
     }
 
 

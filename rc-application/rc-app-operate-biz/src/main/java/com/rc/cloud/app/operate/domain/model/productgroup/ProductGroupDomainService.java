@@ -10,14 +10,14 @@ import com.rc.cloud.app.operate.infrastructure.constants.ProductGroupErrorCodeCo
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.AssertUtils;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 @Service
-public class ProductGroupService {
+public class ProductGroupDomainService {
 
     @Autowired
     private ProductGroupRepository productGroupRepository;
@@ -31,7 +31,7 @@ public class ProductGroupService {
         AssertUtils.notNull(tenantId, "tenantId must be not null");
         AssertUtils.notNull(productId, "product must be not null");
         Product product = productRepository.findById(productId);
-        if (ObjectUtils.isNull(product)) {
+        if (Objects.isNull(product)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_NOT_EXISTS);
         }
         ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), name, tenantId, productId);
@@ -41,11 +41,11 @@ public class ProductGroupService {
 
     public ProductGroupItem createItem(ProductGroupId productGroupId, ProductId productId) {
         ProductGroup productGroup = productGroupRepository.findById(productGroupId);
-        if (ObjectUtils.isNull(productGroup)) {
+        if (Objects.isNull(productGroup)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NOT_EXISTS);
         }
         Product product = productRepository.findById(productId);
-        if (ObjectUtils.isNull(product)) {
+        if (Objects.isNull(product)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_IN_GROUP_NOT_EXISTS);
         }
         ProductGroupItem item = new ProductGroupItem(new ProductGroupItemId(idRepository.nextId()), productGroup.getId(), product.getId());
@@ -61,7 +61,7 @@ public class ProductGroupService {
 
     public boolean release(ProductGroupId productGroupId) {
         ProductGroup productGroup = this.findById(productGroupId);
-        if (ObjectUtils.isNull(productGroup)) {
+        if (Objects.isNull(productGroup)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NOT_EXISTS);
         }
         return productGroupRepository.removeById(productGroupId);

@@ -3,7 +3,10 @@ package com.rc.cloud.app.operate.application;
 import cn.hutool.json.JSONUtil;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
-import com.rc.cloud.app.operate.application.dto.*;
+import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductDictSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductSkuSaveDTO;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
@@ -14,7 +17,6 @@ import com.rc.cloud.app.operate.infrastructure.repository.remote.TenantServiceIm
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.util.TenantContext;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @ClassName: ProductApplicationServiceUnitTest
@@ -65,13 +68,13 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
         ProductSaveDTO productSaveDTO = createProductSaveDTO();
         ProductBO productBO = productApplicationService.createProduct(createProductSaveDTO());
         int random = RandomUtils.randomInteger();
-        Assertions.assertTrue(ObjectUtils.isNotNull(
+        Assertions.assertTrue(Objects.nonNull(
                 productBO.getId()) , "创建失败");
-        Assertions.assertTrue(ObjectUtils.isNotNull(
+        Assertions.assertTrue(Objects.nonNull(
                 productBO.getDetail()!=null) , "创建失败");
-        Assertions.assertTrue(ObjectUtils.isNotNull(
+        Assertions.assertTrue(Objects.nonNull(
                 productBO.getDicts().size()==productSaveDTO.getDicts().size()) , "创建失败");
-        Assertions.assertTrue(ObjectUtils.isNotNull(
+        Assertions.assertTrue(Objects.nonNull(
                 productBO.getSkus().size()==productSaveDTO.getSkus().size()) , "创建失败");
     }
 

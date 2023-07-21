@@ -10,9 +10,9 @@ import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupDomainService;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupItem;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupItemId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -21,7 +21,6 @@ import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.TenantContext;
-import com.rc.cloud.common.core.util.object.ObjectUtils;
 import com.rc.cloud.common.test.core.ut.SpringMockitoUnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,11 +31,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
+import java.util.Objects;
 
 import static org.mockito.Mockito.when;
 
 
-@Import({ProductGroupApplicationService.class, ProductGroupService.class, LocalIdRepositoryImpl.class, ProductGroupRepository.class})
+@Import({ProductGroupApplicationService.class, ProductGroupDomainService.class, LocalIdRepositoryImpl.class, ProductGroupRepository.class})
 public class ProductGroupApplicationServiceUnitTest extends SpringMockitoUnitTest {
     @Autowired
     private ProductGroupApplicationService productGroupApplicationService;
@@ -44,7 +44,7 @@ public class ProductGroupApplicationServiceUnitTest extends SpringMockitoUnitTes
     private ProductRepository productRepositoryStub;
 
     @MockBean
-    private ProductGroupService productGroupServiceStub;
+    private ProductGroupDomainService productGroupServiceStub;
     @MockBean
     private ProductGroupRepository productGroupRepositorySub;
     @Resource
@@ -92,7 +92,7 @@ public class ProductGroupApplicationServiceUnitTest extends SpringMockitoUnitTes
         ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), name, tenantId, productId);
         when(productGroupServiceStub.create(name,tenantId,productId)).thenReturn(productGroup);
         ProductGroupBO productGroupBO = productGroupApplicationService.create(productGroupCreateDTO);
-        Assertions.assertTrue(ObjectUtils.isNotNull(productGroupBO.getId()) && productGroupCreateDTO.sameValueAs(productGroupBO), "创建组合失败");
+        Assertions.assertTrue(Objects.nonNull(productGroupBO.getId()) && productGroupCreateDTO.sameValueAs(productGroupBO), "创建组合失败");
     }
 
     @Test
