@@ -3,7 +3,10 @@ package com.rc.cloud.app.operate.application;
 import cn.hutool.json.JSONUtil;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
-import com.rc.cloud.app.operate.application.dto.*;
+import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductDictSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductSkuSaveDTO;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
@@ -73,20 +76,6 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
                 productBO.getDicts().size()==productSaveDTO.getDicts().size()) , "创建失败");
         Assertions.assertTrue(Objects.nonNull(
                 productBO.getSkus().size()==productSaveDTO.getSkus().size()) , "创建失败");
-    }
-
-    @Test
-    @DisplayName("创建商品-相册为空")
-    public void createProductWhenAlbumsIsNull() {
-        //Product product = new Product(new ProductId(idRepository.nextId()),new TenantId("test"),
-        //        new Name("aa"));
-        //when(productDomainServiceStub.createProduct(product)).thenReturn();
-        ProductSaveDTO productSaveDTO = createProductSaveDTO();
-        productSaveDTO.setAlbums(null);
-        ProductBO productBO = productApplicationService.createProduct(createProductSaveDTO());
-        Assertions.assertTrue(Objects.isNull(
-                productBO.getImages()) , "创建失败");
-
     }
 
 
@@ -171,9 +160,6 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
 
         String images="[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
                 "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}]";
-
-        java.util.List<ProductImageSaveDTO> productImageSaveDTOS = JSONUtil.toList(images, ProductImageSaveDTO.class);
-        productSaveDTO.setAlbums(productImageSaveDTOS);
 
         productSaveDTO.setBrandId("1234567");
         productSaveDTO.setEnableFlag(true);

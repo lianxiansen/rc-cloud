@@ -1,13 +1,17 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
+import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.AggregateRoot;
 import com.rc.cloud.common.core.util.AssertUtils;
+import com.rc.cloud.common.core.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,16 +46,18 @@ public class Product extends AggregateRoot {
     private CategoryName thirdCategory;
 
 
-    private List<ProductImage> productImages;
+    private String productListImage;
 
-
-
-    public Product clone(ProductId id){
-
-
-        return null;
+    public String getProductListImage() {
+        return productListImage;
     }
 
+    public void setProductListImage(String productListImage) {
+        if(StringUtils.isNotEmpty(productListImage)&&!StringUtils.ishttp(productListImage)){
+            throw new IllegalArgumentException("http地址无效");
+        }
+        this.productListImage = productListImage;
+    }
 
 
     /**
@@ -170,15 +176,6 @@ public class Product extends AggregateRoot {
     }
 
 
-
-    /**
-     * 状态 1-正常状态，0-未启用
-     */
-    private Enabled enabled;
-
-    public void setEnable(Enabled enabled){
-        this.enabled = enabled;
-    }
 
 
     /**
@@ -309,19 +306,6 @@ public class Product extends AggregateRoot {
         }
     }
 
-    /**
-     * 禁用
-     */
-    public void disable(){
-        this.enabled =new Enabled(false);
-    }
-
-    /**
-     * 启用
-     */
-    public void enable(){
-        this.enabled =new Enabled(true);
-    }
 
 
 
@@ -330,9 +314,6 @@ public class Product extends AggregateRoot {
         this.type = type;
     }
 
-    public void setProductImages(List<ProductImage> list){
-        this.productImages = list;
-    }
 
     @Override
     public ProductId getId(){
@@ -394,9 +375,6 @@ public class Product extends AggregateRoot {
         return onshelfStatus;
     }
 
-    public Enabled getEnable() {
-        return enabled;
-    }
 
     public Video getVideo() {
         return video;
@@ -469,5 +447,55 @@ public class Product extends AggregateRoot {
         this.packingLowestBuy = packingLowestBuy;
     }
 
+    private List<ProductImage> masterImages;
+    private List<ProductImage> sizeImages;
 
+    private void addMasterImages(ProductImageId id, Url url,Sort sort) {
+        if(masterImages==null){
+            masterImages=new ArrayList<>();
+        }
+        ProductImage productImage=new ProductImage(id,url,sort,ProductImageTypeEnum.MasterImage);
+        this.masterImages.add(productImage);
+    }
+
+    private void addSizeImages(ProductImageId id, Url url,Sort sort) {
+        if(sizeImages==null){
+            sizeImages=new ArrayList<>();
+        }
+        ProductImage productImage=new ProductImage(id,url,sort,ProductImageTypeEnum.SizeImage);
+        this.sizeImages.add(productImage);
+    }
+
+    public void addProductImageList(List<ProductImage> productImageList){
+        for (ProductImage productImage : productImageList) {
+            if(!existProductImage(productImage)){
+                if(productImage.getType()==ProductImageTypeEnum.MasterImage){
+                    addMasterImages(productImage.getId(),productImage.getUrl(),productImage.getSort());
+                }else  if(productImage.getType()==ProductImageTypeEnum.SizeImage){
+                    addSizeImages(productImage.getId(),productImage.getUrl(),productImage.getSort());
+                }
+            }
+        }
+    }
+
+    public boolean existProductImage(ProductImage productImage){
+        boolean exits=false;
+        if(masterImages!=null){
+            exits= masterImages.stream().anyMatch(x -> x.equals(productImage));
+        }
+        if(!exits){
+            if(sizeImages!=null){
+                exits= sizeImages.stream().anyMatch(x -> x.equals(productImage));
+            }
+        }
+        return exits;
+    }
+
+    public List<ProductImage> getMasterImages() {
+        return masterImages;
+    }
+
+    public List<ProductImage> getSizeImages() {
+        return sizeImages;
+    }
 }

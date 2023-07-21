@@ -343,6 +343,7 @@ CREATE TABLE `product_image`
     `tenant_id`  varchar(32)  DEFAULT NULL COMMENT '所属租户',
     `product_id` varchar(32)  DEFAULT NULL COMMENT '商品ID',
     `url`        varchar(128) DEFAULT NULL COMMENT 'URL',
+    `image_type`    int(11) DEFAULT 0 COMMENT '图片类型',
     `sort`    int(11) DEFAULT 99 COMMENT '排序',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  COMMENT='商品SPU图片表 ';

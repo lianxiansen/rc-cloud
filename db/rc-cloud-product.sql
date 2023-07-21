@@ -390,7 +390,7 @@ CREATE TABLE `product_image`
     `tenant_id`  varchar(32) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '所属租户',
     `product_id` varchar(32) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '商品ID',
     `url`        varchar(256) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'URL',
-    -- `default_flag` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否是默认',
+    `image_type` int(11) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图片类型',
     `sort`    int(11)                          DEFAULT 99 COMMENT '排序',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB

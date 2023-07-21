@@ -3,6 +3,7 @@ package com.rc.cloud.app.operate.application.bo.convert;
 import com.rc.cloud.app.operate.application.bo.*;
 import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
+import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
@@ -10,7 +11,6 @@ import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductAttributeId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Enabled;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
@@ -22,6 +22,7 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
+import java.util.stream.Collectors;
 
 public class ProductConvert
 {
@@ -73,8 +74,6 @@ public class ProductConvert
         product = setExplosives(productSaveDTO.getExplosivesFlag(),productSaveDTO.getExplosivesImage(),isCreate,product);
         //设置公开
         product = setPublic(productSaveDTO.getPublicFlag(),isCreate,product);
-        //设置Enabled
-        product = setEnable(productSaveDTO.getEnableFlag(),isCreate,product);
         //设置OnShelfStatus
         product = setOnShelfStatus(productSaveDTO.getOnShelfStatus(),isCreate,product);
         //设置Recommend
@@ -267,18 +266,6 @@ public class ProductConvert
         return product;
     }
 
-    private static Product setEnable(Boolean enableFlag, boolean isCreate, Product product){
-        if(isCreate){
-            product.setEnable(new Enabled(enableFlag));
-        }else{
-            if (enableFlag != null) {
-                Enabled enabled = new Enabled(enableFlag);
-                product.setEnable(enabled);
-            }
-        }
-        return product;
-    }
-
 
     private static Product setVideo(String videoUrl, String videoImg, String installVideoUrl, String installVideoImg
             , boolean isCreate, Product product){
@@ -295,13 +282,22 @@ public class ProductConvert
         return product;
     }
 
-    private static Product setProductImage(ProductSaveDTO productSaveDTO,boolean isCreate, Product product){
-        List<ProductImage> productImages = ProductImageConvert.convertList(productSaveDTO.getAlbums());
+    private static Product setProductImage(ProductSaveDTO productSaveDTO
+            ,boolean isCreate, Product product){
+        List<ProductImage> images1 = ProductImageConvert
+                .convertList(productSaveDTO.getMasterAlbums(), ProductImageTypeEnum.MasterImage);
+        List<ProductImage> images2 = ProductImageConvert
+                .convertList(productSaveDTO.getSizeAlbums(), ProductImageTypeEnum.SizeImage);
         if(isCreate){
-            product.setProductImages(productImages);
-        }
-        if (productSaveDTO.getAlbums() != null) {
-            product.setProductImages(productImages);
+           product.addProductImageList(images1);
+           product.addProductImageList(images2);
+        }else{
+            if (images1 != null) {
+                product.addProductImageList(images1);
+            }
+            if (images2 != null) {
+                product.addProductImageList(images2);
+            }
         }
         return product;
     }
@@ -351,9 +347,6 @@ public class ProductConvert
 
         bo.setId(product.getId().id());
         bo.setTenantId(product.getTenantId().id());
-        if(product.getEnable()!=null){
-            bo.setEnabledFlag(product.getEnable().result());
-        }
         if(product.getName()!=null){
             bo.setName(product.getName().getValue());
         }
@@ -401,22 +394,20 @@ public class ProductConvert
         if(product.getOnshelfStatus()!=null){
             bo.setOnshelfStatus(product.getOnshelfStatus().getValue());
         }
-        //启用状态
-        if(product.getEnable()!=null){
-            bo.setEnabledFlag(product.getEnable().result());
-        }
         if(product.getVideo()!=null){
             bo.setVideoImg(product.getVideo().getVideoImg());
             bo.setVideoUrl(product.getVideo().getVideoUrl());
-            bo.setInstallVideoImg(product.getVideo().getInstallVideoImg());
-            bo.setInstallVideoUrl(product.getVideo().getInstallVideoUrl());
         }
         if(product.getPackingLowestBuy()!=null){
             bo.setPackingLowestBuyFlag(product.getPackingLowestBuy().result());
         }
         //转换图片
         if(product.getProductImages()!=null){
-            bo.setImages(ProductImageConvert.convertProductImageBOList(product.getProductImages()));
+            List<ProductImageBO> productImageBOS = ProductImageConvert.convertProductImageBOList(product.getProductImages());
+            bo.setMasterImages(productImageBOS.stream().filter(x->x.getType()==
+                 ProductImageTypeEnum.MasterImage).collect(Collectors.toList()));
+            bo.setSizeImages(productImageBOS.stream().filter(x->x.getType()==
+                    ProductImageTypeEnum.SizeImage).collect(Collectors.toList()));
         }
         //转换属性
         if(product.getProductAttribute()!=null){

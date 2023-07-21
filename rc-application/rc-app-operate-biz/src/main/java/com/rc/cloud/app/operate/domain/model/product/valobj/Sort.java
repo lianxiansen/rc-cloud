@@ -27,4 +27,8 @@ public class Sort extends ValueObject{
     public boolean equals(Object other) {
         return false;
     }
+
+    public int getValue() {
+        return value;
+    }
 }

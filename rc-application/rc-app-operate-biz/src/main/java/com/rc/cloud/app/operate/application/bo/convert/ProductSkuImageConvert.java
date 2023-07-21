@@ -1,8 +1,6 @@
 package com.rc.cloud.app.operate.application.bo.convert;
 
-import com.rc.cloud.app.operate.application.bo.ProductImageBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuImageBO;
-import com.rc.cloud.app.operate.application.dto.ProductSkuImageSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuImageSaveDTO;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;

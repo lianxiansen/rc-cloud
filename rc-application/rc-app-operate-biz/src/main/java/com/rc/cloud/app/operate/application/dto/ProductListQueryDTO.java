@@ -40,8 +40,6 @@ public class ProductListQueryDTO extends PageParam {
 
     private String productIds;
 
-    private Long BrandId;
-
     private Integer onshelfStatus;
 
     /**
@@ -50,9 +48,6 @@ public class ProductListQueryDTO extends PageParam {
     private String orderByCondition;
 
     private String orderByType;
-
-
-    private boolean needProductDetail;
 
     private boolean needBrandName;
 

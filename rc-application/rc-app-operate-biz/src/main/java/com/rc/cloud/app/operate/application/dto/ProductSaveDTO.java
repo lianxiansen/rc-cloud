@@ -3,8 +3,6 @@ package com.rc.cloud.app.operate.application.dto;
 import lombok.Data;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -90,7 +88,10 @@ public class ProductSaveDTO {
 
 
     @Valid
-    private List<ProductImageSaveDTO> albums;
+    private List<ProductImageSaveDTO> masterAlbums;
+
+    @Valid
+    private List<ProductImageSaveDTO> sizeAlbums;
 
     /**
      * 存放

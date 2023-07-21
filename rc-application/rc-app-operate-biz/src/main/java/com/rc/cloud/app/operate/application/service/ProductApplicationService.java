@@ -80,8 +80,13 @@ public class ProductApplicationService {
         ProductId productId =new ProductId(idRepository.nextId());
         TenantId tenantId = new TenantId(productSaveDTO.getTenantId());
 
-        if(CollectionUtil.isNotEmpty(productSaveDTO.getAlbums())){
-            productSaveDTO.getAlbums().forEach(x->
+        if(CollectionUtil.isNotEmpty(productSaveDTO.getMasterAlbums())){
+            productSaveDTO.getMasterAlbums().forEach(x->
+                    x.setId(idRepository.nextId())
+            );
+        }
+        if(CollectionUtil.isNotEmpty(productSaveDTO.getSizeAlbums())){
+            productSaveDTO.getSizeAlbums().forEach(x->
                     x.setId(idRepository.nextId())
             );
         }
@@ -259,14 +264,6 @@ public class ProductApplicationService {
         return 1;
     }
 
-    public int changeEnableStatus(String productId, boolean enableFlag){
-        if(enableFlag){
-            productDomainService.setEnable(new ProductId(productId));
-        }else{
-            productDomainService.cancelEnable(new ProductId(productId));
-        }
-        return 1;
-    }
 
     public int changeOnShelfStatus(String productId, int onShelfStatus){
         if(onShelfStatus== ProductShelfStatusEnum.OnShelf.value){

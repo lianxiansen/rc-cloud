@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
+import com.rc.cloud.app.operate.appearance.admin.res.ProductDetailResponse;
 import com.rc.cloud.app.operate.appearance.admin.res.ProductListResponse;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.dto.*;
@@ -41,11 +42,19 @@ public class ProductController {
     }
 
 
+    @PostMapping("get")
+    @Operation(summary = "获得产品")
+    public CodeResult<ProductDetailResponse> listProduct(@Valid @RequestBody ProductQueryDTO query) {
+        ProductBO product = productApplicationService.getProduct(query);
+        //return CodeResult.ok(ProductDetailResponse.from(product));
+        return null;
+    }
+
+
     @PostMapping("list")
     @Operation(summary = "产品列表")
     public CodeResult<PageResult<ProductListResponse>> listProduct(@Valid @RequestBody ProductListQueryDTO query) {
         query.setNeedBrandName(true);
-        query.setNeedProductDetail(false);
         PageResult<ProductBO> productList = productApplicationService.getProductList(query);
         return CodeResult.ok(ProductListResponse.from(productList));
     }
@@ -54,13 +63,6 @@ public class ProductController {
     @Operation(summary = "修改New字段")
     public CodeResult<Long> changeNewStatus(@Valid @RequestBody ProductChangeNewStatusDTO dto){
         productApplicationService.changeNewStatus(dto.getProductId(), dto.isNewFlag());
-        return CodeResult.ok();
-    }
-
-    @PostMapping("changeEnableStatus")
-    @Operation(summary = "修改Enable字段")
-    public CodeResult<Long> changeEnableStatus(@Valid @RequestBody ProductChangeEnableStatusDTO dto){
-        productApplicationService.changeEnableStatus(dto.getProductId(), dto.isEnableFlag());
         return CodeResult.ok();
     }
 
