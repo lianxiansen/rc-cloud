@@ -26,8 +26,6 @@ public class RcAppUserDetailsServiceImpl extends AbstractRcUserDetailsServiceImp
 
     private final CacheManager cacheManager;
 
-    private static final String ADMIN_CLIENT_NAME = "rc_admin";
-
     /**
      * 手机号登录
      *
@@ -70,7 +68,7 @@ public class RcAppUserDetailsServiceImpl extends AbstractRcUserDetailsServiceImp
      */
     @Override
     public boolean support(String clientId, String grantType) {
-        return ADMIN_CLIENT_NAME.equals(clientId) && SecurityConstants.MOBILE.equals(grantType);
+        return SecurityConstants.ADMIN_CLIENT_NAME.equals(clientId) && SecurityConstants.MOBILE.equals(grantType);
     }
 
 }

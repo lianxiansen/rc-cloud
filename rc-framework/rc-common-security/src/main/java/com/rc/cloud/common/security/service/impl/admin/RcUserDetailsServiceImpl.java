@@ -26,8 +26,6 @@ public class RcUserDetailsServiceImpl extends AbstractRcUserDetailsServiceImpl {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private static final String ADMIN_CLIENT_NAME = "rc_admin";
-
     /**
      * 用户名密码登录
      *
@@ -66,6 +64,6 @@ public class RcUserDetailsServiceImpl extends AbstractRcUserDetailsServiceImpl {
      */
     @Override
     public boolean support(String clientId, String grantType) {
-        return ADMIN_CLIENT_NAME.equals(clientId) && SecurityConstants.PASSWORD.equals(grantType);
+        return SecurityConstants.ADMIN_CLIENT_NAME.equals(clientId) && SecurityConstants.PASSWORD.equals(grantType);
     }
 }

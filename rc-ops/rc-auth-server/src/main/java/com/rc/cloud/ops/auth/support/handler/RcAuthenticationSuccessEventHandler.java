@@ -62,15 +62,23 @@ public class RcAuthenticationSuccessEventHandler implements AuthenticationSucces
             SecurityContext context = SecurityContextHolder.createEmptyContext();
             context.setAuthentication(accessTokenAuthentication);
             SecurityContextHolder.setContext(context);
-            LoginLogCreateReqDTO reqDTO = new LoginLogCreateReqDTO();
-            reqDTO.setUsername(userInfo.getName());
-            reqDTO.setLogType(LoginLogTypeEnum.LOGIN_USERNAME.getType());
-            reqDTO.setResult(LoginResultEnum.SUCCESS.getResult());
-            SpringContextHolder.publishEvent(new SysLogEvent(reqDTO));
+            String clientId = accessTokenAuthentication.getRegisteredClient().getClientId();
+            if (clientId.equals(SecurityConstants.ADMIN_CLIENT_NAME)) {
+                recordSysLoginLog(userInfo.getName());
+            }
         }
 
         // 输出token
         sendAccessTokenResponse(response, authentication);
+    }
+
+    // 记录sys的登录日志
+    private static void recordSysLoginLog(String username) {
+        LoginLogCreateReqDTO reqDTO = new LoginLogCreateReqDTO();
+        reqDTO.setUsername(username);
+        reqDTO.setLogType(LoginLogTypeEnum.LOGIN_USERNAME.getType());
+        reqDTO.setResult(LoginResultEnum.SUCCESS.getResult());
+        SpringContextHolder.publishEvent(new SysLogEvent(reqDTO));
     }
 
     private void sendAccessTokenResponse(HttpServletResponse response,
