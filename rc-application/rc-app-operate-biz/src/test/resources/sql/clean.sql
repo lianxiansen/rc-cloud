@@ -5,7 +5,7 @@ delete from `platform_product_category`;
 
 delete from `product_group`;
 delete from `product_group_item`;
-
+delete from `product_recommend`;
 
 delete from `custom_classification`;
 delete from `attribute`;
