@@ -81,8 +81,7 @@ public class ProductRecommendControllerIntegratedTest {
     @DisplayName(value = "解除产品推荐")
     @Test
     public void release() throws Exception {
-        String productGroupId="870ef1f5-39d2-4f48-8c67-ae45206";
-        mvc.perform(delete("/admin/productRecommend/release").param("id", productGroupId))
+        mvc.perform(delete("/admin/productRecommend/release").param("id", productRecommendId.id()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -95,7 +94,7 @@ public class ProductRecommendControllerIntegratedTest {
     @DisplayName(value = "获取产品推荐列表")
     @Test
     public void selectList() throws Exception {
-        mvc.perform(get("/admin/productRecommend/findAll").param("productId", productId.id()))
+        mvc.perform(get("/admin/productRecommend/findListByProductId").param("productId", productId.id()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))

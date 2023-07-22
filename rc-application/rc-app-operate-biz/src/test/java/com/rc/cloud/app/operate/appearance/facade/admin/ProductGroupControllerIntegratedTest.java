@@ -86,8 +86,7 @@ public class ProductGroupControllerIntegratedTest {
     @DisplayName(value = "解除产品组合")
     @Test
     public void release() throws Exception {
-        String productGroupId="870ef1f5-39d2-4f48-8c67-ae45206";
-        mvc.perform(delete("/admin/productGroup/release").param("id", productGroupId))
+        mvc.perform(delete("/admin/productGroup/release").param("id", productGroupId.id()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))

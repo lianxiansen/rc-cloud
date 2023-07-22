@@ -39,11 +39,12 @@ public class ProductCategoryControllerIntegratedTest {
     private MockMvc mvc;
     @Autowired
     private ProductCategoryApplicationService productCategoryApplicationService;
-    private static final String imgUrl = "https://t7.baidu.com/it/u=3556773076,803642467&fm=3031&app=3031&size=f242,150&n=0&f=JPEG&fmt=auto?s=A51064321779538A505174D6020010B0&sec=1688490000&t=4ef579bd316ebdc454ab321a8676bbdf";
+    private String imgUrl = null;
 
     @MockBean
     private RemoteIdGeneratorService remoteIdGeneratorService;
-
+    private String parentId=null;
+    private String productCategoryId=null;
     @BeforeEach
     public void setup() {
         mvc = MockMvcBuilders
@@ -51,6 +52,9 @@ public class ProductCategoryControllerIntegratedTest {
 //                .apply(springSecurity())
                 .build();
         TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
+        parentId="72f7ae9e-2ff8-45aa-b61b-59ee900";
+        productCategoryId="72f7ae9e-2ff8-45aa-b61b-59ee913";
+        imgUrl = "https://t7.baidu.com/it/u=3556773076,803642467&fm=3031&app=3031&size=f242,150&n=0&f=JPEG&fmt=auto?s=A51064321779538A505174D6020010B0&sec=1688490000&t=4ef579bd316ebdc454ab321a8676bbdf";
     }
 
     @Test
@@ -64,7 +68,7 @@ public class ProductCategoryControllerIntegratedTest {
                 .setSort(9)
                 .setEnabled(true)
                 .setProductListPageImage(imgUrl)
-                .setParentId("72f7ae9e-2ff8-45aa-b61b-59ee900");
+                .setParentId(parentId);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
@@ -91,8 +95,8 @@ public class ProductCategoryControllerIntegratedTest {
                 .setIcon(imgUrl).setSort(9)
                 .setEnabled(true)
                 .setProductListPageImage(imgUrl)
-                .setId("72f7ae9e-2ff8-45aa-b61b-59ee913")
-                .setParentId("72f7ae9e-2ff8-45aa-b61b-59ee910");
+                .setId(productCategoryId)
+                .setParentId(parentId);
 
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
@@ -112,8 +116,7 @@ public class ProductCategoryControllerIntegratedTest {
     @DisplayName(value = "删除产品分类")
     @Test
     public void remove() throws Exception {
-        String id="72f7ae9e-2ff8-45aa-b61b-59ee913";
-        mvc.perform(delete("/admin/productCategory/remove").param("id", id))
+        mvc.perform(delete("/admin/productCategory/remove").param("id", productCategoryId))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -153,7 +156,7 @@ public class ProductCategoryControllerIntegratedTest {
     @Test
     public void findById() throws Exception {
         mvc.perform(get("/admin/productCategory/findById")
-                        .param("id","72f7ae9e-2ff8-45aa-b61b-59ee900")
+                        .param("id",productCategoryId)
                         .characterEncoding(Charset.defaultCharset())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
