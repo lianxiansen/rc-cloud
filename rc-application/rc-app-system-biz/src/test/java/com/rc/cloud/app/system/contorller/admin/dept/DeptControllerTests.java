@@ -291,6 +291,35 @@ public class DeptControllerTests {
             assertEquals(dbDeptPO.getPhone(), deptUpdateReqVO.getPhone());
             assertEquals(dbDeptPO.getEmail(), deptUpdateReqVO.getEmail());
         }
+
+        /**
+         * sad path 1：更新部门时，当部门不存在时抛出异常
+         */
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:update"})
+        public void updateDept_when_deptNotExist_then_throwNotFoundException() throws Exception {
+            DeptUpdateReqVO deptUpdateReqVO = new DeptUpdateReqVO();
+            deptUpdateReqVO.setId("999999");
+            deptUpdateReqVO.setName("测试部门更新");
+            deptUpdateReqVO.setSort(8765);
+            deptUpdateReqVO.setParentId("0");
+            deptUpdateReqVO.setLeaderUserId("2");
+            deptUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            deptUpdateReqVO.setPhone("12345678902");
+            deptUpdateReqVO.setEmail("321321@qq.com");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(deptUpdateReqVO);
+            mvc.perform(put("/admin/dept/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002004002))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("当前部门不存在"));
+        }
     }
 
     /**
