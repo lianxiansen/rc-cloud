@@ -143,6 +143,42 @@ public class DeptControllerTests {
                     .andExpect(jsonPath("$.success").value(false))
                     .andExpect(jsonPath("$.msg").value("请求参数不正确:部门名称不能为空"));
         }
+
+        /**
+         * sad path 2：创建子部门时，当父部门不存在时抛出异常
+         */
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:create"})
+        public void createDept_when_parentNotExist_then_throwBadRequestException() throws Exception {
+            DeptCreateReqVO deptCreateReqVO = new DeptCreateReqVO();
+            deptCreateReqVO.setName("测试子级项目组001");
+            deptCreateReqVO.setSort(1);
+            deptCreateReqVO.setParentId("999999");
+            deptCreateReqVO.setPhone("12345678901");
+            deptCreateReqVO.setLeaderUserId("1");
+            deptCreateReqVO.setEmail("123123@qq.com");
+            deptCreateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(deptCreateReqVO);
+            mvc.perform(post("/admin/dept/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002004001))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("父级部门不存在"));
+        }
+
+        /**
+         * sad path 3：创建部门时，当同一个父级部门下存在该部门名称时抛出异常
+         */
+
+        /**
+         * sad path 4：创建部门时，当父级部门处理禁用状态时抛出异常
+         */
     }
 
     @Test
