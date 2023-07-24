@@ -59,9 +59,8 @@ public class DeptControllerTests {
      */
     @Nested
     class CreateDeptTests {
-        // 两个happy path：创建父级部门、创建子级部门
         /**
-         * 创建父级部门成功
+         * happy path 1：创建父级部门成功
          */
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dept:create"})
@@ -89,7 +88,7 @@ public class DeptControllerTests {
         }
 
         /**
-         * 创建子级部门成功
+         * happy path 2：创建子级部门成功
          */
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dept:create"})
@@ -117,26 +116,33 @@ public class DeptControllerTests {
                     .andExpect(jsonPath("$.data").isNotEmpty());
         }
 
-        // sad path: 创建部门时，部门名称为空
-//        @Test
-//        @WithMockUser(username = "admin", authorities = {"sys:dept:create"})
-//        public void createDept_when_nameIsEmpty_then_throwBadRequestException() throws Exception {
-//            DeptCreateReqVO deptCreateReqVO = new DeptCreateReqVO();
-//            deptCreateReqVO.setName("");
-//            deptCreateReqVO.setSort(1);
-//            deptCreateReqVO.setParentId("0");
-//            deptCreateReqVO.setPhone("12345678901");
-//            deptCreateReqVO.setLeaderUserId("1");
-//            deptCreateReqVO.setEmail("123123@qq.com");
-//            deptCreateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-//            ObjectMapper mapper = new ObjectMapper();
-//            String requestBody = mapper.writerWithDefaultPrettyPrinter()
-//                    .writeValueAsString(deptCreateReqVO);
-//            mvc.perform(post("/admin/dept/create")
-//                            .contentType(MediaType.APPLICATION_JSON)
-//                            .content(requestBody)
-//                            .accept(MediaType.APPLICATION_JSON));
-//        }
+        /**
+         * sad path 1：创建部门时，当部门名称为空时抛出异常
+         */
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:create"})
+        public void createDept_when_nameIsEmpty_then_throwBadRequestException() throws Exception {
+            DeptCreateReqVO deptCreateReqVO = new DeptCreateReqVO();
+            deptCreateReqVO.setName("");
+            deptCreateReqVO.setSort(1);
+            deptCreateReqVO.setParentId("0");
+            deptCreateReqVO.setPhone("12345678901");
+            deptCreateReqVO.setLeaderUserId("1");
+            deptCreateReqVO.setEmail("123123@qq.com");
+            deptCreateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(deptCreateReqVO);
+            mvc.perform(post("/admin/dept/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:部门名称不能为空"));
+        }
     }
 
     @Test
