@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -121,6 +122,14 @@ public class DeptControllerTests {
                     .andExpect(jsonPath("$.code").value(200))
                     .andExpect(jsonPath("$.success").value(true))
                     .andExpect(jsonPath("$.data").isNotEmpty());
+            SysDeptPO dbDeptPO = deptMapper.selectByParentIdAndName("0", parentPO.getName());
+            assertEquals(dbDeptPO.getName(), parentPO.getName());
+            assertEquals(dbDeptPO.getSort(), parentPO.getSort());
+            assertEquals(dbDeptPO.getStatus(), parentPO.getStatus());
+            assertEquals(dbDeptPO.getPhone(), parentPO.getPhone());
+            assertEquals(dbDeptPO.getEmail(), parentPO.getEmail());
+            assertEquals(dbDeptPO.getParentId(), parentPO.getParentId());
+            assertEquals(dbDeptPO.getLeaderUserId(), parentPO.getLeaderUserId());
         }
 
         /**
