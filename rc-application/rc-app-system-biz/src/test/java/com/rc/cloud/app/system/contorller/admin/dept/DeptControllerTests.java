@@ -359,6 +359,9 @@ public class DeptControllerTests {
      */
     @Nested
     class ListDeptTests {
+        /**
+         * happy path1: 获取部门列表成功
+         */
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dept:query","sys:dept:create"})
         public void getDeptList_success() throws Exception {
@@ -388,7 +391,7 @@ public class DeptControllerTests {
     @Nested
     class GetDeptByIdTests {
         /**
-         * 通过部门ID获取部门信息成功
+         * happy path1: 通过部门ID获取部门信息成功
          */
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
@@ -407,17 +410,39 @@ public class DeptControllerTests {
                     .andExpect(jsonPath("$.data.status").value(sysDeptPO.getStatus()));
         }
 
+        /**
+         * happy path2: 当前部门属于某个部门时，获取父级部门的部门名称
+         */
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
         public void getDeptById_when_ParentExist_then_returnParentName() throws Exception {
-            mvc.perform(get("/admin/dept/101"))
+            SysDeptPO parentPO = createDept();
+            SysDeptPO childPO = new SysDeptPO();
+            childPO.setName("测试子级项目组001");
+            childPO.setSort(1);
+            childPO.setParentId(parentPO.getId());
+            childPO.setPhone("12345678901");
+            childPO.setEmail("123232@qq.com");
+            childPO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            childPO.setLeaderUserId("1");
+            deptMapper.insert(childPO);
+            mvc.perform(get("/admin/dept/" + childPO.getId()))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.code").value(200))
-                    .andExpect(jsonPath("$.data.name").value("黄岩总公司"))
-                    .andExpect(jsonPath("$.data.parentName").value("柔川信息"));
+                    .andExpect(jsonPath("$.data.name").value(childPO.getName()))
+                    .andExpect(jsonPath("$.data.parentId").value(childPO.getParentId()))
+                    .andExpect(jsonPath("$.data.parentName").value(parentPO.getName()))
+                    .andExpect(jsonPath("$.data.sort").value(childPO.getSort()))
+                    .andExpect(jsonPath("$.data.leaderUserId").value(childPO.getLeaderUserId()))
+                    .andExpect(jsonPath("$.data.phone").value(childPO.getPhone()))
+                    .andExpect(jsonPath("$.data.email").value(childPO.getEmail()))
+                    .andExpect(jsonPath("$.data.status").value(childPO.getStatus()));
         }
 
+        /**
+         * sad path1: 当部门不存在时，抛出异常
+         */
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
         public void getDeptByIdNotExist_then_throwNotFoundException() throws Exception {
