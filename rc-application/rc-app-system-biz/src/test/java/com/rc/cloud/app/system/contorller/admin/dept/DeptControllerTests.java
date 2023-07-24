@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -212,7 +214,7 @@ public class DeptControllerTests {
         }
 
         /**
-         * sad path 4：创建部门时，当父级部门处理禁用状态时抛出不允许创建异常
+         * sad path 4：创建部门时，当父级部门处于禁用状态时抛出不允许创建异常
          */
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dept:create"})
@@ -243,24 +245,80 @@ public class DeptControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dept:query","sys:dept:create"})
-    public void getDeptList_success() throws Exception {
-        SysDeptPO sysDeptPO = createDept();
-        mvc.perform(get("/admin/dept/list"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value("true"))
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data").isNotEmpty())
-                .andExpect(jsonPath("$.data[0].name").value(sysDeptPO.getName()))
-                .andExpect(jsonPath("$.data[0].parentId").value(sysDeptPO.getParentId()))
-                .andExpect(jsonPath("$.data[0].sort").value(sysDeptPO.getSort()))
-                .andExpect(jsonPath("$.data[0].leaderUserId").value(sysDeptPO.getLeaderUserId()))
-                .andExpect(jsonPath("$.data[0].phone").value(sysDeptPO.getPhone()))
-                .andExpect(jsonPath("$.data[0].email").value(sysDeptPO.getEmail()))
-                .andExpect(jsonPath("$.data[0].status").value(sysDeptPO.getStatus()));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/24
+     * @description 更新部门相关测试
+     */
+    @Nested
+    class UpdateDeptTests {
+
+        /**
+         * happy path 1：更新部门成功
+         */
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:update"})
+        public void updateDept_success() throws Exception {
+            SysDeptPO deptPO = createDept();
+            DeptUpdateReqVO deptUpdateReqVO = new DeptUpdateReqVO();
+            deptUpdateReqVO.setId(deptPO.getId());
+            deptUpdateReqVO.setName("测试部门更新");
+            deptUpdateReqVO.setSort(8765);
+            deptUpdateReqVO.setParentId("0");
+            deptUpdateReqVO.setLeaderUserId("2");
+            deptUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            deptUpdateReqVO.setPhone("12345678902");
+            deptUpdateReqVO.setEmail("321321@qq.com");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(deptUpdateReqVO);
+            mvc.perform(put("/admin/dept/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+            SysDeptPO dbDeptPO = deptMapper.selectById(deptPO.getId());
+            assertNotEquals(dbDeptPO, null);
+            assertEquals(dbDeptPO.getName(), deptUpdateReqVO.getName());
+            assertEquals(dbDeptPO.getSort(), deptUpdateReqVO.getSort());
+            assertEquals(dbDeptPO.getParentId(), deptUpdateReqVO.getParentId());
+            assertEquals(dbDeptPO.getLeaderUserId(), deptUpdateReqVO.getLeaderUserId());
+            assertEquals(dbDeptPO.getStatus(), deptUpdateReqVO.getStatus());
+            assertEquals(dbDeptPO.getPhone(), deptUpdateReqVO.getPhone());
+            assertEquals(dbDeptPO.getEmail(), deptUpdateReqVO.getEmail());
+        }
+    }
+
+    /**
+     * @author rc@hqf
+     * @date 2023/07/24
+     * @description 获取部门列表相关测试
+     */
+    @Nested
+    class ListDeptTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:query","sys:dept:create"})
+        public void getDeptList_success() throws Exception {
+            SysDeptPO sysDeptPO = createDept();
+            mvc.perform(get("/admin/dept/list"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value("true"))
+                    .andExpect(jsonPath("$.data").isArray())
+                    .andExpect(jsonPath("$.data").isNotEmpty())
+                    .andExpect(jsonPath("$.data[0].name").value(sysDeptPO.getName()))
+                    .andExpect(jsonPath("$.data[0].parentId").value(sysDeptPO.getParentId()))
+                    .andExpect(jsonPath("$.data[0].sort").value(sysDeptPO.getSort()))
+                    .andExpect(jsonPath("$.data[0].leaderUserId").value(sysDeptPO.getLeaderUserId()))
+                    .andExpect(jsonPath("$.data[0].phone").value(sysDeptPO.getPhone()))
+                    .andExpect(jsonPath("$.data[0].email").value(sysDeptPO.getEmail()))
+                    .andExpect(jsonPath("$.data[0].status").value(sysDeptPO.getStatus()));
+        }
     }
 
     @Test
@@ -294,30 +352,7 @@ public class DeptControllerTests {
                 .andExpect(jsonPath("$.msg").value("当前部门不存在"));
     }
 
-    // TODO:: create dept sad path
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dept:update"})
-    public void updateDept_success() throws Exception {
-        DeptUpdateReqVO deptUpdateReqVO = new DeptUpdateReqVO();
-        deptUpdateReqVO.setId("105");
-        deptUpdateReqVO.setName("测试部门2");
-        deptUpdateReqVO.setSort(77);
-        deptUpdateReqVO.setParentId("0");
-        deptUpdateReqVO.setStatus(1);
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(deptUpdateReqVO);
-        mvc.perform(put("/admin/dept/update")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
-    }
 
     @Test
     @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
