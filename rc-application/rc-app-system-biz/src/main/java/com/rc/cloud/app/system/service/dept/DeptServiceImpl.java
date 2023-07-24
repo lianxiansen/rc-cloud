@@ -7,6 +7,7 @@ import com.google.common.collect.Multimap;
 import com.rc.cloud.app.system.convert.dept.DeptConvert;
 import com.rc.cloud.app.system.enums.dept.DeptIdEnum;
 import com.rc.cloud.app.system.mapper.dept.DeptMapper;
+import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
 import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptListReqVO;
@@ -57,6 +58,9 @@ public class DeptServiceImpl implements DeptService {
 
     @Resource
     private DeptMapper deptMapper;
+
+    @Resource
+    private AdminUserMapper adminUserMapper;
 
 //    @Resource
 //    private DeptProducer deptProducer;
@@ -119,13 +123,26 @@ public class DeptServiceImpl implements DeptService {
         // 校验是否存在
         validateDeptExists(id);
         // 校验是否有子部门
-        if (deptMapper.selectCountByParentId(id) > 0) {
-            throw exception(DEPT_EXITS_CHILDREN);
-        }
+        validateDeptHasChildren(id);
+        // 校验该部门下是否有员工
+        validateDeptHasAdminUser(id);
         // 删除部门
         deptMapper.deleteById(id);
         // 发送刷新消息
 //        deptProducer.sendDeptRefreshMessage();
+    }
+
+    private void validateDeptHasAdminUser(String id) {
+        Long count = adminUserMapper.selectCountByDeptId(id);
+        if (count > 0) {
+            throw exception(DEPT_EXISTS_USER);
+        }
+    }
+
+    private void validateDeptHasChildren(String id) {
+        if (deptMapper.selectCountByParentId(id) > 0) {
+            throw exception(DEPT_EXITS_CHILDREN);
+        }
     }
 
     @Override
@@ -202,7 +219,7 @@ public class DeptServiceImpl implements DeptService {
         }
         // 父部门被禁用
         if (!CommonStatusEnum.ENABLE.getStatus().equals(dept.getStatus())) {
-            throw exception(DEPT_NOT_ENABLE);
+            throw exception(DEPT_NOT_ENABLE, dept.getName());
         }
         // 父部门不能是原来的子部门
         List<SysDeptPO> children = getDeptListByParentIdFromCache(id, true);
@@ -222,15 +239,15 @@ public class DeptServiceImpl implements DeptService {
     }
 
     private void validateDeptNameUnique(String id, String parentId, String name) {
-        SysDeptPO menu = deptMapper.selectByParentIdAndName(parentId, name);
-        if (menu == null) {
+        SysDeptPO deptPO = deptMapper.selectByParentIdAndName(parentId, name);
+        if (deptPO == null) {
             return;
         }
         // 如果 id 为空，说明不用比较是否为相同 id 的岗位
         if (id == null) {
             throw exception(DEPT_NAME_DUPLICATE);
         }
-        if (!menu.getId().equals(id)) {
+        if (!deptPO.getId().equals(id)) {
             throw exception(DEPT_NAME_DUPLICATE);
         }
     }

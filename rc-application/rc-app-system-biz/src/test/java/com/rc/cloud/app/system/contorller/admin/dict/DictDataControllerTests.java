@@ -56,7 +56,7 @@ public class DictDataControllerTests {
     @Test
     @WithMockUser(value = "admin", authorities = {"sys:dict:query"})
     public void getDictDataById_success() throws Exception {
-        mvc.perform(get("/sys/dict-data/1236"))
+        mvc.perform(get("/admin/dict-data/1236"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -67,7 +67,7 @@ public class DictDataControllerTests {
     @Test
     @WithMockUser("admin")
     public void listDictDataAllSimple_success() throws Exception {
-        mvc.perform(get("/sys/dict-data/list-all-simple"))
+        mvc.perform(get("/admin/dict-data/list-all-simple"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -80,7 +80,7 @@ public class DictDataControllerTests {
     @Test
     @WithMockUser("admin")
     public void getDictDataPage_success() throws Exception {
-        mvc.perform(get("/sys/dict-data/page"))
+        mvc.perform(get("/admin/dict-data/page"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -105,7 +105,7 @@ public class DictDataControllerTests {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dictDataCreateReqVO);
-        mvc.perform(post("/sys/dict-data/create")
+        mvc.perform(post("/admin/dict-data/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -132,7 +132,7 @@ public class DictDataControllerTests {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dictDataUpdateReqVO);
-        mvc.perform(put("/sys/dict-data/update")
+        mvc.perform(put("/admin/dict-data/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -156,7 +156,7 @@ public class DictDataControllerTests {
         dictDataCreateReqVO.setCssClass("success");
         dictDataCreateReqVO.setRemark("备注");
         String dictDataId = dictDataService.createDictData(dictDataCreateReqVO);
-        mvc.perform(delete("/sys/dict-data/" + dictDataId)
+        mvc.perform(delete("/admin/dict-data/" + dictDataId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
