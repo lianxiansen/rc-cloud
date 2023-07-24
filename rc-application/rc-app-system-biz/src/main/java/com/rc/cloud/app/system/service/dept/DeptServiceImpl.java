@@ -202,7 +202,7 @@ public class DeptServiceImpl implements DeptService {
         }
         // 父部门被禁用
         if (!CommonStatusEnum.ENABLE.getStatus().equals(dept.getStatus())) {
-            throw exception(DEPT_NOT_ENABLE);
+            throw exception(DEPT_NOT_ENABLE, dept.getName());
         }
         // 父部门不能是原来的子部门
         List<SysDeptPO> children = getDeptListByParentIdFromCache(id, true);

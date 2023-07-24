@@ -212,8 +212,35 @@ public class DeptControllerTests {
         }
 
         /**
-         * sad path 4：创建部门时，当父级部门处理禁用状态时抛出异常
+         * sad path 4：创建部门时，当父级部门处理禁用状态时抛出不允许创建异常
          */
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:create"})
+        public void createDept_when_parentIsDisable_then_throwBadRequestException() throws Exception {
+            SysDeptPO parentPO = createDept();
+            parentPO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            deptMapper.updateById(parentPO);
+            DeptCreateReqVO childVO = new DeptCreateReqVO();
+            childVO.setName("测试子级项目组001");
+            childVO.setSort(1);
+            childVO.setParentId(parentPO.getId());
+            childVO.setPhone("12345678901");
+            childVO.setLeaderUserId("1");
+            childVO.setEmail("123123@qq.com");
+            childVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(childVO);
+            mvc.perform(post("/admin/dept/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002004006))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("部门(" + parentPO.getName() +")不处于开启状态，不允许选择"));
+        }
     }
 
     @Test
