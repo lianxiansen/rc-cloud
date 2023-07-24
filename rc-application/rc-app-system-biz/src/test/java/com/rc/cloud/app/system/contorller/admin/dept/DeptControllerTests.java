@@ -380,38 +380,54 @@ public class DeptControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
-    public void getDeptById_success() throws Exception {
-        mvc.perform(get("/admin/dept/100"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.data.name").value("柔川信息"));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/24
+     * @description 根据ID获取部门信息相关测试
+     */
+    @Nested
+    class GetDeptByIdTests {
+        /**
+         * 通过部门ID获取部门信息成功
+         */
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
+        public void getDeptById_success() throws Exception {
+            SysDeptPO sysDeptPO = createDept();
+            mvc.perform(get("/admin/dept/" + sysDeptPO.getId()))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.data.name").value(sysDeptPO.getName()))
+                    .andExpect(jsonPath("$.data.parentId").value(sysDeptPO.getParentId()))
+                    .andExpect(jsonPath("$.data.sort").value(sysDeptPO.getSort()))
+                    .andExpect(jsonPath("$.data.leaderUserId").value(sysDeptPO.getLeaderUserId()))
+                    .andExpect(jsonPath("$.data.phone").value(sysDeptPO.getPhone()))
+                    .andExpect(jsonPath("$.data.email").value(sysDeptPO.getEmail()))
+                    .andExpect(jsonPath("$.data.status").value(sysDeptPO.getStatus()));
+        }
+
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
+        public void getDeptById_when_ParentExist_then_returnParentName() throws Exception {
+            mvc.perform(get("/admin/dept/101"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.data.name").value("黄岩总公司"))
+                    .andExpect(jsonPath("$.data.parentName").value("柔川信息"));
+        }
+
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
+        public void getDeptByIdNotExist_then_throwNotFoundException() throws Exception {
+            mvc.perform(get("/admin/dept/9999999"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002004002))
+                    .andExpect(jsonPath("$.msg").value("当前部门不存在"));
+        }
     }
-
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
-    public void getDeptById_when_ParentExist_then_returnParentName() throws Exception {
-        mvc.perform(get("/admin/dept/101"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.data.name").value("黄岩总公司"))
-                .andExpect(jsonPath("$.data.parentName").value("柔川信息"));
-    }
-
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dept:query"})
-    public void getDeptByIdNotExist_then_throwNotFoundException() throws Exception {
-        mvc.perform(get("/admin/dept/9999999"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(1002004002))
-                .andExpect(jsonPath("$.msg").value("当前部门不存在"));
-    }
-
-
 
     @Test
     @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
