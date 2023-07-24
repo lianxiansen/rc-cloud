@@ -43,9 +43,9 @@ public class DeptController {
     @PostMapping("create")
     @Operation(summary = "创建部门")
     @PreAuthorize("@pms.hasPermission('sys:dept:create')")
-    public CodeResult<String> createDept(@Valid @RequestBody DeptCreateReqVO reqVO) {
+    public CodeResult<DeptRespVO> createDept(@Valid @RequestBody DeptCreateReqVO reqVO) {
         String deptId = deptService.createDept(reqVO);
-        return CodeResult.ok(deptId);
+        return CodeResult.ok(DeptConvert.INSTANCE.convert(deptService.getDept(deptId)));
     }
 
     /**
