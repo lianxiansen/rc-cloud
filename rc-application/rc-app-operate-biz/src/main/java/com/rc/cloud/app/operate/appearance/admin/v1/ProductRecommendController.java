@@ -4,7 +4,7 @@ import com.rc.cloud.app.operate.appearance.admin.res.ProductRecommendResponse;
 import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductRecommendConvert;
 import com.rc.cloud.app.operate.application.bo.ProductRecommendBO;
 import com.rc.cloud.app.operate.application.dto.ProductRecommendCreateDTO;
-import com.rc.cloud.app.operate.application.service.ProductRecommendApplicationService;
+import com.rc.cloud.app.operate.application.service.impl.ProductRecommendApplicationServiceImpl;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,7 +23,7 @@ import java.util.List;
 public class ProductRecommendController {
 
     @Autowired
-    private ProductRecommendApplicationService ProductRecommendApplicationService;
+    private ProductRecommendApplicationServiceImpl ProductRecommendApplicationService;
 
     @PostMapping("create")
     @Operation(summary = "创建产品推荐")

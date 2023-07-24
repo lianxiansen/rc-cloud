@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.domain.common.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.annotation.Factory;
 
 import java.time.LocalDateTime;
 
@@ -15,12 +16,13 @@ import java.time.LocalDateTime;
  * @Date: 2023/7/12 17:06
  * @Description: TODO
  */
+@Factory
 public class ProductCategoryBuildFactory {
-    public static ProductCategoryBuilder create(ProductCategoryId id, TenantId tenantId, ChName name) {
+    public  ProductCategoryBuilder create(ProductCategoryId id, TenantId tenantId, ChName name) {
         return new ProductCategoryBuilder(id,tenantId,name);
     }
 
-    public static class ProductCategoryBuilder {
+    public class ProductCategoryBuilder {
         private ProductCategory productCategory;
         public ProductCategoryBuilder(ProductCategoryId id, TenantId tenantId, ChName name){
             productCategory=new ProductCategory(id,tenantId,name);
