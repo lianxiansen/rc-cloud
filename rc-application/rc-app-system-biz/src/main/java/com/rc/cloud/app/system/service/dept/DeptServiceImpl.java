@@ -119,13 +119,17 @@ public class DeptServiceImpl implements DeptService {
         // 校验是否存在
         validateDeptExists(id);
         // 校验是否有子部门
-        if (deptMapper.selectCountByParentId(id) > 0) {
-            throw exception(DEPT_EXITS_CHILDREN);
-        }
+        validateDeptHasChildren(id);
         // 删除部门
         deptMapper.deleteById(id);
         // 发送刷新消息
 //        deptProducer.sendDeptRefreshMessage();
+    }
+
+    private void validateDeptHasChildren(String id) {
+        if (deptMapper.selectCountByParentId(id) > 0) {
+            throw exception(DEPT_EXITS_CHILDREN);
+        }
     }
 
     @Override

@@ -3,7 +3,9 @@ package com.rc.cloud.app.system.contorller.admin.dept;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.system.controller.admin.v1.dept.DeptController;
 import com.rc.cloud.app.system.mapper.dept.DeptMapper;
+import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
 import com.rc.cloud.app.system.model.dept.SysDeptPO;
+import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptUpdateReqVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
@@ -43,6 +45,9 @@ public class DeptControllerTests {
 
     @Autowired
     private DeptMapper deptMapper;
+
+    @Autowired
+    private AdminUserMapper adminUserMapper;
 
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
@@ -512,7 +517,7 @@ public class DeptControllerTests {
         }
 
         /**
-         * sad path2: 当删除的部门存在子部门是，抛出异常
+         * sad path2: 当删除的部门存在子部门时，抛出异常
          */
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
@@ -535,16 +540,27 @@ public class DeptControllerTests {
                     .andExpect(jsonPath("$.success").value(false));
         }
 
-        //
-//    @Test
-//    public void deleteOrg_when_hasUser_then_throwNotFailedException() throws Exception {
-//        mvc.perform(delete("/sys/org/7")
-//                        .header("Authorization", "Bearer " + getAccessToken()))
-//                .andDo(print())
-//                .andExpect(status().isInternalServerError())
-//                .andExpect(jsonPath("$.code").value(10200))
-//                .andExpect(jsonPath("$.message").value("该机构下有用户，不能删除"));
-//    }
+        /**
+         * sad path3: 当删除的部门下存在用户时，抛出异常
+         */
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
+        public void deleteOrg_when_hasUser_then_throwNotFailedException() throws Exception {
+            SysDeptPO sysDeptPO = createDept();
+            SysUserPO sysUserPO = new SysUserPO();
+            sysUserPO.setDeptId(sysDeptPO.getId());
+            sysUserPO.setUsername("测试用户");
+            sysUserPO.setEmail("123123@qq.com");
+            sysUserPO.setAvatar("");
+            sysUserPO.setMobile("12312312312");
+            sysUserPO.setNickname("测试用户昵称");
+            adminUserMapper.insert(sysUserPO);
+            mvc.perform(delete("/admin/dept?id=" + sysDeptPO.getId()))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002004005))
+                    .andExpect(jsonPath("$.message").value("部门中存在员工，无法删除"));
+        }
     }
 
     /**
