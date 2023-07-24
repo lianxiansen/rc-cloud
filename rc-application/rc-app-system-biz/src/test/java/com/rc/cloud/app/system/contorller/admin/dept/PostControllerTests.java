@@ -1,16 +1,16 @@
-/**
- * @author oliveoil
- * date 2023-06-13 09:07
- */
 package com.rc.cloud.app.system.contorller.admin.dept;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.system.controller.admin.v1.dept.PostController;
+import com.rc.cloud.app.system.mapper.dept.PostMapper;
+import com.rc.cloud.app.system.model.dept.SysPostPO;
 import com.rc.cloud.app.system.vo.dept.post.PostCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.post.PostUpdateReqVO;
+import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.annotation.Resource;
+
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -27,7 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * 关联 {@link PostController} 类
+ * @author rc@hqf
+ * @date 2023/07/23
+ * @description 关联 {@link PostController} 类
  */
 @RcTest
 public class PostControllerTests {
@@ -36,6 +40,9 @@ public class PostControllerTests {
     private WebApplicationContext context;
 
     private MockMvc mvc;
+
+    @Resource
+    private PostMapper postMapper;
 
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
@@ -47,10 +54,43 @@ public class PostControllerTests {
                 .build();
     }
 
+    /**
+     * @author rc@hqf
+     * @date 2023/07/24
+     * @description 创建岗位相关测试
+     */
+    @Nested
+    class CreatePostTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:create"})
+        public void createPost_success() throws Exception {
+            PostCreateReqVO postCreateReqVO = new PostCreateReqVO();
+            postCreateReqVO.setName("测试职位");
+            postCreateReqVO.setCode("cszw");
+            postCreateReqVO.setSort(99);
+            postCreateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            postCreateReqVO.setRemark("备注信息");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(postCreateReqVO);
+            mvc.perform(post("/admin/post/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isNotEmpty());
+//            postMapper.
+
+        }
+    }
+
     @Test
     @WithMockUser(username = "admin", authorities = {"sys:post:query"})
     public void getPostPage_success() throws Exception {
-        mvc.perform(get("/sys/post/page"))
+        mvc.perform(get("/admin/post/page"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -64,7 +104,7 @@ public class PostControllerTests {
     @Test
     @WithMockUser(username = "admin")
     public void getPostListAllSimple_success() throws Exception {
-        mvc.perform(get("/sys/post/list-all-simple"))
+        mvc.perform(get("/admin/post/list-all-simple"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -77,7 +117,7 @@ public class PostControllerTests {
     @Test
     @WithMockUser(username = "admin", authorities = {"sys:post:query"})
     public void getPostByIdExist_then_success() throws Exception {
-        mvc.perform(get("/sys/post/1"))
+        mvc.perform(get("/admin/post/1"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -91,7 +131,7 @@ public class PostControllerTests {
     @Test
     @WithMockUser(username = "admin", authorities = {"sys:post:query"})
     public void getPostByIdNotExist_then_throwNotFoundException() throws Exception {
-        mvc.perform(get("/sys/post/9999999"))
+        mvc.perform(get("/admin/post/9999999"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(1002005000))
@@ -99,27 +139,7 @@ public class PostControllerTests {
                 .andExpect(jsonPath("$.msg").value("当前岗位不存在"));
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:post:create"})
-    public void createPost_success() throws Exception {
-        PostCreateReqVO postCreateReqVO = new PostCreateReqVO();
-        postCreateReqVO.setName("测试职位");
-        postCreateReqVO.setCode("cszw");
-        postCreateReqVO.setSort(99);
-        postCreateReqVO.setStatus(0);
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(postCreateReqVO);
-        mvc.perform(post("/sys/post/create")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isNotEmpty());
-    }
+
 
     @Test
     @WithMockUser(username = "admin", authorities = {"sys:post:update"})
@@ -133,7 +153,7 @@ public class PostControllerTests {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(postUpdateReqVO);
-        mvc.perform(put("/sys/post/update")
+        mvc.perform(put("/admin/post/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -148,7 +168,7 @@ public class PostControllerTests {
     @Test
     @WithMockUser(username = "admin", authorities = {"sys:post:delete"})
     public void deletePostById_success() throws Exception {
-        mvc.perform(delete("/sys/post")
+        mvc.perform(delete("/admin/post")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("[1]")
                         .accept(MediaType.APPLICATION_JSON))
@@ -172,4 +192,15 @@ public class PostControllerTests {
 //                .andExpect(jsonPath("$.code").value(0))
 //                .andExpect(jsonPath("$.message").value("success"));
 //    }
+
+    private SysPostPO createPost() throws Exception {
+        SysPostPO postPO = new SysPostPO();
+        postPO.setName("测试岗位");
+        postPO.setCode("test_post");
+        postPO.setSort(1);
+        postPO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        postPO.setRemark("备注信息");
+        postMapper.insert(postPO);
+        return postPO;
+    }
 }
