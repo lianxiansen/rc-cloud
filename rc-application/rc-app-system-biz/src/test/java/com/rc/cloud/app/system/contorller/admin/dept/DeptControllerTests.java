@@ -175,6 +175,41 @@ public class DeptControllerTests {
         /**
          * sad path 3：创建部门时，当同一个父级部门下存在该部门名称时抛出异常
          */
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:create"})
+        public void createDept_when_nameExist_then_throwBadRequestException() throws Exception {
+            SysDeptPO parentPO = createDept();
+            SysDeptPO child1PO = new SysDeptPO();
+            String name = "测试子级项目组001";
+            child1PO.setName(name);
+            child1PO.setSort(1);
+            child1PO.setParentId(parentPO.getId());
+            child1PO.setPhone("12345678901");
+            child1PO.setLeaderUserId("1");
+            child1PO.setEmail("123123123@qq.com");
+            child1PO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            deptMapper.insert(child1PO);
+            DeptCreateReqVO child2VO = new DeptCreateReqVO();
+            child2VO.setName(name);
+            child2VO.setSort(1);
+            child2VO.setParentId(parentPO.getId());
+            child2VO.setPhone("12345678901");
+            child2VO.setLeaderUserId("1");
+            child2VO.setEmail("123123@qq.com");
+            child2VO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(child2VO);
+            mvc.perform(post("/admin/dept/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002004000))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("已经存在该名字的部门"));
+        }
 
         /**
          * sad path 4：创建部门时，当父级部门处理禁用状态时抛出异常

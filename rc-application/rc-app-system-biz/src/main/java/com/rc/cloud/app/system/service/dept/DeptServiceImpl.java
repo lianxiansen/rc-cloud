@@ -222,15 +222,15 @@ public class DeptServiceImpl implements DeptService {
     }
 
     private void validateDeptNameUnique(String id, String parentId, String name) {
-        SysDeptPO menu = deptMapper.selectByParentIdAndName(parentId, name);
-        if (menu == null) {
+        SysDeptPO deptPO = deptMapper.selectByParentIdAndName(parentId, name);
+        if (deptPO == null) {
             return;
         }
         // 如果 id 为空，说明不用比较是否为相同 id 的岗位
         if (id == null) {
             throw exception(DEPT_NAME_DUPLICATE);
         }
-        if (!menu.getId().equals(id)) {
+        if (!deptPO.getId().equals(id)) {
             throw exception(DEPT_NAME_DUPLICATE);
         }
     }
