@@ -365,7 +365,16 @@ public class DeptControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dept:query","sys:dept:create"})
         public void getDeptList_success() throws Exception {
-            SysDeptPO sysDeptPO = createDept();
+            SysDeptPO parentPO = createDept();
+            SysDeptPO childPo = new SysDeptPO();
+            childPo.setName("测试子部门001");
+            childPo.setPhone("13777777777");
+            childPo.setSort(1);
+            childPo.setParentId(parentPO.getId());
+            childPo.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            childPo.setLeaderUserId("1");
+            childPo.setEmail("123123@qq.com");
+            deptMapper.insert(childPo);
             mvc.perform(get("/admin/dept/list"))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -373,13 +382,23 @@ public class DeptControllerTests {
                     .andExpect(jsonPath("$.success").value("true"))
                     .andExpect(jsonPath("$.data").isArray())
                     .andExpect(jsonPath("$.data").isNotEmpty())
-                    .andExpect(jsonPath("$.data[0].name").value(sysDeptPO.getName()))
-                    .andExpect(jsonPath("$.data[0].parentId").value(sysDeptPO.getParentId()))
-                    .andExpect(jsonPath("$.data[0].sort").value(sysDeptPO.getSort()))
-                    .andExpect(jsonPath("$.data[0].leaderUserId").value(sysDeptPO.getLeaderUserId()))
-                    .andExpect(jsonPath("$.data[0].phone").value(sysDeptPO.getPhone()))
-                    .andExpect(jsonPath("$.data[0].email").value(sysDeptPO.getEmail()))
-                    .andExpect(jsonPath("$.data[0].status").value(sysDeptPO.getStatus()));
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isArray())
+                    .andExpect(jsonPath("$.data[0].name").value(parentPO.getName()))
+                    .andExpect(jsonPath("$.data[0].parentId").value(parentPO.getParentId()))
+                    .andExpect(jsonPath("$.data[0].sort").value(parentPO.getSort()))
+                    .andExpect(jsonPath("$.data[0].leaderUserId").value(parentPO.getLeaderUserId()))
+                    .andExpect(jsonPath("$.data[0].phone").value(parentPO.getPhone()))
+                    .andExpect(jsonPath("$.data[0].email").value(parentPO.getEmail()))
+                    .andExpect(jsonPath("$.data[0].status").value(parentPO.getStatus()))
+                    .andExpect(jsonPath("$.data[0].children[0].name").value(childPo.getName()))
+                    .andExpect(jsonPath("$.data[0].children[0].parentId").value(childPo.getParentId()))
+                    .andExpect(jsonPath("$.data[0].children[0].sort").value(childPo.getSort()))
+                    .andExpect(jsonPath("$.data[0].children[0].leaderUserId").value(childPo.getLeaderUserId()))
+                    .andExpect(jsonPath("$.data[0].children[0].phone").value(childPo.getPhone()))
+                    .andExpect(jsonPath("$.data[0].children[0].email").value(childPo.getEmail()))
+                    .andExpect(jsonPath("$.data[0].children[0].status").value(childPo.getStatus()));
         }
     }
 
@@ -454,50 +473,69 @@ public class DeptControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
-    public void deleteDept_success() throws Exception {
-        mvc.perform(delete("/admin/dept?id=112"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
-    }
+    /**
+     * @author rc@hqf
+     * @date 2023/07/24
+     * @description 删除部门相关测试
+     */
+    @Nested
+    class DeleteDeptTests {
+        /**
+         * happy path1: 根据ID删除部门
+         */
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
+        public void deleteDept_success() throws Exception {
+            SysDeptPO sysDeptPO = createDept();
+            mvc.perform(delete("/admin/dept?id=" + sysDeptPO.getId()))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+            SysDeptPO deptPO = deptMapper.selectById(sysDeptPO.getId());
+            assertEquals(deptPO, null);
+        }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
-    public void deleteDept_when_idNotExist_then_throwNotFoundException() throws Exception {
-        mvc.perform(delete("/admin/dept?id=999999"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(1002004002))
-                .andExpect(jsonPath("$.msg").value("当前部门不存在"))
-                .andExpect(jsonPath("$.success").value(false));
-    }
+        /**
+         * sad path1: 当删除的部门ID不存在时，抛出异常
+         */
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
+        public void deleteDept_when_idNotExist_then_throwNotFoundException() throws Exception {
+            mvc.perform(delete("/admin/dept?id=999999"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002004002))
+                    .andExpect(jsonPath("$.msg").value("当前部门不存在"))
+                    .andExpect(jsonPath("$.success").value(false));
+        }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
-    public void deleteDept_when_childExist_then_throwNotFailedException() throws Exception {
-        mvc.perform(delete("/admin/dept?id=100"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(1002004003))
-                .andExpect(jsonPath("$.msg").value("存在子部门，无法删除"))
-                .andExpect(jsonPath("$.success").value(false));
-    }
+        /**
+         * sad path2: 当删除的部门存在子部门是，抛出异常
+         */
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
+        public void deleteDept_when_childExist_then_throwNotFailedException() throws Exception {
+            SysDeptPO parentPO = createDept();
+            SysDeptPO childPo = new SysDeptPO();
+            childPo.setName("测试子部门001");
+            childPo.setPhone("13777777777");
+            childPo.setSort(1);
+            childPo.setParentId(parentPO.getId());
+            childPo.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            childPo.setLeaderUserId("1");
+            childPo.setEmail("123123@qq.com");
+            deptMapper.insert(childPo);
+            mvc.perform(delete("/admin/dept?id=" + parentPO.getId()))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002004003))
+                    .andExpect(jsonPath("$.msg").value("存在子部门，无法删除"))
+                    .andExpect(jsonPath("$.success").value(false));
+        }
 
-    @Test
-    @WithMockUser(username = "admin")
-    public void listDeptAllSimple_success() throws Exception {
-        mvc.perform(get("/admin/dept/list-all-simple"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isArray());
-    }
-//
+        //
 //    @Test
 //    public void deleteOrg_when_hasUser_then_throwNotFailedException() throws Exception {
 //        mvc.perform(delete("/sys/org/7")
@@ -507,6 +545,40 @@ public class DeptControllerTests {
 //                .andExpect(jsonPath("$.code").value(10200))
 //                .andExpect(jsonPath("$.message").value("该机构下有用户，不能删除"));
 //    }
+    }
+
+    /**
+     * @author rc@hqf
+     * @date 2023/07/24
+     * @description 获取所有的部门
+     */
+    @Nested
+    class AllSimpleDeptTests {
+        @Test
+        @WithMockUser(username = "admin")
+        public void listDeptAllSimple_success() throws Exception {
+            SysDeptPO parentPO = createDept();
+            SysDeptPO childPo = new SysDeptPO();
+            childPo.setName("测试子部门001");
+            childPo.setPhone("13777777777");
+            childPo.setSort(1);
+            childPo.setParentId(parentPO.getId());
+            childPo.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            childPo.setLeaderUserId("1");
+            childPo.setEmail("123123@qq.com");
+            deptMapper.insert(childPo);
+            mvc.perform(get("/admin/dept/list-all-simple"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isArray())
+                    .andExpect(jsonPath("$.data[0].name").value(parentPO.getName()))
+                    .andExpect(jsonPath("$.data[0].parentId").value(parentPO.getParentId()))
+                    .andExpect(jsonPath("$.data[0].children[0].name").value(childPo.getName()))
+                    .andExpect(jsonPath("$.data[0].children[0].parentId").value(childPo.getParentId()));
+        }
+    }
 
     private SysDeptPO createDept() throws Exception {
         SysDeptPO deptPO = new SysDeptPO();
