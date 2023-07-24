@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
  * @ClassName: CreateBrandDTO
  * @Author: liandy
  * @Date: 2023/7/7 11:09
- * @Description: TODO
+ * @Description: 品牌分类创建request
  */
 @Data
 @Accessors(chain = true)

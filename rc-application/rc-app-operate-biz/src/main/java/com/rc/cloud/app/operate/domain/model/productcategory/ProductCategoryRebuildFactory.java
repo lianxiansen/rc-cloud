@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.domain.common.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.annotation.Factory;
 
 /**
  * @ClassName: ProductCategoryRebuildFactory
@@ -13,16 +14,20 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
  * @Date: 2023/7/12 17:06
  * @Description: TODO
  */
+@Factory
 public class ProductCategoryRebuildFactory {
-    public static  ProductCategoryRebuilder create(ProductCategoryId id, TenantId tenantId, ChName name, CreateTime createTime) {
+    public ProductCategoryRebuilder create(ProductCategoryId id, TenantId tenantId, ChName name, CreateTime createTime) {
         return new ProductCategoryRebuilder(id, tenantId, name, createTime);
     }
-    public static  ProductCategoryRebuilder create(ProductCategory productCategory) {
+
+    public ProductCategoryRebuilder create(ProductCategory productCategory) {
         return new ProductCategoryRebuilder(productCategory);
     }
-    public static class ProductCategoryRebuilder {
+
+    public class ProductCategoryRebuilder {
         private ProductCategory productCategory;
-        public ProductCategoryRebuilder(ProductCategory productCategory){
+
+        public ProductCategoryRebuilder(ProductCategory productCategory) {
             this.productCategory = productCategory;
         }
 
@@ -30,10 +35,12 @@ public class ProductCategoryRebuildFactory {
             productCategory = new ProductCategory(id, tenantId, name);
             productCategory.setCreateTime(createTime);
         }
+
         public ProductCategoryRebuilder chName(ChName enName) {
             productCategory.setChName(enName);
             return this;
         }
+
         public ProductCategoryRebuilder enName(EnName enName) {
             productCategory.setEnName(enName);
             return this;
@@ -60,15 +67,15 @@ public class ProductCategoryRebuildFactory {
         }
 
 
-        public ProductCategoryRebuilder sort(Sort sort){
+        public ProductCategoryRebuilder sort(Sort sort) {
             productCategory.setSort(sort);
             return this;
         }
 
         public ProductCategoryRebuilder setEnabled(Enabled enabled) {
-            if(enabled.isTrue()){
+            if (enabled.isTrue()) {
                 productCategory.enable();
-            }else{
+            } else {
                 productCategory.disable();
             }
             return this;
