@@ -4,9 +4,6 @@ import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 import java.util.List;
@@ -51,4 +48,5 @@ public interface ProductRepository {
     boolean existsByProductCategoryId(ProductCategoryId productCategoryId);
 
 
+    List<Product> selectBatchIds(List<ProductId> productIds);
 }

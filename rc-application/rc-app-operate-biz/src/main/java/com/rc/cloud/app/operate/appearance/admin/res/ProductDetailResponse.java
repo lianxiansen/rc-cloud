@@ -1,6 +1,9 @@
 package com.rc.cloud.app.operate.appearance.admin.res;
 
+import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductCategoryConvert;
+import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductConvert;
 import com.rc.cloud.app.operate.application.bo.*;
+import com.rc.cloud.common.core.util.date.LocalDateTimeUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -36,6 +39,9 @@ public class ProductDetailResponse {
 
     @Schema(description = "品牌id")
     private String brandId;
+
+    @Schema(description = "品牌名")
+    private String brandName;
 
     @Schema(description = "商品分类1")
     private String firstCategory;
@@ -74,16 +80,16 @@ public class ProductDetailResponse {
     private List<ProductImageResponse> imageList;
 
     @Schema(description = "材质")
-    private String materialQualityDict;
+    private String caiZhi;
 
     @Schema(description = "尺寸")
-    private String sizeDict;
+    private String chiCun;
 
     @Schema(description = "承重")
-    private String bearingDict;
+    private String chengZhong;
 
     @Schema(description = "条码")
-    private String barCodeDict;
+    private String tiaoMa;
 
     @Schema(description = "size图片列表")
     private List<ProductImageResponse> sizeImageList;
@@ -105,5 +111,13 @@ public class ProductDetailResponse {
 
     @Schema(description = "详情")
     private String detail;
+
+    @Schema(description = "skus")
+    private List<ProductSkuDetailResponse> skus;
+
+    public static ProductDetailResponse from(ProductBO productBO){
+        ProductDetailResponse response= ProductConvert.convert2ProductDetail(productBO);
+        return response;
+    }
 
 }

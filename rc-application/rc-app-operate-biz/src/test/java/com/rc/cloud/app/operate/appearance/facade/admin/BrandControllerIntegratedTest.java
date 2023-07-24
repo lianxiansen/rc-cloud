@@ -32,13 +32,14 @@ public class BrandControllerIntegratedTest {
 
     @Resource
     private IdRepository idRepository;
-
+    private String brandId=null;
     @BeforeEach
     public void setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context)
 //                .apply(springSecurity())
                 .build();
-        TenantContext.setTenantId("test");
+        TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
+        brandId="f7570440-f052-462c-b6a8-984b799";
 
     }
 
@@ -71,7 +72,7 @@ public class BrandControllerIntegratedTest {
                 .setSort(1)
                 .setEnabled(new Boolean(true))
                 .setType(RandomUtils.randomString());
-        dto.setId("f7570440-f052-462c-b6a8-984b799");
+        dto.setId(brandId);
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dto);
@@ -91,7 +92,6 @@ public class BrandControllerIntegratedTest {
     @DisplayName(value = "删除品牌")
     @Test
     public void remove() throws Exception {
-        String brandId="f7570440-f052-462c-b6a8-984b799";
         mvc.perform(delete("/admin/brand/remove").param("id", brandId))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -119,7 +119,7 @@ public class BrandControllerIntegratedTest {
     @Test
     public void findById() throws Exception {
         mvc.perform(get("/admin/brand/findById")
-                        .param("id","f7570440-f052-462c-b6a8-984b701")
+                        .param("id",brandId)
                         .characterEncoding(Charset.defaultCharset())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

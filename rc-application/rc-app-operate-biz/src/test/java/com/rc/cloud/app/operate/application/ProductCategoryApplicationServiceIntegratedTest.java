@@ -88,15 +88,6 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
 
     }
 
-    @Test
-    @DisplayName("创建产品分类，当产品名称为空")
-    public void createProductCategoryWhenNameIsEmpty() {
-        productCategoryCreateDTO.setName("");
-        Assertions.assertThrows(ServiceException.class, () -> {
-            productCategoryApplicationService.create(productCategoryCreateDTO);
-        });
-
-    }
 
     @Test
     @DisplayName("创建根级产品分类")

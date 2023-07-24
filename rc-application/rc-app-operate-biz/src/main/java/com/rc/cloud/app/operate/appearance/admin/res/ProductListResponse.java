@@ -54,7 +54,7 @@ public class ProductListResponse {
 
 
     public static ProductListResponse from(ProductBO productBO){
-        return ProductConvert.convert(productBO);
+        return ProductConvert.convert2ProductList(productBO);
     }
 
     public static PageResult<ProductListResponse> from(PageResult<ProductBO> oriPage){

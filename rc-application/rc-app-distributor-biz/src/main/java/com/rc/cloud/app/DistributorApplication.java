@@ -1,5 +1,5 @@
 //CHECKSTYLE:OFF
-package com.rc.cloud.app.distributor;
+package com.rc.cloud.app;
 
 import com.rc.cloud.common.feign.EnableRcFeignClients;
 import com.rc.cloud.common.security.annotation.EnableRcResourceServer;

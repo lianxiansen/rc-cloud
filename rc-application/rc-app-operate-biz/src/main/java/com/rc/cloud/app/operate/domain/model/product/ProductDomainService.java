@@ -3,7 +3,10 @@ package com.rc.cloud.app.operate.domain.model.product;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.*;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Explosives;
+import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Recommend;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ public class ProductDomainService {
 
     @Autowired
     private ProductRepository productRepository;
+
 
     public  int createProduct(Product product){
         if(productRepository.exist(product.getId())){

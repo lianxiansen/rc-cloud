@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @ClassName: ProductService
@@ -97,14 +98,14 @@ public class ProductApplicationService {
                 ,tenantId.id(),productSaveDTO,true,null);
 
         productDomainService.createProduct(product);
-        List<ProductDict> productDicts=null;
+        Set<ProductDict> productDicts=null;
         ProductDetail productDetail =null;
         //设置字典
         if(CollectionUtil.isNotEmpty(productSaveDTO.getDicts())){
             productSaveDTO.getDicts().forEach(
                     x->x.setId(idRepository.nextId())
             );
-            productDicts = ProductDictConvert.convertList(productId.id(), tenantId.id(), productSaveDTO.getDicts());
+            productDicts = ProductDictConvert.convertProductDictSet(productId.id(), tenantId.id(), productSaveDTO.getDicts());
             productDictDomainService.saveProductDict(productDicts);
         }
         if(StringUtils.isNotEmpty(productSaveDTO.getDetail())){
@@ -161,12 +162,12 @@ public class ProductApplicationService {
 
         productDomainService.updateProduct(product);
 
-        List<ProductDict> productDicts=null;
+        Set<ProductDict> productDicts=null;
         ProductDetail productDetail=null;
         List<ProductSku> productSkuList=null;
 
         if(productSaveDTO.getDicts()!=null){
-            productDicts = ProductDictConvert.convertList(productId.id(), tenantId.id(), productSaveDTO.getDicts());
+            productDicts = ProductDictConvert.convertProductDictSet(productId.id(), tenantId.id(), productSaveDTO.getDicts());
             productDictDomainService.saveProductDict(productDicts);
         }
 
@@ -214,13 +215,13 @@ public class ProductApplicationService {
     public ProductBO getProduct(ProductQueryDTO productQueryDTO) {
         Product product = productDomainService.findProductById(new ProductId(productQueryDTO.getProductId()));
         ProductDetail productDetail=null;
-        List<ProductDict> productDictList=null;
+        Set<ProductDict> productDictList=null;
         List<ProductSku> productSkuList=null;
         if(productQueryDTO.isNeedProductDetail()){
             productDetail = productDetailDomainService.findProductDetailById(new ProductId(productQueryDTO.getProductId()));
         }
         if(productQueryDTO.isNeedProductDict()){
-            productDictList = productDictDomainService.getProductDictByProductId(new ProductId(productQueryDTO.getProductId()));
+            productDictList = productDictDomainService.getProductDictSetByProductId(new ProductId(productQueryDTO.getProductId()));
         }
         if(productQueryDTO.isNeedProductSku()){
             productSkuList = productSkuDomainService.getProductSkuListByProductId(new ProductId(productQueryDTO.getProductId()));
