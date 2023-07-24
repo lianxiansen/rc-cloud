@@ -121,4 +121,14 @@ public interface AdminUserMapper extends BaseMapperX<SysUserPO> {
     default List<SysUserPO> selectListByDeptIds(Collection<String> deptIds) {
         return selectList(SysUserPO::getDeptId, deptIds);
     }
+
+    /**
+     * 根据部门id查询用户数量
+     *
+     * @param deptId 部门id
+     * @return 用户数量
+     */
+    default Long selectCountByDeptId(String deptId) {
+        return selectCount(new LambdaQueryWrapperX<SysUserPO>().eq(SysUserPO::getDeptId, deptId));
+    }
 }

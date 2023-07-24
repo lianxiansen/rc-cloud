@@ -7,6 +7,7 @@ import com.google.common.collect.Multimap;
 import com.rc.cloud.app.system.convert.dept.DeptConvert;
 import com.rc.cloud.app.system.enums.dept.DeptIdEnum;
 import com.rc.cloud.app.system.mapper.dept.DeptMapper;
+import com.rc.cloud.app.system.mapper.user.AdminUserMapper;
 import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptListReqVO;
@@ -57,6 +58,9 @@ public class DeptServiceImpl implements DeptService {
 
     @Resource
     private DeptMapper deptMapper;
+
+    @Resource
+    private AdminUserMapper adminUserMapper;
 
 //    @Resource
 //    private DeptProducer deptProducer;
@@ -120,10 +124,19 @@ public class DeptServiceImpl implements DeptService {
         validateDeptExists(id);
         // 校验是否有子部门
         validateDeptHasChildren(id);
+        // 校验该部门下是否有员工
+        validateDeptHasAdminUser(id);
         // 删除部门
         deptMapper.deleteById(id);
         // 发送刷新消息
 //        deptProducer.sendDeptRefreshMessage();
+    }
+
+    private void validateDeptHasAdminUser(String id) {
+        Long count = adminUserMapper.selectCountByDeptId(id);
+        if (count > 0) {
+            throw exception(DEPT_EXISTS_USER);
+        }
     }
 
     private void validateDeptHasChildren(String id) {

@@ -545,7 +545,7 @@ public class DeptControllerTests {
          */
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dept:delete"})
-        public void deleteOrg_when_hasUser_then_throwNotFailedException() throws Exception {
+        public void deleteDept_when_hasUser_then_throwNotFailedException() throws Exception {
             SysDeptPO sysDeptPO = createDept();
             SysUserPO sysUserPO = new SysUserPO();
             sysUserPO.setDeptId(sysDeptPO.getId());
@@ -559,7 +559,8 @@ public class DeptControllerTests {
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.code").value(1002004005))
-                    .andExpect(jsonPath("$.message").value("部门中存在员工，无法删除"));
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("部门中存在员工，无法删除"));
         }
     }
 
