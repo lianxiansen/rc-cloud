@@ -216,11 +216,11 @@ public class ProductConvert
 
     private static Product setRecommend(Boolean recommendFlag, boolean isCreate, Product product){
         if(isCreate){
-            product.setRecommend(new Recommend(recommendFlag));
+            product.setRecommendFlag(new Recommend(recommendFlag));
         }else{
             if (recommendFlag != null) {
                 Recommend recommend = new Recommend(recommendFlag);
-                product.setRecommend(recommend);
+                product.setRecommendFlag(recommend);
             }
         }
         return product;
@@ -429,8 +429,8 @@ public class ProductConvert
         }else{
             bo.setNewFlag(false);
         }
-        if(product.getRecommend()!=null){
-            bo.setRecommendFlag(product.getRecommend().getValue());
+        if(product.getRecommendFlag()!=null){
+            bo.setRecommendFlag(product.getRecommendFlag().getValue());
         }
         if(product.getExplosives()!=null){
             bo.setExplosivesFlag(product.getExplosives().isFlag());

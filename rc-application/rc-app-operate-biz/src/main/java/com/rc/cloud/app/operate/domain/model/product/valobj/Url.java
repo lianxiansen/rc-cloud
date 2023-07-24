@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 import com.rc.cloud.common.core.domain.ValueObject;
+import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.StringUtils;
 
 public class Url extends ValueObject {
@@ -13,11 +14,8 @@ public class Url extends ValueObject {
         return value;
     }
     public void setValue(String value) {
-        if (StringUtils.isEmpty(value)) {
-            throw new IllegalArgumentException("url不为空");
-        }
         if(!StringUtils.ishttp(value)){
-            throw new IllegalArgumentException("http地址无效");
+            throw new IllegalArgumentException("invalid url");
         }
     }
     @Override
