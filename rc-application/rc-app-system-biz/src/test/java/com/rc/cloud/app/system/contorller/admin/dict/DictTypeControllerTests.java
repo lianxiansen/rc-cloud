@@ -63,7 +63,7 @@ public class DictTypeControllerTests {
 
     /**
      * @author rc@hqf
-     * @date 2023/07/24
+     * @date 2023/07/25
      * @description 创建字典类型相关测试
      */
     @Nested
@@ -193,15 +193,52 @@ public class DictTypeControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dict:query"})
-    public void getDictTypeById_success() throws Exception {
-        mvc.perform(get("/sys/dict-type/" + 170))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.name").value("用户性别"));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 根据ID获取字典类型相关测试
+     */
+    @Nested
+    class GetDictTypeByIDTests{
+
+        // happy path1: 根据ID获取字典类型成功
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:query"})
+        public void getDictTypeById_success() throws Exception {
+            SysDictTypePO dictType1 = createDictType1();
+            mvc.perform(get("/admin/dict-type/" + dictType1.getId()))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.id").value(dictType1.getId()))
+                    .andExpect(jsonPath("$.data.name").value(dictType1.getName()))
+                    .andExpect(jsonPath("$.data.type").value(dictType1.getType()))
+                    .andExpect(jsonPath("$.data.status").value(dictType1.getStatus()))
+                    .andExpect(jsonPath("$.data.remark").value(dictType1.getRemark()));
+        }
+
+        // sad path1: 根据ID获取字典类型失败，ID不存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:query"})
+        public void getDictTypeById_fail_when_idNotExist() throws Exception {
+            mvc.perform(get("/admin/dict-type/" + "999999"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002006001))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("当前字典类型不存在"));
+        }
+    }
+
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 根据ID获取字典类型相关测试
+     */
+    @Nested
+    class GetDictTypeSimpleListTests{
+
     }
 
     // list-all-simple
