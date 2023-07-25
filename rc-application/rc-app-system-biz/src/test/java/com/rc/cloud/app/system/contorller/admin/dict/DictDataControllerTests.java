@@ -67,11 +67,11 @@ public class DictDataControllerTests {
 
     /**
      * @author rc@hqf
-     * @date 2023/07/24
+     * @date 2023/07/25
      * @description 创建岗位相关测试
      */
     @Nested
-    class CreateDictDataTests{
+    class CreateDictDataTests {
 
         // happy path: 创建成功
         @Test
@@ -272,16 +272,35 @@ public class DictDataControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(value = "admin", authorities = {"sys:dict:query"})
-    public void getDictDataById_success() throws Exception {
-        mvc.perform(get("/admin/dict-data/1236"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.label").value("男"));
+
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 根据ID获取岗位相关测试
+     */
+    @Nested
+    class GetDictDataByIdTests {
+        @Test
+        @WithMockUser(value = "admin", authorities = {"sys:dict:query"})
+        public void getDictDataById_success() throws Exception {
+            SysDictTypePO dictType = createDictType();
+            SysDictDataPO dictData = createDictData(dictType.getType());
+            mvc.perform(get("/admin/dict-data/" + dictData.getId()))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.label").value(dictData.getLabel()))
+                    .andExpect(jsonPath("$.data.value").value(dictData.getValue()))
+                    .andExpect(jsonPath("$.data.dictType").value(dictData.getDictType()))
+                    .andExpect(jsonPath("$.data.sort").value(dictData.getSort()))
+                    .andExpect(jsonPath("$.data.cssClass").value(dictData.getCssClass()))
+                    .andExpect(jsonPath("$.data.status").value(dictData.getStatus()))
+                    .andExpect(jsonPath("$.data.remark").value(dictData.getRemark()));
+        }
     }
+
+
 
     @Test
     @WithMockUser("admin")
