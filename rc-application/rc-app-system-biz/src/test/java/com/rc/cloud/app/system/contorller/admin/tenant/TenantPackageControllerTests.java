@@ -26,8 +26,7 @@ import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -263,28 +262,44 @@ public class TenantPackageControllerTests {
         }
     }
 
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 删除租户套餐相关测试
+     */
+    @Nested
+    class DeleteTenantPackageTests {
+        // happy path: 删除租户套餐成功
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant-package:delete"})
+        public void deleteTenantPackageById_success() throws Exception {
+            SysTenantPackagePO tenantPackagePO = createTenantPackage1();
+            mvc.perform(delete("/admin/tenant-package/" + tenantPackagePO.getId())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+            SysTenantPackagePO dbTenantPackagePO = tenantPackageMapper.selectById(tenantPackagePO.getId());
+            assertNull(dbTenantPackagePO);
+        }
+        // sad path1: 删除租户套餐失败，租户套餐不存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant-package:delete"})
+        public void deleteTenantPackageById_fail_when_tenantPackageIsNotExist() throws Exception {
+            mvc.perform(delete("/admin/tenant-package/" + "99999")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002016000))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("租户套餐不存在"));
+        }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:tenant-package:delete"})
-    public void deleteTenantPackageById_success() throws Exception {
-        TenantPackageCreateReqVO createReqVO = new TenantPackageCreateReqVO();
-        createReqVO.setName("test_tenant_name");
-        createReqVO.setStatus(0);
-        createReqVO.setRemark("test_tenant_remark");
-        Set<String> menuIds = new HashSet<>();
-        menuIds.add("1");
-        menuIds.add("2");
-        menuIds.add("5");
-        createReqVO.setMenuIds(menuIds);
-        String tenantPackageId = tenantPackageService.createTenantPackage(createReqVO);
-        mvc.perform(delete("/admin/tenant-package/" + tenantPackageId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
+        // TODO:: sad path1: 删除租户套餐失败，租户套餐已被使用
     }
 
     @Test
