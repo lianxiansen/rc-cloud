@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -138,7 +137,7 @@ public class TenantPackageControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:tenant-package:create"})
         public void createTenantPackage_fail_when_nameIsExist() throws Exception {
-            SysTenantPackagePO tenantPackage = createTenantPackage();
+            SysTenantPackagePO tenantPackage = createTenantPackage1();
             TenantPackageCreateReqVO createReqVO = new TenantPackageCreateReqVO();
             createReqVO.setName(tenantPackage.getName());
             createReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -164,31 +163,106 @@ public class TenantPackageControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:tenant-package:update"})
-    public void updateTenantPackage_success() throws Exception {
-        TenantPackageUpdateReqVO updateReqVO = new TenantPackageUpdateReqVO();
-        updateReqVO.setId("111");
-        updateReqVO.setName("test_tenant_name");
-        updateReqVO.setStatus(0);
-        updateReqVO.setRemark("test_tenant_remark");
-        Set<String> menuIds = new HashSet<>();
-        menuIds.add("2162");
-        updateReqVO.setMenuIds(menuIds);
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 更新租户套餐相关测试
+     */
+    @Nested
+    class UpdateTenantPackageTests {
 
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(updateReqVO);
-        mvc.perform(put("/admin/tenant-package/update")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isNotEmpty());
+        // happy path: 更新租户套餐成功
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant-package:update"})
+        public void updateTenantPackage_success() throws Exception {
+            SysTenantPackagePO tenantPackagePO = createTenantPackage1();
+            TenantPackageUpdateReqVO updateReqVO = new TenantPackageUpdateReqVO();
+            updateReqVO.setId(tenantPackagePO.getId());
+            updateReqVO.setName("test_tenant_name11");
+            updateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            updateReqVO.setRemark("test_tenant_remark11");
+            Set<String> menuIds = new HashSet<>();
+            menuIds.add("25");
+            updateReqVO.setMenuIds(menuIds);
+
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(updateReqVO);
+            mvc.perform(put("/admin/tenant-package/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isNotEmpty());
+            SysTenantPackagePO dbTenantPackagePO = tenantPackageMapper.selectById(tenantPackagePO.getId());
+            assertNotNull(dbTenantPackagePO);
+            assertEquals(updateReqVO.getName(), dbTenantPackagePO.getName());
+            assertEquals(updateReqVO.getStatus(), dbTenantPackagePO.getStatus());
+            assertEquals(updateReqVO.getRemark(), dbTenantPackagePO.getRemark());
+            assertEquals(updateReqVO.getMenuIds(), dbTenantPackagePO.getMenuIds());
+        }
+
+        // sad path1: 更新租户套餐失败，套餐名为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant-package:update"})
+        public void updateTenantPackage_fail_when_nameIsNull() throws Exception {
+            SysTenantPackagePO tenantPackagePO = createTenantPackage1();
+            TenantPackageUpdateReqVO updateReqVO = new TenantPackageUpdateReqVO();
+            updateReqVO.setId(tenantPackagePO.getId());
+            updateReqVO.setName("");
+            updateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            updateReqVO.setRemark("test_tenant_remark11");
+            Set<String> menuIds = new HashSet<>();
+            menuIds.add("25");
+            updateReqVO.setMenuIds(menuIds);
+
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(updateReqVO);
+            mvc.perform(put("/admin/tenant-package/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:套餐名不能为空"));
+        }
+
+        // sad path2: 更新租户套餐失败，套餐名已存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant-package:update"})
+        public void updateTenantPackage_fail_when_nameIsExist() throws Exception {
+            SysTenantPackagePO tenantPackage1 = createTenantPackage1();
+            SysTenantPackagePO tenantPackage2 = createTenantPackage2();
+            TenantPackageUpdateReqVO updateReqVO = new TenantPackageUpdateReqVO();
+            updateReqVO.setId(tenantPackage1.getId());
+            updateReqVO.setName(tenantPackage2.getName());
+            updateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            updateReqVO.setRemark("test_tenant_remark11");
+            Set<String> menuIds = new HashSet<>();
+            menuIds.add("25");
+            updateReqVO.setMenuIds(menuIds);
+
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(updateReqVO);
+            mvc.perform(put("/admin/tenant-package/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002016003))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("名字为【" + updateReqVO.getName() + "】的租户套餐已存在"));
+        }
     }
+
 
     @Test
     @WithMockUser(username = "admin", authorities = {"sys:tenant-package:delete"})
@@ -251,15 +325,27 @@ public class TenantPackageControllerTests {
                 .andExpect(jsonPath("$.data[0].name").value("普通套餐"));
     }
 
-    private SysTenantPackagePO createTenantPackage() {
+    private SysTenantPackagePO createTenantPackage1() {
         SysTenantPackagePO tenantPackage = new SysTenantPackagePO();
-        tenantPackage.setName("test_tenant_name");
+        tenantPackage.setName("test_tenant_name1");
         tenantPackage.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        tenantPackage.setRemark("test_tenant_remark");
+        tenantPackage.setRemark("test_tenant_remark1");
         Set<String> menuIds = new HashSet<>();
         menuIds.add("1");
         menuIds.add("2");
         menuIds.add("5");
+        tenantPackage.setMenuIds(menuIds);
+        tenantPackageMapper.insert(tenantPackage);
+        return tenantPackage;
+    }
+
+    private SysTenantPackagePO createTenantPackage2() {
+        SysTenantPackagePO tenantPackage = new SysTenantPackagePO();
+        tenantPackage.setName("test_tenant_name2");
+        tenantPackage.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        tenantPackage.setRemark("test_tenant_remark2");
+        Set<String> menuIds = new HashSet<>();
+        menuIds.add("7");
         tenantPackage.setMenuIds(menuIds);
         tenantPackageMapper.insert(tenantPackage);
         return tenantPackage;
