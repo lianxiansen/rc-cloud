@@ -25,8 +25,12 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -581,30 +585,32 @@ public class DictDataControllerTests {
         }
     }
 
-
-    // 根据ID删除
-    @Test
-    @WithMockUser("admin")
-    public void deleteDictDataById_success() throws Exception {
-        DictDataCreateReqVO dictDataCreateReqVO = new DictDataCreateReqVO();
-        dictDataCreateReqVO.setSort(1);
-        dictDataCreateReqVO.setLabel("柔川");
-        dictDataCreateReqVO.setValue("rc");
-        dictDataCreateReqVO.setDictType("user_type");
-        dictDataCreateReqVO.setStatus(0);
-        dictDataCreateReqVO.setCssClass("success");
-        dictDataCreateReqVO.setRemark("备注");
-        String dictDataId = dictDataService.createDictData(dictDataCreateReqVO);
-        mvc.perform(delete("/admin/dict-data/" + dictDataId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 删除岗位相关测试
+     */
+    @Nested
+    class DeleteDictDataTests {
+        // 根据ID删除
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:delete"})
+        public void deleteDictDataById_success() throws Exception {
+            SysDictTypePO dictType = createDictType();
+            SysDictDataPO dictData = createDictData1(dictType.getType());
+            mvc.perform(delete("/admin/dict-data")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("[" + dictData.getId() + "]")
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+            SysDictDataPO dbDictDataPO = dictDataMapper.selectById(dictData.getId());
+            assertNull(dbDictDataPO);
+        }
     }
-
 
 
     private SysDictTypePO createDictType() {
