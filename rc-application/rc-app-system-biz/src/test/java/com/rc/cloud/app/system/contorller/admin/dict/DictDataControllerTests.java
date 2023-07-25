@@ -300,20 +300,33 @@ public class DictDataControllerTests {
         }
     }
 
-
-
-    @Test
-    @WithMockUser("admin")
-    public void listDictDataAllSimple_success() throws Exception {
-        mvc.perform(get("/admin/dict-data/list-all-simple"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data").isNotEmpty())
-                .andExpect(jsonPath("$.data[0].label").value("默认"));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 获取岗位简单列表相关测试
+     */
+    @Nested
+    class GetDictDataSimpleListTests {
+        @Test
+        @WithMockUser("admin")
+        public void listDictDataAllSimple_success() throws Exception {
+            SysDictTypePO dictType = createDictType();
+            SysDictDataPO dictData = createDictData(dictType.getType());
+            mvc.perform(get("/admin/dict-data/list-all-simple"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isArray())
+                    .andExpect(jsonPath("$.data").isNotEmpty())
+                    .andExpect(jsonPath("$.data[0].dictType").value(dictData.getDictType()))
+                    .andExpect(jsonPath("$.data[0].value").value(dictData.getValue()))
+                    .andExpect(jsonPath("$.data[0].label").value(dictData.getLabel()))
+                    .andExpect(jsonPath("$.data[0].colorType").value(dictData.getColorType()))
+                    .andExpect(jsonPath("$.data[0].cssClass").value(dictData.getCssClass()));
+        }
     }
+
 
     @Test
     @WithMockUser("admin")
@@ -389,6 +402,7 @@ public class DictDataControllerTests {
         dictData.setDictType(dictType);
         dictData.setStatus(CommonStatusEnum.ENABLE.getStatus());
         dictData.setCssClass("success");
+        dictData.setColorType("default");
         dictData.setRemark("备注");
         dictDataMapper.insert(dictData);
         return dictData;
