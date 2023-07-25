@@ -3,11 +3,9 @@ package com.rc.cloud.app.operate.application;
 import cn.hutool.json.JSONUtil;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
-import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
-import com.rc.cloud.app.operate.application.dto.ProductDictSaveDTO;
-import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
-import com.rc.cloud.app.operate.application.dto.ProductSkuSaveDTO;
+import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictDomainService;
@@ -16,6 +14,7 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.*;
 import com.rc.cloud.app.operate.infrastructure.repository.remote.TenantServiceImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
+import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Assertions;
@@ -26,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -42,6 +42,8 @@ import java.util.Objects;
         , ProductSkuRepositoryImpl.class
         , TenantServiceImpl.class
         , ProductDictRepositoryImpl.class
+        , BrandDomainService.class
+        , BrandRepositoryImpl.class
         , ProductDetailRepositoryImpl.class})
 public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
 
@@ -49,15 +51,11 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
     ProductApplicationService productApplicationService;
 
 
-
     @Autowired
     private IdRepository idRepository;
 
-
     @BeforeEach
     public void beforeEach() {
-        initStub();
-        initFixture();
     }
 
 
@@ -67,186 +65,176 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
 
         ProductSaveDTO productSaveDTO = createProductSaveDTO();
         ProductBO productBO = productApplicationService.createProduct(createProductSaveDTO());
-        int random = RandomUtils.randomInteger();
-        Assertions.assertTrue(Objects.nonNull(
-                productBO.getId()) , "创建失败");
-        Assertions.assertTrue(Objects.nonNull(
-                productBO.getDetail()!=null) , "创建失败");
-        Assertions.assertTrue(Objects.nonNull(
-                productBO.getSkus().size()==productSaveDTO.getSkus().size()) , "创建失败");
-    }
 
+        String id = productBO.getId();
 
-    @Test
-    @DisplayName("创建商品-字典为空")
-    public void createProductWhenDictIsNull() {
-        //Product product = new Product(new ProductId(idRepository.nextId()),new TenantId("test"),
-        //        new Name("aa"));
-        //when(productDomainServiceStub.createProduct(product)).thenReturn();
-        ProductSaveDTO productSaveDTO = createProductSaveDTO();
-        ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
-        Assertions.assertTrue(
-                productBO.getDicts()==null ||
-                        productBO.getDicts().size()==0
-                 , "创建失败");
+        ProductBO newProductBO = getProduct(id);
+        //校验是否相等
+        Assertions.assertEquals(productBO,newProductBO);
+
 
     }
 
-    @Test
-    @DisplayName("创建商品-详情为空")
-    public void createProductWhenDetailIsNull() {
-        //Product product = new Product(new ProductId(idRepository.nextId()),new TenantId("test"),
-        //        new Name("aa"));
-        //when(productDomainServiceStub.createProduct(product)).thenReturn();
-        ProductSaveDTO productSaveDTO = createProductSaveDTO();
-        productSaveDTO.setDetail(null);
-        ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
-        Assertions.assertTrue(
-                productBO.getDetail()==null
-                , "创建失败");
-
+    public ProductBO getProduct(String id){
+        ProductQueryDTO productQueryDTO=new ProductQueryDTO();
+        productQueryDTO.setProductId(id);
+        productQueryDTO.setNeedProductDetail(true);
+        productQueryDTO.setNeedProductDict(true);
+        productQueryDTO.setNeedProductSku(true);
+        ProductBO product = productApplicationService.getProduct(productQueryDTO);
+        return product;
     }
 
 
-    @Test
-    @DisplayName("创建商品-规格相册为空")
-    public void createProductWhenSkuAlbumsIsNull() {
 
-        ProductSaveDTO productSaveDTO = createProductSaveDTO();
-        productSaveDTO.getSkus().forEach(
-                x-> x.setAlbums(null)
-        );
-        ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
-        for (ProductSkuBO skus : productBO.getSkus()) {
-            Assertions.assertTrue(
-                    skus.getSkuImages()==null || skus.getSkuImages().size()==0
-                     , "创建失败");
+    private String attrbute[]= new String[]{
+            "颜色","尺寸"
+    };
+    private String attrbuteValue[][]= new String[][]{
+            new String[]{
+                    "红","黄","蓝"
+            },
+            new String[]{
+                    "X","XL","XLL"
+            }
+    };
+
+    private java.util.List<ProductAttributeSaveDTO> createProductAttribute(int randomNum){
+      //  int randomNum= RandomUtils.randomInteger()%3;
+        java.util.List<ProductAttributeSaveDTO> productAttributeSaveDTOS=new ArrayList<>();
+        for (int i = 0; i < randomNum; i++) {
+            for (int j = 0; j < attrbuteValue[i].length; j++) {
+                ProductAttributeSaveDTO productAttributeSaveDTO=new ProductAttributeSaveDTO();
+                productAttributeSaveDTO.setName(attrbute[i]);
+                productAttributeSaveDTO.setValue(attrbuteValue[i][j]);
+                productAttributeSaveDTO.setSort(i*j);
+                productAttributeSaveDTOS.add(productAttributeSaveDTO);
+            }
+
         }
-
+        return productAttributeSaveDTOS;
     }
 
+    private java.util.List<ProductSkuSaveDTO> createProductSku(int randomNum){
 
+        java.util.List<ProductSkuSaveDTO> skus = new ArrayList<>();
 
-    public void createSku(String productId){
-
-//        ProductSkuSaveDTO productSkuSaveDTO=new ProductSkuSaveDTO();
-//        productSkuSaveDTO.setProductId(productId);
+        if(randomNum==1){
+            for (int j = 0; j < attrbuteValue[0].length; j++) {
+                ProductSkuSaveDTO productSkuSaveDTO=new ProductSkuSaveDTO();
+                productSkuSaveDTO.setAlbums(createProductSkuImage(1));
+                List<ProductSkuAttributeSaveDTO>
+                        arrs= new ArrayList<>();
+                ProductSkuAttributeSaveDTO att=new ProductSkuAttributeSaveDTO();
+                att.setName(attrbute[0]);
+                att.setValue(attrbuteValue[0][j]);
+                att.setSort(j+1);
+                arrs.add(att);
+                productSkuSaveDTO.setAttributes(arrs);
+                productSkuSaveDTO.setInventory(RandomUtils.randomInteger());
+                productSkuSaveDTO.setSkuCode(RandomUtils.randomString());
+                productSkuSaveDTO.setSort(RandomUtils.randomInteger());
+                productSkuSaveDTO.setCartonSizeHeight(RandomUtils.randomInteger());
+                productSkuSaveDTO.setCartonSizeLength(RandomUtils.randomInteger());
+                productSkuSaveDTO.setCartonSizeWidth(RandomUtils.randomInteger());
+                productSkuSaveDTO.setPackingNumber(RandomUtils.randomInteger());
+                productSkuSaveDTO.setPrice("0.01");
+                productSkuSaveDTO.setSupplyPrice("0.01");
+                productSkuSaveDTO.setWeight("0.01");
+                productSkuSaveDTO.setEnabledFlag(true);
+                skus.add(productSkuSaveDTO);
+            }
+        }
+        if(randomNum==2){
+            for (int i = 0; i < attrbuteValue[0].length; i++) {
+                for (int j = 0; j < attrbuteValue[1].length; j++) {
+                    ProductSkuSaveDTO productSkuSaveDTO=new ProductSkuSaveDTO();
+                    productSkuSaveDTO.setAlbums(createProductSkuImage(1));
+                    List<ProductSkuAttributeSaveDTO>
+                            arrs= new ArrayList<>();
+                    ProductSkuAttributeSaveDTO att1=new ProductSkuAttributeSaveDTO();
+                    att1.setName(attrbute[0]);
+                    att1.setValue(attrbuteValue[0][i]);
+                    att1.setSort(i*j+1);
+                    arrs.add(att1);
+                    ProductSkuAttributeSaveDTO att2=new ProductSkuAttributeSaveDTO();
+                    att2.setName(attrbute[1]);
+                    att2.setValue(attrbuteValue[1][j]);
+                    att2.setSort(i*j+1);
+                    arrs.add(att2);
+                    productSkuSaveDTO.setAttributes(arrs);
+                    productSkuSaveDTO.setInventory(RandomUtils.randomInteger());
+                    productSkuSaveDTO.setSkuCode(RandomUtils.randomString());
+                    productSkuSaveDTO.setSort(RandomUtils.randomInteger());
+                    productSkuSaveDTO.setCartonSizeHeight(RandomUtils.randomInteger());
+                    productSkuSaveDTO.setCartonSizeLength(RandomUtils.randomInteger());
+                    productSkuSaveDTO.setCartonSizeWidth(RandomUtils.randomInteger());
+                    productSkuSaveDTO.setPackingNumber(RandomUtils.randomInteger());
+                    productSkuSaveDTO.setPrice("0.01");
+                    productSkuSaveDTO.setSupplyPrice("0.01");
+                    productSkuSaveDTO.setWeight("0.01");
+                    productSkuSaveDTO.setEnabledFlag(true);
+                    skus.add(productSkuSaveDTO);
+                }
+            }
+        }
+        return skus;
     }
 
-    private void initStub() {
-
+    private List<ProductImageSaveDTO>  createProductImage(int randomNum){
+        List<ProductImageSaveDTO> productImageSaveDTOList =new ArrayList<>();
+        for (int i = 0; i < randomNum; i++) {
+            ProductImageSaveDTO productImageSaveDTO=new ProductImageSaveDTO();
+            productImageSaveDTO.setUrl("http://"+ RandomUtils.randomString());
+            productImageSaveDTO.setSort(i+1);
+            productImageSaveDTOList.add(productImageSaveDTO);
+        }
+        return productImageSaveDTOList;
     }
-    private void initFixture() {
-        TenantContext.setTenantId("test");
 
-
+    private List<ProductSkuImageSaveDTO>  createProductSkuImage(int randomNum){
+        List<ProductSkuImageSaveDTO> productSkuImageSaveDTOList =new ArrayList<>();
+        for (int i = 0; i < randomNum; i++) {
+            ProductSkuImageSaveDTO productSkuImageSaveDTO=new ProductSkuImageSaveDTO();
+            productSkuImageSaveDTO.setUrl("http://"+ RandomUtils.randomString());
+            productSkuImageSaveDTO.setSort(i+1);
+            productSkuImageSaveDTOList.add(productSkuImageSaveDTO);
+        }
+        return productSkuImageSaveDTOList;
     }
 
 
     private ProductSaveDTO createProductSaveDTO(){
         ProductSaveDTO productSaveDTO=new ProductSaveDTO();
-        productSaveDTO.setName("优生活香水洗衣液持久留香柔顺护色机洗手洗天然家庭装");
-        String v="[\n" +
-                "      {\"name\":\"颜色\",\"value\":\"红\",\"sort\":1},\n" +
-                "      {\"name\":\"颜色\",\"value\":\"蓝\",\"sort\":3},\n" +
-                "      {\"name\":\"尺寸\",\"value\":\"X\",\"sort\":4},\n" +
-                "      {\"name\":\"尺寸\",\"value\":\"XL\",\"sort\":5}\n" +
-                "  ]";
-        java.util.List<ProductAttributeSaveDTO> productAttributeSaveDTOS = JSONUtil.toList(v, ProductAttributeSaveDTO.class);
+        productSaveDTO.setName(RandomUtils.randomString());
+        int randomNum= RandomUtils.randomInteger()%2+1;
+
+        java.util.List<ProductAttributeSaveDTO> productAttributeSaveDTOS =
+                createProductAttribute(randomNum);
         productSaveDTO.setAttributes(productAttributeSaveDTOS);
 
-        String images="[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
-                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}]";
-
-        productSaveDTO.setBrandId("1234567");
-        productSaveDTO.setEnableFlag(true);
-        productSaveDTO.setCustomClassificationId("1234");
-
-        java.util.List<ProductSkuSaveDTO> skus = new ArrayList<>();
-        String sku1="{\n" +
-                "     \"skuCode\":\"001\",\n" +
-                "     \"price\":\"12\",\n" +
-                "     \"supplyPrice\":\"12\",\n" +
-                "     \"weight\":\"1\",\n" +
-                "     \"enabledFlag\":\"true\",\n" +
-                "     \"albums\":[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
-                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}],\n" +
-                "     \"attributes\":[{\"name\":\"颜色\",\"value\":\"红\",\"sort\":9},{\"name\":\"尺寸\",\"value\":\"X\",\"sort\":9}],\n" +
-                "     \"inventory\":99,\n" +
-                "     \"sort\":99,\n" +
-                "\n" +
-                "     }";
-        ProductSkuSaveDTO productSkuSaveDTO1 = JSONUtil.toBean(sku1, ProductSkuSaveDTO.class);
-        skus.add(productSkuSaveDTO1);
-
-        String sku2="{\n" +
-                "     \"skuCode\":\"002\",\n" +
-                "     \"price\":\"12\",\n" +
-                "     \"supplyPrice\":\"12\",\n" +
-                "     \"weight\":\"1\",\n" +
-                "     \"enabledFlag\":\"true\",\n" +
-                "     \"albums\":[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
-                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}],\n" +
-                "     \"attributes\":[{\"name\":\"颜色\",\"value\":\"蓝\",\"sort\":9},{\"name\":\"尺寸\",\"value\":\"X\",\"sort\":9}],\n" +
-                "     \"inventory\":99,\n" +
-                "     \"sort\":99,\n" +
-                "\n" +
-                "     }";
-        ProductSkuSaveDTO productSkuSaveDTO2 = JSONUtil.toBean(sku2, ProductSkuSaveDTO.class);
-        skus.add(productSkuSaveDTO2);
-
-        String sku3="{\n" +
-                "     \"skuCode\":\"003\",\n" +
-                "     \"price\":\"12\",\n" +
-                "     \"supplyPrice\":\"12\",\n" +
-                "     \"weight\":\"1\",\n" +
-                "     \"enabledFlag\":\"true\",\n" +
-                "     \"albums\":[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
-                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}],\n" +
-                "     \"attributes\":[{\"name\":\"颜色\",\"value\":\"红\",\"sort\":9},{\"name\":\"尺寸\",\"value\":\"XL\",\"sort\":9}],\n" +
-                "     \"inventory\":99,\n" +
-                "     \"sort\":99,\n" +
-                "\n" +
-                "     }";
-        ProductSkuSaveDTO productSkuSaveDTO3 = JSONUtil.toBean(sku3, ProductSkuSaveDTO.class);
-        skus.add(productSkuSaveDTO3);
-
-        String sku4="{\n" +
-                "     \"skuCode\":\"004\",\n" +
-                "     \"price\":\"12\",\n" +
-                "     \"supplyPrice\":\"12\",\n" +
-                "     \"weight\":\"1\",\n" +
-                "     \"enabledFlag\":\"true\",\n" +
-                "     \"albums\":[{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":1}\n" +
-                "     ,{\"url\":\"https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg\",\"sort\":2}],\n" +
-                "     \"attributes\":[{\"name\":\"颜色\",\"value\":\"蓝\",\"sort\":9},{\"name\":\"尺寸\",\"value\":\"XL\",\"sort\":9}],\n" +
-                "     \"inventory\":99,\n" +
-                "     \"sort\":99,\n" +
-                "\n" +
-                "     }";
-        ProductSkuSaveDTO productSkuSaveDTO4 = JSONUtil.toBean(sku4, ProductSkuSaveDTO.class);
-        skus.add(productSkuSaveDTO4);
-
-        productSaveDTO.setSkus(skus);
+        List<ProductImageSaveDTO> productImage = createProductImage(randomNum);
+        productSaveDTO.setMasterAlbums(productImage);
+        productSaveDTO.setSizeAlbums(productImage);
+        productSaveDTO.setBrandId(RandomUtils.randomString());
+        productSaveDTO.setCustomClassificationId(RandomUtils.randomString());
+        productSaveDTO.setSkus(createProductSku(randomNum));
 
         productSaveDTO.setExplosivesFlag(true);
-        productSaveDTO.setExplosivesImage("https://cbu01.alicdn.com/img/ibank/2019/004/218/10888812400_1788414178.jpg");
-
+        productSaveDTO.setExplosivesImage("https://"+RandomUtils.randomString());
         productSaveDTO.setFirstCategory("家居用品");
         productSaveDTO.setSecondCategory("日用百货");
         productSaveDTO.setThirdCategory("清洁洗剂");
-        productSaveDTO.setVideoImg("https://cbu01.alicdn.com/img/ibank/2019/423/040/10889040324_1788414178.jpg");
-        productSaveDTO.setVideoUrl("https://cbu01.alicdn.com/img/ibank/2019/423/040/10889040324_1788414178.jpg");
-        productSaveDTO.setInstallVideoImg("https://cbu01.alicdn.com/img/ibank/2019/423/040/10889040324_1788414178.jpg");
-        productSaveDTO.setInstallVideoUrl("https://cbu01.alicdn.com/img/ibank/2019/423/040/10889040324_1788414178.jpg");
-
+        productSaveDTO.setVideoImg("https://"+RandomUtils.randomString());
+        productSaveDTO.setVideoUrl("https://"+RandomUtils.randomString());
+        productSaveDTO.setInstallVideoImg("https://"+RandomUtils.randomString());
+        productSaveDTO.setInstallVideoUrl("https://"+RandomUtils.randomString());
         productSaveDTO.setPublicFlag(true);
         productSaveDTO.setRecommendFlag(true);
         productSaveDTO.setNewFlag(true);
-        productSaveDTO.setTag("优生活,香水,洗衣液");
-
+        productSaveDTO.setTag(RandomUtils.randomString()+","+RandomUtils.randomString());
         productSaveDTO.setTenantId("001");
-        productSaveDTO.setDetail("sadfdsafasdfasdfasdfsdf");
+        productSaveDTO.setDetail(RandomUtils.randomString());
         return productSaveDTO;
     }
 

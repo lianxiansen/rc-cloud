@@ -74,7 +74,7 @@ public class DictDataServiceImpl implements DictDataService {
     @Override
     public String createDictData(DictDataCreateReqVO reqVO) {
         // 校验正确性
-        validateDictDataForCreateOrUpdate(null, reqVO.getValue(), reqVO.getDictType());
+        validateDictDataForCreateOrUpdate(null, reqVO.getValue(), reqVO.getLabel(), reqVO.getDictType());
 
         // 插入字典类型
         SysDictDataPO dictData = DictDataConvert.INSTANCE.convert(reqVO);
@@ -85,7 +85,7 @@ public class DictDataServiceImpl implements DictDataService {
     @Override
     public void updateDictData(DictDataUpdateReqVO reqVO) {
         // 校验正确性
-        validateDictDataForCreateOrUpdate(reqVO.getId(), reqVO.getValue(), reqVO.getDictType());
+        validateDictDataForCreateOrUpdate(reqVO.getId(), reqVO.getValue(), reqVO.getLabel(), reqVO.getDictType());
 
         // 更新字典类型
         SysDictDataPO updateObj = DictDataConvert.INSTANCE.convert(reqVO);
@@ -106,13 +106,29 @@ public class DictDataServiceImpl implements DictDataService {
         return dictDataMapper.selectCountByDictType(dictType);
     }
 
-    private void validateDictDataForCreateOrUpdate(String id, String value, String dictType) {
+    private void validateDictDataForCreateOrUpdate(String id, String value, String label, String dictType) {
         // 校验自己存在
         validateDictDataExists(id);
         // 校验字典类型有效
         validateDictTypeExists(dictType);
         // 校验字典数据的值的唯一性
         validateDictDataValueUnique(id, dictType, value);
+        // 校验字典数据的标签的唯一性
+        validateDictDataLabelUnique(id, dictType, label);
+    }
+
+    private void validateDictDataLabelUnique(String id, String dictType, String label) {
+        SysDictDataPO dictData = dictDataMapper.selectByDictTypeAndLabel(dictType, label);
+        if (dictData == null) {
+            return;
+        }
+        // 如果 id 为空，说明不用比较是否为相同 id 的字典数据
+        if (id == null) {
+            throw exception(DICT_DATA_LABEL_DUPLICATE);
+        }
+        if (!dictData.getId().equals(id)) {
+            throw exception(DICT_DATA_LABEL_DUPLICATE);
+        }
     }
 
     /**

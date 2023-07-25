@@ -10,7 +10,7 @@ import com.rc.cloud.common.core.util.AssertUtils;
  * @ClassName: ProductRecommend
  * @Author: liandy
  * @Date: 2023/7/8 16:26
- * @Description: 产品组合
+ * @Description: 产品推荐
  */
 public class ProductRecommend extends AggregateRoot {
     private ProductRecommendId id;

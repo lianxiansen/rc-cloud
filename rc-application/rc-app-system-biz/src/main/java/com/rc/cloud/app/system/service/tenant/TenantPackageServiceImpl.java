@@ -3,6 +3,7 @@ package com.rc.cloud.app.system.service.tenant;
 import cn.hutool.core.collection.CollUtil;
 import com.rc.cloud.app.system.convert.tenant.TenantPackageConvert;
 import com.rc.cloud.app.system.mapper.tenant.TenantPackageMapper;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.model.tenant.SysTenantPO;
 import com.rc.cloud.app.system.model.tenant.SysTenantPackagePO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;
@@ -39,6 +40,8 @@ public class TenantPackageServiceImpl implements TenantPackageService {
 
     @Override
     public String createTenantPackage(TenantPackageCreateReqVO createReqVO) {
+        // 校验重复
+        validateForCreateOrUpdate(null, createReqVO.getName());
         // 插入
         SysTenantPackagePO tenantPackage = TenantPackageConvert.INSTANCE.convert(createReqVO);
         tenantPackageMapper.insert(tenantPackage);
@@ -46,11 +49,34 @@ public class TenantPackageServiceImpl implements TenantPackageService {
         return tenantPackage.getId();
     }
 
+    private void validateForCreateOrUpdate(String id, String name) {
+        // 校验自己存在
+        validateTenantPackageExists(id);
+        // 校验重复
+        validateTenantPackageNameUnique(id, name);
+    }
+
+    private void validateTenantPackageNameUnique(String id, String name) {
+        SysTenantPackagePO sysTenantPackagePO = tenantPackageMapper.selectByName(name);
+        if (sysTenantPackagePO == null) {
+            return;
+        }
+        // 如果 id 为空，说明不用比较是否为相同 id 的租户套餐
+        if (id == null) {
+            throw exception(TENANT_PACKAGE_NAME_DUPLICATE, name);
+        }
+        if (!sysTenantPackagePO.getId().equals(id)) {
+            throw exception(TENANT_PACKAGE_NAME_DUPLICATE, name);
+        }
+    }
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateTenantPackage(TenantPackageUpdateReqVO updateReqVO) {
         // 校验存在
-        SysTenantPackagePO tenantPackage = validateTenantPackageExists(updateReqVO.getId());
+        SysTenantPackagePO tenantPackage = tenantPackageMapper.selectById(updateReqVO.getId());
+        // 校验重复
+        validateForCreateOrUpdate(updateReqVO.getId(), updateReqVO.getName());
         // 更新
         SysTenantPackagePO updateObj = TenantPackageConvert.INSTANCE.convert(updateReqVO);
         tenantPackageMapper.updateById(updateObj);
@@ -71,12 +97,15 @@ public class TenantPackageServiceImpl implements TenantPackageService {
         tenantPackageMapper.deleteById(id);
     }
 
-    private SysTenantPackagePO validateTenantPackageExists(String id) {
+    private void validateTenantPackageExists(String id) {
+        if (id == null) {
+            return;
+        }
+
         SysTenantPackagePO tenantPackage = tenantPackageMapper.selectById(id);
         if (tenantPackage == null) {
             throw exception(TENANT_PACKAGE_NOT_EXISTS);
         }
-        return tenantPackage;
     }
 
     private void validateTenantUsed(String id) {

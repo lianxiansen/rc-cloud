@@ -36,7 +36,7 @@ import java.util.Set;
  * @ClassName: ProductService
  * @Author: liandy
  * @Date: 2023/6/23 15:51
- * @Description: TODO
+ * @Description:
  */
 @Service
 public class ProductApplicationService {
@@ -70,6 +70,7 @@ public class ProductApplicationService {
 
     /**
      * 创建商品
+     *
      *
      * @param productSaveDTO
      * @return

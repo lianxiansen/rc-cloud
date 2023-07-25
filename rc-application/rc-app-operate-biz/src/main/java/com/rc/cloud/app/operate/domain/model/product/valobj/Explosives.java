@@ -1,6 +1,8 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 
+import com.rc.cloud.common.core.domain.AbstractId;
+import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.AssertUtils;
 
@@ -10,7 +12,7 @@ import com.rc.cloud.common.core.util.AssertUtils;
  * @Date: 2023/6/26 13:43
  * @Description: 超级单品
  */
-public class Explosives extends ValueObject{
+public class Explosives extends Entity {
     /**
      * 是否是超级单品 0否，1是
      */
@@ -21,6 +23,12 @@ public class Explosives extends ValueObject{
     private Url image;
     public Explosives(){
         this.flag = false;
+        this.image=new Url("");
+    }
+
+    @Override
+    public AbstractId getId() {
+        return null;
     }
 
     public Explosives(boolean flag,Url image){

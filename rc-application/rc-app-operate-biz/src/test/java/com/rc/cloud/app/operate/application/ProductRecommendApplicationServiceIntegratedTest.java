@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.application;
 
 import com.rc.cloud.app.operate.application.bo.ProductRecommendBO;
 import com.rc.cloud.app.operate.application.dto.ProductRecommendCreateDTO;
-import com.rc.cloud.app.operate.application.service.ProductRecommendApplicationService;
+import com.rc.cloud.app.operate.application.service.impl.ProductRecommendApplicationServiceImpl;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
@@ -10,6 +10,7 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommend;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendDomainService;
+import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendDomainServiceImpl;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendRepository;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -39,12 +40,12 @@ import java.util.Objects;
 import static org.mockito.Mockito.when;
 
 
-@Import({ProductRecommendApplicationService.class, ProductRecommendDomainService.class, LocalIdRepositoryImpl.class, ProductRecommendRepositoryImpl.class, ProductDomainService.class})
+@Import({ProductRecommendApplicationServiceImpl.class, ProductRecommendDomainServiceImpl.class, LocalIdRepositoryImpl.class, ProductRecommendRepositoryImpl.class, ProductDomainService.class})
 @ExtendWith({SpringExtension.class})
 @DisplayName("产品推荐应用服务集成测试")
 public class ProductRecommendApplicationServiceIntegratedTest extends BaseDbUnitTest {
     @Autowired
-    private ProductRecommendApplicationService productRecommendApplicationService;
+    private ProductRecommendApplicationServiceImpl productRecommendApplicationService;
     @MockBean
     private ProductRepository productRepositoryStub;
     @Autowired

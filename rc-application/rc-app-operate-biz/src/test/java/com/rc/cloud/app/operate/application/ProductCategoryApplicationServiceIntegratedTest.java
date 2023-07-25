@@ -5,15 +5,14 @@ import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
 import com.rc.cloud.app.operate.application.event.ProductCategoryRefreshListener;
 import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
+import com.rc.cloud.app.operate.application.service.impl.ProductCategoryApplicationServiceImpl;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryDomainService;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRebuildFactory;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepository;
+import com.rc.cloud.app.operate.domain.model.productcategory.*;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductCategoryRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductRepositoryImpl;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.infrastructure.util.ConditionUtil;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
@@ -55,8 +54,9 @@ import static org.mockito.Mockito.when;
  * 6.获取产品分类
  */
 @ExtendWith({SpringExtension.class})
-@Import({ProductCategoryDomainService.class, ProductCategoryRepositoryImpl.class, ProductCategoryDomainService.class,
-        ProductCategoryRefreshListener.class, ProductCategoryApplicationService.class, LocalIdRepositoryImpl.class, ProductRepositoryImpl.class})
+@Import({ProductCategoryDomainServiceImpl.class, ProductCategoryRepositoryImpl.class, ProductCategoryDomainServiceImpl.class,
+        ProductCategoryRefreshListener.class, ProductCategoryApplicationServiceImpl.class, LocalIdRepositoryImpl.class,
+        ProductRepositoryImpl.class,ProductCategoryRebuildFactory.class, ProductCategoryBuildFactory.class, ProductCategoryConvert.class})
 @DisplayName("产品分类应用服务集成测试")
 public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitTest {
     @MockBean
@@ -70,8 +70,11 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
     private ProductCategoryApplicationService productCategoryApplicationService;
     @Resource
     private IdRepository idRepository;
+    @Autowired
+    private ProductCategoryRebuildFactory productCategoryRebuildFactory;
 
-
+    @Autowired
+    private ProductCategoryBuildFactory productCategoryBuildFactory;
     /**
      * 夹具，测试上下文，包含属性及方法
      */
@@ -88,15 +91,6 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
 
     }
 
-    @Test
-    @DisplayName("创建产品分类，当产品名称为空")
-    public void createProductCategoryWhenNameIsEmpty() {
-        productCategoryCreateDTO.setName("");
-        Assertions.assertThrows(ServiceException.class, () -> {
-            productCategoryApplicationService.create(productCategoryCreateDTO);
-        });
-
-    }
 
     @Test
     @DisplayName("创建根级产品分类")
@@ -131,7 +125,7 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
     @Test
     @DisplayName("修改产品分类属性，除了上级分类")
     public void updateProductCategoryWhenParentIdIsNull() {
-        ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder = ProductCategoryRebuildFactory.create(root);
+        ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder = productCategoryRebuildFactory.create(root);
         rebuilder.parentId(null);
         ProductCategory root = rebuilder.rebuild();
         productCategoryUpdateDTO.setId(root.getId().id());

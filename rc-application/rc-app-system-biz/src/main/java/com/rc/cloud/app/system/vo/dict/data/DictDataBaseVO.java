@@ -3,9 +3,7 @@ package com.rc.cloud.app.system.vo.dict.data;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 /**
  * @author rc@hqf
@@ -38,6 +36,7 @@ public class DictDataBaseVO {
     @Size(max = 100, message = "字典类型长度不能超过100个字符")
     private String dictType;
 
+    @SuppressWarnings("checkstyle:magicnumber")
     @Schema(description = "状态,见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     @NotNull(message = "状态不能为空")
     private Integer status;

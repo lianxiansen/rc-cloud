@@ -5,10 +5,7 @@ import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupDomainService;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupItem;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
+import com.rc.cloud.app.operate.domain.model.productgroup.*;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
@@ -31,7 +28,7 @@ import java.util.Objects;
 
 import static org.mockito.Mockito.when;
 
-@Import({ProductGroupDomainService.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
+@Import({ProductGroupDomainServiceImpl.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
 @DisplayName("产品组合服务单元测试")
 public class ProductGroupServiceUnitTest extends SpringMockitoUnitTest {
 

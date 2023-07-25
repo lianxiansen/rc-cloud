@@ -9,6 +9,7 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.Pro
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductCategoryPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
@@ -29,10 +30,12 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     @Resource
     private ProductMapper productMapper;
 
+    @Autowired
+    private ProductCategoryConvert productCategoryConvert;
     @Override
     public ProductCategory findById(ProductCategoryId productCategoryId) {
         ProductCategoryPO productCategoryPO = this.productCategoryMapper.selectById((Serializable) productCategoryId.id());
-        return ProductCategoryConvert.convert2ProductCategory(productCategoryPO);
+        return productCategoryConvert.convert2ProductCategory(productCategoryPO);
     }
 
     @Override
@@ -41,14 +44,14 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
         List<ProductCategoryPO> list = this.productCategoryMapper.selectList(wrapper);
         List<ProductCategory> resultList=new ArrayList<>();
         list.forEach(productCategoryPO ->{
-            resultList.add(ProductCategoryConvert.convert2ProductCategory(productCategoryPO));
+            resultList.add(productCategoryConvert.convert2ProductCategory(productCategoryPO));
         });
         return resultList;
     }
 
     @Override
     public boolean save(ProductCategory productCategory) {
-        ProductCategoryPO po = ProductCategoryConvert.convert2ProductCategoryDO(productCategory);
+        ProductCategoryPO po = productCategoryConvert.convert2ProductCategoryDO(productCategory);
         String idVal = productCategory.getId().id();
         return !StringUtils.checkValNull(idVal) && !Objects.isNull(productCategoryMapper.selectById((Serializable) idVal)) ? productCategoryMapper.updateById(po) > 0 : productCategoryMapper.insert(po) > 0;
     }

@@ -1,9 +1,9 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
 import com.rc.cloud.app.operate.appearance.admin.res.ProductGroupItemResponse;
+import com.rc.cloud.app.operate.appearance.admin.res.ProductGroupResponse;
 import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductGroupConvert;
 import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductGroupItemConvert;
-import com.rc.cloud.app.operate.appearance.admin.res.ProductGroupResponse;
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
 import com.rc.cloud.app.operate.application.bo.ProductGroupItemBO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;

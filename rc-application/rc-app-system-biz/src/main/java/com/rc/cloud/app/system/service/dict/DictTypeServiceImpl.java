@@ -72,7 +72,7 @@ public class DictTypeServiceImpl implements DictTypeService {
     @Override
     public void updateDictType(DictTypeUpdateReqVO reqVO) {
         // 校验正确性
-        validateDictTypeForCreateOrUpdate(reqVO.getId(), reqVO.getName(), null);
+        validateDictTypeForCreateOrUpdate(reqVO.getId(), reqVO.getName(), reqVO.getType());
 
         // 更新字典类型
         SysDictTypePO updateObj = DictTypeConvert.INSTANCE.convert(reqVO);

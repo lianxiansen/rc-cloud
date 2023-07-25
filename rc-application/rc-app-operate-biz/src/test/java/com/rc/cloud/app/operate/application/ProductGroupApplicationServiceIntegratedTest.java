@@ -5,12 +5,14 @@ import com.rc.cloud.app.operate.application.bo.ProductGroupItemBO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
 import com.rc.cloud.app.operate.application.service.ProductGroupApplicationService;
+import com.rc.cloud.app.operate.application.service.impl.ProductGroupApplicationServiceImpl;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupDomainService;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupDomainServiceImpl;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -40,7 +42,7 @@ import java.util.Objects;
 import static org.mockito.Mockito.when;
 
 
-@Import({ProductGroupApplicationService.class, ProductGroupDomainService.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
+@Import({ProductGroupApplicationServiceImpl.class, ProductGroupDomainServiceImpl.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
 @ExtendWith({SpringExtension.class})
 @DisplayName("产品组合集成测试")
 public class ProductGroupApplicationServiceIntegratedTest extends BaseDbUnitTest {
