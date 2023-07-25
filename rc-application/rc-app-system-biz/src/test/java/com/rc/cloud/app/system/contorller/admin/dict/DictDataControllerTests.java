@@ -220,7 +220,7 @@ public class DictDataControllerTests {
         @WithMockUser(username = "admin", authorities = {"sys:dict:create"})
         public void createDictData_valueDuplicate() throws Exception {
             SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData(dictType.getType());
+            SysDictDataPO dictData = createDictData1(dictType.getType());
             DictDataCreateReqVO dictDataCreateReqVO = new DictDataCreateReqVO();
             dictDataCreateReqVO.setSort(1);
             dictDataCreateReqVO.setLabel("柔川");
@@ -248,7 +248,7 @@ public class DictDataControllerTests {
         @WithMockUser(username = "admin", authorities = {"sys:dict:create"})
         public void createDictData_labelDuplicate() throws Exception {
             SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData(dictType.getType());
+            SysDictDataPO dictData = createDictData1(dictType.getType());
             DictDataCreateReqVO dictDataCreateReqVO = new DictDataCreateReqVO();
             dictDataCreateReqVO.setSort(1);
             dictDataCreateReqVO.setLabel(dictData.getLabel());
@@ -284,7 +284,7 @@ public class DictDataControllerTests {
         @WithMockUser(value = "admin", authorities = {"sys:dict:query"})
         public void getDictDataById_success() throws Exception {
             SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData(dictType.getType());
+            SysDictDataPO dictData = createDictData1(dictType.getType());
             mvc.perform(get("/admin/dict-data/" + dictData.getId()))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -311,7 +311,7 @@ public class DictDataControllerTests {
         @WithMockUser("admin")
         public void listDictDataAllSimple_success() throws Exception {
             SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData(dictType.getType());
+            SysDictDataPO dictData = createDictData1(dictType.getType());
             mvc.perform(get("/admin/dict-data/list-all-simple"))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -339,7 +339,7 @@ public class DictDataControllerTests {
         @WithMockUser(username = "admin", authorities = {"sys:dict:query"})
         public void getDictDataPage_success() throws Exception {
             SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData(dictType.getType());
+            SysDictDataPO dictData = createDictData1(dictType.getType());
             mvc.perform(get("/admin/dict-data/page"))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -359,33 +359,228 @@ public class DictDataControllerTests {
         }
     }
 
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 更新岗位相关测试
+     */
+    @Nested
+    class UpdateDictDataTests {
+        // happy path: 更新成功
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictData_success() throws Exception {
+            SysDictTypePO dictType = createDictType();
+            SysDictDataPO dictData = createDictData1(dictType.getType());
+            DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
+            dictDataUpdateReqVO.setId(dictData.getId());
+            dictDataUpdateReqVO.setSort(34);
+            dictDataUpdateReqVO.setLabel("柔川123123");
+            dictDataUpdateReqVO.setValue("cddgdg");
+            dictDataUpdateReqVO.setDictType(dictType.getType());
+            dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            dictDataUpdateReqVO.setCssClass("error");
+            dictDataUpdateReqVO.setRemark("备注123");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictDataUpdateReqVO);
+            mvc.perform(put("/admin/dict-data/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+            SysDictDataPO dbDictDataPO = dictDataMapper.selectById(dictData.getId());
+            assertNotNull(dbDictDataPO);
+            assertEquals(dictDataUpdateReqVO.getDictType(), dbDictDataPO.getDictType());
+            assertEquals(dictDataUpdateReqVO.getLabel(), dbDictDataPO.getLabel());
+            assertEquals(dictDataUpdateReqVO.getValue(), dbDictDataPO.getValue());
+            assertEquals(dictDataUpdateReqVO.getSort(), dbDictDataPO.getSort());
+            assertEquals(dictDataUpdateReqVO.getCssClass(), dbDictDataPO.getCssClass());
+            assertEquals(dictDataUpdateReqVO.getStatus(), dbDictDataPO.getStatus());
+            assertEquals(dictDataUpdateReqVO.getRemark(), dbDictDataPO.getRemark());
+        }
 
+        // sad path1: 字典类型不存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictData_dictTypeNotExist() throws Exception {
+            SysDictTypePO dictType = createDictType();
+            SysDictDataPO dictData = createDictData1(dictType.getType());
+            DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
+            dictDataUpdateReqVO.setId(dictData.getId());
+            dictDataUpdateReqVO.setSort(34);
+            dictDataUpdateReqVO.setLabel("柔川123123");
+            dictDataUpdateReqVO.setValue("cddgdg");
+            dictDataUpdateReqVO.setDictType("not_exist");
+            dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            dictDataUpdateReqVO.setCssClass("warming");
+            dictDataUpdateReqVO.setRemark("备注123");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictDataUpdateReqVO);
+            mvc.perform(put("/admin/dict-data/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002006001))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("当前字典类型不存在"));
+        }
 
-    @Test
-    @WithMockUser("admin")
-    public void updateDictData_success() throws Exception {
-        DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
-        dictDataUpdateReqVO.setId("1");
-        dictDataUpdateReqVO.setSort(1);
-        dictDataUpdateReqVO.setLabel("柔川");
-        dictDataUpdateReqVO.setValue("rc");
-        dictDataUpdateReqVO.setDictType("user_type");
-        dictDataUpdateReqVO.setStatus(0);
-        dictDataUpdateReqVO.setCssClass("success");
-        dictDataUpdateReqVO.setRemark("备注");
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(dictDataUpdateReqVO);
-        mvc.perform(put("/admin/dict-data/update")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
+        // sad path2: 字典类型为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictData_dictTypeEmpty() throws Exception {
+            SysDictTypePO dictType = createDictType();
+            SysDictDataPO dictData = createDictData1(dictType.getType());
+            DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
+            dictDataUpdateReqVO.setId(dictData.getId());
+            dictDataUpdateReqVO.setSort(34);
+            dictDataUpdateReqVO.setLabel("柔川123123");
+            dictDataUpdateReqVO.setValue("cddgdg");
+            dictDataUpdateReqVO.setDictType("");
+            dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            dictDataUpdateReqVO.setCssClass("warming");
+            dictDataUpdateReqVO.setRemark("备注123");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictDataUpdateReqVO);
+            mvc.perform(put("/admin/dict-data/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:字典类型不能为空"));
+        }
+
+        // sad path3: 字典数据label为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictData_labelEmpty() throws Exception {
+            SysDictTypePO dictType = createDictType();
+            SysDictDataPO dictData = createDictData1(dictType.getType());
+            DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
+            dictDataUpdateReqVO.setId(dictData.getId());
+            dictDataUpdateReqVO.setSort(34);
+            dictDataUpdateReqVO.setLabel("");
+            dictDataUpdateReqVO.setValue("cddgdg");
+            dictDataUpdateReqVO.setDictType(dictType.getType());
+            dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            dictDataUpdateReqVO.setCssClass("warming");
+            dictDataUpdateReqVO.setRemark("备注123");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictDataUpdateReqVO);
+            mvc.perform(put("/admin/dict-data/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:字典标签不能为空"));
+        }
+
+        // sad path4: 字典数据value为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictData_valueEmpty() throws Exception {
+            SysDictTypePO dictType = createDictType();
+            SysDictDataPO dictData = createDictData1(dictType.getType());
+            DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
+            dictDataUpdateReqVO.setId(dictData.getId());
+            dictDataUpdateReqVO.setSort(34);
+            dictDataUpdateReqVO.setLabel("柔川123123");
+            dictDataUpdateReqVO.setValue("");
+            dictDataUpdateReqVO.setDictType(dictType.getType());
+            dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            dictDataUpdateReqVO.setCssClass("warming");
+            dictDataUpdateReqVO.setRemark("备注123");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictDataUpdateReqVO);
+            mvc.perform(put("/admin/dict-data/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:字典键值不能为空"));
+        }
+
+        // sad path5: 字典数据value重复
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictData_valueDuplicate() throws Exception {
+            SysDictTypePO dictType = createDictType();
+            SysDictDataPO dictData1 = createDictData1(dictType.getType());
+            SysDictDataPO dictData2 = createDictData2(dictType.getType());
+            DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
+            dictDataUpdateReqVO.setId(dictData1.getId());
+            dictDataUpdateReqVO.setSort(34);
+            dictDataUpdateReqVO.setLabel("柔川123123");
+            dictDataUpdateReqVO.setValue(dictData2.getValue());
+            dictDataUpdateReqVO.setDictType(dictType.getType());
+            dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            dictDataUpdateReqVO.setCssClass("warming");
+            dictDataUpdateReqVO.setRemark("备注123");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictDataUpdateReqVO);
+            mvc.perform(put("/admin/dict-data/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002007003))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("已经存在该值的字典数据"));
+        }
+
+        // sad path6: 字典数据label重复
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictData_labelDuplicate() throws Exception {
+            SysDictTypePO dictType = createDictType();
+            SysDictDataPO dictData1 = createDictData1(dictType.getType());
+            SysDictDataPO dictData2 = createDictData2(dictType.getType());
+            DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
+            dictDataUpdateReqVO.setId(dictData1.getId());
+            dictDataUpdateReqVO.setSort(34);
+            dictDataUpdateReqVO.setLabel(dictData2.getLabel());
+            dictDataUpdateReqVO.setValue("cddgdg");
+            dictDataUpdateReqVO.setDictType(dictType.getType());
+            dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            dictDataUpdateReqVO.setCssClass("warming");
+            dictDataUpdateReqVO.setRemark("备注123");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictDataUpdateReqVO);
+            mvc.perform(put("/admin/dict-data/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002007004))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("已经存在该标签的字典数据"));
+        }
     }
+
 
     // 根据ID删除
     @Test
@@ -410,19 +605,7 @@ public class DictDataControllerTests {
                 .andExpect(jsonPath("$.data").value(true));
     }
 
-    private SysDictDataPO createDictData(String dictType) {
-        SysDictDataPO dictData = new SysDictDataPO();
-        dictData.setSort(1);
-        dictData.setLabel("值1");
-        dictData.setValue("value1");
-        dictData.setDictType(dictType);
-        dictData.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        dictData.setCssClass("success");
-        dictData.setColorType("default");
-        dictData.setRemark("备注");
-        dictDataMapper.insert(dictData);
-        return dictData;
-    }
+
 
     private SysDictTypePO createDictType() {
         SysDictTypePO dictTypePO = new SysDictTypePO();
@@ -432,5 +615,33 @@ public class DictDataControllerTests {
         dictTypePO.setType("test_type1");
         dictTypeMapper.insert(dictTypePO);
         return dictTypePO;
+    }
+
+    private SysDictDataPO createDictData1(String dictType) {
+        SysDictDataPO dictData = new SysDictDataPO();
+        dictData.setSort(1);
+        dictData.setLabel("值1");
+        dictData.setValue("value1");
+        dictData.setDictType(dictType);
+        dictData.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        dictData.setCssClass("success");
+        dictData.setColorType("default1");
+        dictData.setRemark("备注11");
+        dictDataMapper.insert(dictData);
+        return dictData;
+    }
+
+    private SysDictDataPO createDictData2(String dictType) {
+        SysDictDataPO dictData = new SysDictDataPO();
+        dictData.setSort(1);
+        dictData.setLabel("值2");
+        dictData.setValue("value2");
+        dictData.setDictType(dictType);
+        dictData.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        dictData.setCssClass("success");
+        dictData.setColorType("default2");
+        dictData.setRemark("备注22");
+        dictDataMapper.insert(dictData);
+        return dictData;
     }
 }
