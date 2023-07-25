@@ -286,26 +286,171 @@ public class DictTypeControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
-    public void updateDictType_success() throws Exception {
-        DictTypeUpdateReqVO dictTypeUpdateReqVO = new DictTypeUpdateReqVO();
-        dictTypeUpdateReqVO.setId("170");
-        dictTypeUpdateReqVO.setName("测试字段类型");
-        dictTypeUpdateReqVO.setStatus(0);
-        dictTypeUpdateReqVO.setRemark("备注");
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(dictTypeUpdateReqVO);
-        mvc.perform(put("/admin/dict-type/update")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isNotEmpty());
+
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 更新字典类型相关测试
+     */
+    @Nested
+    class updateDictTypeTests {
+
+        // happy path1: 更新字典类型成功
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictType_success() throws Exception {
+            SysDictTypePO dictType1 = createDictType1();
+            DictTypeUpdateReqVO dictTypeUpdateReqVO = new DictTypeUpdateReqVO();
+            dictTypeUpdateReqVO.setId(dictType1.getId());
+            dictTypeUpdateReqVO.setType("test_type77");
+            dictTypeUpdateReqVO.setName("测试字段类型");
+            dictTypeUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            dictTypeUpdateReqVO.setRemark("备注");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictTypeUpdateReqVO);
+            mvc.perform(put("/admin/dict-type/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isNotEmpty());
+            SysDictTypePO dbDictTypePO = dictTypeMapper.selectById(dictType1.getId());
+            assertNotEquals(null, dbDictTypePO);
+            assertEquals(dictTypeUpdateReqVO.getName(), dbDictTypePO.getName());
+            assertEquals(dictTypeUpdateReqVO.getStatus(), dbDictTypePO.getStatus());
+            assertEquals(dictTypeUpdateReqVO.getRemark(), dbDictTypePO.getRemark());
+            assertEquals(dictTypeUpdateReqVO.getType(), dbDictTypePO.getType());
+        }
+
+        // sad path1: 更新字典类型失败，ID不存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictType_fail_when_idNotExist() throws Exception {
+            DictTypeUpdateReqVO dictTypeUpdateReqVO = new DictTypeUpdateReqVO();
+            dictTypeUpdateReqVO.setId("999999");
+            dictTypeUpdateReqVO.setType("test_type77");
+            dictTypeUpdateReqVO.setName("测试字段类型");
+            dictTypeUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            dictTypeUpdateReqVO.setRemark("备注");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictTypeUpdateReqVO);
+            mvc.perform(put("/admin/dict-type/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002006001))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("当前字典类型不存在"));
+        }
+
+        // sad path2: 更新字典类型失败，字典类型名称为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictType_fail_when_nameIsNull() throws Exception {
+            SysDictTypePO dictType1 = createDictType1();
+            DictTypeUpdateReqVO dictTypeUpdateReqVO = new DictTypeUpdateReqVO();
+            dictTypeUpdateReqVO.setId(dictType1.getId());
+            dictTypeUpdateReqVO.setType("test_type77");
+            dictTypeUpdateReqVO.setName(null);
+            dictTypeUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            dictTypeUpdateReqVO.setRemark("备注");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictTypeUpdateReqVO);
+            mvc.perform(put("/admin/dict-type/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:字典名称不能为空"));
+        }
+
+        // sad path3: 更新字典类型失败，字典类型type为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictType_fail_when_typeIsNull() throws Exception {
+            SysDictTypePO dictType1 = createDictType1();
+            DictTypeUpdateReqVO dictTypeUpdateReqVO = new DictTypeUpdateReqVO();
+            dictTypeUpdateReqVO.setId(dictType1.getId());
+            dictTypeUpdateReqVO.setType(null);
+            dictTypeUpdateReqVO.setName("测试字段类型");
+            dictTypeUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            dictTypeUpdateReqVO.setRemark("备注");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictTypeUpdateReqVO);
+            mvc.perform(put("/admin/dict-type/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:字典类型不能为空"));
+        }
+
+        // sad path4: 更新字典类型失败，字典类型name已存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictType_fail_when_nameIsExist() throws Exception {
+            SysDictTypePO dictType1 = createDictType1();
+            SysDictTypePO dictType2 = createDictType2();
+            DictTypeUpdateReqVO dictTypeUpdateReqVO = new DictTypeUpdateReqVO();
+            dictTypeUpdateReqVO.setId(dictType1.getId());
+            dictTypeUpdateReqVO.setType("test_type77");
+            dictTypeUpdateReqVO.setName(dictType2.getName());
+            dictTypeUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            dictTypeUpdateReqVO.setRemark("备注");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictTypeUpdateReqVO);
+            mvc.perform(put("/admin/dict-type/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002006003))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("已经存在该名字的字典类型"));
+        }
+
+        // sad path5: 更新字典类型失败，字典类型type已存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
+        public void updateDictType_fail_when_typeIsExist() throws Exception {
+            SysDictTypePO dictType1 = createDictType1();
+            SysDictTypePO dictType2 = createDictType2();
+            DictTypeUpdateReqVO dictTypeUpdateReqVO = new DictTypeUpdateReqVO();
+            dictTypeUpdateReqVO.setId(dictType1.getId());
+            dictTypeUpdateReqVO.setType(dictType2.getType());
+            dictTypeUpdateReqVO.setName("测试字段类型");
+            dictTypeUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            dictTypeUpdateReqVO.setRemark("备注");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(dictTypeUpdateReqVO);
+            mvc.perform(put("/admin/dict-type/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002006004))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("已经存在该类型的字典类型"));
+        }
     }
 
     // 根据ID删除
