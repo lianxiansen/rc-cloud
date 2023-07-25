@@ -3,9 +3,7 @@ package com.rc.cloud.app.system.contorller.admin.dict;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.system.controller.admin.v1.dict.DictTypeController;
 import com.rc.cloud.app.system.mapper.dict.DictTypeMapper;
-import com.rc.cloud.app.system.model.dict.SysDictDataPO;
 import com.rc.cloud.app.system.model.dict.SysDictTypePO;
-import com.rc.cloud.app.system.service.dict.DictTypeService;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeCreateReqVO;
 import com.rc.cloud.app.system.vo.dict.type.DictTypeUpdateReqVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
@@ -44,9 +42,6 @@ public class DictTypeControllerTests {
     private WebApplicationContext context;
 
     private MockMvc mvc;
-
-    @Resource
-    private DictTypeService dictTypeService;
 
     @Resource
     private DictTypeMapper dictTypeMapper;
