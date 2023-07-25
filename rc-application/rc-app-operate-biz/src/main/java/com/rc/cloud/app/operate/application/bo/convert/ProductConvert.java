@@ -53,6 +53,8 @@ public class ProductConvert
         }
         //设置商品名
         product = setName(productSaveDTO.getName(),isCreate,product);
+        //设置商品spu
+        product = setSpuCode(productSaveDTO.getSpuCode(),isCreate,product);
         //商品图片
         product = setProductListImage(productSaveDTO.getListImage(),isCreate,product);
         //商品标签
@@ -105,6 +107,18 @@ public class ProductConvert
         }else{
             if (name != null) {
                 product.setName(new Name(name));
+            }
+        }
+        return product;
+    }
+
+    private static Product setSpuCode(String spuCode, boolean isCreate, Product product){
+        //商品SPU
+        if(isCreate){
+            product.setSpuCode(new SpuCode(spuCode));
+        }else{
+            if (spuCode != null) {
+                product.setSpuCode(new SpuCode(spuCode));
             }
         }
         return product;
@@ -196,16 +210,17 @@ public class ProductConvert
             if(explosivesFlag!=null && explosivesFlag){
                 product.setExplosives(new Explosives(explosivesFlag,new Url(explosivesImage)));
             }else{
-                product.setExplosives(new Explosives(false,null));
+                product.setExplosives(new Explosives(false,new Url("")));
             }
         }else{
             //是否有爆品图片
             if (explosivesFlag != null) {
                 Explosives explosives = null;
                 if (explosivesFlag) {
+
                     explosives = new Explosives(explosivesFlag, new Url(explosivesImage));
                 } else {
-                    explosives = new Explosives(explosivesFlag, null);
+                    explosives = new Explosives(explosivesFlag, new Url(""));
                 }
                 product.setExplosives(explosives);
             }
@@ -216,7 +231,12 @@ public class ProductConvert
 
     private static Product setRecommend(Boolean recommendFlag, boolean isCreate, Product product){
         if(isCreate){
-            product.setRecommendFlag(new Recommend(recommendFlag));
+            if(recommendFlag==null){
+                product.setRecommendFlag(new Recommend(false));
+            }else{
+                product.setRecommendFlag(new Recommend(recommendFlag));
+            }
+
         }else{
             if (recommendFlag != null) {
                 Recommend recommend = new Recommend(recommendFlag);
@@ -228,7 +248,11 @@ public class ProductConvert
 
     private static Product setPackingLowestBuy(Boolean packingLowestBuyFlag, boolean isCreate, Product product){
         if(isCreate){
-            product.setPackingLowestBuy(new PackingLowestBuy(packingLowestBuyFlag));
+            if(packingLowestBuyFlag==null){
+                product.setPackingLowestBuy(new PackingLowestBuy(false));
+            }else{
+                product.setPackingLowestBuy(new PackingLowestBuy(packingLowestBuyFlag));
+            }
         }else{
             if (packingLowestBuyFlag != null) {
                 PackingLowestBuy packingLowestBuy = new PackingLowestBuy(packingLowestBuyFlag);
@@ -296,12 +320,11 @@ public class ProductConvert
     }
 
     private static Product setProductListImage(String productListImage, boolean isCreate, Product product){
+        Url url=new Url(productListImage);
         if(isCreate){
-            Url url=new Url(productListImage);
             product.setProductListImage(url);
         }else{
             if (productListImage != null) {
-                Url url=new Url(productListImage);
                 product.setProductListImage(url);
             }
         }
@@ -394,32 +417,20 @@ public class ProductConvert
         ProductBO bo=new ProductBO();
 
         bo.setId(product.getId().id());
+        bo.setSpuCode(product.getSpuCode().getValue());
         bo.setTenantId(product.getTenantId().id());
-        if(product.getName()!=null){
-            bo.setName(product.getName().getValue());
-        }
-        if(product.getProductListImage()!=null){
-            bo.setProductListImage(product.getProductListImage().getValue());
-        }
-        if(product.getRemark()!=null){
-            bo.setRemark(product.getRemark().getValue());
-        }
-        if(product.getTag()!=null){
-            bo.setTag(product.getTag().getValue());
-        }
+        bo.setName(product.getName().getValue());
+        bo.setProductListImage(product.getProductListImage().getValue());
+        bo.setRemark(product.getRemark().getValue());
+        bo.setTag(product.getTag().getValue());
         if(product.getBrandId()!=null){
             bo.setBrandId(product.getBrandId().id());
         }
         //类别
-        if(product.getFirstCategory()!=null){
-            bo.setFirstCategory(product.getFirstCategory().getValue());
-        }
-        if(product.getSecondCategory()!=null){
-            bo.setSecondCategory(product.getSecondCategory().getValue());
-        }
-        if(product.getThirdCategory()!=null){
-            bo.setThirdCategory(product.getThirdCategory().getValue());
-        }
+        bo.setFirstCategory(product.getFirstCategory().getValue());
+        bo.setSecondCategory(product.getSecondCategory().getValue());
+        bo.setThirdCategory(product.getThirdCategory().getValue());
+
         //自定义分类
         if(product.getCustomClassificationId()!=null){
             bo.setCustomClassificationId(product.getCustomClassificationId().id());
@@ -468,12 +479,11 @@ public class ProductConvert
             bo.setPackingLowestBuyFlag(product.getPackingLowestBuy().result());
         }
         //转换图片
-        if(product.getProductImages()!=null){
-            List<ProductImageBO> productImageBOS = ProductImageConvert.convertProductImageBOList(product.getProductImages());
-            bo.setMasterImages(productImageBOS.stream().filter(x->x.getType()==
-                 ProductImageTypeEnum.MasterImage).collect(Collectors.toList()));
-            bo.setSizeImages(productImageBOS.stream().filter(x->x.getType()==
-                    ProductImageTypeEnum.SizeImage).collect(Collectors.toList()));
+        if(product.getMasterImages()!=null){
+            bo.setMasterImages( ProductImageConvert.convertProductImageBOList(product.getMasterImages()));
+        }
+        if(product.getSizeImages()!=null){
+            bo.setMasterImages( ProductImageConvert.convertProductImageBOList(product.getSizeImages()));
         }
         //转换属性
         if(product.getProductAttribute()!=null){

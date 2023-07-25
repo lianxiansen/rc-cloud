@@ -87,6 +87,15 @@ public class ProductConvert {
         if(product.getName()!=null){
             po.setName(product.getName().getValue());
         }
+        if(product.getSpuCode()!=null){
+            po.setSpuCode(product.getSpuCode().getValue());
+        }
+        if(product.getSort()!=null){
+            po.setSort(product.getSort().getValue());
+        }
+        if(product.getPackingLowestBuy()!=null){
+            po.setPackingLowestBuyFlag(product.getPackingLowestBuy().result());
+        }
         if(product.getProductListImage()!=null){
             po.setListImage(product.getProductListImage().getValue());
         }

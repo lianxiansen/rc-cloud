@@ -94,7 +94,13 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 
     public int updateProductImageByProductId(Product product) {
-        List<ProductImage> newList = product.getProductImages();
+        List<ProductImage> newList = new ArrayList<>();
+        if(product.getSizeImages()!=null){
+            newList.addAll(product.getSizeImages());
+        }
+        if(product.getMasterImages()!=null){
+            newList.addAll(product.getMasterImages());
+        }
         List<ProductImage> oriList = getProductImageByProductId(product.getId());
         List<ProductImage> addList = CollectionUtil.subtractToList(newList, oriList);
         List<ProductImage> removeList = CollectionUtil.subtractToList(oriList, newList);
@@ -160,8 +166,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     public int insertProduct(Product product) {
         ProductPO productPO = ProductConvert.convert(product);
         this.productMapper.insert(productPO);
-        if (product.getProductImages() != null && product.getProductImages().size() > 0) {
-            batchSaveProductImage(product.getProductImages(), product.getId().id(), product.getTenantId().id());
+        if (product.getSizeImages() != null && product.getSizeImages().size() > 0) {
+            batchSaveProductImage(product.getSizeImages(), product.getId().id(), product.getTenantId().id());
+        }
+        if (product.getMasterImages() != null && product.getMasterImages().size() > 0) {
+            batchSaveProductImage(product.getMasterImages(), product.getId().id(), product.getTenantId().id());
         }
         if (product.getProductAttribute() != null) {
             insertProductAttribute(product);

@@ -11,7 +11,6 @@ import com.rc.cloud.common.core.domain.AbstractId;
  */
 public class BrandId extends AbstractId {
 
-    private long value;
     public BrandId(String id) {
         super(id);
     }
@@ -20,8 +19,5 @@ public class BrandId extends AbstractId {
         super();
     }
 
-    public long getValue(){
-        return value;
-    }
 
 }

@@ -135,7 +135,7 @@ public class ProductPO extends BaseDO {
      * 最低起购量
      */
     @TableField("packing_lowest_buy_flag")
-    private Integer packingLowestBuyFlag;
+    private Boolean packingLowestBuyFlag;
 
     /**
      * 推广佣金比例

@@ -21,7 +21,7 @@ public class Name extends ValueObject{
         if (StringUtils.isEmpty(value)) {
             throw new IllegalArgumentException("商品名称不为空");
         }
-
+        this.value=value;
     }
 
     @Override

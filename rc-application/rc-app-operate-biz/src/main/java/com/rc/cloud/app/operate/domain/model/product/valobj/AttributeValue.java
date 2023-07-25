@@ -15,7 +15,7 @@ public class AttributeValue extends ValueObject implements Comparable<AttributeV
 
     public AttributeValue(String attributeValue, Integer sort) {
         Validate.isTrue(StrUtil.isNotEmpty(attributeValue),"货号不能为空！");
-        Validate.isTrue(sort>0,"sort不能为空！");
+        Validate.isTrue(sort>=0,"sort不能为空！");
         this.attributeValue = attributeValue;
         this.sort = sort;
     }

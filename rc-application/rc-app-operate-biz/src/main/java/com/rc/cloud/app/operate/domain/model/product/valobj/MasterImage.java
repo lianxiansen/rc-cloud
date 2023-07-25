@@ -12,10 +12,11 @@ import com.rc.cloud.common.core.util.StringUtils;
 public class MasterImage extends ValueObject{
     private String value;
     public MasterImage(String value){
-        value=value;
         if(!StringUtils.ishttp(value)){
             throw new IllegalArgumentException("http地址无效");
         }
+        value=value;
+
     }
     public String getValue() {
         return value;

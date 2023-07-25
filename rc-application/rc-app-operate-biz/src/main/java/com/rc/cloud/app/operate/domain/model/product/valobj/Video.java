@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.product.valobj;
 
 import com.rc.cloud.common.core.domain.ValueObject;
+import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
 
 /**
@@ -26,10 +27,12 @@ public class Video extends ValueObject {
     }
 
     public void setVideoUrl(Url videoUrl) {
+        AssertUtils.assertArgumentNotNull(videoUrl, "videoUrl must not be null");
         this.videoUrl = videoUrl;
     }
 
     public void setVideoImg(Url videoImg) {
+        AssertUtils.assertArgumentNotNull(videoImg, "videoImg must not be null");
         this.videoImg = videoImg;
     }
 

@@ -23,7 +23,7 @@ public class Tag extends ValueObject{
         if(StringUtils.isNotEmpty(value) && value.length()>1000){
             throw new IllegalArgumentException(" The tag length cannot be greater than 1000");
         }
-
+        this.value=value;
     }
 
     @Override

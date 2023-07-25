@@ -10,19 +10,19 @@ import com.rc.cloud.common.core.util.AssertUtils;
  * @Description:
  */
 public class Type extends ValueObject {
-    private Integer value;
-    public Type(Integer value){
+    private int value;
+    public Type(int value){
         this.setValue(value);
     }
-    public Integer getValue() {
+    public int getValue() {
         return value;
     }
-    public void setValue(Integer value) {
+    public void setValue(int value) {
         AssertUtils.assertArgumentNotNull(value,"value must not be null");
-        if(value.intValue() <0){
+        if(value <0){
             throw new IllegalArgumentException("商品类型错误");
         }
-
+        this.value=value;
     }
 
 

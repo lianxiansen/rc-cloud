@@ -5,8 +5,10 @@ import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
+import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
+import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictDomainService;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuDomainService;
@@ -64,7 +66,7 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
     public void createProduct() {
 
         ProductSaveDTO productSaveDTO = createProductSaveDTO();
-        ProductBO productBO = productApplicationService.createProduct(createProductSaveDTO());
+        ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
 
         String id = productBO.getId();
 
@@ -107,7 +109,7 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
                 ProductAttributeSaveDTO productAttributeSaveDTO=new ProductAttributeSaveDTO();
                 productAttributeSaveDTO.setName(attrbute[i]);
                 productAttributeSaveDTO.setValue(attrbuteValue[i][j]);
-                productAttributeSaveDTO.setSort(i*j);
+                productAttributeSaveDTO.setSort((i+1)*j+1);
                 productAttributeSaveDTOS.add(productAttributeSaveDTO);
             }
 
@@ -155,12 +157,12 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
                     ProductSkuAttributeSaveDTO att1=new ProductSkuAttributeSaveDTO();
                     att1.setName(attrbute[0]);
                     att1.setValue(attrbuteValue[0][i]);
-                    att1.setSort(i*j+1);
+                    att1.setSort((i+1)*j+1);
                     arrs.add(att1);
                     ProductSkuAttributeSaveDTO att2=new ProductSkuAttributeSaveDTO();
                     att2.setName(attrbute[1]);
                     att2.setValue(attrbuteValue[1][j]);
-                    att2.setSort(i*j+1);
+                    att2.setSort((i+1)*j+1);
                     arrs.add(att2);
                     productSkuSaveDTO.setAttributes(arrs);
                     productSkuSaveDTO.setInventory(RandomUtils.randomInteger());
@@ -207,7 +209,19 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
     private ProductSaveDTO createProductSaveDTO(){
         ProductSaveDTO productSaveDTO=new ProductSaveDTO();
         productSaveDTO.setName(RandomUtils.randomString());
+        productSaveDTO.setProductType(1);
+        productSaveDTO.setListImage("https://"+RandomUtils.randomString());
+        productSaveDTO.setRemark(RandomUtils.randomString());
+
         int randomNum= RandomUtils.randomInteger()%2+1;
+
+        ProductDictSaveDTO productDictSaveDTO=new ProductDictSaveDTO();
+        productDictSaveDTO.setKey("材质");
+        productDictSaveDTO.setValue("塑料");
+        productDictSaveDTO.setSort(1);
+        List<ProductDictSaveDTO> productDictSaveDTOList=new ArrayList<>();
+        productDictSaveDTOList.add(productDictSaveDTO);
+        productSaveDTO.setDicts(productDictSaveDTOList);
 
         java.util.List<ProductAttributeSaveDTO> productAttributeSaveDTOS =
                 createProductAttribute(randomNum);
@@ -215,7 +229,8 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
 
         List<ProductImageSaveDTO> productImage = createProductImage(randomNum);
         productSaveDTO.setMasterAlbums(productImage);
-        productSaveDTO.setSizeAlbums(productImage);
+        List<ProductImageSaveDTO> productImage1 = createProductImage(randomNum);
+        productSaveDTO.setSizeAlbums(productImage1);
         productSaveDTO.setBrandId(RandomUtils.randomString());
         productSaveDTO.setCustomClassificationId(RandomUtils.randomString());
         productSaveDTO.setSkus(createProductSku(randomNum));
@@ -229,12 +244,17 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
         productSaveDTO.setVideoUrl("https://"+RandomUtils.randomString());
         productSaveDTO.setInstallVideoImg("https://"+RandomUtils.randomString());
         productSaveDTO.setInstallVideoUrl("https://"+RandomUtils.randomString());
+        productSaveDTO.setInstallDetail(RandomUtils.randomString());
+        productSaveDTO.setOnShelfStatus(ProductShelfStatusEnum.OnShelf.value);
+        productSaveDTO.setSort(99);
         productSaveDTO.setPublicFlag(true);
         productSaveDTO.setRecommendFlag(true);
         productSaveDTO.setNewFlag(true);
         productSaveDTO.setTag(RandomUtils.randomString()+","+RandomUtils.randomString());
         productSaveDTO.setTenantId("001");
         productSaveDTO.setDetail(RandomUtils.randomString());
+        productSaveDTO.setPackingLowestBuyFlag(true);
+        productSaveDTO.setSpuCode(RandomUtils.randomString());
         return productSaveDTO;
     }
 

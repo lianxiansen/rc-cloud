@@ -14,9 +14,10 @@ public class Url extends ValueObject {
         return value;
     }
     public void setValue(String value) {
-        if(!StringUtils.ishttp(value)){
+        if(StringUtils.isNotEmpty(value) && !StringUtils.ishttp(value)){
             throw new IllegalArgumentException("invalid url");
         }
+        this.value=value;
     }
     @Override
     public boolean equals(Object other) {

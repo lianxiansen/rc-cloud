@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
 import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
+import com.rc.cloud.app.operate.domain.common.ProductOriginEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
@@ -27,26 +28,30 @@ public class Product extends AggregateRoot {
 
 
     public Product(ProductId id, TenantId tenantId, Name name){
+        init();
         setId(id);
         setTenantId(tenantId);
         setName(name);
-        init();
+
     }
 
     private void init(){
         this.sort=new Sort(99);
         this.type=new Type(0);
+        this.outid=new OutId(null);
         this.firstCategory=new CategoryName("");
         this.secondCategory=new CategoryName("");
         this.thirdCategory=new CategoryName("");
         this.productListImage=new Url("");
         this.remark=new Remark("");
         this.tag =new Tag("");
-        this.brandId=new BrandId(null);
-        this.customClassificationId=new CustomClassificationId(null);
         this.newFlag=false;
         this.publicFlag=false;
         this.onshelfStatus= new OnshelfStatus(ProductShelfStatusEnum.InitShelf.value);
+        this.video=new Video(null);
+        this.spuCode=new SpuCode(null);
+        this.origin =new Origin(ProductOriginEnum.Self.value);
+        this.packingLowestBuy=new PackingLowestBuy(false);
     }
 
     private ProductId id;
@@ -62,7 +67,7 @@ public class Product extends AggregateRoot {
     }
 
     public void setProductListImage(Url productListImage) {
-        AssertUtils.assertArgumentNotNull(productListImage, "firstCategory must not be null");
+        AssertUtils.assertArgumentNotNull(productListImage, "productListImage must not be null");
         this.productListImage = productListImage;
     }
 
@@ -190,7 +195,7 @@ public class Product extends AggregateRoot {
     private Video video;
 
     public void setVideo(Video video){
-
+        AssertUtils.assertArgumentNotNull(video, "video must not be null");
         this.video = video;
 
     }
@@ -201,50 +206,25 @@ public class Product extends AggregateRoot {
      */
     private SpuCode spuCode;
 
-    /**
-     * 商品来源，0：ffcat
-     */
+    public SpuCode getSpuCode() {
+        return spuCode;
+    }
+
+    public void setSpuCode(SpuCode spuCode) {
+        AssertUtils.assertArgumentNotNull(spuCode, "spuCode must not be null");
+        this.spuCode = spuCode;
+    }
+
+
     private Origin origin;
-
-    /**
-     * 外部id
-     */
     private OutId outid;
-
-    /**
-     * 商品类型，0：普通商品
-     */
     private Type type;
-
-    /**
-     * 是否包邮 0不包邮，1包邮
-     */
-    private FreeShipping freeShipping;
-
-    /**
-     * 运费
-     */
-    private Freight freight;
 
     /**
      * 最低起购量
      */
     private PackingLowestBuy packingLowestBuy;
 
-    /**
-     * 推广
-     */
-    private Popularization popularization;
-
-    /**
-     * 分销
-     */
-    private Distribution distribution;
-
-    /**
-     * 秒杀
-     */
-    private Seckill seckill;
 
     /**
      * 排序
@@ -298,7 +278,6 @@ public class Product extends AggregateRoot {
 
 
 
-
     public void setType(Type type){
         AssertUtils.assertArgumentNotNull(type,"Type must not be null");
         this.type = type;
@@ -312,12 +291,6 @@ public class Product extends AggregateRoot {
 
 
     private ProductAttribute productAttribute;
-
-//    public void addAttributes(ProductAttributeEntity attribute){
-//        if(attributes!=null){
-//            attributes.add(attribute);
-//        }
-//    }
 
 
     public TenantId getTenantId() {
@@ -368,9 +341,6 @@ public class Product extends AggregateRoot {
     }
 
 
-    public SpuCode getSpuCode() {
-        return spuCode;
-    }
 
     public Origin getOrigin() {
         return origin;
@@ -384,29 +354,11 @@ public class Product extends AggregateRoot {
         return type;
     }
 
-    public FreeShipping getFreeShipping() {
-        return freeShipping;
-    }
-
-    public Freight getFreight() {
-        return freight;
-    }
 
     public PackingLowestBuy getLowestBuy() {
         return packingLowestBuy;
     }
 
-    public Popularization getPopularization() {
-        return popularization;
-    }
-
-    public Distribution getDistribution() {
-        return distribution;
-    }
-
-    public Seckill getSeckill() {
-        return seckill;
-    }
 
     public Sort getSort() {
         return sort;
@@ -421,10 +373,6 @@ public class Product extends AggregateRoot {
         this.productAttribute = productAttribute;
     }
 
-
-    public List<ProductImage> getProductImages() {
-        return null;
-    }
 
     public PackingLowestBuy getPackingLowestBuy() {
         return packingLowestBuy;

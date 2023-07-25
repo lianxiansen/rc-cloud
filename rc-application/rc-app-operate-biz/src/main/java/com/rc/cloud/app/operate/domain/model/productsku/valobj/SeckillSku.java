@@ -1,10 +1,12 @@
 package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 
+import com.rc.cloud.common.core.domain.AbstractId;
+import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.domain.ValueObject;
 
 import java.text.DecimalFormat;
 
-public class SeckillSku extends ValueObject {
+public class SeckillSku extends Entity {
 
     private LimitBuy seckillLimitBuy;
 
@@ -72,6 +74,10 @@ public class SeckillSku extends ValueObject {
     }
 
 
+    @Override
+    public AbstractId getId() {
+        return null;
+    }
 
     @Override
     public boolean equals(Object other) {

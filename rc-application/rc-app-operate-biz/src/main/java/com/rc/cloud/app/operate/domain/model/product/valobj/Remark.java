@@ -21,7 +21,7 @@ public class Remark extends ValueObject{
         if(StringUtils.isNotEmpty(value) && value.length()>1000){
             throw new IllegalArgumentException(" The remark length cannot be greater than 1000");
         }
-
+        this.value=value;
     }
 
 

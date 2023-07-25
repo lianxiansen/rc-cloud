@@ -23,8 +23,16 @@ public class ProductSku extends AggregateRoot {
         setId(id);
         setProductId(productId);
         setTenantId(tenantId);
+
     }
 
+    private void init(){
+        setSort(new Sort(99));
+        inventory =new Inventory(0);
+        enabledFlag =true;
+
+
+    }
     /**
      * sku货号，可以为空，为空商品的货号做为它的货号
      */
@@ -40,22 +48,55 @@ public class ProductSku extends AggregateRoot {
      */
     private SupplyPrice supplyPrice;
 
+    public SupplyPrice getSupplyPrice() {
+        return supplyPrice;
+    }
+
+    public void setSupplyPrice(SupplyPrice supplyPrice) {
+        AssertUtils.assertArgumentNotNull(supplyPrice, "supplyPrice must not be null");
+        this.supplyPrice = supplyPrice;
+    }
+
     /**
      * 重量
      */
     private Weight weight;
 
+    public Weight getWeight() {
+        return weight;
+    }
 
+    public void setWeight(Weight weight) {
+        AssertUtils.assertArgumentNotNull(weight, "weight must not be null");
+        this.weight = weight;
+    }
     /**
      * 装箱数
      */
     private PackingNumber packingNumber;
 
+    public PackingNumber getPackingNumber() {
+        return packingNumber;
+    }
+
+    public void setPackingNumber(PackingNumber packingNumber) {
+        AssertUtils.assertArgumentNotNull(packingNumber, "packingNumber must not be null");
+        this.packingNumber = packingNumber;
+    }
 
     /**
      * 箱规
      */
     private CartonSize cartonSize;
+
+    public CartonSize getCartonSize() {
+        return cartonSize;
+    }
+
+    public void setCartonSize(CartonSize cartonSize) {
+        AssertUtils.assertArgumentNotNull(cartonSize, "cartonSize must not be null");
+        this.cartonSize = cartonSize;
+    }
 
     /**
      * 外部id
@@ -68,7 +109,14 @@ public class ProductSku extends AggregateRoot {
      * 限购
      */
     private LimitBuy limitBuy;
+    public LimitBuy getLimitBuy() {
+        return limitBuy;
+    }
 
+    public void setLimitBuy(LimitBuy limitBuy) {
+        AssertUtils.assertArgumentNotNull(limitBuy, "limitBuy must not be null");
+        this.limitBuy = limitBuy;
+    }
     /**
      * 库存
      */
@@ -88,6 +136,14 @@ public class ProductSku extends AggregateRoot {
 
 
     private boolean enabledFlag;
+
+    public boolean isEnabledFlag() {
+        return enabledFlag;
+    }
+
+    public void setEnabledFlag(boolean enabledFlag) {
+        this.enabledFlag = enabledFlag;
+    }
 
     public void setId(ProductSkuId id) {
         AssertUtils.assertArgumentNotNull(id, "id must not be null");
@@ -114,12 +170,7 @@ public class ProductSku extends AggregateRoot {
         this.price =price;
     }
 
-    private void init(){
-        sort=new Sort(99);
-        setSort(sort);
-        inventory =new Inventory(0);
 
-    }
 
     public void setSort(Sort sort){
         AssertUtils.assertArgumentNotNull(sort, "sort must not be null");
@@ -131,39 +182,15 @@ public class ProductSku extends AggregateRoot {
     }
 
 
-
-    public SupplyPrice getSupplyPrice() {
-        return supplyPrice;
-    }
-
-    public void setSupplyPrice(SupplyPrice supplyPrice) {
-        this.supplyPrice = supplyPrice;
-    }
-
-    public Weight getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Weight weight) {
-        this.weight = weight;
-    }
-
     public OutId getOutId() {
         return outId;
     }
 
     public void setOutId(OutId outId) {
+        AssertUtils.assertArgumentNotNull(outId, "outId must not be null");
         this.outId = outId;
     }
 
-
-    public LimitBuy getLimitBuy() {
-        return limitBuy;
-    }
-
-    public void setLimitBuy(LimitBuy limitBuy) {
-        this.limitBuy = limitBuy;
-    }
 
     public Price getPrice() {
         return price;
@@ -174,6 +201,7 @@ public class ProductSku extends AggregateRoot {
     }
 
     public void setInventory(Inventory inventory) {
+        AssertUtils.assertArgumentNotNull(inventory, "inventory must not be null");
         this.inventory = inventory;
     }
 
@@ -190,21 +218,17 @@ public class ProductSku extends AggregateRoot {
     }
 
     public void setProductId(ProductId productId) {
+        AssertUtils.assertArgumentNotNull(productId, "productId must not be null");
         this.productId = productId;
     }
 
 
     public void setSkuCode(String skuCode) {
+        AssertUtils.assertArgumentNotNull(skuCode, "skuCode must not be null");
         this.skuCode = skuCode;
     }
 
-    public boolean isEnabledFlag() {
-        return enabledFlag;
-    }
 
-    public void setEnabledFlag(boolean enabledFlag) {
-        this.enabledFlag = enabledFlag;
-    }
 
     private ProductSkuAttribute productSkuAttribute;
 
@@ -232,19 +256,4 @@ public class ProductSku extends AggregateRoot {
         this.productSkuAttribute = productSkuAttribute;
     }
 
-    public PackingNumber getPackingNumber() {
-        return packingNumber;
-    }
-
-    public void setPackingNumber(PackingNumber packingNumber) {
-        this.packingNumber = packingNumber;
-    }
-
-    public CartonSize getCartonSize() {
-        return cartonSize;
-    }
-
-    public void setCartonSize(CartonSize cartonSize) {
-        this.cartonSize = cartonSize;
-    }
 }

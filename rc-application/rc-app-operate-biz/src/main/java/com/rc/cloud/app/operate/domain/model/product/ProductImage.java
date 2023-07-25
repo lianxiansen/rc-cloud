@@ -67,7 +67,6 @@ public class ProductImage extends  Entity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
         ProductImage that = (ProductImage) o;
         return Objects.equals(getUrl(), that.getUrl()) && Objects.equals(getSort(), that.getSort()) && getType() == that.getType();
     }

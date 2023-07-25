@@ -37,6 +37,7 @@ public class ProductSkuConvert {
         }
         //价格
         productSku =setPrice(productSkuSaveDTO.getPrice(),isCreate,productSku);
+        productSku =setSkuCode(productSkuSaveDTO.getSkuCode(),isCreate,productSku);
         productSku =setEnabledFlag(productSkuSaveDTO.getEnabledFlag(),isCreate,productSku);
         productSku =setInventory(productSkuSaveDTO.getInventory(),isCreate,productSku);
         productSku =setSort(productSkuSaveDTO.getSort(),isCreate,productSku);
@@ -56,6 +57,16 @@ public class ProductSkuConvert {
         return productSku;
     }
 
+    private static ProductSku setSkuCode(String skuCode, boolean isCreate, ProductSku productSku){
+        if(isCreate){
+            productSku.setSkuCode(skuCode);
+        }else{
+            if (skuCode != null) {
+                productSku.setSkuCode(skuCode);
+            }
+        }
+        return productSku;
+    }
 
     private static ProductSku setPrice(String price, boolean isCreate, ProductSku productSku){
         if(isCreate){

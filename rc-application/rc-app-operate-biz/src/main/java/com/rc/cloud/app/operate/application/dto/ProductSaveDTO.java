@@ -98,13 +98,8 @@ public class ProductSaveDTO {
 
     private List<ProductDictSaveDTO> dicts;
 
-    private String price;
-
-    private String popularizationAmountRate;
-
     private Boolean packingLowestBuyFlag;
 
-    private Integer getIntegral;
 
     private Boolean  newFlag;
 
@@ -138,5 +133,6 @@ public class ProductSaveDTO {
     private String detailId;
     private String detail;
 
+    private String spuCode;
 
 }
