@@ -453,26 +453,33 @@ public class DictTypeControllerTests {
         }
     }
 
-    // 根据ID删除
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dict:delete"})
-    public void deleteDictTypeById_success() throws Exception {
-        DictTypeCreateReqVO dictTypeCreateReqVO = new DictTypeCreateReqVO();
-        dictTypeCreateReqVO.setName("测试字段类型");
-        dictTypeCreateReqVO.setStatus(0);
-        dictTypeCreateReqVO.setRemark("备注");
-        dictTypeCreateReqVO.setType("test_type");
-        String dictTypeId = dictTypeService.createDictType(dictTypeCreateReqVO);
-        mvc.perform(delete("/admin/dict-type")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("[" + dictTypeId + "]")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
+
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 删除字典类型相关测试
+     */
+    @Nested
+    class deleteDictTypeTests {
+        // happy path1: 删除字典类型成功
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:delete"})
+        public void deleteDictTypeById_success() throws Exception {
+            SysDictTypePO dictType1 = createDictType1();
+            mvc.perform(delete("/admin/dict-type")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("[" + dictType1.getId() + "]")
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+            SysDictTypePO dbDictTypePO = dictTypeMapper.selectById(dictType1.getId());
+            assertEquals(null, dbDictTypePO);
+        }
     }
+
 
     private SysDictTypePO createDictType1() {
         SysDictTypePO dictTypePO = new SysDictTypePO();
