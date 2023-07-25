@@ -72,6 +72,7 @@ public interface ErrorCodeConstants {
     ErrorCode DICT_DATA_NOT_EXISTS = new ErrorCode(1002007001, "当前字典数据不存在");
     ErrorCode DICT_DATA_NOT_ENABLE = new ErrorCode(1002007002, "字典数据({})不处于开启状态，不允许选择");
     ErrorCode DICT_DATA_VALUE_DUPLICATE = new ErrorCode(1002007003, "已经存在该值的字典数据");
+    ErrorCode DICT_DATA_LABEL_DUPLICATE = new ErrorCode(1002007004, "已经存在该标签的字典数据");
 
     // ========== 通知公告 1002008000 ==========
     ErrorCode NOTICE_NOT_FOUND = new ErrorCode(1002008001, "当前通知公告不存在");
@@ -111,6 +112,7 @@ public interface ErrorCodeConstants {
     ErrorCode TENANT_PACKAGE_NOT_EXISTS = new ErrorCode(1002016000, "租户套餐不存在");
     ErrorCode TENANT_PACKAGE_USED = new ErrorCode(1002016001, "租户正在使用该套餐，请给租户重新设置套餐后再尝试删除");
     ErrorCode TENANT_PACKAGE_DISABLE = new ErrorCode(1002016002, "名字为【{}】的租户套餐已被禁用");
+    ErrorCode TENANT_PACKAGE_NAME_DUPLICATE = new ErrorCode(1002016003, "名字为【{}】的租户套餐已存在");
 
     // ========== 错误码模块 1002017000 ==========
     ErrorCode ERROR_CODE_NOT_EXISTS = new ErrorCode(1002017000, "错误码不存在");

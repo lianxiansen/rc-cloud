@@ -3,6 +3,7 @@ package com.rc.cloud.app.system.vo.tenant.packages;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ import java.util.Set;
 public class TenantPackageBaseVO {
 
     @Schema(description = "套餐名", requiredMode = Schema.RequiredMode.REQUIRED, example = "VIP")
-    @NotNull(message = "套餐名不能为空")
+    @NotEmpty(message = "套餐名不能为空")
     private String name;
 
     @Schema(description = "状态,参见 CommonStatusEnum 枚举", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")

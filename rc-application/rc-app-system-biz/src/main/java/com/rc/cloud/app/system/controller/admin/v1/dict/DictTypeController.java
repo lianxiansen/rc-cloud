@@ -18,6 +18,9 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.rc.cloud.app.system.enums.ErrorCodeConstants.DICT_TYPE_NOT_EXISTS;
+import static com.rc.cloud.common.core.exception.util.ServiceExceptionUtil.exception;
+
 /**
  * @author rc@hqf
  * @date 2023/07/14
@@ -99,7 +102,11 @@ public class DictTypeController {
     @GetMapping(value = "/{id}")
     @PreAuthorize("@pms.hasPermission('sys:dict:query')")
     public CodeResult<DictTypeRespVO> getDictType(@PathVariable("id") String id) {
-        return CodeResult.ok(DictTypeConvert.INSTANCE.convert(dictTypeService.getDictTypeById(id)));
+        SysDictTypePO dictType = dictTypeService.getDictTypeById(id);
+        if (dictType == null) {
+            throw exception(DICT_TYPE_NOT_EXISTS);
+        }
+        return CodeResult.ok(DictTypeConvert.INSTANCE.convert(dictType));
     }
 
     /**

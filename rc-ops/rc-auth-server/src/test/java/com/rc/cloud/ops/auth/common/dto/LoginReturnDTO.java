@@ -4,7 +4,6 @@
  */
 package com.rc.cloud.ops.auth.common.dto;
 
-import com.rc.cloud.app.system.api.user.dto.UserInfo;
 import lombok.Data;
 
 import java.util.List;

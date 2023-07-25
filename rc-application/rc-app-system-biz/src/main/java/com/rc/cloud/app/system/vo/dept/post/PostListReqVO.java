@@ -1,5 +1,6 @@
 package com.rc.cloud.app.system.vo.dept.post;
 
+import com.rc.cloud.app.system.vo.dept.post.PostBaseVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

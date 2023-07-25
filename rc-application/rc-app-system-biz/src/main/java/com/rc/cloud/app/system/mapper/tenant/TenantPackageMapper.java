@@ -41,4 +41,8 @@ public interface TenantPackageMapper extends BaseMapperX<SysTenantPackagePO> {
     default List<SysTenantPackagePO> selectListByStatus(Integer status) {
         return selectList(SysTenantPackagePO::getStatus, status);
     }
+
+    default SysTenantPackagePO selectByName(String name) {
+        return selectOne(SysTenantPackagePO::getName, name);
+    }
 }

@@ -8,7 +8,6 @@ import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.util.MsgUtils;
 import com.rc.cloud.common.core.util.SpringContextHolder;
 import com.rc.cloud.common.core.web.CodeResult;
-import com.rc.cloud.common.core.web.util.WebFrameworkUtils;
 import com.rc.cloud.ops.auth.log.sys.SysLogEvent;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
