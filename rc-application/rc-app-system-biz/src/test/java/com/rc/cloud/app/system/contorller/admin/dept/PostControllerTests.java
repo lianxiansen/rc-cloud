@@ -193,18 +193,32 @@ public class PostControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:post:query"})
-    public void getPostPage_success() throws Exception {
-        mvc.perform(get("/admin/post/page"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.total").value(3))
-                .andExpect(jsonPath("$.data.list").isArray())
-                .andExpect(jsonPath("$.data.list").isNotEmpty())
-                .andExpect(jsonPath("$.data.list[0].name").value("普通员工"));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 分页获取岗位相关测试
+     */
+    @Nested
+    class PostPageTests {
+        // happy path1: 分页获取岗位成功
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:query"})
+        public void getPostPage_success() throws Exception {
+            SysPostPO postPO = createPost();
+            mvc.perform(get("/admin/post/page"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.total").value(1))
+                    .andExpect(jsonPath("$.data.list").isArray())
+                    .andExpect(jsonPath("$.data.list").isNotEmpty())
+                    .andExpect(jsonPath("$.data.list[0].name").value(postPO.getName()))
+                    .andExpect(jsonPath("$.data.list[0].code").value(postPO.getCode()))
+                    .andExpect(jsonPath("$.data.list[0].sort").value(postPO.getSort()))
+                    .andExpect(jsonPath("$.data.list[0].status").value(postPO.getStatus()))
+                    .andExpect(jsonPath("$.data.list[0].remark").value(postPO.getRemark()));
+        }
     }
 
     @Test
