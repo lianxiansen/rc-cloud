@@ -146,7 +146,7 @@ public class PostControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:post:create"})
         public void createPost_failed_when_nameIsExist() throws Exception {
-            SysPostPO postPO = createPost();
+            SysPostPO postPO = createPost1();
             PostCreateReqVO postCreateReqVO = new PostCreateReqVO();
             postCreateReqVO.setName(postPO.getName());
             postCreateReqVO.setCode("cszw");
@@ -171,7 +171,7 @@ public class PostControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:post:create"})
         public void createPost_failed_when_codeIsExist() throws Exception {
-            SysPostPO postPO = createPost();
+            SysPostPO postPO = createPost1();
             PostCreateReqVO postCreateReqVO = new PostCreateReqVO();
             postCreateReqVO.setName("测试职位");
             postCreateReqVO.setCode(postPO.getCode());
@@ -199,12 +199,12 @@ public class PostControllerTests {
      * @description 分页获取岗位相关测试
      */
     @Nested
-    class PostPageTests {
+    class GetPostPageTests {
         // happy path1: 分页获取岗位成功
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:post:query"})
         public void getPostPage_success() throws Exception {
-            SysPostPO postPO = createPost();
+            SysPostPO postPO = createPost1();
             mvc.perform(get("/admin/post/page"))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -234,7 +234,7 @@ public class PostControllerTests {
         @Test
         @WithMockUser(username = "admin")
         public void getPostListAllSimple_success() throws Exception {
-            SysPostPO postPO = createPost();
+            SysPostPO postPO = createPost1();
             mvc.perform(get("/admin/post/list-all-simple"))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -259,7 +259,7 @@ public class PostControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:post:query"})
         public void getPostByIdExist_then_success() throws Exception {
-            SysPostPO postPO = createPost();
+            SysPostPO postPO = createPost1();
             mvc.perform(get("/admin/post/" + postPO.getId()))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -293,15 +293,18 @@ public class PostControllerTests {
      */
     @Nested
     class UpdatePostTests{
+        // happy path1: 更新岗位成功
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:post:update"})
         public void updatePost_success() throws Exception {
+            SysPostPO postPO = createPost1();
             PostUpdateReqVO postUpdateReqVO = new PostUpdateReqVO();
-            postUpdateReqVO.setId("2");
+            postUpdateReqVO.setId(postPO.getId());
             postUpdateReqVO.setName("前端2");
             postUpdateReqVO.setCode("front2");
+            postUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
             postUpdateReqVO.setSort(3);
-            postUpdateReqVO.setStatus(0);
+            postUpdateReqVO.setRemark("备注信息");
             ObjectMapper mapper = new ObjectMapper();
             String requestBody = mapper.writerWithDefaultPrettyPrinter()
                     .writeValueAsString(postUpdateReqVO);
@@ -314,6 +317,136 @@ public class PostControllerTests {
                     .andExpect(jsonPath("$.code").value(200))
                     .andExpect(jsonPath("$.success").value(true))
                     .andExpect(jsonPath("$.data").value(true));
+        }
+        // sad path1: 更新岗位失败，岗位不存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:update"})
+        public void updatePost_failed_when_postNotExist() throws Exception {
+            PostUpdateReqVO postUpdateReqVO = new PostUpdateReqVO();
+            postUpdateReqVO.setId("9999999");
+            postUpdateReqVO.setName("前端2");
+            postUpdateReqVO.setCode("front2");
+            postUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            postUpdateReqVO.setSort(3);
+            postUpdateReqVO.setRemark("备注信息");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(postUpdateReqVO);
+            mvc.perform(put("/admin/post/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002005000))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("当前岗位不存在"));
+        }
+
+        // sad path2: 更新岗位失败，岗位名称为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:update"})
+        public void updatePost_failed_when_nameIsNull() throws Exception {
+            SysPostPO postPO = createPost1();
+            PostUpdateReqVO postUpdateReqVO = new PostUpdateReqVO();
+            postUpdateReqVO.setId(postPO.getId());
+            postUpdateReqVO.setName("");
+            postUpdateReqVO.setCode("front2");
+            postUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            postUpdateReqVO.setSort(3);
+            postUpdateReqVO.setRemark("备注信息");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(postUpdateReqVO);
+            mvc.perform(put("/admin/post/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:岗位名称不能为空"));
+        }
+
+        // sad path3: 更新岗位失败，岗位code为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:update"})
+        public void updatePost_failed_when_codeIsNull() throws Exception {
+            SysPostPO postPO = createPost1();
+            PostUpdateReqVO postUpdateReqVO = new PostUpdateReqVO();
+            postUpdateReqVO.setId(postPO.getId());
+            postUpdateReqVO.setName("前端2");
+            postUpdateReqVO.setCode("");
+            postUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            postUpdateReqVO.setSort(3);
+            postUpdateReqVO.setRemark("备注信息");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(postUpdateReqVO);
+            mvc.perform(put("/admin/post/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:岗位编码不能为空"));
+        }
+
+        // sad path4: 更新岗位失败，岗位名称已存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:update"})
+        public void updatePost_failed_when_nameIsExist() throws Exception {
+            SysPostPO postPO1 = createPost1();
+            SysPostPO postPO2 = createPost2();
+            PostUpdateReqVO postUpdateReqVO = new PostUpdateReqVO();
+            postUpdateReqVO.setId(postPO2.getId());
+            postUpdateReqVO.setName(postPO1.getName());
+            postUpdateReqVO.setCode("front2");
+            postUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            postUpdateReqVO.setSort(3);
+            postUpdateReqVO.setRemark("备注信息");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(postUpdateReqVO);
+            mvc.perform(put("/admin/post/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002005002))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("已经存在该名字的岗位"));
+        }
+
+        // sad path5: 更新岗位失败，岗位编码已存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:update"})
+        public void updatePost_failed_when_codeIsExist() throws Exception {
+            SysPostPO postPO1 = createPost1();
+            SysPostPO postPO2 = createPost2();
+            PostUpdateReqVO postUpdateReqVO = new PostUpdateReqVO();
+            postUpdateReqVO.setId(postPO2.getId());
+            postUpdateReqVO.setName("前端2");
+            postUpdateReqVO.setCode(postPO1.getCode());
+            postUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            postUpdateReqVO.setSort(3);
+            postUpdateReqVO.setRemark("备注信息");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(postUpdateReqVO);
+            mvc.perform(put("/admin/post/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002005003))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("已经存在该标识的岗位"));
         }
     }
 
@@ -331,28 +464,25 @@ public class PostControllerTests {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data").value(true));
     }
-// 批量删除
-//    @Test
-//    public void deletePost_success() throws Exception {
-//        List<Long> idList = Lists.newArrayList(2L, 3L);
-//        mvc.perform(delete("/sys/post")
-//                        .header("Authorization", "Bearer " + getToken().getAccessToken())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(JSON.toJSONString(idList))
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.code").value(0))
-//                .andExpect(jsonPath("$.message").value("success"));
-//    }
 
-    private SysPostPO createPost() throws Exception {
+    private SysPostPO createPost1() throws Exception {
         SysPostPO postPO = new SysPostPO();
-        postPO.setName("测试岗位");
-        postPO.setCode("test_post");
+        postPO.setName("测试岗位1");
+        postPO.setCode("test_post1");
         postPO.setSort(1);
         postPO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        postPO.setRemark("备注信息");
+        postPO.setRemark("备注信息11");
+        postMapper.insert(postPO);
+        return postPO;
+    }
+
+    private SysPostPO createPost2() throws Exception {
+        SysPostPO postPO = new SysPostPO();
+        postPO.setName("测试岗位2");
+        postPO.setCode("test_post2");
+        postPO.setSort(2);
+        postPO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        postPO.setRemark("备注信息22");
         postMapper.insert(postPO);
         return postPO;
     }
