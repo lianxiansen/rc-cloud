@@ -52,7 +52,7 @@ public class ProductConvert {
         product.setExplosives(explosives);
         //Recommend
         Recommend recommend = new Recommend(po.getRecommendFlag());
-        product.setRecommend(recommend);
+        product.setRecommendFlag(recommend);
         //OnshelfStatus
         OnshelfStatus onshelfStatus = new OnshelfStatus(po.getOnshelfStatus());
         product.setOnshelfStatus(onshelfStatus);
@@ -116,8 +116,8 @@ public class ProductConvert {
         if(product.getNewFlag()!=null){
             po.setNewFlag(product.getNewFlag());
         }
-        if(product.getRecommend()!=null){
-            po.setRecommendFlag(product.getRecommend().getValue());
+        if(product.getRecommendFlag()!=null){
+            po.setRecommendFlag(product.getRecommendFlag().getValue());
         }
         if(product.getExplosives()!=null){
             po.setExplosivesFlag(product.getExplosives().isFlag());

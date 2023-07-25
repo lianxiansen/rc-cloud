@@ -1,13 +1,16 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
 import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
+import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.infrastructure.constants.ProductErrorCodeConstants;
 import com.rc.cloud.common.core.domain.AggregateRoot;
+import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
 
@@ -22,30 +25,36 @@ import java.util.List;
  */
 public class Product extends AggregateRoot {
 
-    /**
-     * 产品唯一标识
-     */
+
+    public Product(ProductId id, TenantId tenantId, Name name){
+        setId(id);
+        setTenantId(tenantId);
+        setName(name);
+        init();
+    }
+
+    private void init(){
+        this.sort=new Sort(99);
+        this.type=new Type(0);
+        this.firstCategory=new CategoryName("");
+        this.secondCategory=new CategoryName("");
+        this.thirdCategory=new CategoryName("");
+        this.productListImage=new Url("");
+        this.remark=new Remark("");
+        this.tag =new Tag("");
+        this.brandId=new BrandId(null);
+        this.customClassificationId=new CustomClassificationId(null);
+        this.newFlag=false;
+        this.publicFlag=false;
+        this.onshelfStatus= new OnshelfStatus(ProductShelfStatusEnum.InitShelf.value);
+    }
+
     private ProductId id;
-
-    /**
-     * 所属租户
-     */
     private TenantId tenantId;
-    /**
-     * 产品名
-     */
     private Name name;
-
-    /**
-     * 产品分类标识
-     */
     private CategoryName firstCategory;
-
     private CategoryName secondCategory;
-
     private CategoryName thirdCategory;
-
-
     private Url productListImage;
 
     public Url getProductListImage() {
@@ -53,6 +62,7 @@ public class Product extends AggregateRoot {
     }
 
     public void setProductListImage(Url productListImage) {
+        AssertUtils.assertArgumentNotNull(productListImage, "firstCategory must not be null");
         this.productListImage = productListImage;
     }
 
@@ -64,6 +74,8 @@ public class Product extends AggregateRoot {
      */
     public Product setCategory(CategoryName firstCategory, CategoryName secondCategory,CategoryName thirdCategory){
         AssertUtils.assertArgumentNotNull(firstCategory, "firstCategory must not be null");
+        AssertUtils.assertArgumentNotNull(secondCategory, "secondCategory must not be null");
+        AssertUtils.assertArgumentNotNull(thirdCategory, "thirdCategory must not be null");
         this.firstCategory=firstCategory;
         this.secondCategory=secondCategory;
         this.thirdCategory=thirdCategory;
@@ -117,11 +129,10 @@ public class Product extends AggregateRoot {
         return this;
     }
 
-    /**
-     * 新品
-     */
+
     private Boolean newFlag;
     private Boolean publicFlag;
+    private Recommend recommendFlag;
 
 
     public Boolean getNewFlag() {
@@ -129,6 +140,7 @@ public class Product extends AggregateRoot {
     }
 
     public void setNewFlag(Boolean newFlag) {
+        AssertUtils.assertArgumentNotNull(newFlag, "newFlag must not be null");
         this.newFlag = newFlag;
     }
 
@@ -137,7 +149,17 @@ public class Product extends AggregateRoot {
     }
 
     public void setPublicFlag(Boolean publicFlag) {
+        AssertUtils.assertArgumentNotNull(publicFlag, "publicFlag must not be null");
         this.publicFlag = publicFlag;
+    }
+
+    public Recommend getRecommendFlag() {
+        return recommendFlag;
+    }
+
+    public void setRecommendFlag(Recommend recommendFlag) {
+        AssertUtils.assertArgumentNotNull(recommendFlag, "recommendFlag must not be null");
+        this.recommendFlag = recommendFlag;
     }
 
     /**
@@ -145,19 +167,10 @@ public class Product extends AggregateRoot {
      */
     private Explosives explosives;
 
-    /**
-     * 推荐
-     */
-    private Recommend recommend;
-
-
     public void setExplosives(Explosives explosives){
         this.explosives = explosives;
     }
 
-    public void setRecommend(Recommend recommend){
-        this.recommend = recommend;
-    }
 
 
     /**
@@ -166,8 +179,8 @@ public class Product extends AggregateRoot {
     private OnshelfStatus onshelfStatus;
 
     public void setOnshelfStatus(OnshelfStatus onshelfStatus){
+        AssertUtils.assertArgumentNotNull(onshelfStatus, "onshelfStatus must not be null");
         this.onshelfStatus = onshelfStatus;
-
     }
 
 
@@ -240,18 +253,6 @@ public class Product extends AggregateRoot {
 
 
 
-    public Product(ProductId id, TenantId tenantId, Name name){
-        init();
-        setId(id);
-        setTenantId(tenantId);
-        setName(name);
-        this.type=new Type(0);
-    }
-
-    private void init(){
-        this.sort=new Sort(99);
-    }
-
     public void setId(ProductId id){
         AssertUtils.assertArgumentNotNull(id,"ProductId must not be null");
         this.id=id;
@@ -279,7 +280,7 @@ public class Product extends AggregateRoot {
             this.onshelfStatus.setValue(1);
         }
         else{
-            throw new IllegalArgumentException("上架失败，状态异常");
+            throw new ServiceException(ProductErrorCodeConstants.PRODUCT_ONSHELF_ERROR);
         }
     }
 
@@ -291,7 +292,7 @@ public class Product extends AggregateRoot {
             this.onshelfStatus.setValue(0);
         }
         else{
-            throw new IllegalArgumentException("下架失败，状态异常");
+            throw new ServiceException(ProductErrorCodeConstants.PRODUCT_OFFSHELF_ERROR);
         }
     }
 
@@ -355,9 +356,6 @@ public class Product extends AggregateRoot {
         return explosives;
     }
 
-    public Recommend getRecommend() {
-        return recommend;
-    }
 
 
     public OnshelfStatus getOnshelfStatus() {

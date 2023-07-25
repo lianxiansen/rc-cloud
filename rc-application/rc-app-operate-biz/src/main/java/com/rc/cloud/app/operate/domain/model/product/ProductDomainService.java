@@ -55,14 +55,14 @@ public class ProductDomainService {
     public int setRecommend(ProductId productId){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
-        product.setRecommend(new Recommend(true));
+        product.setRecommendFlag(new Recommend(true));
         return productRepository.updateProduct(product);
     }
 
     public int cancelRecommend(ProductId productId){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
-        product.setRecommend(new Recommend(false));
+        product.setRecommendFlag(new Recommend(false));
         return productRepository.updateProduct(product);
     }
 

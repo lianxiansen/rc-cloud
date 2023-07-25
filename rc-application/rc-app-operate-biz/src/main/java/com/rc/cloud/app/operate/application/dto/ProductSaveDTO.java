@@ -128,7 +128,6 @@ public class ProductSaveDTO {
 
     private Integer onShelfStatus;
 
-    private Boolean enableFlag;
 
     private String videoUrl;
     private String videoImg;
