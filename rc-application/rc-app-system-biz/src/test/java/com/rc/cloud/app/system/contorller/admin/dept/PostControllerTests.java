@@ -247,56 +247,74 @@ public class PostControllerTests {
         }
     }
 
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 通过ID获取岗位相关测试
+     */
+    @Nested
+    class GetPostByIDTests{
 
+        // happy path1: 通过ID获取岗位成功
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:query"})
+        public void getPostByIdExist_then_success() throws Exception {
+            SysPostPO postPO = createPost();
+            mvc.perform(get("/admin/post/" + postPO.getId()))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.id").value(postPO.getId()))
+                    .andExpect(jsonPath("$.data.name").value(postPO.getName()))
+                    .andExpect(jsonPath("$.data.code").value(postPO.getCode()))
+                    .andExpect(jsonPath("$.data.sort").value(postPO.getSort()))
+                    .andExpect(jsonPath("$.data.status").value(postPO.getStatus()))
+                    .andExpect(jsonPath("$.data.remark").value(postPO.getRemark()));
+        }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:post:query"})
-    public void getPostByIdExist_then_success() throws Exception {
-        mvc.perform(get("/admin/post/1"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.name").value("董事长"))
-                .andExpect(jsonPath("$.data.code").value("ceo"))
-                .andExpect(jsonPath("$.data.sort").value(1))
-                .andExpect(jsonPath("$.data.status").value(0));
+        // sad path1: 通过ID获取岗位失败，岗位不存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:query"})
+        public void getPostByIdNotExist_then_throwNotFoundException() throws Exception {
+            mvc.perform(get("/admin/post/9999999"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002005000))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("当前岗位不存在"));
+        }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:post:query"})
-    public void getPostByIdNotExist_then_throwNotFoundException() throws Exception {
-        mvc.perform(get("/admin/post/9999999"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(1002005000))
-                .andExpect(jsonPath("$.success").value(false))
-                .andExpect(jsonPath("$.msg").value("当前岗位不存在"));
-    }
-
-
-
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:post:update"})
-    public void updatePost_success() throws Exception {
-        PostUpdateReqVO postUpdateReqVO = new PostUpdateReqVO();
-        postUpdateReqVO.setId("2");
-        postUpdateReqVO.setName("前端2");
-        postUpdateReqVO.setCode("front2");
-        postUpdateReqVO.setSort(3);
-        postUpdateReqVO.setStatus(0);
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(postUpdateReqVO);
-        mvc.perform(put("/admin/post/update")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 更新岗位相关测试
+     */
+    @Nested
+    class UpdatePostTests{
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:update"})
+        public void updatePost_success() throws Exception {
+            PostUpdateReqVO postUpdateReqVO = new PostUpdateReqVO();
+            postUpdateReqVO.setId("2");
+            postUpdateReqVO.setName("前端2");
+            postUpdateReqVO.setCode("front2");
+            postUpdateReqVO.setSort(3);
+            postUpdateReqVO.setStatus(0);
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(postUpdateReqVO);
+            mvc.perform(put("/admin/post/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+        }
     }
 
     // 根据ID删除
