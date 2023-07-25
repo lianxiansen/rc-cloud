@@ -199,7 +199,7 @@ public class DictTypeControllerTests {
      * @description 根据ID获取字典类型相关测试
      */
     @Nested
-    class GetDictTypeByIDTests{
+    class GetDictTypeByIDTests {
 
         // happy path1: 根据ID获取字典类型成功
         @Test
@@ -237,7 +237,7 @@ public class DictTypeControllerTests {
      * @description 获取字典类型简单列表相关测试
      */
     @Nested
-    class GetDictTypeSimpleListTests{
+    class GetDictTypeSimpleListTests {
         // happy path1: 获取字典类型简单列表成功
         @Test
         @WithMockUser(username = "admin")
@@ -256,20 +256,35 @@ public class DictTypeControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:dict:query"})
-    public void getDictTypePage_success() throws Exception {
-        mvc.perform(get("/sys/dict-type/page"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.total").value(2))
-                .andExpect(jsonPath("$.data.list").isArray())
-                .andExpect(jsonPath("$.data.list").isNotEmpty())
-                .andExpect(jsonPath("$.data.list[0].name").value("通用状态"));
-    }
 
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 获取字典类型分页相关测试
+     */
+    @Nested
+    class GetDictTypePageTests {
+
+        // happy path1: 获取字典类型分页成功
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:query"})
+        public void getDictTypePage_success() throws Exception {
+            SysDictTypePO dictType1 = createDictType1();
+            mvc.perform(get("/admin/dict-type/page"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.total").value(1))
+                    .andExpect(jsonPath("$.data.list").isArray())
+                    .andExpect(jsonPath("$.data.list").isNotEmpty())
+                    .andExpect(jsonPath("$.data.list[0].id").value(dictType1.getId()))
+                    .andExpect(jsonPath("$.data.list[0].name").value(dictType1.getName()))
+                    .andExpect(jsonPath("$.data.list[0].type").value(dictType1.getType()))
+                    .andExpect(jsonPath("$.data.list[0].status").value(dictType1.getStatus()))
+                    .andExpect(jsonPath("$.data.list[0].remark").value(dictType1.getRemark()));
+        }
+    }
 
     @Test
     @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
@@ -282,7 +297,7 @@ public class DictTypeControllerTests {
         ObjectMapper mapper = new ObjectMapper();
         String requestBody = mapper.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(dictTypeUpdateReqVO);
-        mvc.perform(put("/sys/dict-type/update")
+        mvc.perform(put("/admin/dict-type/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
@@ -303,7 +318,7 @@ public class DictTypeControllerTests {
         dictTypeCreateReqVO.setRemark("备注");
         dictTypeCreateReqVO.setType("test_type");
         String dictTypeId = dictTypeService.createDictType(dictTypeCreateReqVO);
-        mvc.perform(delete("/sys/dict-type")
+        mvc.perform(delete("/admin/dict-type")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("[" + dictTypeId + "]")
                         .accept(MediaType.APPLICATION_JSON))
