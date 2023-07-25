@@ -302,42 +302,87 @@ public class TenantPackageControllerTests {
         // TODO:: sad path1: 删除租户套餐失败，租户套餐已被使用
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:tenant-package:query"})
-    public void getTenantPackageById_success() throws Exception {
-        mvc.perform(get("/admin/tenant-package/get/" + 111))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.name").value("普通套餐"));
+
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 根据ID获取租户套餐相关测试
+     */
+    @Nested
+    class GetTenantPackageByIDTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant-package:query"})
+        public void getTenantPackageById_success() throws Exception {
+            SysTenantPackagePO tenantPackagePO = createTenantPackage1();
+            mvc.perform(get("/admin/tenant-package/get/" + tenantPackagePO.getId()))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.id").value(tenantPackagePO.getId()))
+                    .andExpect(jsonPath("$.data.name").value(tenantPackagePO.getName()))
+                    .andExpect(jsonPath("$.data.status").value(tenantPackagePO.getStatus()))
+                    .andExpect(jsonPath("$.data.remark").value(tenantPackagePO.getRemark()))
+                    .andExpect(jsonPath("$.data.menuIds").isArray())
+                    .andExpect(jsonPath("$.data.menuIds").isNotEmpty())
+                    .andExpect(jsonPath("$.data.menuIds[0]").value(tenantPackagePO.getMenuIds().toArray()[0]))
+                    .andExpect(jsonPath("$.data.menuIds[1]").value(tenantPackagePO.getMenuIds().toArray()[1]))
+                    .andExpect(jsonPath("$.data.menuIds[2]").value(tenantPackagePO.getMenuIds().toArray()[2]));
+        }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:tenant-package:query"})
-    public void getTenantPackagePage_success() throws Exception {
-        mvc.perform(get("/admin/tenant-package/page"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.total").value(1))
-                .andExpect(jsonPath("$.data.list").isArray())
-                .andExpect(jsonPath("$.data.list").isNotEmpty())
-                .andExpect(jsonPath("$.data.list[0].name").value("普通套餐"));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 获取租户套餐分页相关测试
+     */
+    @Nested
+    class GetTenantPackagePageTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant-package:query"})
+        public void getTenantPackagePage_success() throws Exception {
+            SysTenantPackagePO tenantPackagePO = createTenantPackage1();
+            mvc.perform(get("/admin/tenant-package/page"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.total").value(1))
+                    .andExpect(jsonPath("$.data.list").isArray())
+                    .andExpect(jsonPath("$.data.list").isNotEmpty())
+                    .andExpect(jsonPath("$.data.list[0].id").value(tenantPackagePO.getId()))
+                    .andExpect(jsonPath("$.data.list[0].name").value(tenantPackagePO.getName()))
+                    .andExpect(jsonPath("$.data.list[0].status").value(tenantPackagePO.getStatus()))
+                    .andExpect(jsonPath("$.data.list[0].remark").value(tenantPackagePO.getRemark()))
+                    .andExpect(jsonPath("$.data.list[0].menuIds").isArray())
+                    .andExpect(jsonPath("$.data.list[0].menuIds").isNotEmpty())
+                    .andExpect(jsonPath("$.data.list[0].menuIds[0]").value(tenantPackagePO.getMenuIds().toArray()[0]))
+                    .andExpect(jsonPath("$.data.list[0].menuIds[1]").value(tenantPackagePO.getMenuIds().toArray()[1]))
+                    .andExpect(jsonPath("$.data.list[0].menuIds[2]").value(tenantPackagePO.getMenuIds().toArray()[2]));
+        }
     }
 
-    @Test
-    @WithMockUser("admin")
-    public void getTenantPackageSimpleList_success() throws Exception {
-        mvc.perform(get("/admin/tenant-package/get-simple-list"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data").isNotEmpty())
-                .andExpect(jsonPath("$.data[0].name").value("普通套餐"));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 获取租户套餐简单列表相关测试
+     */
+    @Nested
+    class GetTenantPackageSimpleListTests {
+        @Test
+        @WithMockUser("admin")
+        public void getTenantPackageSimpleList_success() throws Exception {
+            SysTenantPackagePO tenantPackagePO = createTenantPackage1();
+            mvc.perform(get("/admin/tenant-package/get-simple-list"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isArray())
+                    .andExpect(jsonPath("$.data").isNotEmpty())
+                    .andExpect(jsonPath("$.data[0].id").value(tenantPackagePO.getId()))
+                    .andExpect(jsonPath("$.data[0].name").value(tenantPackagePO.getName()));
+        }
     }
 
     private SysTenantPackagePO createTenantPackage1() {
