@@ -234,25 +234,26 @@ public class DictTypeControllerTests {
     /**
      * @author rc@hqf
      * @date 2023/07/25
-     * @description 根据ID获取字典类型相关测试
+     * @description 获取字典类型简单列表相关测试
      */
     @Nested
     class GetDictTypeSimpleListTests{
-
-    }
-
-    // list-all-simple
-    @Test
-    @WithMockUser(username = "admin")
-    public void listDictTypeAllSimple_success() throws Exception {
-        mvc.perform(get("/sys/dict-type/list-all-simple"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data").isNotEmpty())
-                .andExpect(jsonPath("$.data[0].name").value("用户性别"));
+        // happy path1: 获取字典类型简单列表成功
+        @Test
+        @WithMockUser(username = "admin")
+        public void listDictTypeAllSimple_success() throws Exception {
+            SysDictTypePO dictType1 = createDictType1();
+            mvc.perform(get("/admin/dict-type/list-all-simple"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isArray())
+                    .andExpect(jsonPath("$.data").isNotEmpty())
+                    .andExpect(jsonPath("$.data[0].id").value(dictType1.getId()))
+                    .andExpect(jsonPath("$.data[0].name").value(dictType1.getName()))
+                    .andExpect(jsonPath("$.data[0].type").value(dictType1.getType()));
+        }
     }
 
     @Test
