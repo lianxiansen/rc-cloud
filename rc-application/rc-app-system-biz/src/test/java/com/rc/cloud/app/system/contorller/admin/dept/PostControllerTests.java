@@ -213,6 +213,7 @@ public class PostControllerTests {
                     .andExpect(jsonPath("$.data.total").value(1))
                     .andExpect(jsonPath("$.data.list").isArray())
                     .andExpect(jsonPath("$.data.list").isNotEmpty())
+                    .andExpect(jsonPath("$.data.list[0].id").value(postPO.getId()))
                     .andExpect(jsonPath("$.data.list[0].name").value(postPO.getName()))
                     .andExpect(jsonPath("$.data.list[0].code").value(postPO.getCode()))
                     .andExpect(jsonPath("$.data.list[0].sort").value(postPO.getSort()))
@@ -221,18 +222,32 @@ public class PostControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(username = "admin")
-    public void getPostListAllSimple_success() throws Exception {
-        mvc.perform(get("/admin/post/list-all-simple"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data").isNotEmpty())
-                .andExpect(jsonPath("$.data[0].name").value("董事长"));
+
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 获取岗位精简列表相关测试
+     */
+    @Nested
+    class GetPostSimpleListTests{
+        // happy path1: 获取岗位精简列表成功
+        @Test
+        @WithMockUser(username = "admin")
+        public void getPostListAllSimple_success() throws Exception {
+            SysPostPO postPO = createPost();
+            mvc.perform(get("/admin/post/list-all-simple"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isArray())
+                    .andExpect(jsonPath("$.data").isNotEmpty())
+                    .andExpect(jsonPath("$.data[0].id").value(postPO.getId()))
+                    .andExpect(jsonPath("$.data[0].name").value(postPO.getName()));
+        }
     }
+
+
 
     @Test
     @WithMockUser(username = "admin", authorities = {"sys:post:query"})
