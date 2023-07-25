@@ -22,6 +22,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -61,6 +63,7 @@ public class PostControllerTests {
      */
     @Nested
     class CreatePostTests {
+        // happy path1: 创建岗位成功
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:post:create"})
         public void createPost_success() throws Exception {
@@ -82,8 +85,13 @@ public class PostControllerTests {
                     .andExpect(jsonPath("$.code").value(200))
                     .andExpect(jsonPath("$.success").value(true))
                     .andExpect(jsonPath("$.data").isNotEmpty());
-//            postMapper.
-
+            SysPostPO dbPostPO = postMapper.selectByName(postCreateReqVO.getName());
+            assertNotEquals(null, dbPostPO);
+            assertEquals(postCreateReqVO.getName(), dbPostPO.getName());
+            assertEquals(postCreateReqVO.getCode(), dbPostPO.getCode());
+            assertEquals(postCreateReqVO.getSort(), dbPostPO.getSort());
+            assertEquals(postCreateReqVO.getStatus(), dbPostPO.getStatus());
+            assertEquals(postCreateReqVO.getRemark(), dbPostPO.getRemark());
         }
     }
 
