@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -450,20 +452,33 @@ public class PostControllerTests {
         }
     }
 
-    // 根据ID删除
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:post:delete"})
-    public void deletePostById_success() throws Exception {
-        mvc.perform(delete("/admin/post")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("[1]")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
+
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 批量删除岗位相关测试
+     */
+    @Nested
+    class DeletePostTests {
+        // 根据ID删除
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:delete"})
+        public void deletePostById_success() throws Exception {
+            List<String> ids = new ArrayList<>();
+            ids.add(createPost1().getId());
+            ids.add(createPost2().getId());
+            mvc.perform(delete("/admin/post")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(ids.toString())
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+        }
     }
+
 
     private SysPostPO createPost1() throws Exception {
         SysPostPO postPO = new SysPostPO();
