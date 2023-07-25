@@ -93,6 +93,104 @@ public class PostControllerTests {
             assertEquals(postCreateReqVO.getStatus(), dbPostPO.getStatus());
             assertEquals(postCreateReqVO.getRemark(), dbPostPO.getRemark());
         }
+
+        // sad path1: 创建岗位失败，岗位名称为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:create"})
+        public void createPost_failed_when_nameIsNull() throws Exception {
+            PostCreateReqVO postCreateReqVO = new PostCreateReqVO();
+            postCreateReqVO.setName("");
+            postCreateReqVO.setCode("cszw");
+            postCreateReqVO.setSort(99);
+            postCreateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            postCreateReqVO.setRemark("备注信息");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(postCreateReqVO);
+            mvc.perform(post("/admin/post/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:岗位名称不能为空"));
+        }
+
+        // sad path2: 创建岗位失败，岗位code为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:create"})
+        public void createPost_failed_when_codeIsNull() throws Exception {
+            PostCreateReqVO postCreateReqVO = new PostCreateReqVO();
+            postCreateReqVO.setName("测试职位");
+            postCreateReqVO.setCode("");
+            postCreateReqVO.setSort(99);
+            postCreateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            postCreateReqVO.setRemark("备注信息");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(postCreateReqVO);
+            mvc.perform(post("/admin/post/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:岗位编码不能为空"));
+        }
+
+        // sad path3: 创建岗位失败，岗位名称已存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:create"})
+        public void createPost_failed_when_nameIsExist() throws Exception {
+            SysPostPO postPO = createPost();
+            PostCreateReqVO postCreateReqVO = new PostCreateReqVO();
+            postCreateReqVO.setName(postPO.getName());
+            postCreateReqVO.setCode("cszw");
+            postCreateReqVO.setSort(99);
+            postCreateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            postCreateReqVO.setRemark("备注信息");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(postCreateReqVO);
+            mvc.perform(post("/admin/post/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002005002))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("已经存在该名字的岗位"));
+        }
+
+        // sad path4: 创建岗位失败，岗位编码已存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:post:create"})
+        public void createPost_failed_when_codeIsExist() throws Exception {
+            SysPostPO postPO = createPost();
+            PostCreateReqVO postCreateReqVO = new PostCreateReqVO();
+            postCreateReqVO.setName("测试职位");
+            postCreateReqVO.setCode(postPO.getCode());
+            postCreateReqVO.setSort(99);
+            postCreateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            postCreateReqVO.setRemark("备注信息");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(postCreateReqVO);
+            mvc.perform(post("/admin/post/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002005003))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("已经存在该标识的岗位"));
+        }
     }
 
     @Test
