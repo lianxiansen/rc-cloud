@@ -328,20 +328,36 @@ public class DictDataControllerTests {
     }
 
 
-    @Test
-    @WithMockUser("admin")
-    public void getDictDataPage_success() throws Exception {
-        mvc.perform(get("/admin/dict-data/page"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.total").value(206))
-                .andExpect(jsonPath("$.data.list").isArray())
-                .andExpect(jsonPath("$.data.list").isNotEmpty())
-                .andExpect(jsonPath("$.data.list[0].label").value("管理员"));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/25
+     * @description 获取岗位分页相关测试
+     */
+    @Nested
+    class GetDictDataPageTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:dict:query"})
+        public void getDictDataPage_success() throws Exception {
+            SysDictTypePO dictType = createDictType();
+            SysDictDataPO dictData = createDictData(dictType.getType());
+            mvc.perform(get("/admin/dict-data/page"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.total").value(1))
+                    .andExpect(jsonPath("$.data.list").isArray())
+                    .andExpect(jsonPath("$.data.list").isNotEmpty())
+                    .andExpect(jsonPath("$.data.list[0].id").value(dictData.getId()))
+                    .andExpect(jsonPath("$.data.list[0].label").value(dictData.getLabel()))
+                    .andExpect(jsonPath("$.data.list[0].dictType").value(dictData.getDictType()))
+                    .andExpect(jsonPath("$.data.list[0].value").value(dictData.getValue()))
+                    .andExpect(jsonPath("$.data.list[0].sort").value(dictData.getSort()))
+                    .andExpect(jsonPath("$.data.list[0].cssClass").value(dictData.getCssClass()))
+                    .andExpect(jsonPath("$.data.list[0].colorType").value(dictData.getColorType()))
+                    .andExpect(jsonPath("$.data.list[0].status").value(dictData.getStatus()));
+        }
     }
-
 
 
 
