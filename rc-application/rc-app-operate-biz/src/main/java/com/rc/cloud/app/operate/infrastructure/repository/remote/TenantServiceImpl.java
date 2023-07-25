@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TenantServiceImpl implements TenantService {
+
     @Override
     public boolean exists(TenantId tenantId) {
         return true;

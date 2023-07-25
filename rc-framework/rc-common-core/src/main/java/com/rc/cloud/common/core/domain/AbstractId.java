@@ -20,6 +20,10 @@ public abstract class AbstractId implements Identity, Serializable {
         return this.id;
     }
 
+    public String getId() {
+        return this.id;
+    }
+
     public boolean sameValueAs(Object anObject) {
         boolean equalObjects = false;
 
