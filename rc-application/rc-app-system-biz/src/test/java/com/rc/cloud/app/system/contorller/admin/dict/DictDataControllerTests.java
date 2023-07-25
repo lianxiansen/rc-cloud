@@ -25,9 +25,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -72,7 +69,7 @@ public class DictDataControllerTests {
     /**
      * @author rc@hqf
      * @date 2023/07/25
-     * @description 创建岗位相关测试
+     * @description 创建数据字典数据相关测试
      */
     @Nested
     class CreateDictDataTests {
@@ -223,13 +220,12 @@ public class DictDataControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dict:create"})
         public void createDictData_valueDuplicate() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData1(dictType.getType());
+            SysDictDataPO dictData = createDictData1();
             DictDataCreateReqVO dictDataCreateReqVO = new DictDataCreateReqVO();
             dictDataCreateReqVO.setSort(1);
             dictDataCreateReqVO.setLabel("柔川");
             dictDataCreateReqVO.setValue(dictData.getValue());
-            dictDataCreateReqVO.setDictType(dictType.getType());
+            dictDataCreateReqVO.setDictType(dictData.getDictType());
             dictDataCreateReqVO.setStatus(0);
             dictDataCreateReqVO.setCssClass("success");
             dictDataCreateReqVO.setRemark("备注");
@@ -251,13 +247,12 @@ public class DictDataControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dict:create"})
         public void createDictData_labelDuplicate() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData1(dictType.getType());
+            SysDictDataPO dictData = createDictData1();
             DictDataCreateReqVO dictDataCreateReqVO = new DictDataCreateReqVO();
             dictDataCreateReqVO.setSort(1);
             dictDataCreateReqVO.setLabel(dictData.getLabel());
             dictDataCreateReqVO.setValue("rc");
-            dictDataCreateReqVO.setDictType(dictType.getType());
+            dictDataCreateReqVO.setDictType(dictData.getDictType());
             dictDataCreateReqVO.setStatus(0);
             dictDataCreateReqVO.setCssClass("success");
             dictDataCreateReqVO.setRemark("备注");
@@ -280,15 +275,14 @@ public class DictDataControllerTests {
     /**
      * @author rc@hqf
      * @date 2023/07/25
-     * @description 根据ID获取岗位相关测试
+     * @description 根据ID获数据字典数据相关测试
      */
     @Nested
     class GetDictDataByIdTests {
         @Test
         @WithMockUser(value = "admin", authorities = {"sys:dict:query"})
         public void getDictDataById_success() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData1(dictType.getType());
+            SysDictDataPO dictData = createDictData1();
             mvc.perform(get("/admin/dict-data/" + dictData.getId()))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -307,15 +301,14 @@ public class DictDataControllerTests {
     /**
      * @author rc@hqf
      * @date 2023/07/25
-     * @description 获取岗位简单列表相关测试
+     * @description 获取数据字典数据简单列表相关测试
      */
     @Nested
     class GetDictDataSimpleListTests {
         @Test
         @WithMockUser("admin")
         public void listDictDataAllSimple_success() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData1(dictType.getType());
+            SysDictDataPO dictData = createDictData1();
             mvc.perform(get("/admin/dict-data/list-all-simple"))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -335,15 +328,14 @@ public class DictDataControllerTests {
     /**
      * @author rc@hqf
      * @date 2023/07/25
-     * @description 获取岗位分页相关测试
+     * @description 获取数据字典数据分页相关测试
      */
     @Nested
     class GetDictDataPageTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dict:query"})
         public void getDictDataPage_success() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData1(dictType.getType());
+            SysDictDataPO dictData = createDictData1();
             mvc.perform(get("/admin/dict-data/page"))
                     .andDo(print())
                     .andExpect(status().isOk())
@@ -366,7 +358,7 @@ public class DictDataControllerTests {
     /**
      * @author rc@hqf
      * @date 2023/07/25
-     * @description 更新岗位相关测试
+     * @description 更新数据字典数据相关测试
      */
     @Nested
     class UpdateDictDataTests {
@@ -374,14 +366,13 @@ public class DictDataControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
         public void updateDictData_success() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData1(dictType.getType());
+            SysDictDataPO dictData = createDictData1();
             DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
             dictDataUpdateReqVO.setId(dictData.getId());
             dictDataUpdateReqVO.setSort(34);
             dictDataUpdateReqVO.setLabel("柔川123123");
             dictDataUpdateReqVO.setValue("cddgdg");
-            dictDataUpdateReqVO.setDictType(dictType.getType());
+            dictDataUpdateReqVO.setDictType(dictData.getDictType());
             dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
             dictDataUpdateReqVO.setCssClass("error");
             dictDataUpdateReqVO.setRemark("备注123");
@@ -412,8 +403,7 @@ public class DictDataControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
         public void updateDictData_dictTypeNotExist() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData1(dictType.getType());
+            SysDictDataPO dictData = createDictData1();
             DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
             dictDataUpdateReqVO.setId(dictData.getId());
             dictDataUpdateReqVO.setSort(34);
@@ -441,8 +431,7 @@ public class DictDataControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
         public void updateDictData_dictTypeEmpty() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData1(dictType.getType());
+            SysDictDataPO dictData = createDictData1();
             DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
             dictDataUpdateReqVO.setId(dictData.getId());
             dictDataUpdateReqVO.setSort(34);
@@ -470,14 +459,13 @@ public class DictDataControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
         public void updateDictData_labelEmpty() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData1(dictType.getType());
+            SysDictDataPO dictData = createDictData1();
             DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
             dictDataUpdateReqVO.setId(dictData.getId());
             dictDataUpdateReqVO.setSort(34);
             dictDataUpdateReqVO.setLabel("");
             dictDataUpdateReqVO.setValue("cddgdg");
-            dictDataUpdateReqVO.setDictType(dictType.getType());
+            dictDataUpdateReqVO.setDictType(dictData.getDictType());
             dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
             dictDataUpdateReqVO.setCssClass("warming");
             dictDataUpdateReqVO.setRemark("备注123");
@@ -499,14 +487,13 @@ public class DictDataControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
         public void updateDictData_valueEmpty() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData1(dictType.getType());
+            SysDictDataPO dictData = createDictData1();
             DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
             dictDataUpdateReqVO.setId(dictData.getId());
             dictDataUpdateReqVO.setSort(34);
             dictDataUpdateReqVO.setLabel("柔川123123");
             dictDataUpdateReqVO.setValue("");
-            dictDataUpdateReqVO.setDictType(dictType.getType());
+            dictDataUpdateReqVO.setDictType(dictData.getDictType());
             dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
             dictDataUpdateReqVO.setCssClass("warming");
             dictDataUpdateReqVO.setRemark("备注123");
@@ -528,15 +515,14 @@ public class DictDataControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
         public void updateDictData_valueDuplicate() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData1 = createDictData1(dictType.getType());
-            SysDictDataPO dictData2 = createDictData2(dictType.getType());
+            SysDictDataPO dictData1 = createDictData1();
+            SysDictDataPO dictData2 = createDictData2();
             DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
             dictDataUpdateReqVO.setId(dictData1.getId());
             dictDataUpdateReqVO.setSort(34);
             dictDataUpdateReqVO.setLabel("柔川123123");
             dictDataUpdateReqVO.setValue(dictData2.getValue());
-            dictDataUpdateReqVO.setDictType(dictType.getType());
+            dictDataUpdateReqVO.setDictType(dictData1.getDictType());
             dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
             dictDataUpdateReqVO.setCssClass("warming");
             dictDataUpdateReqVO.setRemark("备注123");
@@ -558,15 +544,14 @@ public class DictDataControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
         public void updateDictData_labelDuplicate() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData1 = createDictData1(dictType.getType());
-            SysDictDataPO dictData2 = createDictData2(dictType.getType());
+            SysDictDataPO dictData1 = createDictData1();
+            SysDictDataPO dictData2 = createDictData2();
             DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
             dictDataUpdateReqVO.setId(dictData1.getId());
             dictDataUpdateReqVO.setSort(34);
             dictDataUpdateReqVO.setLabel(dictData2.getLabel());
             dictDataUpdateReqVO.setValue("cddgdg");
-            dictDataUpdateReqVO.setDictType(dictType.getType());
+            dictDataUpdateReqVO.setDictType(dictData1.getDictType());
             dictDataUpdateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
             dictDataUpdateReqVO.setCssClass("warming");
             dictDataUpdateReqVO.setRemark("备注123");
@@ -588,7 +573,7 @@ public class DictDataControllerTests {
     /**
      * @author rc@hqf
      * @date 2023/07/25
-     * @description 删除岗位相关测试
+     * @description 删除数据字典数据相关测试
      */
     @Nested
     class DeleteDictDataTests {
@@ -596,8 +581,7 @@ public class DictDataControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:dict:delete"})
         public void deleteDictDataById_success() throws Exception {
-            SysDictTypePO dictType = createDictType();
-            SysDictDataPO dictData = createDictData1(dictType.getType());
+            SysDictDataPO dictData = createDictData1();
             mvc.perform(delete("/admin/dict-data")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content("[" + dictData.getId() + "]")
@@ -623,12 +607,13 @@ public class DictDataControllerTests {
         return dictTypePO;
     }
 
-    private SysDictDataPO createDictData1(String dictType) {
+    private SysDictDataPO createDictData1() {
+        SysDictTypePO dictType = createDictType();
         SysDictDataPO dictData = new SysDictDataPO();
         dictData.setSort(1);
         dictData.setLabel("值1");
         dictData.setValue("value1");
-        dictData.setDictType(dictType);
+        dictData.setDictType(dictType.getType());
         dictData.setStatus(CommonStatusEnum.ENABLE.getStatus());
         dictData.setCssClass("success");
         dictData.setColorType("default1");
@@ -637,12 +622,13 @@ public class DictDataControllerTests {
         return dictData;
     }
 
-    private SysDictDataPO createDictData2(String dictType) {
+    private SysDictDataPO createDictData2() {
+        SysDictTypePO dictType = createDictType();
         SysDictDataPO dictData = new SysDictDataPO();
         dictData.setSort(1);
         dictData.setLabel("值2");
         dictData.setValue("value2");
-        dictData.setDictType(dictType);
+        dictData.setDictType(dictType.getType());
         dictData.setStatus(CommonStatusEnum.ENABLE.getStatus());
         dictData.setCssClass("success");
         dictData.setColorType("default2");
