@@ -72,7 +72,7 @@ public class ProductPO extends BaseDO {
      * 商品来源，0：ffcat
      */
     @TableField("product_origin")
-    private String productOrigin;
+    private Integer productOrigin;
 
     /**
      * 外部id

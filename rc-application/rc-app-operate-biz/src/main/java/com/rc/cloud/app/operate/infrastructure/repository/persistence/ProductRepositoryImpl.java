@@ -70,7 +70,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<ProductImage> getProductImageByProductId(ProductId productId) {
-        LambdaQueryWrapperX wrapperX = new LambdaQueryWrapperX<ProductImagePO>();
         LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductImagePO::getProductId, productId.id());
         return ProductImageConvert.convertList(this.productImageMapper.selectList(wrapper));
@@ -119,6 +118,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                         ProductImagePO productImagePO = ProductImageConvert.convert(x);
                         productImagePO.setTenantId(tenantId);
                         productImagePO.setProductId(productId);
+                        productImagePO.setImage_type(2);
                         this.productImageMapper.insert(productImagePO);
                     }
             );

@@ -4,6 +4,7 @@ import com.rc.cloud.app.operate.application.bo.*;
 import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
 import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
+import com.rc.cloud.app.operate.domain.common.ProductOriginEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
@@ -18,16 +19,13 @@ import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProductConvert
 {
-
-
-
-
 
     /**
      * 填充product参数
@@ -53,6 +51,14 @@ public class ProductConvert
         }
         //设置商品名
         product = setName(productSaveDTO.getName(),isCreate,product);
+        //设置商品type
+        product = setType(productSaveDTO.getProductType(),isCreate,product);
+        //设置商品origin
+        product = setOrigin(productSaveDTO.getProductOrigin(),isCreate,product);
+        //设置商品sort
+        product = setSort(productSaveDTO.getSort(),isCreate,product);
+        //设置商品outid
+        product = setOutId(productSaveDTO.getOutId(),isCreate,product);
         //设置商品spu
         product = setSpuCode(productSaveDTO.getSpuCode(),isCreate,product);
         //商品图片
@@ -98,8 +104,13 @@ public class ProductConvert
     }
 
 
-
-
+    /**
+     * 设置商品名
+     * @param name
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setName(String name, boolean isCreate, Product product){
         //商品名字
         if(isCreate){
@@ -112,6 +123,94 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 设置类别
+     * @param type
+     * @param isCreate
+     * @param product
+     * @return
+     */
+    private static Product setType(Integer type, boolean isCreate, Product product){
+        if(isCreate){
+            if(type!=null){
+                product.setType(new Type(type));
+            }else{
+                product.setType(new Type(0));
+            }
+        }else{
+            if (type != null) {
+                product.setType(new Type(type));
+            }
+        }
+        return product;
+    }
+
+    /**
+     * 设置商品来源
+     * @param origin
+     * @param isCreate
+     * @param product
+     * @return
+     */
+    private static Product setOrigin(Integer origin, boolean isCreate, Product product){
+        if(isCreate){
+            if(origin!=null){
+                product.setOrigin(new Origin(origin));
+            }else{
+                product.setOrigin(new Origin(ProductOriginEnum.Self.value));
+            }
+
+        }else{
+            if (origin != null) {
+                product.setOrigin(new Origin(origin));
+            }
+        }
+        return product;
+    }
+
+    /**
+     * 设置outid
+     * @param outid
+     * @param isCreate
+     * @param product
+     * @return
+     */
+    private static Product setOutId(String outid, boolean isCreate, Product product){
+        if(isCreate){
+            product.setOutid(new OutId(outid));
+        }else{
+            if (outid != null) {
+                product.setOutid(new OutId(outid));
+            }
+        }
+        return product;
+    }
+
+    /**
+     * 设置排序
+     * @param sort
+     * @param isCreate
+     * @param product
+     * @return
+     */
+    private static Product setSort(Integer sort, boolean isCreate, Product product){
+        if(isCreate){
+            product.setSort(new Sort(sort));
+        }else{
+            if (sort != null) {
+                product.setSort(new Sort(sort));
+            }
+        }
+        return product;
+    }
+
+    /**
+     * 设置商品spucode
+     * @param spuCode
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setSpuCode(String spuCode, boolean isCreate, Product product){
         //商品SPU
         if(isCreate){
@@ -124,6 +223,13 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 设置商品remark
+     * @param remark
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setRemark(String remark, boolean isCreate, Product product){
         //商品描述
         if(isCreate){
@@ -137,6 +243,13 @@ public class ProductConvert
     }
 
 
+    /**
+     * 设置商品tag
+     * @param tag
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setTag(String tag, boolean isCreate, Product product){
         //商品tag
         if(isCreate){
@@ -149,6 +262,13 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 设置商品brandId
+     * @param brandId
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setBrandId(String brandId, boolean isCreate, Product product){
         //商品描述
         if(isCreate){
@@ -161,6 +281,15 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 设置商品类别
+     * @param firstCategory
+     * @param secondCategory
+     * @param thirdCategory
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setCategory(String firstCategory, String secondCategory,String thirdCategory, boolean isCreate, Product product){
         CategoryName firstCategory2 = new CategoryName(firstCategory);
         CategoryName secondCategory2 = new CategoryName(secondCategory);
@@ -178,6 +307,13 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 设置自定义id
+     * @param customClassificationId
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setCustomClassificationId(String customClassificationId, boolean isCreate, Product product){
         if(isCreate){
             product.setCustomClassificationId(new CustomClassificationId(customClassificationId));
@@ -189,6 +325,13 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 设置newFlag
+     * @param newFlag
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setNewest(Boolean newFlag, boolean isCreate, Product product){
         if(isCreate){
             if(newFlag==null){
@@ -204,6 +347,14 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 设置explosives
+     * @param explosivesFlag
+     * @param explosivesImage
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setExplosives(Boolean explosivesFlag,String explosivesImage
             , boolean isCreate, Product product){
         if(isCreate){
@@ -228,7 +379,13 @@ public class ProductConvert
         return product;
     }
 
-
+    /**
+     * 设置首页推荐
+     * @param recommendFlag
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setRecommend(Boolean recommendFlag, boolean isCreate, Product product){
         if(isCreate){
             if(recommendFlag==null){
@@ -246,6 +403,13 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 设置packingLowestBuyFlag
+     * @param packingLowestBuyFlag
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setPackingLowestBuy(Boolean packingLowestBuyFlag, boolean isCreate, Product product){
         if(isCreate){
             if(packingLowestBuyFlag==null){
@@ -263,7 +427,13 @@ public class ProductConvert
     }
 
 
-
+    /**
+     * 设置公开
+     * @param publicFlag
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setPublic(Boolean publicFlag, boolean isCreate, Product product){
         if(isCreate){
             if(publicFlag==null){
@@ -279,7 +449,13 @@ public class ProductConvert
         return product;
     }
 
-
+    /**
+     * 设置上架状态
+     * @param onshelfStatus
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setOnShelfStatus(Integer onshelfStatus, boolean isCreate, Product product){
         if(isCreate){
             if(onshelfStatus!=null){
@@ -295,7 +471,14 @@ public class ProductConvert
         return product;
     }
 
-
+    /**
+     * 设置视频
+     * @param videoUrl
+     * @param videoImg
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setVideo(String videoUrl, String videoImg
             , boolean isCreate, Product product){
         Video video=null;
@@ -319,6 +502,13 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 设置productListImage
+     * @param productListImage
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setProductListImage(String productListImage, boolean isCreate, Product product){
         Url url=new Url(productListImage);
         if(isCreate){
@@ -331,7 +521,15 @@ public class ProductConvert
         return product;
     }
 
-
+    /**
+     * 设置安装信息
+     * @param installVideoUrl
+     * @param installVideoImg
+     * @param installDetail
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setInstallInformation(String installVideoUrl, String installVideoImg, String installDetail
             , boolean isCreate, Product product){
         InstallInformation installInformation = null;
@@ -354,6 +552,13 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 设置图片
+     * @param productSaveDTO
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setProductImage(ProductSaveDTO productSaveDTO
             ,boolean isCreate, Product product){
         List<ProductImage> images1 = ProductImageConvert
@@ -374,7 +579,13 @@ public class ProductConvert
         return product;
     }
 
-
+    /**
+     * 设置属性
+     * @param productSaveDTO
+     * @param isCreate
+     * @param product
+     * @return
+     */
     private static Product setProductAttibute(ProductSaveDTO productSaveDTO, boolean isCreate,Product product){
         List<ProductAttributeSaveDTO> attributes = productSaveDTO.getAttributes();
         ProductAttribute productAttribute = new ProductAttribute(new ProductAttributeId(productSaveDTO.getAttributeId()));
@@ -418,11 +629,15 @@ public class ProductConvert
 
         bo.setId(product.getId().id());
         bo.setSpuCode(product.getSpuCode().getValue());
+        bo.setProductType(product.getType().getValue());
+        bo.setProductOrigin(product.getOrigin().getValue());
+        bo.setOutId(product.getOutid().getValue());
         bo.setTenantId(product.getTenantId().id());
         bo.setName(product.getName().getValue());
         bo.setProductListImage(product.getProductListImage().getValue());
         bo.setRemark(product.getRemark().getValue());
         bo.setTag(product.getTag().getValue());
+        bo.setSort(product.getSort().getValue());
         if(product.getBrandId()!=null){
             bo.setBrandId(product.getBrandId().id());
         }
@@ -483,7 +698,7 @@ public class ProductConvert
             bo.setMasterImages( ProductImageConvert.convertProductImageBOList(product.getMasterImages()));
         }
         if(product.getSizeImages()!=null){
-            bo.setMasterImages( ProductImageConvert.convertProductImageBOList(product.getSizeImages()));
+            bo.setSizeImages( ProductImageConvert.convertProductImageBOList(product.getSizeImages()));
         }
         //转换属性
         if(product.getProductAttribute()!=null){

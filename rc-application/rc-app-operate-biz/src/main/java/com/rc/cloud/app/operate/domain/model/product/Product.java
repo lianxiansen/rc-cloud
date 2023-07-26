@@ -220,6 +220,21 @@ public class Product extends AggregateRoot {
     private OutId outid;
     private Type type;
 
+    public void setOrigin(Origin origin) {
+        AssertUtils.assertArgumentNotNull(origin, "origin must not be null");
+        this.origin = origin;
+    }
+
+    public void setOutid(OutId outid) {
+        AssertUtils.assertArgumentNotNull(outid, "outid must not be null");
+        this.outid = outid;
+    }
+
+    public void setSort(Sort sort) {
+        AssertUtils.assertArgumentNotNull(sort, "sort must not be null");
+        this.sort = sort;
+    }
+
     /**
      * 最低起购量
      */

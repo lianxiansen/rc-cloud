@@ -33,6 +33,20 @@ public class ProductConvert {
         //Tag
         Tag tag = new Tag(po.getTag());
         product.setTag(tag);
+        //SpuCode
+        SpuCode spuCode=new SpuCode(po.getSpuCode());
+        product.setSpuCode(spuCode);
+        //OutId
+        OutId outId=new OutId(po.getOutId());
+        product.setOutid(outId);
+        //Origin
+        if(po.getProductOrigin()!=null){
+            product.setOrigin(new Origin(po.getProductOrigin()));
+        }
+        //ProductType
+        if(po.getProductType()!=null){
+            product.setType(new Type(po.getProductType()));
+        }
         //BrandId
         BrandId brandId = new BrandId(po.getBrandId());
         product.setBrandId(brandId);
@@ -51,11 +65,16 @@ public class ProductConvert {
         }
         product.setExplosives(explosives);
         //Recommend
-        Recommend recommend = new Recommend(po.getRecommendFlag());
-        product.setRecommendFlag(recommend);
+        if(po.getRecommendFlag()!=null){
+            Recommend recommend = new Recommend(po.getRecommendFlag());
+            product.setRecommendFlag(recommend);
+        }
+
         //OnshelfStatus
-        OnshelfStatus onshelfStatus = new OnshelfStatus(po.getOnshelfStatus());
-        product.setOnshelfStatus(onshelfStatus);
+        if(po.getOnshelfStatus()!=null){
+            OnshelfStatus onshelfStatus = new OnshelfStatus(po.getOnshelfStatus());
+            product.setOnshelfStatus(onshelfStatus);
+        }
         //Video
         Video video = new Video(new Url(po.getVideoUrl()));
         if(StringUtils.isNotEmpty(po.getVideoImg())){
@@ -73,22 +92,39 @@ public class ProductConvert {
         installInformation.setInstallDetail(po.getInstallDetail());
         product.setInstallInformation(installInformation);
         //NewFlag
-        product.setNewFlag(po.getNewFlag());
+        if(po.getNewFlag()!=null){
+            product.setNewFlag(po.getNewFlag());
+        }
         //PublicFlag
-        product.setPublicFlag(po.getPublicFlag());
+        if(po.getPublicFlag()!=null){
+            product.setPublicFlag(po.getPublicFlag());
+        }
+        //PackingLowestBuyFlag
+        if(po.getPackingLowestBuyFlag()!=null){
+            product.setPackingLowestBuy(new PackingLowestBuy(po.getPackingLowestBuyFlag()));
+        }
         return product;
 
     }
 
     public static ProductPO convert(Product product){
-         ProductPO po=new ProductPO();
+        ProductPO po=new ProductPO();
         po.setId(product.getId().id());
         po.setTenantId(product.getTenantId().id());
         if(product.getName()!=null){
             po.setName(product.getName().getValue());
         }
+        if(product.getOrigin()!=null){
+            po.setProductOrigin(product.getOrigin().getValue());
+        }
+        if(product.getType()!=null){
+            po.setProductType(product.getType().getValue());
+        }
         if(product.getSpuCode()!=null){
             po.setSpuCode(product.getSpuCode().getValue());
+        }
+        if(product.getOutid()!=null){
+            po.setOutId(product.getOutid().getValue());
         }
         if(product.getSort()!=null){
             po.setSort(product.getSort().getValue());

@@ -31,13 +31,9 @@ public class ProductBO {
 
     private String spuCode;
 
-    private String masterImage;
-
     private int productOrigin;
 
     private String outId;
-
-    private boolean enabledFlag;
 
     private int onshelfStatus;
 
@@ -57,33 +53,7 @@ public class ProductBO {
 
     private String installDetail;
 
-    private boolean freeShippingFlag;
-
-    private int freightType;
-
-    private String freightTemplateId;
-
-    private BigDecimal freightPrice;
-
     private boolean packingLowestBuyFlag;
-
-    private BigDecimal popularizationAmountRate;
-
-    private BigDecimal getIntegral;
-
-    private boolean distributionFlag;
-
-    private boolean refundFlag;
-
-    private boolean seckillFlag;
-
-    private String seckillName;
-
-    private String seckillMasterImage;
-
-    private LocalDateTime seckillBeginTime;
-
-    private LocalDateTime seckillEndTime;
 
     private boolean newFlag;
 
