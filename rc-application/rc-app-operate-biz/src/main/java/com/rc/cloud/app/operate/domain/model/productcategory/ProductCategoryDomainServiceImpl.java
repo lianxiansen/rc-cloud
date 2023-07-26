@@ -1,8 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.productcategory;
 
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotAssociatedProductSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotHasChildSpecification;
 import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
@@ -26,8 +24,7 @@ import java.util.Objects;
 public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
-    @Resource
-    private ProductRepository productRepository;
+
     @Override
     public ProductCategory create(ProductCategoryBuildFactory.ProductCategoryBuilder builder) {
         ProductCategory productCategory = builder.build();
@@ -71,9 +68,6 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
         ProductCategory productCategory = productCategoryRepository.findById(productCategoryId);
         if(Objects.isNull(productCategory)){
             throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
-        }
-        if (!new RemoveShouldNotAssociatedProductSpecification(productRepository).isSatisfiedBy(productCategory)) {
-            throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
         }
         if (!new RemoveShouldNotHasChildSpecification(productCategoryRepository).isSatisfiedBy(productCategory)) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_HAS_CHILD);

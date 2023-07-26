@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,7 +48,12 @@ public class ProductGroupApplicationServiceImpl implements ProductGroupApplicati
         if (StringUtils.isEmpty(productGroupCreateDTO.getName())) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NAME_NOT_EMPTY);
         }
-        ProductGroup productGroup = productGroupService.create(productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()), new ProductId(productGroupCreateDTO.getProductId()));
+        ProductId productId=new ProductId(productGroupCreateDTO.getProductId());
+        Product product = productRepository.findById(productId);
+        if (Objects.isNull(product)) {
+            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_NOT_EXISTS);
+        }
+        ProductGroup productGroup = productGroupService.create(productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()),productId);
         return ProductGroupConvert.convert2ProductGroupBO(productGroup);
     }
 
@@ -67,8 +73,12 @@ public class ProductGroupApplicationServiceImpl implements ProductGroupApplicati
         if (StringUtils.isEmpty(productGroupItemCreateDTO.getProductId())) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_IN_GROUP_NOT_EMPTY);
         }
-        ProductGroupItem productGroupItem = productGroupService.createItem(new ProductGroupId(productGroupItemCreateDTO.getProductGroupId()), new ProductId(productGroupItemCreateDTO.getProductId()));
-        Product product = productRepository.findById(new ProductId(productGroupItem.getProductId().id()));
+        ProductId productId=new ProductId(productGroupItemCreateDTO.getProductId());
+        Product product = productRepository.findById(productId);
+        if (Objects.isNull(product)) {
+            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_IN_GROUP_NOT_EXISTS);
+        }
+        ProductGroupItem productGroupItem = productGroupService.createItem(new ProductGroupId(productGroupItemCreateDTO.getProductGroupId()),productId );
         ProductGroupItemBO bo = ProductGroupConvert.convert2productGroupItemBO(productGroupItem, product);
         return bo;
     }

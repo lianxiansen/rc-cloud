@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
 import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
 import com.rc.cloud.app.operate.domain.common.valobj.Enabled;
 import com.rc.cloud.app.operate.domain.common.valobj.Sort;
+import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.*;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.ChName;
@@ -45,6 +46,8 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
     private ProductCategoryBuildFactory productCategoryBuildFactory;
     @Autowired
     private ProductCategoryRebuildFactory productCategoryRebuildFactory;
+    @Resource
+    private ProductRepository productRepository;
     @Override
     public ProductCategoryBO create(ProductCategoryCreateDTO productCreateCategoryDTO) {
         if (StringUtils.isEmpty(productCreateCategoryDTO.getName())) {
@@ -119,7 +122,11 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
         if (StringUtils.isEmpty(id)) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
         }
-        return productCategoryService.remove(new ProductCategoryId(id));
+        ProductCategoryId productCategoryId=new ProductCategoryId(id);
+        if(productRepository.existsByProductCategoryId(productCategoryId)){
+            throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
+        }
+        return productCategoryService.remove(productCategoryId);
     }
 
     @Override

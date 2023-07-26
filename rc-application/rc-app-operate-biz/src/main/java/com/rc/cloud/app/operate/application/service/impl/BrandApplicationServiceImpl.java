@@ -8,6 +8,7 @@ import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
+import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.infrastructure.constants.BrandErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
@@ -32,7 +33,8 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
     private BrandDomainService brandDomainService;
     @Autowired
     private IdRepository idRepository;
-
+    @Autowired
+    private ProductRepository productRepository;
     @Override
     public BrandBO create(BrandCreateDTO createBrandDTO) {
         if(StringUtils.isEmpty(createBrandDTO.getName())){
@@ -101,6 +103,10 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
     public boolean remove(String id) {
         if (StringUtils.isEmpty(id)) {
             throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
+        }
+        BrandId brandId=new BrandId(id);
+        if(productRepository.existsByBrandId(brandId)){
+            throw new ServiceException(BrandErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
         }
         return brandDomainService.remove(new BrandId(id));
     }
