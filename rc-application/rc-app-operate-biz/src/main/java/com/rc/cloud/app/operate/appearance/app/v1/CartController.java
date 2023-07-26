@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.appearance.app.v1;
 
 import com.rc.cloud.app.operate.appearance.app.v1.convert.CartConvert;
 import com.rc.cloud.app.operate.appearance.app.v1.resp.CartListResponse;
+import com.rc.cloud.app.operate.application.bo.CartBO;
 import com.rc.cloud.app.operate.application.bo.CartListBO;
 import com.rc.cloud.app.operate.application.dto.CartDTO;
 import com.rc.cloud.app.operate.application.service.CartApplicationService;
@@ -13,6 +14,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author WJF
@@ -35,17 +39,28 @@ public class CartController {
         return CodeResult.ok(cartList);
     }
 
-    @PostMapping("/addCart")
+    @PostMapping("/getlist")
+    @Operation(summary = "根据产品唯一id获取购物车数量")
+    public CodeResult<Map<String, Integer>> getCartList(@RequestBody List<String> productUniqueIds) {
+        CartListBO cartList = cartApplicationService.getCartList(productUniqueIds);
+
+        Map<String, Integer> maps = cartList.getValidList().stream().collect(Collectors.toMap(CartBO::getProductuniqueid, CartBO::getNum, (key1, key2) -> key2));
+        // CartListResponse response = CartConvert.convert(cartList);
+        return CodeResult.ok(maps);
+    }
+
+
+    @PostMapping("/saveCart")
     @Operation(summary = "增加购物车")
-    public CodeResult<Boolean> addCart(@RequestBody CartDTO dto) {
-        cartApplicationService.addCart(dto);
+    public CodeResult<Boolean> saveCart(@RequestBody List<CartDTO> dto) {
+        cartApplicationService.saveCart(dto);
         return CodeResult.ok();
     }
 
     @DeleteMapping("/deleteCart")
     @Operation(summary = "删除购物车")
-    public CodeResult<Boolean> deleteCart(@RequestParam("id") String id) {
-        cartApplicationService.deleteCart(id);
+    public CodeResult<Boolean> deleteCart(@RequestBody List<String> productUniqueIds) {
+        cartApplicationService.deleteCartByProductuniqueid(productUniqueIds);
         return CodeResult.ok();
     }
 }

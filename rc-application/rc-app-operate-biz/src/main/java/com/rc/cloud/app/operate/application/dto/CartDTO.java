@@ -15,4 +15,6 @@ public class CartDTO {
     private String productuniqueid;
     @Schema(description = "数量")
     private Integer num;
+    @Schema(description = "店铺Id")
+    private String shopid;
 }
