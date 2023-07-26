@@ -67,8 +67,12 @@ public class ProductSaveDTO {
 
     private String id;
 
+    private String outId;
+
     //默认普通商品
     private Integer productType;
+
+    private Integer productOrigin;
 
     private String firstCategory;
 

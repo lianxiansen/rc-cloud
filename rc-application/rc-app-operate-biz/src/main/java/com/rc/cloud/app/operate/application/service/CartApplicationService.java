@@ -132,7 +132,7 @@ public class CartApplicationService {
     private ProductBO randomSpu() {
         ProductBO bo = new ProductBO();
         bo.setName("手机支架");
-        bo.setMasterImage("http://www.zjffcat.com/storage/uploads/20230724/826886c84f24ee1759424bfae4f5a4ae.jpg");
+        bo.setProductListImage("http://www.zjffcat.com/storage/uploads/20230724/826886c84f24ee1759424bfae4f5a4ae.jpg");
         return bo;
     }
 
