@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
-import com.rc.cloud.app.operate.appearance.admin.res.ProductCategoryResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductCategoryResponse;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;

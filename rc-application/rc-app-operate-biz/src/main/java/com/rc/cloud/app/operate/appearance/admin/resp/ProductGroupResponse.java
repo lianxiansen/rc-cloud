@@ -1,8 +1,8 @@
-package com.rc.cloud.app.operate.appearance.admin.res;
+package com.rc.cloud.app.operate.appearance.admin.resp;
 
 
-import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductGroupConvert;
-import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductGroupItemConvert;
+import com.rc.cloud.app.operate.appearance.admin.resp.convert.ProductGroupConvert;
+import com.rc.cloud.app.operate.appearance.admin.resp.convert.ProductGroupItemConvert;
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
 import com.rc.cloud.common.core.util.date.LocalDateTimeUtils;
 import io.swagger.v3.oas.annotations.media.Schema;

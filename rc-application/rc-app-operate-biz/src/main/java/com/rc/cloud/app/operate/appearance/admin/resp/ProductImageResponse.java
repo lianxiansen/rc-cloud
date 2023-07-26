@@ -1,7 +1,6 @@
-package com.rc.cloud.app.operate.appearance.admin.res;
+package com.rc.cloud.app.operate.appearance.admin.resp;
 
 
-import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;

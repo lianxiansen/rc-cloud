@@ -1,18 +1,13 @@
-package com.rc.cloud.app.operate.appearance.admin.res.convert;
+package com.rc.cloud.app.operate.appearance.admin.resp.convert;
 
-import com.rc.cloud.app.operate.appearance.admin.res.ProductDetailResponse;
-import com.rc.cloud.app.operate.appearance.admin.res.ProductImageResponse;
-import com.rc.cloud.app.operate.appearance.admin.res.ProductListResponse;
-import com.rc.cloud.app.operate.appearance.admin.res.ProductSkuDetailResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductDetailResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductImageResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductListResponse;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
-import com.rc.cloud.app.operate.application.bo.ProductBO;
-import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 import com.rc.cloud.app.operate.domain.common.ProductDictKeyEnum;
-import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.StringUtils;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

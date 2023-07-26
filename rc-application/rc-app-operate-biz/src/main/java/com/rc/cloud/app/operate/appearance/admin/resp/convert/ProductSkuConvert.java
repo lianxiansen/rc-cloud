@@ -1,11 +1,8 @@
-package com.rc.cloud.app.operate.appearance.admin.res.convert;
+package com.rc.cloud.app.operate.appearance.admin.resp.convert;
 
-import com.rc.cloud.app.operate.appearance.admin.res.ProductDetailResponse;
-import com.rc.cloud.app.operate.appearance.admin.res.ProductSkuDetailResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductSkuDetailResponse;
 import com.rc.cloud.app.operate.application.bo.AttributeValueCombinationBO;
-import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
-import com.rc.cloud.common.core.util.collection.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
