@@ -29,63 +29,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductSkuApplicationService
+public interface ProductSkuApplicationService
 {
-
-    @Autowired
-    private ProductSkuRepository productSkuRepository;
-
-    @Autowired
-    private TenantService tenantService;
-
-    @Resource
-    private IdRepository idRepository;
     /**
      * 修改sku
      * @param productSkuSaveDTO
      * @return
      */
-    @Transactional(rollbackFor = Exception.class)
-    public ProductSkuBO updateProductSku(ProductSkuSaveDTO productSkuSaveDTO){
 
-        ProductSkuId productSkuId = new ProductSkuId(productSkuSaveDTO.getId());
-        //修改
-        ProductSku productSku = productSkuRepository.findById(productSkuId);
-        if (null == productSku) {
-            throw new IllegalArgumentException("未找到当前商品SKU");
-        }
-        productSku= ProductSkuConvert.convert(
-                new ProductSkuId(productSkuSaveDTO.getId())
-                ,new ProductId(productSkuSaveDTO.getProductId())
-                ,new TenantId(productSkuSaveDTO.getTenantId())
-                ,productSkuSaveDTO,false,productSku);
-
-        productSkuRepository.updateProductSku(productSku);
-
-        return ProductSkuConvert.convert(productSku);
-
-    }
-
+    ProductSkuBO updateProductSku(ProductSkuSaveDTO productSkuSaveDTO);
 
     /**
      * 返回sku
      * @param productSkuGetDTO
      * @return
      */
-    public ProductSkuBO getProductSku(ProductSkuGetDTO productSkuGetDTO){
-        ProductSku productSku= productSkuRepository.findById(new ProductSkuId(productSkuGetDTO.getProductSkuId()));
-        return ProductSkuConvert.convert(productSku);
-    }
-
+     ProductSkuBO getProductSku(ProductSkuGetDTO productSkuGetDTO);
     /**
      * 返回sku列表
      * @param productSkuGetDTO
      * @return
      */
-    public List<ProductSkuBO> getProductSkuList(ProductSkuGetDTO productSkuGetDTO){
-        List<ProductSku> productSkuList = productSkuRepository.getProductSkuListByProductId(new ProductId(productSkuGetDTO.getProductId()));
-        return ProductSkuConvert.convertList(productSkuList);
-    }
-
+     List<ProductSkuBO> getProductSkuList(ProductSkuGetDTO productSkuGetDTO);
 
 }
