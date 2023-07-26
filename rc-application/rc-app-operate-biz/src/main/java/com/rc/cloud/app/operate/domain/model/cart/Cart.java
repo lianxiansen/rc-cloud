@@ -1,13 +1,9 @@
 package com.rc.cloud.app.operate.domain.model.cart;
 
-import com.rc.cloud.app.operate.application.bo.ShopBO;
 import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.*;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
 import com.rc.cloud.common.core.exception.ServiceException2;
 
-import java.time.LocalDateTime;
 
 /**
  * @author WJF
@@ -17,20 +13,7 @@ import java.time.LocalDateTime;
 
 public class Cart {
 
-    public Cart() {
-        setCreateTime(new CreateTime(LocalDateTime.now()));
-        setType(1);
-        setPayed(0);
-    }
-
-    public Cart(Cart cart) {
-        setProductUniqueId(cart.getProductUniqueId());
-        setCreateTime(new CreateTime(LocalDateTime.now()));
-        setType(1);
-        setUserId(cart.getUserId());
-        setShopInfo(cart.getShopInfo());
-        setPayed(0);
-    }
+    public Cart(){}
 
     private CartId id;
 
