@@ -9,6 +9,7 @@ import com.rc.cloud.app.operate.domain.model.cart.CartDomainService;
 import com.rc.cloud.app.operate.domain.model.cart.ShopInfo;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.CartId;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.ProductUniqueId;
+import com.rc.cloud.app.operate.domain.model.cart.identifier.ShopId;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.UserId;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.common.core.domain.IdUtil;
@@ -23,6 +24,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author WJF
@@ -38,21 +40,26 @@ public class CartApplicationService {
     @Resource
     private ProductDomainService productDomainService;
 
-    public CartListBO getCartList() {
-        List<Cart> list = cartDomainService.getList();
+    public List<ShopCartBO> getCartListByShopIds(List<String> shopIds) {
+        List<Cart> list = cartDomainService.getListByShopIds(IdUtil.toList(shopIds, ShopId.class));
         List<CartBO> cartBOS = CartConvert.INSTANCE.convertList(list);
-
-        CartListBO bo = new CartListBO();
-        bo.setValidList(cartBOS);
-
-        List<ProductSkuBO> productSkuBOS = new ArrayList<>();
         cartBOS.forEach(cartBO -> {
             cartBO.setProductSkuBO(randomSku());
             cartBO.setShopBO(ramdomShop());
             cartBO.setProductBO(randomSpu());
         });
 
-        return bo;
+        List<ShopCartBO> shopCartBOList = new ArrayList<>();
+        shopIds.forEach(shopId -> {
+            ShopCartBO shopCartBO = new ShopCartBO();
+            shopCartBO.setShopInfo(ramdomShop());
+            CartListBO listBO = new CartListBO();
+            listBO.setCartList(cartBOS.stream().filter(cartBO -> shopId.equals(cartBO.getShopid())).collect(Collectors.toList()));
+            shopCartBO.setCartList(listBO);
+            shopCartBOList.add(shopCartBO);
+        });
+
+        return shopCartBOList;
     }
 
     public CartListBO getCartList(List<String> productUniqueIdList) {
@@ -61,7 +68,7 @@ public class CartApplicationService {
         List<CartBO> cartBOS = CartConvert.INSTANCE.convertList(list);
 
         CartListBO bo = new CartListBO();
-        bo.setValidList(cartBOS);
+        //bo.setValidList(cartBOS);
 
         List<ProductSkuBO> productSkuBOS = new ArrayList<>();
         cartBOS.forEach(cartBO -> {

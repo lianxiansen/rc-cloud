@@ -5,19 +5,17 @@ import com.rc.cloud.app.operate.domain.model.cart.Cart;
 import com.rc.cloud.app.operate.domain.model.cart.CartRepository;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.CartId;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.ProductUniqueId;
+import com.rc.cloud.app.operate.domain.model.cart.identifier.ShopId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.CartConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.CartMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.CartPO;
 import com.rc.cloud.common.core.domain.IdUtil;
 import com.rc.cloud.common.core.exception.ServiceException2;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,8 +78,9 @@ public class CartRepositoryImpl implements CartRepository {
     }
 
     @Override
-    public List<Cart> getList() {
+    public List<Cart> getListByShopIds(List<ShopId> shopIds) {
         LambdaQueryWrapperX<CartPO> queryWrapperX = new LambdaQueryWrapperX<CartPO>()
+                .in(CartPO::getShopid, IdUtil.toList(shopIds))
                 .eq(CartPO::getPayed, 0);
         List<CartPO> cartPOS = cartMapper.selectList(queryWrapperX);
         return CartConvert.INSTANCE.convertList(cartPOS);

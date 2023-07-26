@@ -45,6 +45,11 @@ public class CartPO {
     private Integer num;
 
     /**
+     * 店铺id
+     */
+    private String shopid;
+    
+    /**
      * 创建时间
      */
     private LocalDateTime createtime;

@@ -23,18 +23,21 @@ public interface CartConvert {
     @Mapping(target = "userId", source = "userId.id")
     @Mapping(target = "productuniqueid", source = "productUniqueId.id")
     @Mapping(target = "createtime", source = "createTime.time")
+    @Mapping(target = "shopid", source = "shopInfo.shopId.id")
     CartBO convert(Cart cart);
 
     @Mapping(source = "id", target = "id.id")
     @Mapping(source = "userId", target = "userId.id")
     @Mapping(source = "productuniqueid", target = "productUniqueId.id")
     @Mapping(source = "createtime", target = "createTime.time")
+    @Mapping(source = "shopid", target = "shopInfo.shopId.id")
     Cart convert(CartBO po);
 
     @Mapping(target = "id", source = "id.id")
     @Mapping(target = "userId", source = "userId.id")
     @Mapping(target = "productuniqueid", source = "productUniqueId.id")
     @Mapping(target = "createtime", source = "createTime.time")
+    @Mapping(target = "shopid", source = "shopInfo.shopId.id")
     List<CartBO> convertList(List<Cart> pos);
 
     @Mapping(source = "productuniqueid", target = "productUniqueId.id")
@@ -42,5 +45,6 @@ public interface CartConvert {
     Cart convert(CartDTO dto);
 
     @Mapping(source = "productuniqueid", target = "productUniqueId.id")
+    @Mapping(source = "shopInfo.shopId.id", target = "shopid")
     List<Cart> convert(List<CartDTO> dto);
 }

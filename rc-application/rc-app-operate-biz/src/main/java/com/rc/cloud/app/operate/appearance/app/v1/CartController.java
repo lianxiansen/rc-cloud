@@ -4,6 +4,7 @@ import com.rc.cloud.app.operate.appearance.app.v1.convert.CartConvert;
 import com.rc.cloud.app.operate.appearance.app.v1.resp.CartListResponse;
 import com.rc.cloud.app.operate.application.bo.CartBO;
 import com.rc.cloud.app.operate.application.bo.CartListBO;
+import com.rc.cloud.app.operate.application.bo.ShopCartBO;
 import com.rc.cloud.app.operate.application.dto.CartDTO;
 import com.rc.cloud.app.operate.application.service.CartApplicationService;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -30,12 +31,11 @@ public class CartController {
     @Resource
     private CartApplicationService cartApplicationService;
 
-    @GetMapping("/getlist")
+    @PostMapping("/getlistByShopIds")
     @Operation(summary = "获取购物车列表")
-    public CodeResult<CartListBO> getlist() {
-        CartListBO cartList = cartApplicationService.getCartList();
+    public CodeResult<List<ShopCartBO>> getlistByShopIds(@RequestBody List<String> shopIds) {
+        List<ShopCartBO> cartList = cartApplicationService.getCartListByShopIds(shopIds);
 
-        // CartListResponse response = CartConvert.convert(cartList);
         return CodeResult.ok(cartList);
     }
 
@@ -44,8 +44,7 @@ public class CartController {
     public CodeResult<Map<String, Integer>> getCartList(@RequestBody List<String> productUniqueIds) {
         CartListBO cartList = cartApplicationService.getCartList(productUniqueIds);
 
-        Map<String, Integer> maps = cartList.getValidList().stream().collect(Collectors.toMap(CartBO::getProductuniqueid, CartBO::getNum, (key1, key2) -> key2));
-        // CartListResponse response = CartConvert.convert(cartList);
+        Map<String, Integer> maps = cartList.getCartList().stream().collect(Collectors.toMap(CartBO::getProductuniqueid, CartBO::getNum, (key1, key2) -> key2));
         return CodeResult.ok(maps);
     }
 

@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.domain.model.cart;
 
 import com.rc.cloud.app.operate.domain.model.cart.identifier.CartId;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.ProductUniqueId;
+import com.rc.cloud.app.operate.domain.model.cart.identifier.ShopId;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.common.core.exception.ServiceException2;
@@ -38,12 +39,12 @@ public class CartDomainService {
     }
 
     /**
-     * 获取购物车列表
+     * 通过店铺获取购物车列表
      *
      * @return
      */
-    public List<Cart> getList() {
-        return cartRepository.getList();
+    public List<Cart> getListByShopIds(List<ShopId> shopIds) {
+        return cartRepository.getListByShopIds(shopIds);
     }
 
     /**
@@ -64,7 +65,7 @@ public class CartDomainService {
         cartList.forEach(cart -> {
             Cart entity = cartRepository.findByProductUniqueId(cart.getProductUniqueId());
             if (entity == null) {
-                entity = cart;
+                entity = new Cart(cart);
             }
             entity.setNum(cart.getNum());
             cartRepository.save(entity);

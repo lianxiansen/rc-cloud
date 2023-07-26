@@ -18,13 +18,18 @@ import java.time.LocalDateTime;
 public class Cart {
 
     public Cart() {
-    }
-
-    public Cart(ProductUniqueId productuniqueid, ShopInfo shopInfo) {
-        setProductUniqueId(productuniqueid);
         setCreateTime(new CreateTime(LocalDateTime.now()));
         setType(1);
-        setShopInfo(shopInfo);
+        setPayed(0);
+    }
+
+    public Cart(Cart cart) {
+        setProductUniqueId(cart.getProductUniqueId());
+        setCreateTime(new CreateTime(LocalDateTime.now()));
+        setType(1);
+        setUserId(cart.getUserId());
+        setShopInfo(cart.getShopInfo());
+        setPayed(0);
     }
 
     private CartId id;

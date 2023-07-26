@@ -21,17 +21,20 @@ public interface CartConvert {
     @Mapping(target = "userid", source = "userId.id")
     @Mapping(target = "productuniqueid", source = "productUniqueId.id")
     @Mapping(target = "createtime", source = "createTime.time")
+    @Mapping(target = "shopid", source = "shopInfo.shopId.id")
     CartPO convert(Cart cart);
 
     @Mapping(source = "id", target = "id.id")
     @Mapping(source = "userid", target = "userId.id")
     @Mapping(source = "productuniqueid", target = "productUniqueId.id")
     @Mapping(source = "createtime", target = "createTime.time")
+    @Mapping(target = "shopInfo.shopId.id", source = "shopid")
     Cart convert(CartPO po);
 
     @Mapping(source = "id", target = "id.id")
     @Mapping(source = "userId", target = "userId.id")
     @Mapping(source = "productuniqueid", target = "productUniqueId.id")
     @Mapping(source = "createtime", target = "createTime.time")
+    @Mapping(target = "shopInfo.shopId.id", source = "shopid")
     List<Cart> convertList(List<CartPO> pos);
 }

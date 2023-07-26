@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.domain.model.cart;
 
 import com.rc.cloud.app.operate.domain.model.cart.identifier.CartId;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.ProductUniqueId;
+import com.rc.cloud.app.operate.domain.model.cart.identifier.ShopId;
 
 import java.util.List;
 
@@ -52,11 +53,11 @@ public interface CartRepository {
     Cart findByProductUniqueId(ProductUniqueId productUniqueId);
 
     /**
-     * 获取购物车列表
+     * 通过店铺获取购物车列表
      *
      * @return List<Cart>
      */
-    List<Cart> getList();
+    List<Cart> getListByShopIds(List<ShopId> shopIds);
 
     /**
      * 获取购物车列表
