@@ -34,12 +34,12 @@ public class CartDomainService {
         newCart.setProductUniqueId(cart.getProductUniqueId());
         newCart.setUserId(cart.getUserId());
         newCart.setShopInfo(cart.getShopInfo());
-        cart.setSeckillId(new SeckillId(StringUtils.EMPTY));
-        cart.setCombinationId(new CombinationId(StringUtils.EMPTY));
-        cart.setBargainId(new BargainId(StringUtils.EMPTY));
-        cart.setNewState(0);
-        cart.setNum(cart.getNum());
-        return cart;
+//        cart.setSeckillId(new SeckillId(StringUtils.EMPTY));
+//        cart.setCombinationId(new CombinationId(StringUtils.EMPTY));
+//        cart.setBargainId(new BargainId(StringUtils.EMPTY));
+        newCart.setNewState(0);
+        newCart.setNum(cart.getNum());
+        return newCart;
     }
 
     public void delete(CartId cartId) {

@@ -66,18 +66,14 @@ public class CartApplicationService {
         List<ProductUniqueId> productUniqueIds = IdUtil.toList(productUniqueIdList, ProductUniqueId.class);
         List<Cart> list = cartDomainService.getList(productUniqueIds);
         List<CartBO> cartBOS = CartConvert.INSTANCE.convertList(list);
-
-        CartListBO bo = new CartListBO();
-        //bo.setValidList(cartBOS);
-
-        List<ProductSkuBO> productSkuBOS = new ArrayList<>();
         cartBOS.forEach(cartBO -> {
             cartBO.setProductSkuBO(randomSku());
             cartBO.setShopBO(ramdomShop());
             cartBO.setProductBO(randomSpu());
         });
-
-        return bo;
+        CartListBO bO = new CartListBO();
+        bO.setCartList(cartBOS);
+        return bO;
     }
 
 
