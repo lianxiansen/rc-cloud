@@ -33,7 +33,7 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
             if (Objects.isNull(parentCategory)) {
                 throw new ServiceException(ProductCategoryErrorCodeConstants.PARENT_NOT_EXISTS);
             }
-            productCategory.inherit(parentCategory);
+            productCategory.inheritFrom(parentCategory);
         }
         if (!productCategoryRepository.save(productCategory)) {
             throw new ServiceException(ErrorCodeConstants.SYSTEM_EXCEPTION);
@@ -49,7 +49,7 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
             if (Objects.isNull(parent)) {
                 throw new ServiceException(ProductCategoryErrorCodeConstants.PARENT_NOT_EXISTS);
             }
-            productCategory.reInherit(parent);
+            productCategory.reInheritFrom(parent);
 
         } else {
             productCategory.root();
@@ -74,15 +74,20 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
         }
         return productCategoryRepository.removeById(productCategoryId);
     }
+
+    /**
+     * 从产品分类列表中找出子分类并重新继承父产品分类，继承之后子分类将根据父分类产品属性更新自身属性
+     * @param allList
+     * @param parent
+     */
     public void reInheritCascade(List<ProductCategory> allList, ProductCategory parent) {
         List<ProductCategory> subList = findSubList(allList, parent);
         if (CollectionUtils.isAnyEmpty(subList)) {
             return;
         }
         subList.forEach(item -> {
-            item.reInherit(parent);
+            item.reInheritFrom(parent);
             productCategoryRepository.save(item);
-            List<ProductCategory> itemSubList = findSubList(allList, item);
             reInheritCascade(allList, item);
         });
 
