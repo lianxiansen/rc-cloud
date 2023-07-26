@@ -184,19 +184,19 @@ public class ProductCategory extends AggregateRoot {
         return this.sort;
     }
 
-    void inherit(ProductCategory parent) {
+    void inheritFrom(ProductCategory parent) {
         AssertUtils.assertArgumentNotNull(parent, "parent must not be null");
         Layer layer = parent.getLayer().increment();
         setLayer(layer);
         this.parentId = parent.getId();
     }
 
-    void reInherit(ProductCategory parent) {
+    void reInheritFrom(ProductCategory parent) {
         AssertUtils.assertArgumentNotNull(parent, "parent must not be null");
         if (!new ReInheritShouldNotSpecifyMyselfSpecification(parent.getId()).isSatisfiedBy(this)) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.RE_INHERIT_SHOULD_NOT_SPECIFY_MYSELF);
         }
-        inherit(parent);
+        inheritFrom(parent);
     }
 
     void root() {
