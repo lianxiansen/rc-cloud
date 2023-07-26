@@ -39,7 +39,7 @@ public interface CartRepository {
     /**
      * 删除购物车
      *
-     * @param cartIds CartId集合
+     * @param productUniqueId productUniqueId集合
      */
     void deleteCartByProductuniqueid(List<ProductUniqueId> productUniqueId);
 
@@ -47,7 +47,7 @@ public interface CartRepository {
     /**
      * 获取单个购物车商品信息
      *
-     * @param cartId
+     * @param productUniqueId
      * @return Cart
      */
     Cart findByProductUniqueId(ProductUniqueId productUniqueId);

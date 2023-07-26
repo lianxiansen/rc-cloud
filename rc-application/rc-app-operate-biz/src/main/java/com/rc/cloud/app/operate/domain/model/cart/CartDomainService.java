@@ -80,9 +80,11 @@ public class CartDomainService {
     public void save(List<Cart> cartList) {
         cartList.forEach(cart -> {
             Cart entity = cartRepository.findByProductUniqueId(cart.getProductUniqueId());
-            Cart fromCopy = createFromCopy(entity == null ? cart : entity);
-            fromCopy.setNum(cart.getNum());
-            cartRepository.save(fromCopy);
+            if (entity == null) {
+                entity = createFromCopy(cart);
+            }
+            entity.setNum(cart.getNum());
+            cartRepository.save(entity);
         });
 
     }
