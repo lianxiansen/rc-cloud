@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
-import com.rc.cloud.app.operate.appearance.admin.res.BrandResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.BrandResponse;
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.app.operate.application.dto.BrandCreateDTO;
 import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;

@@ -1,6 +1,6 @@
-package com.rc.cloud.app.operate.appearance.admin.res.convert;
+package com.rc.cloud.app.operate.appearance.admin.resp.convert;
 
-import com.rc.cloud.app.operate.appearance.admin.res.BrandResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.BrandResponse;
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

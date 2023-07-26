@@ -1,6 +1,6 @@
-package com.rc.cloud.app.operate.appearance.admin.res;
+package com.rc.cloud.app.operate.appearance.admin.resp;
 
-import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductCategoryConvert;
+import com.rc.cloud.app.operate.appearance.admin.resp.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.common.core.util.date.LocalDateTimeUtils;
 import com.rc.cloud.common.core.util.tree.TreeNode;

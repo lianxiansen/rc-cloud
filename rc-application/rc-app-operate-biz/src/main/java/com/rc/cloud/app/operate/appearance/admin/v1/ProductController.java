@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
-import com.rc.cloud.app.operate.appearance.admin.res.ProductDetailResponse;
-import com.rc.cloud.app.operate.appearance.admin.res.ProductListResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductDetailResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductListResponse;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;

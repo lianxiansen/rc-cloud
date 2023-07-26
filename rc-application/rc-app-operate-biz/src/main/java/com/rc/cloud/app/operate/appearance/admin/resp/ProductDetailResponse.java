@@ -1,15 +1,11 @@
-package com.rc.cloud.app.operate.appearance.admin.res;
+package com.rc.cloud.app.operate.appearance.admin.resp;
 
-import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductCategoryConvert;
-import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductConvert;
+import com.rc.cloud.app.operate.appearance.admin.resp.convert.ProductConvert;
 import com.rc.cloud.app.operate.application.bo.*;
-import com.rc.cloud.common.core.util.date.LocalDateTimeUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
