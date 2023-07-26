@@ -12,6 +12,6 @@ import com.yomahub.liteflow.flow.LiteflowResponse;
  */
 
 public interface PriceApplicationService {
-    PriceContext calPrice();
+    PriceContext calPrice(PriceCalParam req);
 }
 

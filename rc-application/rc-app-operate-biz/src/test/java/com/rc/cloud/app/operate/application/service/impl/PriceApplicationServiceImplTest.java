@@ -17,7 +17,5 @@ class PriceApplicationServiceImplTest {
 
     @Test
     void calprice() {
-        PriceContext priceContext = priceApplicationService.calPrice();
-        System.out.println(priceContext);
     }
 }

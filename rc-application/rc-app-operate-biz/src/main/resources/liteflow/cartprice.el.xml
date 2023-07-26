@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow>
+    <chain name="cartChain">
+        THEN(
+            checkCmp, slotInitCmp, priceStepInitCmp,
+            priceResultCmp, stepPrintCmp
+        );
+    </chain>
+</flow>
