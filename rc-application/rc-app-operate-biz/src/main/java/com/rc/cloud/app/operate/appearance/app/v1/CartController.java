@@ -7,6 +7,7 @@ import com.rc.cloud.app.operate.application.bo.CartListBO;
 import com.rc.cloud.app.operate.application.bo.ShopCartBO;
 import com.rc.cloud.app.operate.application.dto.CartDTO;
 import com.rc.cloud.app.operate.application.service.CartApplicationService;
+import com.rc.cloud.app.operate.domain.model.price.PriceContext;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -61,5 +63,12 @@ public class CartController {
     public CodeResult<Boolean> deleteCart(@RequestBody List<String> productUniqueIds) {
         cartApplicationService.deleteCartByProductuniqueid(productUniqueIds);
         return CodeResult.ok();
+    }
+
+    @PostMapping("/calPrice")
+    @Operation(summary = "根据选择产品获取总价")
+    public CodeResult<BigDecimal> calPrice(@RequestBody List<String> productUniqueIds) {
+        PriceContext context = cartApplicationService.calPrice(productUniqueIds);
+        return CodeResult.ok(context.getFinalOrderPrice());
     }
 }

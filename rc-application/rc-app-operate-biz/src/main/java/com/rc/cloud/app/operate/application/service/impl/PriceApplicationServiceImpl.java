@@ -30,9 +30,8 @@ public class PriceApplicationServiceImpl implements PriceApplicationService {
     private FlowExecutor flowExecutor;
 
     @Override
-    public PriceContext calPrice() {
-        PriceCalParam req = mockReq();
-        LiteflowResponse response = flowExecutor.execute2Resp("mainChain", req, PriceContext.class);
+    public PriceContext calPrice(PriceCalParam req) {
+        LiteflowResponse response = flowExecutor.execute2Resp("cartChain", req, PriceContext.class);
         return response.getContextBean(PriceContext.class);
     }
 

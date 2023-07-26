@@ -1,7 +1,9 @@
 package com.rc.cloud.app.operate.application.service;
 
+import cn.hutool.core.collection.ListUtil;
 import com.rc.cloud.app.operate.application.bo.*;
 import com.rc.cloud.app.operate.application.bo.convert.CartConvert;
+import com.rc.cloud.app.operate.application.bo.convert.PriceConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductSkuConvert;
 import com.rc.cloud.app.operate.application.dto.CartDTO;
 import com.rc.cloud.app.operate.domain.model.cart.Cart;
@@ -11,6 +13,14 @@ import com.rc.cloud.app.operate.domain.model.cart.identifier.CartId;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.ProductUniqueId;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.ShopId;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.UserId;
+import com.rc.cloud.app.operate.domain.model.price.PriceCalParam;
+import com.rc.cloud.app.operate.domain.model.price.PriceContext;
+import com.rc.cloud.app.operate.domain.model.price.ProductPack;
+import com.rc.cloud.app.operate.domain.model.price.PromotionInfo;
+import com.rc.cloud.app.operate.domain.model.price.enums.CategoryEnum;
+import com.rc.cloud.app.operate.domain.model.price.enums.OrderChannelEnum;
+import com.rc.cloud.app.operate.domain.model.price.enums.PromotionTypeEnum;
+import com.rc.cloud.app.operate.domain.model.price.enums.SkuSourceEnum;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.common.core.domain.IdUtil;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
@@ -38,7 +48,7 @@ public class CartApplicationService {
     private CartDomainService cartDomainService;
 
     @Resource
-    private ProductDomainService productDomainService;
+    private PriceApplicationService priceApplicationService;
 
     public List<ShopCartBO> getCartListByShopIds(List<String> shopIds) {
         List<Cart> list = cartDomainService.getListByShopIds(IdUtil.toList(shopIds, ShopId.class));
@@ -60,6 +70,20 @@ public class CartApplicationService {
         });
 
         return shopCartBOList;
+    }
+
+    public PriceContext calPrice(List<String> productUniqueIdList) {
+        CartListBO cartList = getCartList(productUniqueIdList);
+
+        PriceCalParam req = new PriceCalParam();
+        req.setOrderNo("SO2020070611120001");
+        req.setOversea(false);
+        req.setMemberCode("M21152");
+        req.setOrderChannel(OrderChannelEnum.APP);
+        req.setCouponId(80081L);
+        List<ProductPack> productPackList = PriceConvert.convertProductPack(cartList);
+        req.setProductPackList(productPackList);
+        return priceApplicationService.calPrice(req);
     }
 
     public CartListBO getCartList(List<String> productUniqueIdList) {
@@ -86,9 +110,6 @@ public class CartApplicationService {
         cartDomainService.save(cartList);
     }
 
-    public void deleteCart(String id) {
-        cartDomainService.delete(new CartId(id));
-    }
 
     public void deleteCartByProductuniqueid(List<String> productuniqueids) {
         cartDomainService.deleteCartByProductuniqueid(IdUtil.toList(productuniqueids, ProductUniqueId.class));
@@ -101,7 +122,7 @@ public class CartApplicationService {
         bo.setLimitBuy(RandomUtils.nextInt(1, 20));
         bo.setSkuCode(RandomStringUtils.randomNumeric(5));
         bo.setOutId(RandomStringUtils.randomNumeric(5));
-        bo.setPrice(BigDecimal.valueOf(RandomUtils.nextDouble()));
+        bo.setPrice(BigDecimal.valueOf(RandomUtils.nextInt(1,20)));
 
         ProductSkuImageBO imageBO = new ProductSkuImageBO();
         List<ProductSkuImageBO> imageBOS = new ArrayList<>();
