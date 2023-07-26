@@ -1,5 +1,7 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence.po;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.*;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 @Data
 public class CartPO {
 
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
 
     /**

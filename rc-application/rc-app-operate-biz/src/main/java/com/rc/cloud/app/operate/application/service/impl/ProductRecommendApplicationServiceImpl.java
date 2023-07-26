@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +36,6 @@ public class ProductRecommendApplicationServiceImpl implements ProductRecommendA
     private ProductRepository productRepository;
     @Resource
     private IdRepository idRepository;
-
     @Autowired
     private ProductDomainService productDomainService;
 
@@ -47,10 +47,19 @@ public class ProductRecommendApplicationServiceImpl implements ProductRecommendA
         if (StringUtils.isEmpty(productRecommendCreateDTO.getRecommendProductId())) {
             throw new ServiceException(ProductRecommendErrorCodeConstants.RECOMMEND_PRODUCT_ID_NOT_EMPTY);
         }
+        ProductId productId=new ProductId(productRecommendCreateDTO.getProductId());
+        Product product = productRepository.findById(productId);
+        if (Objects.isNull(product)) {
+            throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_NOT_EXISTS);
+        }
+        ProductId recommendProductId=new ProductId(productRecommendCreateDTO.getRecommendProductId());
+        Product recommendProduct = productRepository.findById(recommendProductId);
+        if (Objects.isNull(recommendProduct)) {
+            throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_NOT_EXISTS);
+        }
         ProductRecommend productRecommend = ProductRecommendService.create(new TenantId(TenantContext.getTenantId()),
                 new ProductId(productRecommendCreateDTO.getProductId()),
                 new ProductId(productRecommendCreateDTO.getRecommendProductId()));
-        Product product=productRepository.findById(new ProductId(productRecommend.getRecommendProductId().id()));
         return ProductRecommendConvert.convert2ProductRecommendBO(productRecommend,product);
     }
 

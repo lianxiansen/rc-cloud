@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.appearance.admin.res;
+package com.rc.cloud.app.operate.appearance.admin.resp;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

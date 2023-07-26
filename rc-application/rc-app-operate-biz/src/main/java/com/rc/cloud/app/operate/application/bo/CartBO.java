@@ -37,6 +37,10 @@ public class CartBO {
     private ProductSkuBO productSkuBO;
 
     /**
+     * 产品视图
+     */
+    private ProductBO productBO;
+    /**
      * 店铺视图
      */
     private ShopBO shopBO;

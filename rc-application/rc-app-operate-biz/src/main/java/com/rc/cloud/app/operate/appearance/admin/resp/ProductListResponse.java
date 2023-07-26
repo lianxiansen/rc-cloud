@@ -1,9 +1,7 @@
-package com.rc.cloud.app.operate.appearance.admin.res;
+package com.rc.cloud.app.operate.appearance.admin.resp;
 
-import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductCategoryConvert;
-import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductConvert;
+import com.rc.cloud.app.operate.appearance.admin.resp.convert.ProductConvert;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
-import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

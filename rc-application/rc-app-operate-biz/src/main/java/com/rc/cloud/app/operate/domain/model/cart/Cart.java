@@ -1,10 +1,13 @@
 package com.rc.cloud.app.operate.domain.model.cart;
 
+import com.rc.cloud.app.operate.application.bo.ShopBO;
 import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.*;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
 import com.rc.cloud.common.core.exception.ServiceException2;
+
+import java.time.LocalDateTime;
 
 /**
  * @author WJF
@@ -13,6 +16,16 @@ import com.rc.cloud.common.core.exception.ServiceException2;
  */
 
 public class Cart {
+
+    public Cart() {
+    }
+
+    public Cart(ProductUniqueId productuniqueid, ShopInfo shopInfo) {
+        setProductUniqueId(productuniqueid);
+        setCreateTime(new CreateTime(LocalDateTime.now()));
+        setType(1);
+        setShopInfo(shopInfo);
+    }
 
     private CartId id;
 
@@ -74,6 +87,19 @@ public class Cart {
      * 砍价id
      */
     private BargainId bargainId;
+
+    public ShopInfo getShopInfo() {
+        return shopInfo;
+    }
+
+    public void setShopInfo(ShopInfo shopInfo) {
+        this.shopInfo = shopInfo;
+    }
+
+    /**
+     * 店铺信息
+     */
+    private ShopInfo shopInfo;
 
     public UserId getUserId() {
         return userId;

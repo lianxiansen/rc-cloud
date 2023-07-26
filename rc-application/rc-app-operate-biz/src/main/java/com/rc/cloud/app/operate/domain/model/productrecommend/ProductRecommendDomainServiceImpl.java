@@ -1,12 +1,9 @@
 package com.rc.cloud.app.operate.domain.model.productrecommend;
 
-import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
-import com.rc.cloud.app.operate.infrastructure.constants.ProductRecommendErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +24,12 @@ public class ProductRecommendDomainServiceImpl implements ProductRecommendDomain
 
     @Autowired
     private ProductRecommendRepository ProductRecommendRepository;
-    @Autowired
-    private ProductRepository productRepository;
+
     @Resource
     private IdRepository idRepository;
 
     @Override
     public ProductRecommend create(TenantId tenantId, ProductId productId, ProductId recommendProductId) {
-        Product product = productRepository.findById(productId);
-        if (Objects.isNull(product)) {
-            throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_NOT_EXISTS);
-        }
         ProductRecommend ProductRecommend = new ProductRecommend(new ProductRecommendId(idRepository.nextId()), tenantId, productId,recommendProductId);
         ProductRecommendRepository.save(ProductRecommend);
         return ProductRecommend;

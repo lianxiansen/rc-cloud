@@ -24,25 +24,17 @@ public class CartDomainService {
     @Resource
     private CartRepository cartRepository;
 
-    /**
-     * 创建购物车
-     *
-     * @param cart
-     * @return
-     */
-    public CartId create(Cart cart) {
-        AssertUtils.notNull(cart, "cart must be not null");
-        if (cart.getProductUniqueId() == null) {
-            throw new ServiceException2("产品唯一id不能为空");
-        }
-        return cartRepository.create(cart);
+
+    public void delete(CartId cartId) {
+        AssertUtils.notNull(cartId, "cartId must be not null");
+        //创建购物车业务规则校验
+        validateCartExist(cartId);
+        cartRepository.delete(cartId);
     }
 
-    public void delete(Cart cart) {
-        AssertUtils.notNull(cart, "cart must be not null");
-        //创建购物车业务规则校验
-        validateCartExist(cart.getId());
-        cartRepository.delete(cart.getId());
+    public void deleteCartByProductuniqueid(List<ProductUniqueId> productUniqueIds) {
+        AssertUtils.notNull(productUniqueIds, "productUniqueId must be not null");
+        cartRepository.deleteCartByProductuniqueid(productUniqueIds);
     }
 
     /**
@@ -54,18 +46,30 @@ public class CartDomainService {
         return cartRepository.getList();
     }
 
+    /**
+     * 获取购物车列表
+     *
+     * @return
+     */
+    public List<Cart> getList(List<ProductUniqueId> productUniqueIdList) {
+        return cartRepository.getList(productUniqueIdList);
+    }
 
     /**
-     * 改变购物车数量
+     * 操作购物车数量
      *
-     * @param cart
+     * @param cartList
      */
-    public void changeNum(Cart cart) {
-        validateCartExist(cart.getId());
-        //更新数量
-        Cart entity = cartRepository.findById(cart.getId());
-        entity.setNum(cart.getNum());
-        cartRepository.save(entity);
+    public void save(List<Cart> cartList) {
+        cartList.forEach(cart -> {
+            Cart entity = cartRepository.findByProductUniqueId(cart.getProductUniqueId());
+            if (entity == null) {
+                entity = cart;
+            }
+            entity.setNum(cart.getNum());
+            cartRepository.save(entity);
+        });
+
     }
 
     private void validateCartExist(CartId cartId) {

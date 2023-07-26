@@ -1,8 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.productcategory;
 
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotAssociatedProductSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotHasChildSpecification;
 import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
@@ -26,8 +24,7 @@ import java.util.Objects;
 public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
-    @Resource
-    private ProductRepository productRepository;
+
     @Override
     public ProductCategory create(ProductCategoryBuildFactory.ProductCategoryBuilder builder) {
         ProductCategory productCategory = builder.build();
@@ -36,7 +33,7 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
             if (Objects.isNull(parentCategory)) {
                 throw new ServiceException(ProductCategoryErrorCodeConstants.PARENT_NOT_EXISTS);
             }
-            productCategory.inherit(parentCategory);
+            productCategory.inheritFrom(parentCategory);
         }
         if (!productCategoryRepository.save(productCategory)) {
             throw new ServiceException(ErrorCodeConstants.SYSTEM_EXCEPTION);
@@ -52,7 +49,7 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
             if (Objects.isNull(parent)) {
                 throw new ServiceException(ProductCategoryErrorCodeConstants.PARENT_NOT_EXISTS);
             }
-            productCategory.reInherit(parent);
+            productCategory.reInheritFrom(parent);
 
         } else {
             productCategory.root();
@@ -72,23 +69,25 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
         if(Objects.isNull(productCategory)){
             throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
-        if (!new RemoveShouldNotAssociatedProductSpecification(productRepository).isSatisfiedBy(productCategory)) {
-            throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
-        }
         if (!new RemoveShouldNotHasChildSpecification(productCategoryRepository).isSatisfiedBy(productCategory)) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_HAS_CHILD);
         }
         return productCategoryRepository.removeById(productCategoryId);
     }
+
+    /**
+     * 从产品分类列表中找出子分类并重新继承父产品分类，继承之后子分类将根据父分类产品属性更新自身属性
+     * @param allList
+     * @param parent
+     */
     public void reInheritCascade(List<ProductCategory> allList, ProductCategory parent) {
         List<ProductCategory> subList = findSubList(allList, parent);
         if (CollectionUtils.isAnyEmpty(subList)) {
             return;
         }
         subList.forEach(item -> {
-            item.reInherit(parent);
+            item.reInheritFrom(parent);
             productCategoryRepository.save(item);
-            List<ProductCategory> itemSubList = findSubList(allList, item);
             reInheritCascade(allList, item);
         });
 

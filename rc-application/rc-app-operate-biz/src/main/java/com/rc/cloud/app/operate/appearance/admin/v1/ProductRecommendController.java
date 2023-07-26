@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
-import com.rc.cloud.app.operate.appearance.admin.res.ProductRecommendResponse;
-import com.rc.cloud.app.operate.appearance.admin.res.convert.ProductRecommendConvert;
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductRecommendResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.convert.ProductRecommendConvert;
 import com.rc.cloud.app.operate.application.bo.ProductRecommendBO;
 import com.rc.cloud.app.operate.application.dto.ProductRecommendCreateDTO;
 import com.rc.cloud.app.operate.application.service.impl.ProductRecommendApplicationServiceImpl;

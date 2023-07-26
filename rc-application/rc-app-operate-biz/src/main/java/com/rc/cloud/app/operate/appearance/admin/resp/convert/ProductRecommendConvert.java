@@ -1,6 +1,6 @@
-package com.rc.cloud.app.operate.appearance.admin.res.convert;
+package com.rc.cloud.app.operate.appearance.admin.resp.convert;
 
-import com.rc.cloud.app.operate.appearance.admin.res.ProductRecommendResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductRecommendResponse;
 import com.rc.cloud.app.operate.application.bo.ProductRecommendBO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
