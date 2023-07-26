@@ -18,6 +18,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @Author: chenjianxiang
+ * @Date: 2023/7/1
+ * @Description:
+ */
 @Service
 public class ProductSkuApplicationServiceImpl
 {
