@@ -246,6 +246,9 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
      * @return
      */
     public ProductRemoveBO removeProductBatch(ProductRemoveDTO productRemoveDTO){
+        if(CollectionUtil.isEmpty(productRemoveDTO.getProductIds())){
+            throw new IllegalArgumentException("请选择移除的商品");//TODO
+        }
         ProductRemoveBO bo=new ProductRemoveBO();
         List<String> needRemoveList=new ArrayList<>();
         List<String> successList=new ArrayList<>();

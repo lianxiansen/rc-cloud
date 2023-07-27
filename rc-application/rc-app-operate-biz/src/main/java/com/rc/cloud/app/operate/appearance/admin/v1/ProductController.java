@@ -1,10 +1,13 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
+import com.rc.cloud.app.operate.appearance.admin.req.ProductRemoveRequest;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductDetailResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductListResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductRemoveResponse;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
+import com.rc.cloud.app.operate.domain.common.ProductRemoveTypeEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,6 +47,16 @@ public class ProductController {
     public CodeResult<ProductBO> editProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
         return CodeResult.ok( productApplicationService.updateProduct(productSaveDTO));
     }
+
+    @PostMapping("remove")
+    @Operation(summary = "移除产品")
+    public CodeResult<ProductRemoveResponse> removeProduct(@Valid @RequestBody ProductRemoveRequest request) {
+        ProductRemoveDTO productRemoveDTO=new ProductRemoveDTO();
+        productRemoveDTO.setProductIds(request.getProductIds());
+        productRemoveDTO.setRemoveType(ProductRemoveTypeEnum.DELETE);
+        return CodeResult.ok(ProductRemoveResponse.from(productApplicationService.removeProductBatch(productRemoveDTO)));
+    }
+
 
 
     @PostMapping("get")
