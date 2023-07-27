@@ -1,0 +1,45 @@
+server:
+  port: 8085
+spring:
+  main:
+    allow-circular-references: true
+  application:
+    name: rc-app-marketing-biz
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        file-extension: yaml
+        enabled: true
+      discovery:
+        server-addr: localhost:8848
+dubbo:
+  application:
+    id: rc-app-marketing-biz
+    name: rc-app-marketing-biz
+    qosEnable: false
+  registry:
+    address: nacos://localhost:8848
+    check: false
+  protocol:
+    name: dubbo
+    port: -1
+  consumer:
+    check: false
+
+management:
+  health:
+    redis:
+      enabled: false
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+--- #################### rc相关配置 ####################
+rc:
+  info:
+    version: 1.0.0
+    base-package: com.rc.cloud

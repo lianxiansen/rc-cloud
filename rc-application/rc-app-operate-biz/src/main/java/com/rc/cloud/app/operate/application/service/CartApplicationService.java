@@ -122,7 +122,7 @@ public class CartApplicationService {
         bo.setLimitBuy(RandomUtils.nextInt(1, 20));
         bo.setSkuCode(RandomStringUtils.randomNumeric(5));
         bo.setOutId(RandomStringUtils.randomNumeric(5));
-        bo.setPrice(BigDecimal.valueOf(RandomUtils.nextInt(1,20)));
+        bo.setPrice(BigDecimal.valueOf(5));
 
         ProductSkuImageBO imageBO = new ProductSkuImageBO();
         List<ProductSkuImageBO> imageBOS = new ArrayList<>();
