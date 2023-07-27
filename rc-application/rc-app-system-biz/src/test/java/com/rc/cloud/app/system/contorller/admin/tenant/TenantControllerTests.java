@@ -250,15 +250,16 @@ public class TenantControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:tenant:query"})
         public void getTenantPage_success() throws Exception {
+            SysTenantPO tenant = createTenant();
             mvc.perform(get("/admin/tenant/page"))
                     .andDo(print())
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.code").value(200))
                     .andExpect(jsonPath("$.success").value(true))
-                    .andExpect(jsonPath("$.data.total").value(4))
+                    .andExpect(jsonPath("$.data.total").value(1))
                     .andExpect(jsonPath("$.data.list").isArray())
                     .andExpect(jsonPath("$.data.list").isNotEmpty())
-                    .andExpect(jsonPath("$.data.list[0].name").value("zuhu1"));
+                    .andExpect(jsonPath("$.data.list[0].name").value(tenant.getName()));
         }
     }
 
