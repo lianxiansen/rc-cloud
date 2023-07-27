@@ -1,5 +1,6 @@
 package com.rc.cloud.app.system.service.tenant;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
@@ -270,6 +271,9 @@ public class TenantServiceImpl implements TenantService {
         // 获得租户，然后获得菜单
         String tenantId = TenantContextHolder.getRequiredTenantId();
         SysTenantPO tenant = getTenant(tenantId);
+        if (BeanUtil.isEmpty(tenant)) {
+            throw exception(TENANT_NOT_EXISTS);
+        }
         Set<String> menuIds;
         if (isSystemTenant(tenant)) { // 系统租户，菜单是全量的
             menuIds = CollectionUtils.convertSet(menuService.getMenuList(), SysMenuPO::getId);
