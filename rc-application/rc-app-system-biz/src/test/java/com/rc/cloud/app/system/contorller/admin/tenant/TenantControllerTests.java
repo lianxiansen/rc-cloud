@@ -476,6 +476,9 @@ public class TenantControllerTests {
                     .andExpect(jsonPath("$.code").value(200))
                     .andExpect(jsonPath("$.success").value(true))
                     .andExpect(jsonPath("$.data").value(true));
+            // 验证数据库中是否存在该租户
+            SysTenantPO dbTenantPO = tenantService.getTenant(tenant.getId());
+            assertEquals(null, dbTenantPO);
         }
     }
 
@@ -521,10 +524,16 @@ public class TenantControllerTests {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.code").value(200))
                     .andExpect(jsonPath("$.success").value(true))
-                    .andExpect(jsonPath("$.data.total").value(1))
+                    .andExpect(jsonPath("$.data.total").value(2))
                     .andExpect(jsonPath("$.data.list").isArray())
                     .andExpect(jsonPath("$.data.list").isNotEmpty())
-                    .andExpect(jsonPath("$.data.list[0].name").value(tenant.getName()));
+                    .andExpect(jsonPath("$.data.list[0].name").value(tenant.getName()))
+                    .andExpect(jsonPath("$.data.list[0].domain").value(tenant.getDomain()))
+                    .andExpect(jsonPath("$.data.list[0].contactName").value(tenant.getContactName()))
+                    .andExpect(jsonPath("$.data.list[0].contactMobile").value(tenant.getContactMobile()))
+                    .andExpect(jsonPath("$.data.list[0].packageId").value(tenant.getPackageId()))
+                    .andExpect(jsonPath("$.data.list[0].status").value(tenant.getStatus()))
+                    .andExpect(jsonPath("$.data.list[0].accountCount").value(tenant.getAccountCount()));
         }
     }
 
