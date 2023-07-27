@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.system.controller.admin.v1.tenant.TenantPackageController;
 import com.rc.cloud.app.system.mapper.tenant.TenantPackageMapper;
+import com.rc.cloud.app.system.model.tenant.SysTenantPO;
 import com.rc.cloud.app.system.model.tenant.SysTenantPackagePO;
 import com.rc.cloud.app.system.service.tenant.TenantPackageService;
+import com.rc.cloud.app.system.service.tenant.TenantService;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageUpdateReqVO;
+import com.rc.cloud.app.system.vo.tenant.tenant.TenantCreateReqVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import com.rc.cloud.common.test.annotation.RcTest;
@@ -26,6 +29,7 @@ import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.rc.cloud.common.core.util.date.LocalDateTimeUtils.buildTime;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -47,10 +51,10 @@ public class TenantPackageControllerTests {
     private MockMvc mvc;
 
     @Resource
-    private TenantPackageService tenantPackageService;
+    private TenantPackageMapper tenantPackageMapper;
 
     @Resource
-    private TenantPackageMapper tenantPackageMapper;
+    private TenantService tenantService;
 
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
@@ -299,7 +303,21 @@ public class TenantPackageControllerTests {
                     .andExpect(jsonPath("$.msg").value("租户套餐不存在"));
         }
 
-        // TODO:: sad path1: 删除租户套餐失败，租户套餐已被使用
+        // sad path2: 当租户套餐已被使用时，删除租户套餐失败
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant-package:delete"})
+        public void deleteTenantPackageById_fail_when_tenantPackageIsUsed() throws Exception {
+            SysTenantPackagePO tenantPackagePO = createTenantPackage1();
+            createTenant(tenantPackagePO.getId());
+            mvc.perform(delete("/admin/tenant-package/" + tenantPackagePO.getId())
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002016001))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("租户正在使用该套餐，请给租户重新设置套餐后再尝试删除"));
+        }
     }
 
 
@@ -409,5 +427,22 @@ public class TenantPackageControllerTests {
         tenantPackage.setMenuIds(menuIds);
         tenantPackageMapper.insert(tenantPackage);
         return tenantPackage;
+    }
+
+    private SysTenantPO createTenant(String tenantPackageId) {
+        TenantCreateReqVO tenantCreateReqVO = new TenantCreateReqVO();
+        tenantCreateReqVO.setUsername("testuser123");
+        tenantCreateReqVO.setPassword("test_password");
+        tenantCreateReqVO.setName("test_tenant_name");
+        tenantCreateReqVO.setDomain("https://www.baidu.com");
+        tenantCreateReqVO.setContactName("huang");
+        tenantCreateReqVO.setContactMobile("13777777777");
+        tenantCreateReqVO.setPackageId(tenantPackageId);
+        tenantCreateReqVO.setStatus(0);
+        tenantCreateReqVO.setAccountCount(10000);
+        tenantCreateReqVO.setExpireTime(buildTime(2033, 2, 2));
+        String tenantId = tenantService.createTenant(tenantCreateReqVO);
+        SysTenantPO tenant = tenantService.getTenant(tenantId);
+        return tenant;
     }
 }
