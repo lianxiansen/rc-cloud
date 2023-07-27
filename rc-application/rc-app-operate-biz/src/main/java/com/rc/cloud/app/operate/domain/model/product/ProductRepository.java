@@ -19,7 +19,7 @@ public interface ProductRepository {
 
     List<ProductImage> getProductImageByProductId(ProductId productId);
 
-    int removeProductImageByProductId(ProductId productId);
+
 
     int removeProductImageByUrlAndSortAndType(String url ,int sort , int type);
 
@@ -28,13 +28,14 @@ public interface ProductRepository {
 
     ProductAttribute getProductAttributeByProductId(ProductId productId);
 
-    int removeProductAttributeByProductId(ProductId productId);
 
     int insertProductAttribute(Product product);
 
     int insertProduct(Product product);
 
     int updateProduct(Product product);
+
+
 
     Product findById(ProductId productId);
 
@@ -49,4 +50,15 @@ public interface ProductRepository {
 
 
     List<Product> selectBatchIds(List<ProductId> productIds);
+
+    void deleteProduct(ProductId productId);
+
+
+    void deleteProductAttributeByProductId(ProductId productId);
+
+    void deleteProductImageByProductId(ProductId productId);
+
+    int softDeleteProduct(Product product);
+
+
 }
