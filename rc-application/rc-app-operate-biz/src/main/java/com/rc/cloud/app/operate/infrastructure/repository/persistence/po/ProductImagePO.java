@@ -15,7 +15,6 @@ public class ProductImagePO extends BaseDO {
 
     private static final long serialVersionUID = 23434L;
 
-    @TableField("id")
     private String id;
     /**
      * 租户id

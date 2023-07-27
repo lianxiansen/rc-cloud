@@ -457,6 +457,8 @@ public class UserControllerTests {
      */
     @Nested
     class UpdateUserFieldTests {
+
+        // happy path: 更新用户密码成功
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:user:update-password"})
         public void updateUserPassword_success() throws Exception {
@@ -478,6 +480,7 @@ public class UserControllerTests {
                     .andExpect(jsonPath("$.data").isNotEmpty());
         }
 
+        // happy path: 更新用户状态成功
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:user:update"})
         public void updateUserStatus_success() throws Exception {

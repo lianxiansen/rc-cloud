@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -19,11 +20,11 @@ import java.time.LocalDateTime;
 public class TenantBaseVO {
 
     @Schema(description = "租户名", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋道")
-    @NotNull(message = "租户名不能为空")
+    @NotEmpty(message = "租户名不能为空")
     private String name;
 
     @Schema(description = "联系人", requiredMode = Schema.RequiredMode.REQUIRED, example = "芋艿")
-    @NotNull(message = "联系人不能为空")
+    @NotEmpty(message = "联系人不能为空")
     private String contactName;
 
     @Schema(description = "联系手机", example = "15601691300")
@@ -37,7 +38,7 @@ public class TenantBaseVO {
     private String domain;
 
     @Schema(description = "租户套餐编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @NotNull(message = "租户套餐编号不能为空")
+    @NotEmpty(message = "租户套餐编号不能为空")
     private String packageId;
 
     @Schema(description = "过期时间", requiredMode = Schema.RequiredMode.REQUIRED)
