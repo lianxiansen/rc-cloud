@@ -8,6 +8,7 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.Pr
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductDetailConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductDetailMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductDetailPO;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductDictPO;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,12 @@ public class ProductDetailRepositoryImpl implements ProductDetailRepository {
         LambdaQueryWrapperX<ProductDetailPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductDetailPO::getId, productId.id());
         return ProductDetailConvert.convert(this.productDetailMapper.selectOne(wrapper));
+    }
+
+    @Override
+    public void removeProductDetailByProductId(ProductId productId) {
+        LambdaQueryWrapperX<ProductDetailPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDetailPO::getProductId, productId);
+        productDetailMapper.delete(wrapper);
     }
 }

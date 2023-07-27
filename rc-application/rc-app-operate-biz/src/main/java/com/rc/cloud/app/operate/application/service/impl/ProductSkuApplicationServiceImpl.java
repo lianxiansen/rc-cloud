@@ -4,6 +4,7 @@ import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 import com.rc.cloud.app.operate.application.bo.convert.ProductSkuConvert;
 import com.rc.cloud.app.operate.application.dto.ProductSkuGetDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuSaveDTO;
+import com.rc.cloud.app.operate.application.service.ProductSkuApplicationService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
@@ -24,7 +25,7 @@ import java.util.List;
  * @Description:
  */
 @Service
-public class ProductSkuApplicationServiceImpl
+public class ProductSkuApplicationServiceImpl implements ProductSkuApplicationService
 {
 
     @Autowired

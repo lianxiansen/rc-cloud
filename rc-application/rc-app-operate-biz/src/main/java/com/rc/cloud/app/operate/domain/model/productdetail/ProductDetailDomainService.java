@@ -18,4 +18,8 @@ public class ProductDetailDomainService {
     public ProductDetail findProductDetailById(ProductId productId){
         return productDetailRepository.findById(productId);
     }
+
+    public void deleteProductDetail(ProductId productId) {
+        productDetailRepository.removeProductDetailByProductId(productId);
+    }
 }

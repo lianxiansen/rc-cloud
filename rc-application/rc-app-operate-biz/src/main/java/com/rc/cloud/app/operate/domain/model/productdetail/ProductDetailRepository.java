@@ -9,4 +9,6 @@ public interface ProductDetailRepository {
     void saveProductDetail(ProductDetail productDetail);
 
     ProductDetail findById(ProductId productId);
+
+    void removeProductDetailByProductId(ProductId productId);
 }

@@ -38,7 +38,6 @@ import java.util.Set;
  * @Date: 2023/6/23 15:51
  * @Description:
  */
-@Service
 public interface ProductApplicationService {
 
 

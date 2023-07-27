@@ -157,12 +157,7 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         return this.productSkuMapper.insert(po);
     }
 
-    @Override
-    public int removeProductSku(ProductSkuId productSkuId) {
-        LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuPO::getId, productSkuId.id());
-        return this.productSkuMapper.delete(wrapper);
-    }
+
 
 
     @Override
@@ -195,5 +190,19 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         wrapper.eq(ProductSkuAttributePO::getProductSkuId, productSkuId.id());
         return ProductSkuAttributeConvert.convert(this.productSkuAttributeMapper.selectOne(wrapper));
 
+    }
+
+    @Override
+    public void removeProductSku(ProductSkuId productSkuId) {
+        LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuPO::getId, productSkuId.id());
+        this.productSkuMapper.delete(wrapper);
+    }
+
+    @Override
+    public void removeProductSkuByProductId(ProductId productId) {
+        LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuPO::getProductId, productId.id());
+        this.productSkuMapper.delete(wrapper);
     }
 }

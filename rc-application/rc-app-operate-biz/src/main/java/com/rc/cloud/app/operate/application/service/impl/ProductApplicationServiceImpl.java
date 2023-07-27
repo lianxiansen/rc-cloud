@@ -9,6 +9,7 @@ import com.rc.cloud.app.operate.application.bo.convert.ProductDetailConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductDictConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductSkuConvert;
 import com.rc.cloud.app.operate.application.dto.*;
+import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.common.ProductRemoveTypeEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
@@ -44,7 +45,7 @@ import java.util.Set;
  * @Description:
  */
 @Service
-public class ProductApplicationServiceImpl {
+public class ProductApplicationServiceImpl implements ProductApplicationService {
 
     @Autowired
     private ProductDomainService productDomainService;
@@ -67,7 +68,7 @@ public class ProductApplicationServiceImpl {
     @Resource
     private IdRepository idRepository;
 
-    private void validateTenantId(TenantId tenantId) {
+    public void validateTenantId(TenantId tenantId) {
         if (!tenantService.exists(tenantId)) {
             throw new IllegalArgumentException("所属租户错误");
         }
@@ -215,16 +216,27 @@ public class ProductApplicationServiceImpl {
     }
 
     /**
-     * 移除商品
+     * 移除商品（若是软删除只需要修改产品的是否删除属性即可）
      * 移除商品字典
      * 移除商品详情
      * 移除商品sku
      * @param productId
+     * @param removeType
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean removeProduct(String productId, ProductRemoveTypeEnum removeType){
+        if(removeType==ProductRemoveTypeEnum.DELETE){
+            productDomainService.deleteProduct(new ProductId(productId));
+            productDictDomainService.deleteProductDict(new ProductId(productId));
+            productSkuDomainService.deleteProductSku(new ProductId(productId));
+            productDetailDomainService.deleteProductDetail(new ProductId(productId));
+        }else if(removeType==ProductRemoveTypeEnum.SOFT_DELETE){
 
+            productDomainService.softDeleteProduct(new ProductId(productId));
+        }else{
+            throw new IllegalArgumentException("removeType is not null");
+        }
         return true;
     }
 
