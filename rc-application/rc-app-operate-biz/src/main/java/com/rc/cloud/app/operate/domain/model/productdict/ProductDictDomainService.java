@@ -22,4 +22,8 @@ public class ProductDictDomainService {
     public void saveProductDict(Set<ProductDict> productDictList){
         productDictRepository.saveProductDict(productDictList.stream().collect(Collectors.toList()));
     }
+
+    public void deleteProductDict(ProductId productId) {
+        productDictRepository.removeProductDictByProductId(productId.id());
+    }
 }

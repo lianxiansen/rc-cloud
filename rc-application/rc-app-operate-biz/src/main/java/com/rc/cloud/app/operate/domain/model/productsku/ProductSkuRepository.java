@@ -27,7 +27,6 @@ public interface ProductSkuRepository {
 
     int insertProductSku(ProductSku productSku);
 
-    int removeProductSku(ProductSkuId productSkuId);
 
     boolean exist(ProductSkuId productSkuId);
 
@@ -39,5 +38,7 @@ public interface ProductSkuRepository {
 
     ProductSkuAttribute getProductSkuAttributeByProductSkuId(ProductSkuId productSkuId);
 
+    void removeProductSku(ProductSkuId productSkuId);
 
+    void removeProductSkuByProductId(ProductId productId);
 }

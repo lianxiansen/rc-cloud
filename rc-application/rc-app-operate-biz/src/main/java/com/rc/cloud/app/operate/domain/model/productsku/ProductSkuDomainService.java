@@ -28,4 +28,12 @@ public class ProductSkuDomainService {
     public List<ProductSku> getProductSkuListByProductId(ProductId productId) {
         return productSkuRepository.getProductSkuListByProductId(productId);
     }
+
+    public void deleteProductSku(ProductId productId) {
+        productSkuRepository.removeProductSkuByProductId(productId);
+    }
+
+    public void deleteProductSku(ProductSkuId productSkuId) {
+        productSkuRepository.removeProductSku(productSkuId);
+    }
 }
