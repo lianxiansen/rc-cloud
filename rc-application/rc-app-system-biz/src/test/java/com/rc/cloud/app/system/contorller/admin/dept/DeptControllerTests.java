@@ -605,7 +605,7 @@ public class DeptControllerTests {
         }
     }
 
-    private SysDeptPO createDept() throws Exception {
+    private SysDeptPO createDept() {
         SysDeptPO deptPO = new SysDeptPO();
         deptPO.setName("柔川信息");
         deptPO.setParentId("0");
