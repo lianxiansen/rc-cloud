@@ -136,7 +136,7 @@ public class UserControllerTests {
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:user:create"})
         public void createUser_usernameExists() throws Exception {
-            SysUserPO sysUserPO = createUser();
+            SysUserPO sysUserPO = createUser1();
             SysDeptPO sysDeptPO = createDept();
             SysPostPO sysPostPO = createPost();
             UserCreateReqVO createReqVO = new UserCreateReqVO();
@@ -230,33 +230,193 @@ public class UserControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:user:update"})
-    public void updateUser_success() throws Exception {
-        UserUpdateReqVO updateReqVO = new UserUpdateReqVO();
-        updateReqVO.setId("1");
-        updateReqVO.setUsername("testuser12377");
-        updateReqVO.setNickname("test_nickname");
-        updateReqVO.setAvatar("www.baidu.com");
-        updateReqVO.setRemark("备注");
-        updateReqVO.setDeptId("100");
-        updateReqVO.setPostIds(new HashSet<String>() {{add("1"); add("2");}});
-        updateReqVO.setEmail("123232@qq.com");
-        updateReqVO.setMobile("13777777789");
-        updateReqVO.setRoleIds(new HashSet<String>() {{add("1"); add("2");}});
-        updateReqVO.setSex(1);
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(updateReqVO);
-        mvc.perform(put("/sys/user/update")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isNotEmpty());
+    /**
+     * @author rc@hqf
+     * @date 2023/07/27
+     * @description 更新系统用户相关测试
+     */
+    @Nested
+    class UpdateUserTests {
+
+        // happy path: 更新用户信息成功
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:user:update"})
+        public void updateUser_success() throws Exception {
+            SysUserPO sysUserPO = createUser1();
+            SysDeptPO sysDeptPO = createDept();
+            SysPostPO sysPostPO = createPost();
+            UserUpdateReqVO updateReqVO = new UserUpdateReqVO();
+            updateReqVO.setId(sysUserPO.getId());
+            updateReqVO.setUsername("testuser12377");
+            updateReqVO.setNickname("test_nickname");
+            updateReqVO.setAvatar("www.baidu.com");
+            updateReqVO.setRemark("备注");
+            updateReqVO.setDeptId(sysDeptPO.getId());
+            updateReqVO.setPostIds(new HashSet<String>() {{add(sysPostPO.getId());}});
+            updateReqVO.setEmail("123232@qq.com");
+            updateReqVO.setMobile("13777777789");
+            updateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            updateReqVO.setRoleIds(new HashSet<String>() {{add("1"); add("2");}});
+            updateReqVO.setSex(1);
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(updateReqVO);
+            mvc.perform(put("/admin/user/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isNotEmpty());
+            SysUserPO dbUserPO = userService.getUser(updateReqVO.getId());
+            assertNotEquals(null, dbUserPO);
+            assertEquals(updateReqVO.getUsername(), dbUserPO.getUsername());
+            assertEquals(updateReqVO.getNickname(), dbUserPO.getNickname());
+            assertEquals(updateReqVO.getAvatar(), dbUserPO.getAvatar());
+            assertEquals(updateReqVO.getRemark(), dbUserPO.getRemark());
+            assertEquals(updateReqVO.getDeptId(), dbUserPO.getDeptId());
+            assertEquals(updateReqVO.getEmail(), dbUserPO.getEmail());
+            assertEquals(updateReqVO.getMobile(), dbUserPO.getMobile());
+            assertEquals(updateReqVO.getSex(), dbUserPO.getSex());
+            assertEquals(updateReqVO.getStatus(), dbUserPO.getStatus());
+        }
+
+        // sad path1: 用户不存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:user:update"})
+        public void updateUser_userNotExists() throws Exception {
+            SysDeptPO sysDeptPO = createDept();
+            SysPostPO sysPostPO = createPost();
+            UserUpdateReqVO updateReqVO = new UserUpdateReqVO();
+            updateReqVO.setId("999999");
+            updateReqVO.setUsername("testuser12377");
+            updateReqVO.setNickname("test_nickname");
+            updateReqVO.setAvatar("www.baidu.com");
+            updateReqVO.setRemark("备注");
+            updateReqVO.setDeptId(sysDeptPO.getId());
+            updateReqVO.setPostIds(new HashSet<String>() {{add(sysPostPO.getId());}});
+            updateReqVO.setEmail("123232@qq.com");
+            updateReqVO.setMobile("13777777789");
+            updateReqVO.setRoleIds(new HashSet<String>() {{add("1"); add("2");}});
+            updateReqVO.setSex(1);
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(updateReqVO);
+            mvc.perform(put("/admin/user/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002003003))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("用户不存在"));
+        }
+
+        // sad path2: 用户名已存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:user:update"})
+        public void updateUser_usernameExists() throws Exception {
+            SysUserPO sysUserPO1 = createUser1();
+            SysUserPO sysUserPO2 = createUser2();
+            SysDeptPO sysDeptPO = createDept();
+            SysPostPO sysPostPO = createPost();
+            UserUpdateReqVO updateReqVO = new UserUpdateReqVO();
+            updateReqVO.setId(sysUserPO1.getId());
+            updateReqVO.setUsername(sysUserPO2.getUsername());
+            updateReqVO.setNickname("test_nickname");
+            updateReqVO.setAvatar("www.baidu.com");
+            updateReqVO.setRemark("备注");
+            updateReqVO.setDeptId(sysDeptPO.getId());
+            updateReqVO.setPostIds(new HashSet<String>() {{add(sysPostPO.getId());}});
+            updateReqVO.setEmail("123232@qq.com");
+            updateReqVO.setMobile("13777777789");
+            updateReqVO.setRoleIds(new HashSet<String>() {{add("1"); add("2");}});
+            updateReqVO.setSex(1);
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(updateReqVO);
+            mvc.perform(put("/admin/user/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002003000))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("用户账号已经存在"));
+        }
+
+        // sad path3: 部门不存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:user:update"})
+        public void updateUser_deptNotExists() throws Exception {
+            SysUserPO sysUserPO = createUser1();
+            SysPostPO sysPostPO = createPost();
+            UserUpdateReqVO updateReqVO = new UserUpdateReqVO();
+            updateReqVO.setId(sysUserPO.getId());
+            updateReqVO.setUsername("testuser12377");
+            updateReqVO.setNickname("test_nickname");
+            updateReqVO.setAvatar("www.baidu.com");
+            updateReqVO.setRemark("备注");
+            updateReqVO.setDeptId("999999");
+            updateReqVO.setPostIds(new HashSet<String>() {{add(sysPostPO.getId());}});
+            updateReqVO.setEmail("123232@qq.com");
+            updateReqVO.setMobile("13777777789");
+            updateReqVO.setRoleIds(new HashSet<String>() {{add("1"); add("2");}});
+            updateReqVO.setSex(1);
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(updateReqVO);
+            mvc.perform(put("/admin/user/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002004002))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("当前部门不存在"));
+        }
+
+        // sad path4: 岗位不存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:user:update"})
+        public void updateUser_postNotExists() throws Exception {
+            SysUserPO sysUserPO = createUser1();
+            SysDeptPO sysDeptPO = createDept();
+            UserUpdateReqVO updateReqVO = new UserUpdateReqVO();
+            updateReqVO.setId(sysUserPO.getId());
+            updateReqVO.setUsername("testuser12377");
+            updateReqVO.setNickname("test_nickname");
+            updateReqVO.setAvatar("www.baidu.com");
+            updateReqVO.setRemark("备注");
+            updateReqVO.setDeptId(sysDeptPO.getId());
+            updateReqVO.setPostIds(new HashSet<String>() {{
+                add("999999");
+            }});
+            updateReqVO.setEmail("123232@qq.com");
+            updateReqVO.setMobile("13777777789");
+            updateReqVO.setRoleIds(new HashSet<String>() {{
+                add("1");
+                add("2");
+            }});
+            updateReqVO.setSex(1);
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(updateReqVO);
+            mvc.perform(put("/admin/user/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002005000))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("当前岗位不存在"));
+        }
     }
 
     @Test
@@ -351,7 +511,7 @@ public class UserControllerTests {
                 .andExpect(jsonPath("$.data.username").value("admin"));
     }
 
-    private SysUserPO createUser() {
+    private SysUserPO createUser1() {
         SysDeptPO sysDeptPO = createDept();
         SysPostPO sysPostPO = createPost();
         UserCreateReqVO createReqVO = new UserCreateReqVO();
@@ -366,6 +526,25 @@ public class UserControllerTests {
         createReqVO.setSex(1);
         createReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
         createReqVO.setPassword("123111");
+        String userId = userService.createUser(createReqVO);
+        return userService.getUser(userId);
+    }
+
+    private SysUserPO createUser2() {
+        SysDeptPO sysDeptPO = createDept();
+        SysPostPO sysPostPO = createPost();
+        UserCreateReqVO createReqVO = new UserCreateReqVO();
+        createReqVO.setUsername("testuser222");
+        createReqVO.setNickname("test_nickname222");
+        createReqVO.setAvatar("www.baidu.com222");
+        createReqVO.setRemark("备注222");
+        createReqVO.setDeptId(sysDeptPO.getId());
+        createReqVO.setPostIds(new HashSet<String>() {{add(sysPostPO.getId());}});
+        createReqVO.setEmail("123232222@qq.com");
+        createReqVO.setMobile("13777777222");
+        createReqVO.setSex(1);
+        createReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        createReqVO.setPassword("123222");
         String userId = userService.createUser(createReqVO);
         return userService.getUser(userId);
     }
