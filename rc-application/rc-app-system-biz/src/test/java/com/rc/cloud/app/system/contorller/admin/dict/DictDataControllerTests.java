@@ -99,7 +99,7 @@ public class DictDataControllerTests {
                     .andExpect(jsonPath("$.code").value(200))
                     .andExpect(jsonPath("$.success").value(true))
                     .andExpect(jsonPath("$.data").isNotEmpty());
-            SysDictDataPO dbDictDataPO = dictDataMapper.selectByDictTypeAndValue(dictType.getType(), "rc");
+            SysDictDataPO dbDictDataPO = dictDataMapper.selectByDictTypeAndValue(dictType.getType(), dictDataCreateReqVO.getValue());
             assertNotNull(dbDictDataPO);
             assertEquals(dictDataCreateReqVO.getLabel(), dbDictDataPO.getLabel());
             assertEquals(dictDataCreateReqVO.getValue(), dbDictDataPO.getValue());
