@@ -19,7 +19,6 @@ public class ProductDetailPO {
 
     private static final long serialVersionUID = 34322L;
 
-    @TableField("id")
     private String id;
     /**
      * 租户id
