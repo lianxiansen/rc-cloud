@@ -416,7 +416,11 @@
                 <artifactId>jackson-core</artifactId>
                 <version>2.14.2</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${org.apache.dubbo.versoin}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -516,7 +516,7 @@ public class DictDataControllerTests {
         @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
         public void updateDictData_valueDuplicate() throws Exception {
             SysDictDataPO dictData1 = createDictData1();
-            SysDictDataPO dictData2 = createDictData2();
+            SysDictDataPO dictData2 = createDictData2(dictData1.getDictType());
             DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
             dictDataUpdateReqVO.setId(dictData1.getId());
             dictDataUpdateReqVO.setSort(34);
@@ -545,7 +545,7 @@ public class DictDataControllerTests {
         @WithMockUser(username = "admin", authorities = {"sys:dict:update"})
         public void updateDictData_labelDuplicate() throws Exception {
             SysDictDataPO dictData1 = createDictData1();
-            SysDictDataPO dictData2 = createDictData2();
+            SysDictDataPO dictData2 = createDictData2(dictData1.getDictType());
             DictDataUpdateReqVO dictDataUpdateReqVO = new DictDataUpdateReqVO();
             dictDataUpdateReqVO.setId(dictData1.getId());
             dictDataUpdateReqVO.setSort(34);
@@ -622,13 +622,12 @@ public class DictDataControllerTests {
         return dictData;
     }
 
-    private SysDictDataPO createDictData2() {
-        SysDictTypePO dictType = createDictType();
+    private SysDictDataPO createDictData2(String dictType) {
         SysDictDataPO dictData = new SysDictDataPO();
         dictData.setSort(1);
         dictData.setLabel("值2");
         dictData.setValue("value2");
-        dictData.setDictType(dictType.getType());
+        dictData.setDictType(dictType);
         dictData.setStatus(CommonStatusEnum.ENABLE.getStatus());
         dictData.setCssClass("success");
         dictData.setColorType("default2");

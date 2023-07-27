@@ -1,4 +1,4 @@
-package com.rc.cloud.app.product.appearance.admin.v1;
+package com.rc.cloud.app.marketing.appearance.admin.v1;
 
 
 import com.rc.cloud.app.dubbo.application.service.AuthenticationService;
