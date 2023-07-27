@@ -45,6 +45,9 @@
         <module>rc-app-distributor-biz</module>
         <module>api/rc-app-system-api</module>
         <module>rc-app-operate-biz</module>
+        <module>rc-app-marketing-biz</module>
+        <module>api/rc-app-dubbo-api</module>
+        <module>rc-app-dubbo-biz</module>
     </modules>
 
 </project>
