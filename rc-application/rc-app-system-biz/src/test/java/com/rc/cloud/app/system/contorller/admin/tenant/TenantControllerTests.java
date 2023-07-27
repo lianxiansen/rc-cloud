@@ -230,10 +230,10 @@ public class TenantControllerTests {
                     .andExpect(jsonPath("$.msg").value("租户套餐不存在"));
         }
 
-        // sad path3: 创建租户失败，租户名称为空
+        // sad path3: 创建租户失败，用户名为空
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:tenant:create"})
-        public void createTenant_fail_when_TenantNameIsNull() throws Exception {
+        public void createTenant_fail_when_UsernameIsEmpty() throws Exception {
             SysTenantPackagePO tenantPackage = createTenantPackage();
             TenantCreateReqVO tenantCreateReqVO = new TenantCreateReqVO();
             tenantCreateReqVO.setUsername("");
@@ -259,6 +259,36 @@ public class TenantControllerTests {
                     .andExpect(jsonPath("$.success").value(false))
                     .andExpect(jsonPath("$.msg").value("请求参数不正确:用户账号长度为 4-30 个字符"));
         }
+
+        // sad path4: 更新租户失败，租户名称为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant:create"})
+        public void createTenant_fail_when_TenantNameIsEmpty() throws Exception {
+            SysTenantPackagePO tenantPackage = createTenantPackage();
+            TenantCreateReqVO tenantCreateReqVO = new TenantCreateReqVO();
+            tenantCreateReqVO.setUsername("user1234");
+            tenantCreateReqVO.setPassword("test_password");
+            tenantCreateReqVO.setName("");
+            tenantCreateReqVO.setDomain("https://www.baidu.com");
+            tenantCreateReqVO.setContactName("huang");
+            tenantCreateReqVO.setContactMobile("13777777777");
+            tenantCreateReqVO.setPackageId(tenantPackage.getId());
+            tenantCreateReqVO.setStatus(0);
+            tenantCreateReqVO.setAccountCount(10000);
+            tenantCreateReqVO.setExpireTime(buildTime(2033, 2, 2));
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(tenantCreateReqVO);
+            mvc.perform(post("/admin/tenant/create")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:租户名不能为空"));
+        }
     }
 
     /**
@@ -268,6 +298,8 @@ public class TenantControllerTests {
      */
     @Nested
     class UpdateTenantTests {
+
+        // happy path: 更新租户成功
         @Test
         @WithMockUser(username = "admin", authorities = {"sys:tenant:update"})
         public void updateTenant_success() throws Exception {
@@ -294,6 +326,134 @@ public class TenantControllerTests {
                     .andExpect(jsonPath("$.code").value(200))
                     .andExpect(jsonPath("$.success").value(true))
                     .andExpect(jsonPath("$.data").isNotEmpty());
+            // 验证数据库中是否存在该租户
+            SysTenantPO dbTenantPO = tenantService.getTenant(tenantUpdateReqVO.getId());
+            assertNotEquals(null, dbTenantPO);
+            assertEquals(tenantUpdateReqVO.getName(), dbTenantPO.getName());
+            assertEquals(tenantUpdateReqVO.getDomain(), dbTenantPO.getDomain());
+            assertEquals(tenantUpdateReqVO.getContactName(), dbTenantPO.getContactName());
+            assertEquals(tenantUpdateReqVO.getContactMobile(), dbTenantPO.getContactMobile());
+            assertEquals(tenantUpdateReqVO.getPackageId(), dbTenantPO.getPackageId());
+            assertEquals(tenantUpdateReqVO.getStatus(), dbTenantPO.getStatus());
+            assertEquals(tenantUpdateReqVO.getAccountCount(), dbTenantPO.getAccountCount());
+            assertEquals(tenantUpdateReqVO.getExpireTime(), dbTenantPO.getExpireTime());
+            // TODO:: 验证数据库中是否存在该租户的管理员账号
+        }
+
+        // sad path1: 更新租户失败，租户不存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant:update"})
+        public void updateTenant_fail_when_TenantNotExist() throws Exception {
+            TenantUpdateReqVO tenantUpdateReqVO = new TenantUpdateReqVO();
+            tenantUpdateReqVO.setId("999999");
+            tenantUpdateReqVO.setName("test_tenant_name321");
+            tenantUpdateReqVO.setDomain("https://www.baidu.com321");
+            tenantUpdateReqVO.setContactName("huang321");
+            tenantUpdateReqVO.setContactMobile("13777777321");
+            tenantUpdateReqVO.setPackageId("999999");
+            tenantUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            tenantUpdateReqVO.setAccountCount(321);
+            tenantUpdateReqVO.setExpireTime(buildTime(2039, 5, 5));
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(tenantUpdateReqVO);
+            mvc.perform(put("/admin/tenant/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002015000))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("租户不存在"));
+        }
+
+        // sad path2: 更新租户失败，租户名称已存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant:update"})
+        public void updateTenant_fail_when_TenantNameExist() throws Exception {
+            SysTenantPO sysTenantPO = createTenant();
+            SysTenantPO tenant2 = createTenant2();
+            TenantUpdateReqVO tenantUpdateReqVO = new TenantUpdateReqVO();
+            tenantUpdateReqVO.setId(sysTenantPO.getId());
+            tenantUpdateReqVO.setName(tenant2.getName());
+            tenantUpdateReqVO.setDomain("https://www.baidu.com321");
+            tenantUpdateReqVO.setContactName("huang321");
+            tenantUpdateReqVO.setContactMobile("13777777321");
+            tenantUpdateReqVO.setPackageId(sysTenantPO.getPackageId());
+            tenantUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            tenantUpdateReqVO.setAccountCount(321);
+            tenantUpdateReqVO.setExpireTime(buildTime(2039, 5, 5));
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(tenantUpdateReqVO);
+            mvc.perform(put("/admin/tenant/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002015004))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("名字为【" + tenantUpdateReqVO.getName() + "】的租户已存在"));
+        }
+
+        // sad path3: 更新租户失败，租户套餐不存在
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant:update"})
+        public void updateTenant_fail_when_TenantPackageNotExist() throws Exception {
+            SysTenantPO sysTenantPO = createTenant();
+            TenantUpdateReqVO tenantUpdateReqVO = new TenantUpdateReqVO();
+            tenantUpdateReqVO.setId(sysTenantPO.getId());
+            tenantUpdateReqVO.setName("test_tenant_name321");
+            tenantUpdateReqVO.setDomain("https://www.baidu.com321");
+            tenantUpdateReqVO.setContactName("huang321");
+            tenantUpdateReqVO.setContactMobile("13777777321");
+            tenantUpdateReqVO.setPackageId("999999");
+            tenantUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            tenantUpdateReqVO.setAccountCount(321);
+            tenantUpdateReqVO.setExpireTime(buildTime(2039, 5, 5));
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(tenantUpdateReqVO);
+            mvc.perform(put("/admin/tenant/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(1002016000))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("租户套餐不存在"));
+        }
+
+        // sad path4: 更新租户失败，租户名称为空
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:tenant:update"})
+        public void updateTenant_fail_when_TenantNameIsNull() throws Exception {
+            SysTenantPO sysTenantPO = createTenant();
+            TenantUpdateReqVO tenantUpdateReqVO = new TenantUpdateReqVO();
+            tenantUpdateReqVO.setId(sysTenantPO.getId());
+            tenantUpdateReqVO.setName("");
+            tenantUpdateReqVO.setDomain("https://www.baidu.com321");
+            tenantUpdateReqVO.setContactName("huang321");
+            tenantUpdateReqVO.setContactMobile("13777777321");
+            tenantUpdateReqVO.setPackageId(sysTenantPO.getPackageId());
+            tenantUpdateReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            tenantUpdateReqVO.setAccountCount(321);
+            tenantUpdateReqVO.setExpireTime(buildTime(2039, 5, 5));
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(tenantUpdateReqVO);
+            mvc.perform(put("/admin/tenant/update")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(10030))
+                    .andExpect(jsonPath("$.success").value(false))
+                    .andExpect(jsonPath("$.msg").value("请求参数不正确:租户名不能为空"));
         }
     }
 
@@ -377,6 +537,24 @@ public class TenantControllerTests {
         tenantCreateReqVO.setDomain("https://www.baidu.com");
         tenantCreateReqVO.setContactName("huang");
         tenantCreateReqVO.setContactMobile("13777777777");
+        tenantCreateReqVO.setPackageId(tenantPackage.getId());
+        tenantCreateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        tenantCreateReqVO.setAccountCount(10000);
+        tenantCreateReqVO.setExpireTime(buildTime(2033, 2, 2));
+        String tenantId = tenantService.createTenant(tenantCreateReqVO);
+        SysTenantPO tenant = tenantService.getTenant(tenantId);
+        return tenant;
+    }
+
+    private SysTenantPO createTenant2() {
+        SysTenantPackagePO tenantPackage = this.createTenantPackage();
+        TenantCreateReqVO tenantCreateReqVO = new TenantCreateReqVO();
+        tenantCreateReqVO.setUsername("testuser222");
+        tenantCreateReqVO.setPassword("test_password2");
+        tenantCreateReqVO.setName("test_tenant_name2");
+        tenantCreateReqVO.setDomain("https://www.baidu.com2");
+        tenantCreateReqVO.setContactName("huang2");
+        tenantCreateReqVO.setContactMobile("13777777722");
         tenantCreateReqVO.setPackageId(tenantPackage.getId());
         tenantCreateReqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
         tenantCreateReqVO.setAccountCount(10000);
