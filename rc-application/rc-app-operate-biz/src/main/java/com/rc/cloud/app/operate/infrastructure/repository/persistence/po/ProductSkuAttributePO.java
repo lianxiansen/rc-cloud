@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -24,7 +25,7 @@ import lombok.EqualsAndHashCode;
 @TableName("product_sku_attribute")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductSkuAttributePO {
+public class ProductSkuAttributePO extends BaseDO {
 
     private static final long serialVersionUID = 21231L;
 

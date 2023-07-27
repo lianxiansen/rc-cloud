@@ -23,7 +23,7 @@ public class ProductDictDomainService {
         productDictRepository.saveProductDict(productDictList.stream().collect(Collectors.toList()));
     }
 
-    public void deleteProductDict(ProductId productId) {
+    public void deleteProductDictByProductId(ProductId productId) {
         productDictRepository.removeProductDictByProductId(productId.id());
     }
 }

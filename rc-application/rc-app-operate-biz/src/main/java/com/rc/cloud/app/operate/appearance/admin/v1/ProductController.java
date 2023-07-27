@@ -53,7 +53,6 @@ public class ProductController {
     public CodeResult<ProductRemoveResponse> removeProduct(@Valid @RequestBody ProductRemoveRequest request) {
         ProductRemoveDTO productRemoveDTO=new ProductRemoveDTO();
         productRemoveDTO.setProductIds(request.getProductIds());
-        productRemoveDTO.setRemoveType(ProductRemoveTypeEnum.DELETE);
         return CodeResult.ok(ProductRemoveResponse.from(productApplicationService.removeProductBatch(productRemoveDTO)));
     }
 

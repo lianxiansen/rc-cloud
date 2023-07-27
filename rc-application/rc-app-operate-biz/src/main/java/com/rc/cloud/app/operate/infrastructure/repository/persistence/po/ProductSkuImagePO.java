@@ -2,13 +2,14 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@TableName("product_attribute")
+@TableName("product_sku_image")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductSkuImagePO {
+public class ProductSkuImagePO extends BaseDO {
 
 
     private static final long serialVersionUID = 2213123L;

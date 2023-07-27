@@ -216,27 +216,19 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     }
 
     /**
-     * 移除商品（若是软删除只需要修改产品的是否删除属性即可）
+     * 移除商品
      * 移除商品字典
      * 移除商品详情
      * 移除商品sku
      * @param productId
-     * @param removeType
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public boolean removeProduct(String productId, ProductRemoveTypeEnum removeType){
-        if(removeType==ProductRemoveTypeEnum.DELETE){
-            productDomainService.deleteProduct(new ProductId(productId));
-            productDictDomainService.deleteProductDict(new ProductId(productId));
-            productSkuDomainService.deleteProductSku(new ProductId(productId));
-            productDetailDomainService.deleteProductDetail(new ProductId(productId));
-        }else if(removeType==ProductRemoveTypeEnum.SOFT_DELETE){
-
-            productDomainService.softDeleteProduct(new ProductId(productId));
-        }else{
-            throw new IllegalArgumentException("removeType is not null");
-        }
+    public boolean removeProduct(String productId){
+        productDomainService.deleteProduct(new ProductId(productId));
+        productDictDomainService.deleteProductDictByProductId(new ProductId(productId));
+        productSkuDomainService.deleteProductSkuByProductId(new ProductId(productId));
+        productDetailDomainService.deleteProductDetailByProductId(new ProductId(productId));
         return true;
     }
 
@@ -257,7 +249,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
             for (String id : productRemoveDTO.getProductIds()) {
                 needRemoveList.add(id);
                 try{
-                    boolean success= removeProduct(id,productRemoveDTO.getRemoveType());
+                    boolean success= removeProduct(id);
                     if(success){
                         successList.add(id);
                     }else{

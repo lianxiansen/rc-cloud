@@ -19,20 +19,23 @@ public class ProductImageConvert {
 
 
     public static ProductImage convert(ProductImagePO productImagePO){
-        ProductImageTypeEnum productImageTypeEnum= ProductImageTypeEnum.MasterImage;
-        Integer imageType = productImagePO.getImage_type();
-        if(imageType==ProductImageTypeEnum.MasterImage.value){
-            productImageTypeEnum= ProductImageTypeEnum.MasterImage;
-        }else if(imageType==ProductImageTypeEnum.SizeImage.value){
-            productImageTypeEnum= ProductImageTypeEnum.SizeImage;
-        }
-        ProductImage productImage=new ProductImage(
-                new ProductImageId(productImagePO.getId()),
-                new Url(productImagePO.getUrl()),
-                new Sort(productImagePO.getSort()),
-                productImageTypeEnum
-        );
-        return  productImage;
+       if(productImagePO!=null){
+           ProductImageTypeEnum productImageTypeEnum= ProductImageTypeEnum.MasterImage;
+           Integer imageType = productImagePO.getImage_type();
+           if(imageType==ProductImageTypeEnum.MasterImage.value){
+               productImageTypeEnum= ProductImageTypeEnum.MasterImage;
+           }else if(imageType==ProductImageTypeEnum.SizeImage.value){
+               productImageTypeEnum= ProductImageTypeEnum.SizeImage;
+           }
+           ProductImage productImage=new ProductImage(
+                   new ProductImageId(productImagePO.getId()),
+                   new Url(productImagePO.getUrl()),
+                   new Sort(productImagePO.getSort()),
+                   productImageTypeEnum
+           );
+           return  productImage;
+       }
+       return null;
     }
 
 
@@ -47,7 +50,9 @@ public class ProductImageConvert {
 
     public static List<ProductImage> convertList(List<ProductImagePO> list){
         List<ProductImage> resList =new ArrayList<>();
-        list.forEach(x-> resList.add(convert(x)));
+        if(list!=null){
+            list.forEach(x-> resList.add(convert(x)));
+        }
         return resList;
     }
 }
