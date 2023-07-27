@@ -14,7 +14,6 @@ public class ProductOperatePO {
 
     private static final long serialVersionUID = 256345L;
 
-    @TableField("id")
     private Long id;
 
     @TableField("tenant_id")

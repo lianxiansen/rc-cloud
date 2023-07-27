@@ -28,7 +28,6 @@ public class ProductSkuAttributePO {
 
     private static final long serialVersionUID = 21231L;
 
-    @TableField("id")
     private String id;
 
     @TableField("tenant_id")

@@ -19,7 +19,6 @@ import java.util.Objects;
 public class ProductGroupItemPO extends BaseDO {
 
     private static final long serialVersionUID = 2343242L;
-    @TableField("id")
     private String id;
 
     @TableField("product_group_id")

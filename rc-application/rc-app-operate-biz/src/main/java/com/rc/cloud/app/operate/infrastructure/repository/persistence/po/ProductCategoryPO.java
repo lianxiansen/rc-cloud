@@ -14,7 +14,6 @@ public class ProductCategoryPO extends BaseDO {
 
 
     private static final long serialVersionUID = 2123435L;
-    @TableField("id")
     private String id;
     @TableField("tenant_id")
     private String tenantId;

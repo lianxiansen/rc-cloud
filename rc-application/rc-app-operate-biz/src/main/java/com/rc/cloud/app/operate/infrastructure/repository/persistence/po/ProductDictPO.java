@@ -12,7 +12,6 @@ public class ProductDictPO {
 
     private static final long serialVersionUID = 55322L;
 
-    @TableField("id")
     private String id;
 
     @TableField("tenant_id")

@@ -13,7 +13,6 @@ public class ProductSkuImagePO {
 
     private static final long serialVersionUID = 2213123L;
 
-    @TableField("id")
     private String id;
 
     @TableField("tenant_id")

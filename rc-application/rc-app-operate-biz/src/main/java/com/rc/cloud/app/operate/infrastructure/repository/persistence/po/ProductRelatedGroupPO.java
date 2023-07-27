@@ -15,7 +15,6 @@ public class ProductRelatedGroupPO extends BaseDO {
 
     private static final long serialVersionUID = 265345L;
 
-    @TableField("id")
     private Long id;
 
     @TableField("name")

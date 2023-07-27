@@ -17,7 +17,6 @@ public class ProductSkuPO extends BaseDO {
 
     private static final long serialVersionUID = 23523L;
 
-    @TableField("id")
     private String id;
     /**
      * 租户id
