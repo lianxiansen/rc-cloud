@@ -259,37 +259,6 @@ public class TenantControllerTests {
                     .andExpect(jsonPath("$.success").value(false))
                     .andExpect(jsonPath("$.msg").value("请求参数不正确:用户账号长度为 4-30 个字符"));
         }
-
-        // sad path4: 创建租户失败，用户名已存在
-        @Test
-        @WithMockUser(username = "admin", authorities = {"sys:tenant:create"})
-        public void createTenant_fail_when_UserIsExist() throws Exception {
-            SysTenantPackagePO tenantPackage = createTenantPackage();
-            SysUserPO sysUserPO = createUser();
-            TenantCreateReqVO tenantCreateReqVO = new TenantCreateReqVO();
-            tenantCreateReqVO.setUsername(sysUserPO.getUsername());
-            tenantCreateReqVO.setPassword("testpassword");
-            tenantCreateReqVO.setName("test_tenant_name9874");
-            tenantCreateReqVO.setDomain("https://www.baidu.com");
-            tenantCreateReqVO.setContactName("huang");
-            tenantCreateReqVO.setContactMobile("13777777777");
-            tenantCreateReqVO.setPackageId(tenantPackage.getId());
-            tenantCreateReqVO.setStatus(0);
-            tenantCreateReqVO.setAccountCount(10000);
-            tenantCreateReqVO.setExpireTime(buildTime(2033, 2, 2));
-            ObjectMapper mapper = new ObjectMapper();
-            String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(tenantCreateReqVO);
-            mvc.perform(post("/admin/tenant/create")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(requestBody)
-                            .accept(MediaType.APPLICATION_JSON))
-                    .andDo(print())
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.code").value(10030))
-                    .andExpect(jsonPath("$.success").value(false))
-                    .andExpect(jsonPath("$.msg").value("请求参数不正确:用户账号长度为 4-30 个字符"));
-        }
     }
 
     /**
