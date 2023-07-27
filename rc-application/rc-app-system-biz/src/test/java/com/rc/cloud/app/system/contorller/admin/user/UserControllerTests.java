@@ -419,96 +419,164 @@ public class UserControllerTests {
         }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:user:delete"})
-    public void deleteUser_success() throws Exception {
-        mvc.perform(delete("/sys/user")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("[1,2]")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/27
+     * @description 删除系统用户相关测试
+     */
+    @Nested
+    class DeleteUserTests {
+
+        // happy path: 删除用户成功
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:user:delete"})
+        public void deleteUser_success() throws Exception {
+            SysUserPO sysUserPO = createUser1();
+            HashSet<String> ids = new HashSet<String>() {{
+                add(sysUserPO.getId());
+            }};
+            mvc.perform(delete("/admin/user")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(ids.toString())
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+
+            SysUserPO dbUserPO = userService.getUser(sysUserPO.getId());
+            assertEquals(null, dbUserPO);
+        }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:user:update-password"})
-    public void updateUserPassword_success() throws Exception {
-        UserUpdatePasswordReqVO updatePasswordReqVO = new UserUpdatePasswordReqVO();
-        updatePasswordReqVO.setId("1");
-        updatePasswordReqVO.setPassword("1234567");
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(updatePasswordReqVO);
-        mvc.perform(put("/sys/user/update-password")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isNotEmpty());
+    /**
+     * @author rc@hqf
+     * @date 2023/07/27
+     * @description 更新系统用户字段相关测试
+     */
+    @Nested
+    class UpdateUserFieldTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:user:update-password"})
+        public void updateUserPassword_success() throws Exception {
+            SysUserPO sysUserPO = createUser1();
+            UserUpdatePasswordReqVO updatePasswordReqVO = new UserUpdatePasswordReqVO();
+            updatePasswordReqVO.setId(sysUserPO.getId());
+            updatePasswordReqVO.setPassword("1234567");
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(updatePasswordReqVO);
+            mvc.perform(put("/admin/user/update-password")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isNotEmpty());
+        }
+
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:user:update"})
+        public void updateUserStatus_success() throws Exception {
+            SysUserPO sysUserPO = createUser1();
+            UserUpdateStatusReqVO updateStatusReqVO = new UserUpdateStatusReqVO();
+            updateStatusReqVO.setId(sysUserPO.getId());
+            updateStatusReqVO.setStatus(CommonStatusEnum.DISABLE.getStatus());
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(updateStatusReqVO);
+            mvc.perform(put("/admin/user/update-status")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isNotEmpty());
+        }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:user:update"})
-    public void updateUserStatus_success() throws Exception {
-        UserUpdateStatusReqVO updateStatusReqVO = new UserUpdateStatusReqVO();
-        updateStatusReqVO.setId("1");
-        updateStatusReqVO.setStatus(1);
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(updateStatusReqVO);
-        mvc.perform(put("/sys/user/update-status")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isNotEmpty());
+    /**
+     * @author rc@hqf
+     * @date 2023/07/27
+     * @description 获取系统用户分页相关测试
+     */
+    @Nested
+    class GetUserPageTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:user:query"})
+        public void getUserPage_success() throws Exception {
+            SysUserPO sysUserPO = createUser1();
+            mvc.perform(get("/admin/user/page"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.total").value(2)) // 创建租户时会默认创建一个用户
+                    .andExpect(jsonPath("$.data.list").isArray())
+                    .andExpect(jsonPath("$.data.list").isNotEmpty())
+                    .andExpect(jsonPath("$.data.list[0].username").value(sysUserPO.getUsername()))
+                    .andExpect(jsonPath("$.data.list[0].nickname").value(sysUserPO.getNickname()))
+                    .andExpect(jsonPath("$.data.list[0].avatar").value(sysUserPO.getAvatar()))
+                    .andExpect(jsonPath("$.data.list[0].remark").value(sysUserPO.getRemark()))
+                    .andExpect(jsonPath("$.data.list[0].deptId").value(sysUserPO.getDeptId()))
+                    .andExpect(jsonPath("$.data.list[0].email").value(sysUserPO.getEmail()))
+                    .andExpect(jsonPath("$.data.list[0].mobile").value(sysUserPO.getMobile()));
+        }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:user:query"})
-    public void getUserPage_success() throws Exception {
-        mvc.perform(get("/sys/user/page"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.total").value(2))
-                .andExpect(jsonPath("$.data.list").isArray())
-                .andExpect(jsonPath("$.data.list").isNotEmpty())
-                .andExpect(jsonPath("$.data.list[0].username").value("hqftest123"));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/27
+     * @description 获取系统用户简单列表相关测试
+     */
+    @Nested
+    class GetUserSimpleListTests {
+        @Test
+        @WithMockUser(username = "admin")
+        public void getUserListAllSimple_success() throws Exception {
+            SysUserPO sysUserPO = createUser1();
+            mvc.perform(get("/admin/user/list-all-simple"))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isArray())
+                    .andExpect(jsonPath("$.data").isNotEmpty())
+                    .andExpect(jsonPath("$.data[0].id").value(sysUserPO.getId()))
+                    .andExpect(jsonPath("$.data[0].nickname").value(sysUserPO.getNickname()));
+        }
     }
 
-    @Test
-    @WithMockUser(username = "admin")
-    public void getUserListAllSimple_success() throws Exception {
-        mvc.perform(get("/sys/user/list-all-simple"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data").isNotEmpty())
-                .andExpect(jsonPath("$.data[0].nickname").value("rc"));
-    }
-
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:user:query"})
-    public void getUserById_then_success() throws Exception {
-        mvc.perform(get("/sys/user/1"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.username").value("admin"));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/27
+     * @description 通过ID系统用户相关测试
+     */
+    @Nested
+    class GetUserByIdTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:user:query"})
+        public void getUserById_then_success() throws Exception {
+            SysUserPO sysUserPO = createUser1();
+            mvc.perform(get("/admin/user/" + sysUserPO.getId()))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data.id").value(sysUserPO.getId()))
+                    .andExpect(jsonPath("$.data.username").value(sysUserPO.getUsername()))
+                    .andExpect(jsonPath("$.data.nickname").value(sysUserPO.getNickname()))
+                    .andExpect(jsonPath("$.data.avatar").value(sysUserPO.getAvatar()))
+                    .andExpect(jsonPath("$.data.remark").value(sysUserPO.getRemark()))
+                    .andExpect(jsonPath("$.data.deptId").value(sysUserPO.getDeptId()))
+                    .andExpect(jsonPath("$.data.email").value(sysUserPO.getEmail()))
+                    .andExpect(jsonPath("$.data.mobile").value(sysUserPO.getMobile()));
+        }
     }
 
     private SysUserPO createUser1() {

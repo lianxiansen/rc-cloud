@@ -21,7 +21,7 @@ spring:
           password: ''
           init:
             schema: classpath:/sql/create_tables.sql
-            data: classpath:/sql/init_data.sql
+#            data: classpath:/sql/init_data.sql
   quartz:
     auto-startup: false # 关闭
 
