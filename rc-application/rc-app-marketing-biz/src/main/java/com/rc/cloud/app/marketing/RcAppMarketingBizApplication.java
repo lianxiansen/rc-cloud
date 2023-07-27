@@ -1,4 +1,4 @@
-package com.rc.cloud.app.product;
+package com.rc.cloud.app.marketing;
 
 import com.rc.cloud.common.feign.EnableRcFeignClients;
 import org.apache.dubbo.config.spring.context.annotation.DubboComponentScan;

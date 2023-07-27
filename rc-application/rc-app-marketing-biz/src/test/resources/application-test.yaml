@@ -1,0 +1,60 @@
+spring:
+  main:
+    banner-mode: off # 单元测试，禁用 Banner
+
+--- #################### 数据库相关配置 ####################
+
+spring:
+  datasource:
+    dynamic: # 多数据源配置
+      druid: # Druid 【连接池】相关的全局配置
+        async-init: true # 单元测试，异步初始化 Druid 连接池，提升启动速度
+        initial-size: 1 # 单元测试，配置为 1，提升启动速度
+        test-while-idle: false
+      primary: master
+      datasource:
+        master:
+          name: rc-cloud-product
+          url: jdbc:h2:mem:testdb;MODE=MySQL;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE;DB_CLOSE_DELAY=-1
+          driver-class-name: org.h2.Driver
+          username: 'sa'
+          password: ''
+          init:
+            schema: classpath:/sql/create_tables.sql
+            data: classpath:/sql/init_data.sql
+  quartz:
+    auto-startup: false # 关闭
+
+  # Redis 配置。Redisson 默认的配置足够使用，一般不需要进行调优
+  redis:
+    host: 127.0.0.1 # 地址
+    port: 6379 # 端口
+    database: 11 # 数据库索引 （单元测试，使用 11 号）
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: true
+        web-allow-others: false
+mybatis:
+  lazy-initialization: true # 单元测试，设置 MyBatis Mapper 延迟加载，加速每个单元测试
+
+--- #################### 定时任务相关配置 ####################
+
+--- #################### 配置中心相关配置 ####################
+
+--- #################### 服务保障相关配置 ####################
+
+# Lock4j 配置项（单元测试，禁用 Lock4j）
+
+--- #################### RC相关配置 ####################
+
+# RC配置项，设置当前项目所有自定义的配置
+rc:
+  tenant: # 多租户相关配置项
+    enable: true
+  info:
+    base-package: com.rc.cloud.app.operate.infrastructure.persistence.mapper
+  captcha:
+    enable: true # 是否开启验证码
