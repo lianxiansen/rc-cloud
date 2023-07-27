@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.application.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
+import com.rc.cloud.app.operate.application.bo.ProductRemoveBO;
 import com.rc.cloud.app.operate.application.bo.convert.ProductConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductDetailConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductDictConvert;
@@ -59,6 +60,13 @@ public interface ProductApplicationService {
      */
     ProductBO updateProduct(ProductSaveDTO productSaveDTO);
 
+
+    /**
+     * 移除商品
+     * @param productRemoveDTO
+     * @return
+     */
+    ProductRemoveBO removeProductBatch(ProductRemoveDTO productRemoveDTO);
     /**
      * 获取商品
      * TODO
