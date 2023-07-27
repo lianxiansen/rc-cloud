@@ -2,9 +2,12 @@ package com.rc.cloud.app.operate.appearance.app.v1;
 
 import com.rc.cloud.app.operate.appearance.app.v1.convert.CartConvert;
 import com.rc.cloud.app.operate.appearance.app.v1.resp.CartListResponse;
+import com.rc.cloud.app.operate.application.bo.CartBO;
 import com.rc.cloud.app.operate.application.bo.CartListBO;
+import com.rc.cloud.app.operate.application.bo.ShopCartBO;
 import com.rc.cloud.app.operate.application.dto.CartDTO;
 import com.rc.cloud.app.operate.application.service.CartApplicationService;
+import com.rc.cloud.app.operate.domain.model.price.PriceContext;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,6 +16,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author WJF
@@ -26,26 +33,42 @@ public class CartController {
     @Resource
     private CartApplicationService cartApplicationService;
 
-    @GetMapping("/getlist")
+    @PostMapping("/getlistByShopIds")
     @Operation(summary = "获取购物车列表")
-    public CodeResult<CartListBO> getlist() {
-        CartListBO cartList = cartApplicationService.getCartList();
+    public CodeResult<List<ShopCartBO>> getlistByShopIds(@RequestBody List<String> shopIds) {
+        List<ShopCartBO> cartList = cartApplicationService.getCartListByShopIds(shopIds);
 
-        // CartListResponse response = CartConvert.convert(cartList);
         return CodeResult.ok(cartList);
     }
 
-    @PostMapping("/addCart")
+    @PostMapping("/getlist")
+    @Operation(summary = "根据产品唯一id获取购物车数量")
+    public CodeResult<Map<String, Integer>> getCartList(@RequestBody List<String> productUniqueIds) {
+        CartListBO cartList = cartApplicationService.getCartList(productUniqueIds);
+
+        Map<String, Integer> maps = cartList.getCartList().stream().collect(Collectors.toMap(CartBO::getProductuniqueid, CartBO::getNum, (key1, key2) -> key2));
+        return CodeResult.ok(maps);
+    }
+
+
+    @PostMapping("/saveCart")
     @Operation(summary = "增加购物车")
-    public CodeResult<Boolean> addCart(@RequestBody CartDTO dto) {
-        cartApplicationService.addCart(dto);
+    public CodeResult<Boolean> saveCart(@RequestBody List<CartDTO> dto) {
+        cartApplicationService.saveCart(dto);
         return CodeResult.ok();
     }
 
     @DeleteMapping("/deleteCart")
     @Operation(summary = "删除购物车")
-    public CodeResult<Boolean> deleteCart(@RequestParam("id") String id) {
-        cartApplicationService.deleteCart(id);
+    public CodeResult<Boolean> deleteCart(@RequestBody List<String> productUniqueIds) {
+        cartApplicationService.deleteCartByProductuniqueid(productUniqueIds);
         return CodeResult.ok();
+    }
+
+    @PostMapping("/calPrice")
+    @Operation(summary = "根据选择产品获取总价")
+    public CodeResult<BigDecimal> calPrice(@RequestBody List<String> productUniqueIds) {
+        PriceContext context = cartApplicationService.calPrice(productUniqueIds);
+        return CodeResult.ok(context.getFinalOrderPrice());
     }
 }

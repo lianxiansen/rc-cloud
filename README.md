@@ -4,8 +4,13 @@
 rc-cloud
 
 #### 软件架构
-软件架构说明
-
+领域模型编写
+    1.应用服务层不能调用仓储层接口
+    2.应用服务需要编写接口
+    3.领域服务不能用调用其他聚合根下的仓储层接口，比如ProductDomainService只能调用ProductRepository
+    4.领域服务不需要编写接口
+    5.事件在领域服务层出发
+    6.资源库返回的领域对象要完整
 
 #### 安装教程
 
@@ -27,11 +32,3 @@ rc-cloud
 4.  新建 Pull Request
 
 
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)

@@ -210,6 +210,8 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
         ProductSaveDTO productSaveDTO=new ProductSaveDTO();
         productSaveDTO.setName(RandomUtils.randomString());
         productSaveDTO.setProductType(1);
+        productSaveDTO.setProductOrigin(1);
+        productSaveDTO.setOutId(RandomUtils.randomString());
         productSaveDTO.setListImage("https://"+RandomUtils.randomString());
         productSaveDTO.setRemark(RandomUtils.randomString());
 

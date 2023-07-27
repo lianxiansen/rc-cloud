@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.appearance.app.v1.resp;
 
+import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 
 import java.time.LocalDateTime;
@@ -35,6 +36,10 @@ public class CartResponse {
      */
     private ProductSkuBO productSkuBO;
 
+    /**
+     * 产品视图
+     */
+    private ProductBO productSpuBO;
 
     /**
      * 数量
@@ -70,4 +75,6 @@ public class CartResponse {
      * 砍价id
      */
     private String bargainid;
+
+
 }

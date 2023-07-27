@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.application.bo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.rc.cloud.app.operate.domain.model.cart.identifier.ShopId;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -37,9 +38,18 @@ public class CartBO {
     private ProductSkuBO productSkuBO;
 
     /**
+     * 产品视图
+     */
+    private ProductBO productBO;
+    /**
      * 店铺视图
      */
     private ShopBO shopBO;
+
+    /**
+     * 店铺视图
+     */
+    private String shopid;
 
     /**
      * 数量

@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-
+/**
+ * @Author: chenjianxiang
+ * @Date: 2023/7/1
+ * @Description:
+ */
 @Tag(name = "产品")
 @RestController
 @RequestMapping("/admin/product")
