@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS "sys_user" (
 ) comment '用户信息表';
 
 CREATE TABLE IF NOT EXISTS "sys_tenant" (
-    "id" varchar NOT NULL,
+    "id" varchar(50) NOT NULL,
     "name" varchar(63) NOT NULL,
     "contact_user_id" varchar NOT NULL DEFAULT '0',
     "contact_name" varchar(255) NOT NULL,
