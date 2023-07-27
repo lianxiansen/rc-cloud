@@ -9,6 +9,7 @@ import com.rc.cloud.app.operate.application.bo.convert.ProductDetailConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductDictConvert;
 import com.rc.cloud.app.operate.application.bo.convert.ProductSkuConvert;
 import com.rc.cloud.app.operate.application.dto.*;
+import com.rc.cloud.app.operate.domain.common.ProductRemoveTypeEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
@@ -222,14 +223,14 @@ public class ProductApplicationServiceImpl {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    public boolean removeProduct(String productId){
-        //productDomainService
+    public boolean removeProduct(String productId, ProductRemoveTypeEnum removeType){
+
         return true;
     }
 
     /**
      * 批量移除商品
-     * @param productRemoveDTO
+     * @param productRemoveDTO 传入所需要删除的商品id以及删除的类别，默认类别为软删除
      * @return
      */
     public ProductRemoveBO removeProductBatch(ProductRemoveDTO productRemoveDTO){
@@ -241,7 +242,7 @@ public class ProductApplicationServiceImpl {
             for (String id : productRemoveDTO.getProductIds()) {
                 needRemoveList.add(id);
                 try{
-                    boolean success= removeProduct(id);
+                    boolean success= removeProduct(id,productRemoveDTO.getRemoveType());
                     if(success){
                         successList.add(id);
                     }else{
