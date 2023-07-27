@@ -6,7 +6,6 @@ import com.rc.cloud.app.system.controller.admin.v1.tenant.TenantPackageControlle
 import com.rc.cloud.app.system.mapper.tenant.TenantPackageMapper;
 import com.rc.cloud.app.system.model.tenant.SysTenantPO;
 import com.rc.cloud.app.system.model.tenant.SysTenantPackagePO;
-import com.rc.cloud.app.system.service.tenant.TenantPackageService;
 import com.rc.cloud.app.system.service.tenant.TenantService;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageCreateReqVO;
 import com.rc.cloud.app.system.vo.tenant.packages.TenantPackageUpdateReqVO;
@@ -408,10 +407,11 @@ public class TenantPackageControllerTests {
         tenantPackage.setName("test_tenant_name1");
         tenantPackage.setStatus(CommonStatusEnum.ENABLE.getStatus());
         tenantPackage.setRemark("test_tenant_remark1");
-        Set<String> menuIds = new HashSet<>();
-        menuIds.add("1");
-        menuIds.add("2");
-        menuIds.add("5");
+        Set<String> menuIds = new HashSet<String>() {{
+            add("1");
+            add("2");
+            add("5");
+        }};
         tenantPackage.setMenuIds(menuIds);
         tenantPackageMapper.insert(tenantPackage);
         return tenantPackage;
