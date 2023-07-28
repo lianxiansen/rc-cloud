@@ -62,6 +62,7 @@ rc:
       - sys_dict_type
       - sys_oauth_client_details
       - sys_login_log
+      - sys_menu
 
 # Quartz 配置项，对应 QuartzProperties 配置类
 spring:
