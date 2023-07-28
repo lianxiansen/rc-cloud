@@ -40,7 +40,7 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
 
     private int removeProductSkuImageByProductSkuId(ProductSkuId productSkuId) {
         LambdaQueryWrapperX<ProductSkuImagePO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuImagePO::getProductSkuId, productSkuId);
+        wrapper.eq(ProductSkuImagePO::getProductSkuId, productSkuId.id());
         return this.productSkuImageMapper.delete(wrapper);
     }
 
@@ -88,13 +88,15 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
 
     private int removeProductSkuAttributeByProductSkuId(ProductSkuId productSkuId) {
         LambdaQueryWrapperX<ProductSkuAttributePO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuAttributePO::getProductSkuId, productSkuId);
+        wrapper.eq(ProductSkuAttributePO::getProductSkuId, productSkuId.id());
         return this.productSkuAttributeMapper.delete(wrapper);
     }
 
 
     private int insertProductSkuAttribute(ProductSku productSku) {
-        ProductSkuAttributePO productSkuAttributePO = ProductSkuAttributeConvert.convert(productSku.getProductSkuAttributeEntity());
+        ProductSkuAttributePO productSkuAttributePO = ProductSkuAttributeConvert.convert(productSku.getProductSkuAttribute());
+        productSkuAttributePO.setId(productSku.getProductSkuAttribute().getId()
+                .id());
         productSkuAttributePO.setProductSkuId(productSku.getId().id());
         productSkuAttributePO.setTenantId(productSku.getTenantId().id());
         return this.productSkuAttributeMapper.insert(productSkuAttributePO);

@@ -29,9 +29,9 @@ public class ProductDictRepositoryImpl implements ProductDictRepository {
     }
 
     @Override
-    public int removeProductDictByProductId(String productId){
+    public int removeProductDictByProductId(ProductId productId){
         LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDictPO::getProductId, productId);
+        wrapper.eq(ProductDictPO::getProductId, productId.id());
         return productDictMapper.delete(wrapper);
     }
 

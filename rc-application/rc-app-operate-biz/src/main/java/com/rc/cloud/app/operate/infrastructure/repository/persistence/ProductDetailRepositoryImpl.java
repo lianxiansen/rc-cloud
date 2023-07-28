@@ -38,7 +38,7 @@ public class ProductDetailRepositoryImpl implements ProductDetailRepository {
     @Override
     public void removeProductDetailByProductId(ProductId productId) {
         LambdaQueryWrapperX<ProductDetailPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDetailPO::getProductId, productId);
+        wrapper.eq(ProductDetailPO::getProductId, productId.id());
         productDetailMapper.delete(wrapper);
     }
 }

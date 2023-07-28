@@ -267,14 +267,14 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     private void deleteProductAttributeByProductId(ProductId productId) {
         LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductAttributePO::getProductId, productId);
+        wrapper.eq(ProductAttributePO::getProductId, productId.id());
         this.productAttributeMapper.delete(wrapper);
     }
 
 
     private void deleteProductImageByProductId(ProductId productId) {
         LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductImagePO::getProductId, productId);
+        wrapper.eq(ProductImagePO::getProductId, productId.id());
         productImageMapper.delete(wrapper);
     }
 

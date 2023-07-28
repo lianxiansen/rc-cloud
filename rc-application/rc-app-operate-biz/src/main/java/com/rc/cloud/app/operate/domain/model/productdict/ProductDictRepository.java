@@ -9,7 +9,7 @@ public interface ProductDictRepository
 {
     List<ProductDict> getProductDictByProductId(ProductId productId);
 
-    int removeProductDictByProductId(String productId);
+    int removeProductDictByProductId(ProductId productId);
 
     void saveProductDict(List<ProductDict> productDictList);
 
