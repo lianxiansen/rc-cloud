@@ -10,6 +10,7 @@ import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductAttributeConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductImageConvert;
@@ -60,8 +61,8 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
 
-    @Override
-    public List<ProductImage> getProductImageByProductId(ProductId productId) {
+
+    private List<ProductImage> getProductImageByProductId(ProductId productId) {
         LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductImagePO::getProductId, productId.id());
         return ProductImageConvert.convertList(this.productImageMapper.selectList(wrapper));
@@ -69,8 +70,8 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 
 
-    @Override
-    public int removeProductImageByUrlAndSortAndType(String url, int sort, int type) {
+
+    private int removeProductImageByUrlAndSortAndType(String url, int sort, int type) {
         LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductImagePO::getUrl, url);
         wrapper.eq(ProductImagePO::getSort, sort);
@@ -79,7 +80,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
 
-    public int updateProductImageByProductId(Product product) {
+    /**
+     * 更新商品图片
+     * @param product
+     * @return
+     */
+    public int updateProductImageByProduct(Product product) {
         List<ProductImage> newList = new ArrayList<>();
         if(product.getSizeImages()!=null){
             newList.addAll(product.getSizeImages());
@@ -93,22 +99,20 @@ public class ProductRepositoryImpl implements ProductRepository {
         removeList.forEach(x ->
                 removeProductImageByUrlAndSortAndType(x.getUrl().getValue(), x.getSort().getValue(), x.getType().value)
         );
-        batchSaveProductImage(addList, product.getId().id(), product.getTenantId().id());
+        batchInsertProductImage(addList, product.getId(), product.getTenantId());
         return 1;
     }
 
 
 
-
-    @Override
-    public int batchSaveProductImage(List<ProductImage> productImageList, String productId, String tenantId) {
+    private int batchInsertProductImage(List<ProductImage> productImageList, ProductId productId, TenantId tenantId) {
         if (productImageList != null && productImageList.size() > 0) {
             productImageList.forEach(
                     x -> {
                         ProductImagePO productImagePO = ProductImageConvert.convert(x);
-                        productImagePO.setTenantId(tenantId);
-                        productImagePO.setProductId(productId);
-                        productImagePO.setImage_type(2);
+                        productImagePO.setTenantId(tenantId.id());
+                        productImagePO.setProductId(productId.id());
+                        productImagePO.setImage_type(x.getType().value);
                         this.productImageMapper.insert(productImagePO);
                     }
             );
@@ -116,8 +120,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         return 1;
     }
 
-    @Override
-    public ProductAttribute getProductAttributeByProductId(ProductId productId) {
+    private ProductAttribute getProductAttributeByProductId(ProductId productId) {
 
         LambdaQueryWrapperX wrapperX = new LambdaQueryWrapperX<ProductAttributePO>();
         LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
@@ -127,8 +130,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
 
-    @Override
-    public int insertProductAttribute(Product product) {
+    private int insertProductAttribute(Product product) {
         ProductAttribute productAttribute = product.getProductAttribute();
         ProductAttributePO productAttributePO = ProductAttributeConvert.convert(productAttribute);
         productAttributePO.setProductId(product.getId().id());
@@ -136,7 +138,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         return this.productAttributeMapper.insert(productAttributePO);
     }
 
-    public int updateProductAttributeByProductId(Product product) {
+    private int updateProductAttributeByProductId(Product product) {
         ProductAttribute productAttribute = product.getProductAttribute();
         ProductAttributePO productAttributePO = ProductAttributeConvert.convert(productAttribute);
         productAttributePO.setProductId(product.getId().id());
@@ -151,10 +153,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         ProductPO productPO = ProductConvert.convert(product);
         this.productMapper.insert(productPO);
         if (product.getSizeImages() != null && product.getSizeImages().size() > 0) {
-            batchSaveProductImage(product.getSizeImages(), product.getId().id(), product.getTenantId().id());
+            batchInsertProductImage(product.getSizeImages(), product.getId(), product.getTenantId());
         }
         if (product.getMasterImages() != null && product.getMasterImages().size() > 0) {
-            batchSaveProductImage(product.getMasterImages(), product.getId().id(), product.getTenantId().id());
+            batchInsertProductImage(product.getMasterImages(), product.getId(), product.getTenantId());
         }
         if (product.getProductAttribute() != null) {
             insertProductAttribute(product);
@@ -162,13 +164,19 @@ public class ProductRepositoryImpl implements ProductRepository {
         return 1;
     }
 
+    /**
+     * 更新商品
+     * 同时更新商品图片以及商品属性
+     * @param product
+     * @return
+     */
     @Override
     public int updateProduct(Product product) {
         LambdaQueryWrapperX<ProductPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductPO::getId, product.getId().id());
         ProductPO productPO = ProductConvert.convert(product);
         this.productMapper.update(productPO, wrapper);
-        updateProductImageByProductId(product);
+        updateProductImageByProduct(product);
         updateProductAttributeByProductId(product);
         return 1;
     }
@@ -256,38 +264,20 @@ public class ProductRepositoryImpl implements ProductRepository {
         deleteProductAttributeByProductId(productId);
     }
 
-    @Override
-    public void deleteProductAttributeByProductId(ProductId productId) {
+
+    private void deleteProductAttributeByProductId(ProductId productId) {
         LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductAttributePO::getProductId, productId);
         this.productAttributeMapper.delete(wrapper);
     }
 
 
-    @Override
-    public void deleteProductImageByProductId(ProductId productId) {
+    private void deleteProductImageByProductId(ProductId productId) {
         LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductImagePO::getProductId, productId);
         productImageMapper.delete(wrapper);
     }
 
-    /**
-     * 软删除商品
-     * 因为图片跟属性是同一个聚合根下面所以没有软删除字段
-     * @param product
-     * @return
-     */
-    @Override
-    public int softDeleteProduct(Product product) {
-        LambdaQueryWrapperX<ProductPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductPO::getId, product.getId().id());
-        ProductPO productPO = ProductConvert.convert(product);
-        productPO.setDeleted(true);
-        this.productMapper.update(productPO, wrapper);
-        //softDeleteProductImageByProductId(product);
-        //softDeleteProductAttributeByProductId(product);
-        return 1;
-    }
 
 
 }

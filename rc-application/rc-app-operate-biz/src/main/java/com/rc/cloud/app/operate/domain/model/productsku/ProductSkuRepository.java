@@ -7,19 +7,7 @@ import java.util.List;
 
 public interface ProductSkuRepository {
 
-
-
-
-    int removeProductSkuImageByProductSkuId(ProductSkuId productSkuId);
-
-    int batchSaveProductSkuImage(ProductSku productSku);
-
-    int removeProductSkuAttributeByProductSkuId(ProductSkuId productSkuId);
-
-    int insertProductSkuAttribute(ProductSku productSku);
-
     List<ProductSku> getProductSkuListByProductId(ProductId productId);
-
 
     int batchSaveProductSku(List<ProductSku> productSkuList);
 
@@ -31,12 +19,6 @@ public interface ProductSkuRepository {
     boolean exist(ProductSkuId productSkuId);
 
     ProductSku findById(ProductSkuId productSkuId);
-
-
-    List<ProductSkuImage> getProductSkuImageByProductSkuId(ProductSkuId productSkuId);
-
-
-    ProductSkuAttribute getProductSkuAttributeByProductSkuId(ProductSkuId productSkuId);
 
     void removeProductSku(ProductSkuId productSkuId);
 
