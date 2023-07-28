@@ -40,5 +40,4 @@ public interface ProductSkuRepository {
 
     void removeProductSku(ProductSkuId productSkuId);
 
-    void removeProductSkuByProductId(ProductId productId);
 }

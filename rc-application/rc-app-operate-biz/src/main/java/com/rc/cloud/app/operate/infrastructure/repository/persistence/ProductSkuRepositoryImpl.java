@@ -53,7 +53,7 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         if(productSkuImageList!=null && productSkuImageList.size()>0){
             productSkuImageList.forEach(
                     x-> {
-                        ProductSkuImagePO po = ProductSkuImageConvert.INSTANCE.convert(x);
+                        ProductSkuImagePO po = ProductSkuImageConvert.convert(x);
                         po.setTenantId(productSku.getTenantId().id());
                         po.setProductSkuId(productSku.getId().id());
                         this.productSkuImageMapper.insert(po);
@@ -179,7 +179,8 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductSkuImagePO>();
         LambdaQueryWrapperX<ProductSkuImagePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductSkuImagePO::getProductSkuId, productSkuId.id());
-        return ProductSkuImageConvert.INSTANCE.convertList(this.productSkuImageMapper.selectList(wrapper));
+        List<ProductSkuImagePO> productSkuImagePOS = this.productSkuImageMapper.selectList(wrapper);
+        return ProductSkuImageConvert.convertList(productSkuImagePOS);
     }
 
     @Override
@@ -188,6 +189,7 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductSkuAttributePO>();
         LambdaQueryWrapperX<ProductSkuAttributePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductSkuAttributePO::getProductSkuId, productSkuId.id());
+
         return ProductSkuAttributeConvert.convert(this.productSkuAttributeMapper.selectOne(wrapper));
 
     }
@@ -197,12 +199,8 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductSkuPO::getId, productSkuId.id());
         this.productSkuMapper.delete(wrapper);
+        removeProductSkuImageByProductSkuId(productSkuId);
     }
 
-    @Override
-    public void removeProductSkuByProductId(ProductId productId) {
-        LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuPO::getProductId, productId.id());
-        this.productSkuMapper.delete(wrapper);
-    }
+
 }

@@ -11,11 +11,14 @@ import java.util.List;
 public class ProductSkuAttributeConvert {
 
     public static ProductSkuAttribute convert(ProductSkuAttributePO po){
-        ProductSkuAttribute productSkuAttribute=new ProductSkuAttribute(new ProductSkuAttributeId(po.getId()));
-        String content = po.getContent();
-        List<AttributeValueCombination> attributeValueCombinations = JSON.parseArray(content,AttributeValueCombination.class);
-        productSkuAttribute.addAttributeValueCombinations(attributeValueCombinations);
-        return productSkuAttribute;
+        if(po!=null){
+            ProductSkuAttribute productSkuAttribute=new ProductSkuAttribute(new ProductSkuAttributeId(po.getId()));
+            String content = po.getContent();
+            List<AttributeValueCombination> attributeValueCombinations = JSON.parseArray(content,AttributeValueCombination.class);
+            productSkuAttribute.addAttributeValueCombinations(attributeValueCombinations);
+            return productSkuAttribute;
+        }
+        return null;
     }
 
     public static ProductSkuAttributePO convert(ProductSkuAttribute productAttribute){

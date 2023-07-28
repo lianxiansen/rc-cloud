@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.productsku;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,13 @@ public class ProductSkuDomainService {
         return productSkuRepository.getProductSkuListByProductId(productId);
     }
 
-    public void deleteProductSku(ProductId productId) {
-        productSkuRepository.removeProductSkuByProductId(productId);
+    public void deleteProductSkuByProductId(ProductId productId) {
+        List<ProductSku> productSkuList = getProductSkuListByProductId(productId);
+        if(CollectionUtil.isNotEmpty(productSkuList)){
+            productSkuList.forEach(
+                    x-> productSkuRepository.removeProductSkuImageByProductSkuId(x.getId())
+            );
+        }
     }
 
     public void deleteProductSku(ProductSkuId productSkuId) {

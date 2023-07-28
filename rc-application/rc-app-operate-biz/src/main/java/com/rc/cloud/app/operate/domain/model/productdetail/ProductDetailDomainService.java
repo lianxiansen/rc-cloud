@@ -19,7 +19,7 @@ public class ProductDetailDomainService {
         return productDetailRepository.findById(productId);
     }
 
-    public void deleteProductDetail(ProductId productId) {
+    public void deleteProductDetailByProductId(ProductId productId) {
         productDetailRepository.removeProductDetailByProductId(productId);
     }
 }
