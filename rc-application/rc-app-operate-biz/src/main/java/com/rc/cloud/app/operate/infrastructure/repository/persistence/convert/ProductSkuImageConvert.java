@@ -1,6 +1,8 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 
 import com.rc.cloud.app.operate.domain.model.product.ProductImage;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductSkuImagePO;
@@ -18,8 +20,8 @@ public class ProductSkuImageConvert {
     public static ProductSkuImage convert(ProductSkuImagePO po){
         if(po!=null){
             ProductSkuImage productSkuImage=new ProductSkuImage(new ProductSkuImageId(po.getId()));
-            productSkuImage.setSort(po.getSort());
-            productSkuImage.setUrl(po.getUrl());
+            productSkuImage.setSort(new Sort(po.getSort()));
+            productSkuImage.setUrl(new Url(po.getUrl()));
             return productSkuImage;
         }
         return null;
@@ -28,8 +30,8 @@ public class ProductSkuImageConvert {
     public static ProductSkuImagePO convert(ProductSkuImage productSkuImage){
         ProductSkuImagePO po =new ProductSkuImagePO();
         po.setId(productSkuImage.getId().id());
-        po.setUrl(productSkuImage.getUrl());
-        po.setSort(productSkuImage.getSort());
+        po.setUrl(productSkuImage.getUrl().getValue());
+        po.setSort(productSkuImage.getSort().getValue());
         return po;
     }
 

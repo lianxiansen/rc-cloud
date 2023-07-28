@@ -1,9 +1,13 @@
 package com.rc.cloud.app.operate.domain.model.productsku;
 
 
+import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
 import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.util.AssertUtils;
+
+import java.util.Objects;
 
 /**
  * @ClassName: ProductImageEntry
@@ -14,29 +18,26 @@ import com.rc.cloud.common.core.util.AssertUtils;
 public class ProductSkuImage extends Entity {
 
     private ProductSkuImageId id;
-    private String url;
-    private int sort;
+    private Url url;
+    private Sort sort;
     public ProductSkuImage(ProductSkuImageId id) {
         this.id = id;
     }
 
-    public String getUrl() {
+    public Url getUrl() {
         return url;
     }
-    public ProductSkuImage setUrl(String url) {
-        AssertUtils.assertArgumentNotNull(url, "url must not be null");
-        this.url =url;
-        return this;
+
+    public void setUrl(Url url) {
+        this.url = url;
     }
 
-    public int getSort() {
+    public Sort getSort() {
         return sort;
     }
 
-    public ProductSkuImage setSort(int sort) {
-        AssertUtils.assertArgumentNotNull(sort, "sort must not be null");
+    public void setSort(Sort sort) {
         this.sort = sort;
-        return this;
     }
 
     @Override
@@ -44,5 +45,16 @@ public class ProductSkuImage extends Entity {
         return id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductSkuImage that = (ProductSkuImage) o;
+        return getSort() == that.getSort() && Objects.equals(getUrl(), that.getUrl());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getUrl(), getSort());
+    }
 }

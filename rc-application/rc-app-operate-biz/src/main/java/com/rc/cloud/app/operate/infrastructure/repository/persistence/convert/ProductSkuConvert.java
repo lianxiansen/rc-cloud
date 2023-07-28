@@ -14,28 +14,31 @@ public class ProductSkuConvert {
 
 
     public static ProductSku convert(ProductSkuPO po){
-        ProductId productId=new ProductId(po.getProductId());
-        ProductSkuId id = new ProductSkuId(po.getId());
-        TenantId tenantId = new TenantId(po.getTenantId());
-        Price price=new Price();
-        price.setValue(po.getPrice());
-        ProductSku productSku=new ProductSku(id,productId,tenantId);
-        //秒杀信息
-        SeckillSku seckillSku=new SeckillSku();
-        seckillSku.setSeckillInventory(new Inventory(po.getSeckillInventory()));
-        seckillSku.setSeckillPrice(new Price(po.getPrice()));
-        seckillSku.setSeckillTotalInventory(new TotalInventory(po.getSeckillTotalInventory()));
-        seckillSku.setSeckillLimitBuy(new LimitBuy(po.getSeckillLimitBuy()));
-        productSku.setSeckillSku(seckillSku);
-        productSku.setInventory(new Inventory(po.getInventory()));
-        productSku.setLimitBuy(new LimitBuy(po.getLimitBuy()));
-        productSku.setOutId(new OutId(po.getOutId()));
-        productSku.setSupplyPrice(new SupplyPrice(po.getSupplyPrice()));
-        productSku.setWeight(new Weight(po.getWeight()));
-        productSku.setPackingNumber(new PackingNumber(po.getPackingNumber()));
-        productSku.setCartonSize(new CartonSize(po.getCartonSizeLength(),po.getCartonSizeWidth()
-        ,po.getCartonSizeHeight()));
-        return productSku;
+        if(po!=null){
+            ProductId productId=new ProductId(po.getProductId());
+            ProductSkuId id = new ProductSkuId(po.getId());
+            TenantId tenantId = new TenantId(po.getTenantId());
+            Price price=new Price();
+            price.setValue(po.getPrice());
+            ProductSku productSku=new ProductSku(id,productId,tenantId);
+            //秒杀信息
+            SeckillSku seckillSku=new SeckillSku();
+            seckillSku.setSeckillInventory(new Inventory(po.getSeckillInventory()));
+            seckillSku.setSeckillPrice(new Price(po.getPrice()));
+            seckillSku.setSeckillTotalInventory(new TotalInventory(po.getSeckillTotalInventory()));
+            seckillSku.setSeckillLimitBuy(new LimitBuy(po.getSeckillLimitBuy()));
+            productSku.setSeckillSku(seckillSku);
+            productSku.setInventory(new Inventory(po.getInventory()));
+            productSku.setLimitBuy(new LimitBuy(po.getLimitBuy()));
+            productSku.setOutId(new OutId(po.getOutId()));
+            productSku.setSupplyPrice(new SupplyPrice(po.getSupplyPrice()));
+            productSku.setWeight(new Weight(po.getWeight()));
+            productSku.setPackingNumber(new PackingNumber(po.getPackingNumber()));
+            productSku.setCartonSize(new CartonSize(po.getCartonSizeLength(),po.getCartonSizeWidth()
+                    ,po.getCartonSizeHeight()));
+            return productSku;
+        }
+        return null;
     }
 
     public static ProductSkuPO convert(ProductSku productSku){

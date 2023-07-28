@@ -41,13 +41,6 @@ public class ProductDomainService {
         return 1;
     }
 
-    public int softDeleteProduct(ProductId productId){
-        Product product = productRepository.findById(productId);
-        AssertUtils.notNull(product, "product must not be null");
-        productRepository.softDeleteProduct(product);
-        return 1;
-    }
-
     public int onShelf(ProductId productId){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");

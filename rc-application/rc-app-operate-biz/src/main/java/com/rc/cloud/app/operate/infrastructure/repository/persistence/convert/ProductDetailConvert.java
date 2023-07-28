@@ -10,10 +10,13 @@ public class ProductDetailConvert {
 
 
     public static ProductDetail convert(ProductDetailPO po){
-        ProductDetail productDetail=new ProductDetail(new ProductDetailId(po.getId())
-                , new TenantId(po.getTenantId()),
-                new ProductId(po.getProductId()),po.getDetail());
-        return productDetail;
+       if(po!=null){
+           ProductDetail productDetail=new ProductDetail(new ProductDetailId(po.getId())
+                   , new TenantId(po.getTenantId()),
+                   new ProductId(po.getProductId()),po.getDetail());
+           return productDetail;
+       }
+       return null;
     }
 
 
