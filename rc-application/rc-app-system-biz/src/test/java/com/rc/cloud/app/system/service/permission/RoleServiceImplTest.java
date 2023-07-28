@@ -269,6 +269,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
     public void testGetRolePage() {
         // mock 数据
         SysRolePO dbRole = randomPojo(SysRolePO.class, o -> { // 等会查询到
+            o.setId(null);
             o.setName("土豆");
             o.setCode("tudou");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -281,6 +282,7 @@ public class RoleServiceImplTest extends BaseDbUnitTest {
         roleMapper.insert(cloneIgnoreId(dbRole, o -> o.setCode("hong")));
         // 测试 createTime 不匹配
         roleMapper.insert(cloneIgnoreId(dbRole, o -> o.setCreateTime(buildTime(2022, 2, 16))));
+        PageResult<SysRolePO> pageResultOld = roleService.getRolePage(new RolePageReqVO());
         // 准备参数
         RolePageReqVO reqVO = new RolePageReqVO();
         reqVO.setName("土豆");
