@@ -117,7 +117,6 @@ public class CartApplicationService {
         return bO;
     }
 
-
     public Boolean saveCart(List<CartDTO> cartDTOList) {
         List<Cart> cartList = CartConvert.INSTANCE.convert(cartDTOList);
         //获取最新商品信息，用于保存购物车详情
