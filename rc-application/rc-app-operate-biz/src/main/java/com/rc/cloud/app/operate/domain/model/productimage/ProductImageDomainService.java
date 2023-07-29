@@ -49,7 +49,7 @@ public class ProductImageDomainService {
      * @param productId
      * @param sizeImageList 尺寸图片
      */
-    private void updateProductSizeImageList(ProductId productId,List<ProductImage> sizeImageList) {
+    public void updateProductSizeImageList(ProductId productId,List<ProductImage> sizeImageList) {
         updateProductImageWithType(productId,sizeImageList,ProductImageTypeEnum.MasterImage);
     }
 
@@ -58,7 +58,7 @@ public class ProductImageDomainService {
      * @param productId
      * @param masterImageList 主图图片
      */
-    private void updateProductMasterImageList(ProductId productId,List<ProductImage> masterImageList) {
+    public void updateProductMasterImageList(ProductId productId,List<ProductImage> masterImageList) {
         updateProductImageWithType(productId,masterImageList,ProductImageTypeEnum.MasterImage);
     }
 
@@ -90,20 +90,11 @@ public class ProductImageDomainService {
     }
 
 
-    public void saveProductSizeImageList(List<ProductImage> productSizeImageList) {
-        ProductId productId=null;
-        if(productSizeImageList!=null && productSizeImageList.size()>0){
-            productId =productSizeImageList.get(0).getProductId();
-            updateProductSizeImageList(productId,productSizeImageList);
-        }
-
+    public void insertProductSizeImageList(List<ProductImage> productSizeImageList) {
+        batchInsertProductImage(productSizeImageList);
     }
 
-    public void saveProductMasterImageList(List<ProductImage> productMasterImageList) {
-        ProductId productId=null;
-        if(productMasterImageList!=null && productMasterImageList.size()>0){
-            productId =productMasterImageList.get(0).getProductId();
-            updateProductMasterImageList(productId,productMasterImageList);
-        }
+    public void insertProductMasterImageList(List<ProductImage> productMasterImageList) {
+        batchInsertProductImage(productMasterImageList);
     }
 }

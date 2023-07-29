@@ -11,6 +11,10 @@ public interface ProductDictRepository
 
     int removeProductDictByProductId(ProductId productId);
 
-    void saveProductDict(List<ProductDict> productDictList);
+    int removeProductDictByProductIdAndKey(ProductId productId,String key);
+
+    void insertProductDict(ProductDict productDict);
+
+    void updateProductDict(ProductDict productDict);
 
 }

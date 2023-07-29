@@ -42,7 +42,25 @@ public class ProductDictRepositoryImpl implements ProductDictRepository {
     }
 
     @Override
-    public void saveProductDict(List<ProductDict> productDictList) {
-        productDictMapper.insertBatch(ProductDictConvert.convertPOList(productDictList));
+    public int removeProductDictByProductIdAndKey(ProductId productId, String key) {
+        LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDictPO::getProductId, productId.id());
+        wrapper.eq(ProductDictPO::getDictKey, key);
+        return productDictMapper.delete(wrapper);
+    }
+
+    @Override
+    public void insertProductDict(ProductDict productDict) {
+        productDictMapper.insert(ProductDictConvert.convertProductDictPO(productDict));
+    }
+
+    @Override
+    public void updateProductDict(ProductDict productDict) {
+        LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDictPO::getProductId, productDict.getProductId());
+        wrapper.eq(ProductDictPO::getDictKey, productDict.getKey());
+        productDictMapper.update(ProductDictConvert.convertProductDictPO(productDict)
+        ,wrapper);
+
     }
 }

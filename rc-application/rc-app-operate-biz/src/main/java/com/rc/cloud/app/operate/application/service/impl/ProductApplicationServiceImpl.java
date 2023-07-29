@@ -41,6 +41,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @Author: chenjianxiang
@@ -121,12 +122,12 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         productMasterImages = ProductImageConvert
                 .convertDomainList(productSaveDTO.getMasterAlbums(),productId,tenantId, ProductImageTypeEnum.MasterImage);
 
-        productImageDomainService.saveProductSizeImageList(productSizeImages);
-        productImageDomainService.saveProductMasterImageList(productMasterImages);
+        productImageDomainService.insertProductSizeImageList( productSizeImages);
+        productImageDomainService.insertProductMasterImageList(productMasterImages);
         //设置字典
        productDicts = ProductDictConvert
                 .convertProductDictSet(productId.id(), tenantId.id(), productSaveDTO.getDicts());
-        productDictDomainService.saveProductDict(productDicts);
+        productDictDomainService.insertProductDict(productDicts);
         //设置详情
         productDetail = ProductDetailConvert.convertDomain(
                 new ProductId(productId.id()),
@@ -180,16 +181,16 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         if(productSaveDTO.getSizeAlbums()!=null){
             productSizeImages = ProductImageConvert
                     .convertDomainList(productSaveDTO.getSizeAlbums(), productId, tenantId, ProductImageTypeEnum.SizeImage);
-            productImageDomainService.saveProductSizeImageList(productSizeImages);
+            productImageDomainService.updateProductSizeImageList(productId, productSizeImages);
         }
         if(productSaveDTO.getMasterAlbums()!=null){
             productMasterImages = ProductImageConvert
                     .convertDomainList(productSaveDTO.getMasterAlbums(),productId,tenantId, ProductImageTypeEnum.MasterImage);
-            productImageDomainService.saveProductMasterImageList(productMasterImages);
+            productImageDomainService.updateProductMasterImageList(productId,productMasterImages);
         }
         if(productSaveDTO.getDicts()!=null){
             productDicts = ProductDictConvert.convertProductDictSet(productId.id(), tenantId.id(), productSaveDTO.getDicts());
-            productDictDomainService.saveProductDict(productDicts);
+            productDictDomainService.updateProductDict(productId,productDicts);
         }
         productDetail = ProductDetailConvert.convertDomain(
                 new ProductId(productId.id()),
@@ -302,7 +303,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
             productDetail = productDetailDomainService.findProductDetailByProductId(new ProductId(productQueryDTO.getProductId()));
         }
         if(productQueryDTO.isNeedProductDict()){
-            productDicts = productDictDomainService.getProductDictSetByProductId(new ProductId(productQueryDTO.getProductId()));
+            productDicts = productDictDomainService.getProductDictSetByProductId(new ProductId(productQueryDTO.getProductId())).stream().collect(Collectors.toSet());
         }
         if(productQueryDTO.isNeedProductSku()){
             productSkuList = productSkuDomainService.getProductSkuListByProductId(new ProductId(productQueryDTO.getProductId()));
