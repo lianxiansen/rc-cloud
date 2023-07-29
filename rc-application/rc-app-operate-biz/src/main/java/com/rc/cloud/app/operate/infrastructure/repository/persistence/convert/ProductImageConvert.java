@@ -1,14 +1,13 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 
 import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
-import com.rc.cloud.app.operate.domain.model.product.ProductImage;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductImagePO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +20,15 @@ public class ProductImageConvert {
     public static ProductImage convert(ProductImagePO productImagePO){
        if(productImagePO!=null){
            ProductImageTypeEnum productImageTypeEnum= ProductImageTypeEnum.MasterImage;
-           Integer imageType = productImagePO.getImage_type();
+           Integer imageType = productImagePO.getImageType();
            if(imageType==ProductImageTypeEnum.MasterImage.value){
                productImageTypeEnum= ProductImageTypeEnum.MasterImage;
            }else if(imageType==ProductImageTypeEnum.SizeImage.value){
                productImageTypeEnum= ProductImageTypeEnum.SizeImage;
            }
            ProductImage productImage=new ProductImage(
-                   new ProductImageId(productImagePO.getId()),
+                   new ProductId(productImagePO.getProductId()),
+                   new TenantId(productImagePO.getTenantId()),
                    new Url(productImagePO.getUrl()),
                    new Sort(productImagePO.getSort()),
                    productImageTypeEnum
@@ -38,13 +38,19 @@ public class ProductImageConvert {
        return null;
     }
 
-
+    /**
+     * ProductImage转ProductImagePO
+     * 不需要指定ProductImagePO的id
+     * @param productImage
+     * @return
+     */
     public static ProductImagePO convert(ProductImage productImage){
         ProductImagePO po =new ProductImagePO();
-        po.setId(productImage.getId().id());
         po.setUrl(productImage.getUrl().getValue());
         po.setSort(productImage.getSort().getValue());
-        po.setImage_type(productImage.getType().value);
+        po.setTenantId(productImage.getTenantId().id());
+        po.setProductId(productImage.getProductId().id());
+        po.setImageType(productImage.getType().value);
         return po;
     }
 

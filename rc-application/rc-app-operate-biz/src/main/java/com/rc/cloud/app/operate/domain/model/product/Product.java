@@ -6,14 +6,13 @@ import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
+import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductErrorCodeConstants;
 import com.rc.cloud.common.core.domain.AggregateRoot;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.AssertUtils;
-import com.rc.cloud.common.core.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -397,65 +396,6 @@ public class Product extends AggregateRoot {
         this.packingLowestBuy = packingLowestBuy;
     }
 
-    private List<ProductImage> masterImages;
-    private List<ProductImage> sizeImages;
 
-    private void addMasterImages(ProductImageId id, Url url,Sort sort) {
-        if(masterImages==null){
-            masterImages=new ArrayList<>();
-        }
-        ProductImage productImage=new ProductImage(id,url,sort,ProductImageTypeEnum.MasterImage);
-        this.masterImages.add(productImage);
-    }
 
-    private void addSizeImages(ProductImageId id, Url url,Sort sort) {
-        if(sizeImages==null){
-            sizeImages=new ArrayList<>();
-        }
-        ProductImage productImage=new ProductImage(id,url,sort,ProductImageTypeEnum.SizeImage);
-        this.sizeImages.add(productImage);
-    }
-
-    public void addProductImageList(List<ProductImage> productImageList){
-        for (ProductImage productImage : productImageList) {
-            if(!existProductImage(productImage)){
-                if(productImage.getType()==ProductImageTypeEnum.MasterImage){
-                    addMasterImages(productImage.getId(),productImage.getUrl(),productImage.getSort());
-                }else  if(productImage.getType()==ProductImageTypeEnum.SizeImage){
-                    addSizeImages(productImage.getId(),productImage.getUrl(),productImage.getSort());
-                }
-            }
-        }
-    }
-
-    public boolean existProductImage(ProductImage productImage){
-        boolean exits=false;
-        if(masterImages!=null){
-            exits= masterImages.stream().anyMatch(x -> x.equals(productImage));
-        }
-        if(!exits){
-            if(sizeImages!=null){
-                exits= sizeImages.stream().anyMatch(x -> x.equals(productImage));
-            }
-        }
-        return exits;
-    }
-
-    public List<ProductImage> getMasterImages() {
-        return masterImages;
-    }
-
-    public List<ProductImage> getSizeImages() {
-        return sizeImages;
-    }
-
-    private InstallInformation installInformation;
-
-    public InstallInformation getInstallInformation() {
-        return installInformation;
-    }
-
-    public void setInstallInformation(InstallInformation installInformation) {
-        this.installInformation = installInformation;
-    }
 }

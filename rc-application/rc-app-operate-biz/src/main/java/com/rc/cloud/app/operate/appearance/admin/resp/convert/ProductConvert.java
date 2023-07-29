@@ -65,18 +65,21 @@ public class ProductConvert {
                     .collect(Collectors.toList());
             response.setSizeImageList(sizeImages);
         }
-        response.setDetail(bo.getDetail());
+        if(bo.getDetail()!=null){
+            response.setDetail(bo.getDetail().getDetail());
+            response.setInstallVideoImg(bo.getDetail().getInstallVideoImg());
+            response.setInstallVideoUrl(bo.getDetail().getInstallVideoUrl());
+            response.setInstallDetail(bo.getDetail().getInstallDetail());
+        }
+
         response.setSpuCode(bo.getSpuCode());
         response.setSkus(ProductSkuConvert.convert2ProductSkuDetailList(bo.getSkus()));
-
         response.setCaiZhi(bo.getDicts().get(ProductDictKeyEnum.CaiZhi.name));
         response.setTiaoMa(bo.getDicts().get(ProductDictKeyEnum.TiaoMa.name));
         response.setChengZhong(bo.getDicts().get(ProductDictKeyEnum.ChengZhong.name));
         response.setChiCun(bo.getDicts().get(ProductDictKeyEnum.ChiCun.name));
 
-        response.setInstallVideoImg(bo.getInstallVideoImg());
-        response.setInstallVideoUrl(bo.getInstallVideoUrl());
-        response.setInstallDetail(bo.getInstallDetail());
+
 
         return response;
     }

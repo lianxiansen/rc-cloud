@@ -119,8 +119,6 @@ public class ProductSaveDTO {
 
     private Integer sort;
 
-    private String attributeId;
-
     private List<ProductAttributeSaveDTO> attributes;
 
     private List<ProductSkuSaveDTO> skus;

@@ -17,7 +17,9 @@ package com.rc.cloud.app.operate.domain.model.productsku;
 //        --             ]
 
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuAttributeId;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.AttributeValueCombination;
+import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.util.AssertUtils;
 
@@ -28,12 +30,12 @@ import java.util.TreeSet;
 public class ProductSkuAttribute extends Entity {
 
 
-    public ProductSkuAttribute(ProductSkuAttributeId id) {
-        this.id =id;
+    public ProductSkuAttribute(ProductSkuId productSkuId) {
+        this.productSkuId =productSkuId;
         this.skuAttributes = new TreeSet<>();
     }
 
-    private ProductSkuAttributeId id;
+    private ProductSkuId productSkuId;
 
     private SortedSet<AttributeValueCombination> skuAttributes;
 
@@ -58,9 +60,13 @@ public class ProductSkuAttribute extends Entity {
         }
     }
 
-    @Override
-    public ProductSkuAttributeId getId() {
-        return id;
+
+    public ProductSkuId getProductSkuId() {
+        return productSkuId;
     }
 
+    @Override
+    public AbstractId getId() {
+        return null;
+    }
 }

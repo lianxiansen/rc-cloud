@@ -1,6 +1,8 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence.po;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
@@ -20,6 +22,8 @@ public class ProductDetailPO extends BaseDO {
 
     private static final long serialVersionUID = 34322L;
 
+
+    @TableId(type = IdType.ASSIGN_UUID)
     private String id;
     /**
      * 租户id
@@ -36,4 +40,14 @@ public class ProductDetailPO extends BaseDO {
 
     @TableField("detail")
     private String detail;
+
+
+    @TableField("install_video_url")
+    private String installVideoUrl;
+
+    @TableField("install_video_img")
+    private String installVideoImg;
+
+    @TableField("install_detail")
+    private String installDetail;
 }

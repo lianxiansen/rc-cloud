@@ -152,9 +152,7 @@ CREATE TABLE `product`
     `third_category`             varchar(32)    DEFAULT NULL COMMENT '3级类目',
     `video_url`                  varchar(128)   DEFAULT NULL COMMENT '视频URL',
     `video_img`                  varchar(128)   DEFAULT NULL COMMENT '视频封面URL',
-    `install_video_url`          varchar(128)   DEFAULT NULL COMMENT '安装视频URL',
-    `install_video_img`          varchar(128)   DEFAULT NULL COMMENT '安装视频封面URL',
-    `install_detail`             text           DEFAULT NULL COMMENT '安装详情',
+
     `free_shipping_flag`         bit            DEFAULT '0' COMMENT '是否包邮 0不包邮，1包邮',
     `freight_type`               int(11) DEFAULT 0 COMMENT '运费类型，0统一运费，1运费模板',
     `freight_template_id`        varchar(32)    DEFAULT NULL COMMENT '商品使用运费模板',
@@ -265,15 +263,18 @@ CREATE TABLE `product_operate`
 
 CREATE TABLE `product_detail`
 (
-    `id`          varchar(32) NOT NULL COMMENT '主键',
-    `tenant_id`   varchar(32) DEFAULT NULL COMMENT '所属租户',
-    `product_id`  varchar(32) DEFAULT NULL COMMENT '商品ID',
-    `detail`      text        DEFAULT NULL COMMENT '详情',
-    `deleted`     bit         DEFAULT false COMMENT '删除标识 0未删除，1已删除',
-    `creator`     varchar(32) DEFAULT NULL COMMENT '创建人',
-    `create_time` datetime    DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updater`     varchar(32) DEFAULT NULL COMMENT '更新人',
-    `update_time` datetime    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `id`                varchar(32) NOT NULL COMMENT '主键',
+    `tenant_id`         varchar(32)  DEFAULT NULL COMMENT '所属租户',
+    `product_id`        varchar(32)  DEFAULT NULL COMMENT '商品ID',
+    `detail`            text         DEFAULT NULL COMMENT '详情',
+    `install_video_url` varchar(128) DEFAULT NULL COMMENT '安装视频URL',
+    `install_video_img` varchar(128) DEFAULT NULL COMMENT '安装视频封面URL',
+    `install_detail`    text         DEFAULT NULL COMMENT '安装详情',
+    `deleted`           bit          DEFAULT false COMMENT '删除标识 0未删除，1已删除',
+    `creator`           varchar(32)  DEFAULT NULL COMMENT '创建人',
+    `create_time`       datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updater`           varchar(32)  DEFAULT NULL COMMENT '更新人',
+    `update_time`       datetime     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  COMMENT='商品详情表';
 

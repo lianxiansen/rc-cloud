@@ -50,7 +50,7 @@ public class ProductSkuApplicationServiceImpl implements ProductSkuApplicationSe
         if (null == productSku) {
             throw new IllegalArgumentException("未找到当前商品SKU");
         }
-        productSku= ProductSkuConvert.convert(
+        productSku= ProductSkuConvert.convertDomain(
                 new ProductSkuId(productSkuSaveDTO.getId())
                 ,new ProductId(productSkuSaveDTO.getProductId())
                 ,new TenantId(productSkuSaveDTO.getTenantId())
@@ -58,7 +58,7 @@ public class ProductSkuApplicationServiceImpl implements ProductSkuApplicationSe
 
         productSkuRepository.updateProductSku(productSku);
 
-        return ProductSkuConvert.convert(productSku);
+        return ProductSkuConvert.convertProductSkuBO(productSku);
 
     }
 
@@ -70,7 +70,7 @@ public class ProductSkuApplicationServiceImpl implements ProductSkuApplicationSe
      */
     public ProductSkuBO getProductSku(ProductSkuGetDTO productSkuGetDTO){
         ProductSku productSku= productSkuRepository.findById(new ProductSkuId(productSkuGetDTO.getProductSkuId()));
-        return ProductSkuConvert.convert(productSku);
+        return ProductSkuConvert.convertProductSkuBO(productSku);
     }
 
     /**
@@ -80,7 +80,7 @@ public class ProductSkuApplicationServiceImpl implements ProductSkuApplicationSe
      */
     public List<ProductSkuBO> getProductSkuList(ProductSkuGetDTO productSkuGetDTO){
         List<ProductSku> productSkuList = productSkuRepository.getProductSkuListByProductId(new ProductId(productSkuGetDTO.getProductId()));
-        return ProductSkuConvert.convertList(productSkuList);
+        return ProductSkuConvert.convertProductSkuBOList(productSkuList);
     }
 
 

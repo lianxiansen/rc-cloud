@@ -100,14 +100,6 @@ public class ProductPO extends BaseDO {
     @TableField("video_img")
     private String videoImg;
 
-    @TableField("install_video_url")
-    private String installVideoUrl;
-
-    @TableField("install_video_img")
-    private String installVideoImg;
-
-    @TableField("install_detail")
-    private String installDetail;
 
     @TableField("free_shipping_flag")
     private Boolean freeShippingFlag;

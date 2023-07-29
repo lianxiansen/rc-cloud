@@ -11,7 +11,7 @@ import java.util.List;
 public class ProductDictConvert
 {
 
-    public static ProductDict convert(ProductDictPO po){
+    public static ProductDict convertDomain(ProductDictPO po){
        if(po!=null){
            ProductDict productDict=new ProductDict(po.getId());
            productDict.setKey(po.getKey());
@@ -24,9 +24,8 @@ public class ProductDictConvert
        return null;
     }
 
-    public static ProductDictPO convert(ProductDict productDict){
+    public static ProductDictPO convertProductDictPO(ProductDict productDict){
         ProductDictPO productDictPO=new ProductDictPO();
-        productDictPO.setId(productDict.getId());
         productDictPO.setKey(productDict.getKey());
         productDictPO.setValue(productDict.getValue());
         productDictPO.setProductId(productDict.getProductId().id());
@@ -34,11 +33,11 @@ public class ProductDictConvert
         return productDictPO;
     }
 
-    public static List<ProductDict> convertList(List<ProductDictPO> list){
+    public static List<ProductDict> convertDomainList(List<ProductDictPO> list){
         List<ProductDict> resList =new ArrayList<>();
         if(list!=null && list.size()>0){
             list.forEach(x->
-                            resList.add(convert(x))
+                            resList.add(convertDomain(x))
                     );
         }
         return resList;
@@ -49,7 +48,7 @@ public class ProductDictConvert
         List<ProductDictPO> resList =new ArrayList<>();
         if(list!=null && list.size()>0){
             list.forEach(x->
-                    resList.add(convert(x))
+                    resList.add(convertProductDictPO(x))
             );
         }
         return resList;

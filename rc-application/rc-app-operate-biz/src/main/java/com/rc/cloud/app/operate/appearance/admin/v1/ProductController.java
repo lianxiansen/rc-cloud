@@ -42,7 +42,7 @@ public class ProductController {
 
 
 
-    @PostMapping("edit")
+                                                                                                    @PostMapping("edit")
     @Operation(summary = "修改产品")
     public CodeResult<ProductBO> editProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
         return CodeResult.ok( productApplicationService.updateProduct(productSaveDTO));

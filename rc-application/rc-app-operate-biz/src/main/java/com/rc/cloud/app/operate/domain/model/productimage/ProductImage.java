@@ -1,12 +1,12 @@
-package com.rc.cloud.app.operate.domain.model.product;
+package com.rc.cloud.app.operate.domain.model.productimage;
 
 import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductImageId;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
-import com.rc.cloud.common.core.util.AssertUtils;
-import com.rc.cloud.common.core.util.StringUtils;
 
 import java.util.Objects;
 
@@ -18,25 +18,37 @@ import java.util.Objects;
  */
 public class ProductImage extends  Entity {
 
-    private ProductImageId id;
+    private ProductId productId;
+
+    private TenantId tenantId;
+
     private Url url;
     private Sort sort;
     private ProductImageTypeEnum type;
 
-    public ProductImage(ProductImageId id, Url url, Sort sort, ProductImageTypeEnum type) {
-        this.id = id;
+    public ProductImage(ProductId productId, TenantId tenantId,Url url, Sort sort, ProductImageTypeEnum type) {
+        this.productId = productId;
+        this.tenantId=tenantId;
         this.url = url;
         this.sort = sort;
         this.type = type;
     }
 
-    @Override
-    public ProductImageId getId() {
-        return id;
+
+    public ProductId getProductId() {
+        return productId;
     }
 
-    public void setId(ProductImageId id) {
-        this.id = id;
+    public void setProductId(ProductId productId) {
+        this.productId = productId;
+    }
+
+    public TenantId getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(TenantId tenantId) {
+        this.tenantId = tenantId;
     }
 
     public Url getUrl() {
@@ -64,15 +76,20 @@ public class ProductImage extends  Entity {
     }
 
     @Override
+    public AbstractId getId() {
+        return null;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductImage that = (ProductImage) o;
-        return Objects.equals(getUrl(), that.getUrl()) && Objects.equals(getSort(), that.getSort()) && getType() == that.getType();
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getUrl(), that.getUrl()) && Objects.equals(getSort(), that.getSort()) && getType() == that.getType();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUrl(), getSort(), getType());
+        return Objects.hash(getId(), getUrl(), getSort(), getType());
     }
 }
