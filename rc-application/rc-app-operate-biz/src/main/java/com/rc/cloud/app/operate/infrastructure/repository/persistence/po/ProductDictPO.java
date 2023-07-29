@@ -25,10 +25,10 @@ public class ProductDictPO extends BaseDO {
     private String productId;
 
     @TableField("dict_key")
-    private String key;
+    private String dictKey;
 
     @TableField("dict_value")
-    private String value;
+    private String dictValue;
 
     @TableField("sort")
     private Integer sort;

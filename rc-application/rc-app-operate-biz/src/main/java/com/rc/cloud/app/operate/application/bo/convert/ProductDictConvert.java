@@ -12,11 +12,9 @@ import java.util.stream.Collectors;
 public  class ProductDictConvert {
 
     public static ProductDict convertDomain(String productId, String tenantId,ProductDictSaveDTO dto){
-        ProductDict productDict=new ProductDict(dto.getId());
-        productDict.setKey(dto.getKey());
+        ProductDict productDict=new ProductDict(new ProductId(productId),dto.getKey());
         productDict.setValue(dto.getValue());
         productDict.setSort(dto.getSort());
-        productDict.setProductId(new ProductId(productId));
         productDict.setTenantId(new TenantId(tenantId));
         return productDict;
     }

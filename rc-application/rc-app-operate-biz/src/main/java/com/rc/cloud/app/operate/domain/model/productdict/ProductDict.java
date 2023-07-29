@@ -18,10 +18,11 @@ public class ProductDict extends  Entity {
 
     private TenantId tenantId;
 
-    private String id;
-    public ProductDict(String id) {
-            this.id = id;
-        }
+
+    public ProductDict(ProductId productId,String key) {
+            this.productId = productId;
+            this.key=key;
+    }
 
     private String key;
 
@@ -99,12 +100,12 @@ public class ProductDict extends  Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductDict that = (ProductDict) o;
-        return Objects.equals(getProductId(), that.getProductId()) && Objects.equals(getTenantId(), that.getTenantId()) && Objects.equals(getKey(), that.getKey());
+        return Objects.equals(getProductId(), that.getProductId())  && Objects.equals(getKey(), that.getKey());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getProductId(), getTenantId(), getKey());
+        return Objects.hash(getProductId(),getKey());
     }
 
     @Override

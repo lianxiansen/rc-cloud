@@ -13,11 +13,9 @@ public class ProductDictConvert
 
     public static ProductDict convertDomain(ProductDictPO po){
        if(po!=null){
-           ProductDict productDict=new ProductDict(po.getId());
-           productDict.setKey(po.getKey());
-           productDict.setValue(po.getValue());
+           ProductDict productDict=new ProductDict(new ProductId(po.getProductId()),po.getDictKey());
+           productDict.setValue(po.getDictValue());
            productDict.setSort(po.getSort());
-           productDict.setProductId(new ProductId(po.getProductId()));
            productDict.setTenantId(new TenantId(po.getTenantId()));
            return productDict;
        }
@@ -26,8 +24,8 @@ public class ProductDictConvert
 
     public static ProductDictPO convertProductDictPO(ProductDict productDict){
         ProductDictPO productDictPO=new ProductDictPO();
-        productDictPO.setKey(productDict.getKey());
-        productDictPO.setValue(productDict.getValue());
+        productDictPO.setDictKey(productDict.getKey());
+        productDictPO.setDictValue(productDict.getValue());
         productDictPO.setProductId(productDict.getProductId().id());
         productDictPO.setTenantId(productDict.getTenantId().id());
         return productDictPO;
