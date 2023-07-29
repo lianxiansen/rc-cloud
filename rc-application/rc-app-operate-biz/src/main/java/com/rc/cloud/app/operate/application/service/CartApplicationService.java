@@ -50,22 +50,20 @@ public class CartApplicationService {
     /**
      * 根据店铺返回购物车列表
      * 返回按照商品分组，统一商品下包含不同规格
+     *
      * @param shopIds
      * @return List<ShopCartBO>
      */
     public List<ShopCartBO> getCartListByShopIds(List<String> shopIds) {
         UserId userId = new UserId("admin");
         //获取最新商品信息，用于判断购物车是否过期
-        PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
+        //PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
 
         List<Cart> list = cartDomainService.getListByShopIds(userId, IdUtil.toList(shopIds, ShopId.class));
         List<CartBO> cartBOS = CartConvert.INSTANCE.convertList(list);
-        cartBOS.forEach(cartBO -> {
-            cartBO.setShopBO(ramdomShop());
-            cartBO.setCartProductDetailBO(randomDetail());
-        });
+        cartBOS.forEach(x -> x.setState(0));
         //设置商品购物车商品过期
-        setCartExpireByProduct(cartBOS, productList);
+        //setCartExpireByProduct(cartBOS, productList);
 
         List<ShopCartBO> shopCartBOList = new ArrayList<>();
         shopIds.forEach(shopId -> {
@@ -118,7 +116,7 @@ public class CartApplicationService {
     public CartListBO getCartList(List<String> productUniqueIdList) {
         UserId userId = new UserId("admin");
         //获取最新商品信息，用于判断购物车是否过期
-        PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
+        //PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
 
         List<ProductUniqueId> productUniqueIds = IdUtil.toList(productUniqueIdList, ProductUniqueId.class);
         List<Cart> list = cartDomainService.getList(userId, productUniqueIds);
@@ -129,7 +127,7 @@ public class CartApplicationService {
             cartBO.setState(1);
         });
         //设置商品购物车商品过期
-        setCartExpireByProduct(cartBOS, productList);
+        //setCartExpireByProduct(cartBOS, productList);
         CartListBO bO = new CartListBO();
         bO.setCartList(cartBOS);
         return bO;
