@@ -21,7 +21,7 @@ public class PriceConvert {
         List<CartBO> cartList = bo.getCartList();
         cartList.forEach(x -> {
             ProductPack pack = new ProductPack();
-            pack.setSalePrice(x.getProductSkuBO().getPrice());
+            pack.setSalePrice(x.getCartProductDetailBO().getPrice());
             pack.setCount(x.getNum());
             pack.setSkuId(Long.valueOf(x.getProductuniqueid()));
 

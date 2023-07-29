@@ -1,9 +1,9 @@
 package com.rc.cloud.app.operate.domain.model.productrecommend;
 
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.product.Product;
+import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
+import com.rc.cloud.app.operate.infrastructure.constants.ProductRecommendErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +28,22 @@ public class ProductRecommendDomainServiceImpl implements ProductRecommendDomain
     @Resource
     private IdRepository idRepository;
 
-    @Override
-    public ProductRecommend create(TenantId tenantId, ProductId productId, ProductId recommendProductId) {
-        ProductRecommend ProductRecommend = new ProductRecommend(new ProductRecommendId(idRepository.nextId()), tenantId, productId,recommendProductId);
-        ProductRecommendRepository.save(ProductRecommend);
-        return ProductRecommend;
-    }
+    @Autowired
+    private ProductRepository productRepository;
 
+    @Override
+    public ProductRecommend create(ProductRecommend productRecommend) {
+        Product product = productRepository.findById(productRecommend.getProductId());
+        if (Objects.isNull(product)) {
+            throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_NOT_EXISTS);
+        }
+        Product recommendProduct = productRepository.findById(productRecommend.getRecommendProductId());
+        if (Objects.isNull(recommendProduct)) {
+            throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_NOT_EXISTS);
+        }
+        ProductRecommendRepository.save(productRecommend);
+        return productRecommend;
+    }
 
 
     @Override
@@ -43,16 +52,12 @@ public class ProductRecommendDomainServiceImpl implements ProductRecommendDomain
     }
 
     @Override
-    public boolean release(ProductRecommendId productRecommendId) {
-        ProductRecommend productRecommend = this.findById(productRecommendId);
-        if (Objects.isNull(productRecommend)) {
-            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
-        }
-        return ProductRecommendRepository.removeById(productRecommendId);
+    public boolean release(ProductRecommend productRecommend) {
+        return ProductRecommendRepository.removeById(productRecommend.getId());
     }
 
     @Override
-    public List<ProductRecommend> findListByProductId(ProductId productId){
-        return ProductRecommendRepository.findListByProductId(productId);
+    public List<ProductRecommend> findListFromProduct(Product product) {
+        return ProductRecommendRepository.findListByProductId(product.getId());
     }
 }

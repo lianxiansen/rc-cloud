@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.productcategory;
 
+import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.RemoveShouldNotHasChildSpecification;
 import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
@@ -24,10 +25,10 @@ import java.util.Objects;
 public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
-
+    @Resource
+    private ProductRepository productRepository;
     @Override
-    public ProductCategory create(ProductCategoryBuildFactory.ProductCategoryBuilder builder) {
-        ProductCategory productCategory = builder.build();
+    public ProductCategory create(ProductCategory productCategory) {
         if (Objects.nonNull(productCategory.getParentId())) {
             ProductCategory parentCategory = productCategoryRepository.findById(productCategory.getParentId());
             if (Objects.isNull(parentCategory)) {
@@ -41,8 +42,7 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
         return productCategory;
     }
     @Override
-    public boolean update(ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder) {
-        ProductCategory productCategory = rebuilder.rebuild();
+    public boolean update(ProductCategory productCategory) {
         List<ProductCategory> allList = productCategoryRepository.findAll();
         if (Objects.nonNull(productCategory.getParentId())) {
             ProductCategory parent = productCategoryRepository.findById(productCategory.getParentId());
@@ -63,16 +63,18 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
     }
 
     @Override
-    public boolean remove(ProductCategoryId productCategoryId) {
-        AssertUtils.notNull(productCategoryId, "productCategoryId must not be null");
-        ProductCategory productCategory = productCategoryRepository.findById(productCategoryId);
+    public boolean remove(ProductCategory productCategory) {
+        AssertUtils.notNull(productCategory, "productCategory must not be null");
+        if(productRepository.existsByProductCategoryId(productCategory.getId())){
+            throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
+        }
         if(Objects.isNull(productCategory)){
             throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
         if (!new RemoveShouldNotHasChildSpecification(productCategoryRepository).isSatisfiedBy(productCategory)) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_HAS_CHILD);
         }
-        return productCategoryRepository.removeById(productCategoryId);
+        return productCategoryRepository.removeById(productCategory.getId());
     }
 
     /**

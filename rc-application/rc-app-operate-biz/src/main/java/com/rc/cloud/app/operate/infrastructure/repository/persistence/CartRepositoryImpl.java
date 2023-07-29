@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.domain.model.cart.CartRepository;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.CartId;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.ProductUniqueId;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.ShopId;
+import com.rc.cloud.app.operate.domain.model.cart.identifier.UserId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.CartConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.CartMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.CartPO;
@@ -50,8 +51,9 @@ public class CartRepositoryImpl implements CartRepository {
 
 
     @Override
-    public void deleteCartByProductuniqueid(List<ProductUniqueId> productUniqueIds) {
+    public void deleteCartByProductuniqueid(UserId userId, List<ProductUniqueId> productUniqueIds) {
         cartMapper.delete(new LambdaQueryWrapperX<CartPO>()
+                .eq(CartPO::getUserid, userId)
                 .in(CartPO::getProductuniqueid, IdUtil.toList(productUniqueIds)));
     }
 
@@ -68,8 +70,9 @@ public class CartRepositoryImpl implements CartRepository {
     }
 
     @Override
-    public Cart findByProductUniqueId(ProductUniqueId productUniqueId) {
+    public Cart findByProductUniqueId(UserId userId, ProductUniqueId productUniqueId) {
         LambdaQueryWrapperX<CartPO> queryWrapperX = new LambdaQueryWrapperX<CartPO>()
+                .eq(CartPO::getUserid, userId)
                 .eq(CartPO::getProductuniqueid, productUniqueId.id())
                 .eq(CartPO::getPayed, 0);
         CartPO cartPO = cartMapper.selectOne(queryWrapperX);
@@ -78,8 +81,9 @@ public class CartRepositoryImpl implements CartRepository {
     }
 
     @Override
-    public List<Cart> getListByShopIds(List<ShopId> shopIds) {
+    public List<Cart> getListByShopIds(UserId userId, List<ShopId> shopIds) {
         LambdaQueryWrapperX<CartPO> queryWrapperX = new LambdaQueryWrapperX<CartPO>()
+                .eq(CartPO::getUserid, userId)
                 .in(CartPO::getShopid, IdUtil.toList(shopIds))
                 .eq(CartPO::getPayed, 0);
         List<CartPO> cartPOS = cartMapper.selectList(queryWrapperX);
@@ -87,8 +91,9 @@ public class CartRepositoryImpl implements CartRepository {
     }
 
     @Override
-    public List<Cart> getList(List<ProductUniqueId> productUniqueIdList) {
+    public List<Cart> getList(UserId userId, List<ProductUniqueId> productUniqueIdList) {
         LambdaQueryWrapperX<CartPO> queryWrapperX = new LambdaQueryWrapperX<CartPO>()
+                .eq(CartPO::getUserid, userId.id())
                 .in(CartPO::getProductuniqueid, IdUtil.toList(productUniqueIdList))
                 .eq(CartPO::getPayed, 0);
         List<CartPO> cartPOList = cartMapper.selectList(queryWrapperX);

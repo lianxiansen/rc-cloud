@@ -45,8 +45,10 @@ public class CartController {
     @Operation(summary = "根据产品唯一id获取购物车数量")
     public CodeResult<Map<String, Integer>> getCartList(@RequestBody List<String> productUniqueIds) {
         CartListBO cartList = cartApplicationService.getCartList(productUniqueIds);
-
-        Map<String, Integer> maps = cartList.getCartList().stream().collect(Collectors.toMap(CartBO::getProductuniqueid, CartBO::getNum, (key1, key2) -> key2));
+        List<CartBO> cartBOs = cartList.getCartList().stream().filter(x -> x.getState() == 1).collect(Collectors.toList());
+        CartListBO bo = new CartListBO();
+        bo.setCartList(cartBOs);
+        Map<String, Integer> maps = bo.getCartList().stream().collect(Collectors.toMap(CartBO::getProductuniqueid, CartBO::getNum, (key1, key2) -> key2));
         return CodeResult.ok(maps);
     }
 
@@ -54,7 +56,9 @@ public class CartController {
     @PostMapping("/saveCart")
     @Operation(summary = "增加购物车")
     public CodeResult<Boolean> saveCart(@RequestBody List<CartDTO> dto) {
-        cartApplicationService.saveCart(dto);
+        if (!cartApplicationService.saveCart(dto)) {
+            return CodeResult.fail("部分商品已过期");
+        }
         return CodeResult.ok();
     }
 

@@ -13,6 +13,7 @@ import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendDo
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendRepository;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductRecommendErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductRecommendApplicationServiceImpl implements ProductRecommendApplicationService {
     @Autowired
-    private ProductRecommendDomainService ProductRecommendService;
+    private ProductRecommendDomainService productRecommendService;
     @Autowired
     private ProductRecommendRepository productRecommendRepository;
     @Autowired
@@ -48,18 +49,10 @@ public class ProductRecommendApplicationServiceImpl implements ProductRecommendA
             throw new ServiceException(ProductRecommendErrorCodeConstants.RECOMMEND_PRODUCT_ID_NOT_EMPTY);
         }
         ProductId productId=new ProductId(productRecommendCreateDTO.getProductId());
-        Product product = productRepository.findById(productId);
-        if (Objects.isNull(product)) {
-            throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_NOT_EXISTS);
-        }
         ProductId recommendProductId=new ProductId(productRecommendCreateDTO.getRecommendProductId());
-        Product recommendProduct = productRepository.findById(recommendProductId);
-        if (Objects.isNull(recommendProduct)) {
-            throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_NOT_EXISTS);
-        }
-        ProductRecommend productRecommend = ProductRecommendService.create(new TenantId(TenantContext.getTenantId()),
-                new ProductId(productRecommendCreateDTO.getProductId()),
-                new ProductId(productRecommendCreateDTO.getRecommendProductId()));
+        ProductRecommend productRecommend = new ProductRecommend(new ProductRecommendId(idRepository.nextId()), new TenantId(TenantContext.getTenantId()), productId,recommendProductId);
+        productRecommendService.create(productRecommend);
+        Product product = productDomainService.findProductById(productId);
         return ProductRecommendConvert.convert2ProductRecommendBO(productRecommend,product);
     }
 
@@ -68,7 +61,11 @@ public class ProductRecommendApplicationServiceImpl implements ProductRecommendA
         if (StringUtils.isEmpty(id)) {
             throw new ServiceException(ProductRecommendErrorCodeConstants.ID_NOT_EMPTY);
         }
-        return ProductRecommendService.release(new ProductRecommendId(id));
+        ProductRecommend productRecommend = productRecommendService.findById(new ProductRecommendId(id));
+        if (Objects.isNull(productRecommend)) {
+            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
+        }
+        return productRecommendService.release(productRecommend);
     }
 
 
@@ -77,7 +74,11 @@ public class ProductRecommendApplicationServiceImpl implements ProductRecommendA
         if (StringUtils.isEmpty(productId)) {
             throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
         }
-        List<ProductRecommend> productRecommends = productRecommendRepository.findListByProductId(new ProductId(productId));
+        Product product = productDomainService.findProductById(new ProductId(productId));
+        if (Objects.isNull(product)) {
+            throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_NOT_EXISTS);
+        }
+        List<ProductRecommend> productRecommends = productRecommendService.findListFromProduct(product);
         List<Product> products = productRepository.selectBatchIds(findProductIds(productRecommends));
         return  ProductRecommendConvert.convert2ProductRecommendBOBatch(productRecommends,products);
     }

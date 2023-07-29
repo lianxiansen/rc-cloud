@@ -4,6 +4,8 @@ import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.cart.identifier.*;
 import com.rc.cloud.common.core.exception.ServiceException2;
 
+import java.util.List;
+
 
 /**
  * @author WJF
@@ -13,7 +15,8 @@ import com.rc.cloud.common.core.exception.ServiceException2;
 
 public class Cart {
 
-    public Cart(){}
+    public Cart() {
+    }
 
     private CartId id;
 
@@ -27,11 +30,23 @@ public class Cart {
      */
     private Integer type;
 
+    /**
+     * 购物车状态，0无效，1有效
+     */
+    private int state;
+
+    public CartProductDetail getCartProductDetail() {
+        return cartProductDetail;
+    }
+
+    public void setCartProductDetail(CartProductDetail cartProductDetail) {
+        this.cartProductDetail = cartProductDetail;
+    }
 
     /**
-     * 产品属性唯一Id
+     * 产品详情
      */
-    private ProductUniqueId productUniqueId;
+    private CartProductDetail cartProductDetail;
 
     public CartId getId() {
         return id;
@@ -96,15 +111,6 @@ public class Cart {
     public void setUserId(UserId userId) {
         this.userId = userId;
     }
-
-    public ProductUniqueId getProductUniqueId() {
-        return productUniqueId;
-    }
-
-    public void setProductUniqueId(ProductUniqueId productUniqueId) {
-        this.productUniqueId = productUniqueId;
-    }
-
 
     public Integer getType() {
         return type;

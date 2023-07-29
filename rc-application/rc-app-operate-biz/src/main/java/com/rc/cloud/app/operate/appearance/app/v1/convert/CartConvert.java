@@ -11,8 +11,4 @@ import com.rc.cloud.app.operate.application.bo.CartListBO;
 
 public class CartConvert {
 
-    public static CartListResponse convert(CartListBO cartListBO) {
-        CartListResponse response = new CartListResponse();
-        return response;
-    }
 }

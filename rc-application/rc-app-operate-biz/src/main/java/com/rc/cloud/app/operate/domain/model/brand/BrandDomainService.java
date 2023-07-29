@@ -1,21 +1,21 @@
 package com.rc.cloud.app.operate.domain.model.brand;
 
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
-import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
+import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
+import com.rc.cloud.app.operate.infrastructure.constants.BrandErrorCodeConstants;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
 public class BrandDomainService {
 
     @Autowired
     private BrandRepository brandRepository;
-
+    @Autowired
+    private ProductRepository productRepository;
     public Brand findById(BrandId brandId){
         AssertUtils.notNull(brandId,"brandId must be not null");
         Brand brand = brandRepository.findById(brandId);
@@ -40,13 +40,12 @@ public class BrandDomainService {
     }
 
 
-    public boolean remove(BrandId brandId){
-        AssertUtils.notNull(brandId,"brandId must be not null");
-        Brand brand=brandRepository.findById(brandId);
-        if(Objects.isNull(brand)){
-            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
+    public boolean remove(Brand brand){
+        AssertUtils.notNull(brand,"brand must be not null");
+        if(productRepository.existsByBrandId(brand.getId())){
+            throw new ServiceException(BrandErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
         }
-        return brandRepository.removeById(brandId);
+        return brandRepository.removeById(brand.getId());
     }
 
     public PageResult<Brand> selectPageResult(Integer pageNo, Integer pageSize, String name) {

@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
@@ -8,6 +9,7 @@ import com.rc.cloud.app.operate.domain.model.cart.identifier.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -32,12 +34,55 @@ public class CartPO {
      */
     private Integer type;
 
+    /**
+     * 产品Id
+     */
+    private String productid;
 
     /**
      * 产品属性唯一Id
      */
     private String productuniqueid;
 
+    /**
+     * 产品名称
+     */
+    private String productName;
+    /**
+     * 产品长
+     */
+    @TableField("cartonsizelength")
+    private int cartonSizeLength;
+    /**
+     * 产品高
+     */
+    @TableField("cartonsizeheight")
+    private int cartonSizeHeight;
+    /**
+     * 产品宽
+     */
+    @TableField("cartonsizewidth")
+    private int cartonSizeWidth;
+    /**
+     * 产品规格属性
+     */
+    @TableField("skuattributes")
+    private String skuAttributes;
+    /**
+     * 产品价格
+     */
+    private BigDecimal price;
+
+    /**
+     * 产品重量
+     */
+    private BigDecimal weight;
+
+    /**
+     * 产品装箱数
+     */
+    @TableField("packingnumber")
+    private int packingNumber;
 
     /**
      * 数量
@@ -48,7 +93,7 @@ public class CartPO {
      * 店铺id
      */
     private String shopid;
-    
+
     /**
      * 创建时间
      */
