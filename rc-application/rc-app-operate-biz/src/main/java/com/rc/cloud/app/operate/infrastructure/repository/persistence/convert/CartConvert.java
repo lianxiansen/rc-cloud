@@ -41,7 +41,7 @@ public interface CartConvert {
         po.setSeckillid(cart.getSeckillId() == null ? "" : cart.getSeckillId().id());
         po.setCombinationid(cart.getCombinationId() == null ? "" : cart.getCombinationId().id());
 
-        if (cart.getCartProductDetail()!=null){
+        if (cart.getCartProductDetail() != null) {
             //设置购物车产品详细信息
             po.setProductuniqueid(cart.getCartProductDetail().getSkuCode());
             po.setPackingNumber(cart.getCartProductDetail().getPackingNumber());
@@ -65,18 +65,25 @@ public interface CartConvert {
         cart.setShopInfo(shopInfo);
 
         cart.setPayed(po.getPayed());
-        cart.setCreateTime(new CreateTime(po.getCreatetime()));
-        cart.setBargainId(new BargainId(po.getBargainid()));
+        if (po.getCreatetime() != null) {
+            cart.setCreateTime(new CreateTime(po.getCreatetime()));
+        }
+        if (po.getBargainid() != null) {
+            cart.setBargainId(new BargainId(po.getBargainid()));
+        }
+        if (po.getSeckillid() != null) {
+            cart.setSeckillId(new SeckillId(po.getSeckillid()));
+        }
+        if (po.getCombinationid() != null) {
+            cart.setCombinationId(new CombinationId(po.getCombinationid()));
+        }
         cart.setUserId(new UserId(po.getUserid()));
         cart.setId(new CartId(po.getId()));
         cart.setType(po.getType());
         cart.setNum(po.getNum());
         cart.setNewState(po.getNewstate());
-        cart.setSeckillId(new SeckillId(po.getSeckillid()));
-        cart.setCombinationId(new CombinationId(po.getCombinationid()));
 
         CartProductDetail productDetail = new CartProductDetail();
-        productDetail.setProductId(new ProductId(po.getId()));
         productDetail.setProductId(new ProductId(po.getProductid()));
         productDetail.setSkuCode(po.getProductuniqueid());
         productDetail.setPackingNumber(po.getPackingNumber());

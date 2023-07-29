@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.application.bo;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.util.List;

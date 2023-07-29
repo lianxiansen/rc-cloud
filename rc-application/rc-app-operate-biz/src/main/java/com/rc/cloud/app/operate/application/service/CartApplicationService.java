@@ -47,27 +47,59 @@ public class CartApplicationService {
     @Resource
     private ProductApplicationService productApplicationService;
 
+    /**
+     * 根据店铺返回购物车列表
+     * 返回按照商品分组，统一商品下包含不同规格
+     * @param shopIds
+     * @return List<ShopCartBO>
+     */
     public List<ShopCartBO> getCartListByShopIds(List<String> shopIds) {
         UserId userId = new UserId("admin");
+        //获取最新商品信息，用于判断购物车是否过期
+        PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
+
         List<Cart> list = cartDomainService.getListByShopIds(userId, IdUtil.toList(shopIds, ShopId.class));
         List<CartBO> cartBOS = CartConvert.INSTANCE.convertList(list);
         cartBOS.forEach(cartBO -> {
             cartBO.setShopBO(ramdomShop());
             cartBO.setCartProductDetailBO(randomDetail());
         });
+        //设置商品购物车商品过期
+        setCartExpireByProduct(cartBOS, productList);
 
         List<ShopCartBO> shopCartBOList = new ArrayList<>();
         shopIds.forEach(shopId -> {
             ShopCartBO shopCartBO = new ShopCartBO();
             shopCartBO.setShopInfo(ramdomShop());
-            CartListBO listBO = new CartListBO();
-            listBO.setCartList(cartBOS.stream().filter(cartBO -> shopId.equals(cartBO.getShopid())).collect(Collectors.toList()));
-            shopCartBO.setCartList(listBO);
+            List<CartBO> groupByShop = cartBOS.stream().filter(cartBO -> shopId.equals(cartBO.getShopid())).collect(Collectors.toList());
+            List<CartProductBO> groupByproduct = groupByproduct(groupByShop);
+            shopCartBO.setCartProductList(groupByproduct);
+
             shopCartBOList.add(shopCartBO);
         });
 
         return shopCartBOList;
     }
+
+    private List<CartProductBO> groupByproduct(List<CartBO> groupByShop) {
+        List<CartProductBO> list = new ArrayList<>();
+        Map<CartProductBO, List<CartBO>> map = groupByShop.stream().collect(Collectors.groupingBy(
+                x -> {
+                    return new CartProductBO()
+                            .setProductName(x.getCartProductDetailBO().getProductName())
+                            .setProductId(x.getCartProductDetailBO().getProductId())
+                            .setProductImage(x.getCartProductDetailBO().getProductImage());
+                }
+        ));
+        for (CartProductBO key : map.keySet()) {
+            List<CartBO> cartBOS = map.get(key);
+            CartProductBO productBO = new CartProductBO(key);
+            productBO.setDetailList(cartBOS);
+            list.add(productBO);
+        }
+        return list;
+    }
+
 
     public PriceContext calPrice(List<String> productUniqueIdList) {
         CartListBO cartList = getCartList(productUniqueIdList);
@@ -87,6 +119,24 @@ public class CartApplicationService {
         UserId userId = new UserId("admin");
         //获取最新商品信息，用于判断购物车是否过期
         PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
+
+        List<ProductUniqueId> productUniqueIds = IdUtil.toList(productUniqueIdList, ProductUniqueId.class);
+        List<Cart> list = cartDomainService.getList(userId, productUniqueIds);
+        List<CartBO> cartBOS = CartConvert.INSTANCE.convertList(list);
+        cartBOS.forEach(cartBO -> {
+            cartBO.setShopBO(ramdomShop());
+            cartBO.getCartProductDetailBO().getSkuAttributes();
+            cartBO.setState(1);
+        });
+        //设置商品购物车商品过期
+        setCartExpireByProduct(cartBOS, productList);
+        CartListBO bO = new CartListBO();
+        bO.setCartList(cartBOS);
+        return bO;
+    }
+
+    //设置商品购物车商品过期
+    private void setCartExpireByProduct(List<CartBO> cartBOS, PageResult<ProductBO> productList) {
         List<ProductSkuBO> alSkuBOs = new ArrayList<>();
         productList.getList().forEach(productBO -> {
             alSkuBOs.addAll(productBO.getSkus());
@@ -95,15 +145,9 @@ public class CartApplicationService {
                 productSkuBO -> productSkuBO.getSkuAttributes().stream().map(x -> x.getAttributeValue()).collect(Collectors.toList()),
                 (key1, key2) -> key2));
 
-        List<ProductUniqueId> productUniqueIds = IdUtil.toList(productUniqueIdList, ProductUniqueId.class);
-        List<Cart> list = cartDomainService.getList(userId, productUniqueIds);
-        List<CartBO> cartBOS = CartConvert.INSTANCE.convertList(list);
         cartBOS.forEach(cartBO -> {
-            cartBO.setShopBO(ramdomShop());
-            cartBO.getCartProductDetailBO().getSkuAttributes();
             cartBO.setState(0);
             Optional<ProductBO> any = productList.getList().stream().filter(productBO -> cartBO.getProductid().equals(productBO.getId())).findAny();
-
             //如果产品或者产品sku不存在，购物车失效
             if (any.isPresent() && map.containsKey(cartBO.getProductuniqueid())) {
                 //如果sku属性完全相同，购物车有效
@@ -112,9 +156,6 @@ public class CartApplicationService {
                 }
             }
         });
-        CartListBO bO = new CartListBO();
-        bO.setCartList(cartBOS);
-        return bO;
     }
 
     public Boolean saveCart(List<CartDTO> cartDTOList) {
