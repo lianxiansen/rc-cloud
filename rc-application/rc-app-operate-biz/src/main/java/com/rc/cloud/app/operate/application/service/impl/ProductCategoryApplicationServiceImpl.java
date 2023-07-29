@@ -33,7 +33,7 @@ import java.util.Objects;
  * @ClassName ProductCategoryApplicationService
  * @Author liandy
  * @Date 2023/7/24 9:08
- * @Description  TODO
+ * @Description TODO
  * @Version 1.0
  */
 @Service
@@ -48,6 +48,7 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
     private ProductCategoryRebuildFactory productCategoryRebuildFactory;
     @Resource
     private ProductRepository productRepository;
+
     @Override
     public ProductCategoryBO create(ProductCategoryCreateDTO productCreateCategoryDTO) {
         if (StringUtils.isEmpty(productCreateCategoryDTO.getName())) {
@@ -55,7 +56,7 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
         }
         TenantId tenantId = new TenantId(TenantContext.getTenantId());
         ChName name = new ChName(productCreateCategoryDTO.getName());
-        ProductCategoryBuildFactory.ProductCategoryBuilder builder= productCategoryBuildFactory.create(new ProductCategoryId(idRepository.nextId()), tenantId, name);
+        ProductCategoryBuildFactory.ProductCategoryBuilder builder = productCategoryBuildFactory.create(new ProductCategoryId(idRepository.nextId()), tenantId, name);
         builder.enName(new EnName(productCreateCategoryDTO.getEnglishName()));
         builder.icon(new Icon(productCreateCategoryDTO.getIcon()));
         if (Objects.nonNull(productCreateCategoryDTO.getEnabled())) {
@@ -69,7 +70,8 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
             ProductCategoryId parentId = new ProductCategoryId(productCreateCategoryDTO.getParentId());
             builder.parentId(parentId);
         }
-        ProductCategory productCategory = productCategoryService.create(builder);
+        ProductCategory productCategory = builder.build();
+        productCategoryService.create(productCategory);
         return ProductCategoryBO.convert(productCategory);
     }
 
@@ -84,7 +86,7 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
         if (Objects.isNull(productCategory)) {
             throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
-        ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder=productCategoryRebuildFactory.create(productCategory);
+        ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder = productCategoryRebuildFactory.create(productCategory);
         if (Objects.nonNull(productCategoryUpdateDTO.getParentId())) {
             if (StringUtils.isEmpty(productCategoryUpdateDTO.getParentId())) {
                 rebuilder.parentId(null);
@@ -113,7 +115,8 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
         if (Objects.nonNull(productCategoryUpdateDTO.getEnabled())) {
             rebuilder.setEnabled(new Enabled(productCategoryUpdateDTO.getEnabled().booleanValue()));
         }
-        productCategoryService.update(rebuilder);
+        productCategory = rebuilder.rebuild();
+        productCategoryService.update(productCategory);
         return ProductCategoryBO.convert(productCategory);
     }
 
@@ -122,11 +125,9 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
         if (StringUtils.isEmpty(id)) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
         }
-        ProductCategoryId productCategoryId=new ProductCategoryId(id);
-        if(productRepository.existsByProductCategoryId(productCategoryId)){
-            throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
-        }
-        return productCategoryService.remove(productCategoryId);
+        ProductCategoryId productCategoryId = new ProductCategoryId(id);
+        ProductCategory productCategory = productCategoryService.findById(productCategoryId);
+        return productCategoryService.remove(productCategory);
     }
 
     @Override

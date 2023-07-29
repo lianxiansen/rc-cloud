@@ -114,7 +114,7 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
     @Test
     @DisplayName("创建产品分类指定父产品分类,指定无效的父产品分类")
     public void createSubProductCategoryIfParentInvalidTest() {
-        productCategoryService.remove(root.getId());
+        productCategoryService.remove(root);
         productCategoryCreateDTO.setParentId(root.getId().id());
         Assertions.assertThrows(ServiceException.class, () -> {
             productCategoryApplicationService.create(productCategoryCreateDTO);

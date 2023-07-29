@@ -5,13 +5,13 @@ import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductC
 import java.util.List;
 
 public interface ProductCategoryDomainService {
-    ProductCategory create(ProductCategoryBuildFactory.ProductCategoryBuilder builder);
+    ProductCategory create(ProductCategory productCategory);
 
-    boolean update(ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder);
+    boolean update(ProductCategory productCategory);
 
     List<ProductCategory> findAll();
 
-    boolean remove(ProductCategoryId productCategoryId);
+    boolean remove(ProductCategory productCategory);
 
     void enable(ProductCategory productCategory);
 
