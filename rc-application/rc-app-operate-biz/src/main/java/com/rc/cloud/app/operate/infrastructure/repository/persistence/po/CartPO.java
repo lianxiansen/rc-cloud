@@ -48,6 +48,12 @@ public class CartPO {
      * 产品名称
      */
     private String productName;
+
+    /**
+     * 产品图片
+     */
+    private String productImage;
+
     /**
      * 产品长
      */
@@ -72,6 +78,11 @@ public class CartPO {
      * 产品价格
      */
     private BigDecimal price;
+
+    /**
+     * 货号
+     */
+    private String outid;
 
     /**
      * 产品重量

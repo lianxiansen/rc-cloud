@@ -21,6 +21,8 @@ public class CartProductBO {
 
     private String productImage;
 
+    private String outid;
+
     private List<CartBO> detailList;
 
     public CartProductBO() {
@@ -31,6 +33,7 @@ public class CartProductBO {
         this.productId = bo.getProductId();
         this.productName = bo.getProductName();
         this.productImage = bo.getProductImage();
+        this.setOutid(bo.getOutid());
         this.detailList = bo.getDetailList();
     }
 }

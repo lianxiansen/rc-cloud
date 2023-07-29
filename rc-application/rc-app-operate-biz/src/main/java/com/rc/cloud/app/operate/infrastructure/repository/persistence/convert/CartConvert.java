@@ -85,6 +85,9 @@ public interface CartConvert {
 
         CartProductDetail productDetail = new CartProductDetail();
         productDetail.setProductId(new ProductId(po.getProductid()));
+        productDetail.setProductName(po.getProductName());
+        productDetail.setProductImage(po.getProductImage());
+        productDetail.setOutId(po.getOutid());
         productDetail.setSkuCode(po.getProductuniqueid());
         productDetail.setPackingNumber(po.getPackingNumber());
         productDetail.setSkuAttributes(Arrays.asList(StringUtils.split(po.getSkuAttributes(), ",")));
@@ -92,6 +95,7 @@ public interface CartConvert {
         productDetail.setCartonSizeHeight(po.getCartonSizeHeight());
         productDetail.setCartonSizeWidth(po.getCartonSizeWidth());
         productDetail.setCartonSizeLength(po.getCartonSizeLength());
+        productDetail.setPrice(po.getPrice());
         cart.setCartProductDetail(productDetail);
         return cart;
     }

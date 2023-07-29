@@ -29,6 +29,7 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author WJF
@@ -86,7 +87,8 @@ public class CartApplicationService {
                     return new CartProductBO()
                             .setProductName(x.getCartProductDetailBO().getProductName())
                             .setProductId(x.getCartProductDetailBO().getProductId())
-                            .setProductImage(x.getCartProductDetailBO().getProductImage());
+                            .setProductImage(x.getCartProductDetailBO().getProductImage())
+                            .setOutid(x.getCartProductDetailBO().getOutId());
                 }
         ));
         for (CartProductBO key : map.keySet()) {
@@ -151,6 +153,9 @@ public class CartApplicationService {
                 //如果sku属性完全相同，购物车有效
                 if (ListUtil.isEqual(map.get(cartBO.getProductuniqueid()), cartBO.getCartProductDetailBO().getSkuAttributes())) {
                     cartBO.setState(1);
+                    ProductSkuBO skuBO = alSkuBOs.stream().filter(x -> cartBO.getProductuniqueid().equals(x.getSkuCode())).findFirst().get();
+                    //设置最新价格
+                    cartBO.getCartProductDetailBO().setPrice(skuBO.getPrice());
                 }
             }
         });

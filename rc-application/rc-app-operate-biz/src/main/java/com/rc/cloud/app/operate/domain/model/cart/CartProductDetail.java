@@ -19,6 +19,8 @@ public class CartProductDetail {
 
     private String productName;
 
+    private String productImage;
+
     private String skuCode;
 
     private BigDecimal supplyPrice;
