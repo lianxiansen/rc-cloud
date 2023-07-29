@@ -1,8 +1,10 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductAttributeId;
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Attribute;
 import com.rc.cloud.app.operate.domain.model.product.valobj.AttributeValue;
+import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.util.AssertUtils;
 
@@ -17,12 +19,13 @@ import java.util.TreeSet;
 public class ProductAttribute extends Entity {
 
 
-    public ProductAttribute(ProductAttributeId id) {
-        this.id = id;
+    public ProductAttribute(ProductId productId) {
+        this.productId= productId;
         this.attributes = new TreeSet<>();
     }
 
-    private ProductAttributeId id;
+
+    private ProductId productId;
 
     private SortedSet<Attribute> attributes;
 
@@ -62,11 +65,20 @@ public class ProductAttribute extends Entity {
         }
     }
 
-    public ProductAttributeId getId() {
-        return id;
+    public ProductId getProductId() {
+        return productId;
+    }
+
+    public void setProductId(ProductId productId) {
+        this.productId = productId;
     }
 
     public SortedSet<Attribute> getAttributes() {
         return attributes;
+    }
+
+    @Override
+    public AbstractId getId() {
+        return null;
     }
 }

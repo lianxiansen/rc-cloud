@@ -13,7 +13,7 @@ import java.util.List;
 public class ProductSkuConvert {
 
 
-    public static ProductSku convert(ProductSkuPO po){
+    public static ProductSku convertDomain(ProductSkuPO po){
         if(po!=null){
             ProductId productId=new ProductId(po.getProductId());
             ProductSkuId id = new ProductSkuId(po.getId());
@@ -41,7 +41,7 @@ public class ProductSkuConvert {
         return null;
     }
 
-    public static ProductSkuPO convert(ProductSku productSku){
+    public static ProductSkuPO convertProductSkuPO(ProductSku productSku){
         ProductSkuPO po=new ProductSkuPO();
         po.setId(productSku.getId().id());
         po.setProductId(productSku.getProductId().id());
@@ -84,10 +84,10 @@ public class ProductSkuConvert {
         return po;
     }
 
-    public static List<ProductSku> convertList(List<ProductSkuPO> list){
+    public static List<ProductSku> convertDomainList(List<ProductSkuPO> list){
         List<ProductSku> resList =new ArrayList<>();
         if(list!=null){
-            list.forEach(x-> resList.add(convert(x)));
+            list.forEach(x-> resList.add(convertDomain(x)));
         }
         return  resList;
     }

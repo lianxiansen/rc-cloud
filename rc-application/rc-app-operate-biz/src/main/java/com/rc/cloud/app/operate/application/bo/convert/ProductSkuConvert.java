@@ -8,7 +8,6 @@ import com.rc.cloud.app.operate.application.dto.ProductSkuImageSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuSaveDTO;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
-import com.rc.cloud.app.operate.domain.model.product.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Attribute;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
@@ -27,9 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 
+/**
+ * ProductSkuConvert 转换类
+ * 同时转换SKU图片信息
+ */
 public class ProductSkuConvert {
 
-    public static ProductSku convert(ProductSkuId productSkuId,ProductId productId, TenantId tenantId,
+    public static ProductSku convertDomain(ProductSkuId productSkuId,ProductId productId, TenantId tenantId,
                                   ProductSkuSaveDTO productSkuSaveDTO, boolean isCreate, ProductSku productSku){
 
         if(isCreate){
@@ -168,7 +171,7 @@ public class ProductSkuConvert {
 
 
     private static ProductSku setProductSkuImage(ProductSkuSaveDTO dto,boolean isCreate, ProductSku productSku){
-        List<ProductSkuImage> productImages = ProductSkuImageConvert.convertList(dto.getAlbums());
+        List<ProductSkuImage> productImages = ProductSkuImageConvert.convertDomainList(dto, dto.getAlbums());
         if(isCreate){
             productSku.setSkuImageList(productImages);
         }
@@ -180,7 +183,7 @@ public class ProductSkuConvert {
 
     private static ProductSku setProductSkuAttibute(ProductSkuSaveDTO dto, boolean isCreate,ProductSku productSku){
         List<ProductSkuAttributeSaveDTO> attributes = dto.getAttributes();
-        ProductSkuAttribute productSkuAttribute = new ProductSkuAttribute(new ProductSkuAttributeId(dto.getAttributeId()));
+        ProductSkuAttribute productSkuAttribute = new ProductSkuAttribute(new ProductSkuId(dto.getId()));
         if(isCreate){
             if(attributes==null){
                 throw  new IllegalArgumentException("attributes must be not null");
@@ -199,7 +202,7 @@ public class ProductSkuConvert {
         return productSku;
     }
 
-    public static ProductSkuBO convert(ProductSku productSku){
+    public static ProductSkuBO convertProductSkuBO(ProductSku productSku){
         ProductSkuBO bo=new ProductSkuBO();
         bo.setId(productSku.getId().id());
         if(productSku.getPrice()!=null){
@@ -263,9 +266,11 @@ public class ProductSkuConvert {
         return bo;
     }
 
-    public static List<ProductSkuBO> convertList(List<ProductSku> productSkuList) {
+    public static List<ProductSkuBO> convertProductSkuBOList(List<ProductSku> productSkuList) {
         List<ProductSkuBO> resList =new ArrayList<>();
-        productSkuList.forEach(x->resList.add(convert(x)));
+        for (ProductSku productSku : productSkuList) {
+            resList.add(convertProductSkuBO(productSku));
+        }
         return resList;
     }
 

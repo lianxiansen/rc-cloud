@@ -5,10 +5,11 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 
 public interface ProductDetailRepository {
 
+    void insertProductDetail(ProductDetail productDetail);
 
-    void saveProductDetail(ProductDetail productDetail);
+    void updateProductDetail(ProductDetail productDetail);
 
-    ProductDetail findById(ProductId productId);
+    ProductDetail findByProductId(ProductId productId);
 
     void removeProductDetailByProductId(ProductId productId);
 }

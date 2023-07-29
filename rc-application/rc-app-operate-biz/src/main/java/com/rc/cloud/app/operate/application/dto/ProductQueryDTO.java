@@ -11,6 +11,10 @@ public class ProductQueryDTO {
 
     private String productId;
 
+    private boolean needProductMasterImage;
+
+    private boolean needProductSizeImage;
+
     private boolean needProductDetail;
 
     private boolean needProductDict;

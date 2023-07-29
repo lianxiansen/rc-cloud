@@ -9,7 +9,7 @@ import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
-import com.rc.cloud.app.operate.domain.model.product.ProductImage;
+import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductAttributeId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
 import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
@@ -19,10 +19,8 @@ import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ProductConvert
 {
@@ -38,7 +36,7 @@ public class ProductConvert
      * @param product
      * @return
      */
-    public static Product convert(String productId, String tenantId,
+    public static Product convertDomain(String productId, String tenantId,
                                   ProductSaveDTO productSaveDTO,boolean isCreate, Product product){
         if(isCreate && product!=null){
             throw new IllegalArgumentException("参数错误，内部错误");
@@ -92,11 +90,6 @@ public class ProductConvert
         product = setVideo(productSaveDTO.getVideoUrl()
                 ,productSaveDTO.getVideoImg()
                 ,isCreate,product);
-        //设置安装信息
-        product =setInstallInformation(productSaveDTO.getInstallVideoUrl(), productSaveDTO.getInstallVideoImg()
-        ,productSaveDTO.getInstallDetail(),isCreate,product);
-        //设置图片
-        product= setProductImage(productSaveDTO,isCreate,product);
         //设置属性
         product =setProductAttibute(productSaveDTO,isCreate,product);
 
@@ -521,63 +514,7 @@ public class ProductConvert
         return product;
     }
 
-    /**
-     * 设置安装信息
-     * @param installVideoUrl
-     * @param installVideoImg
-     * @param installDetail
-     * @param isCreate
-     * @param product
-     * @return
-     */
-    private static Product setInstallInformation(String installVideoUrl, String installVideoImg, String installDetail
-            , boolean isCreate, Product product){
-        InstallInformation installInformation = null;
-        if(isCreate){
-            installInformation =new InstallInformation();
-            installInformation.setInstallVideoUrl(new Url(installVideoUrl));
-            installInformation.setInstallVideoImg(new Url(installVideoImg));
-            installInformation.setInstallDetail(installDetail);
-        }else{
-            if (installVideoUrl != null || installVideoImg != null
-                    || installDetail != null) {
-                installInformation =new InstallInformation();
-                installInformation.setInstallVideoUrl(new Url(installVideoUrl));
-                installInformation.setInstallVideoImg(new Url(installVideoImg));
-                installInformation.setInstallDetail(installDetail);
 
-            }
-        }
-        product.setInstallInformation(installInformation);
-        return product;
-    }
-
-    /**
-     * 设置图片
-     * @param productSaveDTO
-     * @param isCreate
-     * @param product
-     * @return
-     */
-    private static Product setProductImage(ProductSaveDTO productSaveDTO
-            ,boolean isCreate, Product product){
-        List<ProductImage> images1 = ProductImageConvert
-                .convertList(productSaveDTO.getMasterAlbums(), ProductImageTypeEnum.MasterImage);
-        List<ProductImage> images2 = ProductImageConvert
-                .convertList(productSaveDTO.getSizeAlbums(), ProductImageTypeEnum.SizeImage);
-        if(isCreate){
-           product.addProductImageList(images1);
-           product.addProductImageList(images2);
-        }else{
-            if (images1 != null) {
-                product.addProductImageList(images1);
-            }
-            if (images2 != null) {
-                product.addProductImageList(images2);
-            }
-        }
-        return product;
-    }
 
     /**
      * 设置属性
@@ -588,7 +525,7 @@ public class ProductConvert
      */
     private static Product setProductAttibute(ProductSaveDTO productSaveDTO, boolean isCreate,Product product){
         List<ProductAttributeSaveDTO> attributes = productSaveDTO.getAttributes();
-        ProductAttribute productAttribute = new ProductAttribute(new ProductAttributeId(productSaveDTO.getAttributeId()));
+        ProductAttribute productAttribute = new ProductAttribute(new ProductId(productSaveDTO.getId()));
         if(isCreate){
             if(attributes==null){
                 throw  new IllegalArgumentException("attributes must be not null");
@@ -607,26 +544,45 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 转化为ProductBO
+     * @param product
+     * @param productSizeImages
+     * @param productMasterImages
+     * @param productDicts
+     * @param productDetail
+     * @param skuList
+     * @return
+     */
+    public static ProductBO  convertProductBO(Product product,
+                                            List<ProductImage> productSizeImages,
+                                            List<ProductImage> productMasterImages,
+                                              Set<ProductDict> productDicts, ProductDetail productDetail
 
-    public static ProductBO  convert(Product product, Set<ProductDict> productDicts, ProductDetail productDetail, List<ProductSku> productSkuList) {
-        ProductBO bo=convert(product);
+            , List<ProductSku> skuList) {
+        ProductBO bo=convertProductBO(product);
+        bo.setSizeImages( ProductImageConvert.convertProductImageBOList(productSizeImages));
+        bo.setMasterImages(ProductImageConvert.convertProductImageBOList(productMasterImages));
         if(productDicts!=null){
             bo.setDicts(ProductDictConvert.convertProductDictMap(productDicts));
         }
         if(productDetail!=null){
-            bo.setDetail(productDetail.getDetail());
+            bo.setDetail(ProductDetailConvert.convertProductDetailBO(productDetail));
         }
-        if(productSkuList!=null){
-            List<ProductSkuBO> productSkuBOS = ProductSkuConvert.convertList(productSkuList);
-            bo.setSkus(productSkuBOS);
+        if(skuList!=null){
+            bo.setSkus(ProductSkuConvert.convertProductSkuBOList(skuList));
         }
         return bo;
     }
 
-    public static ProductBO convert(Product product){
+    /**
+     * 领域转化ProductBO，仅基础数据
+     * @param product
+     * @return
+     */
+    public static ProductBO convertProductBO(Product product){
 
         ProductBO bo=new ProductBO();
-
         bo.setId(product.getId().id());
         bo.setSpuCode(product.getSpuCode().getValue());
         bo.setProductType(product.getType().getValue());
@@ -645,7 +601,6 @@ public class ProductConvert
         bo.setFirstCategory(product.getFirstCategory().getValue());
         bo.setSecondCategory(product.getSecondCategory().getValue());
         bo.setThirdCategory(product.getThirdCategory().getValue());
-
         //自定义分类
         if(product.getCustomClassificationId()!=null){
             bo.setCustomClassificationId(product.getCustomClassificationId().id());
@@ -680,25 +635,8 @@ public class ProductConvert
                 bo.setVideoUrl(product.getVideo().getVideoUrl().getValue());
             }
         }
-        //安装视频
-        if(product.getInstallInformation()!=null){
-            if(product.getInstallInformation().getInstallVideoUrl()!=null){
-                bo.setInstallVideoUrl(product.getInstallInformation().getInstallVideoUrl().getValue());
-            }
-            if(product.getInstallInformation().getInstallVideoImg()!=null){
-                bo.setInstallVideoImg(product.getInstallInformation().getInstallVideoImg().getValue());
-            }
-            bo.setInstallDetail(product.getInstallInformation().getInstallDetail());
-        }
         if(product.getPackingLowestBuy()!=null){
             bo.setPackingLowestBuyFlag(product.getPackingLowestBuy().result());
-        }
-        //转换图片
-        if(product.getMasterImages()!=null){
-            bo.setMasterImages( ProductImageConvert.convertProductImageBOList(product.getMasterImages()));
-        }
-        if(product.getSizeImages()!=null){
-            bo.setSizeImages( ProductImageConvert.convertProductImageBOList(product.getSizeImages()));
         }
         //转换属性
         if(product.getProductAttribute()!=null){

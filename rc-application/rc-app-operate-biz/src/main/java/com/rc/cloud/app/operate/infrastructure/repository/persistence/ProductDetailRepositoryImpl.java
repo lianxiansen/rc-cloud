@@ -16,6 +16,13 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 
+
+/**
+ *
+ * @Author: chenjianxiang
+ * @Date: 2023/7/28
+ * @Description: ProductDetailPO 插入与修改不需要关心id，id需要自动生成，列表返回时候需要带上id
+ */
 @Repository
 public class ProductDetailRepositoryImpl implements ProductDetailRepository {
 
@@ -24,15 +31,22 @@ public class ProductDetailRepositoryImpl implements ProductDetailRepository {
 
 
     @Override
-    public void saveProductDetail(ProductDetail productDetail) {
-        productDetailMapper.insert(ProductDetailConvert.convert(productDetail));
+    public void insertProductDetail(ProductDetail productDetail) {
+        productDetailMapper.insert(ProductDetailConvert.convertProductDetailPO(productDetail));
     }
 
     @Override
-    public ProductDetail findById(ProductId productId) {
+    public void updateProductDetail(ProductDetail productDetail) {
         LambdaQueryWrapperX<ProductDetailPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDetailPO::getId, productId.id());
-        return ProductDetailConvert.convert(this.productDetailMapper.selectOne(wrapper));
+        wrapper.eq(ProductDetailPO::getProductId, productDetail.getProductId());
+        productDetailMapper.update(ProductDetailConvert.convertProductDetailPO(productDetail),wrapper);
+    }
+
+    @Override
+    public ProductDetail findByProductId(ProductId productId) {
+        LambdaQueryWrapperX<ProductDetailPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDetailPO::getProductId, productId.id());
+        return ProductDetailConvert.convertDomain(this.productDetailMapper.selectOne(wrapper));
     }
 
     @Override

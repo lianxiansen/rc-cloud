@@ -5,13 +5,14 @@ import com.rc.cloud.app.operate.domain.common.ProductDictKeyEnum;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductDictId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 
 import java.util.Objects;
 
-public class ProductDict {
+public class ProductDict extends  Entity {
 
     private ProductId productId;
 
@@ -76,9 +77,6 @@ public class ProductDict {
     }
 
 
-    public String getId() {
-        return id;
-    }
 
     public ProductId getProductId() {
         return productId;
@@ -107,5 +105,10 @@ public class ProductDict {
     @Override
     public int hashCode() {
         return Objects.hash(getProductId(), getTenantId(), getKey());
+    }
+
+    @Override
+    public AbstractId getId() {
+        return null;
     }
 }

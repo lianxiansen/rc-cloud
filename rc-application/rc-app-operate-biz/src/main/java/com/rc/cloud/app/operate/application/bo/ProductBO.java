@@ -47,12 +47,6 @@ public class ProductBO {
 
     private String videoImg;
 
-    private String installVideoUrl;
-
-    private String installVideoImg;
-
-    private String installDetail;
-
     private boolean packingLowestBuyFlag;
 
     private boolean newFlag;
@@ -69,7 +63,7 @@ public class ProductBO {
 
     private String customClassificationId;
 
-    private String detail;
+    private ProductDetailBO detail;
 
 
     private List<AttributeBO> attributes;

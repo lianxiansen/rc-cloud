@@ -1,57 +1,75 @@
 package com.rc.cloud.app.operate.domain.model.productdetail;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
+import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Detail;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
+import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
+import com.rc.cloud.common.core.util.AssertUtils;
 
 
 public class ProductDetail extends Entity
 {
 
-    private ProductDetailId id;
-
     private TenantId tenantId;
-
     private ProductId productId;
+    private Detail detail;
+    private Url installVideoUrl;
+    private Url installVideoImg;
+    private Detail installDetail;
 
-    private String detail;
-
-    public ProductDetail(ProductDetailId id,TenantId tenantId,ProductId productId, String detail) {
-        this.id =id;
-        this.tenantId=tenantId;
+    public ProductDetail(TenantId tenantId, ProductId productId, Detail detail, Url installVideoUrl, Url installVideoImg, Detail installDetail) {
+        this.tenantId = tenantId;
         this.productId = productId;
         this.detail = detail;
-    }
-
-    public ProductId getProductId() {
-        return productId;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setProductId(ProductId productId) {
-        this.productId = productId;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
+        this.installVideoUrl = installVideoUrl;
+        this.installVideoImg = installVideoImg;
+        this.installDetail = installDetail;
     }
 
     public TenantId getTenantId() {
         return tenantId;
     }
 
-    public void setTenantId(TenantId tenantId) {
-        this.tenantId = tenantId;
+    public ProductId getProductId() {
+        return productId;
     }
 
-    public ProductDetailId getId() {
-        return id;
+    public Detail getDetail() {
+        return detail;
     }
 
-    public void setId(ProductDetailId id) {
-        this.id = id;
+    public Url getInstallVideoUrl() {
+        return installVideoUrl;
+    }
+
+    public Url getInstallVideoImg() {
+        return installVideoImg;
+    }
+
+    public Detail getInstallDetail() {
+        return installDetail;
+    }
+
+    public void setDetail(Detail detail) {
+        this.detail = detail;
+    }
+
+    public void setInstallVideoUrl(Url installVideoUrl) {
+        this.installVideoUrl = installVideoUrl;
+    }
+
+    public void setInstallVideoImg(Url installVideoImg) {
+        this.installVideoImg = installVideoImg;
+    }
+
+    public void setInstallDetail(Detail installDetail) {
+        this.installDetail = installDetail;
+    }
+
+    @Override
+    public AbstractId getId() {
+        return null;
     }
 }

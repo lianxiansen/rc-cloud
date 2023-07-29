@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public  class ProductDictConvert {
 
-    public static ProductDict convert(String productId, String tenantId,ProductDictSaveDTO dto){
+    public static ProductDict convertDomain(String productId, String tenantId,ProductDictSaveDTO dto){
         ProductDict productDict=new ProductDict(dto.getId());
         productDict.setKey(dto.getKey());
         productDict.setValue(dto.getValue());
@@ -26,13 +26,13 @@ public  class ProductDictConvert {
         Set<ProductDict> resList =new HashSet<>();
         if(list!=null && list.size()>0){
             list.forEach(x->
-                    resList.add(convert(productId,tenantId,x))
+                    resList.add(convertDomain(productId,tenantId,x))
             );
         }
         return resList;
     }
 
-    public static ProductDictBO convert(ProductDict productDict){
+    public static ProductDictBO convertProductDictBO(ProductDict productDict){
         ProductDictBO bo =new ProductDictBO();
         bo.setSort(productDict.getSort());
         bo.setKey(productDict.getKey());

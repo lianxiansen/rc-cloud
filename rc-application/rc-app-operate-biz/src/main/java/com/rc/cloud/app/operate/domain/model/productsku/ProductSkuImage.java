@@ -3,7 +3,9 @@ package com.rc.cloud.app.operate.domain.model.productsku;
 
 import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
+import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
+import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.util.AssertUtils;
 
@@ -17,12 +19,9 @@ import java.util.Objects;
  */
 public class ProductSkuImage extends Entity {
 
-    private ProductSkuImageId id;
+    private ProductSkuId productSkuId;
     private Url url;
     private Sort sort;
-    public ProductSkuImage(ProductSkuImageId id) {
-        this.id = id;
-    }
 
     public Url getUrl() {
         return url;
@@ -40,9 +39,14 @@ public class ProductSkuImage extends Entity {
         this.sort = sort;
     }
 
-    @Override
-    public ProductSkuImageId getId() {
-        return id;
+    public ProductSkuId getProductSkuId() {
+        return productSkuId;
+    }
+
+    public ProductSkuImage(ProductSkuId productSkuId, Url url, Sort sort) {
+        this.productSkuId = productSkuId;
+        this.url = url;
+        this.sort = sort;
     }
 
     @Override
@@ -50,11 +54,16 @@ public class ProductSkuImage extends Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductSkuImage that = (ProductSkuImage) o;
-        return getSort() == that.getSort() && Objects.equals(getUrl(), that.getUrl());
+        return Objects.equals(productSkuId, that.productSkuId) && Objects.equals(getUrl(), that.getUrl()) && Objects.equals(getSort(), that.getSort());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUrl(), getSort());
+        return Objects.hash(productSkuId, getUrl(), getSort());
+    }
+
+    @Override
+    public AbstractId getId() {
+        return null;
     }
 }

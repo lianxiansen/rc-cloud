@@ -12,6 +12,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ *
+ * @Author: chenjianxiang
+ * @Date: 2023/7/28
+ * @Description: ProductDictPO 插入与修改不需要关心id，id需要自动生成，列表返回时候需要带上id
+ */
 @Repository
 public class ProductDictRepositoryImpl implements ProductDictRepository {
 
@@ -25,7 +31,7 @@ public class ProductDictRepositoryImpl implements ProductDictRepository {
         LambdaQueryWrapperX wrapperX=new LambdaQueryWrapperX<ProductDictPO>();
         LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductDictPO::getProductId, productId.id());
-        return ProductDictConvert.convertList(this.productDictMapper.selectList(wrapper));
+        return ProductDictConvert.convertDomainList(this.productDictMapper.selectList(wrapper));
     }
 
     @Override

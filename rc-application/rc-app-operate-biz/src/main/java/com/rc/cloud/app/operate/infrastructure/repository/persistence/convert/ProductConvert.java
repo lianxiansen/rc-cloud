@@ -16,10 +16,7 @@ import java.util.List;
 
 public class ProductConvert {
 
-
-    ProductConvert INSTANCE = Mappers.getMapper(ProductConvert.class);
-
-    public static Product convert(ProductPO po){
+    public static Product convertDomain(ProductPO po){
         if(po==null){
             return null;
         }
@@ -84,16 +81,6 @@ public class ProductConvert {
             video.setVideoImg(new Url(po.getVideoImg()));
         }
         product.setVideo(video);
-        //InstallInformation
-        InstallInformation installInformation =new InstallInformation();
-        if(StringUtils.isNotEmpty(po.getInstallVideoImg())){
-            installInformation.setInstallVideoImg(new Url(po.getInstallVideoImg()));
-        }
-        if(StringUtils.isNotEmpty(po.getInstallVideoUrl())){
-            installInformation.setInstallVideoUrl(new Url(po.getInstallVideoUrl()));
-        }
-        installInformation.setInstallDetail(po.getInstallDetail());
-        product.setInstallInformation(installInformation);
         //NewFlag
         if(po.getNewFlag()!=null){
             product.setNewFlag(po.getNewFlag());
@@ -110,7 +97,7 @@ public class ProductConvert {
 
     }
 
-    public static ProductPO convert(Product product){
+    public static ProductPO convertProductPO(Product product){
         ProductPO po=new ProductPO();
         po.setId(product.getId().id());
         po.setTenantId(product.getTenantId().id());
@@ -185,23 +172,13 @@ public class ProductConvert {
             }
             po.setVideoUrl(product.getVideo().getVideoUrl().getValue());
         }
-        //安装信息
-        if(product.getInstallInformation()!=null){
-            if(product.getInstallInformation().getInstallVideoUrl()!=null){
-                po.setInstallVideoUrl(product.getInstallInformation().getInstallVideoUrl().getValue());
-            }
-            if(product.getInstallInformation().getInstallVideoImg()!=null){
-                po.setInstallVideoImg(product.getInstallInformation().getInstallVideoImg().getValue());
-            }
-            po.setInstallDetail(product.getInstallInformation().getInstallDetail());
-        }
         return po;
     }
 
-    public static List<Product> convertList(List<ProductPO> list){
+    public static List<Product> convertDomainList(List<ProductPO> list){
         List<Product> resList =new ArrayList<>();
         list.forEach(x->
-                resList.add(convert(x))
+                resList.add(convertDomain(x))
                 );
         return resList;
     }

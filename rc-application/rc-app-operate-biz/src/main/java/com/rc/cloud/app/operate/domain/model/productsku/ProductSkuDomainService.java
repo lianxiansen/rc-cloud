@@ -33,9 +33,9 @@ public class ProductSkuDomainService {
     public void deleteProductSkuByProductId(ProductId productId) {
         List<ProductSku> productSkuList = getProductSkuListByProductId(productId);
         if(CollectionUtil.isNotEmpty(productSkuList)){
-            productSkuList.forEach(
-                    x-> productSkuRepository.removeProductSku(x.getId())
-            );
+            for (ProductSku productSku : productSkuList) {
+                productSkuRepository.removeProductSku(productSku.getId());
+            }
         }
     }
 
