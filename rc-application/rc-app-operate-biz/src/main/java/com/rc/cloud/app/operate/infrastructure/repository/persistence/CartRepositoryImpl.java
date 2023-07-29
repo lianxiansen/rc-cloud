@@ -53,7 +53,7 @@ public class CartRepositoryImpl implements CartRepository {
     @Override
     public void deleteCartByProductuniqueid(UserId userId, List<ProductUniqueId> productUniqueIds) {
         cartMapper.delete(new LambdaQueryWrapperX<CartPO>()
-                .eq(CartPO::getUserid, userId)
+                .eq(CartPO::getUserid, userId.id())
                 .in(CartPO::getProductuniqueid, IdUtil.toList(productUniqueIds)));
     }
 
@@ -72,7 +72,7 @@ public class CartRepositoryImpl implements CartRepository {
     @Override
     public Cart findByProductUniqueId(UserId userId, ProductUniqueId productUniqueId) {
         LambdaQueryWrapperX<CartPO> queryWrapperX = new LambdaQueryWrapperX<CartPO>()
-                .eq(CartPO::getUserid, userId)
+                .eq(CartPO::getUserid, userId.id())
                 .eq(CartPO::getProductuniqueid, productUniqueId.id())
                 .eq(CartPO::getPayed, 0);
         CartPO cartPO = cartMapper.selectOne(queryWrapperX);
@@ -83,7 +83,7 @@ public class CartRepositoryImpl implements CartRepository {
     @Override
     public List<Cart> getListByShopIds(UserId userId, List<ShopId> shopIds) {
         LambdaQueryWrapperX<CartPO> queryWrapperX = new LambdaQueryWrapperX<CartPO>()
-                .eq(CartPO::getUserid, userId)
+                .eq(CartPO::getUserid, userId.id())
                 .in(CartPO::getShopid, IdUtil.toList(shopIds))
                 .eq(CartPO::getPayed, 0);
         List<CartPO> cartPOS = cartMapper.selectList(queryWrapperX);

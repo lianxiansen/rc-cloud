@@ -61,7 +61,7 @@ public interface CartConvert {
         Cart cart = new Cart();
 
         ShopInfo shopInfo = new ShopInfo();
-        shopInfo.setShopId(new ShopId(po.getId()));
+        shopInfo.setShopId(new ShopId(po.getShopid()));
         cart.setShopInfo(shopInfo);
 
         cart.setPayed(po.getPayed());
