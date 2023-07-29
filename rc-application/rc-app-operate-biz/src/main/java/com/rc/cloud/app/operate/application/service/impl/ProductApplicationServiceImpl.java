@@ -204,7 +204,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         if(productSaveDTO.getSkus()!=null && productSaveDTO.getSkus().size()>0){
             for (ProductSkuSaveDTO productSkuSaveDTO :  productSaveDTO.getSkus()) {
                 ProductSku productSku=null;
-                if(productSkuSaveDTO.getId()!=null){
+                if(StringUtils.isNotEmpty(productSkuSaveDTO.getId())){
                     productSkuDomainService.findProductSkuById(new ProductSkuId(productSkuSaveDTO.getId()));
                 }
                 if(productSku==null){
