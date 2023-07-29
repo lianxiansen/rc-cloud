@@ -1,12 +1,12 @@
 package com.rc.cloud.app.system.service.dept;
 
 import com.google.common.collect.Multimap;
-import com.rc.cloud.app.system.model.dept.SysDeptPO;
+import com.rc.cloud.app.system.enums.dept.DeptIdEnum;
 import com.rc.cloud.app.system.mapper.dept.DeptMapper;
+import com.rc.cloud.app.system.model.dept.SysDeptPO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptCreateReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptListReqVO;
 import com.rc.cloud.app.system.vo.dept.dept.DeptUpdateReqVO;
-import com.rc.cloud.app.system.enums.dept.DeptIdEnum;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.core.util.collection.ArrayUtils;
 import com.rc.cloud.common.core.util.object.ObjectUtils;
@@ -29,7 +29,6 @@ import static com.rc.cloud.common.test.core.util.AssertUtils.assertServiceExcept
 import static com.rc.cloud.common.test.core.util.RandomUtils.*;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 
 /**
  * {@link DeptServiceImpl} 的单元测试类
@@ -185,7 +184,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
     public void testValidateDept_parentNotExitsForCreate() {
         // 准备参数
         DeptCreateReqVO reqVO = randomPojo(DeptCreateReqVO.class,
-            o -> o.setStatus(randomCommonStatus()));
+                o -> o.setStatus(randomCommonStatus()));
 
         // 调用,并断言异常
         assertServiceException(() -> deptService.createDept(reqVO), DEPT_PARENT_NOT_EXITS);
@@ -201,7 +200,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
     }
 
     @Test
-   public void testValidateDept_exitsChildrenForDelete() {
+    public void testValidateDept_exitsChildrenForDelete() {
         // mock 数据
         SysDeptPO parentDept = randomPojo(SysDeptPO.class, o -> o.setStatus(randomCommonStatus()));
         deptMapper.insert(parentDept);// @Sql: 先插入出一条存在的数据
@@ -245,7 +244,7 @@ public class DeptServiceImplTest extends BaseDbUnitTest {
         });
 
         // 调用, 并断言异常
-        assertServiceException(() -> deptService.createDept(reqVO), DEPT_NOT_ENABLE);
+        assertServiceException(() -> deptService.createDept(reqVO), DEPT_NOT_ENABLE, deptDO.getName());
     }
 
     @Test

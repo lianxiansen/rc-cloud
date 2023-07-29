@@ -23,6 +23,7 @@ public class ProductSkuAttributeConvert {
 
     public static ProductSkuAttributePO convert(ProductSkuAttribute productAttribute){
         ProductSkuAttributePO po=new ProductSkuAttributePO();
+        po.setId(productAttribute.getId().id());
         po.setContent(JSON.toJSONString(productAttribute.getSkuAttributes()));
 
         return po;

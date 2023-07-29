@@ -62,7 +62,7 @@ public class ProductCategoryBuildFactory {
             productCategory.setSort(sort);
             return this;
         }
-        ProductCategory build(){
+        public ProductCategory build(){
             productCategory.setCreateTime(new CreateTime(LocalDateTime.now()));
             return productCategory;
         }

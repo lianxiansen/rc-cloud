@@ -2,6 +2,8 @@ package com.rc.cloud.app.operate.application.bo.convert;
 
 import com.rc.cloud.app.operate.application.bo.ProductSkuImageBO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuImageSaveDTO;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
 
@@ -13,8 +15,8 @@ public class ProductSkuImageConvert {
 
     public static ProductSkuImage convert(ProductSkuImageSaveDTO dto){
         ProductSkuImage productSkuImage = new ProductSkuImage(new ProductSkuImageId(dto.getId()));
-        productSkuImage.setUrl(dto.getUrl());
-        productSkuImage.setSort(dto.getSort());
+        productSkuImage.setUrl(new Url(dto.getUrl()));
+        productSkuImage.setSort(new Sort(dto.getSort()));
         return productSkuImage;
     }
 
@@ -31,8 +33,8 @@ public class ProductSkuImageConvert {
 
     public static ProductSkuImageBO convert(ProductSkuImage productSkuImage){
         ProductSkuImageBO bo =new ProductSkuImageBO();
-        bo.setSort(productSkuImage.getSort());
-        bo.setUrl(productSkuImage.getUrl());
+        bo.setSort(productSkuImage.getSort().getValue());
+        bo.setUrl(productSkuImage.getUrl().getValue());
         return bo;
     }
 

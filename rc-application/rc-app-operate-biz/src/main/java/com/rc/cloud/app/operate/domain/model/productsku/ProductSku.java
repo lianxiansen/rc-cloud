@@ -232,9 +232,6 @@ public class ProductSku extends AggregateRoot {
 
     private ProductSkuAttribute productSkuAttribute;
 
-    public ProductSkuAttribute getProductSkuAttributeEntity() {
-        return productSkuAttribute;
-    }
 
     public void setProductSkuAttributeEntity(ProductSkuAttribute productSkuAttribute) {
         this.productSkuAttribute = productSkuAttribute;
@@ -248,12 +245,13 @@ public class ProductSku extends AggregateRoot {
         this.skuImageList = skuImageList;
     }
 
-    public ProductSkuAttribute getProductSkuAttribute() {
-        return productSkuAttribute;
-    }
+
 
     public void setProductSkuAttribute(ProductSkuAttribute productSkuAttribute) {
         this.productSkuAttribute = productSkuAttribute;
     }
 
+    public ProductSkuAttribute getProductSkuAttribute() {
+        return productSkuAttribute;
+    }
 }

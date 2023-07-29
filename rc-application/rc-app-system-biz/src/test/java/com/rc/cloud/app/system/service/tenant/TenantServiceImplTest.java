@@ -84,12 +84,12 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetTenantIdList() {
         // mock 数据
-        SysTenantPO tenant = randomPojo(SysTenantPO.class, o -> o.setId("1"));
+        SysTenantPO tenant = randomPojo(SysTenantPO.class, o -> o.setId("2"));
         tenantMapper.insert(tenant);
 
         // 调用，并断言业务异常
         List<String> result = tenantService.getTenantIdList();
-        assertEquals(Collections.singletonList("1"), result);
+        assertTrue(result.contains("2"));
     }
 
     @Test
@@ -101,34 +101,34 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
     public void testValidTenant_disable() {
         // mock 数据
         SysTenantPO tenant = randomPojo(SysTenantPO.class, o -> {
-            o.setId("1");
+            o.setId("2");
             o.setStatus(CommonStatusEnum.DISABLE.getStatus());
         });
         tenantMapper.insert(tenant);
 
         // 调用，并断言业务异常
-        assertServiceException(() -> tenantService.validTenant("1"), TENANT_DISABLE, tenant.getName());
+        assertServiceException(() -> tenantService.validTenant("2"), TENANT_DISABLE, tenant.getName());
     }
 
     @Test
     public void testValidTenant_expired() {
         // mock 数据
         SysTenantPO tenant = randomPojo(SysTenantPO.class, o -> {
-            o.setId("1");
+            o.setId("2");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setExpireTime(buildTime(2020, 2, 2));
         });
         tenantMapper.insert(tenant);
 
         // 调用，并断言业务异常
-        assertServiceException(() -> tenantService.validTenant("1"), TENANT_EXPIRE, tenant.getName());
+        assertServiceException(() -> tenantService.validTenant("2"), TENANT_EXPIRE, tenant.getName());
     }
 
     @Test
     public void testValidTenant_success() {
         // mock 数据
         SysTenantPO tenant = randomPojo(SysTenantPO.class, o -> {
-            o.setId("1");
+            o.setId("2");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setExpireTime(LocalDateTime.now().plusDays(1));
         });

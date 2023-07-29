@@ -6,6 +6,7 @@ import com.rc.cloud.app.system.model.permission.SysRolePO;
 import com.rc.cloud.app.system.vo.permission.role.RoleExportReqVO;
 import com.rc.cloud.app.system.vo.permission.role.RolePageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.core.util.collection.ArrayUtils;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
@@ -38,9 +39,8 @@ public interface RoleMapper extends BaseMapperX<SysRolePO> {
             reqVO.setAsc(false);
         }
         QueryWrapper<SysRolePO> wrapper = new QueryWrapper<>();
-        wrapper.lambda().like(StringUtil.isNotEmpty(reqVO.getName()), SysRolePO::getName, reqVO.getName())
-                .like(StringUtil.isNotEmpty(reqVO.getCode()), SysRolePO::getCode, reqVO.getCode())
-                .eq(reqVO.getStatus() != null, SysRolePO::getStatus, reqVO.getStatus());
+        wrapper.lambda().like(StringUtil.isNotEmpty(reqVO.getName()), SysRolePO::getName, reqVO.getName()).like(StringUtil.isNotEmpty(reqVO.getCode()), SysRolePO::getCode, reqVO.getCode()).eq(reqVO.getStatus() != null, SysRolePO::getStatus, reqVO.getStatus());
+        wrapper.lambda().between(reqVO.getCreateTime() != null, SysRolePO::getCreateTime, ArrayUtils.get(reqVO.getCreateTime(), 0), ArrayUtils.get(reqVO.getCreateTime(), 1));
         wrapper.orderBy(true, reqVO.getAsc(), StrUtil.toUnderlineCase(reqVO.getOrder()));
         return selectPage(reqVO, wrapper);
     }
@@ -52,11 +52,7 @@ public interface RoleMapper extends BaseMapperX<SysRolePO> {
      * @return 查询结果
      */
     default List<SysRolePO> selectList(RoleExportReqVO reqVO) {
-        return selectList(new LambdaQueryWrapperX<SysRolePO>()
-                .likeIfPresent(SysRolePO::getName, reqVO.getName())
-                .likeIfPresent(SysRolePO::getCode, reqVO.getCode())
-                .eqIfPresent(SysRolePO::getStatus, reqVO.getStatus())
-                .betweenIfPresent(BaseDO::getCreateTime, reqVO.getCreateTime()));
+        return selectList(new LambdaQueryWrapperX<SysRolePO>().likeIfPresent(SysRolePO::getName, reqVO.getName()).likeIfPresent(SysRolePO::getCode, reqVO.getCode()).eqIfPresent(SysRolePO::getStatus, reqVO.getStatus()).betweenIfPresent(BaseDO::getCreateTime, reqVO.getCreateTime()));
     }
 
     /**

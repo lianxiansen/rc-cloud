@@ -4,6 +4,7 @@ import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 import java.util.List;
@@ -17,24 +18,9 @@ import java.util.List;
 public interface ProductRepository {
 
 
-    List<ProductImage> getProductImageByProductId(ProductId productId);
-
-
-
-    int removeProductImageByUrlAndSortAndType(String url ,int sort , int type);
-
-
-    int batchSaveProductImage(List<ProductImage> productImageList,String productId,String tenantId);
-
-    ProductAttribute getProductAttributeByProductId(ProductId productId);
-
-
-    int insertProductAttribute(Product product);
-
     int insertProduct(Product product);
 
     int updateProduct(Product product);
-
 
 
     Product findById(ProductId productId);
@@ -53,12 +39,6 @@ public interface ProductRepository {
 
     void deleteProduct(ProductId productId);
 
-
-    void deleteProductAttributeByProductId(ProductId productId);
-
-    void deleteProductImageByProductId(ProductId productId);
-
-    int softDeleteProduct(Product product);
 
 
 }

@@ -3,10 +3,12 @@ package com.rc.cloud.app.system.mapper.user;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.rc.cloud.app.system.model.permission.SysRolePO;
 import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.vo.user.user.UserExportReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserPageReqVO;
 import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.core.util.collection.ArrayUtils;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import jodd.util.StringUtil;
@@ -72,6 +74,7 @@ public interface AdminUserMapper extends BaseMapperX<SysUserPO> {
                 .eq(reqVO.getStatus() != null, SysUserPO::getStatus, reqVO.getStatus())
                 .eq(reqVO.getSex() != null, SysUserPO::getSex, reqVO.getSex())
                 .in(CollectionUtils.isNotEmpty(deptIds), SysUserPO::getDeptId, deptIds);
+        wrapper.lambda().between(reqVO.getCreateTime() != null, SysUserPO::getCreateTime, ArrayUtils.get(reqVO.getCreateTime(), 0), ArrayUtils.get(reqVO.getCreateTime(), 1));
         wrapper.orderBy(true, reqVO.getAsc(), StrUtil.toUnderlineCase(reqVO.getOrder()));
         return selectPage(reqVO, wrapper);
     }

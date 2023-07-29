@@ -1,8 +1,10 @@
 package com.rc.cloud.app.system.contorller.admin.permission;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.system.controller.admin.v1.permission.PermissionController;
 import com.rc.cloud.app.system.enums.permission.MenuTypeEnum;
+import com.rc.cloud.app.system.enums.permission.RoleTypeEnum;
 import com.rc.cloud.app.system.mapper.dept.DeptMapper;
 import com.rc.cloud.app.system.mapper.dept.PostMapper;
 import com.rc.cloud.app.system.mapper.permission.MenuMapper;
@@ -15,17 +17,21 @@ import com.rc.cloud.app.system.model.permission.SysRolePO;
 import com.rc.cloud.app.system.model.tenant.SysTenantPO;
 import com.rc.cloud.app.system.model.tenant.SysTenantPackagePO;
 import com.rc.cloud.app.system.model.user.SysUserPO;
+import com.rc.cloud.app.system.service.permission.PermissionService;
+import com.rc.cloud.app.system.service.permission.RoleService;
 import com.rc.cloud.app.system.service.tenant.TenantService;
 import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.app.system.vo.permission.permission.PermissionAssignRoleDataScopeReqVO;
 import com.rc.cloud.app.system.vo.permission.permission.PermissionAssignRoleMenuReqVO;
 import com.rc.cloud.app.system.vo.permission.permission.PermissionAssignUserRoleReqVO;
+import com.rc.cloud.app.system.vo.permission.role.RoleCreateReqVO;
 import com.rc.cloud.app.system.vo.tenant.tenant.TenantCreateReqVO;
 import com.rc.cloud.app.system.vo.user.user.UserCreateReqVO;
 import com.rc.cloud.common.core.enums.CommonStatusEnum;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,7 +42,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static com.rc.cloud.common.core.util.date.LocalDateTimeUtils.buildTime;
@@ -79,7 +87,13 @@ public class PermissionControllerTests {
     private MenuMapper menuMapper;
 
     @Resource
+    private RoleService roleService;
+
+    @Resource
     private TenantPackageMapper tenantPackageMapper;
+
+    @Resource
+    private PermissionService permissionService;
 
     @Qualifier("springSecurityFilterChain")
     @BeforeEach
@@ -92,105 +106,164 @@ public class PermissionControllerTests {
                 .build();
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:permission:assign-role-menu"})
-    public void listRoleResources_success() throws Exception {
-        SysRolePO role = createRole();
-        mvc.perform(get("/admin/permission/list-role-resources/" + role.getId()))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data").isNotEmpty());
+    /**
+     * @author rc@hqf
+     * @date 2023/07/28
+     * @description 角色资源列表相关测试
+     * 返回的是菜单id列表
+     */
+    @Nested
+    class ListRoleResourcesTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:permission:assign-role-menu"})
+        public void listRoleResources_success() throws Exception {
+            Map<String, String> map = createRoleWithMenu();
+            String roleId = map.get("roleId");
+            String menuId = map.get("menuId");
+            String postRes = mvc.perform(get("/admin/permission/list-role-resources/" + roleId))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isArray())
+                    .andExpect(jsonPath("$.data").isNotEmpty())
+                    .andReturn().getResponse().getContentAsString();
+            String dbMenuIdsStr = JSONObject.parseObject(postRes).get("data").toString();
+            Set<String> dbMenuIds = JSONObject.parseObject(dbMenuIdsStr, Set.class);
+            assert dbMenuIds.contains(menuId);
+        }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:permission:assign-role-menu"})
-    public void assignRoleMenu_success() throws Exception {
-        SysRolePO role = createRole();
-        SysMenuPO menu = createMenu();
-        PermissionAssignRoleMenuReqVO reqVO = new PermissionAssignRoleMenuReqVO();
-        reqVO.setRoleId(role.getId());
-        Set<String> menuIds = new HashSet<>();
-        menuIds.add(menu.getId());
-        reqVO.setMenuIds(menuIds);
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(reqVO);
-        mvc.perform(post("/admin/permission/assign-role-menu")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/28
+     * @description 给角色分配菜单相关测试
+     */
+    @Nested
+    class AssignRoleMenuTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:permission:assign-role-menu"})
+        public void assignRoleMenu_success() throws Exception {
+            SysRolePO role = createRole();
+            SysMenuPO menu = createMenu();
+            PermissionAssignRoleMenuReqVO reqVO = new PermissionAssignRoleMenuReqVO();
+            reqVO.setRoleId(role.getId());
+            Set<String> menuIds = new HashSet<>();
+            menuIds.add(menu.getId());
+            reqVO.setMenuIds(menuIds);
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(reqVO);
+            mvc.perform(post("/admin/permission/assign-role-menu")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+        }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:permission:assign-role-data-scope"})
-    public void assignRoleDataScope_success() throws Exception {
-        PermissionAssignRoleDataScopeReqVO reqVO = new PermissionAssignRoleDataScopeReqVO();
-        SysRolePO role = createRole();
-        reqVO.setRoleId(role.getId());
-        reqVO.setDataScope(1);
-        Set<String> dataScopeDeptIds = new HashSet<>();
-        dataScopeDeptIds.add("1");
-        dataScopeDeptIds.add("2");
-        dataScopeDeptIds.add("5");
-        reqVO.setDataScopeDeptIds(dataScopeDeptIds);
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(reqVO);
-        mvc.perform(post("/admin/permission/assign-role-data-scope")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/28
+     * @description 给角色分配数据权限相关测试
+     */
+    @Nested
+    class AssignRoleDataScopeTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:permission:assign-role-data-scope"})
+        public void assignRoleDataScope_success() throws Exception {
+            PermissionAssignRoleDataScopeReqVO reqVO = new PermissionAssignRoleDataScopeReqVO();
+            SysRolePO role = createRole();
+            reqVO.setRoleId(role.getId());
+            reqVO.setDataScope(1);
+            Set<String> dataScopeDeptIds = new HashSet<>();
+            dataScopeDeptIds.add("1");
+            dataScopeDeptIds.add("2");
+            dataScopeDeptIds.add("5");
+            reqVO.setDataScopeDeptIds(dataScopeDeptIds);
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(reqVO);
+            mvc.perform(post("/admin/permission/assign-role-data-scope")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+        }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:permission:assign-user-role"})
-    public void listUserRoles_success() throws Exception {
-        SysRolePO role = createRole();
-        mvc.perform(get("/admin/permission/list-user-roles/" + role.getId()))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data").isNotEmpty());
+    /**
+     * @author rc@hqf
+     * @date 2023/07/28
+     * @description 通过用户ID获取用户拥有的角色ID列表相关测试
+     */
+    @Nested
+    class ListUserRolesTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:permission:assign-user-role"})
+        public void listUserRoles_success() throws Exception {
+            // 创建角色
+            SysRolePO role = createRole();
+            // 创建用户
+            SysUserPO user = createUser();
+            // 给用户分配角色
+            Set<String> roleIds = new HashSet<>();
+            roleIds.add(role.getId());
+            permissionService.assignUserRole(user.getId(), roleIds);
+            String postRes = mvc.perform(get("/admin/permission/list-user-roles/" + user.getId()))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").isArray())
+                    .andExpect(jsonPath("$.data").isNotEmpty())
+                    .andReturn().getResponse().getContentAsString();
+            String roleIdsStr = JSONObject.parseObject(postRes).get("data").toString();
+            Set<String> roleIdsSet = JSONObject.parseObject(roleIdsStr, Set.class);
+            assert roleIdsSet.contains(role.getId());
+        }
     }
 
-    @Test
-    @WithMockUser(username = "admin", authorities = {"sys:permission:assign-user-role"})
-    public void assignUserRole_success() throws Exception {
-        SysUserPO sysUserPO = createUser();
-        SysRolePO role = createRole();
-        PermissionAssignUserRoleReqVO reqVO = new PermissionAssignUserRoleReqVO();
-        reqVO.setUserId(sysUserPO.getId());
-        Set<String> roleIds = new HashSet<>();
-        roleIds.add(role.getId());
-        reqVO.setRoleIds(roleIds);
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(reqVO);
-        mvc.perform(post("/admin/permission/assign-user-role")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.code").value(200))
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").value(true));
+    /**
+     * @author rc@hqf
+     * @date 2023/07/28
+     * @description 给用户分配角色相关测试
+     */
+    @Nested
+    class AssignUserRoleTests {
+        @Test
+        @WithMockUser(username = "admin", authorities = {"sys:permission:assign-user-role"})
+        public void assignUserRole_success() throws Exception {
+            SysUserPO sysUserPO = createUser();
+            SysRolePO role = createRole();
+            PermissionAssignUserRoleReqVO reqVO = new PermissionAssignUserRoleReqVO();
+            reqVO.setUserId(sysUserPO.getId());
+            Set<String> roleIds = new HashSet<>();
+            roleIds.add(role.getId());
+            reqVO.setRoleIds(roleIds);
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(reqVO);
+            mvc.perform(post("/admin/permission/assign-user-role")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(requestBody)
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.code").value(200))
+                    .andExpect(jsonPath("$.success").value(true))
+                    .andExpect(jsonPath("$.data").value(true));
+        }
     }
+
 
     private SysRolePO createRole() {
         SysRolePO role = new SysRolePO();
@@ -202,6 +275,23 @@ public class PermissionControllerTests {
         role.setType(2);
         roleMapper.insert(role);
         return role;
+    }
+
+    private Map<String, String> createRoleWithMenu() {
+        RoleCreateReqVO roleCreateReqVO = new RoleCreateReqVO();
+        roleCreateReqVO.setName("测试角色");
+        roleCreateReqVO.setSort(3);
+        roleCreateReqVO.setCode("test_role");
+        roleCreateReqVO.setRemark("备注");
+        SysMenuPO menu = createMenu();
+        Set<String> menuIds = new HashSet<>();
+        menuIds.add(menu.getId());
+        roleCreateReqVO.setMenuIds(menuIds);
+        String roleId = roleService.createRole(roleCreateReqVO, RoleTypeEnum.CUSTOM.getType());
+        Map<String, String> map = new HashMap<>();
+        map.put("roleId", roleId);
+        map.put("menuId", menu.getId());
+        return map;
     }
 
     private SysUserPO createUser() {

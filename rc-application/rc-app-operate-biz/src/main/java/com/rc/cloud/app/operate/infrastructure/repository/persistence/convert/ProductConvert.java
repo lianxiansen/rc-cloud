@@ -20,6 +20,9 @@ public class ProductConvert {
     ProductConvert INSTANCE = Mappers.getMapper(ProductConvert.class);
 
     public static Product convert(ProductPO po){
+        if(po==null){
+            return null;
+        }
         ProductId productId=new ProductId(po.getId());
         TenantId tenantId = new TenantId(po.getTenantId());
         Product product=new Product(productId,tenantId,new Name(po.getName()));

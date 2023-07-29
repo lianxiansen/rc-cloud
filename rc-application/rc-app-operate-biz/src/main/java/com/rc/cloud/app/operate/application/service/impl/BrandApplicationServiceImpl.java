@@ -105,10 +105,12 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
             throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
         }
         BrandId brandId=new BrandId(id);
-        if(productRepository.existsByBrandId(brandId)){
-            throw new ServiceException(BrandErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
+
+        Brand brand=brandDomainService.findById(new BrandId(id));
+        if(Objects.isNull(brand)){
+            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
-        return brandDomainService.remove(new BrandId(id));
+        return brandDomainService.remove(brand);
     }
 
     @Override

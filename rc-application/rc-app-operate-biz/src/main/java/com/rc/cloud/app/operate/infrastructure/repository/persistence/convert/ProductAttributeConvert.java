@@ -12,12 +12,15 @@ public class ProductAttributeConvert {
 
 
     public static ProductAttribute convert(ProductAttributePO po){
-        ProductAttribute productAttribute =new ProductAttribute(new ProductAttributeId(po.getId()));
-        List<Attribute> attributes = JSON.parseArray(po.getContent(),Attribute.class);
-        if(attributes!=null){
-            productAttribute.addAttributeList(attributes);
-        }
-        return productAttribute;
+       if(po!=null){
+           ProductAttribute productAttribute =new ProductAttribute(new ProductAttributeId(po.getId()));
+           List<Attribute> attributes = JSON.parseArray(po.getContent(),Attribute.class);
+           if(attributes!=null){
+               productAttribute.addAttributeList(attributes);
+           }
+           return productAttribute;
+       }
+       return null;
     }
 
     public static ProductAttributePO convert(ProductAttribute productAttribute){

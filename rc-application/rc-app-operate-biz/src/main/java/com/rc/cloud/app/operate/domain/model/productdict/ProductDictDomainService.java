@@ -24,6 +24,6 @@ public class ProductDictDomainService {
     }
 
     public void deleteProductDictByProductId(ProductId productId) {
-        productDictRepository.removeProductDictByProductId(productId.id());
+        productDictRepository.removeProductDictByProductId(productId);
     }
 }

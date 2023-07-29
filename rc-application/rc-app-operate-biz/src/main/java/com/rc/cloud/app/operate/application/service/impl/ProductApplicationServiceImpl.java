@@ -121,8 +121,8 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
             productSaveDTO.setDetailId(idRepository.nextId());
             productDetail = ProductDetailConvert.convert(
                     productSaveDTO.getDetailId(),
-                    tenantId.id(),
                     productId.id(),
+                    tenantId.id(),
                     productSaveDTO.getDetail());
             productDetailDomainService.saveProductDetail(productDetail);
         }
@@ -183,8 +183,8 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         if (StringUtils.isNotEmpty(productSaveDTO.getDetail())) {
              productDetail = ProductDetailConvert.convert(
                     productSaveDTO.getDetailId(),
+                     productId.id(),
                     tenantId.id(),
-                    productId.id(),
                     productSaveDTO.getDetail());
             productDetailDomainService.saveProductDetail(productDetail);
         }
