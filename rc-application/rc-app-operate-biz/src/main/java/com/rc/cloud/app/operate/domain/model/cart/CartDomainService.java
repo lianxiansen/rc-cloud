@@ -5,6 +5,7 @@ import com.rc.cloud.app.operate.domain.model.cart.identifier.*;
 import com.rc.cloud.common.core.exception.ServiceException2;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,15 +21,14 @@ public class CartDomainService {
     @Resource
     private CartRepository cartRepository;
 
-
     public Cart createFromCopy(Cart cart) {
         Cart newCart = new Cart();
         newCart.setPayed(0);
         newCart.setType(1);
         newCart.setCreateTime(new CreateTime(LocalDateTime.now()));
-        newCart.setProductUniqueId(cart.getProductUniqueId());
         newCart.setUserId(cart.getUserId());
         newCart.setShopInfo(cart.getShopInfo());
+        newCart.setCartProductDetail(cart.getCartProductDetail());
 //        cart.setSeckillId(new SeckillId(StringUtils.EMPTY));
 //        cart.setCombinationId(new CombinationId(StringUtils.EMPTY));
 //        cart.setBargainId(new BargainId(StringUtils.EMPTY));
@@ -39,14 +39,14 @@ public class CartDomainService {
 
     public void delete(CartId cartId) {
         AssertUtils.notNull(cartId, "cartId must be not null");
-        //创建购物车业务规则校验
+        //删除购物车业务规则校验
         validateCartExist(cartId);
         cartRepository.delete(cartId);
     }
 
-    public void deleteCartByProductuniqueid(List<ProductUniqueId> productUniqueIds) {
+    public void deleteCartByProductuniqueid(UserId userId, List<ProductUniqueId> productUniqueIds) {
         AssertUtils.notNull(productUniqueIds, "productUniqueId must be not null");
-        cartRepository.deleteCartByProductuniqueid(productUniqueIds);
+        cartRepository.deleteCartByProductuniqueid(userId, productUniqueIds);
     }
 
     /**
@@ -54,8 +54,8 @@ public class CartDomainService {
      *
      * @return
      */
-    public List<Cart> getListByShopIds(List<ShopId> shopIds) {
-        return cartRepository.getListByShopIds(shopIds);
+    public List<Cart> getListByShopIds(UserId userId, List<ShopId> shopIds) {
+        return cartRepository.getListByShopIds(userId, shopIds);
     }
 
     /**
@@ -63,26 +63,30 @@ public class CartDomainService {
      *
      * @return
      */
-    public List<Cart> getList(List<ProductUniqueId> productUniqueIdList) {
-        return cartRepository.getList(productUniqueIdList);
+    public List<Cart> getList(UserId userId, List<ProductUniqueId> productUniqueIdList) {
+        return cartRepository.getList(userId, productUniqueIdList);
     }
+
+
 
     /**
      * 操作购物车数量
      *
      * @param cartList
+     * @description
      */
     public void save(List<Cart> cartList) {
         cartList.forEach(cart -> {
-            Cart entity = cartRepository.findByProductUniqueId(cart.getProductUniqueId());
+            Cart entity = cartRepository.findByProductUniqueId(cart.getUserId(), new ProductUniqueId(cart.getCartProductDetail().getSkuCode()));
             if (entity == null) {
+                //如果不存在，则创建
                 entity = createFromCopy(cart);
             }
             entity.setNum(cart.getNum());
             cartRepository.save(entity);
         });
-
     }
+
 
     private void validateCartExist(CartId cartId) {
         if (cartRepository.findById(cartId) == null) {

@@ -11,6 +11,8 @@ import lombok.Data;
 @Data
 @Schema(description = "购物车 APP - 购物车创建 Request VO")
 public class CartDTO {
+    @Schema(description = "产品Id")
+    private String productid;
     @Schema(description = "产品属性唯一Id")
     private String productuniqueid;
     @Schema(description = "数量")

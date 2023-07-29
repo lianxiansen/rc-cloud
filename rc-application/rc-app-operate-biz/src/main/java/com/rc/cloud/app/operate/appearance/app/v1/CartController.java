@@ -54,7 +54,9 @@ public class CartController {
     @PostMapping("/saveCart")
     @Operation(summary = "增加购物车")
     public CodeResult<Boolean> saveCart(@RequestBody List<CartDTO> dto) {
-        cartApplicationService.saveCart(dto);
+        if (!cartApplicationService.saveCart(dto)) {
+            return CodeResult.fail("部分商品已过期");
+        }
         return CodeResult.ok();
     }
 
