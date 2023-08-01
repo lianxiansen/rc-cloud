@@ -21,13 +21,14 @@ import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.AttributeValueCombination;
 import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
+import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class ProductSkuAttribute extends Entity {
+public class ProductSkuAttribute extends ValueObject {
 
 
     public ProductSkuAttribute(ProductSkuId productSkuId) {
@@ -65,8 +66,9 @@ public class ProductSkuAttribute extends Entity {
         return productSkuId;
     }
 
+
     @Override
-    public AbstractId getId() {
-        return null;
+    public boolean equals(Object other) {
+        return false;
     }
 }

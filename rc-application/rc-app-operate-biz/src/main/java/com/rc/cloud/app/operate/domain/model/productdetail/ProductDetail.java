@@ -12,29 +12,20 @@ import com.rc.cloud.common.core.util.AssertUtils;
 public class ProductDetail extends Entity
 {
 
-    private TenantId tenantId;
-    private ProductId productId;
+    private ProductDetailId id;
     private Detail detail;
     private Url installVideoUrl;
     private Url installVideoImg;
     private Detail installDetail;
 
-    public ProductDetail(TenantId tenantId, ProductId productId, Detail detail, Url installVideoUrl, Url installVideoImg, Detail installDetail) {
-        this.tenantId = tenantId;
-        this.productId = productId;
+    public ProductDetail(ProductDetailId id,TenantId tenantId, ProductId productId, Detail detail, Url installVideoUrl, Url installVideoImg, Detail installDetail) {
+        this.id=id;
         this.detail = detail;
         this.installVideoUrl = installVideoUrl;
         this.installVideoImg = installVideoImg;
         this.installDetail = installDetail;
     }
 
-    public TenantId getTenantId() {
-        return tenantId;
-    }
-
-    public ProductId getProductId() {
-        return productId;
-    }
 
     public Detail getDetail() {
         return detail;
@@ -70,6 +61,6 @@ public class ProductDetail extends Entity
 
     @Override
     public AbstractId getId() {
-        return null;
+        return id;
     }
 }

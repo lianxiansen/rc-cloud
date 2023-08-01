@@ -25,8 +25,7 @@ import java.util.Objects;
 public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
-    @Resource
-    private ProductRepository productRepository;
+
     @Override
     public ProductCategory create(ProductCategory productCategory) {
         if (Objects.nonNull(productCategory.getParentId())) {
@@ -65,9 +64,6 @@ public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainSe
     @Override
     public boolean remove(ProductCategory productCategory) {
         AssertUtils.notNull(productCategory, "productCategory must not be null");
-        if(productRepository.existsByProductCategoryId(productCategory.getId())){
-            throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_ASSOCIATED_PRODUCT);
-        }
         if(Objects.isNull(productCategory)){
             throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
