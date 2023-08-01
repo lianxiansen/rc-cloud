@@ -1,0 +1,1 @@
+INSERT INTO `brand` (`id`, `name`, `type`, `enabled_flag`, `sort`, `deleted`, `creator`, `create_time`, `updater`, `update_time`) VALUES ('f7570440-f052-462c-b6a8-984b799', '1bkcfjmq6x', 'mawb99yi9m', '1', 99, '0', NULL, '2023-07-18 09:32:13', NULL, '2023-07-18 09:32:28');

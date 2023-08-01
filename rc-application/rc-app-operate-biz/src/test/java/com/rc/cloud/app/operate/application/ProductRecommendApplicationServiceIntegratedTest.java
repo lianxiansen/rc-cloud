@@ -9,8 +9,8 @@ import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommend;
-import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendDomainService;
-import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendDomainServiceImpl;
+import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendService;
+import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendServiceImpl;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendRepository;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -40,7 +40,7 @@ import java.util.Objects;
 import static org.mockito.Mockito.when;
 
 
-@Import({ProductRecommendApplicationServiceImpl.class, ProductRecommendDomainServiceImpl.class, LocalIdRepositoryImpl.class, ProductRecommendRepositoryImpl.class, ProductDomainService.class})
+@Import({ProductRecommendApplicationServiceImpl.class, ProductRecommendServiceImpl.class, LocalIdRepositoryImpl.class, ProductRecommendRepositoryImpl.class, ProductDomainService.class})
 @ExtendWith({SpringExtension.class})
 @DisplayName("产品推荐应用服务集成测试")
 public class ProductRecommendApplicationServiceIntegratedTest extends BaseDbUnitTest {
@@ -49,7 +49,7 @@ public class ProductRecommendApplicationServiceIntegratedTest extends BaseDbUnit
     @MockBean
     private ProductRepository productRepositoryStub;
     @Autowired
-    private ProductRecommendDomainService productRecommendDomainService;
+    private ProductRecommendService productRecommendDomainService;
     @Autowired
     private ProductRecommendRepository productRecommendRepository;
     @Resource

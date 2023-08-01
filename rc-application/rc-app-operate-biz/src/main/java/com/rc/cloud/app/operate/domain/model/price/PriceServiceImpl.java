@@ -1,7 +1,7 @@
-package com.rc.cloud.app.operate.application.service.impl;
+package com.rc.cloud.app.operate.domain.model.price;
 
 import cn.hutool.core.collection.ListUtil;
-import com.rc.cloud.app.operate.application.service.PriceApplicationService;
+import com.rc.cloud.app.operate.domain.model.price.PriceService;
 import com.rc.cloud.app.operate.domain.model.price.PriceCalParam;
 import com.rc.cloud.app.operate.domain.model.price.PriceContext;
 import com.rc.cloud.app.operate.domain.model.price.ProductPack;
@@ -22,10 +22,10 @@ import java.util.List;
 /**
  * @author WJF
  * @create 2023-07-26 9:27
- * @description TODO
+ * @description 计算价格
  */
 @Service
-public class PriceApplicationServiceImpl implements PriceApplicationService {
+public class PriceServiceImpl implements PriceService {
     @Resource
     private FlowExecutor flowExecutor;
 

@@ -9,7 +9,7 @@ import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommend;
-import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendDomainService;
+import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendService;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendRepository;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductRecommendApplicationServiceImpl implements ProductRecommendApplicationService {
     @Autowired
-    private ProductRecommendDomainService productRecommendService;
+    private ProductRecommendService productRecommendService;
     @Autowired
     private ProductRecommendRepository productRecommendRepository;
     @Autowired

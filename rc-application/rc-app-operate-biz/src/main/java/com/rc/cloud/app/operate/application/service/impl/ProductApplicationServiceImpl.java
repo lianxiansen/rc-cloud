@@ -10,7 +10,7 @@ import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandServiceImpl;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
@@ -68,7 +68,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     private ProductDetailService productDetailService;
 
     @Autowired
-    private BrandService brandDomainService;
+    private BrandServiceImpl brandDomainService;
 
     @Resource
     private IdRepository idRepository;

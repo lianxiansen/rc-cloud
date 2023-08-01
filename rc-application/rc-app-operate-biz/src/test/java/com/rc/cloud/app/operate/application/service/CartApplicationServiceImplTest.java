@@ -6,8 +6,9 @@ import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 import com.rc.cloud.app.operate.application.dto.CartDTO;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
-import com.rc.cloud.app.operate.application.service.impl.PriceApplicationServiceImpl;
-import com.rc.cloud.app.operate.domain.model.cart.CartDomainService;
+import com.rc.cloud.app.operate.application.service.impl.CartApplicationServiceImpl;
+import com.rc.cloud.app.operate.domain.model.cart.CartService;
+import com.rc.cloud.app.operate.domain.model.price.PriceService;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.CartRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.CartMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.CartPO;
@@ -33,22 +34,22 @@ import static org.mockito.Mockito.when;
  * @create 2023-07-28 14:54
  * @description TODO
  */
-@Import({CartApplicationService.class,
-        CartDomainService.class,
+@Import({CartApplicationServiceImpl.class,
+        CartService.class,
         CartRepositoryImpl.class})
-class CartApplicationServiceTest extends BaseDbUnitTest {
+class CartApplicationServiceImplTest extends BaseDbUnitTest {
 
     @MockBean
     private ProductApplicationService productApplicationService;
 
     @MockBean
-    private PriceApplicationService priceApplicationService;
+    private PriceService priceService;
 
     @Resource
-    private CartApplicationService cartApplicationService;
+    private CartApplicationServiceImpl cartApplicationServiceImpl;
 
     @Resource
-    private CartDomainService cartDomainService;
+    private CartService cartService;
 
     @Resource
     private CartMapper cartMapper;
@@ -90,7 +91,7 @@ class CartApplicationServiceTest extends BaseDbUnitTest {
         //模拟服务返回
         mockProductService();
 
-        CartListBO cartList = cartApplicationService.getCartList(Arrays.asList("200", "300"));
+        CartListBO cartList = cartApplicationServiceImpl.getCartList(Arrays.asList("200", "300"));
         assertEquals(cartList.getCartList().size(), 2);
         assertEquals(cartList.getCartList().get(0).getState(), 1);
         assertEquals(cartList.getCartList().get(1).getState(), 0);
@@ -118,7 +119,7 @@ class CartApplicationServiceTest extends BaseDbUnitTest {
         //模拟服务返回
         mockProductService();
         //调用保存
-        cartApplicationService.saveCart(cartDTOList);
+        cartApplicationServiceImpl.saveCart(cartDTOList);
 
         CartPO cartPO = cartMapper.selectOne(new LambdaQueryWrapperX<CartPO>()
                 .eq(CartPO::getProductid, "1")

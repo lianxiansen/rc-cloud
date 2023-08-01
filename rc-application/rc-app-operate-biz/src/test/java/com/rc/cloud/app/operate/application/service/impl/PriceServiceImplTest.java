@@ -1,7 +1,6 @@
 package com.rc.cloud.app.operate.application.service.impl;
 
-import com.rc.cloud.app.operate.application.service.PriceApplicationService;
-import com.rc.cloud.app.operate.domain.model.price.PriceContext;
+import com.rc.cloud.app.operate.domain.model.price.PriceService;
 import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.Test;
 import javax.annotation.Resource;
@@ -11,9 +10,9 @@ import javax.annotation.Resource;
  * @description TODO
  */
 @RcTest
-class PriceApplicationServiceImplTest {
+class PriceServiceImplTest {
     @Resource
-    private PriceApplicationService priceApplicationService;
+    private PriceService priceService;
 
     @Test
     void calprice() {
