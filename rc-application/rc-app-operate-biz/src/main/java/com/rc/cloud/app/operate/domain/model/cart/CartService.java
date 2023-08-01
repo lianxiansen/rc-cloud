@@ -16,7 +16,7 @@ import java.util.List;
  * @description 购物车领域服务
  */
 @Service
-public class CartDomainService {
+public class CartService {
 
     @Resource
     private CartRepository cartRepository;
