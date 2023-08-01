@@ -4,21 +4,20 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Pair;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductRemoveBO;
-import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 import com.rc.cloud.app.operate.application.bo.convert.*;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
-import com.rc.cloud.app.operate.domain.common.ProductRemoveTypeEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
+import com.rc.cloud.app.operate.domain.model.productdetail.identifier.ProductDetailId;
 import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Detail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictDomainService;
@@ -30,7 +29,6 @@ import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.exception.ErrorCode;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,16 +68,10 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     private ProductDetailDomainService productDetailDomainService;
 
     @Autowired
-    private BrandDomainService brandDomainService;
+    private BrandService brandDomainService;
 
     @Resource
     private IdRepository idRepository;
-
-    public void validateTenantId(TenantId tenantId) {
-        if (!tenantService.exists(tenantId)) {
-            throw new IllegalArgumentException("所属租户错误");
-        }
-    }
 
     /**
      * 创建商品
@@ -91,6 +83,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
      * @param productSaveDTO
      * @return
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public ProductBO createProduct(ProductSaveDTO productSaveDTO) {
 
@@ -135,7 +128,8 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
                 new Detail( productSaveDTO.getDetail()),
                 new Url(productSaveDTO.getInstallVideoUrl()),
                 new Url(productSaveDTO.getInstallVideoImg()),
-                new Detail(productSaveDTO.getInstallDetail())
+                new Detail(productSaveDTO.getInstallDetail()),
+                new ProductDetailId(idRepository.nextId())
                 );
         productDetailDomainService.saveProductDetail(productDetail);
 
@@ -159,6 +153,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
      * @param productSaveDTO
      * @return
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public ProductBO updateProduct(ProductSaveDTO productSaveDTO) {
 
@@ -198,7 +193,8 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
                 new Detail( productSaveDTO.getDetail()),
                 new Url(productSaveDTO.getInstallVideoUrl()),
                 new Url(productSaveDTO.getInstallVideoImg()),
-                new Detail(productSaveDTO.getInstallDetail())
+                new Detail(productSaveDTO.getInstallDetail()),
+                new ProductDetailId(idRepository.nextId())
         );
         productDetailDomainService.saveProductDetail(productDetail);
         List<ProductSku> productSkuList=new ArrayList<>();
@@ -246,6 +242,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
      * @param productRemoveDTO 传入所需要删除的商品id以及删除的类别，默认类别为软删除
      * @return
      */
+    @Override
     public ProductRemoveBO removeProductBatch(ProductRemoveDTO productRemoveDTO){
         if(CollectionUtil.isEmpty(productRemoveDTO.getProductIds())){
             throw new IllegalArgumentException("请选择移除的商品");//TODO
@@ -286,6 +283,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
      * @param productQueryDTO
      * @return
      */
+    @Override
     public ProductBO getProduct(ProductQueryDTO productQueryDTO) {
         Product product = productDomainService.findProductById(new ProductId(productQueryDTO.getProductId()));
         ProductDetail productDetail=null;
@@ -317,6 +315,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
      *
      * @return
      */
+    @Override
     public PageResult<ProductBO> getProductList(ProductListQueryDTO query) {
         PageResult<Product> resultList = productDomainService.getProductPageList(query);
         List<ProductBO> productBOS = new ArrayList<>();
@@ -338,6 +337,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     }
 
 
+    @Override
     public int changeNewStatus(String productId, boolean newFlag){
         if(newFlag){
             productDomainService.setNews(new ProductId(productId));
@@ -348,6 +348,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     }
 
 
+    @Override
     public int changeOnShelfStatus(String productId, int onShelfStatus){
         if(onShelfStatus== ProductShelfStatusEnum.OnShelf.value){
             productDomainService.onShelf(new ProductId(productId));
@@ -357,6 +358,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         return 1;
     }
 
+    @Override
     public int changePublicStatus(String productId, boolean publicFlag){
         if(publicFlag){
             productDomainService.setPublic(new ProductId(productId));
@@ -366,6 +368,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         return 1;
     }
 
+    @Override
     public int changeRecommendStatus(String productId, boolean recommendFlag){
         if(recommendFlag){
             productDomainService.setRecommend(new ProductId(productId));

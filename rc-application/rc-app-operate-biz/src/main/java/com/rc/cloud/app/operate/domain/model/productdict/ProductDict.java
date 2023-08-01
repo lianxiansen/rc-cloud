@@ -2,26 +2,27 @@ package com.rc.cloud.app.operate.domain.model.productdict;
 
 
 import com.rc.cloud.app.operate.domain.common.ProductDictKeyEnum;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductDictId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.util.StringUtils;
-import com.rc.cloud.common.core.util.collection.CollectionUtils;
 
 import java.util.Objects;
 
-public class ProductDict extends  Entity {
-
+public class ProductDict extends Entity {
     private ProductId productId;
 
     private TenantId tenantId;
 
+    public ProductDict(ProductId productId, String key) {
+        this.productId = productId;
+        this.key = key;
+    }
 
-    public ProductDict(ProductId productId,String key) {
-            this.productId = productId;
-            this.key=key;
+    public ProductDict(ProductDictId productDictId, ProductId productId, String key) {
+        this.productId = productId;
+        this.key = key;
     }
 
     private String key;
@@ -36,29 +37,29 @@ public class ProductDict extends  Entity {
 
     /**
      * key 限制
+     *
      * @param key
      */
     public void setKey(String key) {
-        if(StringUtils.isEmpty(key)){
+        if (StringUtils.isEmpty(key)) {
             throw new IllegalArgumentException("");
         }
-        if(isNotInDictPool(key)){
+        if (isNotInDictPool(key)) {
             throw new IllegalArgumentException("");
         }
         this.key = key;
     }
 
-    private boolean isNotInDictPool(String key){
-        boolean isNotFind=true;
+    private boolean isNotInDictPool(String key) {
+        boolean isNotFind = true;
         for (ProductDictKeyEnum value : ProductDictKeyEnum.values()) {
-            if(value.name.equals(key)){
-                isNotFind=false;
+            if (value.name.equals(key)) {
+                isNotFind = false;
                 break;
             }
         }
         return isNotFind;
     }
-
 
 
     public String getValue() {
@@ -76,7 +77,6 @@ public class ProductDict extends  Entity {
     public void setSort(int sort) {
         this.sort = sort;
     }
-
 
 
     public ProductId getProductId() {
@@ -100,12 +100,12 @@ public class ProductDict extends  Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductDict that = (ProductDict) o;
-        return Objects.equals(getProductId(), that.getProductId())  && Objects.equals(getKey(), that.getKey());
+        return Objects.equals(getProductId(), that.getProductId()) && Objects.equals(getKey(), that.getKey());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getProductId(),getKey());
+        return Objects.hash(getProductId(), getKey());
     }
 
     @Override

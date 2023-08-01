@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.domain.model.productdetail;
+package com.rc.cloud.app.operate.domain.model.productdetail.identifier;
 
 
 import com.rc.cloud.common.core.domain.AbstractId;

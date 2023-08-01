@@ -1,14 +1,11 @@
 package com.rc.cloud.app.operate.application;
 
-import cn.hutool.json.JSONUtil;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
-import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
-import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
-import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictDomainService;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuDomainService;
@@ -16,8 +13,6 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.*;
 import com.rc.cloud.app.operate.infrastructure.repository.remote.TenantServiceImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.util.AssertUtils;
-import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +23,6 @@ import org.springframework.context.annotation.Import;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @ClassName: ProductApplicationServiceUnitTest
@@ -44,7 +38,7 @@ import java.util.Objects;
         , ProductSkuRepositoryImpl.class
         , TenantServiceImpl.class
         , ProductDictRepositoryImpl.class
-        , BrandDomainService.class
+        , BrandService.class
         , BrandRepositoryImpl.class
         , ProductDetailRepositoryImpl.class})
 public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
