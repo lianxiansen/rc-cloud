@@ -7,7 +7,6 @@ import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
 import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
-import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.util.Objects;
 
@@ -18,7 +17,7 @@ import java.util.Objects;
  * @Description: TODO
  */
 public class ProductSkuImage extends Entity {
-
+    private ProductSkuImageId productSkuImageId;
     private ProductSkuId productSkuId;
     private Url url;
     private Sort sort;
@@ -43,7 +42,8 @@ public class ProductSkuImage extends Entity {
         return productSkuId;
     }
 
-    public ProductSkuImage(ProductSkuId productSkuId, Url url, Sort sort) {
+    public ProductSkuImage(ProductSkuImageId productSkuImageId,ProductSkuId productSkuId, Url url, Sort sort) {
+        this.productSkuId = productSkuId;
         this.productSkuId = productSkuId;
         this.url = url;
         this.sort = sort;

@@ -127,6 +127,7 @@ public class BrandControllerIntegratedTest {
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data").isNotEmpty());
+
     }
 
 }

@@ -2,30 +2,40 @@ package com.rc.cloud.app.operate.domain.model.productdetail;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
+import com.rc.cloud.app.operate.domain.model.productdetail.identifier.ProductDetailId;
 import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Detail;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
-import com.rc.cloud.common.core.util.AssertUtils;
 
 
 public class ProductDetail extends Entity
 {
-
-    private ProductDetailId id;
+    private ProductDetailId productDetailId;
+    private TenantId tenantId;
+    private ProductId productId;
     private Detail detail;
     private Url installVideoUrl;
     private Url installVideoImg;
     private Detail installDetail;
 
-    public ProductDetail(ProductDetailId id,TenantId tenantId, ProductId productId, Detail detail, Url installVideoUrl, Url installVideoImg, Detail installDetail) {
-        this.id=id;
+    public ProductDetail(ProductDetailId productDetailId,TenantId tenantId, ProductId productId, Detail detail, Url installVideoUrl, Url installVideoImg, Detail installDetail) {
+        this.productDetailId = productDetailId;
+        this.tenantId = tenantId;
+        this.productId = productId;
         this.detail = detail;
         this.installVideoUrl = installVideoUrl;
         this.installVideoImg = installVideoImg;
         this.installDetail = installDetail;
     }
 
+    public TenantId getTenantId() {
+        return tenantId;
+    }
+
+    public ProductId getProductId() {
+        return productId;
+    }
 
     public Detail getDetail() {
         return detail;
@@ -61,6 +71,6 @@ public class ProductDetail extends Entity
 
     @Override
     public AbstractId getId() {
-        return id;
+        return null;
     }
 }

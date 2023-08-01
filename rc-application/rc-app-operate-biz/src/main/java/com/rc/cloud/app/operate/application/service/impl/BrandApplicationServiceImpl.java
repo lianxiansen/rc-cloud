@@ -6,9 +6,8 @@ import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.infrastructure.constants.BrandErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
@@ -30,11 +29,9 @@ import java.util.Objects;
 @Service
 public class BrandApplicationServiceImpl implements BrandApplicationService {
     @Autowired
-    private BrandDomainService brandDomainService;
+    private BrandService brandDomainService;
     @Autowired
     private IdRepository idRepository;
-    @Autowired
-    private ProductRepository productRepository;
     @Override
     public BrandBO create(BrandCreateDTO createBrandDTO) {
         if(StringUtils.isEmpty(createBrandDTO.getName())){
@@ -105,11 +102,11 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
             throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
         }
         BrandId brandId=new BrandId(id);
-
         Brand brand=brandDomainService.findById(new BrandId(id));
         if(Objects.isNull(brand)){
             throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
+
         return brandDomainService.remove(brand);
     }
 

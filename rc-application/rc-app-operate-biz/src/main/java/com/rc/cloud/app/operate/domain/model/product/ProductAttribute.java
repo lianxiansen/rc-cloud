@@ -1,11 +1,9 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductAttributeId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Attribute;
 import com.rc.cloud.app.operate.domain.model.product.valobj.AttributeValue;
-import com.rc.cloud.common.core.domain.AbstractId;
-import com.rc.cloud.common.core.domain.Entity;
+import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.util.List;
@@ -16,7 +14,7 @@ import java.util.TreeSet;
 /**
  *
  */
-public class ProductAttribute extends Entity {
+public class ProductAttribute extends ValueObject {
 
 
     public ProductAttribute(ProductId productId) {
@@ -78,7 +76,7 @@ public class ProductAttribute extends Entity {
     }
 
     @Override
-    public AbstractId getId() {
-        return null;
+    public boolean equals(Object other) {
+        return false;
     }
 }

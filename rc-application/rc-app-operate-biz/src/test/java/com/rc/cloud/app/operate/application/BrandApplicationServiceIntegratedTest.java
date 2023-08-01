@@ -7,8 +7,8 @@ import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.application.service.impl.BrandApplicationServiceImpl;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandDomainService;
 import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
+import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.BrandRepositoryImpl;
@@ -18,7 +18,6 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.Bra
 import com.rc.cloud.app.operate.infrastructure.util.ConditionUtil;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
@@ -50,14 +49,14 @@ import static org.mockito.Mockito.when;
  * |-6.1分页检索品牌，每页大小为10，记录数26，指定页码3，返回记录数6
  * 7.根据唯一标识获取品牌
  */
-@Import({BrandApplicationServiceImpl.class, LocalIdRepositoryImpl.class, BrandDomainService.class, BrandRepositoryImpl.class, ProductRepositoryImpl.class})
+@Import({BrandApplicationServiceImpl.class, LocalIdRepositoryImpl.class, BrandService.class, BrandRepositoryImpl.class, ProductRepositoryImpl.class})
 @DisplayName("品牌集成测试")
 public class BrandApplicationServiceIntegratedTest extends BaseDbUnitTest {
     @Autowired
     private BrandApplicationService brandApplicationService;
 
     @Autowired
-    private BrandDomainService brandDomainService;
+    private BrandService brandDomainService;
     @Resource
     private IdRepository idRepository;
     @Autowired
@@ -107,14 +106,7 @@ public class BrandApplicationServiceIntegratedTest extends BaseDbUnitTest {
         Assertions.assertTrue(brandApplicationService.remove(brandMock.getId().id()), "删除品牌失败");
     }
 
-    @Test
-    @DisplayName("删除已关联产品的品牌")
-    public void removeBrandWhenAssocatedProductThenThrowException() {
-        when(productRepositoryStub.existsByBrandId(brandMock.getId())).thenReturn(true);
-        Assertions.assertThrows(ServiceException.class, () -> {
-            brandApplicationService.remove(brandMock.getId().id());
-        });
-    }
+
 
 
 

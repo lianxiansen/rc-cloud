@@ -7,6 +7,7 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
+import com.rc.cloud.app.operate.domain.model.productimage.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class ProductImageConvert {
               ,ProductId productId
             , TenantId tenantId
             ,ProductImageTypeEnum type){
-        ProductImage productImage = new ProductImage(productId,tenantId,new Url(dto.getUrl()),new Sort(dto.getSort()),
+        ProductImage productImage = new ProductImage(new ProductImageId(dto.getId()),productId,tenantId,new Url(dto.getUrl()),new Sort(dto.getSort()),
                 type);
         return productImage;
     }

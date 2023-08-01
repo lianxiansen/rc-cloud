@@ -16,7 +16,7 @@ public class ProductSkuImageConvert {
 
 
     public static ProductSkuImage convertDomain(ProductSkuSaveDTO sku, ProductSkuImageSaveDTO skuImage){
-        ProductSkuImage productSkuImage = new ProductSkuImage(new ProductSkuId(sku.getId())
+        ProductSkuImage productSkuImage = new ProductSkuImage(new ProductSkuImageId(skuImage.getId()),new ProductSkuId(sku.getId())
                 ,new Url(skuImage.getUrl())  ,new Sort(skuImage.getSort())
                 );
         return productSkuImage;

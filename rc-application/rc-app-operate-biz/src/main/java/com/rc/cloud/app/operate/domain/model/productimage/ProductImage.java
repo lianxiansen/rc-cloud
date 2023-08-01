@@ -17,7 +17,8 @@ import java.util.Objects;
  * @Description: TODO
  */
 public class ProductImage extends  Entity {
-
+    //TODO chenjx:加唯一标识
+    private ProductImageId productImageId;
     private ProductId productId;
 
     private TenantId tenantId;
@@ -26,7 +27,8 @@ public class ProductImage extends  Entity {
     private Sort sort;
     private ProductImageTypeEnum type;
 
-    public ProductImage(ProductId productId, TenantId tenantId,Url url, Sort sort, ProductImageTypeEnum type) {
+    public ProductImage( ProductImageId productImageId,ProductId productId, TenantId tenantId,Url url, Sort sort, ProductImageTypeEnum type) {
+        this.productImageId = productImageId;
         this.productId = productId;
         this.tenantId=tenantId;
         this.url = url;
