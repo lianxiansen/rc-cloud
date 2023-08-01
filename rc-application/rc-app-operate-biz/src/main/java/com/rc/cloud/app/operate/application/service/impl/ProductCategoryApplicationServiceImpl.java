@@ -39,7 +39,7 @@ import java.util.Objects;
 @Service
 public class ProductCategoryApplicationServiceImpl implements ProductCategoryApplicationService {
     @Resource
-    private ProductCategoryDomainService productCategoryService;
+    private ProductCategoryService productCategoryService;
     @Resource
     private IdRepository idRepository;
     @Autowired

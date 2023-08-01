@@ -5,12 +5,14 @@ import cn.hutool.core.util.ReflectUtil;
 import com.rc.cloud.common.core.exception.ErrorCode;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.exception.util.ServiceExceptionUtil;
+import com.rc.cloud.common.core.util.json.JsonDiffUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.function.Executable;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -20,7 +22,28 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @author 芋道源码
  */
 public class AssertUtils {
+    /**
+     * 比对两个json字符串是否一致
+     * @param expected 期望对象
+     * @param actual 实际对象
+     */
+    public static void assertJsonEquals(String expected, String actual) {
+        assertJsonEquals(expected,actual,null);
+    }
 
+    /**
+     * 比对两个json字符串是否一致
+     * @param expected 期望对象
+     * @param actual 实际对象
+     * @param ignoreFields 忽略的属性数组
+     */
+    public static void assertJsonEquals(String expected, String actual, Set<String> ignoreFields ) {
+        JsonDiffUtil jsonDiffUtil=  new JsonDiffUtil();
+        if(!Objects.isNull(ignoreFields)){
+            jsonDiffUtil.setIgnoreFields(ignoreFields);
+        }
+        jsonDiffUtil.diff(expected,actual);
+    }
     /**
      * 比对两个对象的属性是否一致
      *

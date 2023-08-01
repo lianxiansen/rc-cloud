@@ -22,7 +22,7 @@ import java.util.Objects;
  * @Description: TODO
  */
 @Service
-public class ProductCategoryDomainServiceImpl implements ProductCategoryDomainService {
+public class ProductCategoryServiceImpl implements ProductCategoryService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
     @Resource

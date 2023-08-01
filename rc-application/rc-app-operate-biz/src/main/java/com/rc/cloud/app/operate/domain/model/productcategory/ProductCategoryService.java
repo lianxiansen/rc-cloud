@@ -4,7 +4,7 @@ import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductC
 
 import java.util.List;
 
-public interface ProductCategoryDomainService {
+public interface ProductCategoryService {
     ProductCategory create(ProductCategory productCategory);
 
     boolean update(ProductCategory productCategory);

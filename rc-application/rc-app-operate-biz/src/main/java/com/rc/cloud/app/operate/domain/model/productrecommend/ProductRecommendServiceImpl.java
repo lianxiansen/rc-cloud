@@ -20,7 +20,7 @@ import java.util.Objects;
  * @Description: 产品推荐领域服务
  */
 @Service
-public class ProductRecommendDomainServiceImpl implements ProductRecommendDomainService {
+public class ProductRecommendServiceImpl implements ProductRecommendService {
 
     @Autowired
     private ProductRecommendRepository ProductRecommendRepository;

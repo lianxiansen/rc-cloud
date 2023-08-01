@@ -6,7 +6,7 @@ import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandServiceImpl;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.infrastructure.constants.BrandErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
@@ -29,7 +29,7 @@ import java.util.Objects;
 @Service
 public class BrandApplicationServiceImpl implements BrandApplicationService {
     @Autowired
-    private BrandService brandDomainService;
+    private BrandServiceImpl brandDomainService;
     @Autowired
     private IdRepository idRepository;
     @Override

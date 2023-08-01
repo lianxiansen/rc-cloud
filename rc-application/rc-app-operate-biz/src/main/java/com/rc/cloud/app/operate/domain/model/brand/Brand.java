@@ -4,7 +4,6 @@ import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.util.AssertUtils;
-import com.rc.cloud.common.core.util.StringUtils;
 
 import java.time.LocalDateTime;
 
@@ -62,9 +61,6 @@ public class Brand extends Entity {
     }
 
     public void setLogo(String logo) {
-        if(StringUtils.isNotEmpty(logo)&&!StringUtils.ishttp(logo)){
-            throw new IllegalArgumentException("http地址无效");
-        }
         this.logo = logo;
     }
 

@@ -4,7 +4,7 @@ import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
-import com.rc.cloud.app.operate.domain.model.brand.BrandService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandServiceImpl;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictDomainService;
@@ -38,7 +38,7 @@ import java.util.List;
         , ProductSkuRepositoryImpl.class
         , TenantServiceImpl.class
         , ProductDictRepositoryImpl.class
-        , BrandService.class
+        , BrandServiceImpl.class
         , BrandRepositoryImpl.class
         , ProductDetailRepositoryImpl.class})
 public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {

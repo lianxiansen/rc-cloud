@@ -5,7 +5,7 @@ import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.Product
 
 import java.util.List;
 
-public interface ProductRecommendDomainService {
+public interface ProductRecommendService {
     ProductRecommend create(ProductRecommend ProductRecommend);
 
     ProductRecommend findById(ProductRecommendId productRecommendId);
