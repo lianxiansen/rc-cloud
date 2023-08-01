@@ -115,8 +115,6 @@ public class ProductSaveDTO {
 
     private Boolean  recommendFlag;
 
-    private String tenantId;
-
     private Integer sort;
 
     private List<ProductAttributeSaveDTO> attributes;
@@ -132,7 +130,6 @@ public class ProductSaveDTO {
     private String installVideoImg;
     private String installDetail;
 
-    private String detailId;
     private String detail;
 
     private String spuCode;

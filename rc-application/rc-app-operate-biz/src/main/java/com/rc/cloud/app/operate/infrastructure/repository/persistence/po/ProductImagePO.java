@@ -6,24 +6,21 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
+import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @TableName("product_image")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductImagePO extends BaseDO {
+public class ProductImagePO extends TenantBaseDO {
 
 
     private static final long serialVersionUID = 23434L;
 
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;
-    /**
-     * 租户id
-     */
-    @TableField("tenant_id")
-    private String tenantId;
+
 
     @TableField("product_id")
     private String productId;

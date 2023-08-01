@@ -4,6 +4,7 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence.po;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
+import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,17 +13,12 @@ import java.math.BigDecimal;
 @TableName("product_sku")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductSkuPO extends BaseDO {
+public class ProductSkuPO extends TenantBaseDO {
 
 
     private static final long serialVersionUID = 23523L;
 
     private String id;
-    /**
-     * 租户id
-     */
-    @TableField("tenant_id")
-    private String tenantId;
 
     @TableField("product_id")
     private String productId;

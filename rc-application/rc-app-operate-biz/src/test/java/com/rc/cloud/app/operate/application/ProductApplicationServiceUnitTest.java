@@ -4,11 +4,11 @@ import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
-import com.rc.cloud.app.operate.domain.model.brand.BrandServiceImpl;
-import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
-import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
-import com.rc.cloud.app.operate.domain.model.productdict.ProductDictDomainService;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuDomainService;
+import com.rc.cloud.app.operate.domain.model.brand.BrandService;
+import com.rc.cloud.app.operate.domain.model.product.ProductService;
+import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailService;
+import com.rc.cloud.app.operate.domain.model.productdict.ProductDictService;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuService;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.*;
 import com.rc.cloud.app.operate.infrastructure.repository.remote.TenantServiceImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
@@ -31,14 +31,14 @@ import java.util.List;
  * 1.创建商品
  */
 
-@Import({  LocalIdRepositoryImpl.class, ProductApplicationService.class,ProductDomainService.class
-        , ProductSkuDomainService.class,
-        ProductDictDomainService.class, ProductDetailDomainService.class
+@Import({  LocalIdRepositoryImpl.class, ProductApplicationService.class, ProductService.class
+        , ProductSkuService.class,
+        ProductDictService.class, ProductDetailService.class
         , ProductRepositoryImpl.class
         , ProductSkuRepositoryImpl.class
         , TenantServiceImpl.class
         , ProductDictRepositoryImpl.class
-        , BrandServiceImpl.class
+        , BrandService.class
         , BrandRepositoryImpl.class
         , ProductDetailRepositoryImpl.class})
 public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
@@ -247,7 +247,6 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
         productSaveDTO.setRecommendFlag(true);
         productSaveDTO.setNewFlag(true);
         productSaveDTO.setTag(RandomUtils.randomString()+","+RandomUtils.randomString());
-        productSaveDTO.setTenantId("001");
         productSaveDTO.setDetail(RandomUtils.randomString());
         productSaveDTO.setPackingLowestBuyFlag(true);
         productSaveDTO.setSpuCode(RandomUtils.randomString());

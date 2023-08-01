@@ -1,23 +1,15 @@
 package com.rc.cloud.app.operate.domain.model.productimage;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.rc.cloud.app.operate.application.dto.ProductImageSaveDTO;
 import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
-import com.rc.cloud.app.operate.domain.model.productdict.ProductDictRepository;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductImageConvert;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductImagePO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductImageDomainService {
+public class ProductImageService {
 
     @Autowired
     private ProductImageRepository productImageRepository;

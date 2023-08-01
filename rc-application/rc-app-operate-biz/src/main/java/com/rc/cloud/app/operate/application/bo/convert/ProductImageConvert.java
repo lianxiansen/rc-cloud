@@ -17,24 +17,22 @@ public class ProductImageConvert {
 
     public static ProductImage convertDomain(ProductImageSaveDTO dto
               ,ProductId productId
-            , TenantId tenantId
             ,ProductImageTypeEnum type){
-        ProductImage productImage = new ProductImage(new ProductImageId(dto.getId()),productId,tenantId,new Url(dto.getUrl()),new Sort(dto.getSort()),
+        ProductImage productImage = new ProductImage(new ProductImageId(dto.getId()),productId,new Url(dto.getUrl()),new Sort(dto.getSort()),
                 type);
         return productImage;
     }
 
 
     public static List<ProductImage> convertDomainList(List<ProductImageSaveDTO> list,
-            ProductId productId,
-            TenantId tenantId,ProductImageTypeEnum type){
+            ProductId productId,ProductImageTypeEnum type){
         if(list==null){
             return null;
         }
         List<ProductImage> resList =new ArrayList<>();
         if(list!=null){
             for (ProductImageSaveDTO dto : list) {
-                resList.add(convertDomain(dto,productId,tenantId, type));
+                resList.add(convertDomain(dto,productId, type));
             }
         }
         return resList;

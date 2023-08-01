@@ -25,10 +25,6 @@ public class ProductGroup extends AggregateRoot {
 
     private String name;
 
-    private TenantId tenantId;
-
-
-
     private ProductId productId;
 
     private List<ProductGroupItem> productGroupItems;
@@ -41,7 +37,6 @@ public class ProductGroup extends AggregateRoot {
     public ProductGroup(ProductGroupId id, String name,TenantId tenantId,ProductId productId){
         setId(id);
         setName(name);
-        setTenantId(tenantId);
         setProductId(productId);
         this.createTime=new CreateTime(LocalDateTime.now());
         productGroupItems=new ArrayList<ProductGroupItem>();
@@ -73,13 +68,6 @@ public class ProductGroup extends AggregateRoot {
     public void setName(String name) {
         AssertUtils.assertArgumentNotNull(name, "name must not be null");
         this.name = name;
-    }
-    private void setTenantId(TenantId tenantId) {
-        AssertUtils.assertArgumentNotNull(tenantId, "tenantId must not be null");
-        this.tenantId = tenantId;
-    }
-    public TenantId getTenantId() {
-        return tenantId;
     }
     public ProductId getProductId() {
         return productId;

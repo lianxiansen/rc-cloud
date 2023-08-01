@@ -17,20 +17,16 @@ import java.util.Objects;
  * @Description: TODO
  */
 public class ProductImage extends  Entity {
-    //TODO chenjx:加唯一标识
     private ProductImageId productImageId;
     private ProductId productId;
-
-    private TenantId tenantId;
 
     private Url url;
     private Sort sort;
     private ProductImageTypeEnum type;
 
-    public ProductImage( ProductImageId productImageId,ProductId productId, TenantId tenantId,Url url, Sort sort, ProductImageTypeEnum type) {
+    public ProductImage(ProductImageId productImageId,ProductId productId,Url url, Sort sort, ProductImageTypeEnum type) {
         this.productImageId = productImageId;
         this.productId = productId;
-        this.tenantId=tenantId;
         this.url = url;
         this.sort = sort;
         this.type = type;
@@ -45,13 +41,6 @@ public class ProductImage extends  Entity {
         this.productId = productId;
     }
 
-    public TenantId getTenantId() {
-        return tenantId;
-    }
-
-    public void setTenantId(TenantId tenantId) {
-        this.tenantId = tenantId;
-    }
 
     public Url getUrl() {
         return url;

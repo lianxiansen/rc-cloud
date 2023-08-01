@@ -54,7 +54,6 @@ public class ProductCategoryBO {
                 .setEnabled(productCategory.getEnabled().value())
                 .setProductCategoryPageImage(productCategory.getPage().getCategoryImage())
                 .setProductListPageImage(productCategory.getPage().getListImage())
-                .setTenantId(productCategory.getTenantId().id())
                 .setSort(productCategory.getSort().getValue())
                 .setCreateTime(productCategory.getCreateTime().getTime());
         if(Objects.nonNull(productCategory.getParentId())){

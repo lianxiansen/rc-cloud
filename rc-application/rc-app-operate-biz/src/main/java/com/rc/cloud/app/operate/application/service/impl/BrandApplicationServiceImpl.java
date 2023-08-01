@@ -6,7 +6,7 @@ import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandServiceImpl;
+import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.infrastructure.constants.BrandErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
@@ -29,7 +29,7 @@ import java.util.Objects;
 @Service
 public class BrandApplicationServiceImpl implements BrandApplicationService {
     @Autowired
-    private BrandServiceImpl brandDomainService;
+    private BrandService brandService;
     @Autowired
     private IdRepository idRepository;
     @Override
@@ -55,7 +55,7 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
         if (StringUtils.isNotEmpty(createBrandDTO.getType())) {
             brand.setType(createBrandDTO.getType());
         }
-        brandDomainService.save(brand);
+        brandService.save(brand);
         return BrandBO.convert(brand);
     }
 
@@ -65,7 +65,7 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
         if (StringUtils.isEmpty(updateBrandDTO.getId())) {
             throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
         }
-        Brand brand = brandDomainService.findById(new BrandId(updateBrandDTO.getId()));
+        Brand brand = brandService.findById(new BrandId(updateBrandDTO.getId()));
         if (Objects.isNull(brand)) {
             throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
@@ -91,7 +91,7 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
         if (Objects.nonNull(updateBrandDTO.getType())) {
             brand.setType(updateBrandDTO.getType());
         }
-        brandDomainService.save(brand);
+        brandService.save(brand);
         return BrandBO.convert(brand);
     }
 
@@ -102,12 +102,12 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
             throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
         }
         BrandId brandId=new BrandId(id);
-        Brand brand=brandDomainService.findById(new BrandId(id));
+        Brand brand= brandService.findById(new BrandId(id));
         if(Objects.isNull(brand)){
             throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
 
-        return brandDomainService.remove(brand);
+        return brandService.remove(brand);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
         if(queryBrandDTO.getPageSize().intValue()>PageParam.MAX_PAGE_SIZE){
             queryBrandDTO.setPageSize(PageParam.MAX_PAGE_SIZE);
         }
-        PageResult<Brand> brandPageResult = brandDomainService.selectPageResult(queryBrandDTO.getPageNo(), queryBrandDTO.getPageSize(), queryBrandDTO.getName());
+        PageResult<Brand> brandPageResult = brandService.selectPageResult(queryBrandDTO.getPageNo(), queryBrandDTO.getPageSize(), queryBrandDTO.getName());
         return BrandBO.convertBatch(brandPageResult);
     }
 
@@ -130,7 +130,7 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
         if (StringUtils.isEmpty(id)) {
             throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
         }
-        return BrandBO.convert(brandDomainService.findById(new BrandId(id)));
+        return BrandBO.convert(brandService.findById(new BrandId(id)));
     }
 }
 

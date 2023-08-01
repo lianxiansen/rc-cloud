@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.domain.model.productdetail;
 
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.productdetail.identifier.ProductDetailId;
 
 public interface ProductDetailRepository {
 
@@ -9,7 +10,10 @@ public interface ProductDetailRepository {
 
     void updateProductDetail(ProductDetail productDetail);
 
-    ProductDetail findByProductId(ProductId productId);
+    ProductDetail findById(ProductDetailId productDetailId);
 
-    void removeProductDetailByProductId(ProductId productId);
+    boolean exist(ProductDetailId productDetailId);
+
+
+    void removeProductDetail(ProductDetailId productDetailId);
 }

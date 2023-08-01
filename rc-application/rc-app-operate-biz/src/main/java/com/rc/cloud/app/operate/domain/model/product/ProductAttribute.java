@@ -1,15 +1,14 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
+import com.alibaba.fastjson.JSON;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Attribute;
 import com.rc.cloud.app.operate.domain.model.product.valobj.AttributeValue;
+import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.AssertUtils;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  *
@@ -75,8 +74,20 @@ public class ProductAttribute extends ValueObject {
         return attributes;
     }
 
+    /**
+     * 判断两个对象相等的条件
+     * 商品id相同
+     * attributes相同
+     * @param other
+     * @return
+     */
     @Override
     public boolean equals(Object other) {
-        return false;
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        ProductAttribute that = (ProductAttribute) other;
+        String attr1 = JSON.toJSONString(that.getAttributes());
+        String attr2 = JSON.toJSONString(this.getAttributes());
+        return Objects.equals(getProductId(), that.getProductId()) && attr1==attr2;
     }
 }

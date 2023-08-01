@@ -7,7 +7,7 @@ import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
 import com.rc.cloud.app.operate.application.service.ProductGroupApplicationService;
 import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
+import com.rc.cloud.app.operate.domain.model.product.ProductService;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.*;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductGroupApplicationServiceImpl implements ProductGroupApplicationService {
     @Autowired
-    private ProductGroupDomainService productGroupService;
+    private ProductGroupService productGroupService;
     @Autowired
     private ProductGroupRepository productGroupRepository;
     @Autowired
@@ -39,7 +39,7 @@ public class ProductGroupApplicationServiceImpl implements ProductGroupApplicati
     @Resource
     private IdRepository idRepository;
     @Autowired
-    private ProductDomainService productDomainService;
+    private ProductService productService;
 
     @Override
     public ProductGroupBO create(ProductGroupCreateDTO productGroupCreateDTO) {
@@ -80,7 +80,7 @@ public class ProductGroupApplicationServiceImpl implements ProductGroupApplicati
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_IN_GROUP_NOT_EMPTY);
         }
         ProductId productId = new ProductId(productGroupItemCreateDTO.getProductId());
-        Product product = productDomainService.findProductById(productId);
+        Product product = productService.findProductById(productId);
         if (Objects.isNull(product)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_IN_GROUP_NOT_EXISTS);
         }

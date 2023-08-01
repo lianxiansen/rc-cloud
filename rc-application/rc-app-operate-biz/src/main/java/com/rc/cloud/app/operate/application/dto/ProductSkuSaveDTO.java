@@ -11,8 +11,6 @@ public class ProductSkuSaveDTO {
 
     private String productId;
 
-    private String tenantId;
-
     private String skuCode;
 
     private String price;

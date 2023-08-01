@@ -16,7 +16,6 @@ public class ProductDictConvert
            ProductDict productDict=new ProductDict(new ProductId(po.getProductId()),po.getDictKey());
            productDict.setValue(po.getDictValue());
            productDict.setSort(po.getSort());
-           productDict.setTenantId(new TenantId(po.getTenantId()));
            return productDict;
        }
        return null;
@@ -27,7 +26,6 @@ public class ProductDictConvert
         productDictPO.setDictKey(productDict.getKey());
         productDictPO.setDictValue(productDict.getValue());
         productDictPO.setProductId(productDict.getProductId().id());
-        productDictPO.setTenantId(productDict.getTenantId().id());
         return productDictPO;
     }
 

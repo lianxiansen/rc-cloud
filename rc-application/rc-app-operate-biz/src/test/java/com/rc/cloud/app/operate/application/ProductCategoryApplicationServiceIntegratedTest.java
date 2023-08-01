@@ -54,7 +54,7 @@ import static org.mockito.Mockito.when;
  * 6.获取产品分类
  */
 @ExtendWith({SpringExtension.class})
-@Import({ProductCategoryServiceImpl.class, ProductCategoryRepositoryImpl.class, ProductCategoryServiceImpl.class,
+@Import({ProductCategoryService.class, ProductCategoryRepositoryImpl.class, ProductCategoryService.class,
         ProductCategoryRefreshListener.class, ProductCategoryApplicationServiceImpl.class, LocalIdRepositoryImpl.class,
         ProductRepositoryImpl.class,ProductCategoryRebuildFactory.class, ProductCategoryBuildFactory.class, ProductCategoryConvert.class})
 @DisplayName("产品分类应用服务集成测试")

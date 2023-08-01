@@ -5,12 +5,12 @@ import com.rc.cloud.app.operate.application.bo.convert.ProductRecommendConvert;
 import com.rc.cloud.app.operate.application.dto.ProductRecommendCreateDTO;
 import com.rc.cloud.app.operate.application.service.ProductRecommendApplicationService;
 import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
+import com.rc.cloud.app.operate.domain.model.product.ProductService;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommend;
-import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendService;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendRepository;
+import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendService;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
@@ -38,7 +38,7 @@ public class ProductRecommendApplicationServiceImpl implements ProductRecommendA
     @Resource
     private IdRepository idRepository;
     @Autowired
-    private ProductDomainService productDomainService;
+    private ProductService productService;
 
     @Override
     public ProductRecommendBO create(ProductRecommendCreateDTO productRecommendCreateDTO) {
@@ -50,9 +50,9 @@ public class ProductRecommendApplicationServiceImpl implements ProductRecommendA
         }
         ProductId productId=new ProductId(productRecommendCreateDTO.getProductId());
         ProductId recommendProductId=new ProductId(productRecommendCreateDTO.getRecommendProductId());
-        ProductRecommend productRecommend = new ProductRecommend(new ProductRecommendId(idRepository.nextId()), new TenantId(TenantContext.getTenantId()), productId,recommendProductId);
+        ProductRecommend productRecommend = new ProductRecommend(new ProductRecommendId(idRepository.nextId()),productId,recommendProductId);
         productRecommendService.create(productRecommend);
-        Product product = productDomainService.findProductById(productId);
+        Product product = productService.findProductById(productId);
         return ProductRecommendConvert.convert2ProductRecommendBO(productRecommend,product);
     }
 
@@ -74,7 +74,7 @@ public class ProductRecommendApplicationServiceImpl implements ProductRecommendA
         if (StringUtils.isEmpty(productId)) {
             throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
         }
-        Product product = productDomainService.findProductById(new ProductId(productId));
+        Product product = productService.findProductById(new ProductId(productId));
         if (Objects.isNull(product)) {
             throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_NOT_EXISTS);
         }

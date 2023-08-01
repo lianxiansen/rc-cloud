@@ -30,13 +30,12 @@ public class ProductConvert
      * 如果product为空，表示新增dto传入数据为空就要判断是否合法
      * 如果product不为空，可能是部分属性修改，dto传入数据可以为空
      * @param productId
-     * @param tenantId
      * @param productSaveDTO
      * @param isCreate
      * @param product
      * @return
      */
-    public static Product convertDomain(String productId, String tenantId,
+    public static Product convertDomain(String productId,
                                   ProductSaveDTO productSaveDTO,boolean isCreate, Product product){
         if(isCreate && product!=null){
             throw new IllegalArgumentException("参数错误，内部错误");
@@ -44,7 +43,6 @@ public class ProductConvert
         if(isCreate){
             product = new Product(
                     new ProductId(productId)
-                    , new TenantId(tenantId)
                     , new Name(productSaveDTO.getName()));
         }
         //设置商品名
@@ -588,7 +586,6 @@ public class ProductConvert
         bo.setProductType(product.getType().getValue());
         bo.setProductOrigin(product.getOrigin().getValue());
         bo.setOutId(product.getOutid().getValue());
-        bo.setTenantId(product.getTenantId().id());
         bo.setName(product.getName().getValue());
         bo.setProductListImage(product.getProductListImage().getValue());
         bo.setRemark(product.getRemark().getValue());

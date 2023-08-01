@@ -10,21 +10,21 @@ import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandServiceImpl;
+import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
+import com.rc.cloud.app.operate.domain.model.product.ProductService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
-import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
+import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailService;
 import com.rc.cloud.app.operate.domain.model.productdetail.identifier.ProductDetailId;
 import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Detail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
-import com.rc.cloud.app.operate.domain.model.productdict.ProductDictDomainService;
+import com.rc.cloud.app.operate.domain.model.productdict.ProductDictService;
 import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
-import com.rc.cloud.app.operate.domain.model.productimage.ProductImageDomainService;
+import com.rc.cloud.app.operate.domain.model.productimage.ProductImageService;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuDomainService;
+import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuService;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -50,25 +50,22 @@ import java.util.stream.Collectors;
 public class ProductApplicationServiceImpl implements ProductApplicationService {
 
     @Autowired
-    private ProductDomainService productDomainService;
+    private ProductService productService;
 
     @Autowired
-    private ProductSkuDomainService productSkuDomainService;
+    private ProductSkuService productSkuService;
 
     @Autowired
-    private TenantService tenantService;
+    private ProductImageService productImageService;
 
     @Autowired
-    private ProductImageDomainService productImageDomainService;
+    private ProductDictService productDictService;
 
     @Autowired
-    private ProductDictDomainService productDictDomainService;
+    private ProductDetailService productDetailService;
 
     @Autowired
-    private ProductDetailDomainService productDetailDomainService;
-
-    @Autowired
-    private BrandServiceImpl brandDomainService;
+    private BrandService brandService;
 
     @Resource
     private IdRepository idRepository;
@@ -95,53 +92,57 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         }
 
         ProductId productId =new ProductId(idRepository.nextId());
-        TenantId tenantId = new TenantId(productSaveDTO.getTenantId());
         productSaveDTO.setId(productId.getId());
 
         Product product= ProductConvert.convertDomain(productId.id()
-                ,tenantId.id(),productSaveDTO,true,null);
+                ,productSaveDTO,true,null);
 
-        productDomainService.createProduct(product);
+        productService.createProduct(product);
 
         List<ProductImage> productSizeImages=null;
         List<ProductImage> productMasterImages=null;
         Set<ProductDict> productDicts=null;
         ProductDetail productDetail=null;
         //设置商品图片
+        if(productSaveDTO.getSizeAlbums()!=null && productSaveDTO.getSizeAlbums().size()>0){
+            for (ProductImageSaveDTO sizeAlbum : productSaveDTO.getSizeAlbums()) {
+                sizeAlbum.setId(idRepository.nextId());
+            }
+            productSizeImages = ProductImageConvert
+                    .convertDomainList(productSaveDTO.getSizeAlbums(), productId,ProductImageTypeEnum.SizeImage);
+            productImageService.insertProductSizeImageList( productSizeImages);
+        }
+        if(productSaveDTO.getMasterAlbums()!=null && productSaveDTO.getMasterAlbums().size()>0){
+            for (ProductImageSaveDTO  masterImages: productSaveDTO.getMasterAlbums()) {
+                masterImages.setId(idRepository.nextId());
+            }
+            productMasterImages = ProductImageConvert
+                    .convertDomainList(productSaveDTO.getMasterAlbums(),productId,ProductImageTypeEnum.MasterImage);
+            productImageService.insertProductMasterImageList(productMasterImages);
+        }
 
-        productSizeImages = ProductImageConvert
-                .convertDomainList(productSaveDTO.getSizeAlbums(), productId, tenantId, ProductImageTypeEnum.SizeImage);
-
-        productMasterImages = ProductImageConvert
-                .convertDomainList(productSaveDTO.getMasterAlbums(),productId,tenantId, ProductImageTypeEnum.MasterImage);
-
-        productImageDomainService.insertProductSizeImageList( productSizeImages);
-        productImageDomainService.insertProductMasterImageList(productMasterImages);
         //设置字典
        productDicts = ProductDictConvert
-                .convertProductDictSet(productId.id(), tenantId.id(), productSaveDTO.getDicts());
-        productDictDomainService.insertProductDict(productDicts);
+                .convertProductDictSet(productId.id(), productSaveDTO.getDicts());
+        productDictService.insertProductDict(productDicts);
         //设置详情
-        productDetail = ProductDetailConvert.convertDomain(
-                new ProductId(productId.id()),
-                new TenantId(tenantId.id()),
-                new Detail( productSaveDTO.getDetail()),
-                new Url(productSaveDTO.getInstallVideoUrl()),
-                new Url(productSaveDTO.getInstallVideoImg()),
-                new Detail(productSaveDTO.getInstallDetail()),
-                new ProductDetailId(idRepository.nextId())
+        productDetail = ProductDetailConvert.convertDomain(productId,true,
+                productSaveDTO.getDetail(),
+                productSaveDTO.getInstallVideoUrl(),
+                productSaveDTO.getInstallVideoImg(),
+                productSaveDTO.getInstallDetail(),null
                 );
-        productDetailDomainService.saveProductDetail(productDetail);
+        productDetailService.createProductDetail(productDetail);
 
         List<ProductSku> productSkuList=new ArrayList<>();
         for (ProductSkuSaveDTO productSkuSaveDTO : skus) {
             ProductSkuId productSkuId = new ProductSkuId(idRepository.nextId());
             productSkuSaveDTO.setId(productSkuId.getId());
             ProductSku productSku = ProductSkuConvert.convertDomain(productSkuId, productId
-                    , tenantId, productSkuSaveDTO, true, null);
+                    , productSkuSaveDTO, true, null);
             productSkuList.add(productSku);
         }
-        productSkuDomainService.batchSaveProductSku(productSkuList);
+        productSkuService.batchSaveProductSku(productSkuList);
         return ProductConvert.convertProductBO(product,productMasterImages ,productSizeImages,productDicts,productDetail,productSkuList);
 
     }
@@ -158,16 +159,15 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     public ProductBO updateProduct(ProductSaveDTO productSaveDTO) {
 
         ProductId productId = new ProductId(productSaveDTO.getId());
-        TenantId tenantId = new TenantId(productSaveDTO.getTenantId());
         //修改
-        Product product = productDomainService.findProductById(productId);
+        Product product = productService.findProductById(productId);
         if (null == product) {
             throw new IllegalArgumentException("未找到当前商品");
         }
         product= ProductConvert.convertDomain(productId.id()
-                ,tenantId.id(),productSaveDTO,false,product);
+                ,productSaveDTO,false,product);
 
-        productDomainService.updateProduct(product);
+        productService.updateProduct(product);
 
         List<ProductImage> productSizeImages=null;
         List<ProductImage> productMasterImages=null;
@@ -175,45 +175,45 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         ProductDetail productDetail=null;
         if(productSaveDTO.getSizeAlbums()!=null){
             productSizeImages = ProductImageConvert
-                    .convertDomainList(productSaveDTO.getSizeAlbums(), productId, tenantId, ProductImageTypeEnum.SizeImage);
-            productImageDomainService.updateProductSizeImageList(productId, productSizeImages);
+                    .convertDomainList(productSaveDTO.getSizeAlbums(), productId, ProductImageTypeEnum.SizeImage);
+            productImageService.updateProductSizeImageList(productId, productSizeImages);
         }
         if(productSaveDTO.getMasterAlbums()!=null){
             productMasterImages = ProductImageConvert
-                    .convertDomainList(productSaveDTO.getMasterAlbums(),productId,tenantId, ProductImageTypeEnum.MasterImage);
-            productImageDomainService.updateProductMasterImageList(productId,productMasterImages);
+                    .convertDomainList(productSaveDTO.getMasterAlbums(),productId, ProductImageTypeEnum.MasterImage);
+            productImageService.updateProductMasterImageList(productId,productMasterImages);
         }
         if(productSaveDTO.getDicts()!=null){
-            productDicts = ProductDictConvert.convertProductDictSet(productId.id(), tenantId.id(), productSaveDTO.getDicts());
-            productDictDomainService.updateProductDict(productId,productDicts);
+            productDicts = ProductDictConvert.convertProductDictSet(productId.id(), productSaveDTO.getDicts());
+            productDictService.updateProductDict(productId,productDicts);
         }
+        //设置详情
+        productDetail = productDetailService.findProductDetail(new ProductDetailId(productId));
         productDetail = ProductDetailConvert.convertDomain(
-                new ProductId(productId.id()),
-                new TenantId(tenantId.id()),
-                new Detail( productSaveDTO.getDetail()),
-                new Url(productSaveDTO.getInstallVideoUrl()),
-                new Url(productSaveDTO.getInstallVideoImg()),
-                new Detail(productSaveDTO.getInstallDetail()),
-                new ProductDetailId(idRepository.nextId())
+                productId, false,
+                productSaveDTO.getDetail(),
+                productSaveDTO.getInstallVideoUrl(),
+                productSaveDTO.getInstallVideoImg(),
+                productSaveDTO.getInstallDetail(),productDetail
         );
-        productDetailDomainService.saveProductDetail(productDetail);
+        productDetailService.updateProductDetail(productDetail);
         List<ProductSku> productSkuList=new ArrayList<>();
         if(productSaveDTO.getSkus()!=null && productSaveDTO.getSkus().size()>0){
             for (ProductSkuSaveDTO productSkuSaveDTO :  productSaveDTO.getSkus()) {
                 ProductSku productSku=null;
                 if(StringUtils.isNotEmpty(productSkuSaveDTO.getId())){
-                    productSkuDomainService.findProductSkuById(new ProductSkuId(productSkuSaveDTO.getId()));
+                    productSkuService.findProductSkuById(new ProductSkuId(productSkuSaveDTO.getId()));
                 }
                 if(productSku==null){
                     productSku = ProductSkuConvert.convertDomain(new ProductSkuId(idRepository.nextId()), productId
-                            , tenantId, productSkuSaveDTO, true, productSku);
+                            , productSkuSaveDTO, true, productSku);
                 }else{
                     productSku = ProductSkuConvert.convertDomain(productSku.getId(), productId
-                            , tenantId, productSkuSaveDTO, false, productSku);
+                            , productSkuSaveDTO, false, productSku);
                 }
                 productSkuList.add(productSku);
             }
-            productSkuDomainService.batchSaveProductSku(productSkuList);
+            productSkuService.batchSaveProductSku(productSkuList);
         }
 
         return ProductConvert.convertProductBO(product,productMasterImages ,productSizeImages,productDicts,productDetail,productSkuList);
@@ -229,11 +229,11 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
      */
     @Transactional(rollbackFor = Exception.class)
     public boolean removeProduct(String productId){
-        productDomainService.deleteProduct(new ProductId(productId));
-        productImageDomainService.deleteProductImageByProductId(new ProductId(productId));
-        productDictDomainService.deleteProductDictByProductId(new ProductId(productId));
-        productSkuDomainService.deleteProductSkuByProductId(new ProductId(productId));
-        productDetailDomainService.deleteProductDetailByProductId(new ProductId(productId));
+        productService.deleteProduct(new ProductId(productId));
+        productImageService.deleteProductImageByProductId(new ProductId(productId));
+        productDictService.deleteProductDictByProductId(new ProductId(productId));
+        productSkuService.deleteProductSkuByProductId(new ProductId(productId));
+        productDetailService.deleteProductDetail(new ProductDetailId(new ProductId(productId)));
         return true;
     }
 
@@ -285,26 +285,26 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
      */
     @Override
     public ProductBO getProduct(ProductQueryDTO productQueryDTO) {
-        Product product = productDomainService.findProductById(new ProductId(productQueryDTO.getProductId()));
+        Product product = productService.findProductById(new ProductId(productQueryDTO.getProductId()));
         ProductDetail productDetail=null;
         Set<ProductDict> productDicts=null;
         List<ProductSku> productSkuList=null;
         List<ProductImage> productSizeImages=null;
         List<ProductImage> productMasterImages=null;
         if(productQueryDTO.isNeedProductMasterImage()){
-            productMasterImages = productImageDomainService.getProductMasterImageByProductId(new ProductId(productQueryDTO.getProductId()));
+            productMasterImages = productImageService.getProductMasterImageByProductId(new ProductId(productQueryDTO.getProductId()));
         }
         if(productQueryDTO.isNeedProductSizeImage()){
-            productSizeImages = productImageDomainService.getProductSizeImageByProductId(new ProductId(productQueryDTO.getProductId()));
+            productSizeImages = productImageService.getProductSizeImageByProductId(new ProductId(productQueryDTO.getProductId()));
         }
         if(productQueryDTO.isNeedProductDetail()){
-            productDetail = productDetailDomainService.findProductDetailByProductId(new ProductId(productQueryDTO.getProductId()));
+            productDetail = productDetailService.findProductDetail(new ProductDetailId(new ProductId(productQueryDTO.getProductId())));
         }
         if(productQueryDTO.isNeedProductDict()){
-            productDicts = productDictDomainService.getProductDictSetByProductId(new ProductId(productQueryDTO.getProductId())).stream().collect(Collectors.toSet());
+            productDicts = productDictService.getProductDictSetByProductId(new ProductId(productQueryDTO.getProductId())).stream().collect(Collectors.toSet());
         }
         if(productQueryDTO.isNeedProductSku()){
-            productSkuList = productSkuDomainService.getProductSkuListByProductId(new ProductId(productQueryDTO.getProductId()));
+            productSkuList = productSkuService.getProductSkuListByProductId(new ProductId(productQueryDTO.getProductId()));
         }
         return ProductConvert.convertProductBO(product,productMasterImages ,productSizeImages,productDicts,productDetail,productSkuList);
     }
@@ -317,13 +317,13 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
      */
     @Override
     public PageResult<ProductBO> getProductList(ProductListQueryDTO query) {
-        PageResult<Product> resultList = productDomainService.getProductPageList(query);
+        PageResult<Product> resultList = productService.getProductPageList(query);
         List<ProductBO> productBOS = new ArrayList<>();
         for (Product product : resultList.getList()) {
             ProductBO productBO = ProductConvert.convertProductBO(product);
             if(query.isNeedBrandName()){
                 //查询品牌名
-                Brand brand = brandDomainService.findById(product.getBrandId());
+                Brand brand = brandService.findById(product.getBrandId());
                 if(brand!=null){
                     productBO.setBrandName(brand.getName());
                 }
@@ -340,9 +340,9 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     @Override
     public int changeNewStatus(String productId, boolean newFlag){
         if(newFlag){
-            productDomainService.setNews(new ProductId(productId));
+            productService.setNews(new ProductId(productId));
         }else{
-            productDomainService.cancelNews(new ProductId(productId));
+            productService.cancelNews(new ProductId(productId));
         }
         return 1;
     }
@@ -351,9 +351,9 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     @Override
     public int changeOnShelfStatus(String productId, int onShelfStatus){
         if(onShelfStatus== ProductShelfStatusEnum.OnShelf.value){
-            productDomainService.onShelf(new ProductId(productId));
+            productService.onShelf(new ProductId(productId));
         }else  if(onShelfStatus== ProductShelfStatusEnum.OffShelf.value){
-            productDomainService.offShelf(new ProductId(productId));
+            productService.offShelf(new ProductId(productId));
         }
         return 1;
     }
@@ -361,9 +361,9 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     @Override
     public int changePublicStatus(String productId, boolean publicFlag){
         if(publicFlag){
-            productDomainService.setPublic(new ProductId(productId));
+            productService.setPublic(new ProductId(productId));
         }else{
-            productDomainService.cancelPublic(new ProductId(productId));
+            productService.cancelPublic(new ProductId(productId));
         }
         return 1;
     }
@@ -371,9 +371,9 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     @Override
     public int changeRecommendStatus(String productId, boolean recommendFlag){
         if(recommendFlag){
-            productDomainService.setRecommend(new ProductId(productId));
+            productService.setRecommend(new ProductId(productId));
         }else{
-            productDomainService.cancelRecommend(new ProductId(productId));
+            productService.cancelRecommend(new ProductId(productId));
         }
         return 1;
     }

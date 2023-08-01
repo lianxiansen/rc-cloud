@@ -29,13 +29,13 @@ import java.util.Objects;
 
 import static org.mockito.Mockito.when;
 
-@Import({ProductGroupDomainServiceImpl.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
+@Import({ProductGroupService.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
 @DisplayName("产品组合服务单元测试")
 public class ProductGroupServiceUnitTest extends SpringMockitoUnitTest {
 
 
     @Autowired
-    private ProductGroupDomainService productGroupService;
+    private ProductGroupService productGroupService;
     @Resource
     private IdRepository idRepository;
     @MockBean
@@ -71,7 +71,7 @@ public class ProductGroupServiceUnitTest extends SpringMockitoUnitTest {
     public void create() {
         ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()), new ProductId(productGroupCreateDTO.getProductId()));
         productGroupService.create(productGroup);
-        Assertions.assertTrue(Objects.nonNull(productGroup.getId()) && productGroupCreateDTO.sameValueAs(productGroup) && TenantContext.getTenantId().equals(productGroup.getTenantId().id()), "创建组合失败");
+        Assertions.assertTrue(Objects.nonNull(productGroup.getId()) && productGroupCreateDTO.sameValueAs(productGroup) , "创建组合失败");
     }
 
 
@@ -117,7 +117,7 @@ public class ProductGroupServiceUnitTest extends SpringMockitoUnitTest {
      */
     private void initFixture() {
         TenantContext.setTenantId("test");
-        productMock = new Product(new ProductId(idRepository.nextId()), new TenantId(RandomUtils.randomString()), new Name(RandomUtils.randomString()));
+        productMock = new Product(new ProductId(idRepository.nextId()), new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         productGroupCreateDTO = new ProductGroupCreateDTO();
         productGroupCreateDTO.setName(RandomUtils.randomString());

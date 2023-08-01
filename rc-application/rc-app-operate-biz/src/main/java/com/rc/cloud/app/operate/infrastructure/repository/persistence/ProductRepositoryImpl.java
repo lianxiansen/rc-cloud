@@ -71,7 +71,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         ProductAttribute productAttribute = product.getProductAttribute();
         ProductAttributePO productAttributePO = ProductAttributeConvert
                 .convertProductAttributePO(productAttribute);
-        productAttributePO.setTenantId(product.getTenantId().id());
         return this.productAttributeMapper.insert(productAttributePO);
     }
 
@@ -79,7 +78,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         ProductAttribute productAttribute = product.getProductAttribute();
         ProductAttributePO productAttributePO = ProductAttributeConvert.convertProductAttributePO(productAttribute);
         productAttributePO.setProductId(product.getId().id());
-        productAttributePO.setTenantId(product.getTenantId().id());
         LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductAttributePO::getProductId, product.getId().id());
         return this.productAttributeMapper.update(productAttributePO, wrapper);

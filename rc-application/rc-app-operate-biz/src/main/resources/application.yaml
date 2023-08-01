@@ -71,6 +71,8 @@ rc:
       - sys_dict_data
       - sys_dict_type
       - sys_oauth_client_details
+      - brand
+      -
   jwt:
     header: "Authorization" # JWT 在 HTTP Header 中的 Header 名字
     prefix: "Bearer " # JWT 在 HTTP Header 中的值的前缀

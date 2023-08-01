@@ -4,13 +4,14 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence.po;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
+import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("product_related_group")
-public class ProductRelatedGroupPO extends BaseDO {
+public class ProductRelatedGroupPO extends TenantBaseDO {
 
 
     private static final long serialVersionUID = 265345L;
@@ -20,11 +21,6 @@ public class ProductRelatedGroupPO extends BaseDO {
     @TableField("name")
     private Long name;
 
-    /**
-     * 租户id
-     */
-    @TableField("tenant_id")
-    private Long tenantId;
 
     @TableField("product_id")
     private Long productId;

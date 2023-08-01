@@ -20,7 +20,6 @@ import com.rc.cloud.common.core.util.AssertUtils;
  */
 public class ProductCategory extends AggregateRoot {
     private ProductCategoryId id;
-    private TenantId tenantId;
     /**
      * 分类名
      */
@@ -58,7 +57,6 @@ public class ProductCategory extends AggregateRoot {
 
     ProductCategory(ProductCategoryId id, TenantId tenantId, ChName name) {
         setId(id);
-        setTenantId(tenantId);
         setChName(name);
         init();
     }
@@ -88,15 +86,6 @@ public class ProductCategory extends AggregateRoot {
     @Override
     public ProductCategoryId getId() {
         return this.id;
-    }
-
-    public void setTenantId(TenantId tenantId) {
-        AssertUtils.assertArgumentNotNull(tenantId, "tenantId must not be null");
-        this.tenantId = tenantId;
-    }
-
-    public TenantId getTenantId() {
-        return this.tenantId;
     }
 
      ProductCategory setChName(ChName chName) {

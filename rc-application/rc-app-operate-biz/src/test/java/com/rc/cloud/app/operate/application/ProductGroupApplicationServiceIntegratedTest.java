@@ -11,8 +11,7 @@ import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupDomainService;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupDomainServiceImpl;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -42,7 +41,7 @@ import java.util.Objects;
 import static org.mockito.Mockito.when;
 
 
-@Import({ProductGroupApplicationServiceImpl.class, ProductGroupDomainServiceImpl.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
+@Import({ProductGroupApplicationServiceImpl.class, ProductGroupService.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
 @ExtendWith({SpringExtension.class})
 @DisplayName("产品组合集成测试")
 public class ProductGroupApplicationServiceIntegratedTest extends BaseDbUnitTest {
@@ -51,7 +50,7 @@ public class ProductGroupApplicationServiceIntegratedTest extends BaseDbUnitTest
     @MockBean
     private ProductRepository productRepositoryStub;
     @Autowired
-    private ProductGroupDomainService productGroupDomainService;
+    private ProductGroupService productGroupService;
     @Autowired
     private ProductGroupRepository productGroupRepository;
     @Resource
@@ -141,12 +140,12 @@ public class ProductGroupApplicationServiceIntegratedTest extends BaseDbUnitTest
      */
     private void initFixture() {
         TenantContext.setTenantId("test");
-        productMock = new Product(new ProductId(idRepository.nextId()), new TenantId(RandomUtils.randomString()), new Name(RandomUtils.randomString()));
+        productMock = new Product(new ProductId(idRepository.nextId()),new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         productGroupCreateDTO = new ProductGroupCreateDTO();
         productGroupCreateDTO.setName(RandomUtils.randomString());
         productGroupCreateDTO.setProductId(productMock.getId().id());
         ProductGroupBO productGroupBO = productGroupApplicationService.create(productGroupCreateDTO);
-        productGroupMock=productGroupDomainService.findById(new ProductGroupId(productGroupBO.getId()));
+        productGroupMock=productGroupService.findById(new ProductGroupId(productGroupBO.getId()));
     }
 }

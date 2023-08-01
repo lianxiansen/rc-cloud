@@ -14,14 +14,12 @@ import com.rc.cloud.common.core.util.AssertUtils;
  */
 public class ProductRecommend extends AggregateRoot {
     private ProductRecommendId id;
-    private TenantId tenantId;
     private ProductId productId;
     private ProductId recommendProductId;
 
 
-    public ProductRecommend(ProductRecommendId id,TenantId tenantId, ProductId productId,ProductId recommendProductId){
+    public ProductRecommend(ProductRecommendId id, ProductId productId,ProductId recommendProductId){
         setId(id);
-        setTenantId(tenantId);
         setProductId(productId);
         setRecommendProductId(recommendProductId);
     }
@@ -38,14 +36,6 @@ public class ProductRecommend extends AggregateRoot {
         this.id = id;
     }
 
-
-    private void setTenantId(TenantId tenantId) {
-        AssertUtils.assertArgumentNotNull(tenantId, "tenantId must not be null");
-        this.tenantId = tenantId;
-    }
-    public TenantId getTenantId() {
-        return tenantId;
-    }
     public ProductId getProductId() {
         return productId;
     }

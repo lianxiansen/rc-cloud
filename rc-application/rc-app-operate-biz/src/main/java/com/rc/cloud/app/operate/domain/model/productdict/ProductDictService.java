@@ -2,7 +2,6 @@ package com.rc.cloud.app.operate.domain.model.productdict;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductDictDomainService {
+public class ProductDictService {
 
     @Autowired
     private ProductDictRepository productDictRepository;

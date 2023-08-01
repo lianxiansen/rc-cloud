@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 @Service
-public class ProductGroupDomainServiceImpl implements ProductGroupDomainService {
+public class ProductGroupService {
 
     @Autowired
     private ProductGroupRepository productGroupRepository;
@@ -17,14 +17,14 @@ public class ProductGroupDomainServiceImpl implements ProductGroupDomainService 
     @Resource
     private IdRepository idRepository;
 
-    @Override
+    
     public ProductGroup create(ProductGroup productGroup) {
         AssertUtils.notNull(productGroup, "productGroup must be not null");
         productGroupRepository.save(productGroup);
         return productGroup;
     }
 
-    @Override
+    
     public ProductGroupItem createItem(ProductGroup productGroup,ProductGroupItem item) {
         productGroup.createItem(item);
         productGroupRepository.save(productGroup);
@@ -32,12 +32,12 @@ public class ProductGroupDomainServiceImpl implements ProductGroupDomainService 
     }
 
 
-    @Override
+    
     public ProductGroup findById(ProductGroupId productGroupId) {
         return productGroupRepository.findById(productGroupId);
     }
 
-    @Override
+    
     public boolean release(ProductGroup productGroup) {
         return productGroupRepository.removeById(productGroup.getId());
     }
