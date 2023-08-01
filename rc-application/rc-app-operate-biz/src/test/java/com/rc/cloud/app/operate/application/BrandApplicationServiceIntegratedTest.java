@@ -9,7 +9,6 @@ import com.rc.cloud.app.operate.application.service.impl.BrandApplicationService
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.BrandService;
-import com.rc.cloud.app.operate.domain.model.brand.BrandServiceImpl;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.BrandRepositoryImpl;
@@ -50,7 +49,7 @@ import static org.mockito.Mockito.when;
  * |-6.1分页检索品牌，每页大小为10，记录数26，指定页码3，返回记录数6
  * 7.根据唯一标识获取品牌
  */
-@Import({BrandApplicationServiceImpl.class, LocalIdRepositoryImpl.class, BrandServiceImpl.class, BrandRepositoryImpl.class, ProductRepositoryImpl.class})
+@Import({BrandApplicationServiceImpl.class, LocalIdRepositoryImpl.class, BrandService.class, BrandRepositoryImpl.class, ProductRepositoryImpl.class})
 @DisplayName("品牌集成测试")
 public class BrandApplicationServiceIntegratedTest extends BaseDbUnitTest {
     @Autowired

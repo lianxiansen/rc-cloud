@@ -1,7 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.productdetail;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
+import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productdetail.identifier.ProductDetailId;
 import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Detail;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -19,12 +19,8 @@ public class ProductDetail extends Entity
     private Url installVideoImg;
     private Detail installDetail;
 
-    public ProductDetail(ProductDetailId id, Detail detail, Url installVideoUrl, Url installVideoImg, Detail installDetail) {
+    public ProductDetail(ProductDetailId id) {
         this.id = id;
-        this.detail = detail;
-        this.installVideoUrl = installVideoUrl;
-        this.installVideoImg = installVideoImg;
-        this.installDetail = installDetail;
     }
 
     public Detail getDetail() {

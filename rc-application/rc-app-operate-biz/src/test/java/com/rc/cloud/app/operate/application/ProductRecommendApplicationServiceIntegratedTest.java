@@ -4,13 +4,12 @@ import com.rc.cloud.app.operate.application.bo.ProductRecommendBO;
 import com.rc.cloud.app.operate.application.dto.ProductRecommendCreateDTO;
 import com.rc.cloud.app.operate.application.service.impl.ProductRecommendApplicationServiceImpl;
 import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
+import com.rc.cloud.app.operate.domain.model.product.ProductService;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommend;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendService;
-import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendServiceImpl;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendRepository;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
@@ -40,7 +39,7 @@ import java.util.Objects;
 import static org.mockito.Mockito.when;
 
 
-@Import({ProductRecommendApplicationServiceImpl.class, ProductRecommendServiceImpl.class, LocalIdRepositoryImpl.class, ProductRecommendRepositoryImpl.class, ProductDomainService.class})
+@Import({ProductRecommendApplicationServiceImpl.class, ProductRecommendService.class, LocalIdRepositoryImpl.class, ProductRecommendRepositoryImpl.class, ProductService.class})
 @ExtendWith({SpringExtension.class})
 @DisplayName("产品推荐应用服务集成测试")
 public class ProductRecommendApplicationServiceIntegratedTest extends BaseDbUnitTest {
@@ -122,7 +121,7 @@ public class ProductRecommendApplicationServiceIntegratedTest extends BaseDbUnit
      */
     private void initFixture() {
         TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
-        productMock = new Product(new ProductId(idRepository.nextId()), new TenantId(RandomUtils.randomString()), new Name(RandomUtils.randomString()));
+        productMock = new Product(new ProductId(idRepository.nextId()),new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         productRecommendCreateDTO = new ProductRecommendCreateDTO();
         productRecommendCreateDTO.setProductId(productMock.getId().id());

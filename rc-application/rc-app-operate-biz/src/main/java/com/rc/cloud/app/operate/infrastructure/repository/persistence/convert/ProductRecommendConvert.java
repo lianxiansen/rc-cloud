@@ -13,7 +13,6 @@ public class ProductRecommendConvert {
     public static ProductRecommendPO convert2ProductRecommendPO(ProductRecommend productRecommend) {
         ProductRecommendPO productRecommendPO = new ProductRecommendPO();
         productRecommendPO.setId(productRecommend.getId().id());
-        productRecommendPO.setTenantId(productRecommend.getTenantId().id());
         productRecommendPO.setProductId(productRecommend.getProductId().id());
         productRecommendPO.setRecommendProductId(productRecommend.getRecommendProductId().id());
         return productRecommendPO;
@@ -27,7 +26,7 @@ public class ProductRecommendConvert {
         TenantId tenantId = new TenantId(productRecommendPO.getTenantId());
         ProductId productId = new ProductId(productRecommendPO.getProductId());
         ProductId recommendProductId=new ProductId(productRecommendPO.getRecommendProductId());
-        ProductRecommend ProductRecommend = new ProductRecommend(id, tenantId, productId,recommendProductId);
+        ProductRecommend ProductRecommend = new ProductRecommend(id, productId,recommendProductId);
         return ProductRecommend;
     }
     public static List<ProductRecommend> convert2ProductRecommendBatch(List<ProductRecommendPO> pos) {

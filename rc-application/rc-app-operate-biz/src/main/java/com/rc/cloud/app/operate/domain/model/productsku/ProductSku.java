@@ -13,16 +13,13 @@ public class ProductSku extends AggregateRoot {
 
 
     private ProductSkuId id;
-    private TenantId tenantId;
     private ProductId productId;
     private Price price;
 
-    public ProductSku(ProductSkuId id, ProductId productId,
-                      TenantId tenantId) {
+    public ProductSku(ProductSkuId id, ProductId productId) {
         init();
         setId(id);
         setProductId(productId);
-        setTenantId(tenantId);
 
     }
 
@@ -128,7 +125,6 @@ public class ProductSku extends AggregateRoot {
      */
     private SeckillSku seckillSku;
 
-
     /**
      * 排序
      */
@@ -155,18 +151,9 @@ public class ProductSku extends AggregateRoot {
         return this.id;
     }
 
-    public void setTenantId(TenantId tenantId) {
-        AssertUtils.assertArgumentNotNull(tenantId, "tenantId must not be null");
-        this.tenantId = tenantId;
-    }
-
-    public TenantId getTenantId(){
-        return this.tenantId;
-    }
-
 
     public void setPrice(Price price){
-        AssertUtils.assertArgumentNotNull(tenantId, "price must not be null");
+        AssertUtils.assertArgumentNotNull(price, "price must not be null");
         this.price =price;
     }
 

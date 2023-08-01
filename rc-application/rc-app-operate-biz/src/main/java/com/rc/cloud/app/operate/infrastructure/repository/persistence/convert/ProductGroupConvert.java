@@ -26,7 +26,6 @@ public class ProductGroupConvert {
         productGroupPO.setId(productGroup.getId().id());
         productGroupPO.setProductId(productGroup.getProductId().id());
         productGroupPO.setName(productGroup.getName());
-        productGroupPO.setTenantId(productGroup.getTenantId().id());
         return productGroupPO;
     }
 

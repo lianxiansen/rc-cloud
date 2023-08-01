@@ -22,7 +22,7 @@ public class ProductConvert {
         }
         ProductId productId=new ProductId(po.getId());
         TenantId tenantId = new TenantId(po.getTenantId());
-        Product product=new Product(productId,tenantId,new Name(po.getName()));
+        Product product=new Product(productId,new Name(po.getName()));
         product.setId(productId);
         //Remark
         Remark remark = new Remark(po.getRemark());
@@ -100,7 +100,6 @@ public class ProductConvert {
     public static ProductPO convertProductPO(Product product){
         ProductPO po=new ProductPO();
         po.setId(product.getId().id());
-        po.setTenantId(product.getTenantId().id());
         if(product.getName()!=null){
             po.setName(product.getName().getValue());
         }

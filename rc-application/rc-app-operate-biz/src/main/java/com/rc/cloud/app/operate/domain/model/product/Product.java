@@ -26,10 +26,9 @@ import java.util.List;
 public class Product extends AggregateRoot {
 
 
-    public Product(ProductId id, TenantId tenantId, Name name){
+    public Product(ProductId id, Name name){
         init();
         setId(id);
-        setTenantId(tenantId);
         setName(name);
 
     }
@@ -54,7 +53,6 @@ public class Product extends AggregateRoot {
     }
 
     private ProductId id;
-    private TenantId tenantId;
     private Name name;
     private CategoryName firstCategory;
     private CategoryName secondCategory;
@@ -251,10 +249,7 @@ public class Product extends AggregateRoot {
         AssertUtils.assertArgumentNotNull(id,"ProductId must not be null");
         this.id=id;
     }
-    public void setTenantId(TenantId tenantId){
-        AssertUtils.assertArgumentNotNull(tenantId,"TenantId must not be null");
-        this.tenantId = tenantId;
-    }
+
 
     public void setName(Name name){
         AssertUtils.assertArgumentNotNull(name,"Name must not be null");
@@ -306,10 +301,6 @@ public class Product extends AggregateRoot {
 
     private ProductAttribute productAttribute;
 
-
-    public TenantId getTenantId() {
-        return tenantId;
-    }
 
     public CategoryName getFirstCategory() {
         return firstCategory;

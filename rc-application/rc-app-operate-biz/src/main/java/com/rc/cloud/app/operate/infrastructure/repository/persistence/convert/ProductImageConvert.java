@@ -28,7 +28,6 @@ public class ProductImageConvert {
             }
             ProductImage productImage = new ProductImage(new ProductImageId(productImagePO.getId()),
                     new ProductId(productImagePO.getProductId()),
-                    new TenantId(productImagePO.getTenantId()),
                     new Url(productImagePO.getUrl()),
                     new Sort(productImagePO.getSort()),
                     productImageTypeEnum
@@ -49,7 +48,6 @@ public class ProductImageConvert {
         ProductImagePO po = new ProductImagePO();
         po.setUrl(productImage.getUrl().getValue());
         po.setSort(productImage.getSort().getValue());
-        po.setTenantId(productImage.getTenantId().id());
         po.setProductId(productImage.getProductId().id());
         po.setImageType(productImage.getType().value);
         return po;

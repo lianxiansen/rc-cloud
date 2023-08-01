@@ -13,9 +13,6 @@ public class ProductDict extends ValueObject {
 
     private ProductId productId;
 
-    private TenantId tenantId;
-
-
     public ProductDict(ProductId productId,String key) {
             this.productId = productId;
             this.key=key;
@@ -84,13 +81,6 @@ public class ProductDict extends ValueObject {
         this.productId = productId;
     }
 
-    public TenantId getTenantId() {
-        return tenantId;
-    }
-
-    public void setTenantId(TenantId tenantId) {
-        this.tenantId = tenantId;
-    }
 
     @Override
     public boolean equals(Object o) {

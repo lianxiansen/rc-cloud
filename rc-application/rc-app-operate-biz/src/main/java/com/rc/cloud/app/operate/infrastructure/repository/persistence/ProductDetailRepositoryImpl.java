@@ -59,4 +59,11 @@ public class ProductDetailRepositoryImpl implements ProductDetailRepository {
         wrapper.eq(ProductDetailPO::getProductId, productDetailId.getProductId().id());
         productDetailMapper.delete(wrapper);
     }
+
+    @Override
+    public boolean exist(ProductDetailId productDetailId) {
+        LambdaQueryWrapperX<ProductDetailPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductDetailPO::getProductId, productDetailId.getProductId().id());
+        return productDetailMapper.exists(wrapper);
+    }
 }

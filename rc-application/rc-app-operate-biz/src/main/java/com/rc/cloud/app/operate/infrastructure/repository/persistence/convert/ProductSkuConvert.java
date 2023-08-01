@@ -17,10 +17,9 @@ public class ProductSkuConvert {
         if(po!=null){
             ProductId productId=new ProductId(po.getProductId());
             ProductSkuId id = new ProductSkuId(po.getId());
-            TenantId tenantId = new TenantId(po.getTenantId());
             Price price=new Price();
             price.setValue(po.getPrice());
-            ProductSku productSku=new ProductSku(id,productId,tenantId);
+            ProductSku productSku=new ProductSku(id,productId);
             //秒杀信息
             SeckillSku seckillSku=new SeckillSku();
             seckillSku.setSeckillInventory(new Inventory(po.getSeckillInventory()));
@@ -45,7 +44,6 @@ public class ProductSkuConvert {
         ProductSkuPO po=new ProductSkuPO();
         po.setId(productSku.getId().id());
         po.setProductId(productSku.getProductId().id());
-        po.setTenantId(productSku.getTenantId().id());
         if(productSku.getSkuCode()!=null){
             po.setSkuCode(productSku.getSkuCode());
         }

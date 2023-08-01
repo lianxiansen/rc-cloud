@@ -2,7 +2,9 @@ package com.rc.cloud.app.operate.application.bo.convert;
 
 import com.rc.cloud.app.operate.application.bo.AttributeValueCombinationBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
+import com.rc.cloud.app.operate.application.bo.ProductSkuImageBO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuAttributeSaveDTO;
+import com.rc.cloud.app.operate.application.dto.ProductSkuImageSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuSaveDTO;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
@@ -10,7 +12,6 @@ import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,14 @@ import java.util.SortedSet;
  */
 public class ProductSkuConvert {
 
-    public static ProductSku convertDomain(ProductSkuId productSkuId,ProductId productId, TenantId tenantId,
-                                  ProductSkuSaveDTO productSkuSaveDTO, boolean isCreate, ProductSku productSku){
+    public static ProductSku convertDomain(ProductSkuId productSkuId
+            ,ProductId productId
+            ,ProductSkuSaveDTO productSkuSaveDTO
+            ,boolean isCreate
+            ,ProductSku productSku){
 
         if(isCreate){
-            productSku=new ProductSku(productSkuId, productId, tenantId);
+            productSku=new ProductSku(productSkuId, productId);
         }
         //价格
         productSku =setPrice(productSkuSaveDTO.getPrice(),isCreate,productSku);
@@ -161,7 +165,8 @@ public class ProductSkuConvert {
 
 
     private static ProductSku setProductSkuImage(ProductSkuSaveDTO dto,boolean isCreate, ProductSku productSku){
-        List<ProductSkuImage> productImages = ProductSkuImageConvert.convertDomainList(dto, dto.getAlbums());
+        List<ProductSkuImage> productImages
+                = convertProductSkuImageList(dto.getAlbums());
         if(isCreate){
             productSku.setSkuImageList(productImages);
         }
@@ -243,7 +248,7 @@ public class ProductSkuConvert {
         }
         //转换图片
         if(productSku.getSkuImageList()!=null){
-            bo.setSkuImages(ProductSkuImageConvert.convertProductSkuImageBOList(productSku.getSkuImageList()));
+            bo.setSkuImages(convertProductSkuImageBOList(productSku.getSkuImageList()));
         }
         //转换属性
         if(productSku.getProductSkuAttribute()!=null ){
@@ -277,4 +282,38 @@ public class ProductSkuConvert {
         );
         return resList;
     }
+
+
+    public static ProductSkuImage convertProductSkuImage(ProductSkuImageSaveDTO skuImage){
+        ProductSkuImage productSkuImage = new ProductSkuImage(new Url(skuImage.getUrl())  ,new Sort(skuImage.getSort()));
+        return productSkuImage;
+    }
+
+    public static List<ProductSkuImage> convertProductSkuImageList(List<ProductSkuImageSaveDTO> list){
+        List<ProductSkuImage> resList =new ArrayList<>();
+        if(list!=null){
+            for (ProductSkuImageSaveDTO productImageSaveDTO : list) {
+                resList.add(convertProductSkuImage(productImageSaveDTO));
+            }
+        }
+        return resList;
+    }
+
+
+    public static ProductSkuImageBO convertProductSkuImageBO(ProductSkuImage productSkuImage){
+        ProductSkuImageBO bo =new ProductSkuImageBO();
+        bo.setSort(productSkuImage.getSort().getValue());
+        bo.setUrl(productSkuImage.getUrl().getValue());
+        return bo;
+    }
+
+    public static List<ProductSkuImageBO> convertProductSkuImageBOList(List<ProductSkuImage> list){
+        List<ProductSkuImageBO> resList =new ArrayList<>();
+        for (ProductSkuImage productSkuImage : list) {
+            resList.add(convertProductSkuImageBO(productSkuImage));
+        }
+        return resList;
+    }
+
+
 }

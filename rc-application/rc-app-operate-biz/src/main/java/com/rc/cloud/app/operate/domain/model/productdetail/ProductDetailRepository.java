@@ -12,5 +12,8 @@ public interface ProductDetailRepository {
 
     ProductDetail findById(ProductDetailId productDetailId);
 
+    boolean exist(ProductDetailId productDetailId);
+
+
     void removeProductDetail(ProductDetailId productDetailId);
 }

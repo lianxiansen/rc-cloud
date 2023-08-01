@@ -1,24 +1,23 @@
 package com.rc.cloud.app.operate.domain.model.productsku;
 
 
-import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.Sort;
+import com.rc.cloud.app.operate.domain.model.productsku.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuImageId;
 import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
+import com.rc.cloud.common.core.domain.ValueObject;
 
 import java.util.Objects;
 
 /**
- * @ClassName: ProductImageEntry
- * @Author: liandy
+ * @Author: chenjianxiang
  * @Date: 2023/6/23 17:02
- * @Description: TODO
+ * @Description: 换成值对象，只关心图片地址和排序
  */
-public class ProductSkuImage extends Entity {
-    private ProductSkuImageId productSkuImageId;
-    private ProductSkuId productSkuId;
+public class ProductSkuImage extends ValueObject {
+
     private Url url;
     private Sort sort;
 
@@ -38,13 +37,8 @@ public class ProductSkuImage extends Entity {
         this.sort = sort;
     }
 
-    public ProductSkuId getProductSkuId() {
-        return productSkuId;
-    }
 
-    public ProductSkuImage(ProductSkuImageId productSkuImageId,ProductSkuId productSkuId, Url url, Sort sort) {
-        this.productSkuId = productSkuId;
-        this.productSkuId = productSkuId;
+    public ProductSkuImage(Url url, Sort sort) {
         this.url = url;
         this.sort = sort;
     }
@@ -54,16 +48,14 @@ public class ProductSkuImage extends Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductSkuImage that = (ProductSkuImage) o;
-        return Objects.equals(productSkuId, that.productSkuId) && Objects.equals(getUrl(), that.getUrl()) && Objects.equals(getSort(), that.getSort());
+        return  Objects.equals(getUrl(), that.getUrl()) && Objects.equals(getSort(), that.getSort());
     }
+
 
     @Override
     public int hashCode() {
-        return Objects.hash(productSkuId, getUrl(), getSort());
+        return Objects.hash(getUrl(), getSort());
     }
 
-    @Override
-    public AbstractId getId() {
-        return null;
-    }
+
 }

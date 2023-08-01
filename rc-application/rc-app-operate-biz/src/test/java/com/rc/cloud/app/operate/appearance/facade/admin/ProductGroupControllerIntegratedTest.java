@@ -58,7 +58,7 @@ public class ProductGroupControllerIntegratedTest {
 //                .apply(springSecurity())
                 .build();
         TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
-        productMock = new Product(new ProductId(idRepository.nextId()), new TenantId(RandomUtils.randomString()), new Name(RandomUtils.randomString()));
+        productMock = new Product(new ProductId(idRepository.nextId()), new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         productGroupId=new ProductGroupId("870ef1f5-39d2-4f48-8c67-ae45206");
         productId=new ProductId("5c491caf-1df2-4bad-a04b-67976a7");

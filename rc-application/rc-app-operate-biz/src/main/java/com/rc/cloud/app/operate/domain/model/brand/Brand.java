@@ -17,7 +17,6 @@ public class Brand extends Entity {
     private String name;
 
 
-
     private String logo;
 
     private String type;

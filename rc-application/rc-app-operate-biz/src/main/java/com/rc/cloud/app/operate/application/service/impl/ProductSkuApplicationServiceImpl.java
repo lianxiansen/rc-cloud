@@ -53,7 +53,6 @@ public class ProductSkuApplicationServiceImpl implements ProductSkuApplicationSe
         productSku= ProductSkuConvert.convertDomain(
                 new ProductSkuId(productSkuSaveDTO.getId())
                 ,new ProductId(productSkuSaveDTO.getProductId())
-                ,new TenantId(productSkuSaveDTO.getTenantId())
                 ,productSkuSaveDTO,false,productSku);
 
         productSkuRepository.updateProductSku(productSku);

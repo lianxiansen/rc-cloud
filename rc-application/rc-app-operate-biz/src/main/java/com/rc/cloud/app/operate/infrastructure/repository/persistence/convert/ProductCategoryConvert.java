@@ -41,7 +41,6 @@ public class ProductCategoryConvert {
         target.setEnglishName(source.getEnName().value());
         target.setParentId(source.getParentId() == null ? "" : source.getParentId().id());
         target.setSort(source.getSort().getValue());
-        target.setTenantId(source.getTenantId().id());
         target.setCreateTime(source.getCreateTime().getTime());
         return target;
     }

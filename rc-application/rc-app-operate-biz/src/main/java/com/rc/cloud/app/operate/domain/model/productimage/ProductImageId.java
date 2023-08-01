@@ -21,10 +21,6 @@ public class ProductImageId extends AbstractId {
     }
 
 
-    private ProductId productId;
-
-    private TenantId tenantId;
-
 
 
 }
