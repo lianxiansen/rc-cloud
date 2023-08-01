@@ -2,6 +2,7 @@ package com.rc.cloud.app.dubbo.application;
 
 import com.rc.cloud.app.dubbo.application.service.AuthenticationService;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.stereotype.Component;
 
 /**
  * @ClassName AuthenticationServiceImpl
@@ -10,7 +11,8 @@ import org.apache.dubbo.config.annotation.DubboService;
  * @Description TODO
  * @Version 1.0
  */
-@DubboService
+@DubboService(export = true)
+@Component
 public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public String validateCaptcha(String uuid, String captchaCode) {

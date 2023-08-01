@@ -25,6 +25,8 @@ dubbo:
     port: -1
   consumer:
     check: false
+  cloud:
+    subscribed-services: rc-app-marketing-biz
 
 management:
   health:

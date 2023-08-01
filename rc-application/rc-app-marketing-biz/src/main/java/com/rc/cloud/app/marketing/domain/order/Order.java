@@ -217,5 +217,9 @@ public class Order {
     public BigDecimal calculateShoudPayAmount(){
         return this.totalAmount.add(this.freightAmount);
     }
+
+    public void pay(String transactionId, BigDecimal payAmount) {
+
+    }
 }
 

@@ -105,15 +105,11 @@
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-dubbo</artifactId>
-            <version>2021.0.1.0</version>
+            <version>2021.1</version>
         </dependency>
 
 
-        <!-- 服务调用组件 -->
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo</artifactId>
-        </dependency>
+
         <!--安全相关组件-->
         <dependency>
             <groupId>org.springframework.security</groupId>

@@ -12,8 +12,8 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
-public class CartDomainService {
-    public List<CartItem> findCartItems(List<String> cartItemIds) {
+public class CartService {
+    public List<Cart> findCarts(List<String> cartItemIds) {
         return null;
     }
 }

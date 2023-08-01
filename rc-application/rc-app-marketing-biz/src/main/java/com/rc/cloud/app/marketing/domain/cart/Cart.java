@@ -7,13 +7,13 @@ package com.rc.cloud.app.marketing.domain.cart;
  * @Description TODO
  * @Version 1.0
  */
-public class CartItem {
+public class Cart {
     private String id;
 
     public String getId() {
         return this.id;
     }
-    public CartItem(String id){
+    public Cart(String id){
         this.id = id;
     }
 }

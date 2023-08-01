@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * @Version 1.0
  */
 @Service
-public class OrderDomainService {
+public class OrderService {
     public void pay(Order order){
 
     }

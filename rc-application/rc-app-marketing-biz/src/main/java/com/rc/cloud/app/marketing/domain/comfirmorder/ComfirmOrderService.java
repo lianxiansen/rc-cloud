@@ -1,6 +1,6 @@
 package com.rc.cloud.app.marketing.domain.comfirmorder;
 
-import com.rc.cloud.app.marketing.domain.cart.CartItem;
+import com.rc.cloud.app.marketing.domain.cart.Cart;
 import com.rc.cloud.app.marketing.domain.common.ProductItem;
 import com.rc.cloud.app.marketing.domain.deliveryaddress.Area;
 import com.rc.cloud.app.marketing.domain.deliveryaddress.DeliveryAddress;
@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
  * @Version 1.0
  */
 @Service
-public class ComfirmOrderDomainService {
+public class ComfirmOrderService {
     @Resource
     private IdRepository idRepository;
 
-    public ComfirmOrder placeOrder(List<CartItem> cartItems) {
+    public ComfirmOrder placeOrder(List<Cart> cartItems) {
         ComfirmOrder comfirmOrder = new ComfirmOrder(idRepository.nextId());
         Area area = new Area("浙江省", "台州市", "黄岩区", "");
         DeliveryAddress deliveryAddress = new DeliveryAddress("445be69b-11df-4cf8-80a3-2b7beb5", "test", "13800001234", "10068", area);

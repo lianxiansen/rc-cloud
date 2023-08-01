@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * @Version 1.0
  */
 @Service
-public class DeliveryAddressDomainService {
+public class DeliveryAddressService {
     public DeliveryAddress findById(String id){
         return null;
     }
