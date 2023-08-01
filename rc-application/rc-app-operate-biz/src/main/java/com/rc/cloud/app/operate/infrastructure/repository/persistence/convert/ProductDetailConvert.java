@@ -13,9 +13,7 @@ public class ProductDetailConvert {
 
     public static ProductDetail convertDomain(ProductDetailPO po){
        if(po!=null){
-           ProductDetail productDetail=new ProductDetail(new ProductDetailId(po.getId()),
-                   new TenantId(po.getTenantId())
-                   ,new ProductId(po.getProductId())
+           ProductDetail productDetail=new ProductDetail(new ProductDetailId(new ProductId(po.getProductId()))
                    ,new Detail(po.getDetail())
                    ,new Url(po.getInstallVideoUrl())
                    ,new Url(po.getInstallVideoImg())
@@ -29,8 +27,7 @@ public class ProductDetailConvert {
 
     public static ProductDetailPO convertProductDetailPO(ProductDetail productDetail){
         ProductDetailPO po=new ProductDetailPO();
-        po.setProductId(productDetail.getProductId().id());
-        po.setTenantId(productDetail.getTenantId().id());
+        po.setProductId(productDetail.getId().getProductId().id());
         po.setDetail(productDetail.getDetail().getValue());
         po.setInstallDetail(productDetail.getInstallDetail().getValue());
         po.setInstallVideoImg(productDetail.getInstallVideoImg().getValue());

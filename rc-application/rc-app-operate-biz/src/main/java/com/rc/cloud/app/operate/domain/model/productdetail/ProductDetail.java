@@ -8,33 +8,23 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
 
-
+/**
+ * 一对一，商品Id和租户Id联合
+ */
 public class ProductDetail extends Entity
 {
-    private ProductDetailId productDetailId;
-    private TenantId tenantId;
-    private ProductId productId;
+    private ProductDetailId id;
     private Detail detail;
     private Url installVideoUrl;
     private Url installVideoImg;
     private Detail installDetail;
 
-    public ProductDetail(ProductDetailId productDetailId,TenantId tenantId, ProductId productId, Detail detail, Url installVideoUrl, Url installVideoImg, Detail installDetail) {
-        this.productDetailId = productDetailId;
-        this.tenantId = tenantId;
-        this.productId = productId;
+    public ProductDetail(ProductDetailId id, Detail detail, Url installVideoUrl, Url installVideoImg, Detail installDetail) {
+        this.id = id;
         this.detail = detail;
         this.installVideoUrl = installVideoUrl;
         this.installVideoImg = installVideoImg;
         this.installDetail = installDetail;
-    }
-
-    public TenantId getTenantId() {
-        return tenantId;
-    }
-
-    public ProductId getProductId() {
-        return productId;
     }
 
     public Detail getDetail() {
@@ -70,7 +60,7 @@ public class ProductDetail extends Entity
     }
 
     @Override
-    public AbstractId getId() {
-        return null;
+    public ProductDetailId getId() {
+        return id;
     }
 }

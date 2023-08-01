@@ -6,7 +6,7 @@ import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
-import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
+import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailService;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictDomainService;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuDomainService;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.*;
@@ -33,7 +33,7 @@ import java.util.List;
 
 @Import({  LocalIdRepositoryImpl.class, ProductApplicationService.class,ProductDomainService.class
         , ProductSkuDomainService.class,
-        ProductDictDomainService.class, ProductDetailDomainService.class
+        ProductDictDomainService.class, ProductDetailService.class
         , ProductRepositoryImpl.class
         , ProductSkuRepositoryImpl.class
         , TenantServiceImpl.class

@@ -4,12 +4,14 @@ import com.bowen.idgenerator.service.RemoteIdGeneratorService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailRepository;
+import com.rc.cloud.app.operate.domain.model.productdetail.identifier.ProductDetailId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductDetailConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductDetailMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductDetailPO;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductDictPO;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductPO;
+import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,22 +39,24 @@ public class ProductDetailRepositoryImpl implements ProductDetailRepository {
 
     @Override
     public void updateProductDetail(ProductDetail productDetail) {
+
+        ProductDetailId id = productDetail.getId();
         LambdaQueryWrapperX<ProductDetailPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDetailPO::getProductId, productDetail.getProductId());
+        wrapper.eq(ProductDetailPO::getProductId,id.getProductId().id());
         productDetailMapper.update(ProductDetailConvert.convertProductDetailPO(productDetail),wrapper);
     }
 
     @Override
-    public ProductDetail findByProductId(ProductId productId) {
+    public ProductDetail findById(ProductDetailId productDetailId) {
         LambdaQueryWrapperX<ProductDetailPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDetailPO::getProductId, productId.id());
+        wrapper.eq(ProductDetailPO::getProductId, productDetailId.getProductId().id());
         return ProductDetailConvert.convertDomain(this.productDetailMapper.selectOne(wrapper));
     }
 
     @Override
-    public void removeProductDetailByProductId(ProductId productId) {
+    public void removeProductDetail(ProductDetailId productDetailId) {
         LambdaQueryWrapperX<ProductDetailPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDetailPO::getProductId, productId.id());
+        wrapper.eq(ProductDetailPO::getProductId, productDetailId.getProductId().id());
         productDetailMapper.delete(wrapper);
     }
 }

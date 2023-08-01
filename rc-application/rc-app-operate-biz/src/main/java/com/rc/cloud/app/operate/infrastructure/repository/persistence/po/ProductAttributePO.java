@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
+import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,15 +36,12 @@ import lombok.EqualsAndHashCode;
 @TableName("product_attribute")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class ProductAttributePO extends BaseDO {
+public class ProductAttributePO extends TenantBaseDO {
 
     private static final long serialVersionUID = 245345L;
 
     @TableId(type = IdType.ASSIGN_UUID)
     private String id;
-
-    @TableField("tenant_id")
-    private String tenantId;
 
     @TableField("product_id")
     private String productId;

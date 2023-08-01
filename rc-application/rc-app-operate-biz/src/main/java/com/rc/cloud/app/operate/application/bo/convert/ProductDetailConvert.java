@@ -11,10 +11,10 @@ import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 public class ProductDetailConvert {
 
 
-    public static ProductDetail convertDomain(ProductId productId, TenantId tenantId, Detail detail,
-                                              Url installVideoUrl, Url installVideoImg, Detail installDetail,
-                                              ProductDetailId productDetailId) {
-        ProductDetail productDetail = new ProductDetail(productDetailId, tenantId, productId, detail,
+    public static ProductDetail convertDomain(ProductDetailId productDetailId, Detail detail,
+                                              Url installVideoUrl, Url installVideoImg, Detail installDetail
+                                             ) {
+        ProductDetail productDetail = new ProductDetail(productDetailId, detail,
                 installVideoUrl, installVideoImg, installDetail);
         return productDetail;
     }

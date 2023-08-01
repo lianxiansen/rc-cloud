@@ -1,5 +1,7 @@
 package com.rc.cloud.app.operate.domain.model.productimage;
 
+import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.AbstractId;
 
 /**
@@ -17,4 +19,12 @@ public class ProductImageId extends AbstractId {
     protected ProductImageId() {
         super();
     }
+
+
+    private ProductId productId;
+
+    private TenantId tenantId;
+
+
+
 }

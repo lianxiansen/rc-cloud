@@ -14,13 +14,10 @@ public class ProductOperatePO {
 
     private static final long serialVersionUID = 256345L;
 
-    private Long id;
-
-    @TableField("tenant_id")
-    private Long tenantId;
+    private String id;
 
     @TableField("product_id")
-    private Long productId;
+    private String productId;
 
     @TableField("name")
     private String name;

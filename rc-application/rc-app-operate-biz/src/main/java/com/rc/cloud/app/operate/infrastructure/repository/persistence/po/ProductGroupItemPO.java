@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupItem;
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
+import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,7 +17,7 @@ import java.util.Objects;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-public class ProductGroupItemPO extends BaseDO {
+public class ProductGroupItemPO extends TenantBaseDO {
 
     private static final long serialVersionUID = 2343242L;
     private String id;

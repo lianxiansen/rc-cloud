@@ -16,7 +16,7 @@ import com.rc.cloud.app.operate.domain.model.product.ProductDomainService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
-import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailDomainService;
+import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailService;
 import com.rc.cloud.app.operate.domain.model.productdetail.identifier.ProductDetailId;
 import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Detail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
@@ -65,7 +65,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     private ProductDictDomainService productDictDomainService;
 
     @Autowired
-    private ProductDetailDomainService productDetailDomainService;
+    private ProductDetailService productDetailService;
 
     @Autowired
     private BrandService brandDomainService;
@@ -123,15 +123,13 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         productDictDomainService.insertProductDict(productDicts);
         //设置详情
         productDetail = ProductDetailConvert.convertDomain(
-                new ProductId(productId.id()),
-                new TenantId(tenantId.id()),
+                new ProductDetailId(productId),
                 new Detail( productSaveDTO.getDetail()),
                 new Url(productSaveDTO.getInstallVideoUrl()),
                 new Url(productSaveDTO.getInstallVideoImg()),
-                new Detail(productSaveDTO.getInstallDetail()),
-                new ProductDetailId(idRepository.nextId())
+                new Detail(productSaveDTO.getInstallDetail())
                 );
-        productDetailDomainService.saveProductDetail(productDetail);
+        productDetailService.saveProductDetail(productDetail);
 
         List<ProductSku> productSkuList=new ArrayList<>();
         for (ProductSkuSaveDTO productSkuSaveDTO : skus) {
@@ -188,15 +186,13 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
             productDictDomainService.updateProductDict(productId,productDicts);
         }
         productDetail = ProductDetailConvert.convertDomain(
-                new ProductId(productId.id()),
-                new TenantId(tenantId.id()),
+                new ProductDetailId(productId),
                 new Detail( productSaveDTO.getDetail()),
                 new Url(productSaveDTO.getInstallVideoUrl()),
                 new Url(productSaveDTO.getInstallVideoImg()),
-                new Detail(productSaveDTO.getInstallDetail()),
-                new ProductDetailId(idRepository.nextId())
+                new Detail(productSaveDTO.getInstallDetail())
         );
-        productDetailDomainService.saveProductDetail(productDetail);
+        productDetailService.saveProductDetail(productDetail);
         List<ProductSku> productSkuList=new ArrayList<>();
         if(productSaveDTO.getSkus()!=null && productSaveDTO.getSkus().size()>0){
             for (ProductSkuSaveDTO productSkuSaveDTO :  productSaveDTO.getSkus()) {
@@ -233,7 +229,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         productImageDomainService.deleteProductImageByProductId(new ProductId(productId));
         productDictDomainService.deleteProductDictByProductId(new ProductId(productId));
         productSkuDomainService.deleteProductSkuByProductId(new ProductId(productId));
-        productDetailDomainService.deleteProductDetailByProductId(new ProductId(productId));
+        productDetailService.deleteProductDetail(new ProductDetailId(new ProductId(productId)));
         return true;
     }
 
@@ -298,7 +294,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
             productSizeImages = productImageDomainService.getProductSizeImageByProductId(new ProductId(productQueryDTO.getProductId()));
         }
         if(productQueryDTO.isNeedProductDetail()){
-            productDetail = productDetailDomainService.findProductDetailByProductId(new ProductId(productQueryDTO.getProductId()));
+            productDetail = productDetailService.findProductDetail(new ProductDetailId(new ProductId(productQueryDTO.getProductId())));
         }
         if(productQueryDTO.isNeedProductDict()){
             productDicts = productDictDomainService.getProductDictSetByProductId(new ProductId(productQueryDTO.getProductId())).stream().collect(Collectors.toSet());

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
+import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -21,15 +22,10 @@ import java.time.LocalDateTime;
 @TableName("product")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ProductPO extends BaseDO {
+public class ProductPO extends TenantBaseDO {
 
     private static final long serialVersionUID = 14345345L;
     private String id;
-    /**
-     * 租户id
-     */
-    @TableField("tenant_id")
-    private String tenantId;
 
     /**
      * 品牌ID

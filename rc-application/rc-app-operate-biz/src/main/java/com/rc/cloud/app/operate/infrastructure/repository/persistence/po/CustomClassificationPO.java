@@ -4,6 +4,7 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence.po;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
+import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,17 +15,12 @@ import lombok.EqualsAndHashCode;
 @TableName("custom_classification")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CustomClassificationPO extends BaseDO {
+public class CustomClassificationPO extends TenantBaseDO {
 
 
     private static final long serialVersionUID = 23434L;
 
-    private Long id;
-    /**
-     * 租户id
-     */
-    @TableField("tenant_id")
-    private Long tenantId;
+    private String id;
 
     @TableField("name")
     private String name;
