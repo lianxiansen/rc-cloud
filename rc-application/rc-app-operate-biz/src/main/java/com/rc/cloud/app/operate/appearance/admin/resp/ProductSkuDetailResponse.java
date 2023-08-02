@@ -34,7 +34,13 @@ public class ProductSkuDetailResponse {
     @Schema(description = "装箱数")
     private int packingNumber;
 
-    @Schema(description = "箱规")
-    private String cartonSize;
+    @Schema(description = "箱规-长")
+    private int cartonSizeLength;
+
+    @Schema(description = "箱规-宽")
+    private int cartonSizeWidth;
+
+    @Schema(description = "箱规-高")
+    private int cartonSizeHeight;
 
 }

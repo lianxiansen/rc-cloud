@@ -94,10 +94,8 @@ public class ProductSaveDTO {
     private String customClassificationId;
 
 
-    @Valid
     private List<ProductImageSaveDTO> masterAlbums;
 
-    @Valid
     private List<ProductImageSaveDTO> sizeAlbums;
 
     private List<ProductDictSaveDTO> dicts;

@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
 import com.rc.cloud.app.operate.appearance.admin.req.ProductRemoveRequest;
+import com.rc.cloud.app.operate.appearance.admin.req.ProductSaveRequest;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductDetailResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductListResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductRemoveResponse;
@@ -36,13 +37,20 @@ public class ProductController {
     private ProductApplicationService productApplicationService;
     @PostMapping("create")
     @Operation(summary = "创建产品")
-    public CodeResult<ProductBO> createProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
-        return CodeResult.ok( productApplicationService.createProduct(productSaveDTO));
+    public CodeResult<ProductDetailResponse> createProduct(@Valid @RequestBody ProductSaveRequest request) {
+        return CodeResult.ok(ProductDetailResponse.from(
+                productApplicationService
+                        .createProduct(ProductSaveRequest.from(request))
+                )
+        );
     }
                                                                                                     @PostMapping("edit")
     @Operation(summary = "修改产品")
-    public CodeResult<ProductBO> editProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
-        return CodeResult.ok( productApplicationService.updateProduct(productSaveDTO));
+    public CodeResult<ProductDetailResponse> editProduct(@Valid @RequestBody ProductSaveRequest request) {
+        return CodeResult.ok(ProductDetailResponse.from(
+                productApplicationService.updateProduct(ProductSaveRequest.from(request))
+                )
+        );
     }
 
     @PostMapping("remove")

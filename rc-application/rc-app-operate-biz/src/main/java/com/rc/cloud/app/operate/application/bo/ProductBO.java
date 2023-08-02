@@ -63,7 +63,11 @@ public class ProductBO {
 
     private String customClassificationId;
 
-    private ProductDetailBO detail;
+
+    private String detail;
+    private String installVideoUrl;
+    private String installVideoImg;
+    private String installDetail;
 
 
     private List<AttributeBO> attributes;

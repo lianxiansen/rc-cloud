@@ -45,6 +45,7 @@ public class ProductImageConvert {
         bo.setSort(productImage.getSort().getValue());
         bo.setUrl(productImage.getUrl().getValue());
         bo.setType(productImage.getType());
+        bo.setId(productImage.getId().getId());
         return bo;
     }
 

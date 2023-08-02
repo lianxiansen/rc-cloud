@@ -65,13 +65,10 @@ public class ProductConvert {
                     .collect(Collectors.toList());
             response.setSizeImageList(sizeImages);
         }
-        if(bo.getDetail()!=null){
-            response.setDetail(bo.getDetail().getDetail());
-            response.setInstallVideoImg(bo.getDetail().getInstallVideoImg());
-            response.setInstallVideoUrl(bo.getDetail().getInstallVideoUrl());
-            response.setInstallDetail(bo.getDetail().getInstallDetail());
-        }
-
+        response.setDetail(bo.getDetail());
+        response.setInstallVideoImg(bo.getInstallVideoImg());
+        response.setInstallVideoUrl(bo.getInstallVideoUrl());
+        response.setInstallDetail(bo.getInstallDetail());
         response.setSpuCode(bo.getSpuCode());
         response.setSkus(ProductSkuConvert.convert2ProductSkuDetailList(bo.getSkus()));
         response.setCaiZhi(bo.getDicts().get(ProductDictKeyEnum.CaiZhi.name));

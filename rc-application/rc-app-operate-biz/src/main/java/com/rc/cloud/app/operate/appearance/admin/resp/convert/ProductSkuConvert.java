@@ -33,8 +33,9 @@ public class ProductSkuConvert {
         }
         response.setPrice(bo.getPrice().toString());
         response.setWeight(bo.getWeight().toString());
-        response.setCartonSize(bo.getCartonSizeLength()+"*"+bo.getCartonSizeWidth()
-        +"*"+bo.getCartonSizeHeight());
+        response.setCartonSizeLength(bo.getCartonSizeLength());
+        response.setCartonSizeWidth(bo.getCartonSizeWidth());
+        response.setCartonSizeHeight(bo.getCartonSizeHeight());
         response.setPackingNumber(bo.getPackingNumber());
 
 

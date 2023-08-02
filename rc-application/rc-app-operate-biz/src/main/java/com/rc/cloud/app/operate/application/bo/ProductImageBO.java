@@ -8,6 +8,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class ProductImageBO {
 
+    private String id;
+
     private String url;
 
     private int sort;

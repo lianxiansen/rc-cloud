@@ -17,15 +17,15 @@ import java.util.Objects;
  * @Description: TODO
  */
 public class ProductImage extends  Entity {
-    private ProductImageId productImageId;
+    private ProductImageId id;
     private ProductId productId;
 
     private Url url;
     private Sort sort;
     private ProductImageTypeEnum type;
 
-    public ProductImage(ProductImageId productImageId,ProductId productId,Url url, Sort sort, ProductImageTypeEnum type) {
-        this.productImageId = productImageId;
+    public ProductImage(ProductImageId id,ProductId productId,Url url, Sort sort, ProductImageTypeEnum type) {
+        this.id = id;
         this.productId = productId;
         this.url = url;
         this.sort = sort;
@@ -67,8 +67,8 @@ public class ProductImage extends  Entity {
     }
 
     @Override
-    public AbstractId getId() {
-        return null;
+    public ProductImageId getId() {
+        return id;
     }
 
     @Override

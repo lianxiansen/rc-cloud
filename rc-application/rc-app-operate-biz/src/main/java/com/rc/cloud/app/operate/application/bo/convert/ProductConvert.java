@@ -565,7 +565,12 @@ public class ProductConvert
             bo.setDicts(ProductDictConvert.convertProductDictMap(productDicts));
         }
         if(productDetail!=null){
-            bo.setDetail(ProductDetailConvert.convertProductDetailBO(productDetail));
+
+            bo.setDetail(productDetail.getDetail().getValue());
+            bo.setInstallDetail(productDetail.getInstallDetail().getValue());
+            bo.setInstallVideoImg(productDetail.getInstallVideoImg().getValue());
+            bo.setInstallVideoUrl(productDetail.getInstallVideoUrl().getValue());
+
         }
         if(skuList!=null){
             bo.setSkus(ProductSkuConvert.convertProductSkuBOList(skuList));
