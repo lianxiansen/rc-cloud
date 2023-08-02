@@ -86,6 +86,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public int insertProduct(Product product) {
         ProductPO productPO = ProductConvert.convertProductPO(product);
+
         this.productMapper.insert(productPO);
 
         if (product.getProductAttribute() != null) {
