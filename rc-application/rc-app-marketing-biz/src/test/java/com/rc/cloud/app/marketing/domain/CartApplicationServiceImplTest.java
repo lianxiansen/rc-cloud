@@ -70,23 +70,23 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
     @Test
     void getCartList() {
         CartPO po = randomPojo(CartPO.class, o -> {
-            o.setUserid("admin");
+            o.setUserId("admin");
             o.setSkuAttributes("绿色,40H");
             o.setNum(10);
-            o.setProductid("2");
-            o.setProductuniqueid("200");
+            o.setProductId("2");
+            o.setProductUniqueid("200");
             o.setPayed(0);
-            o.setNewstate(0);
+            o.setNewState(0);
         });
         cartMapper.insert(po);
         po = randomPojo(CartPO.class, o -> {
-            o.setUserid("admin");
+            o.setUserId("admin");
             o.setSkuAttributes("白色,40H");
             o.setNum(10);
-            o.setProductid("2");
-            o.setProductuniqueid("300");
+            o.setProductId("2");
+            o.setProductUniqueid("300");
             o.setPayed(0);
-            o.setNewstate(0);
+            o.setNewState(0);
         });
         cartMapper.insert(po);
         //模拟服务返回
@@ -123,15 +123,15 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         cartApplicationServiceImpl.saveCart(cartDTOList);
 
         CartPO cartPO = cartMapper.selectOne(new LambdaQueryWrapperX<CartPO>()
-                .eq(CartPO::getProductid, "1")
-                .eq(CartPO::getProductuniqueid, "100")
-                .eq(CartPO::getShopid, "1")
+                .eq(CartPO::getProductId, "1")
+                .eq(CartPO::getProductUniqueid, "100")
+                .eq(CartPO::getShopId, "1")
         );
         assertNull(cartPO);
         cartPO = cartMapper.selectOne(new LambdaQueryWrapperX<CartPO>()
-                .eq(CartPO::getProductid, "2")
-                .eq(CartPO::getProductuniqueid, "200")
-                .eq(CartPO::getShopid, "1")
+                .eq(CartPO::getProductId, "2")
+                .eq(CartPO::getProductUniqueid, "200")
+                .eq(CartPO::getShopId, "1")
         );
         assertNotNull(cartPO);
         assertEquals(cartPO.getNum(), 10);
