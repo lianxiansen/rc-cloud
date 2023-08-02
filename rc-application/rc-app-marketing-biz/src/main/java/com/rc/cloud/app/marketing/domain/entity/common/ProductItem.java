@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.domain.common;
+package com.rc.cloud.app.marketing.domain.entity.common;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

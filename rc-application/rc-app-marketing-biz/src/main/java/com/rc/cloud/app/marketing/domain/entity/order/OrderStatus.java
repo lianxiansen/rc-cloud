@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.domain.order;
+package com.rc.cloud.app.marketing.domain.entity.order;
 
 import cn.hutool.core.util.ArrayUtil;
 import lombok.AllArgsConstructor;
@@ -19,8 +19,8 @@ public enum OrderStatus {
     AUDITING (0, "等待卖家审核"),
     PAYING(1, "等待买家付款"),
     DELIVERING(2, "等待卖家发货"),
-    RECEIVING(2, "等待买家收货"),
-    CLOSE(2, "交易完成");
+    RECEIVING(3, "等待买家收货"),
+    CLOSE(4, "交易完成");
 
 
     /**

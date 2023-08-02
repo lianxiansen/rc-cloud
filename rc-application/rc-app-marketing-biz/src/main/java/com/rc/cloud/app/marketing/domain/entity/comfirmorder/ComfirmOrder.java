@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.domain.comfirmorder;
+package com.rc.cloud.app.marketing.domain.entity.comfirmorder;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
-package com.rc.cloud.app.marketing.domain.comfirmorder;
+package com.rc.cloud.app.marketing.domain.entity.comfirmorder;
 
-import com.rc.cloud.app.marketing.domain.common.ProductItem;
+import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
 
 /**
  * @ClassName PlaceOrder

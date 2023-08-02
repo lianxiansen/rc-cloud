@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.domain.cart;
+package com.rc.cloud.app.marketing.domain.entity.cartmock;
 
 import org.springframework.stereotype.Service;
 

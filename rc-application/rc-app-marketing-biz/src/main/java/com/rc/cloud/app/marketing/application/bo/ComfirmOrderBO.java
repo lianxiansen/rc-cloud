@@ -1,7 +1,7 @@
 package com.rc.cloud.app.marketing.application.bo;
 
-import com.rc.cloud.app.marketing.domain.comfirmorder.ComfirmOrder;
-import com.rc.cloud.app.marketing.domain.deliveryaddress.DeliveryAddress;
+import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
+import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 import lombok.Data;
 
 /**

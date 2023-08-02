@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.domain.order;
+package com.rc.cloud.app.marketing.domain.entity.order;
 
 import cn.hutool.core.util.ArrayUtil;
 import lombok.AllArgsConstructor;

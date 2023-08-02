@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.domain.order;
+package com.rc.cloud.app.marketing.domain.entity.order;
 
 import lombok.Data;
 

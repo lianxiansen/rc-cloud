@@ -1,6 +1,6 @@
-package com.rc.cloud.app.marketing.domain.order;
+package com.rc.cloud.app.marketing.domain.entity.order;
 
-import com.rc.cloud.app.marketing.domain.common.ProductItem;
+import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
 
 import java.math.BigDecimal;
 
