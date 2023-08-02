@@ -1,6 +1,8 @@
 package com.rc.cloud.app.marketing.domain.entity.order;
 
 
+import com.rc.cloud.app.marketing.domain.entity.common.PayStatus;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,17 +23,26 @@ public class Order {
     /**
      * 订单编号
      */
-    private String orderNo;
+    private String orderNumber;
     /**
      * 订单状态,0:等待卖家审核 1:等待买家付款 2:等待卖家发货 3:等待买家收货 4:交易完成
      */
     private OrderStatus orderStatus;
 
+    /**
+     * 商品id
+     */
+    private String productId;
 
     /**
-     * 金额合计
+     * 商品名称
      */
-    private BigDecimal totalAmount;
+    private String productName;
+
+    /**
+     * 要支付的金额
+     */
+    private BigDecimal payAmount;
     /**
      * 数量合计
      */
@@ -44,7 +55,7 @@ public class Order {
     /**
      * 实付金额
      */
-    private BigDecimal payAmount;
+    private BigDecimal actualPayAmount;
     /**
      * 交易方式 0：扫码支付
      */
@@ -98,14 +109,15 @@ public class Order {
 
     private List<OrderItem> items;
 
-    public Order(String id,String orderNo){
+    public Order(String id,String orderNo,String transactionId){
         this.id=id;
-        this.orderNo = orderNo;
+        this.orderNumber = orderNo;
         this.orderStatus=OrderStatus.AUDITING;
-        totalAmount=BigDecimal.ZERO;
+        this.transactionId=transactionId;
+        payAmount =BigDecimal.ZERO;
         totalNum=0;
         freightAmount=BigDecimal.ZERO;
-        payAmount =BigDecimal.ZERO;
+        actualPayAmount =BigDecimal.ZERO;
         payType=0;
         payStatus=PayStatus.UNPAY;
         consignStatus=ConsignStatus.UNCONSIGN;
@@ -116,7 +128,7 @@ public class Order {
     public void addItem(OrderItem item){
         this.items.add(item);
         this.totalNum+=item.getProductItem().getNum();
-        this.totalAmount=this.totalAmount.add(item.getProductItem().getAmount());
+        this.payAmount =this.payAmount.add(item.getProductItem().getAmount());
     }
     public Buyer getBuyer() {
         return buyer;
@@ -138,16 +150,16 @@ public class Order {
         return id;
     }
 
-    public String getOrderNo() {
-        return orderNo;
+    public String getOrderNumber() {
+        return orderNumber;
     }
 
     public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
+    public BigDecimal getPayAmount() {
+        return payAmount;
     }
 
     public int getTotalNum() {
@@ -158,8 +170,8 @@ public class Order {
         return freightAmount;
     }
 
-    public BigDecimal getPayAmount() {
-        return payAmount;
+    public BigDecimal getActualPayAmount() {
+        return actualPayAmount;
     }
 
     public int getPayType() {
@@ -215,7 +227,7 @@ public class Order {
      * @return
      */
     public BigDecimal calculateShoudPayAmount(){
-        return this.totalAmount.add(this.freightAmount);
+        return this.payAmount.add(this.freightAmount);
     }
 
     /**
@@ -226,7 +238,7 @@ public class Order {
     public void pay(String transactionId, BigDecimal payAmount) {
         if(canPay()){
             this.transactionId=transactionId;
-            this.payAmount=payAmount;
+            this.actualPayAmount =payAmount;
             this.orderStatus=OrderStatus.DELIVERING;
             this.payStatus=PayStatus.PAYED;
         }

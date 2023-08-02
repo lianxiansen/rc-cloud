@@ -1,8 +1,11 @@
 package com.rc.cloud.app.marketing.domain.entity.comfirmorder;
 
+import com.rc.cloud.app.marketing.domain.entity.common.Product;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName PlaceOrder
@@ -46,14 +49,15 @@ public class ComfirmOrder {
      * 应付总额
      */
     private BigDecimal payAmount;
+
     public ComfirmOrder(String id) {
-        this.id=id;
-        this.payType=0;
-        this.deliveryType=DeliveryType.CONSIGN;
-        this.productAmout=BigDecimal.ZERO;
-        this.freightAmount=BigDecimal.ZERO;
-        this.payAmount=BigDecimal.ZERO;
-        this.items=new ArrayList<>();
+        this.id = id;
+        this.payType = 0;
+        this.deliveryType = DeliveryType.CONSIGN;
+        this.productAmout = BigDecimal.ZERO;
+        this.freightAmount = BigDecimal.ZERO;
+        this.payAmount = BigDecimal.ZERO;
+        this.items = new ArrayList<>();
     }
 
     public void changePayType() {
@@ -100,19 +104,26 @@ public class ComfirmOrder {
         return this.id;
     }
 
-    public void addItem(ComfirmOrderItem item){
-        this.productAmout=this.productAmout.add(item.getProductItem().getAmount());
-        this.payAmount=this.productAmout.add(this.freightAmount);
+    public void addItem(ComfirmOrderItem item) {
+        this.productAmout = this.productAmout.add(item.getProductItem().getAmount());
+        this.payAmount = this.productAmout.add(this.freightAmount);
         this.items.add(item);
     }
 
-    public void changeDeliveryType(DeliveryType deliveryType){
+    public void changeDeliveryType(DeliveryType deliveryType) {
         this.deliveryType = deliveryType;
     }
 
-    public void modifyNote(String note){
+    public void modifyNote(String note) {
         this.note = note;
     }
 
+    public List<Product> getProducts() {
+        return this.items.stream().map(p -> p.getProduct()).collect(Collectors.toList());
+    }
+
+    public List<ComfirmOrderItem> getItems(Product product){
+        return this.items.stream().filter(item->item.getProduct().equals(product)).collect(Collectors.toList());
+    }
 
 }

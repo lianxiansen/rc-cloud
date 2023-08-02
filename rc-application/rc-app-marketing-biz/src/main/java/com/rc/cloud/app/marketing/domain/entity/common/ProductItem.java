@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 @Data
 @Accessors(chain = true)
 public class ProductItem {
-    private String id;
     private String spuId;
     private String skuId;
     private String productId;
@@ -28,7 +27,7 @@ public class ProductItem {
      */
     private BigDecimal price;
     /**
-     * 商品数量
+     * 商品库存数量
      */
     private int num;
 

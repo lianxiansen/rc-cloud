@@ -12,6 +12,10 @@ import lombok.Data;
 @Data
 public class Buyer {
     /**
+     * 下单人ID
+     */
+    private String buyerId;
+    /**
      * 买家名称
      */
     private String buyername;
@@ -19,12 +23,15 @@ public class Buyer {
      * 下单人
      */
     private String buyerOrder;
+
+
     /**
      * 会员账号
      */
     private String buyerAccount;
 
-    public Buyer(String buyername, String buyerOrder, String buyerAccount) {
+    public Buyer(String buyerId,String buyername, String buyerOrder, String buyerAccount) {
+        this.buyerId = buyerId;
         this.buyername = buyername;
         this.buyerOrder = buyerOrder;
         this.buyerAccount = buyerAccount;

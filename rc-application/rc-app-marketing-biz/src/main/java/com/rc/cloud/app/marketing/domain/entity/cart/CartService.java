@@ -96,4 +96,8 @@ public class CartService {
             throw new ServiceException2("购物车已失效");
         }
     }
+
+    public List<Cart> findCarts(List<String> cartIds) {
+        return null;
+    }
 }

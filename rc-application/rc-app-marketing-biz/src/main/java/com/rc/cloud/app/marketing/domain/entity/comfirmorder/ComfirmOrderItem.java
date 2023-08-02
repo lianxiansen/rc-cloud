@@ -1,5 +1,7 @@
 package com.rc.cloud.app.marketing.domain.entity.comfirmorder;
 
+import com.rc.cloud.app.marketing.domain.entity.cart.identifier.CartId;
+import com.rc.cloud.app.marketing.domain.entity.common.Product;
 import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
 
 /**
@@ -14,25 +16,19 @@ public class ComfirmOrderItem {
     private String comfirmOrderId;
 
 
-    private String cartItemId;
+    private CartId cartId;
 
-    private String productId;
-    private String productName;
-    private String productImage;
-    private String productArticleNo;
+    private Product product;
 
     private ProductItem productItem;
 
 
 
-    public ComfirmOrderItem(String id, String comfirmOrderId, String cartItemId, String productId, String productName, String productImage, String productArticleNo,ProductItem productItem ) {
+    public ComfirmOrderItem(String id, String comfirmOrderId, CartId cartId, Product product, ProductItem productItem ) {
         this.id = id;
         this.comfirmOrderId = comfirmOrderId;
-        this.cartItemId = cartItemId;
-        this.productId = productId;
-        this.productName = productName;
-        this.productImage = productImage;
-        this.productArticleNo = productArticleNo;
+        this.cartId = cartId;
+        this.product = product;
         this.productItem = productItem;
     }
 
@@ -44,29 +40,12 @@ public class ComfirmOrderItem {
         return comfirmOrderId;
     }
 
-    public String getCartItemId() {
-        return cartItemId;
+    public CartId getCartId() {
+        return cartId;
     }
 
-    public String getProductId() {
-        return productId;
-    }
 
-    public String getProductName() {
-        return productName;
-    }
 
-    public String getProductImage() {
-        return productImage;
-    }
-
-    public String getProductArticleNo() {
-        return productArticleNo;
-    }
-
-    public void setCartItemId(String cartItemId) {
-        this.cartItemId = cartItemId;
-    }
 
     public ProductItem getProductItem() {
         return productItem;
@@ -74,5 +53,13 @@ public class ComfirmOrderItem {
 
     public void setProductItem(ProductItem productItem) {
         this.productItem = productItem;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }
