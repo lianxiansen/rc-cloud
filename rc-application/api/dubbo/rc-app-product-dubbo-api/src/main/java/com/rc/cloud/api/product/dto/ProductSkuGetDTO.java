@@ -1,0 +1,12 @@
+package com.rc.cloud.api.product.dto;
+
+import lombok.Data;
+
+@Data
+public class ProductSkuGetDTO {
+
+    private String productId;
+
+    private String productSkuId;
+
+}

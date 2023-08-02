@@ -30,7 +30,6 @@ import org.springframework.context.annotation.Import;
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static com.rc.cloud.app.system.model.tenant.SysTenantPO.PACKAGE_ID_SYSTEM;

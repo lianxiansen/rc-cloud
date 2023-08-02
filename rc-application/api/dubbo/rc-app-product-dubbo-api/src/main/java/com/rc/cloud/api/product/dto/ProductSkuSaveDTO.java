@@ -1,0 +1,49 @@
+package com.rc.cloud.api.product.dto;
+
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+public class ProductSkuSaveDTO {
+
+    private String id;
+
+    private String productId;
+
+    private String skuCode;
+
+    private String price;
+
+    private String supplyPrice;
+
+    private String weight;
+
+    private Boolean enabledFlag;
+
+    private List<ProductSkuImageSaveDTO> albums;
+
+
+    private String attributeId;
+
+    /**
+     * "attributes":[{"name":"颜色","value":"红","sort":9},{"name":"尺寸","value":"X","sort":9}]
+     */
+    private List<ProductSkuAttributeSaveDTO> attributes;
+
+    private Integer inventory;
+
+    private Integer sort;
+
+    private Integer packingNumber;
+
+    private Integer cartonSizeLength;
+
+    private Integer cartonSizeWidth;
+
+    private Integer cartonSizeHeight;
+
+
+
+
+}

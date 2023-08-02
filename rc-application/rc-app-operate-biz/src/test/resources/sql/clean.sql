@@ -19,5 +19,5 @@ delete from `product_attribute`;
 delete from `product_sku_attribute`;
 delete from `product_image`;
 delete from `product_sku_image`;
-delete from `order_cart`;
+
 
