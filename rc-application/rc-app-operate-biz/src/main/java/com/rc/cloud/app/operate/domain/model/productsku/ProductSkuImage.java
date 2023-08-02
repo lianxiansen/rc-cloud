@@ -18,6 +18,8 @@ import java.util.Objects;
  */
 public class ProductSkuImage extends ValueObject {
 
+
+    private ProductSkuId productSkuId;
     private Url url;
     private Sort sort;
 
@@ -38,24 +40,27 @@ public class ProductSkuImage extends ValueObject {
     }
 
 
-    public ProductSkuImage(Url url, Sort sort) {
+    public ProductSkuImage(ProductSkuId productSkuId, Url url, Sort sort) {
+        this.productSkuId = productSkuId;
         this.url = url;
         this.sort = sort;
     }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductSkuImage that = (ProductSkuImage) o;
-        return  Objects.equals(getUrl(), that.getUrl()) && Objects.equals(getSort(), that.getSort());
+        return Objects.equals(productSkuId, that.productSkuId) && Objects.equals(getUrl(), that.getUrl()) && Objects.equals(getSort(), that.getSort());
     }
-
 
     @Override
     public int hashCode() {
-        return Objects.hash(getUrl(), getSort());
+        return Objects.hash(productSkuId, getUrl(), getSort());
     }
 
-
+    public ProductSkuId getProductSkuId() {
+        return productSkuId;
+    }
 }

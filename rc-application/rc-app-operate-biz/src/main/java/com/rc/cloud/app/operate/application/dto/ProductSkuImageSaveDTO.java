@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class ProductSkuImageSaveDTO {
 
+
     private String url;
 
     private Integer sort;

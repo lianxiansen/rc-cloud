@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.application.bo.ProductSkuImageBO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuAttributeSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuImageSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSkuSaveDTO;
+import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
@@ -166,7 +167,7 @@ public class ProductSkuConvert {
 
     private static ProductSku setProductSkuImage(ProductSkuSaveDTO dto,boolean isCreate, ProductSku productSku){
         List<ProductSkuImage> productImages
-                = convertProductSkuImageList(dto.getAlbums());
+                = convertProductSkuImageList(dto, dto.getAlbums());
         if(isCreate){
             productSku.setSkuImageList(productImages);
         }
@@ -284,16 +285,23 @@ public class ProductSkuConvert {
     }
 
 
-    public static ProductSkuImage convertProductSkuImage(ProductSkuImageSaveDTO skuImage){
-        ProductSkuImage productSkuImage = new ProductSkuImage(new Url(skuImage.getUrl())  ,new Sort(skuImage.getSort()));
+    public static ProductSkuImage convertProductSkuImage(ProductSkuSaveDTO sku, ProductSkuImageSaveDTO skuImage){
+        ProductSkuImage productSkuImage = new ProductSkuImage(
+                new ProductSkuId(sku.getId())
+                ,new Url(skuImage.getUrl())
+                ,new Sort(skuImage.getSort()));
+
+
         return productSkuImage;
     }
 
-    public static List<ProductSkuImage> convertProductSkuImageList(List<ProductSkuImageSaveDTO> list){
+    public static List<ProductSkuImage> convertProductSkuImageList(
+            ProductSkuSaveDTO sku,
+            List<ProductSkuImageSaveDTO> list){
         List<ProductSkuImage> resList =new ArrayList<>();
         if(list!=null){
             for (ProductSkuImageSaveDTO productImageSaveDTO : list) {
-                resList.add(convertProductSkuImage(productImageSaveDTO));
+                resList.add(convertProductSkuImage(sku, productImageSaveDTO));
             }
         }
         return resList;

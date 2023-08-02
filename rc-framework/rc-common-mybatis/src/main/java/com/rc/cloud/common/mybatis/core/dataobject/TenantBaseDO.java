@@ -1,5 +1,6 @@
 package com.rc.cloud.common.mybatis.core.dataobject;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,6 +16,7 @@ public abstract class TenantBaseDO extends BaseDO {
     /**
      * 多租户编号
      */
+    @TableField("tenant_id")
     private String tenantId;
 
 }

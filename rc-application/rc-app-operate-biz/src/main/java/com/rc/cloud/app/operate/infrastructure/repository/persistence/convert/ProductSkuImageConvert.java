@@ -17,6 +17,7 @@ public class ProductSkuImageConvert {
     public static ProductSkuImage convertDomain(ProductSkuImagePO po) {
         if (po != null) {
             ProductSkuImage productSkuImage = new ProductSkuImage(
+                    new ProductSkuId(po.getProductSkuId()),
                     new Url(po.getUrl()), new Sort(po.getSort()
             ));
             return productSkuImage;
@@ -28,6 +29,7 @@ public class ProductSkuImageConvert {
         ProductSkuImagePO po = new ProductSkuImagePO();
         po.setUrl(productSkuImage.getUrl().getValue());
         po.setSort(productSkuImage.getSort().getValue());
+        po.setProductSkuId(productSkuImage.getProductSkuId().id());
         return po;
     }
 

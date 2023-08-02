@@ -39,9 +39,6 @@ public class ProductController {
     public CodeResult<ProductBO> createProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
         return CodeResult.ok( productApplicationService.createProduct(productSaveDTO));
     }
-
-
-
                                                                                                     @PostMapping("edit")
     @Operation(summary = "修改产品")
     public CodeResult<ProductBO> editProduct(@Valid @RequestBody ProductSaveDTO productSaveDTO) {
