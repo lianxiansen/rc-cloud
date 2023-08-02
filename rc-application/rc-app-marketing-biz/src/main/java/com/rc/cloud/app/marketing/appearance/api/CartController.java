@@ -45,7 +45,7 @@ public class CartController {
         CartListBO bo = new CartListBO();
         bo.setCartList(cartBOs);
         //Map<String, Integer> maps = bo.getCartList().stream().collect(Collectors.toMap(CartBO::getProductuniqueid, CartBO::getNum, (key1, key2) -> key2));
-        Map<String, Integer> maps1 = cartList.getCartList().stream().collect(Collectors.toMap(CartBO::getProductuniqueid, CartBO::getNum, (key1, key2) -> key2));
+        Map<String, Integer> maps1 = cartList.getCartList().stream().collect(Collectors.toMap(CartBO::getProductUniqueid, CartBO::getNum, (key1, key2) -> key2));
         return CodeResult.ok(maps1);
     }
 

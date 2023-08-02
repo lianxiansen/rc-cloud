@@ -103,17 +103,17 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         List<CartDTO> cartDTOList = new ArrayList<>();
         //模拟请求
         CartDTO dto = randomPojo(CartDTO.class, o -> {
-            o.setProductid("1");
-            o.setProductuniqueid("100");
+            o.setProductId("1");
+            o.setProductUniqueid("100");
             o.setNum(5);
-            o.setShopid("1");
+            o.setShopId("1");
         });
         cartDTOList.add(dto);
         dto = randomPojo(CartDTO.class, o -> {
-            o.setProductid("2");
-            o.setProductuniqueid("200");
+            o.setProductId("2");
+            o.setProductUniqueid("200");
             o.setNum(10);
-            o.setShopid("1");
+            o.setShopId("1");
         });
         cartDTOList.add(dto);
 

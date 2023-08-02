@@ -28,10 +28,13 @@ public interface CartConvert {
 
     @Mapping(target = "id", source = "id.id")
     @Mapping(target = "userId", source = "userId.id")
-    @Mapping(target = "createtime", source = "createTime.time")
-    @Mapping(target = "shopid", source = "shopInfo.shopId.id")
-    @Mapping(target = "productid", source = "cartProductDetail.productId.id")
-    @Mapping(target = "productuniqueid", source = "cartProductDetail.skuCode")
+    @Mapping(target = "createTime", source = "createTime.time")
+    @Mapping(target = "shopId", source = "shopInfo.shopId.id")
+    @Mapping(target = "productId", source = "cartProductDetail.productId.id")
+    @Mapping(target = "productUniqueid", source = "cartProductDetail.skuCode")
+    @Mapping(target = "combinationId", source = "combinationId.id")
+    @Mapping(target = "seckillId", source = "seckillId.id")
+    @Mapping(target = "bargainId", source = "bargainId.id")
     CartBO convertBase(Cart cart);
 
     @Mapping(target = "productId", source = "productId.id")
@@ -73,13 +76,13 @@ public interface CartConvert {
         return cartBOS;
     }
 
-    @Mapping(source = "productuniqueid", target = "cartProductDetail.skuCode")
-    @Mapping(source = "shopid", target = "shopInfo.shopId.id")
-    @Mapping(source = "productid", target = "cartProductDetail.productId.id")
+    @Mapping(source = "productUniqueid", target = "cartProductDetail.skuCode")
+    @Mapping(source = "shopId", target = "shopInfo.shopId.id")
+    @Mapping(source = "productId", target = "cartProductDetail.productId.id")
     Cart convert(CartDTO dto);
 
-    @Mapping(source = "productuniqueid", target = "cartProductDetail.skuCode")
-    @Mapping(source = "shopid", target = "shopInfo.shopId.id")
-    @Mapping(source = "productid", target = "cartProductDetail.productId.id")
+    @Mapping(source = "productUniqueid", target = "cartProductDetail.skuCode")
+    @Mapping(source = "shopId", target = "shopInfo.shopId.id")
+    @Mapping(source = "productId", target = "cartProductDetail.productId.id")
     List<Cart> convert(List<CartDTO> dto);
 }

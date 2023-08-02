@@ -21,7 +21,7 @@ public class PriceConvert {
             ProductPack pack = new ProductPack();
             pack.setSalePrice(x.getCartProductDetailBO().getPrice());
             pack.setCount(x.getNum());
-            pack.setSkuId(Long.valueOf(x.getProductuniqueid()));
+            pack.setSkuId(Long.valueOf(x.getProductUniqueid()));
 
             productPackList.add(pack);
         });

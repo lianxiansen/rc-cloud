@@ -12,11 +12,11 @@ import lombok.Data;
 @Schema(description = "购物车 APP - 购物车创建 Request VO")
 public class CartDTO {
     @Schema(description = "产品Id")
-    private String productid;
+    private String productId;
     @Schema(description = "产品属性唯一Id")
-    private String productuniqueid;
+    private String productUniqueid;
     @Schema(description = "数量")
     private Integer num;
     @Schema(description = "店铺Id")
-    private String shopid;
+    private String shopId;
 }

@@ -27,12 +27,12 @@ public class CartBO {
     /**
      * 产品Id
      */
-    private String productid;
+    private String productId;
 
     /**
      * 产品属性唯一Id
      */
-    private String productuniqueid;
+    private String productUniqueid;
 
     /**
      * 产品视图
@@ -46,7 +46,7 @@ public class CartBO {
     /**
      * 店铺视图
      */
-    private String shopid;
+    private String shopId;
 
     /**
      * 数量
@@ -56,7 +56,7 @@ public class CartBO {
     /**
      * 创建时间
      */
-    private LocalDateTime createtime;
+    private LocalDateTime createTime;
 
     /**
      * 是否购买 0：未购买，1：已购买
@@ -66,22 +66,22 @@ public class CartBO {
     /**
      * 是否为立即购买
      */
-    private Integer newstate;
+    private Integer newState;
 
     /**
      * 拼团id
      */
-    private String combinationid;
+    private String combinationId;
 
     /**
      * 秒杀产品id
      */
-    private String seckillid;
+    private String seckillId;
 
     /**
      * 砍价id
      */
-    private String bargainid;
+    private String bargainId;
 
     /**
      * 购物车是否失效

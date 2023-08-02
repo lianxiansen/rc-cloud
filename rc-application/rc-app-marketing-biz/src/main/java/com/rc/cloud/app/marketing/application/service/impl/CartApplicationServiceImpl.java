@@ -70,7 +70,7 @@ public class CartApplicationServiceImpl implements CartApplicationService {
         shopIds.forEach(shopId -> {
             ShopCartBO shopCartBO = new ShopCartBO();
             shopCartBO.setShopInfo(ramdomShop());
-            List<CartBO> groupByShop = cartBOS.stream().filter(cartBO -> shopId.equals(cartBO.getShopid())).collect(Collectors.toList());
+            List<CartBO> groupByShop = cartBOS.stream().filter(cartBO -> shopId.equals(cartBO.getShopId())).collect(Collectors.toList());
             List<CartProductBO> groupByproduct = groupByproduct(groupByShop);
             shopCartBO.setCartProductList(groupByproduct);
 
@@ -148,13 +148,13 @@ public class CartApplicationServiceImpl implements CartApplicationService {
 
         cartBOS.forEach(cartBO -> {
             cartBO.setState(0);
-            Optional<ProductBO> any = productList.getList().stream().filter(productBO -> cartBO.getProductid().equals(productBO.getId())).findAny();
+            Optional<ProductBO> any = productList.getList().stream().filter(productBO -> cartBO.getProductId().equals(productBO.getId())).findAny();
             //如果产品或者产品sku不存在，购物车失效
-            if (any.isPresent() && map.containsKey(cartBO.getProductuniqueid())) {
+            if (any.isPresent() && map.containsKey(cartBO.getProductUniqueid())) {
                 //如果sku属性完全相同，购物车有效
-                if (ListUtil.isEqual(map.get(cartBO.getProductuniqueid()), cartBO.getCartProductDetailBO().getSkuAttributes())) {
+                if (ListUtil.isEqual(map.get(cartBO.getProductUniqueid()), cartBO.getCartProductDetailBO().getSkuAttributes())) {
                     cartBO.setState(1);
-                    ProductSkuBO skuBO = alSkuBOs.stream().filter(x -> cartBO.getProductuniqueid().equals(x.getSkuCode())).findFirst().get();
+                    ProductSkuBO skuBO = alSkuBOs.stream().filter(x -> cartBO.getProductUniqueid().equals(x.getSkuCode())).findFirst().get();
                     //设置最新价格
                     cartBO.getCartProductDetailBO().setPrice(skuBO.getPrice());
                 }
