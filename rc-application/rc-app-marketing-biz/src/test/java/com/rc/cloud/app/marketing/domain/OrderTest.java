@@ -3,26 +3,24 @@ package com.rc.cloud.app.marketing.domain;
 
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.rc.cloud.app.marketing.domain.cart.Cart;
-import com.rc.cloud.app.marketing.domain.comfirmorder.ComfirmOrder;
-import com.rc.cloud.app.marketing.domain.comfirmorder.ComfirmOrderService;
-import com.rc.cloud.app.marketing.domain.comfirmorder.DeliveryType;
-import com.rc.cloud.app.marketing.domain.deliveryaddress.Area;
-import com.rc.cloud.app.marketing.domain.deliveryaddress.DeliveryAddress;
-import com.rc.cloud.app.marketing.domain.order.*;
+import com.rc.cloud.app.marketing.domain.entity.cartmock.Cart;
+import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
+import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrderService;
+import com.rc.cloud.app.marketing.domain.entity.comfirmorder.DeliveryType;
+import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.Area;
+import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
+import com.rc.cloud.app.marketing.domain.entity.order.*;
+import com.rc.cloud.app.marketing.domain.service.SubmitOrderService;
+import com.rc.cloud.app.marketing.domain.service.impl.SubmitOrderServiceImpl;
 import com.rc.cloud.app.marketing.infrastructure.repository.LocalIdRepositoryImpl;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.util.StringUtils;
-import com.rc.cloud.common.redis.config.RcRedisAutoConfiguration;
-import com.rc.cloud.common.test.config.RedisTestConfiguration;
 import com.rc.cloud.common.test.core.ut.BaseDbAndRedisUnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -50,20 +48,17 @@ import java.util.Objects;
  * 6.修改订单
  */
 @Import({
-        LocalIdRepositoryImpl.class, ComfirmOrderService.class,
-        // Redis 配置类
-        RedisTestConfiguration.class, // Redis 测试配置类，用于启动 RedisServer
-        RedisAutoConfiguration.class, // Spring Redis 自动配置类
-        RcRedisAutoConfiguration.class, // 自己的 Redis 配置类
-        RedissonAutoConfiguration.class, // Redisson 自动高配置类
+        LocalIdRepositoryImpl.class, ComfirmOrderService.class, SubmitOrderServiceImpl.class
 })
 @DisplayName("订单")
-public class OrderTest extends BaseDbAndRedisUnitTest{
+public class OrderTest extends BaseDbAndRedisUnitTest {
     private ComfirmOrder comfirmOrder;
     private String cartId;
-    private List<Cart> cartItems;
+    private List<Cart> carts;
     @Autowired
     private ComfirmOrderService comfirmOrderService;
+    @Autowired
+    private SubmitOrderService submitOrderService;
     @Resource
     private IdRepository idRepository;
     private Area area;
@@ -83,15 +78,16 @@ public class OrderTest extends BaseDbAndRedisUnitTest{
     private String categoryId;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
     @BeforeEach
     public void beforeEach() {
-        cartItems = new ArrayList<>();
-        cartItems.add(new Cart("B357149-5a79-4e37-8e42-061e434"));
+        carts = new ArrayList<>();
+        carts.add(new Cart("B357149-5a79-4e37-8e42-061e434"));
 
         area = new Area("浙江省", "台州市", "黄岩区", "");
         deliveryAddress = new DeliveryAddress("445be69b-11df-4cf8-80a3-2b7beb5", "test", "13800001234", "10068", area);
         freightAmount = BigDecimal.ZERO;
-        categoryId="80481ce0-1f15-49e4-bbe9-e192bcd";
+        categoryId = "80481ce0-1f15-49e4-bbe9-e192bcd";
         productId = "7747a149-5a79-4e37-8e42-061e434";
         productName = "单杯调味罐";
         productImage = "http://www.zjffcat.com/storage/uploads/20230720/3fc7b3d2f37c7d9e4dc39ac74c38080b.png";
@@ -100,14 +96,14 @@ public class OrderTest extends BaseDbAndRedisUnitTest{
         productItemPrice = new BigDecimal(7.80);
         productItemAttribute = "48个/箱";
         productItemNum = 2;
-        comfirmOrder = comfirmOrderService.placeOrder(cartItems);
+        comfirmOrder = comfirmOrderService.placeOrder(carts);
     }
 
     @Test
     public void placeOrder() {
-        ComfirmOrder comfirmOrder = comfirmOrderService.placeOrder(cartItems);
+        ComfirmOrder comfirmOrder = comfirmOrderService.placeOrder(carts);
         redisTemplate.opsForValue().set("key", JSONObject.toJSONString(comfirmOrder));
-        String res= (String) redisTemplate.opsForValue().get("key");
+        String res = (String) redisTemplate.opsForValue().get("key");
         placeOrderAssertions(comfirmOrder);
     }
 
@@ -124,7 +120,7 @@ public class OrderTest extends BaseDbAndRedisUnitTest{
 
     @Test
     public void changePayType() {
-
+        Assertions.assertTrue(false);
     }
 
     @Test
@@ -150,45 +146,54 @@ public class OrderTest extends BaseDbAndRedisUnitTest{
 
     @Test
     public void submitComfirmOrderThenCheckBaseState() {
-        Order order = comfirmOrderService.submit(comfirmOrder);
-        Assertions.assertTrue(Objects.nonNull(order.getId())&&
-                Objects.nonNull(order.getOrderNo())&&
-                order.getOrderStatus()==OrderStatus.AUDITING&&
-                order.getPayType()==0&&
-                order.getPayStatus()== PayStatus.UNPAY&&
-                order.getConsignStatus()==ConsignStatus.UNCONSIGN
+        Order order = submitOrderService.createOrder(comfirmOrder);
+        Assertions.assertTrue(Objects.nonNull(order.getId()) &&
+                Objects.nonNull(order.getOrderNo()) &&
+                order.getOrderStatus() == OrderStatus.AUDITING &&
+                order.getPayType() == 0 &&
+                order.getPayStatus() == PayStatus.UNPAY &&
+                order.getConsignStatus() == ConsignStatus.UNCONSIGN
         );
     }
+
     @Test
     public void submitComfirmOrderThenCheckBuyer() {
         Buyer buyer = new Buyer("陈激扬", "去11", "18258687039");
-        Order order = comfirmOrderService.submit(comfirmOrder);
+        Order order = submitOrderService.createOrder(comfirmOrder);
         Assertions.assertEquals(buyer, order.getBuyer());
     }
 
     @Test
     public void submitComfirmOrderThenCheckReceiver() {
         Receiver receiver = new Receiver("某某某", "浙江省台州市黄岩区王西路41号", "13812345678");
-        Order order = comfirmOrderService.submit(comfirmOrder);
+        Order order = submitOrderService.createOrder(comfirmOrder);
         Assertions.assertEquals(receiver, order.getReceiver());
     }
+
     @Test
     public void submitComfirmOrderThenCheckTotalAmountAndNum() {
-        Order order = comfirmOrderService.submit(comfirmOrder);
-        Assertions.assertTrue(order.getTotalAmount().equals(productItemPrice.multiply(new BigDecimal(productItemNum)))&&
-                order.getTotalNum()== productItemNum);
+        Order order = submitOrderService.createOrder(comfirmOrder);
+        Assertions.assertTrue(order.getTotalAmount().equals(productItemPrice.multiply(new BigDecimal(productItemNum))) &&
+                order.getTotalNum() == productItemNum);
     }
 
 
-
-    public void payOrder(){
-        String transactionId="1000320306201511078440737890";
-        BigDecimal payAmount=new BigDecimal(100);
-        Order order = comfirmOrderService.submit(comfirmOrder);
-        order.pay(transactionId,payAmount);
-    }
     @Test
-    public void modifyOrder(){
+    public void payOrder() {
+        String transactionId = "1000320306201511078440737890";
+        BigDecimal payAmount = new BigDecimal(100);
+        Order order = submitOrderService.createOrder(comfirmOrder);
+        order.pay(transactionId, payAmount);
+        Assertions.assertTrue(
+                order.getOrderStatus() == OrderStatus.DELIVERING &&
+                        order.getPayStatus() == PayStatus.PAYED &&
+                        order.getTransactionId() == transactionId &&
+                        order.getPayAmount().equals(payAmount)
+        );
+    }
 
+    @Test
+    public void modifyOrder() {
+        Assertions.assertTrue(false);
     }
 }

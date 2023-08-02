@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.domain.order;
+package com.rc.cloud.app.marketing.domain.entity.order;
 
 
 import java.math.BigDecimal;
@@ -218,8 +218,28 @@ public class Order {
         return this.totalAmount.add(this.freightAmount);
     }
 
+    /**
+     * 订单支付
+     * @param transactionId
+     * @param payAmount
+     */
     public void pay(String transactionId, BigDecimal payAmount) {
+        if(canPay()){
+            this.transactionId=transactionId;
+            this.payAmount=payAmount;
+            this.orderStatus=OrderStatus.DELIVERING;
+            this.payStatus=PayStatus.PAYED;
+        }
 
+    }
+
+    private boolean canPay(){
+        if(this.orderStatus==OrderStatus.AUDITING||this.orderStatus==OrderStatus.PAYING){
+            if(this.payStatus==PayStatus.UNPAY){
+                return true;
+            }
+        }
+        return false;
     }
 }
 
