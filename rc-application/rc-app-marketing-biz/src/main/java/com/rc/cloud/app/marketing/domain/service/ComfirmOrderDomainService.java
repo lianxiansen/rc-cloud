@@ -12,5 +12,10 @@ import java.util.List;
  * @Version 1.0
  */
 public interface ComfirmOrderDomainService {
+    /**
+     * 购物车下单
+     * @param cartItems
+     * @return
+     */
     ComfirmOrder placeOrder(List<Cart> cartItems);
 }

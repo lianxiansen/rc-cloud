@@ -12,7 +12,7 @@ import java.util.List;
  * @ClassName Order
  * @Author liandy
  * @Date 2023/7/28 16:57
- * @Description TODO
+ * @Description 订单
  * @Version 1.0
  */
 public class Order {
@@ -30,32 +30,35 @@ public class Order {
     private OrderStatus orderStatus;
 
     /**
-     * 商品id
+     * 商品数量合计
      */
-    private String productId;
+    private int productQuantity;
+    /**
+     * 商品项数量合计
+     */
+    private int productItemQuantity;
+
 
     /**
-     * 商品名称
+     * 商品金额
      */
-    private String productName;
+    private BigDecimal productAmount;
 
-    /**
-     * 要支付的金额
-     */
-    private BigDecimal payAmount;
-    /**
-     * 数量合计
-     */
-    private int totalNum;
     /**
      * 运费
      */
     private BigDecimal freightAmount;
 
     /**
-     * 实付金额
+     * 要支付的金额=商品金额+运费
      */
-    private BigDecimal actualPayAmount;
+    private BigDecimal payAmount;
+
+    /**
+     * 改价金额
+     */
+    private BigDecimal changeAmount;
+
     /**
      * 交易方式 0：扫码支付
      */
@@ -79,11 +82,11 @@ public class Order {
      */
     private ConsignStatus consignStatus;
     /**
-     * 交易完成时间
+     * 完成时间
      */
     private LocalDateTime endTime;
     /**
-     * 交易关闭时间
+     * 关闭时间
      */
     private LocalDateTime closeTime;
 
@@ -95,41 +98,45 @@ public class Order {
      * 收货信息
      */
     private Receiver receiver;
-
-
-
-
     /**
-     * 交易流水号
+     * 订单备注
      */
-    private String transactionId;
+    private String remark;
+    /**
+     * 交易号
+     * @see com.rc.cloud.app.marketing.domain.entity.settlementorder.SettlementOrder tradeNo
+     */
+    private String tradeNo;
+
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;
 
     private List<OrderItem> items;
 
-    public Order(String id,String orderNo,String transactionId){
-        this.id=id;
+    public Order(String id, String orderNo, String transactionId) {
+        this.id = id;
         this.orderNumber = orderNo;
-        this.orderStatus=OrderStatus.AUDITING;
-        this.transactionId=transactionId;
-        payAmount =BigDecimal.ZERO;
-        totalNum=0;
-        freightAmount=BigDecimal.ZERO;
-        actualPayAmount =BigDecimal.ZERO;
-        payType=0;
-        payStatus=PayStatus.UNPAY;
-        consignStatus=ConsignStatus.UNCONSIGN;
-        createTime=LocalDateTime.now();
-        updateTime=LocalDateTime.now();
-        items=new ArrayList<>();
+        this.orderStatus = OrderStatus.AUDITING;
+        payAmount = BigDecimal.ZERO;
+        productItemQuantity = 0;
+        freightAmount = BigDecimal.ZERO;
+        changeAmount = BigDecimal.ZERO;
+        payType = 0;
+        payStatus = PayStatus.UNPAY;
+        consignStatus = ConsignStatus.UNCONSIGN;
+        createTime = LocalDateTime.now();
+        updateTime = LocalDateTime.now();
+        items = new ArrayList<>();
     }
-    public void addItem(OrderItem item){
+
+    public void addItem(OrderItem item) {
         this.items.add(item);
-        this.totalNum+=item.getProductItem().getNum();
-        this.payAmount =this.payAmount.add(item.getProductItem().getAmount());
+        this.productItemQuantity += item.getProductItem().getProductItemQuantity();
+        this.payAmount = this.payAmount.add(item.getProductItem().getProductItemAmount());
     }
+
     public Buyer getBuyer() {
         return buyer;
     }
@@ -162,16 +169,16 @@ public class Order {
         return payAmount;
     }
 
-    public int getTotalNum() {
-        return totalNum;
+    public int getProductItemQuantity() {
+        return productItemQuantity;
     }
 
     public BigDecimal getFreightAmount() {
         return freightAmount;
     }
 
-    public BigDecimal getActualPayAmount() {
-        return actualPayAmount;
+    public BigDecimal getChangeAmount() {
+        return changeAmount;
     }
 
     public int getPayType() {
@@ -202,10 +209,6 @@ public class Order {
         return closeTime;
     }
 
-    public String getTransactionId() {
-        return transactionId;
-    }
-
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -222,36 +225,47 @@ public class Order {
         this.freightAmount = freightAmount;
     }
 
-    /**
-     * 计算应付金额
-     * @return
-     */
-    public BigDecimal calculateShoudPayAmount(){
-        return this.payAmount.add(this.freightAmount);
+    public String getTradeNo() {
+        return tradeNo;
+    }
+
+    public void setTradeNo(String tradeNo) {
+        this.tradeNo = tradeNo;
     }
 
     /**
+     * 计算应付金额
+     *
+     * @return
+     */
+    public BigDecimal calculateShoudPayAmount() {
+        return this.payAmount.add(this.freightAmount);
+    }
+
+
+    /**
      * 订单支付
-     * @param transactionId
+     *
      * @param payAmount
      */
-    public void pay(String transactionId, BigDecimal payAmount) {
-        if(canPay()){
-            this.transactionId=transactionId;
-            this.actualPayAmount =payAmount;
-            this.orderStatus=OrderStatus.DELIVERING;
-            this.payStatus=PayStatus.PAYED;
+    public void pay(BigDecimal payAmount) {
+        if (canPay()) {
+            this.changeAmount = payAmount;
+            this.orderStatus = OrderStatus.DELIVERING;
+            this.payStatus = PayStatus.PAYED;
         }
 
     }
 
-    private boolean canPay(){
-        if(this.orderStatus==OrderStatus.AUDITING||this.orderStatus==OrderStatus.PAYING){
-            if(this.payStatus==PayStatus.UNPAY){
+    private boolean canPay() {
+        if (this.orderStatus == OrderStatus.AUDITING || this.orderStatus == OrderStatus.PAYING) {
+            if (this.payStatus == PayStatus.UNPAY) {
                 return true;
             }
         }
         return false;
     }
+
+
 }
 

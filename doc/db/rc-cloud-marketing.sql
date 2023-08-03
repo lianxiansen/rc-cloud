@@ -1,33 +1,26 @@
-DROP TABLE IF EXISTS `order_cart`;
-CREATE TABLE `order_cart`
-(
-    `id`                 varchar(50) NOT NULL COMMENT 'id',
-    `user_id`            varchar(50) NULL DEFAULT NULL COMMENT '用户id',
-    `type`               int NULL DEFAULT NULL COMMENT '类型 1.产品 2.拼单 3.秒杀 4.砍价',
-    `product_id`         varchar(50) NULL DEFAULT NULL COMMENT '产品id',
-    `product_uniqueid`   varchar(50) NULL DEFAULT NULL COMMENT '产品属性唯一id',
-    `product_image`      varchar(2000) NULL DEFAULT NULL COMMENT '产品图片',
-    `product_name`       varchar(255) NULL DEFAULT NULL COMMENT '产品名称',
-    `out_id`             varchar(255) NULL DEFAULT NULL COMMENT '货号',
-    `num`                int NULL DEFAULT NULL COMMENT '数量',
-    `create_time`        datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `payed`              int NULL DEFAULT NULL COMMENT '是否支付',
-    `new_state`          int NULL DEFAULT NULL COMMENT '是否为立即购买',
-    `combination_id`     varchar(50) NULL DEFAULT NULL COMMENT '拼团id',
-    `seckill_id`         varchar(50) NULL DEFAULT NULL COMMENT '秒杀产品id',
-    `bargain_id`         varchar(50) NULL DEFAULT NULL COMMENT '砍价id',
-    `shop_id`            varchar(50) NULL DEFAULT NULL COMMENT '店铺id',
-    `carton_size_length` double NULL DEFAULT NULL COMMENT '长',
-    `carton_size_height` double NULL DEFAULT NULL COMMENT '高',
-    `carton_size_width`  double NULL DEFAULT NULL COMMENT '宽',
-    `sku_attributes`     varchar(255) NULL DEFAULT NULL COMMENT '属性',
-    `price`              double NULL DEFAULT NULL COMMENT '价格',
-    `weight`             double NULL DEFAULT NULL COMMENT '重量',
-    `packing_number`     int NULL DEFAULT NULL COMMENT '装箱数',
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB  COMMENT = '购物车' ROW_FORMAT = DYNAMIC;
+/*
+ Navicat Premium Data Transfer
 
+ Source Server         : chenjianxiang
+ Source Server Type    : MySQL
+ Source Server Version : 50737
+ Source Host           : chenjianxiang:3306
+ Source Schema         : rc-cloud-marketing
 
+ Target Server Type    : MySQL
+ Target Server Version : 50737
+ File Encoding         : 65001
+
+ Date: 03/08/2023 15:41:16
+*/
+
+SET NAMES utf8mb4;
+SET
+FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for delivery_address
+-- ----------------------------
 DROP TABLE IF EXISTS `delivery_address`;
 CREATE TABLE `delivery_address`
 (
@@ -46,10 +39,12 @@ CREATE TABLE `delivery_address`
     `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updater`     varchar(32) NULL DEFAULT NULL COMMENT '更新人',
     `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  COMMENT = '收货地址';
 
-
+-- ----------------------------
+-- Table structure for order
+-- ----------------------------
 DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order`
 (
@@ -86,10 +81,44 @@ CREATE TABLE `order`
     `create_time`             datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updater`                 varchar(32) NULL DEFAULT NULL COMMENT '更新人',
     `update_time`             datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  COMMENT = '订单';
 
+-- ----------------------------
+-- Table structure for order_cart
+-- ----------------------------
+DROP TABLE IF EXISTS `order_cart`;
+CREATE TABLE `order_cart`
+(
+    `id`                 varchar(50) NOT NULL COMMENT 'id',
+    `user_id`            varchar(50) NULL DEFAULT NULL COMMENT '用户id',
+    `type`               int(11) NULL DEFAULT NULL COMMENT '类型 1.产品 2.拼单 3.秒杀 4.砍价',
+    `product_id`         varchar(50) NULL DEFAULT NULL COMMENT '产品id',
+    `product_image`      varchar(2000) NULL DEFAULT NULL COMMENT '产品图片',
+    `product_name`       varchar(255) NULL DEFAULT NULL COMMENT '产品名称',
+    `product_uniqueid`   varchar(50) NULL DEFAULT NULL COMMENT '产品属性唯一id',
+    `num`                int(11) NULL DEFAULT NULL COMMENT '数量',
+    `create_time`        datetime NULL DEFAULT NULL COMMENT '创建时间',
+    `payed`              int(11) NULL DEFAULT NULL COMMENT '是否支付',
+    `new_state`          int(11) NULL DEFAULT NULL COMMENT '是否为立即购买',
+    `combination_id`     varchar(50) NULL DEFAULT NULL COMMENT '拼团id',
+    `seckill_id`         varchar(50) NULL DEFAULT NULL COMMENT '秒杀产品id',
+    `bargain_id`         varchar(50) NULL DEFAULT NULL COMMENT '砍价id',
+    `shop_id`            varchar(50) NULL DEFAULT NULL COMMENT '店铺id',
+    `carton_size_length` double NULL DEFAULT NULL COMMENT '长',
+    `carton_size_height` double NULL DEFAULT NULL COMMENT '高',
+    `carton_size_width`  double NULL DEFAULT NULL COMMENT '宽',
+    `sku_attributes`     varchar(255) NULL DEFAULT NULL COMMENT '属性',
+    `price`              decimal(10, 2) NULL DEFAULT NULL COMMENT '价格',
+    `weight`             double NULL DEFAULT NULL COMMENT '重量',
+    `packing_number`     int(11) NULL DEFAULT NULL COMMENT '装箱数',
+    `out_id`             varchar(255) NULL DEFAULT NULL COMMENT '货号',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB;
 
+-- ----------------------------
+-- Table structure for order_item
+-- ----------------------------
 DROP TABLE IF EXISTS `order_item`;
 CREATE TABLE `order_item`
 (
@@ -112,10 +141,44 @@ CREATE TABLE `order_item`
     `create_time`           datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updater`               varchar(32) NULL DEFAULT NULL COMMENT '更新人',
     `update_time`           datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  COMMENT = '订单项信息';
 
+-- ----------------------------
+-- Table structure for order_item_express
+-- ----------------------------
+DROP TABLE IF EXISTS `order_item_express`;
+CREATE TABLE `order_item_express`
+(
+    `id`                      varchar(32) NOT NULL COMMENT '主键',
+    `order_id`                varchar(32) NULL DEFAULT NULL COMMENT '订单ID',
+    `order_item_id`           varchar(32) NULL DEFAULT NULL COMMENT 'ID',
+    `tenant_id`               varchar(32) NULL DEFAULT NULL COMMENT '所属租户',
+    `product_id`              varchar(32) NULL DEFAULT NULL COMMENT '商品id',
+    `product_name`            varchar(255) NULL DEFAULT NULL COMMENT 'spu_name',
+    `express_code`            varchar(500) NULL DEFAULT NULL COMMENT '物流code，yunda',
+    `express_name`            varchar(200) NULL DEFAULT NULL COMMENT '物流名',
+    `express_numer`           varchar(200) NULL DEFAULT NULL COMMENT '物流单号',
+    `express_status`          tinyint(4) NULL DEFAULT NULL COMMENT '发货状态[0->未发货，1->已发货，2->已收货]',
+    `delivery_quantity`       tinyint(4) NULL DEFAULT NULL COMMENT '发货数量',
+    `delivery_name`           varchar(100) NULL DEFAULT NULL COMMENT '发货姓名',
+    `delivery_phone`          varchar(32) NULL DEFAULT NULL COMMENT '发货电话',
+    `delivery_post_code`      varchar(32) NULL DEFAULT NULL COMMENT '发货邮编',
+    `delivery_province`       varchar(32) NULL DEFAULT NULL COMMENT '发货省份/直辖市',
+    `delivery_city`           varchar(32) NULL DEFAULT NULL COMMENT '发货城市',
+    `delivery_region`         varchar(32) NULL DEFAULT NULL COMMENT '发货区',
+    `delivery_detail_address` varchar(200) NULL DEFAULT NULL COMMENT '发货详细地址',
+    `deleted`                 char(1) NULL DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
+    `creator`                 varchar(32) NULL DEFAULT NULL COMMENT '创建人',
+    `create_time`             datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `updater`                 varchar(32) NULL DEFAULT NULL COMMENT '更新人',
+    `update_time`             datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB  COMMENT = '订单运费表';
 
+-- ----------------------------
+-- Table structure for settlement_order
+-- ----------------------------
 DROP TABLE IF EXISTS `settlement_order`;
 CREATE TABLE `settlement_order`
 (
@@ -134,5 +197,8 @@ CREATE TABLE `settlement_order`
     `create_time`   datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `updater`       varchar(32) NULL DEFAULT NULL COMMENT '更新人',
     `update_time`   datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB  COMMENT = '结算订单';
+
+SET
+FOREIGN_KEY_CHECKS = 1;

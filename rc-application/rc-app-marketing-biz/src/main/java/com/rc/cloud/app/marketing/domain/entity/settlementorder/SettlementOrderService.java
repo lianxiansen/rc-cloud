@@ -2,8 +2,6 @@ package com.rc.cloud.app.marketing.domain.entity.settlementorder;
 
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * @ClassName OrderSettlementService
  * @Author liandy
@@ -13,7 +11,9 @@ import java.util.List;
  */
 @Service
 public class SettlementOrderService {
-    public List<SettlementOrder> findList(List<String> orderNumbers) {
+
+
+    public SettlementOrder findBy(String tradeNo) {
         return null;
     }
 }

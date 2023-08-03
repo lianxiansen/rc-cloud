@@ -38,7 +38,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     public ComfirmOrderBO placeOrder(PlaceOrderDTO placeOrderDTO) {
         List<Cart> carts = cartService.findCarts(placeOrderDTO.getCartItemIds());
         ComfirmOrder comfirmOrder = comfirmOrderDomainService.placeOrder(carts);
-        DeliveryAddress deliveryAddress = deliveryAddressDomainService.findDefault("");
+        DeliveryAddress deliveryAddress = deliveryAddressDomainService.findDefaultDeliveryAddress("");
         return new ComfirmOrderBO(comfirmOrder,deliveryAddress);
     }
 }

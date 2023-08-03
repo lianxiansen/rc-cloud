@@ -1,6 +1,7 @@
 package com.rc.cloud.app.marketing.domain.entity.comfirmorder;
 
 import com.rc.cloud.app.marketing.domain.entity.common.Product;
+import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,9 +17,7 @@ import java.util.stream.Collectors;
  */
 public class ComfirmOrder {
     private String id;
-    private String deliveryAddressId;
-
-
+    private DeliveryAddress deliveryAddress;
     private List<ComfirmOrderItem> items;
     /**
      * 交易方式 0：扫码支付
@@ -64,9 +63,6 @@ public class ComfirmOrder {
     }
 
 
-    public String getDeliveryAddressId() {
-        return deliveryAddressId;
-    }
 
     public List<ComfirmOrderItem> getItems() {
         return items;
@@ -96,16 +92,13 @@ public class ComfirmOrder {
         return payAmount;
     }
 
-    public void setDeliveryAddressId(String deliveryAddressId) {
-        this.deliveryAddressId = deliveryAddressId;
-    }
 
     public String getId() {
         return this.id;
     }
 
     public void addItem(ComfirmOrderItem item) {
-        this.productAmout = this.productAmout.add(item.getProductItem().getAmount());
+        this.productAmout = this.productAmout.add(item.getProductItem().getProductItemAmount());
         this.payAmount = this.productAmout.add(this.freightAmount);
         this.items.add(item);
     }
@@ -126,4 +119,28 @@ public class ComfirmOrder {
         return this.items.stream().filter(item->item.getProduct().equals(product)).collect(Collectors.toList());
     }
 
+    public DeliveryAddress getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(DeliveryAddress deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
+    }
+
+    public void setPayType(int payType) {
+        this.payType = payType;
+    }
+
+    public void setDeliveryType(DeliveryType deliveryType) {
+        this.deliveryType = deliveryType;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public void setFreightAmount(BigDecimal freightAmount) {
+        this.freightAmount = freightAmount;
+        this.payAmount = this.productAmout.add(this.freightAmount);
+    }
 }

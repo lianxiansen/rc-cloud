@@ -30,10 +30,7 @@ public class SettlementOrder implements Serializable {
      */
     private String outTradeNo;
 
-    /**
-     * 订单号
-     */
-    private String orderNumber;
+
 
     /**
      * 支付方式 0 手动代付 1 微信支付 2 支付宝
@@ -42,17 +39,18 @@ public class SettlementOrder implements Serializable {
     private int payType;
 
     /**
-     * 支付金额
+     * 应付金额
      */
     private BigDecimal payAmount;
-
+    /**
+     * 实付金额
+     */
+    private BigDecimal actualAmount;
     /**
      * 用户ID
      */
 
     private String buyerId;
-
-
 
     /**
      * 创建时间
@@ -91,13 +89,6 @@ public class SettlementOrder implements Serializable {
         this.outTradeNo = outTradeNo;
     }
 
-    public String getOrderNumber() {
-        return orderNumber;
-    }
-
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
-    }
 
     public Integer getPayType() {
         return payType;

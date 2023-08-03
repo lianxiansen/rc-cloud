@@ -1,5 +1,7 @@
 package com.rc.cloud.app.marketing.domain.entity.order;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.rc.cloud.app.marketing.domain.entity.common.Product;
 import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
 
 import java.math.BigDecimal;
@@ -21,27 +23,24 @@ public class OrderItem {
      */
     private String orderId;
 
-
-
-
-    private ProductItem productItem;
+    /**
+     * 商品
+     */
+    private Product product;
 
     /**
-     * 实付金额
+     * 商品sku
      */
-    private BigDecimal payAmount;
+    private ProductItem productItem;
+
+
 
     public OrderItem(String id, String orderId) {
         this.id = id;
         this.orderId = orderId;
     }
 
-    /**
-     * 商品总金额
-     */
-    public BigDecimal getProductItemAmount(){
-        return new BigDecimal(productItem.getNum()).multiply(productItem.getPrice());
-    }
+
 
 
     public void setProductItem(ProductItem productItem) {
@@ -51,5 +50,7 @@ public class OrderItem {
     public ProductItem getProductItem() {
         return productItem;
     }
+
+
 }
 

@@ -38,7 +38,7 @@ spring:
         test-while-idle: true
         test-on-borrow: false
         test-on-return: false
-      primary: operate
+      primary: marketing
       datasource:
         operate:
           name: rc-cloud-operate
@@ -46,9 +46,9 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: root
           password: 123456
-        order:
-          name: rc-cloud-operate
-          url: jdbc:mysql://chenjianxiang:3306/rc-cloud-order?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
+        marketing:
+          name: rc-cloud-marketing
+          url: jdbc:mysql://chenjianxiang:3306/rc-cloud-marketing?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: root
           password: 123456

@@ -6,7 +6,7 @@ import lombok.Data;
  * @ClassName Buyer
  * @Author liandy
  * @Date 2023/7/28 17:16
- * @Description TODO
+ * @Description 买家
  * @Version 1.0
  */
 @Data
@@ -18,7 +18,7 @@ public class Buyer {
     /**
      * 买家名称
      */
-    private String buyername;
+    private String buyerName;
     /**
      * 下单人
      */
@@ -32,7 +32,7 @@ public class Buyer {
 
     public Buyer(String buyerId,String buyername, String buyerOrder, String buyerAccount) {
         this.buyerId = buyerId;
-        this.buyername = buyername;
+        this.buyerName = buyername;
         this.buyerOrder = buyerOrder;
         this.buyerAccount = buyerAccount;
     }

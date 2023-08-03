@@ -2,6 +2,9 @@ package com.rc.cloud.app.marketing.domain.entity.deliveryaddress;
 
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.List;
+
 /**
  * @ClassName DeliveryAddressDomainService
  * @Author liandy
@@ -11,11 +14,19 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DeliveryAddressService {
+    @Resource
+    private DeliveryAddressRepository deliveryAddressRepository;
     public DeliveryAddress findById(String id){
-        return null;
+        return deliveryAddressRepository.findById(id);
     }
 
-    public DeliveryAddress findDefault(String customerId){
-        return null;
+    /**
+     * 获取顾客默认收货地址
+     * @param customerId
+     * @return
+     */
+    public DeliveryAddress findDefaultDeliveryAddress(String customerId){
+        List<DeliveryAddress> deliveryAddresses= deliveryAddressRepository.findByCustomerId(customerId);
+        return deliveryAddresses.stream().filter(item->item.isDefaulted()).findFirst().orElse(deliveryAddresses.get(0));
     }
 }
