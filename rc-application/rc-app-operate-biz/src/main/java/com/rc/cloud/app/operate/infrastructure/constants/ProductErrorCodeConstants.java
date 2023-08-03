@@ -7,8 +7,7 @@ import com.rc.cloud.common.core.exception.ErrorCode;
  */
 public interface ProductErrorCodeConstants extends ErrorCodeConstants {
 
-
-    ErrorCode ID_NOT_EMPTY = new ErrorCode(2001000000, "唯一标识不为空");
+    ErrorCode PRODUCT_NOT_EXIST_ERROR = new ErrorCode(2001000000, "商品不存在，状态异常");
     ErrorCode NAME_NOT_EMPTY = new ErrorCode(2001000002, "Name must not be null");
 
     ErrorCode PRODUCT_ID_NOT_EMPTY = new ErrorCode(2001000003, "ProductId must not be null");

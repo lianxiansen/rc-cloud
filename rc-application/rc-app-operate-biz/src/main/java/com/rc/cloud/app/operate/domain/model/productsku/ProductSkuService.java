@@ -19,10 +19,17 @@ public class ProductSkuService {
         if(CollectionUtil.isEmpty(productSkuList)){
             throw new ServiceException();
         }
+        //校验领域规格是否重复
+        //校验skucode是否重复
+
         productSkuRepository.batchSaveProductSku(productId,productSkuList);
     }
 
     public void updateProductSku(ProductSku productSku){
+        //保证对象存在
+        //保证存在对象规格未被修改
+        //保证skucode不重复
+
         productSkuRepository.updateProductSku(productSku);
     }
 

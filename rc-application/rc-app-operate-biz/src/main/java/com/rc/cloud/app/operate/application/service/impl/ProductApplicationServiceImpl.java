@@ -100,13 +100,15 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
                 ,productSaveDTO,true,null);
 
         productService.createProduct(product);
+        List<ProductImage> productSizeImages=null;
+        List<ProductImage> productMasterImages=null;
 
         //设置商品图片
         if(productSaveDTO.getSizeAlbums()!=null && productSaveDTO.getSizeAlbums().size()>0){
             for (ProductImageSaveDTO sizeAlbum : productSaveDTO.getSizeAlbums()) {
                 sizeAlbum.setId(idRepository.nextId());
             }
-            List<ProductImage> productSizeImages = ProductImageConvert
+            productSizeImages = ProductImageConvert
                     .convertDomainList(productSaveDTO.getSizeAlbums(), productId,ProductImageTypeEnum.SizeImage);
             productImageService.insertProductSizeImageList( productSizeImages);
         }
@@ -114,7 +116,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
             for (ProductImageSaveDTO  masterImages: productSaveDTO.getMasterAlbums()) {
                 masterImages.setId(idRepository.nextId());
             }
-            List<ProductImage> productMasterImages = ProductImageConvert
+            productMasterImages = ProductImageConvert
                     .convertDomainList(productSaveDTO.getMasterAlbums(),productId,ProductImageTypeEnum.MasterImage);
             productImageService.insertProductMasterImageList(productMasterImages);
         }
@@ -141,14 +143,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
             productSkuList.add(productSku);
         }
         productSkuService.batchSaveProductSku(productId,productSkuList);
-        ProductQueryDTO query=new ProductQueryDTO();
-        query.setProductId(productId.id());
-        query.setNeedProductDetail(true);
-        query.setNeedProductDict(true);
-        query.setNeedProductSku(true);
-        query.setNeedProductSizeImage(true);
-        query.setNeedProductMasterImage(true);
-        return getProduct(query);
+        return ProductConvert.convertProductBO(product,productMasterImages ,productSizeImages,productDicts,productDetail,productSkuList);
     }
 
 
@@ -166,7 +161,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         //修改
         Product product = productService.findProductById(productId);
         if (null == product) {
-            throw new IllegalArgumentException("未找到当前商品");
+            throw new ServiceException(ProductErrorCodeConstants.PRODUCT_NOT_EXIST_ERROR);
         }
         product= ProductConvert.convertDomain(productId.id()
                 ,productSaveDTO,false,product);
@@ -222,7 +217,8 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
                     throw  new ServiceException(ProductErrorCodeConstants.PRODUCT_SKU_NOT_EXIST_ERROR);
                 }
                 if(productSku==null){
-                    productSku = ProductSkuConvert.convertDomain(new ProductSkuId(idRepository.nextId()), productId
+                    productSkuSaveDTO.setId(idRepository.nextId());
+                    productSku = ProductSkuConvert.convertDomain(new ProductSkuId(productSkuSaveDTO.getId()), productId
                             , productSkuSaveDTO, true, productSku);
                 }else{
                     productSku = ProductSkuConvert.convertDomain(productSku.getId(), productId
