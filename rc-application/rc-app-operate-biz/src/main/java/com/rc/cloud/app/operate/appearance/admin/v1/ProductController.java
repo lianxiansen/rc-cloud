@@ -15,10 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -44,7 +41,7 @@ public class ProductController {
                 )
         );
     }
-                                                                                                    @PostMapping("edit")
+    @PutMapping("edit")                                                                                          @PostMapping("edit")
     @Operation(summary = "修改产品")
     public CodeResult<ProductDetailResponse> editProduct(@Valid @RequestBody ProductSaveRequest request) {
         return CodeResult.ok(ProductDetailResponse.from(
@@ -53,7 +50,9 @@ public class ProductController {
         );
     }
 
-    @PostMapping("remove")
+
+
+    @DeleteMapping("remove")
     @Operation(summary = "移除产品")
     public CodeResult<ProductRemoveResponse> removeProduct(@Valid @RequestBody ProductRemoveRequest request) {
         ProductRemoveDTO productRemoveDTO=new ProductRemoveDTO();
@@ -63,7 +62,7 @@ public class ProductController {
 
 
 
-    @PostMapping("get")
+    @GetMapping("get")
     @Operation(summary = "获得产品")
     public CodeResult<ProductDetailResponse> getProduct(@Valid @RequestBody ProductQueryDTO query) {
         ProductBO product = productApplicationService.getProduct(query);
@@ -71,7 +70,7 @@ public class ProductController {
     }
 
 
-    @PostMapping("list")
+    @GetMapping("list")
     @Operation(summary = "产品列表")
     public CodeResult<PageResult<ProductListResponse>> listProduct(@Valid @RequestBody ProductListQueryDTO query) {
         query.setNeedBrandName(true);
@@ -79,7 +78,7 @@ public class ProductController {
         return CodeResult.ok(ProductListResponse.from(productList));
     }
 
-    @PostMapping("changeNewStatus")
+    @PutMapping("changeNewStatus")
     @Operation(summary = "修改New字段")
     public CodeResult<Long> changeNewStatus(@Valid @RequestBody ProductChangeNewStatusDTO dto){
         productApplicationService.changeNewStatus(dto.getProductId(), dto.isNewFlag());
@@ -87,7 +86,7 @@ public class ProductController {
     }
 
 
-    @PostMapping("changeOnShelfStatus")
+    @PutMapping("changeOnShelfStatus")
     @Operation(summary = "修改产品字段")
     public CodeResult<Long> changeOnShelfStatus(@Valid @RequestBody ProductChangeOnShelfStatusDTO dto){
         productApplicationService.changeOnShelfStatus(dto.getProductId(), dto.getOnShelfStatus());
@@ -95,14 +94,14 @@ public class ProductController {
     }
 
 
-    @PostMapping("changePublicStatus")
+    @PutMapping("changePublicStatus")
     @Operation(summary = "修改Public字段")
     public CodeResult<Long> changePublicStatus(@Valid @RequestBody ProductChangePublicStatusDTO dto){
         productApplicationService.changePublicStatus(dto.getProductId(), dto.isPublicFlag());
         return CodeResult.ok();
     }
 
-    @PostMapping("changeRecommendStatus")
+    @PutMapping("changeRecommendStatus")
     @Operation(summary = "修改Recommend字段")
     public CodeResult<Long> changeRecommendStatus(@Valid @RequestBody ProductChangeRecommendStatusDTO dto){
         productApplicationService.changeRecommendStatus(dto.getProductId(), dto.isRecommendFlag());
