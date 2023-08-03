@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
+import com.rc.cloud.app.operate.domain.model.productimage.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.productimage.ProductImageRepository;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductImageConvert;
@@ -42,6 +43,13 @@ public class ProductImageRepositoryImpl  implements ProductImageRepository {
         return ProductImageConvert.convertList(this.productImageMapper.selectList(wrapper));
     }
 
+    @Override
+    public void deleteProductImage(ProductImageId productImageId) {
+        LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductImagePO::getId, productImageId.id());
+        productImageMapper.delete(wrapper);
+    }
+
     /**
      * 获取图片
      * @param productImage
@@ -52,26 +60,13 @@ public class ProductImageRepositoryImpl  implements ProductImageRepository {
         this.productImageMapper.insert(productImagePO);
     }
 
-
-    /**
-     * 移除图片
-     * 修改图片的时候一般不会带上图片的id所以
-     * 不考虑图片的id，仅考虑图片的值
-     * @param productId
-     * @param url
-     * @param sort
-     * @param type
-     * @return
-     */
-    public void removeProductImageByProductIdAndUrlAndSortAndType(ProductId productId,String url, int sort, int type) {
+    @Override
+    public void updateProductImage(ProductImage productImage) {
         LambdaQueryWrapperX<ProductImagePO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductImagePO::getUrl, url);
-        wrapper.eq(ProductImagePO::getSort, sort);
-        wrapper.eq(ProductImagePO::getImageType, type);
-        wrapper.eq(ProductImagePO::getProductId, productId.id());
-        productImageMapper.delete(wrapper);
+        wrapper.eq(ProductImagePO::getId, productImage.getId().id());
+        ProductImagePO productImagePO = ProductImageConvert.convert(productImage);
+        productImageMapper.update(productImagePO,wrapper);
     }
-
 
     /**
      * 批量删除所有的商品图片

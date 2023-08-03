@@ -13,6 +13,7 @@ public class ProductSkuConvert {
     public static ProductSkuDetailResponse convert2ProductSkuDetail(ProductSkuBO bo){
 
         ProductSkuDetailResponse response=new ProductSkuDetailResponse();
+        response.setId(bo.getId());
         if( bo.getSkuAttributes()!=null){
             if(bo.getSkuAttributes().size()==1){
                 AttributeValueCombinationBO a1 = bo.getSkuAttributes().get(0);

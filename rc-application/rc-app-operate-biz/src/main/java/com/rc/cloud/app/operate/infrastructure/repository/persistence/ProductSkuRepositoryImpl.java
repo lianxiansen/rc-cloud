@@ -117,10 +117,12 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
     public ProductSku findById(ProductSkuId productSkuId) {
         LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductSkuPO::getId, productSkuId.id());
-        ProductSkuPO ProductSkuPO = this.productSkuMapper.selectOne(wrapper);
-        ProductSku productSku = ProductSkuConvert.convertDomain(ProductSkuPO);
-        productSku.setSkuImageList(getProductSkuImageByProductSkuId(productSkuId));
-        productSku.setProductSkuAttribute(getProductSkuAttributeByProductSkuId(productSkuId));
+        ProductSkuPO po = this.productSkuMapper.selectOne(wrapper);
+        ProductSku productSku = ProductSkuConvert.convertDomain(po);
+        if(productSku!=null){
+            productSku.setSkuImageList(getProductSkuImageByProductSkuId(productSkuId));
+            productSku.setProductSkuAttribute(getProductSkuAttributeByProductSkuId(productSkuId));
+        }
         return productSku;
     }
 

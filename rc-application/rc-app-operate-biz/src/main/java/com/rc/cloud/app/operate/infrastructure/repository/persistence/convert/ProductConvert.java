@@ -21,7 +21,6 @@ public class ProductConvert {
             return null;
         }
         ProductId productId=new ProductId(po.getId());
-        TenantId tenantId = new TenantId(po.getTenantId());
         Product product=new Product(productId,new Name(po.getName()));
         product.setId(productId);
         //Remark

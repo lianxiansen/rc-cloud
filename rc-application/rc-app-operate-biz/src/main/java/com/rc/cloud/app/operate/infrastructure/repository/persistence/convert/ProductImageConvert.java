@@ -46,6 +46,7 @@ public class ProductImageConvert {
      */
     public static ProductImagePO convert(ProductImage productImage) {
         ProductImagePO po = new ProductImagePO();
+        po.setId(productImage.getId().getId());
         po.setUrl(productImage.getUrl().getValue());
         po.setSort(productImage.getSort().getValue());
         po.setProductId(productImage.getProductId().id());

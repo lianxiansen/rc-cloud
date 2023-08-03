@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class ProductImageSaveRequest {
 
+    @Schema(description = "图片id")
     private String id;
 
     @Schema(description = "图片地址")

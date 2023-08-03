@@ -34,6 +34,8 @@ public class ProductConvert {
         ProductDetailResponse response=new ProductDetailResponse();
         response.setId(bo.getId());
         response.setName(bo.getName());
+        response.setTag(bo.getTag());
+        response.setRemark(bo.getRemark());
         response.setListImage(bo.getProductListImage());
         response.setNewFlag(bo.isNewFlag());
         response.setBrandId(bo.getBrandId());
@@ -55,13 +57,13 @@ public class ProductConvert {
         response.setProductListImage(bo.getProductListImage());
         if(bo.getMasterImages()!=null){
             List<ProductImageResponse> masterImages = bo.getMasterImages().stream().map(item ->
-                            new ProductImageResponse(item.getUrl(), item.getSort()))
+                            new ProductImageResponse(item.getId(), item.getUrl(), item.getSort()))
                     .collect(Collectors.toList());
             response.setImageList(masterImages);
         }
         if(bo.getSizeImages()!=null){
             List<ProductImageResponse> sizeImages = bo.getSizeImages().stream().map(item ->
-                            new ProductImageResponse(item.getUrl(), item.getSort()))
+                            new ProductImageResponse(item.getId(),item.getUrl(), item.getSort()))
                     .collect(Collectors.toList());
             response.setSizeImageList(sizeImages);
         }

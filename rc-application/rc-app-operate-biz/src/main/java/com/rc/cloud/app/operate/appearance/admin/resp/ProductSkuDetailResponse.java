@@ -10,6 +10,9 @@ import lombok.experimental.Accessors;
 public class ProductSkuDetailResponse {
 
 
+    @Schema(description = "skuid")
+    private String id;
+
     @Schema(description = "属性1")
     private String attribute1;
 

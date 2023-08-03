@@ -42,10 +42,10 @@ public class ProductImageConvert {
 
     public static ProductImageBO convertProductImageBO(ProductImage productImage){
         ProductImageBO bo =new ProductImageBO();
+        bo.setId(productImage.getId().getId());
         bo.setSort(productImage.getSort().getValue());
         bo.setUrl(productImage.getUrl().getValue());
         bo.setType(productImage.getType());
-        bo.setId(productImage.getId().getId());
         return bo;
     }
 

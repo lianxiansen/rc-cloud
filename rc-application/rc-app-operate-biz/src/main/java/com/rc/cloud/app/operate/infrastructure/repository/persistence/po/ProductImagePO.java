@@ -18,7 +18,7 @@ public class ProductImagePO extends TenantBaseDO {
 
     private static final long serialVersionUID = 23434L;
 
-    @TableId(type = IdType.ASSIGN_UUID)
+
     private String id;
 
 

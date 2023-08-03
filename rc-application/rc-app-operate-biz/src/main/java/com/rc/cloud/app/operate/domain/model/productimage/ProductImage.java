@@ -76,11 +76,11 @@ public class ProductImage extends  Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductImage that = (ProductImage) o;
-        return Objects.equals(getId(), that.getId()) && Objects.equals(getUrl(), that.getUrl()) && Objects.equals(getSort(), that.getSort()) && getType() == that.getType();
+        return Objects.equals(getId(), that.getId()) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUrl(), getSort(), getType());
+        return Objects.hash(getId());
     }
 }

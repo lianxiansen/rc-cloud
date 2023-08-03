@@ -174,11 +174,21 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         Set<ProductDict> productDicts=null;
         ProductDetail productDetail=null;
         if(productSaveDTO.getSizeAlbums()!=null){
+            for (ProductImageSaveDTO sizeAlbum : productSaveDTO.getSizeAlbums()) {
+                if(StringUtils.isEmpty(sizeAlbum.getId())){
+                    sizeAlbum.setId(idRepository.nextId());
+                }
+            }
             productSizeImages = ProductImageConvert
                     .convertDomainList(productSaveDTO.getSizeAlbums(), productId, ProductImageTypeEnum.SizeImage);
             productImageService.updateProductSizeImageList(productId, productSizeImages);
         }
         if(productSaveDTO.getMasterAlbums()!=null){
+            for (ProductImageSaveDTO masterImages : productSaveDTO.getMasterAlbums()) {
+                if(StringUtils.isEmpty(masterImages.getId())){
+                    masterImages.setId(idRepository.nextId());
+                }
+            }
             productMasterImages = ProductImageConvert
                     .convertDomainList(productSaveDTO.getMasterAlbums(),productId, ProductImageTypeEnum.MasterImage);
             productImageService.updateProductMasterImageList(productId,productMasterImages);
@@ -202,7 +212,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
             for (ProductSkuSaveDTO productSkuSaveDTO :  productSaveDTO.getSkus()) {
                 ProductSku productSku=null;
                 if(StringUtils.isNotEmpty(productSkuSaveDTO.getId())){
-                    productSkuService.findProductSkuById(new ProductSkuId(productSkuSaveDTO.getId()));
+                    productSku =productSkuService.findProductSkuById(new ProductSkuId(productSkuSaveDTO.getId()));
                 }
                 if(productSku==null){
                     productSku = ProductSkuConvert.convertDomain(new ProductSkuId(idRepository.nextId()), productId

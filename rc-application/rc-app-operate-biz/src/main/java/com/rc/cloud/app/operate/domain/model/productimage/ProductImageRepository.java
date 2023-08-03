@@ -8,9 +8,11 @@ public interface ProductImageRepository {
 
     List<ProductImage> getProductImageByProductId(ProductId productId, Integer imageType);
 
-    void removeProductImageByProductIdAndUrlAndSortAndType(ProductId productId,String url, int sort, int type);
+    void deleteProductImage(ProductImageId productImageId);
 
     void insertProductImage(ProductImage productImage);
+
+    void updateProductImage(ProductImage productImage);
 
     void deleteProductImageByProductId(ProductId productId);
 }

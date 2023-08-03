@@ -26,8 +26,8 @@ public class ProductSkuService {
         return productSkuRepository.updateProductSku(productSku);
     }
 
-    public void findProductSkuById(ProductSkuId productSkuId) {
-        productSkuRepository.findById(productSkuId);
+    public ProductSku findProductSkuById(ProductSkuId productSkuId) {
+        return productSkuRepository.findById(productSkuId);
     }
 
     public List<ProductSku> getProductSkuListByProductId(ProductId productId) {
