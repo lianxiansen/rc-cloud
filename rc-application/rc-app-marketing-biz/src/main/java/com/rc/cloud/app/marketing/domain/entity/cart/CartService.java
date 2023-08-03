@@ -24,20 +24,21 @@ public class CartService {
     @Resource
     private CartRepository cartRepository;
 
-    public Cart createFromCopy(Cart cart) {
+    //创建普通购物车
+    public Cart createCommonCart(UserId userId, Integer num, ShopInfo shopInfo, CartProductDetail cartProductDetail, CartProductSkuDetail cartProductSkuDetail) {
         Cart newCart = new Cart();
         newCart.setPayed(0);
         newCart.setType(1);
         newCart.setCreateTime(new CreateTime(LocalDateTime.now()));
-        newCart.setUserId(cart.getUserId());
-        newCart.setShopInfo(cart.getShopInfo());
-        newCart.setCartProductDetail(cart.getCartProductDetail());
-        newCart.setCartProductSkuDetail(cart.getCartProductSkuDetail());
+        newCart.setUserId(userId);
+        newCart.setShopInfo(shopInfo);
+        newCart.setCartProductDetail(cartProductDetail);
+        newCart.setCartProductSkuDetail(cartProductSkuDetail);
 //        cart.setSeckillId(new SeckillId(StringUtils.EMPTY));
 //        cart.setCombinationId(new CombinationId(StringUtils.EMPTY));
 //        cart.setBargainId(new BargainId(StringUtils.EMPTY));
         newCart.setNewState(0);
-        newCart.setNum(cart.getNum());
+        newCart.setNum(num);
         return newCart;
     }
 
@@ -72,7 +73,6 @@ public class CartService {
     }
 
 
-
     /**
      * 操作购物车数量
      *
@@ -81,13 +81,7 @@ public class CartService {
      */
     public void save(List<Cart> cartList) {
         cartList.forEach(cart -> {
-            Cart entity = cartRepository.findByProductUniqueId(cart.getUserId(), new ProductUniqueId(cart.getCartProductSkuDetail().getSkuCode()));
-            if (entity == null) {
-                //如果不存在，则创建
-                entity = createFromCopy(cart);
-            }
-            entity.setNum(cart.getNum());
-            cartRepository.save(entity);
+            cartRepository.save(cart);
         });
     }
 
