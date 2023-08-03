@@ -25,19 +25,15 @@ public class CartBO {
     private Integer type;
 
     /**
-     * 产品Id
-     */
-    private String productId;
-
-    /**
-     * 产品属性唯一Id
-     */
-    private String productUniqueid;
-
-    /**
-     * 产品视图
+     * 产品信息
      */
     private CartProductDetailBO cartProductDetailBO;
+
+    /**
+     * 产品sku信息
+     */
+    private CartProductSkuDetailBO cartProductSkuDetailBO;
+
     /**
      * 店铺视图
      */

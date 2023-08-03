@@ -2,6 +2,7 @@ package com.rc.cloud.app.marketing.infrastructure.convert;
 
 import com.rc.cloud.app.marketing.domain.entity.cart.Cart;
 import com.rc.cloud.app.marketing.domain.entity.cart.CartProductDetail;
+import com.rc.cloud.app.marketing.domain.entity.cart.CartProductSkuDetail;
 import com.rc.cloud.app.marketing.domain.entity.cart.ShopInfo;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.*;
 import com.rc.cloud.app.marketing.domain.valobj.CreateTime;
@@ -29,7 +30,6 @@ public interface CartConvert {
         po.setShopId(cart.getShopInfo().getShopId().id());
         po.setPayed(cart.getPayed());
         po.setCreateTime(cart.getCreateTime().getTime());
-        po.setProductUniqueid(cart.getCartProductDetail().getProductId().id());
         po.setBargainId(cart.getBargainId() == null ? "" : cart.getBargainId().id());
         po.setUserId(cart.getUserId() == null ? "" : cart.getUserId().id());
         po.setId(cart.getId() == null ? "" : cart.getId().id());
@@ -41,16 +41,16 @@ public interface CartConvert {
 
         if (cart.getCartProductDetail() != null) {
             //设置购物车产品详细信息
-            po.setProductUniqueid(cart.getCartProductDetail().getSkuCode());
-            po.setPackingNumber(cart.getCartProductDetail().getPackingNumber());
-            po.setSkuAttributes(StringUtils.join(cart.getCartProductDetail().getSkuAttributes(), ","));
-            po.setWeight(cart.getCartProductDetail().getWeight());
-            po.setCartonSizeHeight(cart.getCartProductDetail().getCartonSizeHeight());
-            po.setCartonSizeWidth(cart.getCartProductDetail().getCartonSizeWidth());
-            po.setCartonSizeLength(cart.getCartProductDetail().getCartonSizeLength());
-            po.setPrice(cart.getCartProductDetail().getPrice());
-            po.setProductId(cart.getCartProductDetail().getProductId().id());
-            po.setProductName(cart.getCartProductDetail().getProductName());
+            po.setProductUniqueid(cart.getCartProductSkuDetail().getSkuCode());
+            po.setPackingNumber(cart.getCartProductSkuDetail().getPackingNumber());
+            po.setSkuAttributes(StringUtils.join(cart.getCartProductSkuDetail().getSkuAttributes(), ","));
+            po.setWeight(cart.getCartProductSkuDetail().getWeight());
+            po.setCartonSizeHeight(cart.getCartProductSkuDetail().getCartonSizeHeight());
+            po.setCartonSizeWidth(cart.getCartProductSkuDetail().getCartonSizeWidth());
+            po.setCartonSizeLength(cart.getCartProductSkuDetail().getCartonSizeLength());
+            po.setPrice(cart.getCartProductSkuDetail().getPrice());
+            po.setProductId(cart.getCartProductDetail().getId().id());
+            po.setProductName(cart.getCartProductDetail().getName());
         }
         return po;
     }
@@ -82,19 +82,22 @@ public interface CartConvert {
         cart.setNewState(po.getNewState());
 
         CartProductDetail productDetail = new CartProductDetail();
-        productDetail.setProductId(new ProductId(po.getProductId()));
-        productDetail.setProductName(po.getProductName());
-        productDetail.setProductImage(po.getProductImage());
+        productDetail.setId(new ProductId(po.getProductId()));
+        productDetail.setName(po.getProductName());
+        productDetail.setMasterImage(po.getProductImage());
         productDetail.setOutId(po.getOutId());
-        productDetail.setSkuCode(po.getProductUniqueid());
-        productDetail.setPackingNumber(po.getPackingNumber());
-        productDetail.setSkuAttributes(Arrays.asList(StringUtils.split(po.getSkuAttributes(), ",")));
-        productDetail.setWeight(po.getWeight());
-        productDetail.setCartonSizeHeight(po.getCartonSizeHeight());
-        productDetail.setCartonSizeWidth(po.getCartonSizeWidth());
-        productDetail.setCartonSizeLength(po.getCartonSizeLength());
-        productDetail.setPrice(po.getPrice());
         cart.setCartProductDetail(productDetail);
+
+        CartProductSkuDetail cartProductSkuDetail = new CartProductSkuDetail();
+        cartProductSkuDetail.setSkuCode(po.getProductUniqueid());
+        cartProductSkuDetail.setPackingNumber(po.getPackingNumber());
+        cartProductSkuDetail.setSkuAttributes(Arrays.asList(StringUtils.split(po.getSkuAttributes(), ",")));
+        cartProductSkuDetail.setWeight(po.getWeight());
+        cartProductSkuDetail.setCartonSizeHeight(po.getCartonSizeHeight());
+        cartProductSkuDetail.setCartonSizeWidth(po.getCartonSizeWidth());
+        cartProductSkuDetail.setCartonSizeLength(po.getCartonSizeLength());
+        cartProductSkuDetail.setPrice(po.getPrice());
+        cart.setCartProductSkuDetail(cartProductSkuDetail);
         return cart;
     }
 

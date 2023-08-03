@@ -5,7 +5,7 @@ import com.rc.cloud.api.product.bo.ProductBO;
 import com.rc.cloud.api.product.bo.ProductSkuBO;
 import com.rc.cloud.api.product.dto.ProductListQueryDTO;
 import com.rc.cloud.api.product.service.ProductApplicationService;
-import com.rc.cloud.app.marketing.application.bo.CartListBO;
+import com.rc.cloud.app.marketing.application.bo.CartBO;
 import com.rc.cloud.app.marketing.application.dto.CartDTO;
 import com.rc.cloud.app.marketing.application.service.impl.CartApplicationServiceImpl;
 import com.rc.cloud.app.marketing.domain.entity.cart.CartService;
@@ -92,10 +92,10 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         //模拟服务返回
         mockProductService();
 
-        CartListBO cartList = cartApplicationServiceImpl.getCartList(Arrays.asList("200", "300"));
-        assertEquals(cartList.getCartList().size(), 2);
-        assertEquals(cartList.getCartList().get(0).getState(), 1);
-        assertEquals(cartList.getCartList().get(1).getState(), 0);
+        List<CartBO> cartList = cartApplicationServiceImpl.getCartList(Arrays.asList("200", "300"));
+        assertEquals(cartList.size(), 2);
+        assertEquals(cartList.get(0).getState(), 1);
+        assertEquals(cartList.get(1).getState(), 0);
     }
 
     @Test

@@ -3,6 +3,7 @@ package com.rc.cloud.app.marketing.application.bo;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -13,47 +14,60 @@ import java.util.List;
 @Data
 public class CartProductDetailBO {
 
-    private String productId;
+    private String id;
 
-    private String productName;
+    private String tenantId;
 
-    private String skuCode;
+    private String brandId;
 
-    private BigDecimal supplyPrice;
+    private String name;
 
-    private BigDecimal weight;
+    private String brandName;
+
+    private String remark;
+
+    private String tag;
+
+    private int productType;
+
+    private String spuCode;
+
+    private int productOrigin;
 
     private String outId;
 
-    private int limitBuy;
+    private int onshelfStatus;
 
-    private BigDecimal price;
+    private String firstCategory;
 
-    private long inventory;
+    private String secondCategory;
+
+    private String thirdCategory;
+
+    private String videoUrl;
+
+    private String videoImg;
+
+    private boolean packingLowestBuyFlag;
+
+    private boolean newFlag;
+
+    private boolean explosivesFlag;
+
+    private String explosivesImage;
+
+    private boolean publicFlag;
+
+    private boolean recommendFlag;
 
     private int sort;
 
-    private int seckillLimitBuy;
+    private String customClassificationId;
 
-    private BigDecimal seckillPrice;
+    private String masterImage;
 
-    private long seckillInventory;
+    private String productListImage;
 
-    private int seckillTotalInventory;
+    private LocalDateTime createTime;
 
-    private String seckillBuyRate;
-
-    private List<String> skuAttributes;
-
-    private String productImage;
-
-    private String skuImage;
-
-    private int packingNumber;
-
-    private int cartonSizeLength;
-
-    private int cartonSizeWidth;
-
-    private int cartonSizeHeight;
 }

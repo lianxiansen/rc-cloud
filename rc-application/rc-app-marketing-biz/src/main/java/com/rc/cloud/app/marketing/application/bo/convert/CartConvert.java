@@ -4,9 +4,11 @@ import com.rc.cloud.api.product.bo.ProductBO;
 import com.rc.cloud.api.product.bo.ProductSkuBO;
 import com.rc.cloud.app.marketing.application.bo.CartBO;
 import com.rc.cloud.app.marketing.application.bo.CartProductDetailBO;
+import com.rc.cloud.app.marketing.application.bo.CartProductSkuDetailBO;
 import com.rc.cloud.app.marketing.domain.entity.cart.Cart;
 import com.rc.cloud.app.marketing.domain.entity.cart.CartProductDetail;
 import com.rc.cloud.app.marketing.application.dto.CartDTO;
+import com.rc.cloud.app.marketing.domain.entity.cart.CartProductSkuDetail;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ProductId;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,7 +16,6 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -30,31 +31,30 @@ public interface CartConvert {
     @Mapping(target = "userId", source = "userId.id")
     @Mapping(target = "createTime", source = "createTime.time")
     @Mapping(target = "shopId", source = "shopInfo.shopId.id")
-    @Mapping(target = "productId", source = "cartProductDetail.productId.id")
-    @Mapping(target = "productUniqueid", source = "cartProductDetail.skuCode")
     @Mapping(target = "combinationId", source = "combinationId.id")
     @Mapping(target = "seckillId", source = "seckillId.id")
     @Mapping(target = "bargainId", source = "bargainId.id")
     CartBO convertBase(Cart cart);
 
-    @Mapping(target = "productId", source = "productId.id")
+    @Mapping(target = "id", source = "id.id")
     CartProductDetailBO convertDetail(CartProductDetail detail);
 
-    default CartProductDetail convert(ProductBO productBO, String skuCode) {
+    CartProductSkuDetailBO convertSkuDetail(CartProductSkuDetail detail);
+
+    default CartProductDetail convert(ProductBO productBO) {
         CartProductDetail detail = new CartProductDetail();
 
-        List<ProductSkuBO> skus = productBO.getSkus();
-        //产品规格不存在，跳过
-        Optional<ProductSkuBO> skuBO = skus.stream().filter(sku -> skuCode.equals(sku.getSkuCode())).findAny();
-        if (!skuBO.isPresent()) {
-            return detail;
-        }
-        ProductSkuBO productSkuBO = skuBO.get();
-        //设置产品属性
-        detail.setProductName(productBO.getName());
-        detail.setProductId(new ProductId(productBO.getId()));
-        detail.setSkuCode(skuCode);
+        detail.setName(productBO.getName());
+        detail.setId(new ProductId(productBO.getId()));
+        detail.setMasterImage(productBO.getMasterImages().get(0).getUrl());
+        return detail;
+    }
+
+    default CartProductSkuDetail convert(ProductSkuBO productSkuBO) {
+        CartProductSkuDetail detail = new CartProductSkuDetail();
         //设置产品sku属性
+        detail.setOutId(productSkuBO.getOutId());
+        detail.setSkuCode(productSkuBO.getSkuCode());
         detail.setCartonSizeWidth(productSkuBO.getCartonSizeWidth());
         detail.setCartonSizeLength(productSkuBO.getCartonSizeLength());
         detail.setCartonSizeHeight(productSkuBO.getCartonSizeHeight());
@@ -65,24 +65,24 @@ public interface CartConvert {
         return detail;
     }
 
-
     default List<CartBO> convertList(List<Cart> carts) {
         List<CartBO> cartBOS = new ArrayList<>();
         carts.forEach(cart -> {
             CartBO bo = convertBase(cart);
             bo.setCartProductDetailBO(convertDetail(cart.getCartProductDetail()));
+            bo.setCartProductSkuDetailBO(convertSkuDetail(cart.getCartProductSkuDetail()));
             cartBOS.add(bo);
         });
         return cartBOS;
     }
 
-    @Mapping(source = "productUniqueid", target = "cartProductDetail.skuCode")
+    @Mapping(source = "productUniqueid", target = "cartProductSkuDetail.skuCode")
     @Mapping(source = "shopId", target = "shopInfo.shopId.id")
-    @Mapping(source = "productId", target = "cartProductDetail.productId.id")
+    @Mapping(source = "productId", target = "cartProductDetail.id.id")
     Cart convert(CartDTO dto);
 
     @Mapping(source = "productUniqueid", target = "cartProductDetail.skuCode")
     @Mapping(source = "shopId", target = "shopInfo.shopId.id")
-    @Mapping(source = "productId", target = "cartProductDetail.productId.id")
+    @Mapping(source = "productId", target = "cartProductDetail.id.id")
     List<Cart> convert(List<CartDTO> dto);
 }
