@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.application.bo;
+package com.rc.cloud.app.marketing.appearance.api.vo;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import lombok.Data;
  * @description TODO
  */
 @Data
-public class ShopInfoBO {
+public class ShopInfoVO {
 
     String name;
 

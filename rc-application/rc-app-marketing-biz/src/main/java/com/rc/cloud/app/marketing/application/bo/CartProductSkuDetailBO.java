@@ -1,17 +1,17 @@
 package com.rc.cloud.app.marketing.application.bo;
 
 import lombok.Data;
-import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * @author WJF
+ * @create 2023-07-28 9:17
+ * @description TODO
+ */
 @Data
-@Accessors(chain = true)
-public class ProductSkuBO {
-
-
-    private String id;
+public class CartProductSkuDetailBO {
 
     private String skuCode;
 
@@ -39,9 +39,11 @@ public class ProductSkuBO {
 
     private String seckillBuyRate;
 
-    private List<AttributeValueCombinationBO> skuAttributes;
+    private List<String> skuAttributes;
 
-    private List<ProductSkuImageBO> skuImages;
+    private String productImage;
+
+    private String skuImage;
 
     private int packingNumber;
 
@@ -50,5 +52,4 @@ public class ProductSkuBO {
     private int cartonSizeWidth;
 
     private int cartonSizeHeight;
-
 }

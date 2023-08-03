@@ -1,5 +1,6 @@
-package com.rc.cloud.app.marketing.application.bo;
+package com.rc.cloud.app.marketing.appearance.api.vo;
 
+import com.rc.cloud.app.marketing.application.bo.CartBO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Data
 @Accessors(chain = true)
-public class CartProductBO {
+public class CartProductVO {
     private String productId;
 
     private String productName;
@@ -25,11 +26,11 @@ public class CartProductBO {
 
     private List<CartBO> detailList;
 
-    public CartProductBO() {
+    public CartProductVO() {
         detailList = new ArrayList<>();
     }
 
-    public CartProductBO(CartProductBO bo) {
+    public CartProductVO(CartProductVO bo) {
         this.productId = bo.getProductId();
         this.productName = bo.getProductName();
         this.productImage = bo.getProductImage();

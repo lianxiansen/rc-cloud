@@ -46,6 +46,19 @@ public class Cart {
      */
     private CartProductDetail cartProductDetail;
 
+    public CartProductSkuDetail getCartProductSkuDetail() {
+        return cartProductSkuDetail;
+    }
+
+    public void setCartProductSkuDetail(CartProductSkuDetail cartProductSkuDetail) {
+        this.cartProductSkuDetail = cartProductSkuDetail;
+    }
+
+    /**
+     * 产品Sku详情
+     */
+    private CartProductSkuDetail cartProductSkuDetail;
+
     public CartId getId() {
         return id;
     }

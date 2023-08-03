@@ -1,6 +1,6 @@
 package com.rc.cloud.app.marketing.appearance.api.resp;
 
-import com.rc.cloud.app.marketing.application.bo.ComfirmOrderBO;
+//import com.rc.cloud.app.marketing.application.bo.ComfirmOrderBO;
 
 /**
  * @ClassName ComfirmOrderResp
@@ -11,7 +11,7 @@ import com.rc.cloud.app.marketing.application.bo.ComfirmOrderBO;
  */
 public class PlaceOrderResp {
 
-    public static PlaceOrderResp from(ComfirmOrderBO bo){
-        return null;
-    }
+    //public static PlaceOrderResp from(ComfirmOrderBO bo){
+        //return null;
+    //}
 }

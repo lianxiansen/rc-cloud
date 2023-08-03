@@ -32,6 +32,7 @@ public class CartService {
         newCart.setUserId(cart.getUserId());
         newCart.setShopInfo(cart.getShopInfo());
         newCart.setCartProductDetail(cart.getCartProductDetail());
+        newCart.setCartProductSkuDetail(cart.getCartProductSkuDetail());
 //        cart.setSeckillId(new SeckillId(StringUtils.EMPTY));
 //        cart.setCombinationId(new CombinationId(StringUtils.EMPTY));
 //        cart.setBargainId(new BargainId(StringUtils.EMPTY));
@@ -80,7 +81,7 @@ public class CartService {
      */
     public void save(List<Cart> cartList) {
         cartList.forEach(cart -> {
-            Cart entity = cartRepository.findByProductUniqueId(cart.getUserId(), new ProductUniqueId(cart.getCartProductDetail().getSkuCode()));
+            Cart entity = cartRepository.findByProductUniqueId(cart.getUserId(), new ProductUniqueId(cart.getCartProductSkuDetail().getSkuCode()));
             if (entity == null) {
                 //如果不存在，则创建
                 entity = createFromCopy(cart);

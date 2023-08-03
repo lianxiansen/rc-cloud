@@ -1,7 +1,7 @@
 package com.rc.cloud.app.marketing.appearance.api.resp;
 
-import com.rc.cloud.app.marketing.application.bo.ProductBO;
-import com.rc.cloud.app.marketing.application.bo.ProductSkuBO;
+import com.rc.cloud.app.marketing.application.bo.CartProductDetailBO;
+import com.rc.cloud.app.marketing.application.bo.CartProductSkuDetailBO;
 
 import java.time.LocalDateTime;
 
@@ -34,12 +34,12 @@ public class CartResponse {
     /**
      * 产品信息视图
      */
-    private ProductSkuBO productSkuBO;
+    private CartProductSkuDetailBO productSkuBO;
 
     /**
      * 产品视图
      */
-    private ProductBO productSpuBO;
+    private CartProductDetailBO productSpuBO;
 
     /**
      * 数量
