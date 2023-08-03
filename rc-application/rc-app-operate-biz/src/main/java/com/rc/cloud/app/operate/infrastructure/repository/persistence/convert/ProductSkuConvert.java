@@ -17,9 +17,10 @@ public class ProductSkuConvert {
         if(po!=null){
             ProductId productId=new ProductId(po.getProductId());
             ProductSkuId id = new ProductSkuId(po.getId());
+            ProductSku productSku=new ProductSku(id,productId);
             Price price=new Price();
             price.setValue(po.getPrice());
-            ProductSku productSku=new ProductSku(id,productId);
+            productSku.setPrice(price);
             //秒杀信息
             SeckillSku seckillSku=new SeckillSku();
             seckillSku.setSeckillInventory(new Inventory(po.getSeckillInventory()));
@@ -84,8 +85,10 @@ public class ProductSkuConvert {
 
     public static List<ProductSku> convertDomainList(List<ProductSkuPO> list){
         List<ProductSku> resList =new ArrayList<>();
-        if(list!=null){
-            list.forEach(x-> resList.add(convertDomain(x)));
+        if(list!=null && list.size()>0){
+            for (ProductSkuPO productSkuPO : list) {
+                resList.add(convertDomain(productSkuPO));
+            }
         }
         return  resList;
     }

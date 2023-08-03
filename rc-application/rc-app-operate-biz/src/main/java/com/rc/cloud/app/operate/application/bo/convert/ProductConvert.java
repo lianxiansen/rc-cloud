@@ -646,6 +646,7 @@ public class ProductConvert
             SortedSet<Attribute> attributes = productAttribute.getAttributes();
             bo.setAttributes(convertAttributeBOList(attributes));
         }
+
         return bo;
 
     }

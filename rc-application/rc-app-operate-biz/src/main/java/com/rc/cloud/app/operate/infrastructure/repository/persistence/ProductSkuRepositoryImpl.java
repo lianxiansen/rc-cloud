@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
+import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
+import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
@@ -44,34 +46,54 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         return this.productSkuImageMapper.delete(wrapper);
     }
 
+    /**
+     * 批量更新规格图片
+     * 怎么样的图片算相同呢？
+     * 至少需要skuid相同
+     * skuid相同的图片有多张，这个又是值类型
+     * 自身id是没有用的，我们需要skuid相同，图片地址相同，排序相同这样才算同一张图片(这里不同于商品图片，商品图片定义为实体，有实际id)
+     * @param productSkuId
+     * @param productSkuImageList
+     * @return
+     */
+    private void updateProductSkuImageList(ProductSkuId productSkuId, List<ProductSkuImage> productSkuImageList) {
 
-    private int updateProductSkuImageByProductSku(ProductSku productSku) {
-        List<ProductSkuImage> newList = new ArrayList<>();
-        if(productSku.getSkuImageList()!=null){
-            newList.addAll(productSku.getSkuImageList());
+        List<ProductSkuImage> oriDicts = getProductSkuImageByProductSkuId(productSkuId);
+
+        List<ProductSkuImage> addList = CollectionUtil.subtractToList(productSkuImageList, oriDicts);
+        List<ProductSkuImage> removeList = CollectionUtil.subtractToList(oriDicts, productSkuImageList);
+        //这里不存在交集，只有需要删除的与需要增加的
+//        List<ProductSkuImage> intersectionList =
+//                CollectionUtil.intersection(oriDicts,productSkuImageList).stream().collect(Collectors.toList());
+
+        if(addList!=null && addList.size()>0){
+            batchInsertProductSkuImage(addList);
         }
-
-        List<ProductSkuImage> oriList = getProductSkuImageByProductSkuId(productSku.getId());
-        List<ProductSkuImage> addList = CollectionUtil.subtractToList(newList, oriList);
-        List<ProductSkuImage> removeList = CollectionUtil.subtractToList(oriList, newList);
-        removeList.forEach(x ->
-                removeProductSkuImageByUrlAndSort(x.getUrl().getValue(), x.getSort().getValue())
-        );
-        batchInsertProductSkuImage(addList, productSku.getId());
-        return 1;
+        if(removeList!=null && removeList.size()>0){
+            for (ProductSkuImage productSkuImage : removeList) {
+                removeProductSkuImageByProductSkuIdAndUrlAndSort(productSkuId
+                        ,productSkuImage.getUrl().getValue()
+                        ,productSkuImage.getSort().getValue());
+            }
+        }
     }
 
-
-    private int removeProductSkuImageByUrlAndSort(String url, int sort) {
+    /**
+     * 移除单张图片，一定需要指定skuid和url和sort
+     * @param productSkuId
+     * @param url
+     * @param sort
+     * @return
+     */
+    private int removeProductSkuImageByProductSkuIdAndUrlAndSort(ProductSkuId productSkuId, String url, int sort) {
         LambdaQueryWrapperX<ProductSkuImagePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuImagePO::getProductSkuId, productSkuId.id());
         wrapper.eq(ProductSkuImagePO::getUrl, url);
         wrapper.eq(ProductSkuImagePO::getSort, sort);
         return productSkuImageMapper.delete(wrapper);
     }
 
-
-
-    private int batchInsertProductSkuImage(List<ProductSkuImage> productSkuImageList, ProductSkuId productSkuId) {
+    private void batchInsertProductSkuImage(List<ProductSkuImage> productSkuImageList) {
 
         if(productSkuImageList!=null && productSkuImageList.size()>0){
             for (ProductSkuImage productSkuImage : productSkuImageList) {
@@ -80,7 +102,6 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
                 this.productSkuImageMapper.insert(po);
             }
         }
-        return 1;
     }
 
     private int removeProductSkuAttributeByProductSkuId(ProductSkuId productSkuId) {
@@ -96,13 +117,26 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
     }
 
 
-    private int updateProductSkuAttribute(ProductSku productSku) {
-        ProductSkuAttribute productSkuAttribute = productSku.getProductSkuAttribute();
-        ProductSkuAttributePO po = ProductSkuAttributeConvert.convertPO(productSkuAttribute);
-        po.setProductSkuId(productSku.getId().id());
+    private ProductSkuAttributePO findProductSkuAttributeByProductSkuId(ProductSkuId productSkuId) {
         LambdaQueryWrapperX<ProductSkuAttributePO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductSkuAttributePO::getProductSkuId, productSku.getId().id());
-        return this.productSkuAttributeMapper.update(po, wrapper);
+        wrapper.eq(ProductSkuAttributePO::getProductSkuId, productSkuId.getId());
+        return this.productSkuAttributeMapper.selectOne(wrapper);
+    }
+
+    /**
+     * 修改ProductSkuAttribute的content
+     * @param productSku
+     * @return
+     */
+    private int updateProductSkuAttribute(ProductSku productSku) {
+        //新的attribute
+        ProductSkuAttributePO newAttribute = ProductSkuAttributeConvert.convertPO(productSku.getProductSkuAttribute());
+        ProductSkuAttributePO oriAttribute = findProductSkuAttributeByProductSkuId(productSku.getId());
+        //设置修改内容
+        oriAttribute.setContent(newAttribute.getContent());
+        LambdaQueryWrapperX<ProductSkuAttributePO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductSkuAttributePO::getId, oriAttribute.getId());
+        return this.productSkuAttributeMapper.update(oriAttribute, wrapper);
     }
 
 
@@ -134,44 +168,28 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
      * @return
      */
     @Override
-    public int batchSaveProductSku(List<ProductSku> productSkuList) {
+    public void batchSaveProductSku(ProductId productId,List<ProductSku> productSkuList) {
         //保存ProductSku
         //这里的规格有可能是原有的基础上新增
         //比如：1 2 3 新增 4 5 6 结果是 1 2 3 4 5 6
         //也有可能是减少 1 2 3 4 减少 3 4 结果是 1 2
         //也可能是重新洗牌 1 2 3 4 结果是 5 6 7 8
-        ProductId productId=null;
-        Set<String> oldList=new HashSet<>();
-        Set<String> newList =new HashSet<>();
-        if(productSkuList!=null && productSkuList.size()>0){
-            productId=productSkuList.get(0).getProductId();
-        }
         List<ProductSku> oriList = getProductSkuListByProductId(productId);
-        if(oriList!=null && oriList.size()>0){
-            oldList =oriList.stream().map(x->x.getId().id()).distinct().collect(Collectors.toSet());
-        }
-        newList = productSkuList.stream().map(x->x.getId().id()).distinct().collect(Collectors.toSet());
-        //添加
-        List<String> addList = CollectionUtil.subtractToList(newList, oldList);
-        for (String x : addList) {
-            insertProductSku(productSkuList.stream().filter(u->
-                    u.getId().id().equals(x)
-            ).findFirst().get());
+        List<ProductSku> addList = CollectionUtil.subtractToList(productSkuList, oriList);
+        List<ProductSku> removeList = CollectionUtil.subtractToList(oriList, productSkuList);
+        List<ProductSku> intersectionList =
+                CollectionUtil.intersection(oriList,productSkuList).stream().collect(Collectors.toList());
 
+        for (ProductSku add : addList) {
+           insertProductSku(add);
         }
-        //移除
-        List<String> reduceList = CollectionUtil.subtractToList(oldList, newList);
-        for (String x : reduceList) {
-            removeProductSku(new ProductSkuId(x));
+        for (ProductSku remove : removeList) {
+            removeProductSku(remove);
         }
         //更新
-        Collection<String> intersection = CollectionUtil.intersection(newList, oldList);
-        for (String x : intersection) {
-            updateProductSku(productSkuList.stream().filter(u->
-                    u.getId().id().equals(x)
-            ).findFirst().get());
+        for (ProductSku productSku : intersectionList) {
+            updateProductSku(productSku);
         }
-        return 1;
     }
 
     /**
@@ -181,14 +199,14 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
      * @return
      */
     @Override
-    public int updateProductSku(ProductSku productSku) {
+    public void updateProductSku(ProductSku productSku) {
         LambdaQueryWrapperX<ProductSkuPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductSkuPO::getId, productSku.getId().id());
         ProductSkuPO po = ProductSkuConvert.convertProductSkuPO(productSku);
         this.productSkuMapper.update(po,wrapper);
-        updateProductSkuImageByProductSku(productSku);
+        updateProductSkuImageList(productSku.getId(),productSku.getSkuImageList());
         updateProductSkuAttribute(productSku);
-        return 1;
+
     }
 
     /**
@@ -199,12 +217,11 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
      * @return
      */
     @Override
-    public int insertProductSku(ProductSku productSku) {
+    public void insertProductSku(ProductSku productSku) {
         ProductSkuPO po = ProductSkuConvert.convertProductSkuPO(productSku);
         this.productSkuMapper.insert(po);
-        batchInsertProductSkuImage(productSku.getSkuImageList(),productSku.getId());
+        batchInsertProductSkuImage(productSku.getSkuImageList());
         insertProductSkuAttribute(productSku);
-        return 1;
     }
 
 
@@ -249,6 +266,10 @@ public class ProductSkuRepositoryImpl implements ProductSkuRepository{
         this.productSkuMapper.delete(wrapper);
         removeProductSkuImageByProductSkuId(productSkuId);
         removeProductSkuAttributeByProductSkuId(productSkuId);
+    }
+
+    private void removeProductSku(ProductSku productSku) {
+        removeProductSku(productSku.getId());
     }
 
 

@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.appearance.admin.resp.convert;
 
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductSkuAttributeResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductSkuDetailResponse;
 import com.rc.cloud.app.operate.application.bo.AttributeValueCombinationBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
@@ -14,21 +15,18 @@ public class ProductSkuConvert {
 
         ProductSkuDetailResponse response=new ProductSkuDetailResponse();
         response.setId(bo.getId());
+        List<ProductSkuAttributeResponse> productSkuAttributeResponses=new ArrayList<>();
         if( bo.getSkuAttributes()!=null){
-            if(bo.getSkuAttributes().size()==1){
-                AttributeValueCombinationBO a1 = bo.getSkuAttributes().get(0);
-                response.setAttribute1(a1.getAttribute());
-                response.setAttributeValue1(a1.getAttributeValue());
-
-            }else if(bo.getSkuAttributes().size()==2){
-                AttributeValueCombinationBO a1 = bo.getSkuAttributes().get(0);
-                AttributeValueCombinationBO a2 = bo.getSkuAttributes().get(1);
-                response.setAttribute1(a1.getAttribute());
-                response.setAttributeValue1(a1.getAttributeValue());
-                response.setAttribute2(a2.getAttribute());
-                response.setAttributeValue2(a2.getAttributeValue());
+            for (AttributeValueCombinationBO skuAttribute : bo.getSkuAttributes()) {
+                ProductSkuAttributeResponse attributeResponse=new ProductSkuAttributeResponse();
+                attributeResponse.setName(skuAttribute.getAttribute());
+                attributeResponse.setValue(skuAttribute.getAttributeValue());
+                attributeResponse.setSort(skuAttribute.getSort());
+                productSkuAttributeResponses.add(attributeResponse);
             }
+
         }
+        response.setAttributes(productSkuAttributeResponses);
         if(bo.getSkuImages()!=null && bo.getSkuImages().size()>0){
             response.setSkuImage(bo.getSkuImages().get(0).getUrl());
         }

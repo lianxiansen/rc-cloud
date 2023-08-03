@@ -52,12 +52,15 @@ public class ProductSkuImage extends ValueObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductSkuImage that = (ProductSkuImage) o;
-        return Objects.equals(productSkuId, that.productSkuId) && Objects.equals(getUrl(), that.getUrl()) && Objects.equals(getSort(), that.getSort());
+        boolean f1= Objects.equals(productSkuId.id(), that.productSkuId.id());
+        boolean f2= Objects.equals(url.getValue(), that.getUrl().getValue());
+        boolean f3= Objects.equals(sort.getValue(), that.getSort().getValue());
+        return f1 && f2 && f3;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(productSkuId, getUrl(), getSort());
+        return Objects.hash(productSkuId.id(), getUrl().getValue(), getSort().getValue());
     }
 
     public ProductSkuId getProductSkuId() {

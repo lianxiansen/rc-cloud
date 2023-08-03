@@ -108,6 +108,9 @@ public class ProductDetailResponse {
     @Schema(description = "详情")
     private String detail;
 
+    @Schema(description = "属性")
+    private List<ProductAttributeResponse> attributes;
+
     @Schema(description = "skus")
     private List<ProductSkuDetailResponse> skus;
 

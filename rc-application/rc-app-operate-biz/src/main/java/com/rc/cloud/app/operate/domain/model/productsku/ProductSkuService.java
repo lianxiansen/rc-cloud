@@ -15,15 +15,15 @@ public class ProductSkuService {
     @Autowired
     private ProductSkuRepository productSkuRepository;
 
-    public int batchSaveProductSku(List<ProductSku> productSkuList){
+    public void batchSaveProductSku(ProductId productId, List<ProductSku> productSkuList){
         if(CollectionUtil.isEmpty(productSkuList)){
             throw new ServiceException();
         }
-        return productSkuRepository.batchSaveProductSku(productSkuList);
+        productSkuRepository.batchSaveProductSku(productId,productSkuList);
     }
 
-    public int updateProductSku(ProductSku productSku){
-        return productSkuRepository.updateProductSku(productSku);
+    public void updateProductSku(ProductSku productSku){
+        productSkuRepository.updateProductSku(productSku);
     }
 
     public ProductSku findProductSkuById(ProductSkuId productSkuId) {

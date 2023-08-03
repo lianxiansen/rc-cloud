@@ -8,6 +8,7 @@ import com.rc.cloud.common.core.domain.AggregateRoot;
 import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ProductSku extends AggregateRoot {
 
@@ -240,5 +241,18 @@ public class ProductSku extends AggregateRoot {
 
     public ProductSkuAttribute getProductSkuAttribute() {
         return productSkuAttribute;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductSku that = (ProductSku) o;
+        return  Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getProductId());
     }
 }

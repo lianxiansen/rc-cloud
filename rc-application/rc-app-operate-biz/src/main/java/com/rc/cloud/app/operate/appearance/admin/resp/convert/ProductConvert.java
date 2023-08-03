@@ -1,13 +1,17 @@
 package com.rc.cloud.app.operate.appearance.admin.resp.convert;
 
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductAttributeResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductDetailResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductImageResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductListResponse;
+import com.rc.cloud.app.operate.application.bo.AttributeBO;
+import com.rc.cloud.app.operate.application.bo.AttributeValueBO;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.domain.common.ProductDictKeyEnum;
 import com.rc.cloud.common.core.util.StringUtils;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,7 +82,19 @@ public class ProductConvert {
         response.setChengZhong(bo.getDicts().get(ProductDictKeyEnum.ChengZhong.name));
         response.setChiCun(bo.getDicts().get(ProductDictKeyEnum.ChiCun.name));
 
-
+        List<ProductAttributeResponse> attributes =new ArrayList<>();
+        if(bo.getAttributes()!=null){
+            for (AttributeBO attribute : bo.getAttributes()) {
+                for (AttributeValueBO value : attribute.getValues()) {
+                    ProductAttributeResponse attributeResponse=new ProductAttributeResponse();
+                    attributeResponse.setName(attribute.getAttribute());
+                    attributeResponse.setValue(value.getAttributeValue());
+                    attributeResponse.setSort(attribute.getSort()+value.getSort());
+                    attributes.add(attributeResponse);
+                }
+            }
+        }
+        response.setAttributes(attributes);
 
         return response;
     }

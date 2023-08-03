@@ -54,13 +54,29 @@ public class ProductDictRepositoryImpl implements ProductDictRepository {
         productDictMapper.insert(ProductDictConvert.convertProductDictPO(productDict));
     }
 
+    /**
+     * 无法修改ProductDict的Key和ProductId
+     * 需要通过product_id和key检索ProductDictPO
+     * 然后进行修改
+     * @param productDict
+     */
     @Override
     public void updateProductDict(ProductDict productDict) {
+        ProductDictPO po= findProductDictByProductIdAndKey(productDict.getProductId(),productDict.getKey());
+        if(po!=null && productDict.getValue()!=null){
+            po.setDictValue(productDict.getValue());
+            po.setSort(productDict.getSort());
+            LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
+            wrapper.eq(ProductDictPO::getId, po.getId());
+            productDictMapper.update(po,wrapper);
+        }
+    }
+    private ProductDictPO findProductDictByProductIdAndKey(ProductId productId ,String key) {
         LambdaQueryWrapperX<ProductDictPO> wrapper = new LambdaQueryWrapperX<>();
-        wrapper.eq(ProductDictPO::getProductId, productDict.getProductId());
-        wrapper.eq(ProductDictPO::getDictKey, productDict.getKey());
-        productDictMapper.update(ProductDictConvert.convertProductDictPO(productDict)
-        ,wrapper);
+        wrapper.eq(ProductDictPO::getProductId, productId.getId());
+        wrapper.eq(ProductDictPO::getDictKey, key);
+        return this.productDictMapper.selectOne(wrapper);
 
     }
+
 }

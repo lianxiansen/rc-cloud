@@ -9,11 +9,11 @@ public interface ProductSkuRepository {
 
     List<ProductSku> getProductSkuListByProductId(ProductId productId);
 
-    int batchSaveProductSku(List<ProductSku> productSkuList);
+    void batchSaveProductSku(ProductId productId,List<ProductSku> productSkuList);
 
-    int updateProductSku(ProductSku productSku);
+    void updateProductSku(ProductSku productSku);
 
-    int insertProductSku(ProductSku productSku);
+    void insertProductSku(ProductSku productSku);
 
 
     boolean exist(ProductSkuId productSkuId);

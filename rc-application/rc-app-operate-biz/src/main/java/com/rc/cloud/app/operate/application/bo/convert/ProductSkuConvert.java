@@ -272,15 +272,13 @@ public class ProductSkuConvert {
 
     public static List<AttributeValueCombinationBO> convertAttributeValueCombinationBOList(SortedSet<AttributeValueCombination> skuAttributes){
         List<AttributeValueCombinationBO> resList =new ArrayList<>();
-        skuAttributes.forEach(
-                x->{
-                    AttributeValueCombinationBO bo =new AttributeValueCombinationBO();
-                    bo.setAttribute(x.getAttribute());
-                    bo.setAttributeValue(x.getAttributeValue());
-                    bo.setSort(x.getSort());
-                    resList.add(bo);
-                }
-        );
+        for (AttributeValueCombination skuAttribute : skuAttributes) {
+            AttributeValueCombinationBO bo =new AttributeValueCombinationBO();
+            bo.setAttribute(skuAttribute.getAttribute());
+            bo.setAttributeValue(skuAttribute.getAttributeValue());
+            bo.setSort(skuAttribute.getSort());
+            resList.add(bo);
+        }
         return resList;
     }
 

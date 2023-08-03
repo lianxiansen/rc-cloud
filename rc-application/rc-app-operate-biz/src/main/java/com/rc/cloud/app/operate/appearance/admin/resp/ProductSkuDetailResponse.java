@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @Data
 @Accessors(chain = true)
 @Schema(description = "产品SKU详情")
@@ -13,17 +15,8 @@ public class ProductSkuDetailResponse {
     @Schema(description = "skuid")
     private String id;
 
-    @Schema(description = "属性1")
-    private String attribute1;
-
-    @Schema(description = "属性值1")
-    private String attributeValue1;
-
-    @Schema(description = "属性2")
-    private String attribute2;
-
-    @Schema(description = "属性值2")
-    private String attributeValue2;
+    @Schema(description = "属性")
+    private List<ProductSkuAttributeResponse> attributes;
 
     @Schema(description = "图片")
     private String skuImage;
