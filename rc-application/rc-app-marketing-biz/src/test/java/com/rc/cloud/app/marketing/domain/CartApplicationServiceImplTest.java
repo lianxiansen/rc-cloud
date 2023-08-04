@@ -135,6 +135,26 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         );
         assertNotNull(cartPO);
         assertEquals(cartPO.getNum(), 10);
+
+
+        cartDTOList=new ArrayList<>();
+        dto = randomPojo(CartDTO.class, o -> {
+            o.setProductId("2");
+            o.setProductUniqueid("200");
+            o.setNum(15);
+            o.setShopId("1");
+        });
+        cartDTOList.add(dto);
+        //调用保存
+        cartApplicationServiceImpl.saveCart(cartDTOList);
+
+        cartPO = cartMapper.selectOne(new LambdaQueryWrapperX<CartPO>()
+                .eq(CartPO::getProductId, "2")
+                .eq(CartPO::getProductUniqueid, "200")
+                .eq(CartPO::getShopId, "1")
+        );
+        assertNotNull(cartPO);
+        assertEquals(cartPO.getNum(), 15);
     }
 
     @Test

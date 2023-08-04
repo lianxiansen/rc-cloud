@@ -30,14 +30,20 @@ public interface CartConvert {
         po.setShopId(cart.getShopInfo().getShopId().id());
         po.setPayed(cart.getPayed());
         po.setCreateTime(cart.getCreateTime().getTime());
-        po.setBargainId(cart.getBargainId() == null ? "" : cart.getBargainId().id());
         po.setUserId(cart.getUserId() == null ? "" : cart.getUserId().id());
         po.setId(cart.getId() == null ? "" : cart.getId().id());
         po.setType(cart.getType());
         po.setNum(cart.getNum());
         po.setNewState(cart.getNewState());
-        po.setSeckillId(cart.getSeckillId() == null ? "" : cart.getSeckillId().id());
-        po.setCombinationId(cart.getCombinationId() == null ? "" : cart.getCombinationId().id());
+        if(cart.getBargainId() != null){
+            po.setBargainId(cart.getBargainId().id());
+        }
+        if(cart.getBargainId() != null){
+            po.setSeckillId(cart.getSeckillId().id());
+        }
+        if(cart.getSeckillId() != null){
+            po.setCombinationId(cart.getCombinationId().id());
+        }
 
         if (cart.getCartProductDetail() != null) {
             //设置购物车产品详细信息

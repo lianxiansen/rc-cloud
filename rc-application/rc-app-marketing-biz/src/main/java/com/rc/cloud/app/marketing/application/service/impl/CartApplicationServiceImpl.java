@@ -157,14 +157,14 @@ public class CartApplicationServiceImpl implements CartApplicationService {
                     CartProductDetail cartProductDetail = CartConvert.INSTANCE.convert(productBO);
                     CartProductSkuDetail cartProductSkuDetail = CartConvert.INSTANCE.convert(productSkuBO);
 
-                    Cart cart = cartService.createCommonCart(userId, cartDTO.getNum(), shopInfo, cartProductDetail, cartProductSkuDetail);
+                    Cart cart = CartFactory.getCart(userId, cartDTO.getNum(), shopInfo, cartProductDetail, cartProductSkuDetail);
                     cartList.add(cart);
                 }
             }
 
         });
         List<Cart> saveList = cartList.stream().filter(cart -> cart.getCartProductSkuDetail().getSkuAttributes() != null).collect(Collectors.toList());
-        cartService.save(saveList);
+        cartService.create(saveList);
         return true;
     }
 
