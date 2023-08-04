@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.domain.entity.order;
+package com.rc.cloud.app.marketing.domain.entity.regularorder;
 
 import org.springframework.stereotype.Service;
 
@@ -14,11 +14,11 @@ import java.util.List;
  */
 @Service
 public class OrderService {
-    public void pay(Order order){
+    public void pay(RegularOrder order){
 
     }
 
-    public List<Order> findOrdersByTradeNo(String tradeNo) {
+    public List<RegularOrder> findOrdersByTradeNo(String tradeNo) {
         return null;
     }
     /**

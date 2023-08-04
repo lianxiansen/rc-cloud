@@ -1,19 +1,16 @@
-package com.rc.cloud.app.marketing.domain.entity.order;
+package com.rc.cloud.app.marketing.domain.entity.regularorder;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.rc.cloud.app.marketing.domain.entity.common.Product;
 import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
-
-import java.math.BigDecimal;
 
 /**
  * @ClassName OrderItem
  * @Author liandy
  * @Date 2023/7/28 17:25
- * @Description TODO
+ * @Description 常规订单项
  * @Version 1.0
  */
-public class OrderItem {
+public class RegularOrderItem {
     /**
      * 订单项标识
      */
@@ -35,7 +32,8 @@ public class OrderItem {
 
 
 
-    public OrderItem(String id, String orderId) {
+
+    public RegularOrderItem(String id, String orderId) {
         this.id = id;
         this.orderId = orderId;
     }
@@ -51,6 +49,20 @@ public class OrderItem {
         return productItem;
     }
 
+    public Product getProduct() {
+        return product;
+    }
 
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
 }
 

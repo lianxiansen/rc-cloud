@@ -1,27 +1,25 @@
 package com.rc.cloud.app.marketing.domain.service.impl;
 
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.DeliveryType;
+import com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj.DeliveryType;
 import com.rc.cloud.app.marketing.domain.entity.common.Product;
 import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
-import com.rc.cloud.app.marketing.domain.entity.order.Buyer;
-import com.rc.cloud.app.marketing.domain.entity.order.Order;
-import com.rc.cloud.app.marketing.domain.entity.order.OrderItem;
-import com.rc.cloud.app.marketing.domain.entity.order.Receiver;
-import com.rc.cloud.app.marketing.domain.entity.order.event.OrderCreatedEvent;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.*;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.event.OrderCreatedEvent;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Buyer;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Receiver;
 import com.rc.cloud.app.marketing.domain.service.SubmitOrderDomainService;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ErrorCode;
 import com.rc.cloud.common.core.exception.ServiceException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,22 +34,24 @@ import java.util.stream.Collectors;
 public class SubmitOrderDomainServiceImpl implements SubmitOrderDomainService {
     @Resource
     private IdRepository idRepository;
-    @Autowired
+    @Resource
     private ApplicationContext applicationContext;
+    @Resource
+    private OrderService orderService;
     @Override
-    public List<Order> submitOrder(ComfirmOrder comfirmOrder) {
+    public List<RegularOrder> submitOrder(ComfirmOrder comfirmOrder) {
         List<Product> products=comfirmOrder.getProducts();
         if(CollectionUtils.isEmpty(products)){
             throw new ServiceException(new ErrorCode(999999,"请选择您需要的商品加入购物车"));
         }
-        List<Order> orders= Collections.emptyList();
+        List<RegularOrder> orders= new ArrayList<>();
         for (Product product : products) {
-            String orderNo = "10223116785";
-            Order order = new Order(idRepository.nextId(), orderNo,idRepository.nextId());
+            String orderNo = orderService.generateOrderSn(comfirmOrder.getDeliveryAddress().getMobile());
+            RegularOrder order = new RegularOrder(idRepository.nextId(), orderNo);
             order.setBuyer(getBuyer(comfirmOrder));
             order.setReceiver(getReceiver(comfirmOrder));
             comfirmOrder.getItems(product).forEach(item -> {
-                OrderItem orderItem = new OrderItem(idRepository.nextId(), order.getId());
+                RegularOrderItem orderItem = new RegularOrderItem(idRepository.nextId(), order.getId());
                 orderItem.setProductItem(item.getProductItem());
                 order.addItem(orderItem);
             });

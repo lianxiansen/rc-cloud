@@ -62,7 +62,7 @@ public class DeliveryAddressPO extends BaseDO {
     @TableField("detail")
     private String detail;
     /**
-     * 是否为默认
+     * 是否为默认 0：不是 1：是
      */
     @TableField("defaulted")
     private boolean defaulted;

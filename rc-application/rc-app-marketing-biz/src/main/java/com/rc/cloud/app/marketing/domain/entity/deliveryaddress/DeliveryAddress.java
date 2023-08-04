@@ -1,5 +1,8 @@
 package com.rc.cloud.app.marketing.domain.entity.deliveryaddress;
 
+import com.rc.cloud.app.marketing.domain.entity.common.Area;
+import com.rc.cloud.common.core.util.AssertUtils;
+
 /**
  * @ClassName DeliveryAddress
  * @Author liandy
@@ -33,18 +36,18 @@ public class DeliveryAddress {
      */
     private Area area;
     /**
-     * 是否为默认
+     * 是否为默认 0：不是 1：是
      */
     private boolean defaulted;
-    public DeliveryAddress(String id,String customerId,String username, String mobile, String zipcode, Area area) {
+
+    public DeliveryAddress(String id, String customerId, String username, String mobile, String zipcode, Area area) {
         this.id = id;
-        this.customerId=customerId;
+        this.customerId = customerId;
         this.userName = username;
         this.mobile = mobile;
         this.zipcode = zipcode;
-        this.area = area;
+        setArea(area);
     }
-
 
 
     public String getId() {
@@ -73,5 +76,14 @@ public class DeliveryAddress {
 
     public boolean isDefaulted() {
         return defaulted;
+    }
+
+    private void setArea(Area area) {
+        AssertUtils.assertArgumentNotNull(area, "area must not be empty");
+        this.area = area;
+    }
+
+    public void setDefault(boolean defaulted){
+        this.defaulted=defaulted;
     }
 }

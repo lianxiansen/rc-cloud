@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.domain.entity.deliveryaddress;
+package com.rc.cloud.app.marketing.domain.entity.common;
 
 /**
  * @ClassName Address

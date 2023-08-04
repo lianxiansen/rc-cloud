@@ -1,7 +1,7 @@
 package com.rc.cloud.app.marketing.domain.entity.cart;
 
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.UserId;
-import com.rc.cloud.app.marketing.domain.valobj.CreateTime;
+import com.rc.cloud.app.marketing.domain.entity.common.CreateTime;
 
 import java.time.LocalDateTime;
 

@@ -1,5 +1,6 @@
 package com.rc.cloud.app.marketing.domain.entity.comfirmorder;
 
+import com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj.DeliveryType;
 import com.rc.cloud.app.marketing.domain.entity.common.Product;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 

@@ -1,6 +1,6 @@
 package com.rc.cloud.app.marketing.infrastructure.repository.mapper;
 
-import com.rc.cloud.app.marketing.infrastructure.repository.po.OrderPO;
+import com.rc.cloud.app.marketing.infrastructure.repository.po.RegularOrderPO;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,5 +12,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @Version 1.0
  */
 @Mapper
-public interface OrderMapper extends BaseMapperX<OrderPO> {
+public interface RegularOrderMapper extends BaseMapperX<RegularOrderPO> {
 }

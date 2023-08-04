@@ -5,7 +5,7 @@ import com.rc.cloud.app.marketing.domain.entity.cart.CartProductDetail;
 import com.rc.cloud.app.marketing.domain.entity.cart.CartProductSkuDetail;
 import com.rc.cloud.app.marketing.domain.entity.cart.ShopInfo;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.*;
-import com.rc.cloud.app.marketing.domain.valobj.CreateTime;
+import com.rc.cloud.app.marketing.domain.entity.common.CreateTime;
 import com.rc.cloud.app.marketing.infrastructure.repository.po.CartPO;
 import com.rc.cloud.common.core.util.StringUtils;
 import org.mapstruct.Mapper;

@@ -1,6 +1,5 @@
-package com.rc.cloud.app.marketing.domain.service.impl;
+package com.rc.cloud.app.marketing.infrastructure.repository;
 
-import com.rc.cloud.app.marketing.domain.entity.cart.Cart;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.CartId;
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrderItem;
@@ -8,59 +7,56 @@ import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrderReposit
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj.DeliveryType;
 import com.rc.cloud.app.marketing.domain.entity.common.Product;
 import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
-import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
-import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddressService;
-import com.rc.cloud.app.marketing.domain.service.ComfirmOrderDomainService;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.util.AssertUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
+import com.rc.cloud.common.test.core.ut.BaseRedisUnitTest;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Objects;
 
 /**
- * @ClassName ComfirmOrderDomainService
+ * @ClassName ComfirmOrderRepositoryUnitTest
  * @Author liandy
- * @Date 2023/7/28 13:45
- * @Description TODO
+ * @Date 2023/8/4 08:33
+ * @Description 确认订单资源库单元测试
  * @Version 1.0
  */
-@Service
-public class ComfirmOrderDomainServiceImpl implements ComfirmOrderDomainService {
-    @Resource
-    private IdRepository idRepository;
-
+@DisplayName("确认订单资源库单元测试")
+@Import({LocalIdRepositoryImpl.class, ComfirmOrderRepositoryImpl.class})
+public class ComfirmOrderRepositoryUnitTest extends BaseRedisUnitTest {
     @Resource
     private ComfirmOrderRepository comfirmOrderRepository;
-
     @Resource
-    private DeliveryAddressService deliveryAddressService;
+    private IdRepository idRepository;
+    private ComfirmOrder comfirmOrder;
 
-    @Override
-    public ComfirmOrder placeOrder(List<Cart> carts) {
-        AssertUtils.assertArgumentTrue(!CollectionUtils.isEmpty(carts),"carts is not empty");
-        String customerId=carts.get(0).getUserId().id();
-        ComfirmOrder comfirmOrder = new ComfirmOrder(idRepository.nextId());
-        DeliveryAddress deliveryAddress = deliveryAddressService.findDefaultDeliveryAddress(customerId);
-        comfirmOrder.setDeliveryAddress(deliveryAddress);
-        //确认订单-商品信息
-        //TODO liandy:提取商品数据
+    @BeforeEach
+    public void beforeEach() {
+        comfirmOrder = new ComfirmOrder(idRepository.nextId());
         comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA(), ProductItem.mockProductItemA1()));
         comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA(), ProductItem.mockProductItemA2()));
         comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB(), ProductItem.mockProductItemB1()));
         comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB(), ProductItem.mockProductItemB2()));
-
         comfirmOrder.setPayType(0);
         comfirmOrder.setDeliveryType(DeliveryType.CONSIGN);
         comfirmOrder.setFreightAmount(BigDecimal.ZERO);
         comfirmOrderRepository.save(comfirmOrder);
-        return comfirmOrder;
     }
 
 
-
-
-
+    @Test
+    public void save() {
+        boolean saved = comfirmOrderRepository.save(comfirmOrder);
+        Assertions.assertTrue(saved);
+    }
+    @Test
+    public void findById() {
+        ComfirmOrder comfirmOrderDB = comfirmOrderRepository.findById(comfirmOrder.getId());
+        Assertions.assertTrue(Objects.nonNull(comfirmOrderDB));
+    }
 }

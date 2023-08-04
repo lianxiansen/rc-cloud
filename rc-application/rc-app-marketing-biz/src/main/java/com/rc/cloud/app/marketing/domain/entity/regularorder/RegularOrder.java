@@ -1,7 +1,11 @@
-package com.rc.cloud.app.marketing.domain.entity.order;
+package com.rc.cloud.app.marketing.domain.entity.regularorder;
 
 
 import com.rc.cloud.app.marketing.domain.entity.common.PayStatus;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Buyer;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.ConsignStatus;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.OrderStatus;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Receiver;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,13 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @ClassName Order
+ * @ClassName RegularOrder
  * @Author liandy
  * @Date 2023/7/28 16:57
- * @Description 订单
+ * @Description 常规订单
  * @Version 1.0
  */
-public class Order {
+public class RegularOrder {
     /**
      * 订单唯一标识
      */
@@ -113,9 +117,9 @@ public class Order {
 
     private LocalDateTime updateTime;
 
-    private List<OrderItem> items;
+    private List<RegularOrderItem> items;
 
-    public Order(String id, String orderNo, String transactionId) {
+    public RegularOrder(String id, String orderNo) {
         this.id = id;
         this.orderNumber = orderNo;
         this.orderStatus = OrderStatus.AUDITING;
@@ -131,7 +135,7 @@ public class Order {
         items = new ArrayList<>();
     }
 
-    public void addItem(OrderItem item) {
+    public void addItem(RegularOrderItem item) {
         this.items.add(item);
         this.productItemQuantity += item.getProductItem().getProductItemQuantity();
         this.payAmount = this.payAmount.add(item.getProductItem().getProductItemAmount());
@@ -169,8 +173,20 @@ public class Order {
         return payAmount;
     }
 
+    public int getProductQuantity() {
+        return productQuantity;
+    }
+
     public int getProductItemQuantity() {
         return productItemQuantity;
+    }
+
+    public BigDecimal getProductAmount() {
+        return productAmount;
+    }
+
+    public String getRemark() {
+        return remark;
     }
 
     public BigDecimal getFreightAmount() {
@@ -217,7 +233,7 @@ public class Order {
         return updateTime;
     }
 
-    public List<OrderItem> getItems() {
+    public List<RegularOrderItem> getItems() {
         return items;
     }
 

@@ -4,7 +4,7 @@ import com.rc.cloud.app.marketing.domain.entity.cart.identifier.CartId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ProductUniqueId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ShopId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.UserId;
-import com.rc.cloud.app.marketing.domain.valobj.CreateTime;
+import com.rc.cloud.app.marketing.domain.entity.common.CreateTime;
 import com.rc.cloud.common.core.exception.ServiceException2;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.stereotype.Service;

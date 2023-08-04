@@ -40,7 +40,7 @@ CREATE TABLE `delivery_address`
     `city`        varchar(255) NULL DEFAULT NULL COMMENT '市',
     `district`    varchar(255) NULL DEFAULT NULL COMMENT '区',
     `detail`      varchar(255) NULL DEFAULT NULL COMMENT '详细地址',
-    `defaulted`   smallint(1) NULL DEFAULT NULL COMMENT '0已支付，1未支付',
+    `defaulted`   bit(1) NULL DEFAULT '0' COMMENT '是否为默认 0：不是 1：是',
     `deleted`     char(1) NULL DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
     `creator`     varchar(32) NULL DEFAULT NULL COMMENT '创建人',
     `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -50,14 +50,15 @@ CREATE TABLE `delivery_address`
 ) ENGINE = InnoDB  COMMENT = '收货地址';
 
 
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE `order`
+DROP TABLE IF EXISTS `regular_order`;
+CREATE TABLE `regular_order`
 (
     `id`                      varchar(32) NOT NULL COMMENT '主键',
     `tenant_id`               varchar(32) NULL DEFAULT NULL COMMENT '所属租户',
     `order_number`            varchar(32) NULL DEFAULT NULL COMMENT '订单编号',
     `order_status`            int(32) NULL DEFAULT NULL COMMENT '订单状态,0:等待卖家审核 1:等待买家付款 2:等待卖家发货 3:等待买家收货 4:交易完成',
-    `product_num`             int(32) NULL DEFAULT NULL COMMENT '商品数量合计',
+    `product_quantity`        int(32) NULL DEFAULT NULL COMMENT '商品数量合计',
+    `product_item_quantity`   int(32) NULL DEFAULT NULL COMMENT '商品项数量合计',
     `product_amount`          decimal(18, 2) NULL DEFAULT NULL COMMENT '商品金额',
     `freight_amount`          decimal(18, 2) NULL DEFAULT NULL COMMENT '运费金额',
     `pay_amount`              decimal(18, 2) NULL DEFAULT NULL COMMENT '支付金额',
@@ -87,11 +88,11 @@ CREATE TABLE `order`
     `updater`                 varchar(32) NULL DEFAULT NULL COMMENT '更新人',
     `update_time`             datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE = InnoDB  COMMENT = '订单';
+) ENGINE = InnoDB  COMMENT = '常规订单';
 
 
-DROP TABLE IF EXISTS `order_item`;
-CREATE TABLE `order_item`
+DROP TABLE IF EXISTS `regular_order_item`;
+CREATE TABLE `regular_order_item`
 (
     `id`                    varchar(32) NOT NULL COMMENT '主键',
     `tenant_id`             varchar(32) NULL DEFAULT NULL COMMENT '所属租户',
@@ -103,7 +104,7 @@ CREATE TABLE `order_item`
     `product_item_id`       varchar(32) NULL DEFAULT NULL COMMENT '商品项id',
     `product_item_name`     varchar(255) NULL DEFAULT NULL COMMENT '商品项名字',
     `product_item_image`    varchar(500) NULL DEFAULT NULL COMMENT '商品项图片',
-    `product_item_attrbute` varchar(500) NULL DEFAULT NULL COMMENT '商品销售属性组合（JSON）',
+    `product_item_attribute` varchar(500) NULL DEFAULT NULL COMMENT '商品销售属性组合（JSON）',
     `product_item_price`    decimal(18, 4) NULL DEFAULT NULL COMMENT '商品项价格',
     `product_item_quantity` int(11) NULL DEFAULT NULL COMMENT '商品购买的数量',
     `product_item_amount`   decimal(18, 2) NULL DEFAULT NULL COMMENT '商品金额',
@@ -113,7 +114,7 @@ CREATE TABLE `order_item`
     `updater`               varchar(32) NULL DEFAULT NULL COMMENT '更新人',
     `update_time`           datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`)
-) ENGINE = InnoDB  COMMENT = '订单项信息';
+) ENGINE = InnoDB  COMMENT = '常规订单项信息';
 
 
 DROP TABLE IF EXISTS `settlement_order`;

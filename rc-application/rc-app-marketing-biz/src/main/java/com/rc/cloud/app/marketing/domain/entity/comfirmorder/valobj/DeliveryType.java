@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.domain.entity.comfirmorder;
+package com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj;
 
 import cn.hutool.core.util.ArrayUtil;
 import lombok.AllArgsConstructor;
