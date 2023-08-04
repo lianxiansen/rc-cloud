@@ -28,8 +28,6 @@ public class ProductSku extends AggregateRoot {
         setSort(new Sort(99));
         inventory =new Inventory(0);
         enabledFlag =true;
-
-
     }
     /**
      * sku货号，可以为空，为空商品的货号做为它的货号
@@ -219,6 +217,19 @@ public class ProductSku extends AggregateRoot {
 
 
     private ProductSkuAttribute productSkuAttribute;
+
+    /**
+     * 这里不判断skuid是否相同，仅仅判断skuAttributes
+     * @param thatAttribute
+     * @return
+     */
+    public boolean sameProductSkuAttributeAs(ProductSkuAttribute thatAttribute){
+        ProductSkuAttribute thisAttribute = this.getProductSkuAttribute();
+        if(!thisAttribute.sameSkuAttributesAs(thatAttribute.getSkuAttributes())){
+            return false;
+        }
+        return true;
+    }
 
 
     public void setProductSkuAttributeEntity(ProductSkuAttribute productSkuAttribute) {

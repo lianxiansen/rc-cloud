@@ -51,9 +51,12 @@ public class ProductImageConvert {
 
     public static List<ProductImageBO> convertProductImageBOList(List<ProductImage> list){
         List<ProductImageBO> resList =new ArrayList<>();
-        for (ProductImage productImage : list) {
-            resList.add(convertProductImageBO(productImage));
+        if(list!=null){
+            for (ProductImage productImage : list) {
+                resList.add(convertProductImageBO(productImage));
+            }
         }
+
         return resList;
     }
 

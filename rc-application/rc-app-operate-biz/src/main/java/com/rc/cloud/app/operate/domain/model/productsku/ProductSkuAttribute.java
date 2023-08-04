@@ -68,4 +68,19 @@ public class ProductSkuAttribute extends ValueObject {
     public boolean equals(Object other) {
         return false;
     }
+
+    public boolean sameSkuAttributesAs(SortedSet<AttributeValueCombination> that){
+        if(this.getSkuAttributes().size()!=that.size()){
+            return false;
+        }
+        for (AttributeValueCombination skuAttribute : this.getSkuAttributes()) {
+            boolean exist = that.stream().anyMatch(u -> u.getAttribute().equals(skuAttribute.getAttribute()) &&
+                    u.getAttributeValue().equals(skuAttribute.getAttributeValue())
+            );
+            if(!exist){
+                return false;
+            }
+        }
+        return true;
+    }
 }

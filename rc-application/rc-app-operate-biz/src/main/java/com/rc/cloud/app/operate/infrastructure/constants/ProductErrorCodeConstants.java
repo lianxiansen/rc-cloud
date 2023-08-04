@@ -18,4 +18,10 @@ public interface ProductErrorCodeConstants extends ErrorCodeConstants {
 
     ErrorCode PRODUCT_SKU_NOT_EXIST_ERROR = new ErrorCode(2001000005, "商品skuid不存在，状态异常");
 
+    ErrorCode PRODUCT_SKU_UPDATE_ERROR = new ErrorCode(2001000005, "商品sku修改异常，状态异常");
+
+    ErrorCode PRODUCT_SKU_ATTIBUTE_REPEAT_ERROR = new ErrorCode(2001000005, "商品sku修改异常，状态异常");
+
+    ErrorCode PRODUCT_SKU_CODE_REPEAT_ERROR = new ErrorCode(2001000005, "商品sku修改异常，状态异常");
+
 }
