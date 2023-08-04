@@ -3,6 +3,7 @@ package com.rc.cloud.app.marketing.infrastructure.repository.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.OrderStatus;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,10 +18,10 @@ import java.time.LocalDateTime;
  * @Description 订单持久化对象
  * @Version 1.0
  */
-@TableName("order")
+@TableName("regular_order")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class OrderPO extends BaseDO {
+public class RegularOrderPO extends BaseDO {
     /**
      * 订单唯一标识
      */
@@ -33,7 +34,7 @@ public class OrderPO extends BaseDO {
     /**
      * 订单状态,0:等待卖家审核 1:等待买家付款 2:等待卖家发货 3:等待买家收货 4:交易完成
      *
-     * @see com.rc.cloud.app.marketing.domain.entity.order.OrderStatus
+     * @see OrderStatus
      */
     @TableField("order_status")
     private int orderStatus;
@@ -42,8 +43,14 @@ public class OrderPO extends BaseDO {
     /**
      * 商品数量合计
      */
-    @TableField("product_num")
-    private int productNum;
+    @TableField("product_quantity")
+    private int productQuantity;
+
+    /**
+     * 商品项数量合计
+     */
+    @TableField("product_item_quantity")
+    private int productItemQuantity;
 
     /**
      * 商品金额
@@ -66,7 +73,7 @@ public class OrderPO extends BaseDO {
     /**
      * 改价金额
      */
-    @TableField("changeAmount")
+    @TableField("change_amount")
     private BigDecimal changeAmount;
     /**
      * 支付方式【0：扫码支付】
@@ -171,7 +178,7 @@ public class OrderPO extends BaseDO {
     @TableField("remark")
     private String remark;
     /**
-     * 结算订单唯一标识
+     * 交易号 关联结算订单trade_no
      */
     @TableField("trade_no")
     private String tradeNo;

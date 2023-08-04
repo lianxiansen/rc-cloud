@@ -25,7 +25,7 @@ spring:
   redis:
     host: 125.124.110.195 # 地址
     port: 6379 # 端口
-    database: 11 # 数据库索引
+    database: 1 # 数据库索引
     password: rc123456 # 密码，建议生产环境开启
 
 

@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * @Description 订单项持久化对象
  * @Version 1.0
  */
-@TableName("order_item")
+@TableName("regular_order_item")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class OrderItemPO extends BaseDO {
@@ -76,13 +76,13 @@ public class OrderItemPO extends BaseDO {
     @TableField("product_item_price")
     private BigDecimal productItemPrice;
     /**
-     * 商品购买数量
+     * 商品项数量
      */
     @TableField("product_item_quantity")
     private int productItemQuantity;
 
     /**
-     * 商品金额
+     * 商品项金额
      */
     @TableField("product_item_amount")
     private BigDecimal productItemAmount;

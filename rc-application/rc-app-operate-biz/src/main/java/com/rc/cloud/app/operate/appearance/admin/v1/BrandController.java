@@ -3,6 +3,7 @@ package com.rc.cloud.app.operate.appearance.admin.v1;
 import com.rc.cloud.app.operate.appearance.admin.resp.BrandResponse;
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.app.operate.application.dto.BrandCreateDTO;
+import com.rc.cloud.app.operate.application.dto.BrandQueryDTO;
 import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.application.service.BrandApplicationService;
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Tag(name = "品牌")
@@ -62,6 +64,14 @@ public class BrandController {
     public CodeResult<BrandResponse> findById(@RequestParam(name = "id",required = true) String id) {
         BrandBO bo = brandApplicationService.findById(id);
         return CodeResult.ok(BrandResponse.from(bo));
+    }
+
+
+    @GetMapping("findList")
+    @Operation(summary = "品牌列表查询")
+    public CodeResult<List<BrandResponse>> findList(@Valid BrandQueryDTO brandQuery) {
+        List<BrandBO> boList = brandApplicationService.findList(brandQuery);
+        return CodeResult.ok(BrandResponse.from(boList));
     }
 
 }

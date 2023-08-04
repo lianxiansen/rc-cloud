@@ -139,12 +139,12 @@ public class BrandControllerIntegratedTest {
         MvcResult mvcResult=mvc.perform(get("/admin/brand/selectPageResult")
                         .param("pageNo", "1")
                         .param("pageSize", "10")
-                        .param("name", "pinpai")
+                        .param("name", "振信")
                         .characterEncoding(Charset.defaultCharset())
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print()).andReturn();
         String actual=mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
-        String expected="{\"success\":true,\"code\":200,\"msg\":\"成功\",\"data\":{\"list\":[{\"name\":\"pinpai\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b722\"}],\"total\":1}}";
+        String expected="{\"success\":true,\"code\":200,\"msg\":\"成功\",\"data\":{\"list\":[{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b722\"},{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b721\"},{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b720\"}],\"total\":3}}";
         AssertUtils.assertJsonEquals(expected,actual);
     }
 
@@ -160,5 +160,19 @@ public class BrandControllerIntegratedTest {
         String expected="{\"success\":true,\"code\":200,\"msg\":\"成功\",\"data\":{\"name\":\"1bkcfjmq6x\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b799\"}}";
         AssertUtils.assertJsonEquals(expected,actual);
     }
+
+    @DisplayName(value = "品牌列表查询")
+    @Test
+    public void findList() throws Exception {
+        MvcResult mvcResult=mvc.perform(get("/admin/brand/findList")
+                        .param("name", "振信")
+                        .characterEncoding(Charset.defaultCharset())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andReturn();
+        String actual=mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
+        String expected="{\"success\":true,\"code\":200,\"msg\":\"成功\",\"data\":[{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b722\"},{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b721\"},{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b720\"}]}";
+        AssertUtils.assertJsonEquals(expected,actual);
+    }
+
 
 }

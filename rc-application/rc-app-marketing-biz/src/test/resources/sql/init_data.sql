@@ -1,1 +1,2 @@
-INSERT INTO `delivery_address` (`id`, `customer_id`, `user_name`, `mobile`, `zipcode`, `province`, `city`, `district`, `detail`, `defaulted`, `deleted`, `creator`, `create_time`, `updater`, `update_time`) VALUES ('1', '1', '童文', '13984276639', '94111', '贵州省', '遵义市', '红花岗区', '贵州省遵义市', 1, '0', NULL, '2023-08-03 16:35:48', NULL, '2023-08-03 16:35:48');
+INSERT INTO `delivery_address` (`id`, `customer_id`, `user_name`, `mobile`, `zipcode`, `province`, `city`, `district`, `detail`, `defaulted`, `deleted`, `creator`, `create_time`, `updater`, `update_time`)
+VALUES ('30f4f8c4ffe035c6608837db245357c4', '5b6b70eafeaa9938cff8e430245090c7', '童文', '13984276639', '350000', '贵州省', '遵义市', '红花岗区', '贵州省遵义市', 1, '0', NULL, '2023-08-03 16:35:48', NULL, '2023-08-03 16:35:48');

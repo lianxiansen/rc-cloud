@@ -1,5 +1,5 @@
 
-package com.rc.cloud.app.marketing.domain.valobj;
+package com.rc.cloud.app.marketing.domain.entity.common;
 
 import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.AssertUtils;
@@ -37,6 +37,7 @@ public class CreateTime extends ValueObject implements Comparable<CreateTime> {
     public boolean equals(Object other) {
         if (other != null && this.getClass() == other.getClass()) {
             CreateTime typedObject = (CreateTime) other;
+            this.time.equals(typedObject.time);
         }
         return false;
     }

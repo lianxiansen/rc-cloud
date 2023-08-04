@@ -1,4 +1,4 @@
-package com.rc.cloud.app.marketing.domain.entity.order.event;
+package com.rc.cloud.app.marketing.domain.entity.regularorder.event;
 
 import org.springframework.context.ApplicationEvent;
 

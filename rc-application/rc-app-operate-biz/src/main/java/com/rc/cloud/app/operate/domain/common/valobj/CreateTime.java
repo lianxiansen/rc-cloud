@@ -37,6 +37,7 @@ public class CreateTime extends ValueObject implements Comparable<CreateTime> {
     public boolean equals(Object other) {
         if (other != null && this.getClass() == other.getClass()) {
             CreateTime typedObject = (CreateTime) other;
+            this.time.equals(typedObject.time);
         }
         return false;
     }

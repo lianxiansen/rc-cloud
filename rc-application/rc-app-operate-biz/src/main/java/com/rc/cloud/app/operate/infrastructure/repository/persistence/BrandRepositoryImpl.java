@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -57,8 +58,15 @@ public class BrandRepositoryImpl implements BrandRepository {
         LambdaQueryWrapperX wrapper = new LambdaQueryWrapperX<BrandPO>()
                 .likeIfPresent(BrandPO::getName, param.getName()).orderByDesc(BrandPO::getId);
         PageResult<BrandPO> brandDOPageResult = brandMapper.selectPage(param, wrapper);
-
         return BrandConvert.convert2BrandPageResult(brandDOPageResult);
+    }
+
+    @Override
+    public List<Brand> findList(String name) {
+        LambdaQueryWrapperX wrapper = new LambdaQueryWrapperX<BrandPO>()
+                .likeIfPresent(BrandPO::getName, name).orderByDesc(BrandPO::getId);
+        List<BrandPO> pos = brandMapper.selectList(wrapper);
+        return BrandConvert.convert2BrandBatch(pos);
     }
 
 

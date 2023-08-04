@@ -2,9 +2,13 @@ package com.rc.cloud.app.operate.application.service;
 
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.app.operate.application.dto.BrandCreateDTO;
+import com.rc.cloud.app.operate.application.dto.BrandQueryDTO;
 import com.rc.cloud.app.operate.application.dto.BrandQueryPageDTO;
 import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.common.core.pojo.PageResult;
+
+import java.util.List;
+
 /**
  * @Author liandy
  * @Date 2023/7/24 9:19
@@ -46,4 +50,6 @@ public interface BrandApplicationService {
      * @return
      */
     BrandBO findById(String id);
+
+    List<BrandBO> findList(BrandQueryDTO brandQuery);
 }

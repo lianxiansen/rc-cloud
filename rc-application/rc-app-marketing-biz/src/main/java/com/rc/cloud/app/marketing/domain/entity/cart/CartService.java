@@ -4,7 +4,7 @@ import com.rc.cloud.app.marketing.domain.entity.cart.identifier.CartId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ProductUniqueId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ShopId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.UserId;
-import com.rc.cloud.app.marketing.domain.valobj.CreateTime;
+import com.rc.cloud.app.marketing.domain.entity.common.CreateTime;
 import com.rc.cloud.common.core.exception.ServiceException2;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.stereotype.Service;
@@ -23,24 +23,6 @@ public class CartService {
 
     @Resource
     private CartRepository cartRepository;
-
-    //创建普通购物车
-    public Cart createCommonCart(UserId userId, Integer num, ShopInfo shopInfo, CartProductDetail cartProductDetail, CartProductSkuDetail cartProductSkuDetail) {
-        Cart newCart = new Cart();
-        newCart.setPayed(0);
-        newCart.setType(1);
-        newCart.setCreateTime(new CreateTime(LocalDateTime.now()));
-        newCart.setUserId(userId);
-        newCart.setShopInfo(shopInfo);
-        newCart.setCartProductDetail(cartProductDetail);
-        newCart.setCartProductSkuDetail(cartProductSkuDetail);
-//        cart.setSeckillId(new SeckillId(StringUtils.EMPTY));
-//        cart.setCombinationId(new CombinationId(StringUtils.EMPTY));
-//        cart.setBargainId(new BargainId(StringUtils.EMPTY));
-        newCart.setNewState(0);
-        newCart.setNum(num);
-        return newCart;
-    }
 
     public void delete(CartId cartId) {
         AssertUtils.notNull(cartId, "cartId must be not null");
@@ -79,8 +61,12 @@ public class CartService {
      * @param cartList
      * @description
      */
-    public void save(List<Cart> cartList) {
+    public void create(List<Cart> cartList) {
         cartList.forEach(cart -> {
+            Cart findOne = cartRepository.findByProductUniqueId(cart.getUserId(), new ProductUniqueId(cart.getCartProductSkuDetail().getSkuCode()));
+            if (findOne != null) {
+                cart.setId(findOne.getId());
+            }
             cartRepository.save(cart);
         });
     }

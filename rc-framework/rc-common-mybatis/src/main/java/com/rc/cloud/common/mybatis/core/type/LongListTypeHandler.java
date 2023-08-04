@@ -1,7 +1,7 @@
 package com.rc.cloud.common.mybatis.core.type;
 
 import cn.hutool.core.collection.CollUtil;
-import com.rc.cloud.common.core.util.string.StrUtils;
+import com.rc.cloud.common.core.util.StringUtils;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
 import org.apache.ibatis.type.MappedTypes;
@@ -52,6 +52,6 @@ public class LongListTypeHandler implements TypeHandler<List<Long>> {
         if (value == null) {
             return null;
         }
-        return StrUtils.splitToLong(value, COMMA);
+        return StringUtils.splitToLong(value, COMMA);
     }
 }

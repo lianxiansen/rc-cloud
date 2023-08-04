@@ -1,6 +1,7 @@
 package com.rc.cloud.app.marketing.domain.entity.deliveryaddress;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -27,6 +28,9 @@ public class DeliveryAddressService {
      */
     public DeliveryAddress findDefaultDeliveryAddress(String customerId){
         List<DeliveryAddress> deliveryAddresses= deliveryAddressRepository.findByCustomerId(customerId);
+        if(CollectionUtils.isEmpty(deliveryAddresses)){
+            return null;
+        }
         return deliveryAddresses.stream().filter(item->item.isDefaulted()).findFirst().orElse(deliveryAddresses.get(0));
     }
 }
