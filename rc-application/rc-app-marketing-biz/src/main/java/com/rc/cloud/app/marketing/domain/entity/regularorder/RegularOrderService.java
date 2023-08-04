@@ -13,7 +13,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
-public class OrderService {
+public class RegularOrderService {
     public void pay(RegularOrder order){
 
     }

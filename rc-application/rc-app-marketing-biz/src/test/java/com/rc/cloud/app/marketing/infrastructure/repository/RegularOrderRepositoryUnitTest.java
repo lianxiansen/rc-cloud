@@ -25,14 +25,14 @@ import java.math.BigDecimal;
  * @Version 1.0
  */
 @DisplayName("订单资源库单元测试")
-@Import({LocalIdRepositoryImpl.class, RegularOrderRepositoryImpl.class, OrderService.class})
+@Import({LocalIdRepositoryImpl.class, RegularOrderRepositoryImpl.class, RegularOrderService.class})
 public class RegularOrderRepositoryUnitTest extends BaseDbAndRedisUnitTest {
     @Resource
-    private RegularOrderRepository orderRepository;
+    private RegularOrderRepository regularOrderRepository;
     @Resource
     private IdRepository idRepository;
     @Resource
-    private OrderService orderService;
+    private RegularOrderService regularOrderService;
 
     @BeforeEach
     public void beforeEach() {
@@ -41,7 +41,7 @@ public class RegularOrderRepositoryUnitTest extends BaseDbAndRedisUnitTest {
     @Test
     public void save() {
         //订单
-        RegularOrder order = new RegularOrder(idRepository.nextId(), orderService.generateOrderSn("13857652343"));
+        RegularOrder order = new RegularOrder(idRepository.nextId(), regularOrderService.generateOrderSn("13857652343"));
         order.setBuyer(new Buyer(idRepository.nextId(), RandomUtil.randomString(8), RandomUtil.randomString(8), RandomUtil.randomNumbers(8)));
         order.setReceiver(new Receiver(RandomUtil.randomString(8), RandomUtil.randomString(8), RandomUtil.randomString(8)));
         //订单项
@@ -56,7 +56,7 @@ public class RegularOrderRepositoryUnitTest extends BaseDbAndRedisUnitTest {
         order.addItem(orderItem);
         //计算运费
         order.setFreightAmount(new BigDecimal(100));
-        boolean saved = orderRepository.save(order);
+        boolean saved = regularOrderRepository.save(order);
         Assertions.assertTrue(saved);
     }
 }

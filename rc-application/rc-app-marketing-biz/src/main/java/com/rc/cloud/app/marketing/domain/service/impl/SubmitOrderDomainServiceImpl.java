@@ -37,7 +37,7 @@ public class SubmitOrderDomainServiceImpl implements SubmitOrderDomainService {
     @Resource
     private ApplicationContext applicationContext;
     @Resource
-    private OrderService orderService;
+    private RegularOrderService regularOrderService;
     @Override
     public List<RegularOrder> submitOrder(ComfirmOrder comfirmOrder) {
         List<Product> products=comfirmOrder.getProducts();
@@ -46,7 +46,7 @@ public class SubmitOrderDomainServiceImpl implements SubmitOrderDomainService {
         }
         List<RegularOrder> orders= new ArrayList<>();
         for (Product product : products) {
-            String orderNo = orderService.generateOrderSn(comfirmOrder.getDeliveryAddress().getMobile());
+            String orderNo = regularOrderService.generateOrderSn(comfirmOrder.getDeliveryAddress().getMobile());
             RegularOrder order = new RegularOrder(idRepository.nextId(), orderNo);
             order.setBuyer(getBuyer(comfirmOrder));
             order.setReceiver(getReceiver(comfirmOrder));

@@ -74,7 +74,7 @@ import java.util.Objects;
  */
 @Import({
         LocalIdRepositoryImpl.class, ComfirmOrderDomainServiceImpl.class, SubmitOrderDomainServiceImpl.class,
-        ComfirmOrderDomainServiceImpl.class, OrderService.class, SettlementOrderService.class,
+        ComfirmOrderDomainServiceImpl.class, RegularOrderService.class, SettlementOrderService.class,
         ComfirmOrderRepositoryImpl.class, DeliveryAddressService.class, DeliveryAddressRepositoryImpl.class
 })
 @DisplayName("常规订单")
@@ -89,7 +89,7 @@ public class RegularOrderUnitTest extends BaseDbAndRedisUnitTest {
     @Resource
     private IdRepository idRepository;
     @Autowired
-    private OrderService orderService;
+    private RegularOrderService regularOrderService;
     private Area area;
     private DeliveryAddress deliveryAddress;
     private BigDecimal freightAmount;
@@ -286,7 +286,7 @@ public class RegularOrderUnitTest extends BaseDbAndRedisUnitTest {
         public void settle() {
             String tradeNo = "1217752501201407033233368018";
             String outTradeNo = "1217752501201407033233368018";
-            List<RegularOrder> orders = orderService.findOrdersByTradeNo(tradeNo);
+            List<RegularOrder> orders = regularOrderService.findOrdersByTradeNo(tradeNo);
             SettlementOrder settlementOrder = settlementOrderService.findBy(tradeNo);
             AssertUtils.notNull(settlementOrder, "结算订单不存在");
             // 修改订单信息
