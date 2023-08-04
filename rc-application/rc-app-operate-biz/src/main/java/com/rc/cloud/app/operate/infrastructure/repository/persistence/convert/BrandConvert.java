@@ -8,7 +8,13 @@ import com.rc.cloud.common.core.pojo.PageResult;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @ClassName BrandConvert
+ * @Author liandy
+ * @Date 2023/8/4 13:31
+ * @Description  品牌转换器 领域对象<->持久化对象
+ * @Version 1.0
+ */
 public class BrandConvert {
 
     public static BrandPO convert2BrandPO(Brand brand) {
@@ -38,14 +44,19 @@ public class BrandConvert {
 
 
     public static PageResult<Brand> convert2BrandPageResult(PageResult<BrandPO> brandDOPageResult) {
-        List<Brand> brandList = new ArrayList<>();
-        brandDOPageResult.getList().forEach(item -> {
-            Brand brand = BrandConvert.convert2Brand(item);
-            brandList.add(brand);
-        });
+        List<Brand> brandList = convert2BrandBatch(brandDOPageResult.getList());
         PageResult<Brand> brandPageResult = new PageResult<>();
         brandPageResult.setTotal(brandDOPageResult.getTotal());
         brandPageResult.setList(brandList);
         return brandPageResult;
+    }
+
+    public static List<Brand> convert2BrandBatch(List<BrandPO> pos){
+        List<Brand> brandList = new ArrayList<>();
+        pos.forEach(po->{
+            Brand brand = BrandConvert.convert2Brand(po);
+            brandList.add(brand);
+        });
+        return brandList;
     }
 }

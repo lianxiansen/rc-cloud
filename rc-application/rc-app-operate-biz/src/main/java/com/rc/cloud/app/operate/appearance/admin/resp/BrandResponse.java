@@ -35,20 +35,26 @@ public class BrandResponse {
     private boolean enabled;
     @Schema(description = "创建时间")
     private String createTime;
-    public static PageResult<BrandResponse> from(PageResult<BrandBO> brandPageResult){
-        List<BrandResponse> brandVOList=new ArrayList<>();
-        brandPageResult.getList().forEach(item->{
-            brandVOList.add(from(item));
-        });
-        PageResult<BrandResponse> brandVOPageResult=new PageResult<>();
+
+    public static PageResult<BrandResponse> from(PageResult<BrandBO> brandPageResult) {
+        List<BrandResponse> brandVOList =from(brandPageResult.getList());
+        PageResult<BrandResponse> brandVOPageResult = new PageResult<>();
         brandVOPageResult.setTotal(brandPageResult.getTotal());
         brandVOPageResult.setList(brandVOList);
         return brandVOPageResult;
     }
 
-    public static BrandResponse from (BrandBO brand){
-        BrandResponse response= BrandConvert.INSTANCE.convert2BrandVO(brand);
+    public static BrandResponse from(BrandBO brand) {
+        BrandResponse response = BrandConvert.INSTANCE.convert2BrandVO(brand);
         response.setCreateTime(LocalDateTimeUtils.format(brand.getCreateTime()));
         return response;
+    }
+
+    public static List<BrandResponse> from(List<BrandBO> brands) {
+        List<BrandResponse> brandVOList = new ArrayList<>();
+        brands.forEach(item -> {
+            brandVOList.add(from(item));
+        });
+        return brandVOList;
     }
 }
