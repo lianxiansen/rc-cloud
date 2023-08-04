@@ -96,6 +96,7 @@ public class ProductSaveRequest {
     private List<ProductAttributeSaveRequest> attributes;
 
     @Schema(description = "商品sku")
+    @Valid
     private List<ProductSkuSaveRequest> skus;
 
     @Schema(description = "上线状态，可以马上上线")

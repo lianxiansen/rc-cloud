@@ -4,6 +4,7 @@ import com.rc.cloud.app.operate.application.dto.ProductSkuAttributeSaveDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import javax.validation.constraints.DecimalMin;
 import java.util.List;
 
 @Data
@@ -16,12 +17,15 @@ public class ProductSkuSaveRequest {
     private String skuCode;
 
     @Schema(description = "价格")
+    @DecimalMin(value = "0.01", message = "supplyPrice不支持(范围：不小于0.01)")
     private String price;
 
     @Schema(description = "供应价")
+    @DecimalMin(value = "0.01", message = "supplyPrice不支持(范围：不小于0.01)")
     private String supplyPrice;
 
     @Schema(description = "重量")
+    @DecimalMin(value = "0.01", message = "supplyPrice不支持(范围：不小于0.01)")
     private String weight;
 
     @Schema(description = "启用状态")
