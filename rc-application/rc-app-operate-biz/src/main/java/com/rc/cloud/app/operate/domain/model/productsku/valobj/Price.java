@@ -3,6 +3,7 @@ package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 
 import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.AssertUtils;
+import com.rc.cloud.common.core.util.StringUtils;
 
 import java.math.BigDecimal;
 
@@ -15,7 +16,10 @@ public class Price extends ValueObject{
     }
 
     public Price(BigDecimal price){
-        validate(price);
+        if(price==null){
+            throw  new IllegalArgumentException("price must be not null");
+        }
+        validate(price.toString());
         this.value =price;
     }
 
@@ -24,9 +28,9 @@ public class Price extends ValueObject{
        this.value= BigDecimal.valueOf(Double.valueOf(price));
     }
 
-    public void validate(Object obj){
-        if(obj==null){
-            throw  new IllegalArgumentException("price must be not null");
+    public void validate(String obj){
+        if(!StringUtils.isNumeric(obj)){
+            throw  new IllegalArgumentException("price must be double");
         }
     }
 

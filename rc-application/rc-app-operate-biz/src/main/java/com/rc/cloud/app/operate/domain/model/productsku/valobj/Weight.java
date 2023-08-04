@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 
 import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.AssertUtils;
+import com.rc.cloud.common.core.util.StringUtils;
 
 import java.math.BigDecimal;
 
@@ -13,12 +14,22 @@ public class Weight extends ValueObject{
         this.value =MIN;
     }
 
-    public Weight(BigDecimal price){
-        this.value =price;
+    public Weight(BigDecimal weight){
+        if(weight==null){
+            throw  new IllegalArgumentException("weight must be not null");
+        }
+        this.value =weight;
     }
 
-    public Weight(String price){
-        this.value= BigDecimal.valueOf(Double.valueOf(price));
+    public Weight(String weight){
+        validate(weight);
+        this.value= BigDecimal.valueOf(Double.valueOf(weight));
+    }
+
+    public void validate(String obj){
+        if(!StringUtils.isNumeric(obj)){
+            throw  new IllegalArgumentException("weight must be double");
+        }
     }
 
     public BigDecimal getValue(){
