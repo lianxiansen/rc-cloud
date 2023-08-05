@@ -9,6 +9,7 @@ import com.rc.cloud.app.distributor.appearance.facade.admin.req.DistributorLevel
 import com.rc.cloud.app.distributor.appearance.facade.admin.resp.DistributorLevelRespVO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.web.filter.RepeatSubmit;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Operation;
 
 import javax.validation.*;
+import java.lang.annotation.Repeatable;
 import java.util.*;
 
 @Tag(name = "用户 APP - 经销商客户等级")
@@ -56,7 +58,6 @@ public class DistributorLevelController {
     @GetMapping("/get")
     @Operation(summary = "获得经销商客户等级")
     @Parameter(name = "id", description = "编号", required = true, example = "1024")
-
     public CodeResult<DistributorLevelRespVO> getLevel(@RequestParam("id") String id) {
         DistributorLevelPO level = levelService.getLevel(id);
         return CodeResult.ok(DistributorLevelConvert.INSTANCE.convert(level));

@@ -6,6 +6,7 @@ import com.rc.cloud.common.security.service.RcUser;
 import com.rc.cloud.common.security.service.RcUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -21,10 +22,7 @@ import org.springframework.security.oauth2.server.resource.InvalidBearerTokenExc
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
 import java.security.Principal;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author lengleng
@@ -36,8 +34,19 @@ public class RcCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
 
     private final OAuth2AuthorizationService authorizationService;
 
+    @Value("${spring.security.disabled:false}")
+    private Boolean disabled;
+
     @Override
     public OAuth2AuthenticatedPrincipal introspect(String token) {
+        if(disabled){
+            // 如果是禁用，则返回默认用户
+            RcUser user = new RcUser("1","1","admin","asd","12334",true,true,true,true,new ArrayList<>());
+            Objects.requireNonNull(user)
+                    .getAttributes();
+            return user;
+        }
+
         OAuth2Authorization oldAuthorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
         if (Objects.isNull(oldAuthorization)) {
             throw new InvalidBearerTokenException(token);
