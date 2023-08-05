@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
     com.rc.cloud.common.web.config.GlobalExceptionHandler,\
-    com.rc.cloud.common.core.web.config.WebProperties
+    com.rc.cloud.common.core.web.config.WebProperties,\
+    com.rc.cloud.common.web.config.YudaoWebAutoConfiguration
