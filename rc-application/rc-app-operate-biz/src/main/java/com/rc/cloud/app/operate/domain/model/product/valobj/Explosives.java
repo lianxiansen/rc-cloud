@@ -7,10 +7,9 @@ import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.AssertUtils;
 
 /**
- * @ClassName: Popularization
- * @Author: liandy
- * @Date: 2023/6/26 13:43
- * @Description: 超级单品
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
  */
 public class Explosives extends Entity {
     /**

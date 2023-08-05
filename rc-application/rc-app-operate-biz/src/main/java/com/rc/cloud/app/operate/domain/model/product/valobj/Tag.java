@@ -6,9 +6,8 @@ import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.StringUtils;
 
 /**
- * @ClassName: TenantId
- * @Author: liandy
- * @Date: 2023/6/23 13:26
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
  * @Description:
  */
 public class Tag extends ValueObject{

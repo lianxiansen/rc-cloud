@@ -4,7 +4,9 @@ import com.rc.cloud.common.core.domain.ValueObject;
 
 
 /**
- * 按照装箱数购买
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
  */
 public class PackingLowestBuy extends ValueObject {
 

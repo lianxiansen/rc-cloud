@@ -9,6 +9,7 @@ import com.rc.cloud.app.operate.domain.model.product.valobj.Remark;
 import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductPO;
 import com.rc.cloud.common.core.util.StringUtils;
+import com.sun.org.apache.regexp.internal.RE;
 import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
@@ -68,7 +69,11 @@ public class ProductConvert {
             Recommend recommend = new Recommend(po.getRecommendFlag());
             product.setRecommendFlag(recommend);
         }
-
+        //RecycleFlag
+        if(po.getRecycleFlag()!=null){
+            Recycle recycle = new Recycle(po.getRecycleFlag());
+            product.setRecycleFlag(recycle);
+        }
         //OnshelfStatus
         if(po.getOnshelfStatus()!=null){
             OnshelfStatus onshelfStatus = new OnshelfStatus(po.getOnshelfStatus());
@@ -151,6 +156,9 @@ public class ProductConvert {
         }
         if(product.getRecommendFlag()!=null){
             po.setRecommendFlag(product.getRecommendFlag().getValue());
+        }
+        if(product.getRecycleFlag()!=null){
+            po.setRecycleFlag(product.getRecycleFlag().getValue());
         }
         if(product.getExplosives()!=null){
             po.setExplosivesFlag(product.getExplosives().isFlag());

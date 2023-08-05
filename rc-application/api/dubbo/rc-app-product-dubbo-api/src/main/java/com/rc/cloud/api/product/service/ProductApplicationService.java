@@ -2,10 +2,8 @@ package com.rc.cloud.api.product.service;
 
 import com.rc.cloud.api.product.bo.ProductBO;
 import com.rc.cloud.api.product.bo.ProductRemoveBO;
-import com.rc.cloud.api.product.dto.ProductListQueryDTO;
-import com.rc.cloud.api.product.dto.ProductQueryDTO;
-import com.rc.cloud.api.product.dto.ProductRemoveDTO;
-import com.rc.cloud.api.product.dto.ProductSaveDTO;
+import com.rc.cloud.api.product.bo.ProductValidateBO;
+import com.rc.cloud.api.product.dto.*;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 /**
@@ -48,6 +46,9 @@ public interface ProductApplicationService {
      * @return
      */
     ProductBO getProduct(ProductQueryDTO productQueryDTO);
+
+
+    ProductValidateBO validateProduct(ProductValidateDTO productValidateDTO);
 
     /**
      * 获取商品列表

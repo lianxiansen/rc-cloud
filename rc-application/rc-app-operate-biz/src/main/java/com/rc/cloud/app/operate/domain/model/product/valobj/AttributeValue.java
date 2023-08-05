@@ -5,6 +5,11 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.rc.cloud.common.core.domain.ValueObject;
 import org.apache.commons.lang3.Validate;
 
+/**
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
+ */
 public class AttributeValue extends ValueObject implements Comparable<AttributeValue>{
 
     @JSONField(ordinal = 1, name = "attributeValue")

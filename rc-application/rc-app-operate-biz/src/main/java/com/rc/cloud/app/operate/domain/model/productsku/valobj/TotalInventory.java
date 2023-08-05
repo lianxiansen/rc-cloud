@@ -2,6 +2,11 @@ package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 
 import com.rc.cloud.common.core.domain.ValueObject;
 
+/**
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
+ */
 public class TotalInventory extends ValueObject{
 
 

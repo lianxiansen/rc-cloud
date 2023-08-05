@@ -4,6 +4,11 @@ import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.StringUtils;
 
+/**
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
+ */
 public class Url extends ValueObject {
 
     private String value;

@@ -5,10 +5,9 @@ import com.rc.cloud.common.core.domain.Entity;
 import com.rc.cloud.common.core.domain.ValueObject;
 
 /**
- * @ClassName: Refund
- * @Author: liandy
- * @Date: 2023/6/26 13:43
- * @Description: 抢购
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
  */
 public class Seckill extends Entity {
     private boolean flag;

@@ -164,6 +164,8 @@ public class ProductSaveRequest {
         //默认批量发货
         //当此参数设置为true后购买数量只能是装箱数的倍数
         productSaveDTO.setPackingLowestBuyFlag(true);
+        //是否回收默认为false
+        productSaveDTO.setRecycleFlag(false);
         return productSaveDTO;
     }
 }
