@@ -5,7 +5,9 @@ import com.rc.cloud.common.core.util.AssertUtils;
 
 
 /**
- * 装箱数
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
  */
 public class PackingNumber extends ValueObject {
 

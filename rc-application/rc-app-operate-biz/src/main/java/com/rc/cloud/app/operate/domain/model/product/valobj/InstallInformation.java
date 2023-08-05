@@ -6,7 +6,9 @@ import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
 
 /**
- * 安装信息
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
  */
 public class InstallInformation  extends Entity {
 

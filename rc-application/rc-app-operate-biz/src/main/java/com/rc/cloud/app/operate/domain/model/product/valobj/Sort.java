@@ -3,10 +3,9 @@ import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.AssertUtils;
 
 /**
- * @ClassName: Sort
- * @Author: liandy
- * @Date: 2023/6/26 13:43
- * @Description: TODO
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
  */
 public class Sort extends ValueObject{
     private int value;

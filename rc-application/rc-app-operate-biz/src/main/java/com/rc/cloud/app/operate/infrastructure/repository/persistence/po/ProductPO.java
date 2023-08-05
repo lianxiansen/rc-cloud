@@ -184,6 +184,9 @@ public class ProductPO extends TenantBaseDO {
     @TableField("recommend_flag")
     private Boolean recommendFlag;
 
+    @TableField("recycle_flag")
+    private Boolean recycleFlag;
+
     @TableField("sort")
     private Integer sort;
 

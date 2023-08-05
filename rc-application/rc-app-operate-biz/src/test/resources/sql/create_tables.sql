@@ -172,6 +172,7 @@ CREATE TABLE `product`
     `explosives_image`           varchar(128)   DEFAULT NULL COMMENT '超级单品海报URL，分类海报显示在产品分类页，尺寸500*280',
     `public_flag`                bit            DEFAULT '0' COMMENT '是否公开 0否，1是',
     `recommend_flag`             bit            DEFAULT '0' COMMENT '是否推荐 0否，1是',
+    `recycle_flag`               bit            DEFAULT false COMMENT '是否回收 0否，1是',
     `sort`                       int(11) DEFAULT 99 COMMENT '排序',
     `creator`                    varchar(32)    DEFAULT NULL COMMENT '创建人',
     `create_time`                datetime       DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

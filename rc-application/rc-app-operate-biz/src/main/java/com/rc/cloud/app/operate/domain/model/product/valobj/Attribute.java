@@ -5,9 +5,10 @@ import com.rc.cloud.common.core.domain.ValueObject;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 /**
- *
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
  */
 public class Attribute extends ValueObject implements Comparable<Attribute> {
 

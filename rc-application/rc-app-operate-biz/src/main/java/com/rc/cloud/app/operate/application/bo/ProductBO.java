@@ -59,6 +59,8 @@ public class ProductBO {
 
     private boolean recommendFlag;
 
+    private boolean recycleFlag;
+
     private int sort;
 
     private String customClassificationId;

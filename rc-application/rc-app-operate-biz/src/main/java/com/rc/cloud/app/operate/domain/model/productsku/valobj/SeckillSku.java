@@ -6,6 +6,11 @@ import com.rc.cloud.common.core.domain.ValueObject;
 
 import java.text.DecimalFormat;
 
+/**
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
+ */
 public class SeckillSku extends Entity {
 
     private LimitBuy seckillLimitBuy;

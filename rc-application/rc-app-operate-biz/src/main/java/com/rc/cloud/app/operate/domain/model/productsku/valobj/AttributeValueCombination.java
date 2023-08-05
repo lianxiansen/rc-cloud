@@ -6,6 +6,11 @@ package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.rc.cloud.common.core.domain.ValueObject;
 
+/**
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
+ */
 public class AttributeValueCombination extends ValueObject  implements Comparable<AttributeValueCombination> {
 
     @JSONField(ordinal = 1, name = "attribute")

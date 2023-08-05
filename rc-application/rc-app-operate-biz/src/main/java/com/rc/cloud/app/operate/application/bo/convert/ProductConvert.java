@@ -82,6 +82,8 @@ public class ProductConvert
         product = setOnShelfStatus(productSaveDTO.getOnShelfStatus(),isCreate,product);
         //设置Recommend
         product = setRecommend(productSaveDTO.getRecommendFlag(),isCreate,product);
+        //设置Recycle
+        product = setRecycle(productSaveDTO.getRecycleFlag(),isCreate,product);
         //设置PackingLowestBuy
         product = setPackingLowestBuy(productSaveDTO.getPackingLowestBuyFlag(),isCreate,product);
         //设置Video
@@ -395,6 +397,30 @@ public class ProductConvert
     }
 
     /**
+     * 设置Recycle
+     * @param recycleFlag
+     * @param isCreate
+     * @param product
+     * @return
+     */
+    private static Product setRecycle(Boolean recycleFlag, boolean isCreate, Product product){
+        if(isCreate){
+            if(recycleFlag==null){
+                product.setRecycleFlag(new Recycle(false));
+            }else{
+                product.setRecycleFlag(new Recycle(recycleFlag));
+            }
+
+        }else{
+            if (recycleFlag != null) {
+                Recycle recycle = new Recycle(recycleFlag);
+                product.setRecycleFlag(recycle);
+            }
+        }
+        return product;
+    }
+
+    /**
      * 设置packingLowestBuyFlag
      * @param packingLowestBuyFlag
      * @param isCreate
@@ -614,6 +640,11 @@ public class ProductConvert
         }
         if(product.getRecommendFlag()!=null){
             bo.setRecommendFlag(product.getRecommendFlag().getValue());
+        }
+        if(product.getRecycleFlag()!=null){
+            bo.setRecycleFlag(product.getRecycleFlag().getValue());
+        }else{
+            bo.setRecycleFlag(false);
         }
         if(product.getExplosives()!=null){
             bo.setExplosivesFlag(product.getExplosives().isFlag());

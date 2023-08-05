@@ -50,6 +50,7 @@ public class Product extends AggregateRoot {
         this.spuCode=new SpuCode(null);
         this.origin =new Origin(ProductOriginEnum.Self.value);
         this.packingLowestBuy=new PackingLowestBuy(false);
+        this.recycleFlag=new Recycle(false);
     }
 
     private ProductId id;
@@ -135,6 +136,8 @@ public class Product extends AggregateRoot {
     private Boolean newFlag;
     private Boolean publicFlag;
     private Recommend recommendFlag;
+
+
 
 
     public Boolean getNewFlag() {
@@ -387,6 +390,15 @@ public class Product extends AggregateRoot {
         this.packingLowestBuy = packingLowestBuy;
     }
 
+    private Recycle recycleFlag;
 
+    public Recycle getRecycleFlag() {
+        return recycleFlag;
+    }
+
+    public void setRecycleFlag(Recycle recycleFlag) {
+        AssertUtils.assertArgumentNotNull(recycleFlag, "recycleFlag must not be null");
+        this.recycleFlag = recycleFlag;
+    }
 
 }

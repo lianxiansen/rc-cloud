@@ -113,6 +113,8 @@ public class ProductSaveDTO {
 
     private Boolean  recommendFlag;
 
+    private Boolean  recycleFlag;
+
     private Integer sort;
 
     private List<ProductAttributeSaveDTO> attributes;

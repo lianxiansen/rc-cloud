@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Pair;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductRemoveBO;
+import com.rc.cloud.app.operate.application.bo.ProductValidateBO;
 import com.rc.cloud.app.operate.application.bo.convert.*;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
@@ -368,6 +369,12 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         return ProductConvert.convertProductBO(product,productMasterImages ,productSizeImages,productDicts,productDetail,productSkuList);
     }
 
+
+    public ProductValidateBO validateProduct(ProductValidateDTO productValidateDTO){
+
+
+        return null;
+    }
 
     /**
      * 获取商品列表

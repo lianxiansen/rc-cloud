@@ -7,6 +7,11 @@ import com.rc.cloud.common.core.util.StringUtils;
 
 import java.math.BigDecimal;
 
+/**
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
+ */
 public class Price extends ValueObject{
 
     public static final BigDecimal MIN= BigDecimal.valueOf(0.01);

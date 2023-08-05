@@ -1,6 +1,10 @@
 package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 
-
+/**
+ * @Author: chenjianxiang
+ * @Date: 2023/8/5
+ * @Description:
+ */
 public class CartonSize {
 
     private int length;

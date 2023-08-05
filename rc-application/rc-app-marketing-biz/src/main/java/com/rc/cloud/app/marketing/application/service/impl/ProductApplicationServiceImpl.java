@@ -2,10 +2,8 @@ package com.rc.cloud.app.marketing.application.service.impl;
 
 import com.rc.cloud.api.product.bo.ProductBO;
 import com.rc.cloud.api.product.bo.ProductRemoveBO;
-import com.rc.cloud.api.product.dto.ProductListQueryDTO;
-import com.rc.cloud.api.product.dto.ProductQueryDTO;
-import com.rc.cloud.api.product.dto.ProductRemoveDTO;
-import com.rc.cloud.api.product.dto.ProductSaveDTO;
+import com.rc.cloud.api.product.bo.ProductValidateBO;
+import com.rc.cloud.api.product.dto.*;
 import com.rc.cloud.api.product.service.ProductApplicationService;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.springframework.stereotype.Service;
@@ -36,6 +34,11 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
 
     @Override
     public ProductBO getProduct(ProductQueryDTO productQueryDTO) {
+        return null;
+    }
+
+    @Override
+    public ProductValidateBO validateProduct(ProductValidateDTO productValidateDTO) {
         return null;
     }
 
