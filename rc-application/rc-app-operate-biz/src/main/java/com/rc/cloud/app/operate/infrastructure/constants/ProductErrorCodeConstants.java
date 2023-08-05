@@ -26,4 +26,8 @@ public interface ProductErrorCodeConstants extends ErrorCodeConstants {
 
     ErrorCode PRODUCT_SKU_CODE_REPEAT_ERROR = new ErrorCode(2001000005, "商品skucode重复");
 
+    ErrorCode PRODUCT_CATEGORY_NOT_EXIST_ERROR = new ErrorCode(2001000005, "所选的类别不存在");
+    ErrorCode PRODUCT_BRAND_NOT_EXIST_ERROR = new ErrorCode(2001000005, "所选的品牌不存在");
+    ErrorCode PRODUCT_CUSTOMCLASSIFICATION_NOT_EXIST_ERROR = new ErrorCode(2001000005, "所选的自定义类别不存在");
+
 }

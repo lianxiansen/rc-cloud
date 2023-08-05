@@ -104,14 +104,18 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
                 ,productSaveDTO,true,null);
 
         //校验商品类目是否存在于类目数据库
-        productCategoryService.existWithCategoryName(
+        if(!productCategoryService.existWithCategoryName(
                 product.getFirstCategory().getValue(),
                 product.getSecondCategory().getValue(),
                 product.getThirdCategory().getValue()
-                );
+        )){
+            throw new ServiceException(ProductErrorCodeConstants.PRODUCT_CATEGORY_NOT_EXIST_ERROR);
+        }
         //校验商品品牌id是否存在
         if(StringUtils.isNotEmpty(product.getBrandId().id())){
-            brandService.existById(product.getBrandId());
+           if(!brandService.existById(product.getBrandId())){
+               throw new ServiceException(ProductErrorCodeConstants.PRODUCT_BRAND_NOT_EXIST_ERROR);
+           }
         }
         //校验自定义分类id是否存在
         if(StringUtils.isNotEmpty(product.getCustomClassificationId().getId())){
@@ -185,14 +189,18 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
                 ,productSaveDTO,false,product);
 
         //校验商品类目是否存在于类目数据库
-        productCategoryService.existWithCategoryName(
+        if(!productCategoryService.existWithCategoryName(
                 product.getFirstCategory().getValue(),
                 product.getSecondCategory().getValue(),
                 product.getThirdCategory().getValue()
-        );
+        )){
+            throw new ServiceException(ProductErrorCodeConstants.PRODUCT_CATEGORY_NOT_EXIST_ERROR);
+        }
         //校验商品品牌id是否存在
         if(StringUtils.isNotEmpty(product.getBrandId().id())){
-            brandService.existById(product.getBrandId());
+            if(!brandService.existById(product.getBrandId())){
+                throw new ServiceException(ProductErrorCodeConstants.PRODUCT_BRAND_NOT_EXIST_ERROR);
+            }
         }
         //校验自定义分类id是否存在
         if(StringUtils.isNotEmpty(product.getCustomClassificationId().getId())){
