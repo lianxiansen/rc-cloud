@@ -76,10 +76,11 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
         wrapper.eq(ProductCategoryPO::getParentId, productCategoryId.id());
         return this.productCategoryMapper.exists(wrapper);
     }
-    /**
-     * 持久化对象转领域对象
-     * @param productCategoryPO
-     * @return
-     */
 
+    @Override
+    public boolean existsByName(String categoryName) {
+        LambdaQueryWrapperX<ProductCategoryPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(ProductCategoryPO::getName, categoryName);
+        return this.productCategoryMapper.exists(wrapper);
+    }
 }

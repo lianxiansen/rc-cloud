@@ -20,4 +20,7 @@ public interface ProductCategoryRepository {
     boolean removeById(ProductCategoryId productCategoryId);
 
     boolean existsByParentId(ProductCategoryId productCategoryId);
+
+    boolean existsByName(String categoryName);
+
 }

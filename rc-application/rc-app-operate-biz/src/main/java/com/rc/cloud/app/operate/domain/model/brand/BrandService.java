@@ -54,4 +54,8 @@ public class BrandService {
     public List<Brand> findList(String name) {
         return brandRepository.findList(name);
     }
+
+    public boolean existById(BrandId brandId) {
+        return brandRepository.existById(brandId);
+    }
 }

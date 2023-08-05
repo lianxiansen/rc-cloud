@@ -7,6 +7,7 @@ import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.BrandConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.BrandMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.BrandPO;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductCategoryPO;
 import com.rc.cloud.common.core.pojo.PageParam;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
@@ -69,7 +70,12 @@ public class BrandRepositoryImpl implements BrandRepository {
         return BrandConvert.convert2BrandBatch(pos);
     }
 
-
+    @Override
+    public boolean existById(BrandId brandId) {
+        LambdaQueryWrapperX<BrandPO> wrapper = new LambdaQueryWrapperX<>();
+        wrapper.eq(BrandPO::getId, brandId.id());
+        return this.brandMapper.exists(wrapper);
+    }
 }
 
 @Data

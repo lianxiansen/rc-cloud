@@ -15,6 +15,7 @@ import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailService;
 import com.rc.cloud.app.operate.domain.model.productdetail.identifier.ProductDetailId;
@@ -67,6 +68,9 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     private ProductDetailService productDetailService;
 
     @Autowired
+    private ProductCategoryService productCategoryService;
+
+    @Autowired
     private BrandService brandService;
 
     @Resource
@@ -99,6 +103,20 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         Product product= ProductConvert.convertDomain(productId.id()
                 ,productSaveDTO,true,null);
 
+        //校验商品类目是否存在于类目数据库
+        productCategoryService.existWithCategoryName(
+                product.getFirstCategory().getValue(),
+                product.getSecondCategory().getValue(),
+                product.getThirdCategory().getValue()
+                );
+        //校验商品品牌id是否存在
+        if(StringUtils.isNotEmpty(product.getBrandId().id())){
+            brandService.existById(product.getBrandId());
+        }
+        //校验自定义分类id是否存在
+        if(StringUtils.isNotEmpty(product.getCustomClassificationId().getId())){
+            //TODO
+        }
         productService.createProduct(product);
         List<ProductImage> productSizeImages=null;
         List<ProductImage> productMasterImages=null;
@@ -166,6 +184,20 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         product= ProductConvert.convertDomain(productId.id()
                 ,productSaveDTO,false,product);
 
+        //校验商品类目是否存在于类目数据库
+        productCategoryService.existWithCategoryName(
+                product.getFirstCategory().getValue(),
+                product.getSecondCategory().getValue(),
+                product.getThirdCategory().getValue()
+        );
+        //校验商品品牌id是否存在
+        if(StringUtils.isNotEmpty(product.getBrandId().id())){
+            brandService.existById(product.getBrandId());
+        }
+        //校验自定义分类id是否存在
+        if(StringUtils.isNotEmpty(product.getCustomClassificationId().getId())){
+            //TODO
+        }
         productService.updateProduct(product);
 
         List<ProductImage> productSizeImages=null;

@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.AssertUtils;
+import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
 import org.springframework.stereotype.Service;
 
@@ -117,5 +118,19 @@ public class ProductCategoryService {
     public ProductCategory findById(ProductCategoryId productCategoryId) {
         AssertUtils.notNull(productCategoryId, "productCategoryId must be not null");
         return productCategoryRepository.findById(productCategoryId);
+    }
+
+    public boolean existWithCategoryName(String firstCategory,String secondCategory,String thirdCategory) {
+        boolean f1=true,f2=true,f3=true;
+        if(StringUtils.isNotEmpty(firstCategory)){
+             f1=productCategoryRepository.existsByName(firstCategory);
+        }
+        if(StringUtils.isNotEmpty(secondCategory)){
+            f2=productCategoryRepository.existsByName(secondCategory);
+        }
+        if(StringUtils.isNotEmpty(thirdCategory)){
+            f3=productCategoryRepository.existsByName(thirdCategory);
+        }
+        return f1 && f2 &&f3;
     }
 }

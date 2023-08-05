@@ -32,7 +32,7 @@ public class ProductSkuConvert {
             productSku.setLimitBuy(new LimitBuy(po.getLimitBuy()));
             productSku.setOutId(new OutId(po.getOutId()));
             productSku.setSupplyPrice(new SupplyPrice(po.getSupplyPrice().toString()));
-            productSku.setWeight(new Weight(po.getWeight()));
+            productSku.setWeight(new Weight(po.getWeight().toString()));
             productSku.setPackingNumber(new PackingNumber(po.getPackingNumber()));
             productSku.setCartonSize(new CartonSize(po.getCartonSizeLength(),po.getCartonSizeWidth()
                     ,po.getCartonSizeHeight()));

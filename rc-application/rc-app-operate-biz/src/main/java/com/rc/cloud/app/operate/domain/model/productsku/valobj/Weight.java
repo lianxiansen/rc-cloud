@@ -14,21 +14,19 @@ public class Weight extends ValueObject{
         this.value =MIN;
     }
 
-    public Weight(BigDecimal weight){
-        if(weight==null){
-            throw  new IllegalArgumentException("weight must be not null");
-        }
-        this.value =weight;
-    }
 
     public Weight(String weight){
-        validate(weight);
-        this.value= BigDecimal.valueOf(Double.valueOf(weight));
+        if(StringUtils.isEmpty(weight)){
+            this.value=BigDecimal.ZERO;
+        }else{
+            validate(weight);
+            this.value= BigDecimal.valueOf(Double.valueOf(weight));
+        }
     }
 
     public void validate(String obj){
         if(!StringUtils.isNumeric(obj)){
-            throw  new IllegalArgumentException("weight must be double");
+            throw  new IllegalArgumentException("Weight must be double");
         }
     }
 

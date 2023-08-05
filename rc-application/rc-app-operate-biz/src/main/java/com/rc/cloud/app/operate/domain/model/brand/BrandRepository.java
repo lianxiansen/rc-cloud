@@ -50,4 +50,6 @@ public interface BrandRepository {
      * @return
      */
     List<Brand> findList(String name);
+
+    boolean existById(BrandId brandId);
 }

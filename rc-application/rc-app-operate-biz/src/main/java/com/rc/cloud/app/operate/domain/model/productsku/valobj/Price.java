@@ -18,21 +18,21 @@ public class Price extends ValueObject{
     public Price(String price){
         if(StringUtils.isEmpty(price)){
             throw  new IllegalArgumentException("price must be not null");
+        }else{
+            validate(price);
+            this.value= BigDecimal.valueOf(Double.valueOf(price));
         }
-        validate(price);
-       this.value= BigDecimal.valueOf(Double.valueOf(price));
     }
 
-    public void validate(String obj){
-        if(!StringUtils.isNumeric(obj)){
-            throw  new IllegalArgumentException("price must be double");
+    public void validate(String price){
+        if(!StringUtils.isNumeric(price)){
+            throw  new IllegalArgumentException("Price must be double");
         }
     }
 
     public BigDecimal getValue(){
         return value;
     }
-
 
 
     public void setValue(BigDecimal value){

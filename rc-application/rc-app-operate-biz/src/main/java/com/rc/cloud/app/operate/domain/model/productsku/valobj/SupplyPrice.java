@@ -14,18 +14,19 @@ public class SupplyPrice extends ValueObject {
         this.value =MIN;
     }
 
-    public SupplyPrice(String price){
-        if(StringUtils.isEmpty(price)){
+    public SupplyPrice(String supplyPrice){
+        if(StringUtils.isEmpty(supplyPrice)){
             this.value=BigDecimal.ZERO;
+        }else{
+            validate(supplyPrice);
+            this.value= BigDecimal.valueOf(Double.valueOf(supplyPrice));
         }
-        validate(price);
-        this.value= BigDecimal.valueOf(Double.valueOf(price));
     }
 
     public void validate(String obj){
         if(obj!=null){
             if(!StringUtils.isNumeric(obj)){
-                throw  new IllegalArgumentException("price must be double");
+                throw  new IllegalArgumentException("SupplyPrice must be double");
             }
         }
 
