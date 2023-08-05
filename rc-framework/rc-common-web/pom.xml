@@ -35,8 +35,9 @@
             <version>1.0.0</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-redis</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <!--        <dependency>-->
 <!--            <groupId>com.github.xiaoymin</groupId>-->

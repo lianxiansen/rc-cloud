@@ -3,12 +3,14 @@ package com.rc.cloud.common.web.config;
 
 import com.rc.cloud.common.core.web.config.WebProperties;
 import com.rc.cloud.common.core.web.util.WebFrameworkUtils;
+import com.rc.cloud.common.web.filter.SameUrlDataInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -44,6 +46,15 @@ public class YudaoWebAutoConfiguration implements WebMvcConfigurer {
                 && antPathMatcher.match(api.getController(), clazz.getPackage().getName())); // 仅仅匹配 controller 包
     }
 
+    /**
+     * 自定义拦截规则
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry)
+    {
+        registry.addInterceptor(sameUrlDataInterceptor()).addPathPatterns("/**");
+    }
+
 //    @Bean
 //    public GlobalExceptionHandler globalExceptionHandler(ApiErrorLogFrameworkService ApiErrorLogFrameworkService) {
 //        return new GlobalExceptionHandler(applicationName, ApiErrorLogFrameworkService);
@@ -59,6 +70,11 @@ public class YudaoWebAutoConfiguration implements WebMvcConfigurer {
     public WebFrameworkUtils webFrameworkUtils(WebProperties webProperties) {
         // 由于 WebFrameworkUtils 需要使用到 webProperties 属性，所以注册为一个 Bean
         return new WebFrameworkUtils(webProperties);
+    }
+
+    @Bean
+    public SameUrlDataInterceptor sameUrlDataInterceptor() {
+        return new SameUrlDataInterceptor();
     }
 
     // ========== Filter 相关 ==========
