@@ -14,21 +14,21 @@ public class SupplyPrice extends ValueObject {
         this.value =MIN;
     }
 
-    public SupplyPrice(BigDecimal price){
-        this.value =price;
-    }
     public SupplyPrice(String price){
+        if(StringUtils.isEmpty(price)){
+            this.value=BigDecimal.ZERO;
+        }
         validate(price);
         this.value= BigDecimal.valueOf(Double.valueOf(price));
     }
 
     public void validate(String obj){
-        if(obj==null){
-            throw  new IllegalArgumentException("price must be not null");
+        if(obj!=null){
+            if(!StringUtils.isNumeric(obj)){
+                throw  new IllegalArgumentException("price must be double");
+            }
         }
-        if(!StringUtils.isNumeric(obj)){
-            throw  new IllegalArgumentException("price must be double");
-        }
+
     }
 
 
@@ -37,7 +37,9 @@ public class SupplyPrice extends ValueObject {
     }
 
     public void setValue(BigDecimal value){
-        AssertUtils.assertArgumentRange(value,0,999999,"the value of SupplyPrice is not in range(0,999999)");
+        if(value!=null){
+            validate(value.toString());
+        }
         this.value=value;
     }
 

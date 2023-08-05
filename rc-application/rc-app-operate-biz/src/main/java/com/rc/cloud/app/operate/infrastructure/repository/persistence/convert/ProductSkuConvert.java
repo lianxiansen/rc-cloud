@@ -24,14 +24,14 @@ public class ProductSkuConvert {
             //秒杀信息
             SeckillSku seckillSku=new SeckillSku();
             seckillSku.setSeckillInventory(new Inventory(po.getSeckillInventory()));
-            seckillSku.setSeckillPrice(new Price(po.getPrice()));
+            seckillSku.setSeckillPrice(new Price(po.getPrice().toString()));
             seckillSku.setSeckillTotalInventory(new TotalInventory(po.getSeckillTotalInventory()));
             seckillSku.setSeckillLimitBuy(new LimitBuy(po.getSeckillLimitBuy()));
             productSku.setSeckillSku(seckillSku);
             productSku.setInventory(new Inventory(po.getInventory()));
             productSku.setLimitBuy(new LimitBuy(po.getLimitBuy()));
             productSku.setOutId(new OutId(po.getOutId()));
-            productSku.setSupplyPrice(new SupplyPrice(po.getSupplyPrice()));
+            productSku.setSupplyPrice(new SupplyPrice(po.getSupplyPrice().toString()));
             productSku.setWeight(new Weight(po.getWeight()));
             productSku.setPackingNumber(new PackingNumber(po.getPackingNumber()));
             productSku.setCartonSize(new CartonSize(po.getCartonSizeLength(),po.getCartonSizeWidth()

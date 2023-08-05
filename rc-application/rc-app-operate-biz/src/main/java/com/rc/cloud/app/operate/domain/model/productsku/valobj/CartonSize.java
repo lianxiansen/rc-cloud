@@ -10,6 +10,7 @@ public class CartonSize {
     private int height;
 
     public CartonSize(int length, int width, int height) {
+
         this.length = length;
         this.width = width;
         this.height = height;

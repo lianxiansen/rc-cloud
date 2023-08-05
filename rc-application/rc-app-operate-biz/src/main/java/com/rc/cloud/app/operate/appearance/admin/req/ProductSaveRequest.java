@@ -11,6 +11,8 @@ import lombok.experimental.Accessors;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
@@ -90,6 +92,8 @@ public class ProductSaveRequest {
     private Boolean  recommendFlag;
 
     @Schema(description = "排序")
+    @Min(value = 0, message = "排序值最小为0")
+    @Max(value = 9999, message = "排序值最大为9999")
     private Integer sort;
 
     @Schema(description = "商品规格")
@@ -121,6 +125,7 @@ public class ProductSaveRequest {
     private String detail;
 
     @Schema(description = "商品spucode")
+    @NotBlank(message = "产品货号不能为空")
     private String spuCode;
 
     public static ProductSaveDTO from(ProductSaveRequest request) {

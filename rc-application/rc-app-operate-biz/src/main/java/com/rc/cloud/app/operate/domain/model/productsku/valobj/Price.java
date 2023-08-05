@@ -15,15 +15,10 @@ public class Price extends ValueObject{
         this.value =MIN;
     }
 
-    public Price(BigDecimal price){
-        if(price==null){
+    public Price(String price){
+        if(StringUtils.isEmpty(price)){
             throw  new IllegalArgumentException("price must be not null");
         }
-        validate(price.toString());
-        this.value =price;
-    }
-
-    public Price(String price){
         validate(price);
        this.value= BigDecimal.valueOf(Double.valueOf(price));
     }
