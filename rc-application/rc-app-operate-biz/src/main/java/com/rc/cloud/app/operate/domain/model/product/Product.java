@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.domain.model.product;
 
+import com.rc.cloud.app.operate.application.dto.ProductChangeOnShelfStatusDTO;
 import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import com.rc.cloud.app.operate.domain.common.ProductOriginEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
@@ -31,6 +32,21 @@ public class Product extends AggregateRoot {
         setId(id);
         setName(name);
 
+    }
+
+    /**
+     * 商品是否可用
+     * @return
+     */
+    public boolean isEnabled(){
+        boolean flag=true;
+        if(this.onshelfStatus.getValue()!=ProductShelfStatusEnum.OnShelf.value){
+            return false;
+        }
+        if(this.recycleFlag.getValue()){
+            return false;
+        }
+        return true;
     }
 
     private void init(){

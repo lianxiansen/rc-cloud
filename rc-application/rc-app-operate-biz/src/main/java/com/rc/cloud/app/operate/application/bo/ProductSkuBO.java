@@ -57,4 +57,8 @@ public class ProductSkuBO {
 
     private int cartonSizeHeight;
 
+
+
+
+
 }

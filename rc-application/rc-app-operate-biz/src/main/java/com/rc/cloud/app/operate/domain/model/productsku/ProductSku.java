@@ -129,7 +129,9 @@ public class ProductSku extends AggregateRoot {
      */
     private Sort sort;
 
-
+    /**
+     * 规格是否可用
+     */
     private boolean enabledFlag;
 
     public boolean isEnabledFlag() {

@@ -15,7 +15,7 @@ public class SeckillSku extends Entity {
 
     private LimitBuy seckillLimitBuy;
 
-    private Price seckillPrice;
+    private SeckillPrice seckillPrice;
 
     private Inventory seckillInventory;
 
@@ -30,11 +30,11 @@ public class SeckillSku extends Entity {
         this.seckillLimitBuy = seckillLimitBuy;
     }
 
-    public Price getSeckillPrice() {
+    public SeckillPrice getSeckillPrice() {
         return seckillPrice;
     }
 
-    public void setSeckillPrice(Price seckillPrice) {
+    public void setSeckillPrice(SeckillPrice seckillPrice) {
         this.seckillPrice = seckillPrice;
     }
 

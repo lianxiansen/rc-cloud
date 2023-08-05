@@ -625,4 +625,14 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
         long[] longs = StrUtil.splitToLong(value, separator);
         return Arrays.stream(longs).boxed().collect(Collectors.toList());
     }
+
+
+    public static boolean isNumeric(String str){
+        Pattern pattern = Pattern.compile("-?[0-9]+(.[0-9]+)?");
+        Matcher isNum = pattern.matcher(str);
+        if( !isNum.matches() ){
+            return false;
+        }
+        return true;
+    }
 }

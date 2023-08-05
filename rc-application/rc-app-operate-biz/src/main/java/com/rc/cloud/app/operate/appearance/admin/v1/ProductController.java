@@ -1,11 +1,12 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.rc.cloud.app.operate.appearance.admin.req.ProductRemoveRequest;
 import com.rc.cloud.app.operate.appearance.admin.req.ProductSaveRequest;
-import com.rc.cloud.app.operate.appearance.admin.resp.ProductDetailResponse;
-import com.rc.cloud.app.operate.appearance.admin.resp.ProductListResponse;
-import com.rc.cloud.app.operate.appearance.admin.resp.ProductRemoveResponse;
+import com.rc.cloud.app.operate.appearance.admin.req.ProductSkuRequest;
+import com.rc.cloud.app.operate.appearance.admin.resp.*;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
+import com.rc.cloud.app.operate.application.bo.ProductValidateBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.domain.common.ProductRemoveTypeEnum;
@@ -67,6 +68,20 @@ public class ProductController {
     public CodeResult<ProductDetailResponse> getProduct(@Valid @RequestBody ProductQueryDTO query) {
         ProductBO product = productApplicationService.getProduct(query);
         return CodeResult.ok(ProductDetailResponse.from(product));
+    }
+
+    @GetMapping("validate")
+    @Operation(summary = "校验产品是否可以购买")
+    public CodeResult<ProductValidateResponse> validateProduct(@Valid @RequestBody ProductSkuRequest query) {
+        ProductValidateDTO validateDTO=new ProductValidateDTO();
+        BeanUtil.copyProperties(query,validateDTO);
+        ProductValidateBO productValidateBO = productApplicationService.validateProduct(validateDTO);
+        ProductValidateResponse response=new ProductValidateResponse();
+        response.setCanBuy(productValidateBO.isEnabled());
+        ProductValidateSkuDetailResponse skuDetailResponse=new ProductValidateSkuDetailResponse();
+        BeanUtil.copyProperties(productValidateBO.getProductSkuBO(),skuDetailResponse);
+        response.setSkuDetail(skuDetailResponse);
+        return CodeResult.ok(response);
     }
 
 

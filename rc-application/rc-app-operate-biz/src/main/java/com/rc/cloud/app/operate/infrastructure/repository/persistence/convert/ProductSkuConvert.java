@@ -18,21 +18,27 @@ public class ProductSkuConvert {
             ProductId productId=new ProductId(po.getProductId());
             ProductSkuId id = new ProductSkuId(po.getId());
             ProductSku productSku=new ProductSku(id,productId);
-            Price price=new Price();
-            price.setValue(po.getPrice());
-            productSku.setPrice(price);
+            if(po.getPrice()!=null){
+                productSku.setPrice(new Price(po.getPrice().toString()));
+            }
             //秒杀信息
             SeckillSku seckillSku=new SeckillSku();
             seckillSku.setSeckillInventory(new Inventory(po.getSeckillInventory()));
-            seckillSku.setSeckillPrice(new Price(po.getPrice().toString()));
+            if(po.getSeckillPrice()!=null){
+                seckillSku.setSeckillPrice(new SeckillPrice(po.getSeckillPrice().toString()));
+            }
             seckillSku.setSeckillTotalInventory(new TotalInventory(po.getSeckillTotalInventory()));
             seckillSku.setSeckillLimitBuy(new LimitBuy(po.getSeckillLimitBuy()));
             productSku.setSeckillSku(seckillSku);
             productSku.setInventory(new Inventory(po.getInventory()));
             productSku.setLimitBuy(new LimitBuy(po.getLimitBuy()));
             productSku.setOutId(new OutId(po.getOutId()));
-            productSku.setSupplyPrice(new SupplyPrice(po.getSupplyPrice().toString()));
-            productSku.setWeight(new Weight(po.getWeight().toString()));
+            if(po.getSupplyPrice()!=null){
+                productSku.setSupplyPrice(new SupplyPrice(po.getSupplyPrice().toString()));
+            }
+            if(po.getWeight()!=null){
+                productSku.setWeight(new Weight(po.getWeight().toString()));
+            }
             productSku.setPackingNumber(new PackingNumber(po.getPackingNumber()));
             productSku.setCartonSize(new CartonSize(po.getCartonSizeLength(),po.getCartonSizeWidth()
                     ,po.getCartonSizeHeight()));

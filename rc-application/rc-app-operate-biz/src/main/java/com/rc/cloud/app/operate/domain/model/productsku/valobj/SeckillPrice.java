@@ -2,7 +2,6 @@ package com.rc.cloud.app.operate.domain.model.productsku.valobj;
 
 
 import com.rc.cloud.common.core.domain.ValueObject;
-import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -12,17 +11,17 @@ import java.math.BigDecimal;
  * @Date: 2023/8/5
  * @Description:
  */
-public class Price extends ValueObject{
+public class SeckillPrice extends ValueObject{
 
     public static final BigDecimal MIN= BigDecimal.valueOf(0.01);
     private BigDecimal value;
-    public Price(){
+    public SeckillPrice(){
         this.value =MIN;
     }
 
-    public Price(String price){
+    public SeckillPrice(String price){
         if(StringUtils.isEmpty(price)){
-            throw  new IllegalArgumentException("price must be not null");
+            this.value= BigDecimal.ZERO;
         }else{
             validate(price);
             this.value= BigDecimal.valueOf(Double.valueOf(price));
@@ -43,7 +42,7 @@ public class Price extends ValueObject{
     @Override
     public boolean equals(Object other) {
         if (other != null && this.getClass() == other.getClass()) {
-            Price typedObject = (Price) other;
+            SeckillPrice typedObject = (SeckillPrice) other;
         }
         return false;
     }

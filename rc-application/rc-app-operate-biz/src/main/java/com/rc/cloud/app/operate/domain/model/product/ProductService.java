@@ -115,7 +115,9 @@ public class ProductService {
 
 
     public Product findProductById(ProductId productId) {
-        return  productRepository.findById(productId);
+        Product product = productRepository.findById(productId);
+
+        return product;
     }
 
     public PageResult<Product> getProductPageList(ProductListQueryDTO productListQueryDTO) {

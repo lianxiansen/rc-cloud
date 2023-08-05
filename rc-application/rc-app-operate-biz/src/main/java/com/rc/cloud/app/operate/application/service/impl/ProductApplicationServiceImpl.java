@@ -2,9 +2,7 @@ package com.rc.cloud.app.operate.application.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Pair;
-import com.rc.cloud.app.operate.application.bo.ProductBO;
-import com.rc.cloud.app.operate.application.bo.ProductRemoveBO;
-import com.rc.cloud.app.operate.application.bo.ProductValidateBO;
+import com.rc.cloud.app.operate.application.bo.*;
 import com.rc.cloud.app.operate.application.bo.convert.*;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
@@ -371,9 +369,21 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
 
 
     public ProductValidateBO validateProduct(ProductValidateDTO productValidateDTO){
-
-
-        return null;
+        Product product = productService.findProductById(new ProductId(productValidateDTO.getProductId()));
+        ProductValidateBO validateBO=new ProductValidateBO();
+        ProductSku productSku =null;
+        if(product!=null){
+             productSku = productSkuService.findProductSkuById(new ProductSkuId(productValidateDTO.getProductSkuId()));
+        }
+        if(product==null || !product.isEnabled()
+         || productSku==null || !productSku.isEnabledFlag()){
+            validateBO.setEnabled(false);
+        }else{
+            validateBO.setEnabled(true);
+            ProductAndSkuBO productSkuBO = ProductAndSkuConvert.convertProductAndSkuBO(product,productSku);
+            validateBO.setProductSkuBO(productSkuBO);
+        }
+        return validateBO;
     }
 
     /**
