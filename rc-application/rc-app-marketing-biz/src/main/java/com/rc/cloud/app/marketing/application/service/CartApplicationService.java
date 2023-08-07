@@ -14,13 +14,14 @@ import java.util.List;
 
 public interface CartApplicationService {
 
-    List<CartBO> getCartListByShopIds(List<String> shopIds);
+    List<CartBO> getCartListByShopIds(String user, List<String> shopIds);
 
-    PriceContext calPrice(List<String> productUniqueIdList);
+    Boolean saveCart(String user, List<CartDTO> cartDTOList);
 
-    List<CartBO> getCartList(List<String> productUniqueIdList);
+    void deleteCartByProductUniqueid(String user,List<String> productuniqueids);
 
-    Boolean saveCart(List<CartDTO> cartDTOList);
+    PriceContext calPrice(String user, List<String> productUniqueIdList);
 
-    void deleteCartByProductUniqueid(List<String> productuniqueids);
+    List<CartBO> getCartList(String user, List<String> productUniqueIdList);
+
 }

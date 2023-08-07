@@ -56,8 +56,8 @@ public class CartApplicationServiceImpl implements CartApplicationService {
      * @return List<ShopCartBO>
      */
     @Override
-    public List<CartBO> getCartListByShopIds(List<String> shopIds) {
-        UserId userId = new UserId("admin");
+    public List<CartBO> getCartListByShopIds(String user, List<String> shopIds) {
+        UserId userId = new UserId(user);
         //获取最新商品信息，用于判断购物车是否过期
         PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
 
@@ -73,8 +73,8 @@ public class CartApplicationServiceImpl implements CartApplicationService {
 
 
     @Override
-    public PriceContext calPrice(List<String> productUniqueIdList) {
-        List<CartBO> cartList = getCartList(productUniqueIdList);
+    public PriceContext calPrice(String user, List<String> productUniqueIdList) {
+        List<CartBO> cartList = getCartList(user, productUniqueIdList);
 
         PriceCalParam req = new PriceCalParam();
         req.setOrderNo("SO2020070611120001");
@@ -88,8 +88,8 @@ public class CartApplicationServiceImpl implements CartApplicationService {
     }
 
     @Override
-    public List<CartBO> getCartList(List<String> productUniqueIdList) {
-        UserId userId = new UserId("admin");
+    public List<CartBO> getCartList(String user, List<String> productUniqueIdList) {
+        UserId userId = new UserId(user);
         //获取最新商品信息，用于判断购物车是否过期
         PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
 
@@ -132,13 +132,13 @@ public class CartApplicationServiceImpl implements CartApplicationService {
     }
 
     @Override
-    public Boolean saveCart(List<CartDTO> cartDTOList) {
+    public Boolean saveCart(String user, List<CartDTO> cartDTOList) {
         final List<Cart> cartList = new ArrayList<>();
 
         //获取最新商品信息，用于保存购物车详情
         PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
         cartDTOList.forEach(cartDTO -> {
-            UserId userId = new UserId("admin");
+            UserId userId = new UserId(user);
 
             String productid = cartDTO.getProductId();
             String skuCode = cartDTO.getProductUniqueid();
@@ -169,8 +169,8 @@ public class CartApplicationServiceImpl implements CartApplicationService {
     }
 
     @Override
-    public void deleteCartByProductUniqueid(List<String> productuniqueids) {
-        UserId userId = new UserId("admin");
+    public void deleteCartByProductUniqueid(String user, List<String> productuniqueids) {
+        UserId userId = new UserId(user);
         cartService.deleteCartByProductuniqueid(userId, IdUtil.toList(productuniqueids, ProductUniqueId.class));
     }
 

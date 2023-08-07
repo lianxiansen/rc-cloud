@@ -104,12 +104,14 @@
             <version>2021.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-security</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
 
         <!--安全相关组件-->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
@@ -219,12 +221,12 @@
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.rc.cloud</groupId>-->
-<!--            <artifactId>rc-app-operate-biz</artifactId>-->
-<!--            <version>1.0.0</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.rc.cloud</groupId>-->
+        <!--            <artifactId>rc-app-operate-biz</artifactId>-->
+        <!--            <version>1.0.0</version>-->
+        <!--            <scope>compile</scope>-->
+        <!--        </dependency>-->
         <!--        规则引擎-->
         <dependency>
             <groupId>com.yomahub</groupId>

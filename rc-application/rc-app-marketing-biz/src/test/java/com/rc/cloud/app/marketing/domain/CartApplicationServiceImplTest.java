@@ -9,6 +9,7 @@ import com.rc.cloud.app.marketing.application.bo.CartBO;
 import com.rc.cloud.app.marketing.application.dto.CartDTO;
 import com.rc.cloud.app.marketing.application.service.impl.CartApplicationServiceImpl;
 import com.rc.cloud.app.marketing.domain.entity.cart.CartService;
+import com.rc.cloud.app.marketing.domain.entity.cart.identifier.UserId;
 import com.rc.cloud.app.marketing.domain.entity.price.PriceService;
 import com.rc.cloud.app.marketing.infrastructure.repository.CartRepositoryImpl;
 import com.rc.cloud.app.marketing.infrastructure.repository.mapper.CartMapper;
@@ -69,6 +70,7 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
 
     @Test
     void getCartList() {
+        String user = "admin";
         CartPO po = randomPojo(CartPO.class, o -> {
             o.setUserId("admin");
             o.setSkuAttributes("绿色,40H");
@@ -92,7 +94,7 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         //模拟服务返回
         mockProductService();
 
-        List<CartBO> cartList = cartApplicationServiceImpl.getCartList(Arrays.asList("200", "300"));
+        List<CartBO> cartList = cartApplicationServiceImpl.getCartList(user, Arrays.asList("200", "300"));
         assertEquals(cartList.size(), 2);
         assertEquals(cartList.get(0).getState(), 1);
         assertEquals(cartList.get(1).getState(), 0);
@@ -100,6 +102,7 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
 
     @Test
     void saveCart() {
+        String user = "admin";
         List<CartDTO> cartDTOList = new ArrayList<>();
         //模拟请求
         CartDTO dto = randomPojo(CartDTO.class, o -> {
@@ -120,7 +123,7 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         //模拟服务返回
         mockProductService();
         //调用保存
-        cartApplicationServiceImpl.saveCart(cartDTOList);
+        cartApplicationServiceImpl.saveCart(user,cartDTOList);
 
         CartPO cartPO = cartMapper.selectOne(new LambdaQueryWrapperX<CartPO>()
                 .eq(CartPO::getProductId, "1")
@@ -137,7 +140,7 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         assertEquals(cartPO.getNum(), 10);
 
 
-        cartDTOList=new ArrayList<>();
+        cartDTOList = new ArrayList<>();
         dto = randomPojo(CartDTO.class, o -> {
             o.setProductId("2");
             o.setProductUniqueid("200");
@@ -146,7 +149,7 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         });
         cartDTOList.add(dto);
         //调用保存
-        cartApplicationServiceImpl.saveCart(cartDTOList);
+        cartApplicationServiceImpl.saveCart(user,cartDTOList);
 
         cartPO = cartMapper.selectOne(new LambdaQueryWrapperX<CartPO>()
                 .eq(CartPO::getProductId, "2")

@@ -9,6 +9,8 @@ import com.rc.cloud.app.marketing.application.dto.CartDTO;
 import com.rc.cloud.app.marketing.application.service.CartApplicationService;
 import com.rc.cloud.app.marketing.domain.entity.price.PriceContext;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.security.service.RcUser;
+import com.rc.cloud.common.security.utils.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -37,8 +39,9 @@ public class CartController {
     @PostMapping("/getlistByShopIds")
     @Operation(summary = "获取购物车列表")
     public CodeResult<List<ShopCartVO>> getlistByShopIds(@RequestBody List<String> shopIds) {
-        List<CartBO> cartList = cartApplicationService.getCartListByShopIds(shopIds);
-       
+        RcUser user = SecurityUtils.getUser();
+        List<CartBO> cartList = cartApplicationService.getCartListByShopIds(user.getId(), shopIds);
+
         List<ShopCartVO> shopCartVOList = new ArrayList<>();
         shopIds.forEach(shopId -> {
             ShopCartVO shopCartVO = new ShopCartVO();
@@ -55,11 +58,12 @@ public class CartController {
     @PostMapping("/getlist")
     @Operation(summary = "根据产品唯一id获取购物车数量")
     public CodeResult<Map<String, Integer>> getCartList(@RequestBody List<String> productUniqueIds) {
-        List<CartBO> cartList = cartApplicationService.getCartList(productUniqueIds);
+        RcUser user = SecurityUtils.getUser();
+        List<CartBO> cartList = cartApplicationService.getCartList(user.getId(), productUniqueIds);
         List<CartBO> cartBOs = cartList.stream().filter(x -> x.getState() == 1).collect(Collectors.toList());
         //暂时注释，方便测试
         //Map<String, Integer> maps = cartBOs.stream().collect(Collectors.toMap(CartBO::getProductuniqueid, CartBO::getNum, (key1, key2) -> key2));
-        Map<String, Integer> maps1 = cartList.stream().collect(Collectors.toMap(x->x.getCartProductSkuDetailBO().getSkuCode(), CartBO::getNum, (key1, key2) -> key2));
+        Map<String, Integer> maps1 = cartList.stream().collect(Collectors.toMap(x -> x.getCartProductSkuDetailBO().getSkuCode(), CartBO::getNum, (key1, key2) -> key2));
         return CodeResult.ok(maps1);
     }
 
@@ -67,7 +71,8 @@ public class CartController {
     @PostMapping("/saveCart")
     @Operation(summary = "增加购物车")
     public CodeResult<Boolean> saveCart(@RequestBody List<CartDTO> dto) {
-        if (!cartApplicationService.saveCart(dto)) {
+        RcUser user = SecurityUtils.getUser();
+        if (!cartApplicationService.saveCart(user.getId(), dto)) {
             return CodeResult.fail("部分商品已过期");
         }
         return CodeResult.ok();
@@ -76,14 +81,16 @@ public class CartController {
     @DeleteMapping("/deleteCart")
     @Operation(summary = "删除购物车")
     public CodeResult<Boolean> deleteCart(@RequestBody List<String> productUniqueIds) {
-        cartApplicationService.deleteCartByProductUniqueid(productUniqueIds);
+        RcUser user = SecurityUtils.getUser();
+        cartApplicationService.deleteCartByProductUniqueid(user.getId(), productUniqueIds);
         return CodeResult.ok();
     }
 
     @PostMapping("/calPrice")
     @Operation(summary = "根据选择产品获取总价")
     public CodeResult<BigDecimal> calPrice(@RequestBody List<String> productUniqueIds) {
-        PriceContext context = cartApplicationService.calPrice(productUniqueIds);
+        RcUser user = SecurityUtils.getUser();
+        PriceContext context = cartApplicationService.calPrice(user.getId(), productUniqueIds);
         return CodeResult.ok(context.getFinalOrderPrice());
     }
 

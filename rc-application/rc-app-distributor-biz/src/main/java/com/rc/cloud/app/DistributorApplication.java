@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
  * @create 2023-06-23 10:04
  * @description TODO
  */
-@SpringBootApplication(exclude= {SecurityAutoConfiguration.class })
+@SpringBootApplication
 @EnableRcFeignClients
 @EnableRcResourceServer
 public class DistributorApplication {
