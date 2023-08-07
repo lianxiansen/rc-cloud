@@ -2,7 +2,6 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 
 import com.alibaba.fastjson.JSON;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductAttributeId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Attribute;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductAttributePO;

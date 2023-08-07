@@ -2,7 +2,7 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
+import com.rc.cloud.app.operate.domain.model.customclassification.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Remark;
