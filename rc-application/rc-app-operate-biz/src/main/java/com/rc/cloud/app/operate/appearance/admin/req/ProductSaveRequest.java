@@ -45,7 +45,7 @@ public class ProductSaveRequest {
 
     @Schema(description = "商品主图")
     @NotBlank(message = "请上传的商品主图")
-    @Pattern(regexp = "^((https://)|(http://))[0-9a-zA-Z/!?_-]+((.jpg)|(.jpeg)|(.png)|(.JPG)|(.JPEG)|(.PNG)|(.Jpg)|(.Jpeg)|(.Png)|(.gif)|(.GIF)|(.Gif))$", message = "商品图片Url格式不正确")
+    @Pattern(regexp = "^((https://)|(http://))[0-9a-zA-Z/!?.:_-]+((.jpg)|(.jpeg)|(.png)|(.JPG)|(.JPEG)|(.PNG)|(.Jpg)|(.Jpeg)|(.Png)|(.gif)|(.GIF)|(.Gif))$", message = "商品图片Url格式不正确")
     private String listImage;
 
     @Schema(description = "商品描述，可选")
