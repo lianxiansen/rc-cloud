@@ -19,9 +19,7 @@ import com.rc.cloud.app.marketing.domain.entity.price.enums.OrderChannelEnum;
 import com.rc.cloud.app.marketing.application.bo.convert.CartConvert;
 import com.rc.cloud.app.marketing.application.bo.convert.PriceConvert;
 import com.rc.cloud.app.marketing.application.dto.CartDTO;
-import com.rc.cloud.app.marketing.infrastructure.util.ListUtil;
 import com.rc.cloud.common.core.domain.IdUtil;
-import com.rc.cloud.common.core.pojo.PageResult;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.stereotype.Service;
@@ -46,7 +44,7 @@ public class CartApplicationServiceImpl implements CartApplicationService {
     private PriceService priceService;
 
     @Resource
-    private ProductApplicationService productApplicationService;
+    private CartFactory cartFactory;
 
     /**
      * 根据店铺返回购物车列表
@@ -58,17 +56,9 @@ public class CartApplicationServiceImpl implements CartApplicationService {
     @Override
     public List<CartBO> getCartListByShopIds(String user, List<String> shopIds) {
         UserId userId = new UserId(user);
-        //获取最新商品信息，用于判断购物车是否过期
-        PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
-
         List<Cart> list = cartService.getListByShopIds(userId, IdUtil.toList(shopIds, ShopId.class));
-        List<CartBO> cartBOS = CartConvert.INSTANCE.convertList(list);
-        cartBOS.forEach(x -> x.setState(0));
-        //设置商品购物车商品过期
-        setCartExpireByProduct(cartBOS, productList);
 
-
-        return cartBOS;
+        return CartConvert.INSTANCE.convertList(list);
     }
 
 
@@ -90,53 +80,19 @@ public class CartApplicationServiceImpl implements CartApplicationService {
     @Override
     public List<CartBO> getCartList(String user, List<String> productUniqueIdList) {
         UserId userId = new UserId(user);
-        //获取最新商品信息，用于判断购物车是否过期
-        PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
 
         List<ProductUniqueId> productUniqueIds = IdUtil.toList(productUniqueIdList, ProductUniqueId.class);
         List<Cart> list = cartService.getList(userId, productUniqueIds);
-        List<CartBO> cartBOS = CartConvert.INSTANCE.convertList(list);
-        cartBOS.forEach(cartBO -> {
-            cartBO.setShopBO(ramdomShop());
-            cartBO.setState(1);
-        });
-        //设置商品购物车商品过期
-        setCartExpireByProduct(cartBOS, productList);
-        return cartBOS;
+
+        return CartConvert.INSTANCE.convertList(list);
     }
 
-    //设置商品购物车商品过期
-    private void setCartExpireByProduct(List<CartBO> cartBOS, PageResult<ProductBO> productList) {
-        List<ProductSkuBO> alSkuBOs = new ArrayList<>();
-        productList.getList().forEach(cartProductBO -> {
-            alSkuBOs.addAll(cartProductBO.getSkus());
-        });
-        Map<String, List<String>> map = alSkuBOs.stream().collect(Collectors.toMap(ProductSkuBO::getSkuCode,
-                productSkuBO -> productSkuBO.getSkuAttributes().stream().map(x -> x.getAttributeValue()).collect(Collectors.toList()),
-                (key1, key2) -> key2));
-
-        cartBOS.forEach(cartBO -> {
-            cartBO.setState(0);
-            Optional<ProductBO> any = productList.getList().stream().filter(cartProductBO -> cartBO.getCartProductDetailBO().getId().equals(cartProductBO.getId())).findAny();
-            //如果产品或者产品sku不存在，购物车失效
-            if (any.isPresent() && map.containsKey(cartBO.getCartProductSkuDetailBO().getSkuCode())) {
-                //如果sku属性完全相同，购物车有效
-                if (ListUtil.isEqual(map.get(cartBO.getCartProductSkuDetailBO().getSkuCode()), cartBO.getCartProductSkuDetailBO().getSkuAttributes())) {
-                    cartBO.setState(1);
-                    ProductSkuBO skuBO = alSkuBOs.stream().filter(x -> cartBO.getCartProductSkuDetailBO().getSkuCode().equals(x.getSkuCode())).findFirst().get();
-                    //设置最新价格
-                    cartBO.getCartProductSkuDetailBO().setPrice(skuBO.getPrice());
-                }
-            }
-        });
-    }
 
     @Override
     public Boolean saveCart(String user, List<CartDTO> cartDTOList) {
         final List<Cart> cartList = new ArrayList<>();
 
-        //获取最新商品信息，用于保存购物车详情
-        PageResult<ProductBO> productList = productApplicationService.getProductList(new ProductListQueryDTO());
+        //构造购物车领域对象
         cartDTOList.forEach(cartDTO -> {
             UserId userId = new UserId(user);
 
@@ -146,24 +102,10 @@ public class CartApplicationServiceImpl implements CartApplicationService {
             ShopInfo shopInfo = new ShopInfo();
             shopInfo.setShopId(new ShopId(shopId));
 
-            //获取产品，设置购物车产品属性
-            Optional<ProductBO> anyProductBO = productList.getList().stream().filter(productBO -> productid.equals(productBO.getId())).findFirst();
-            if (anyProductBO.isPresent()) {
-                ProductBO productBO = anyProductBO.get();
-                Optional<ProductSkuBO> anyProductSkuBO = productBO.getSkus().stream().filter(skuBO -> skuCode.equals(skuBO.getSkuCode())).findFirst();
-                //如果存在相应的规格
-                if (anyProductSkuBO.isPresent()) {
-                    ProductSkuBO productSkuBO = anyProductSkuBO.get();
-                    CartProductDetail cartProductDetail = CartConvert.INSTANCE.convert(productBO);
-                    CartProductSkuDetail cartProductSkuDetail = CartConvert.INSTANCE.convert(productSkuBO);
-
-                    Cart cart = CartFactory.getCart(userId, cartDTO.getNum(), shopInfo, cartProductDetail, cartProductSkuDetail);
-                    cartList.add(cart);
-                }
-            }
-
+            Cart cart = cartFactory.getCart(userId, cartDTO.getNum(), productid, skuCode, shopInfo);
+            cartList.add(cart);
         });
-        List<Cart> saveList = cartList.stream().filter(cart -> cart.getCartProductSkuDetail().getSkuAttributes() != null).collect(Collectors.toList());
+        List<Cart> saveList = cartList.stream().filter(cart -> cart.getCartProductDetail() != null && cart.getCartProductSkuDetail() != null).collect(Collectors.toList());
         cartService.create(saveList);
         return true;
     }
