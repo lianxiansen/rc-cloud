@@ -43,7 +43,7 @@ public class RegularOrderRepositoryUnitTest extends BaseDbAndRedisUnitTest {
         //订单
         RegularOrder order = new RegularOrder(idRepository.nextId(), regularOrderService.generateOrderSn("13857652343"));
         order.setBuyer(new Buyer(idRepository.nextId(), RandomUtil.randomString(8), RandomUtil.randomString(8), RandomUtil.randomNumbers(8)));
-        order.setReceiver(new Receiver(RandomUtil.randomString(8), RandomUtil.randomString(8), RandomUtil.randomString(8)));
+        order.setReceiver(Receiver.mockReceiver());
         //订单项
         RegularOrderItem orderItem = new RegularOrderItem(idRepository.nextId(), order.getId());
         orderItem.setProduct(Product.mockProductA());

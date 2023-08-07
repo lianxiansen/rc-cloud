@@ -27,10 +27,10 @@ public class DeliveryAddressPO extends BaseDO {
     @TableField("customer_id")
     private String customerId;
     /**
-     * 用户名
+     * 姓名
      */
-    @TableField("user_name")
-    private String userName;
+    @TableField("name")
+    private String name;
     /**
      * 手机号
      */
@@ -44,18 +44,32 @@ public class DeliveryAddressPO extends BaseDO {
     /**
      * 省
      */
+    @TableField("province_code")
+    private String provinceCode;
+
     @TableField("province")
     private String province;
+
+
     /**
      * 市
      */
+    @TableField("city_code")
+    private String cityCode;
     @TableField("city")
     private String city;
+
+
     /**
      * 区
      */
+    @TableField("district_code")
+    private String districtCode;
+
     @TableField("district")
     private String district;
+
+
     /**
      * 详细地址
      */

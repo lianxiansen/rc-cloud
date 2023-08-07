@@ -1,6 +1,6 @@
 package com.rc.cloud.app.marketing.domain.entity.regularorder.valobj;
 
-import lombok.Data;
+import java.util.Objects;
 
 /**
  * @ClassName Receiver
@@ -9,7 +9,6 @@ import lombok.Data;
  * @Description 收货信息
  * @Version 1.0
  */
-@Data
 public class Receiver {
     /**
      * 收货人
@@ -36,9 +35,58 @@ public class Receiver {
      */
     private String receiverMobile;
 
-    public Receiver(String receiverContact, String receiverAddress, String receiverMobile) {
+    public Receiver(String receiverContact, String receiverProvince, String receiverCity, String receiverDistrict, String receiverAddressDetail, String receiverMobile) {
         this.receiverContact = receiverContact;
-        this.receiverAddressDetail = receiverAddress;
+        this.receiverProvince = receiverProvince;
+        this.receiverCity = receiverCity;
+        this.receiverDistrict = receiverDistrict;
+        this.receiverAddressDetail = receiverAddressDetail;
         this.receiverMobile = receiverMobile;
+    }
+
+
+    public String getReceiverProvince() {
+        return receiverProvince;
+    }
+
+    public String getReceiverCity() {
+        return receiverCity;
+    }
+
+    public String getReceiverDistrict() {
+        return receiverDistrict;
+    }
+
+    public String getReceiverAddressDetail() {
+        return receiverAddressDetail;
+    }
+
+    public String getReceiverMobile() {
+        return receiverMobile;
+    }
+
+    public String getReceiverContact() {
+        return receiverContact;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Receiver receiver = (Receiver) o;
+        return getReceiverContact().equals(receiver.getReceiverContact()) && getReceiverProvince().equals(receiver.getReceiverProvince()) && getReceiverCity().equals(receiver.getReceiverCity()) && getReceiverDistrict().equals(receiver.getReceiverDistrict()) && getReceiverAddressDetail().equals(receiver.getReceiverAddressDetail()) && getReceiverMobile().equals(receiver.getReceiverMobile());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getReceiverContact(), getReceiverProvince(), getReceiverCity(), getReceiverDistrict(), getReceiverAddressDetail(), getReceiverMobile());
+    }
+
+    public static Receiver mockReceiver() {
+        return new Receiver("某某某", "浙江省", "台州市", "黄岩区", "浙江省台州市黄岩区王西路41号", "13812345678");
     }
 }

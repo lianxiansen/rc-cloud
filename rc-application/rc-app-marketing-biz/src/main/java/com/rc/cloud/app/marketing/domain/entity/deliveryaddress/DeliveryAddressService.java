@@ -17,20 +17,95 @@ import java.util.List;
 public class DeliveryAddressService {
     @Resource
     private DeliveryAddressRepository deliveryAddressRepository;
-    public DeliveryAddress findById(String id){
+
+    public DeliveryAddress findById(String id) {
         return deliveryAddressRepository.findById(id);
     }
 
     /**
      * 获取顾客默认收货地址
+     *
      * @param customerId
      * @return
      */
-    public DeliveryAddress findDefaultDeliveryAddress(String customerId){
-        List<DeliveryAddress> deliveryAddresses= deliveryAddressRepository.findByCustomerId(customerId);
-        if(CollectionUtils.isEmpty(deliveryAddresses)){
+    public DeliveryAddress findDefault(String customerId) {
+        List<DeliveryAddress> deliveryAddresses = findList(customerId);
+        if (CollectionUtils.isEmpty(deliveryAddresses)) {
             return null;
         }
-        return deliveryAddresses.stream().filter(item->item.isDefaulted()).findFirst().orElse(deliveryAddresses.get(0));
+        return deliveryAddresses.stream().filter(item -> item.isDefaulted()).findFirst().orElse(deliveryAddresses.get(0));
     }
+
+    /**
+     * 获取顾客收货地址列表
+     *
+     * @param customerId
+     * @return
+     */
+    public List<DeliveryAddress> findList(String customerId) {
+        List<DeliveryAddress> deliveryAddresses = deliveryAddressRepository.findByCustomerId(customerId);
+        return deliveryAddresses;
+    }
+
+    /**
+     * 新建收货地址
+     *
+     * @param deliveryAddress
+     * @return
+     */
+    public boolean create(DeliveryAddress deliveryAddress) {
+        if (deliveryAddress.isDefaulted()) {
+            cancelDefaultByCustomerId(deliveryAddress.getCustomerId());
+        }
+        return this.deliveryAddressRepository.save(deliveryAddress);
+    }
+    /**
+     * 修改收货地址
+     *
+     * @param deliveryAddress
+     * @return
+     */
+    public boolean modify(DeliveryAddress deliveryAddress){
+        if (deliveryAddress.isDefaulted()) {
+            cancelDefaultByCustomerId(deliveryAddress.getCustomerId());
+        }
+        return this.deliveryAddressRepository.save(deliveryAddress);
+    }
+
+    /**
+     * 设置默认收货地址
+     *
+     * @param deliveryAddress
+     * @return
+     */
+    public boolean setDefault(DeliveryAddress deliveryAddress) {
+        cancelDefaultByCustomerId(deliveryAddress.getCustomerId());
+        deliveryAddress.setDefaulted(true);
+        return this.deliveryAddressRepository.save(deliveryAddress);
+    }
+
+    /**
+     * 取消默认
+     *
+     * @param deliveryAddress
+     * @return
+     */
+    public boolean cancelDefault(DeliveryAddress deliveryAddress) {
+        deliveryAddress.setDefaulted(false);
+        return this.deliveryAddressRepository.save(deliveryAddress);
+    }
+
+
+    private void cancelDefaultByCustomerId(String customerId) {
+        List<DeliveryAddress> deliveryAddresses = this.deliveryAddressRepository.findByCustomerId(customerId);
+        deliveryAddresses.forEach(item -> {
+            item.setDefaulted(false);
+        });
+        if (CollectionUtils.isEmpty(deliveryAddresses)) {
+            return;
+        }
+        this.deliveryAddressRepository.updateBatch(deliveryAddresses);
+    }
+
+
 }

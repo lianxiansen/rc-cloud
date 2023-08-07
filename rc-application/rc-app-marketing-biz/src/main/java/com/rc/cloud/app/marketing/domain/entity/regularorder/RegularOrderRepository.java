@@ -1,5 +1,7 @@
 package com.rc.cloud.app.marketing.domain.entity.regularorder;
 
+import java.util.List;
+
 /**
  * @Interfaces RegularOrderRepository
  * @Author liandy
@@ -8,6 +10,13 @@ package com.rc.cloud.app.marketing.domain.entity.regularorder;
  * @Version 1.0
  */
 public interface RegularOrderRepository {
+    /**
+     * 批量插入
+     * @param orders
+     * @return
+     */
+    boolean insertBatch(List<RegularOrder> orders);
+
     /**
      * 保存
      * @param order

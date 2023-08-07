@@ -2,6 +2,7 @@ package com.rc.cloud.app.marketing.domain.entity.regularorder;
 
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.List;
 
@@ -14,9 +15,9 @@ import java.util.List;
  */
 @Service
 public class RegularOrderService {
-    public void pay(RegularOrder order){
+    @Resource
+    private RegularOrderRepository regularOrderRepository;
 
-    }
 
     public List<RegularOrder> findOrdersByTradeNo(String tradeNo) {
         return null;
@@ -46,5 +47,9 @@ public class RegularOrderService {
         timestampPart = timestampPart.replace(".", "").replace("E", "");
         timestampPart = timestampPart.substring(0,6);
         return yearMonthPart+dayPart+timestampPart;
+    }
+
+    public void insertBatch(List<RegularOrder> orders) {
+        regularOrderRepository.insertBatch(orders);
     }
 }

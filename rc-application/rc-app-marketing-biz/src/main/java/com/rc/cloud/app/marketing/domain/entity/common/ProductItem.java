@@ -1,6 +1,7 @@
 package com.rc.cloud.app.marketing.domain.entity.common;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -131,5 +132,22 @@ public class ProductItem {
     }
     public BigDecimal getProductItemAmount() {
         return this.productItemPrice.multiply(new BigDecimal(this.productItemQuantity));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ProductItem that = (ProductItem) o;
+        return getProductItemQuantity() == that.getProductItemQuantity() && getProductItemId().equals(that.getProductItemId()) && getProductItemName().equals(that.getProductItemName()) && getProductItemImage().equals(that.getProductItemImage()) && getProductItemAttribute().equals(that.getProductItemAttribute()) && getProductItemPrice().equals(that.getProductItemPrice());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getProductItemId(), getProductItemName(), getProductItemImage(), getProductItemAttribute(), getProductItemPrice(), getProductItemQuantity());
     }
 }

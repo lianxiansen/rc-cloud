@@ -9,6 +9,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.lang.reflect.Type;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
@@ -34,6 +35,12 @@ public class RandomUtils {
     private static final int RANDOM_COLLECTION_LENGTH = 5;
 
     private static final PodamFactory PODAM_FACTORY = new PodamFactoryImpl();
+    // 中国移动号段
+    private static final String[] cmccPrefix = {"134", "135", "136", "137", "138", "139", "150", "151", "152", "157", "158", "159", "178", "182", "183", "184", "187", "188"};
+    // 中国联通号段
+    private static final String[] cuccPrefix = {"130", "131", "132", "145", "155", "156", "166", "175", "176", "185", "186"};
+    // 中国电信号段
+    private static final String[] ctcPrefix = {"133", "149", "153", "173", "177", "180", "181", "189", "199"};
 
     static {
         // 字符串
@@ -97,6 +104,33 @@ public class RandomUtils {
 
     public static String randomEmail() {
         return randomString() + "@qq.com";
+    }
+
+    public static String randomMobile() {
+        SecureRandom random = new SecureRandom();
+
+
+        String prefix = "";
+        int index = random.nextInt(3);
+        switch (index) {
+            case 0:
+                prefix = cmccPrefix[random.nextInt(cmccPrefix.length)];
+                break;
+            case 1:
+                prefix = cuccPrefix[random.nextInt(cuccPrefix.length)];
+                break;
+            case 2:
+                prefix = ctcPrefix[random.nextInt(ctcPrefix.length)];
+                break;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(prefix);
+        for (int i = 0; i < 8; i++) {
+            builder.append(random.nextInt(10));
+        }
+
+        return builder.toString();
     }
 
     @SafeVarargs
