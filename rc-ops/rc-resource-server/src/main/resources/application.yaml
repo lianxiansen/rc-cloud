@@ -15,6 +15,10 @@ spring:
 #        namespace: 4cca4105-2349-43bd-9690-58943921372f
       discovery:
         server-addr: 127.0.0.1:8848
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 1000MB
 #  boot:
 #    admin:
 #      client:
@@ -27,6 +31,8 @@ rc:
   info:
     version: 1.0.0
     base-package: com.rc.cloud
+
+
 
 management:
   health:
