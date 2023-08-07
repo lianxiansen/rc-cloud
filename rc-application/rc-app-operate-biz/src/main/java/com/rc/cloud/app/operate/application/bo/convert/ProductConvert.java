@@ -3,22 +3,19 @@ package com.rc.cloud.app.operate.application.bo.convert;
 import com.rc.cloud.app.operate.application.bo.*;
 import com.rc.cloud.app.operate.application.dto.ProductAttributeSaveDTO;
 import com.rc.cloud.app.operate.application.dto.ProductSaveDTO;
-import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import com.rc.cloud.app.operate.domain.common.ProductOriginEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductAttributeId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
-import com.rc.cloud.app.operate.domain.model.product.identifier.CustomClassificationId;
+import com.rc.cloud.app.operate.domain.model.customclassification.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 import java.util.*;
 

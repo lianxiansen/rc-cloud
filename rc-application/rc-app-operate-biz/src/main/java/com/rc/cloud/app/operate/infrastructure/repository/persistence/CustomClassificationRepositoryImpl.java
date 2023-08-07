@@ -1,6 +1,9 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence;
 
 
+import com.rc.cloud.app.operate.domain.model.customclassification.CustomClassification;
+import com.rc.cloud.app.operate.domain.model.customclassification.CustomClassificationRepository;
+import com.rc.cloud.app.operate.domain.model.customclassification.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.CustomClassificationMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.CustomClassificationPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
@@ -9,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CustomClassificationRepositoryImpl
+public class CustomClassificationRepositoryImpl implements CustomClassificationRepository
 {
     private CustomClassificationMapper customClassificationMapper;
 
@@ -27,4 +30,28 @@ public class CustomClassificationRepositoryImpl
         return customClassificationPOList;
     }
 
+    @Override
+    public void insertCustomClassification(CustomClassification customClassification) {
+
+    }
+
+    @Override
+    public void updateCustomClassification(CustomClassification customClassification) {
+
+    }
+
+    @Override
+    public CustomClassification findById(CustomClassificationId customClassificationId) {
+        return null;
+    }
+
+    @Override
+    public boolean exist(CustomClassificationId customClassificationId) {
+        return false;
+    }
+
+    @Override
+    public void removeCustomClassification(CustomClassificationId customClassificationId) {
+
+    }
 }
