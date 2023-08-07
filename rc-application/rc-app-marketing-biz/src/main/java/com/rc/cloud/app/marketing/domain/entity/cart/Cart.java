@@ -28,6 +28,14 @@ public class Cart {
      */
     private Integer type;
 
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     /**
      * 购物车状态，0无效，1有效
      */

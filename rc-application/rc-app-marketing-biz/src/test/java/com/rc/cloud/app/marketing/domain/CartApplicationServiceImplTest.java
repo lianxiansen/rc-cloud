@@ -8,7 +8,8 @@ import com.rc.cloud.api.product.service.ProductApplicationService;
 import com.rc.cloud.app.marketing.application.bo.CartBO;
 import com.rc.cloud.app.marketing.application.dto.CartDTO;
 import com.rc.cloud.app.marketing.application.service.impl.CartApplicationServiceImpl;
-import com.rc.cloud.app.marketing.domain.entity.cart.CartService;
+import com.rc.cloud.app.marketing.domain.entity.cart.*;
+import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ProductId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.UserId;
 import com.rc.cloud.app.marketing.domain.entity.price.PriceService;
 import com.rc.cloud.app.marketing.infrastructure.repository.CartRepositoryImpl;
@@ -38,11 +39,16 @@ import static org.mockito.Mockito.when;
  */
 @Import({CartApplicationServiceImpl.class,
         CartService.class,
-        CartRepositoryImpl.class})
+        CartRepositoryImpl.class,
+        CartFactory.class
+})
 class CartApplicationServiceImplTest extends BaseDbUnitTest {
 
     @MockBean
     private ProductApplicationService productApplicationService;
+
+    @MockBean
+    private CartProductRepository cartProductRepository;
 
     @MockBean
     private PriceService priceService;
@@ -96,8 +102,8 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
 
         List<CartBO> cartList = cartApplicationServiceImpl.getCartList(user, Arrays.asList("200", "300"));
         assertEquals(cartList.size(), 2);
-        assertEquals(cartList.get(0).getState(), 1);
-        assertEquals(cartList.get(1).getState(), 0);
+        assertEquals(cartList.get(0).getState(), ExpireState.NOT_EXPIRE.getCode());
+        assertEquals(cartList.get(1).getState(), ExpireState.PRODUCT_EXPIRE.getCode());
     }
 
     @Test
@@ -165,31 +171,30 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
     }
 
     void mockProductService() {
-        ProductListQueryDTO productListQueryDTO = new ProductListQueryDTO();
-        PageResult<ProductBO> productBOPageResult = new PageResult<>();
-        List<ProductSkuBO> skuBOList = new ArrayList<>();
-        ProductSkuBO skuBO = randomPojo(ProductSkuBO.class, o -> {
+        List<CartProductInfo> list=new ArrayList<>();
+        CartProductInfo cartProductInfo=new CartProductInfo();
+        List<CartProductSkuDetail> skuDetailList=new ArrayList<>();
+        CartProductSkuDetail skuDetail = randomPojo(CartProductSkuDetail.class, o -> {
             o.setSkuCode("100");
-            o.setSkuAttributes(Arrays.asList(
-                    new AttributeValueCombinationBO().setAttribute("大小").setAttributeValue("40H"),
-                    new AttributeValueCombinationBO().setAttribute("颜色").setAttributeValue("白色")
-            ));
+            o.setSkuAttributes(Arrays.asList("40H","白色"));
         });
-        skuBOList.add(skuBO);
-        skuBO = randomPojo(ProductSkuBO.class, o -> {
+        skuDetailList.add(skuDetail);
+        skuDetail = randomPojo(CartProductSkuDetail.class, o -> {
             o.setSkuCode("200");
-            o.setSkuAttributes(Arrays.asList(
-                    new AttributeValueCombinationBO().setAttribute("大小").setAttributeValue("40H"),
-                    new AttributeValueCombinationBO().setAttribute("颜色").setAttributeValue("绿色")
-            ));
+            o.setSkuAttributes(Arrays.asList("40H","绿色"));
         });
-        skuBOList.add(skuBO);
-        ProductBO productBO = randomPojo(ProductBO.class, o -> {
-            o.setId("2");
-            o.setSkus(skuBOList);
+        skuDetailList.add(skuDetail);
+        CartProductDetail productDetail = randomPojo(CartProductDetail.class, o -> {
+            o.setId(new ProductId("2"));
+            o.setName("皮带");
         });
-        productBOPageResult.setList(Arrays.asList(productBO));
+        cartProductInfo.setProductId("2");
+        cartProductInfo.setProductDetail(productDetail);
+        cartProductInfo.setProductSkuDetail(skuDetailList);
+        list.add(cartProductInfo);
         //模拟调用
-        when(productApplicationService.getProductList(productListQueryDTO)).thenReturn(productBOPageResult);
+        when(cartProductRepository.getProductList()).thenReturn(list);
+
+        when(cartProductRepository.getProduct()).thenReturn(cartProductInfo);
     }
 }

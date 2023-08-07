@@ -4,14 +4,13 @@ import com.rc.cloud.app.marketing.domain.entity.cart.identifier.CartId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ProductUniqueId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ShopId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.UserId;
-import com.rc.cloud.app.marketing.domain.entity.common.CreateTime;
+import com.rc.cloud.app.marketing.infrastructure.util.ListUtil;
 import com.rc.cloud.common.core.exception.ServiceException2;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author WJF
@@ -23,6 +22,9 @@ public class CartService {
 
     @Resource
     private CartRepository cartRepository;
+
+    @Resource
+    private CartProductRepository productRepository;
 
     public void delete(CartId cartId) {
         AssertUtils.notNull(cartId, "cartId must be not null");
@@ -42,7 +44,31 @@ public class CartService {
      * @return
      */
     public List<Cart> getListByShopIds(UserId userId, List<ShopId> shopIds) {
-        return cartRepository.getListByShopIds(userId, shopIds);
+
+        List<Cart> cartList = cartRepository.getListByShopIds(userId, shopIds);
+        //获取最新商品信息，用于判断购物车是否过期
+        List<CartProductInfo> productList = productRepository.getProductList();
+
+        setCartExpireByProduct(cartList, productList);
+        return cartList;
+    }
+
+    //设置商品购物车商品过期
+    private void setCartExpireByProduct(List<Cart> cartList, List<CartProductInfo> productList) {
+        cartList.forEach(cart -> {
+            cart.setState(ExpireState.PRODUCT_EXPIRE.getCode());
+            //如果有商品信息并且商品规格正确
+            Optional<CartProductInfo> anyCartProductInfo = productList.stream().filter(product -> cart.getCartProductDetail().getId().id().equals(product.getProductId())).findAny();
+            if (anyCartProductInfo.isPresent()) {
+                CartProductInfo cartProductInfo = anyCartProductInfo.get();
+                Optional<CartProductSkuDetail> anyCartProductSkuDetail = cartProductInfo.getProductSkuDetail().stream().filter(cartProductSkuDetail -> cart.getCartProductSkuDetail().getSkuCode().equals(cartProductSkuDetail.getSkuCode())).findAny();
+                if (anyCartProductSkuDetail.isPresent()
+                        && ListUtil.isEqual(cart.getCartProductSkuDetail().getSkuAttributes(), anyCartProductSkuDetail.get().getSkuAttributes())) {
+                    cart.setState(ExpireState.NOT_EXPIRE.getCode());
+                }
+            }
+        });
+
     }
 
     /**
@@ -51,7 +77,11 @@ public class CartService {
      * @return
      */
     public List<Cart> getList(UserId userId, List<ProductUniqueId> productUniqueIdList) {
-        return cartRepository.getList(userId, productUniqueIdList);
+        List<Cart> cartList = cartRepository.getList(userId, productUniqueIdList);
+        //获取最新商品信息，用于判断购物车是否过期
+        List<CartProductInfo> productList = productRepository.getProductList();
+        setCartExpireByProduct(cartList, productList);
+        return cartList;
     }
 
 
