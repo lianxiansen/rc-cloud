@@ -65,7 +65,7 @@ public class ProductController {
 
     @GetMapping("get")
     @Operation(summary = "获得产品")
-    public CodeResult<ProductDetailResponse> getProduct(@Valid @RequestBody ProductQueryDTO query) {
+    public CodeResult<ProductDetailResponse> getProduct(@Valid ProductQueryDTO query) {
         ProductBO product = productApplicationService.getProduct(query);
         return CodeResult.ok(ProductDetailResponse.from(product));
     }
@@ -87,7 +87,7 @@ public class ProductController {
 
     @GetMapping("list")
     @Operation(summary = "产品列表")
-    public CodeResult<PageResult<ProductListResponse>> listProduct(@Valid @RequestBody ProductListQueryDTO query) {
+    public CodeResult<PageResult<ProductListResponse>> listProduct(@Valid ProductListQueryDTO query) {
         query.setNeedBrandName(true);
         PageResult<ProductBO> productList = productApplicationService.getProductList(query);
         return CodeResult.ok(ProductListResponse.from(productList));
