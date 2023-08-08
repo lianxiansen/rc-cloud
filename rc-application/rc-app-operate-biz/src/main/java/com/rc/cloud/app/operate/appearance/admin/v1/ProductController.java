@@ -1,6 +1,7 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.rc.cloud.app.operate.appearance.admin.req.ProductListQueryRequest;
 import com.rc.cloud.app.operate.appearance.admin.req.ProductRemoveRequest;
 import com.rc.cloud.app.operate.appearance.admin.req.ProductSaveRequest;
 import com.rc.cloud.app.operate.appearance.admin.req.ProductSkuRequest;
@@ -87,7 +88,9 @@ public class ProductController {
 
     @GetMapping("list")
     @Operation(summary = "产品列表")
-    public CodeResult<PageResult<ProductListResponse>> listProduct(@Valid ProductListQueryDTO query) {
+    public CodeResult<PageResult<ProductListResponse>> listProduct(@Valid ProductListQueryRequest request) {
+        ProductListQueryDTO query=new ProductListQueryDTO();
+        BeanUtil.copyProperties(request,query);
         query.setNeedBrandName(true);
         PageResult<ProductBO> productList = productApplicationService.getProductList(query);
         return CodeResult.ok(ProductListResponse.from(productList));

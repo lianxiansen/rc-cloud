@@ -20,7 +20,7 @@ public class ProductListQueryDTO extends PageParam {
     public static final String CREATE_TIME = "CREATE_TIME";
     public static final String SORT_ID = "SORT_ID";
 
-        private String name;
+    private String name;
 
     private String spuCode;
 
@@ -29,10 +29,6 @@ public class ProductListQueryDTO extends PageParam {
     private String secondCategory;
 
     private String thirdCategory;
-    //租户id
-    private Long tenantId;
-
-    private Long categoryId;
 
     private LocalDateTime startTime;
 

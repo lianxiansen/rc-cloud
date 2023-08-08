@@ -32,7 +32,6 @@ public interface ProductMapper extends BaseMapperX<ProductPO> {
                 .eqIfPresent(ProductPO::getFirstCategory, queryDTO.getFirstCategory())
                 .eqIfPresent(ProductPO::getSecondCategory, queryDTO.getSecondCategory())
                 .eqIfPresent(ProductPO::getThirdCategory, queryDTO.getThirdCategory())
-                .eqIfPresent(ProductPO::getTenantId,queryDTO.getTenantId())
                 .eqIfPresent(ProductPO::getOnshelfStatus,queryDTO.getOnshelfStatus())
                 .betweenIfPresent(ProductPO::getCreateTime,queryDTO.getStartTime(),
                         queryDTO.getEndTime()
