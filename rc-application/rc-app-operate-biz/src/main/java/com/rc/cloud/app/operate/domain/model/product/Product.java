@@ -123,7 +123,6 @@ public class Product extends AggregateRoot {
 
 
     public Product setBrandId(BrandId brandId){
-        AssertUtils.assertArgumentNotNull(brandId, "brandId must not be null");
         this.brandId = brandId;
         return this;
     }
@@ -136,7 +135,6 @@ public class Product extends AggregateRoot {
 
 
     public Product setCustomClassificationId(CustomClassificationId customClassificationId){
-        AssertUtils.assertArgumentNotNull(customClassificationId, "customClassificationId must not be null");
         this.customClassificationId = customClassificationId;
         return this;
     }

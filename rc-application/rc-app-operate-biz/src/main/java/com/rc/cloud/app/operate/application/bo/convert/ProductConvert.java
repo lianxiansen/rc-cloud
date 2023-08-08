@@ -16,6 +16,7 @@ import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
+import com.rc.cloud.common.core.util.StringUtils;
 
 import java.util.*;
 
@@ -262,7 +263,9 @@ public class ProductConvert
     private static Product setBrandId(String brandId, boolean isCreate, Product product){
         //商品描述
         if(isCreate){
-            product.setBrandId(new BrandId(brandId));
+            if(!StringUtils.isEmpty(brandId)){
+                product.setBrandId(new BrandId(brandId));
+            }
         }else{
             if (brandId != null) {
                 product.setBrandId(new BrandId(brandId));
@@ -306,7 +309,9 @@ public class ProductConvert
      */
     private static Product setCustomClassificationId(String customClassificationId, boolean isCreate, Product product){
         if(isCreate){
-            product.setCustomClassificationId(new CustomClassificationId(customClassificationId));
+            if(!StringUtils.isEmpty(customClassificationId)){
+                product.setCustomClassificationId(new CustomClassificationId(customClassificationId));
+            }
         }else{
             if (customClassificationId != null) {
                 product.setCustomClassificationId(new CustomClassificationId(customClassificationId));

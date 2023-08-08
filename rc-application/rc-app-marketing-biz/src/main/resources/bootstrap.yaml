@@ -1,6 +1,8 @@
 server:
   port: 8085
 spring:
+  security:
+    disabled: true
   profiles:
     active: local
   main:
@@ -30,6 +32,12 @@ dubbo:
   consumer:
     check: false
 
+
+liteflow:
+  ruleSource: liteflow/*.el.xml
+  when-max-wait-time: 15
+  when-max-wait-time-unit: MILLISECONDS
+
 management:
   health:
     redis:
@@ -46,3 +54,8 @@ rc:
   info:
     version: 1.0.0
     base-package: com.rc.cloud
+  captcha:
+    enable: false # 是否开启验证码
+  tenant:
+    enable: false
+
