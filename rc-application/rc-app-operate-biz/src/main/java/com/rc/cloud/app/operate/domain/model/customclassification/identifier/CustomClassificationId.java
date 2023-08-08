@@ -1,4 +1,4 @@
-package com.rc.cloud.app.operate.domain.model.product.identifier;
+package com.rc.cloud.app.operate.domain.model.customclassification.identifier;
 
 
 import com.rc.cloud.common.core.domain.AbstractId;

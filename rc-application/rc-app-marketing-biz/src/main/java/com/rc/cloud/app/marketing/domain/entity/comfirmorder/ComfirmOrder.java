@@ -98,6 +98,13 @@ public class ComfirmOrder {
         return this.id;
     }
 
+
+    public void addItems(List<ComfirmOrderItem> items) {
+        items.forEach(item->{
+            addItem(item);
+        });
+    }
+
     public void addItem(ComfirmOrderItem item) {
         this.productAmout = this.productAmout.add(item.getProductItem().getProductItemAmount());
         this.payAmount = this.productAmout.add(this.freightAmount);

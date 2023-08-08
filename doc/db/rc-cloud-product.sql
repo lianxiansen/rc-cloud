@@ -43,29 +43,6 @@ CREATE TABLE `brand`
   COLLATE = utf8mb4_bin COMMENT = '品牌表'
   ROW_FORMAT = Dynamic;
 
--- ----------------------------
--- 商品分类表
--- ----------------------------
-
-DROP TABLE IF EXISTS `platform_product_category`;
-CREATE TABLE `platform_product_category`
-(
-    `id`           varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '主键',
-    `name`         varchar(50) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '分类名',
-    `icon`         varchar(256) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图标图片',
-    `parent_id`    varchar(32) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '父级id',
-    `layer`        int(11) DEFAULT 0 COMMENT '层级',
-    `enabled_flag` bit COLLATE utf8mb4_bin          DEFAULT false COMMENT '状态 1-正常状态，0-未启用',
-    `sort`         int(11) DEFAULT 99 COMMENT '排序',
-    `deleted`      bit COLLATE utf8mb4_bin          DEFAULT false COMMENT '删除标识 0未删除，1已删除',
-    `creator`      varchar(32) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '创建人',
-    `create_time`  datetime                         DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `updater`      varchar(32) COLLATE utf8mb4_bin  DEFAULT NULL COMMENT '更新人',
-    `update_time`  datetime                         DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_bin COMMENT ='平台商品分类表';
 
 -- ----------------------------
 -- 租户商品分类表（类似于店铺的商品自定义分类）
@@ -110,6 +87,8 @@ CREATE TABLE `custom_classification`
     `custom_classification_image`  varchar(256) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '分类图片URL',
     `product_poster`               varchar(256) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '商品海报URL',
     `custom_classification_poster` varchar(256) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '分类海报URL',
+    `parent_id`                   varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT '' COMMENT '父级id',
+    `layer`                       int(11) NULL DEFAULT 0 COMMENT '层级',
     `enabled_flag`                 bit COLLATE utf8mb4_bin          DEFAULT false COMMENT '状态 1-正常状态，0-未启用',
     `sort`                         int(11) DEFAULT 99 COMMENT '排序',
     `deleted`                      bit COLLATE utf8mb4_bin          DEFAULT false COMMENT '删除标识 0未删除，1已删除',

@@ -9,11 +9,9 @@ import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj.DeliveryType;
 import com.rc.cloud.app.marketing.domain.entity.common.PayStatus;
 import com.rc.cloud.app.marketing.domain.entity.common.SettledEnum;
-import com.rc.cloud.app.marketing.domain.entity.common.Area;
-import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddressService;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrder;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.*;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrderService;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Buyer;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.ConsignStatus;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.OrderStatus;
@@ -27,7 +25,9 @@ import com.rc.cloud.app.marketing.domain.service.impl.SubmitOrderDomainServiceIm
 import com.rc.cloud.app.marketing.infrastructure.repository.ComfirmOrderRepositoryImpl;
 import com.rc.cloud.app.marketing.infrastructure.repository.DeliveryAddressRepositoryImpl;
 import com.rc.cloud.app.marketing.infrastructure.repository.LocalIdRepositoryImpl;
+import com.rc.cloud.app.marketing.infrastructure.repository.RegularOrderRepositoryImpl;
 import com.rc.cloud.common.core.domain.IdRepository;
+import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.test.core.ut.BaseDbAndRedisUnitTest;
@@ -61,6 +61,7 @@ import java.util.Objects;
  * 2.3订单结算
  * 2.4删除购物车
  * 2.5更新库存
+ * 2.6订单改价
  * <p>
  * 3.订单支付
  * <p>
@@ -75,12 +76,12 @@ import java.util.Objects;
 @Import({
         LocalIdRepositoryImpl.class, ComfirmOrderDomainServiceImpl.class, SubmitOrderDomainServiceImpl.class,
         ComfirmOrderDomainServiceImpl.class, RegularOrderService.class, SettlementOrderService.class,
-        ComfirmOrderRepositoryImpl.class, DeliveryAddressService.class, DeliveryAddressRepositoryImpl.class
+        ComfirmOrderRepositoryImpl.class, DeliveryAddressService.class, DeliveryAddressRepositoryImpl.class,
+        RegularOrderRepositoryImpl.class
 })
-@DisplayName("常规订单")
-public class RegularOrderUnitTest extends BaseDbAndRedisUnitTest {
+@DisplayName("订单")
+public class OrderUnitTest extends BaseDbAndRedisUnitTest {
     private ComfirmOrder comfirmOrder;
-    private String cartId;
     private List<Cart> carts;
     @Autowired
     private ComfirmOrderDomainService comfirmOrderDomainService;
@@ -90,15 +91,12 @@ public class RegularOrderUnitTest extends BaseDbAndRedisUnitTest {
     private IdRepository idRepository;
     @Autowired
     private RegularOrderService regularOrderService;
-    private Area area;
-    private DeliveryAddress deliveryAddress;
-    private BigDecimal freightAmount;
     @Autowired
     private SettlementOrderService settlementOrderService;
     /**
      * 分类标识
      */
-    private String categoryId;
+    private String customerId = "5b6b70eafeaa9938cff8e430245090c7";
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -109,19 +107,16 @@ public class RegularOrderUnitTest extends BaseDbAndRedisUnitTest {
         cart.setUserId(new UserId("5b6b70eafeaa9938cff8e430245090c7"));
         cart.setId(new CartId("436175fb281bf0a9a2c4ded48cf02b4c"));
         carts.add(cart);
-        area = new Area("浙江省", "台州市", "黄岩区", "");
-        freightAmount = BigDecimal.ZERO;
-        categoryId = "80481ce0-1f15-49e4-bbe9-e192bcd";
         comfirmOrder = comfirmOrderDomainService.placeOrder(carts);
-
-
     }
 
     @Nested
-    class ComfirmOrderTest {
+    public class comfirmOrder{
+
+
+        @DisplayName("确认订单")
         @Test
         public void comfirmOrder() {
-            ComfirmOrder comfirmOrder = comfirmOrderDomainService.placeOrder(carts);
             assertionsComfirmOrder(comfirmOrder);
         }
 
@@ -131,8 +126,8 @@ public class RegularOrderUnitTest extends BaseDbAndRedisUnitTest {
                             comfirmOrder.getDeliveryType().getKey() == DeliveryType.CONSIGN.getKey() &&
                             StringUtils.isEmpty(comfirmOrder.getNote()) &&
                             new BigDecimal(800).equals(comfirmOrder.getProductAmout()) &&
-                            comfirmOrder.getFreightAmount().equals(freightAmount) &&
-                            comfirmOrder.getPayAmount().equals(new BigDecimal(800).add(freightAmount)) &&
+                            comfirmOrder.getFreightAmount().equals(BigDecimal.ZERO) &&
+                            comfirmOrder.getPayAmount().equals(new BigDecimal(800).add(BigDecimal.ZERO)) &&
                             comfirmOrder.getItems().size() == 4
             );
         }
@@ -162,91 +157,74 @@ public class RegularOrderUnitTest extends BaseDbAndRedisUnitTest {
             Assertions.assertEquals(note, comfirmOrder.getNote());
         }
 
-        @Test
-        public void modifyOrder() {
-//            Assertions.assertTrue(false);
-        }
-    }
-
-    /**
-     * 2.提交订单
-     * 2.1获取库存
-     * 2.2提交订单
-     * 2.3订单结算
-     * 2.4删除购物车
-     * 2.5更新库存
-     */
-    @Nested
-    class SubmitOrderTest {
-        private List<RegularOrder> orders;
-        private RegularOrder order;
-
-        @BeforeEach
-        public void submitOrder() {
-            orders = submitOrderDomainService.submitOrder(comfirmOrder);
-            RegularOrder order = orders.stream().findFirst().get();
-        }
-
-
-        @Test
-        public void submitOrderThenCheckBaseState() {
-            Assertions.assertTrue(Objects.nonNull(order.getId()) &&
-                    Objects.nonNull(order.getOrderNumber()) &&
-                    order.getOrderStatus() == OrderStatus.AUDITING &&
-                    order.getPayType() == 0 &&
-                    order.getPayStatus() == PayStatus.UNPAY &&
-                    order.getConsignStatus() == ConsignStatus.UNCONSIGN
-            );
-        }
-
-        @Test
-        public void submitOrderThenCheckBuyer() {
-            Buyer buyer = new Buyer("123", "陈激扬", "去11", "18258687039");
-            Assertions.assertEquals(buyer, order.getBuyer());
-        }
-
-        @Test
-        public void submitOrderThenCheckReceiver() {
-            Receiver receiver = new Receiver("某某某", "浙江省台州市黄岩区王西路41号", "13812345678");
-            Assertions.assertEquals(receiver, order.getReceiver());
-        }
-
-        @Test
-        public void submitOrderThenCheckTotalAmountAndNum() {
-//            Assertions.assertTrue(order.getPayAmount().equals(productItemPrice.multiply(new BigDecimal(productItemNum))) &&
-//                    order.getProductItemQuantity() == productItemNum);
-        }
-
-        @Test
-        public void submitOrderThenCheckTransactionId() {
-//            Assertions.assertTrue(order.getPayAmount().equals(productItemPrice.multiply(new BigDecimal(productItemNum))) &&
-//                    order.getProductItemQuantity() == productItemNum);
-        }
-
     }
 
     @Nested
-    class PayOrderTest {
+    public class RegularOrderTest{
         private List<RegularOrder> orders;
         private RegularOrder order;
-
         @BeforeEach
         public void beforeEach() {
             orders = submitOrderDomainService.submitOrder(comfirmOrder);
             order = orders.stream().findFirst().get();
         }
+        @Test
+        public void changeAmountWhenGreaterThanPayAmount(){
+            Assertions.assertThrows(ServiceException.class, () -> {
+                order.changeAmount(order.getPayAmount().add(BigDecimal.ONE));
+            });
+        }
+        @Test
+        public void changeAmountWhenAudited(){
+            order.audit();
+            Assertions.assertThrows(ServiceException.class, () -> {
+                order.changeAmount(order.getPayAmount().subtract(BigDecimal.ONE));
+            });
+        }
 
         @Test
-        public void payOrder() {
-            BigDecimal payAmount = new BigDecimal(100);
+        public void submitOrder() {
+            Buyer buyer = Buyer.mockBuyer();
+            Receiver receiver =Receiver.mockReceiver();
+            Assertions.assertTrue(Objects.nonNull(order.getId()) &&
+                    Objects.nonNull(order.getOrderNumber()) &&
+                    order.getOrderStatus() == OrderStatus.AUDITING &&
+                    order.getProductAmount().equals(new BigDecimal(400)) &&
+                    order.getFreightAmount().equals(BigDecimal.ZERO) &&
+                    Objects.isNull(order.getChangeAmount()) &&
+                    order.getPayType() == 0 &&
+                    order.getPayStatus() == PayStatus.UNPAY &&
+                    order.getConsignStatus() == ConsignStatus.UNCONSIGN &&
+                    order.getBuyer().equals(buyer) &&
+                    order.getReceiver().equals(receiver)&&
+                    Objects.nonNull(order.getTradeNo())
+            );
+        }
+
+        @Test
+        public void payWhenActualPayAmountEqualsOrderPayAmount() {
+            BigDecimal payAmount = order.getPayAmount();
             order.pay(payAmount);
             Assertions.assertTrue(
                     order.getOrderStatus() == OrderStatus.DELIVERING &&
                             order.getPayStatus() == PayStatus.PAYED &&
-                            order.getChangeAmount().equals(payAmount)
+                            order.getPayAmount().equals(payAmount)
             );
         }
+
+        @Test
+        public void payWhenActualPayAmountNotEqualsOrderPayAmount() {
+            BigDecimal payAmount = order.getPayAmount().add(BigDecimal.ONE);
+            Assertions.assertThrows(ServiceException.class, () -> {
+                order.pay(payAmount);
+            });
+        }
+
     }
+
+
+
+
 
 
     @Nested

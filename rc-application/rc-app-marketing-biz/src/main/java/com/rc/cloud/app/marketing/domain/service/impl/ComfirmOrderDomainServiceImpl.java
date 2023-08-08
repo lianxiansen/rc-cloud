@@ -42,25 +42,33 @@ public class ComfirmOrderDomainServiceImpl implements ComfirmOrderDomainService 
     public ComfirmOrder placeOrder(List<Cart> carts) {
         AssertUtils.assertArgumentTrue(!CollectionUtils.isEmpty(carts),"carts is not empty");
         String customerId=carts.get(0).getUserId().id();
-        ComfirmOrder comfirmOrder = new ComfirmOrder(idRepository.nextId());
-        DeliveryAddress deliveryAddress = deliveryAddressService.findDefaultDeliveryAddress(customerId);
-        comfirmOrder.setDeliveryAddress(deliveryAddress);
-        //确认订单-商品信息
-        //TODO liandy:提取商品数据
-        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA(), ProductItem.mockProductItemA1()));
-        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA(), ProductItem.mockProductItemA2()));
-        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB(), ProductItem.mockProductItemB1()));
-        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB(), ProductItem.mockProductItemB2()));
-
-        comfirmOrder.setPayType(0);
-        comfirmOrder.setDeliveryType(DeliveryType.CONSIGN);
-        comfirmOrder.setFreightAmount(BigDecimal.ZERO);
+        ComfirmOrder comfirmOrder = createComfirmOrder(customerId,carts);
         comfirmOrderRepository.save(comfirmOrder);
         return comfirmOrder;
     }
 
+    private ComfirmOrder createComfirmOrder(String customerId,List<Cart> carts) {
+        ComfirmOrder comfirmOrder = new ComfirmOrder(idRepository.nextId());
+        DeliveryAddress deliveryAddress = deliveryAddressService.findDefault(customerId);
+        comfirmOrder.setDeliveryAddress(deliveryAddress);
+        comfirmOrder.setPayType(0);
+        comfirmOrder.setDeliveryType(DeliveryType.CONSIGN);
+        comfirmOrder.setFreightAmount(BigDecimal.ZERO);
+        assignProductToComfirmOrderItem(comfirmOrder,carts);
+        return comfirmOrder;
+    }
 
-
+    /**
+     * 将购物车的商品分配到确认订单项
+     * @param comfirmOrder
+     * @param carts
+     */
+    private void assignProductToComfirmOrderItem(ComfirmOrder comfirmOrder, List<Cart> carts) {
+        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA(), ProductItem.mockProductItemA1()));
+        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA(), ProductItem.mockProductItemA2()));
+        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB(), ProductItem.mockProductItemB1()));
+        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB(), ProductItem.mockProductItemB2()));
+    }
 
 
 }

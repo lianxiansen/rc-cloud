@@ -10,6 +10,8 @@ import java.util.List;
  * @Version 1.0
  */
 public interface DeliveryAddressRepository {
+    void updateBatch(List<DeliveryAddress> deliveryAddresses);
+
     /**
      * 保存
      * @param deliveryAddress
@@ -21,4 +23,6 @@ public interface DeliveryAddressRepository {
     DeliveryAddress findById(String id);
 
     List<DeliveryAddress> findByCustomerId(String customerId);
+
+    boolean removeById(String id);
 }

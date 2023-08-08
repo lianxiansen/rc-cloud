@@ -48,7 +48,6 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
     private ProductCategoryRebuildFactory productCategoryRebuildFactory;
     @Resource
     private ProductRepository productRepository;
-
     @Override
     public ProductCategoryBO create(ProductCategoryCreateDTO productCreateCategoryDTO) {
         if (StringUtils.isEmpty(productCreateCategoryDTO.getName())) {

@@ -4,12 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.common.redis.util.RedisUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.cache.RedisCache;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -33,13 +30,10 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     @Override
     public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) {
         String nowParams = "";
-        if (request instanceof RepeatedlyRequestWrapper) {
-            RepeatedlyRequestWrapper repeatedlyRequest = (RepeatedlyRequestWrapper) request;
-            try {
-                nowParams = repeatedlyRequest.getReader().readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            nowParams=new String(HttpHelper.getBodyString(request).getBytes("UTF-8")) ;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
         // body参数为空，获取Parameter的数据

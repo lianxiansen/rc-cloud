@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +30,23 @@ public class RegularOrderRepositoryImpl implements RegularOrderRepository {
     private RegularOrderMapper orderMapper;
     @Autowired
     private OrderItemMapper orderItemMapper;
+
+    @Override
+    public boolean insertBatch(List<RegularOrder> orders) {
+        List<RegularOrderPO> pos=new ArrayList<>();
+        List<OrderItemPO> poItems=new ArrayList<>();
+        orders.forEach(order->{
+            RegularOrderPO orderPO = OrderConvert.convertToPO(order);
+            pos.add(orderPO);
+            List<OrderItemPO> orderItemPOs = OrderItemConvert.convertToPO(order.getItems());
+            poItems.addAll(orderItemPOs);
+        });
+        orderMapper.insertBatch(pos);
+        orderItemMapper.insertBatch(poItems);
+        return true;
+    }
+
+
 
     @Override
     public boolean save(RegularOrder order) {

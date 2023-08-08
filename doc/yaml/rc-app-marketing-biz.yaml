@@ -1,6 +1,8 @@
 --- #################### 数据库相关配置 ####################
 
 spring:
+  security:
+    disabled: true
   # 数据源配置项
   autoconfigure:
     exclude:

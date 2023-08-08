@@ -6,11 +6,14 @@ import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Buyer;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.ConsignStatus;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.OrderStatus;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Receiver;
+import com.rc.cloud.common.core.exception.ServiceException;
+import com.rc.cloud.common.core.util.AssertUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @ClassName RegularOrder
@@ -33,18 +36,9 @@ public class RegularOrder {
      */
     private OrderStatus orderStatus;
 
-    /**
-     * 商品数量合计
-     */
-    private int productQuantity;
-    /**
-     * 商品项数量合计
-     */
-    private int productItemQuantity;
-
 
     /**
-     * 商品金额
+     * 商品金额=订单子项商品项金额=订单子项商品项数量*单价
      */
     private BigDecimal productAmount;
 
@@ -53,10 +47,6 @@ public class RegularOrder {
      */
     private BigDecimal freightAmount;
 
-    /**
-     * 要支付的金额=商品金额+运费
-     */
-    private BigDecimal payAmount;
 
     /**
      * 改价金额
@@ -108,6 +98,7 @@ public class RegularOrder {
     private String remark;
     /**
      * 交易号
+     *
      * @see com.rc.cloud.app.marketing.domain.entity.settlementorder.SettlementOrder tradeNo
      */
     private String tradeNo;
@@ -123,22 +114,23 @@ public class RegularOrder {
         this.id = id;
         this.orderNumber = orderNo;
         this.orderStatus = OrderStatus.AUDITING;
-        payAmount = BigDecimal.ZERO;
-        productItemQuantity = 0;
-        freightAmount = BigDecimal.ZERO;
-        changeAmount = BigDecimal.ZERO;
-        payType = 0;
-        payStatus = PayStatus.UNPAY;
-        consignStatus = ConsignStatus.UNCONSIGN;
-        createTime = LocalDateTime.now();
-        updateTime = LocalDateTime.now();
-        items = new ArrayList<>();
+        this.productAmount = BigDecimal.ZERO;
+        this.freightAmount = BigDecimal.ZERO;
+        this.payType = 0;
+        this.payStatus = PayStatus.UNPAY;
+        this.consignStatus = ConsignStatus.UNCONSIGN;
+        this.createTime = LocalDateTime.now();
+        this.updateTime = LocalDateTime.now();
+        this.items = new ArrayList<>();
     }
-
+    public void addItems(List<RegularOrderItem> items) {
+        items.forEach(item->{
+            addItem(item);
+        });
+    }
     public void addItem(RegularOrderItem item) {
+        this.productAmount = this.productAmount.add(item.getProductItem().getProductItemAmount());
         this.items.add(item);
-        this.productItemQuantity += item.getProductItem().getProductItemQuantity();
-        this.payAmount = this.payAmount.add(item.getProductItem().getProductItemAmount());
     }
 
     public Buyer getBuyer() {
@@ -169,16 +161,24 @@ public class RegularOrder {
         return orderStatus;
     }
 
+    /**
+     * 获取订单需要支付的金额
+     * @return
+     */
     public BigDecimal getPayAmount() {
-        return payAmount;
+        if(!Objects.isNull(this.changeAmount)){
+            return this.changeAmount;
+        }
+        return this.productAmount.add(this.freightAmount);
     }
 
+
     public int getProductQuantity() {
-        return productQuantity;
+        return (int) (this.items.stream().map(item -> item.getProduct()).distinct().count());
     }
 
     public int getProductItemQuantity() {
-        return productItemQuantity;
+        return (int) this.items.stream().map(item -> item.getProductItem()).count();
     }
 
     public BigDecimal getProductAmount() {
@@ -249,26 +249,21 @@ public class RegularOrder {
         this.tradeNo = tradeNo;
     }
 
-    /**
-     * 计算应付金额
-     *
-     * @return
-     */
-    public BigDecimal calculateShoudPayAmount() {
-        return this.payAmount.add(this.freightAmount);
-    }
-
 
     /**
      * 订单支付
      *
-     * @param payAmount
+     * @param actualPayAmount
      */
-    public void pay(BigDecimal payAmount) {
+    public void pay(BigDecimal actualPayAmount) {
         if (canPay()) {
-            this.changeAmount = payAmount;
-            this.orderStatus = OrderStatus.DELIVERING;
-            this.payStatus = PayStatus.PAYED;
+            if(this.getPayAmount().equals(actualPayAmount)){
+                this.orderStatus = OrderStatus.DELIVERING;
+                this.payStatus = PayStatus.PAYED;
+                return ;
+            }
+            //TODO liandy:错误码
+            throw new ServiceException(9999,"支付金额不匹配");
         }
 
     }
@@ -282,6 +277,54 @@ public class RegularOrder {
         return false;
     }
 
+    /** TODO liandy:统一错误码
+     * 改价
+     * @param changeAmount
+     */
+    public void changeAmount(BigDecimal changeAmount) {
+        AssertUtils.notNull(changeAmount,"changeAmount must be not null");
+        if(unAudit()){
+            if(isChangeAmountBetweenZeroToPayAmount(changeAmount)){
+                this.changeAmount = changeAmount;
+                return ;
+            }
+            throw new ServiceException(9999,"改价金额在0至支付金额之间");
+        }else{
+            throw new ServiceException(9999,"卖家已审核才可改价");
+        }
+    }
 
+    /**
+     * 改价金额是否在0至支付金额之间
+     * @return
+     */
+    private boolean isChangeAmountBetweenZeroToPayAmount(BigDecimal changeAmount){
+        if(changeAmount.compareTo(this.getPayAmount())<=0&&changeAmount.compareTo(BigDecimal.ZERO)>=0){
+            return true;
+        }
+        return false;
+    }
+
+
+
+    /**
+     * 商品审核
+     */
+    public void audit() {
+        if(unAudit()){
+            this.orderStatus=OrderStatus.PAYING;
+        }
+    }
+
+    /**
+     * 卖家未审核
+     * @return true:已审核 false:未审核
+     */
+    private boolean unAudit() {
+        if (this.orderStatus == OrderStatus.AUDITING) {
+            return true;
+        }
+        return false;
+    }
 }
 

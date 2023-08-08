@@ -1,6 +1,6 @@
 package com.rc.cloud.app.marketing.domain.entity.regularorder.valobj;
 
-import lombok.Data;
+import java.util.Objects;
 
 /**
  * @ClassName Buyer
@@ -9,7 +9,6 @@ import lombok.Data;
  * @Description 买家
  * @Version 1.0
  */
-@Data
 public class Buyer {
     /**
      * 下单人ID
@@ -30,10 +29,48 @@ public class Buyer {
      */
     private String buyerAccount;
 
-    public Buyer(String buyerId,String buyername, String buyerOrder, String buyerAccount) {
+    public Buyer(String buyerId, String buyername, String buyerOrder, String buyerAccount) {
         this.buyerId = buyerId;
         this.buyerName = buyername;
         this.buyerOrder = buyerOrder;
         this.buyerAccount = buyerAccount;
+    }
+
+    public String getBuyerId() {
+        return buyerId;
+    }
+
+    public String getBuyerName() {
+        return buyerName;
+    }
+
+    public String getBuyerOrder() {
+        return buyerOrder;
+    }
+
+    public String getBuyerAccount() {
+        return buyerAccount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Buyer buyer = (Buyer) o;
+        return getBuyerId().equals(buyer.getBuyerId()) && getBuyerName().equals(buyer.getBuyerName()) && getBuyerOrder().equals(buyer.getBuyerOrder()) && getBuyerAccount().equals(buyer.getBuyerAccount());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBuyerId(), getBuyerName(), getBuyerOrder(), getBuyerAccount());
+    }
+
+    public static Buyer mockBuyer() {
+        Buyer buyer = new Buyer("123", "陈激扬", "去11", "18258687039");
+        return buyer;
     }
 }
