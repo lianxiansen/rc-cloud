@@ -69,9 +69,6 @@ import static com.rc.cloud.common.core.util.collection.CollectionUtils.convertSe
 @Slf4j
 public class AdminUserServiceImpl implements AdminUserService {
 
-    @Value("${sys.user.init-password:yudaoyuanma}")
-    private String userInitPassword;
-
     @Resource
     private AdminUserMapper userMapper;
 

@@ -34,14 +34,14 @@ public class RcCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
 
     private final OAuth2AuthorizationService authorizationService;
 
-    @Value("${spring.security.disabled:false}")
-    private Boolean disabled;
+    @Value("${spring.security.enable:true}")
+    private Boolean enable;
 
     @Override
     public OAuth2AuthenticatedPrincipal introspect(String token) {
-        if(disabled){
+        if(!enable){
             // 如果是禁用，则返回默认用户
-            RcUser user = new RcUser("1","1","admin","asd","12334",true,true,true,true,new ArrayList<>());
+            RcUser user = new RcUser("1","1","admin","asd","1385765277",true,true,true,true,new ArrayList<>());
             Objects.requireNonNull(user)
                     .getAttributes();
             return user;
