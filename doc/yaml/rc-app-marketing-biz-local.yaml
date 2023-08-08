@@ -1,8 +1,5 @@
 --- #################### 数据库相关配置 ####################
-
 spring:
-  security:
-    disabled: true
   # 数据源配置项
   autoconfigure:
     exclude:
@@ -66,3 +63,11 @@ rc:
     enable: false # 是否开启验证码
   tenant: # 多租户相关配置项
     enable: true
+
+security:
+  oauth2:
+    ignore:
+      urls:
+        - /app/v1/deliveryAddress/create
+        - /app/v1/deliveryAddress/update
+        - /app/v1/deliveryAddress/findList
