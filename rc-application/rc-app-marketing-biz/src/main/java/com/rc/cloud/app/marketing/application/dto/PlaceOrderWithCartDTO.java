@@ -12,7 +12,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Data
-public class PlaceOrderDTO {
+public class PlaceOrderWithCartDTO {
     private String cartId;
     private List<String> cartItemIds;
 }

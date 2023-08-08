@@ -1,7 +1,6 @@
 package com.rc.cloud.app.marketing.domain.entity.regularorder;
 
-import com.rc.cloud.app.marketing.domain.entity.common.Product;
-import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.RegularOrderItemProduct;
 
 /**
  * @ClassName OrderItem
@@ -20,15 +19,11 @@ public class RegularOrderItem {
      */
     private String orderId;
 
+
     /**
      * 商品
      */
-    private Product product;
-
-    /**
-     * 商品sku
-     */
-    private ProductItem productItem;
+    private RegularOrderItemProduct product;
 
 
 
@@ -38,23 +33,13 @@ public class RegularOrderItem {
         this.orderId = orderId;
     }
 
-
-
-
-    public void setProductItem(ProductItem productItem) {
-        this.productItem = productItem;
-    }
-
-    public ProductItem getProductItem() {
-        return productItem;
-    }
-
-    public Product getProduct() {
+    public RegularOrderItemProduct getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public RegularOrderItem setProduct(RegularOrderItemProduct product) {
         this.product = product;
+        return this;
     }
 
     public String getId() {
@@ -64,5 +49,6 @@ public class RegularOrderItem {
     public String getOrderId() {
         return orderId;
     }
+
 }
 

@@ -4,6 +4,7 @@ import com.rc.cloud.app.marketing.domain.entity.cart.identifier.CartId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ProductUniqueId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ShopId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.UserId;
+import com.rc.cloud.app.marketing.domain.entity.customer.Customer;
 import com.rc.cloud.app.marketing.infrastructure.util.ListUtil;
 import com.rc.cloud.common.core.exception.ServiceException2;
 import com.rc.cloud.common.core.util.AssertUtils;
@@ -108,7 +109,7 @@ public class CartService {
         }
     }
 
-    public List<Cart> findCarts(List<String> cartIds) {
+    public List<Cart> findCarts(Customer customer,List<String> cartIds) {
         return null;
     }
 }

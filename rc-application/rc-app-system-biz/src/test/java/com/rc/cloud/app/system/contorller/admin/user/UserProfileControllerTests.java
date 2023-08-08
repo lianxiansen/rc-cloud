@@ -24,7 +24,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -148,6 +147,17 @@ public class UserProfileControllerTests {
                 .andExpect(jsonPath("$.data").isNotEmpty());
         SysUserPO dbUser = userService.getUserByUsername(user.getUsername());
         assertTrue(passwordEncoder.matches(updateReqVO.getNewPassword(), dbUser.getPassword()));
+    }
+
+    @Test
+    public void createPassword() {
+        String encode = passwordEncoder.encode("123456");
+        System.out.println("加密结果：" + encode);
+    }
+
+    @Test
+    public void matchesPassword() {
+        assertTrue(passwordEncoder.matches("123456", "{bcrypt}$2a$10$N/dANgQ.fBEFXSJDO5HUbO7lroYAbpWOm2z/IsmczXSmstDquYeRq"));
     }
 
     private SysUserPO createUser() {

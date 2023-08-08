@@ -1,5 +1,6 @@
 package com.rc.cloud.app.marketing.domain.entity.deliveryaddress;
 
+import com.rc.cloud.app.marketing.domain.entity.customer.Customer;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -25,11 +26,11 @@ public class DeliveryAddressService {
     /**
      * 获取顾客默认收货地址
      *
-     * @param customerId
+     * @param customer
      * @return
      */
-    public DeliveryAddress findDefault(String customerId) {
-        List<DeliveryAddress> deliveryAddresses = findList(customerId);
+    public DeliveryAddress findDefault(Customer customer) {
+        List<DeliveryAddress> deliveryAddresses = findList(customer.getId());
         if (CollectionUtils.isEmpty(deliveryAddresses)) {
             return null;
         }

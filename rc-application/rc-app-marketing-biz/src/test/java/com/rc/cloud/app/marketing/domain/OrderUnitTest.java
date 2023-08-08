@@ -3,12 +3,13 @@ package com.rc.cloud.app.marketing.domain;
 
 import cn.hutool.core.util.RandomUtil;
 import com.rc.cloud.app.marketing.domain.entity.cart.Cart;
-import com.rc.cloud.app.marketing.domain.entity.cart.identifier.CartId;
-import com.rc.cloud.app.marketing.domain.entity.cart.identifier.UserId;
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj.DeliveryType;
 import com.rc.cloud.app.marketing.domain.entity.common.PayStatus;
+import com.rc.cloud.app.marketing.domain.entity.common.Product;
 import com.rc.cloud.app.marketing.domain.entity.common.SettledEnum;
+import com.rc.cloud.app.marketing.domain.entity.customer.Customer;
+import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddressService;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrder;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrderService;
@@ -39,7 +40,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -99,19 +99,20 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
     private String customerId = "5b6b70eafeaa9938cff8e430245090c7";
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-
+    private Customer customer;
+    private DeliveryAddress deliveryAddress;
+    private List<Product> products;
     @BeforeEach
     public void beforeEach() {
-        carts = new ArrayList<>();
-        Cart cart = new Cart();
-        cart.setUserId(new UserId("5b6b70eafeaa9938cff8e430245090c7"));
-        cart.setId(new CartId("436175fb281bf0a9a2c4ded48cf02b4c"));
-        carts.add(cart);
-        comfirmOrder = comfirmOrderDomainService.placeOrder(carts);
+        customer = Customer.mock();
+
+        deliveryAddress = null;
+
+        comfirmOrder = comfirmOrderDomainService.placeOrder(Customer.mock(), products, deliveryAddress);
     }
 
     @Nested
-    public class comfirmOrder{
+    public class comfirmOrder {
 
 
         @DisplayName("确认订单")
@@ -160,22 +161,25 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
     }
 
     @Nested
-    public class RegularOrderTest{
+    public class RegularOrderTest {
         private List<RegularOrder> orders;
         private RegularOrder order;
+
         @BeforeEach
         public void beforeEach() {
-            orders = submitOrderDomainService.submitOrder(comfirmOrder);
+            orders = submitOrderDomainService.submitOrder(customer, comfirmOrder);
             order = orders.stream().findFirst().get();
         }
+
         @Test
-        public void changeAmountWhenGreaterThanPayAmount(){
+        public void changeAmountWhenGreaterThanPayAmount() {
             Assertions.assertThrows(ServiceException.class, () -> {
                 order.changeAmount(order.getPayAmount().add(BigDecimal.ONE));
             });
         }
+
         @Test
-        public void changeAmountWhenAudited(){
+        public void changeAmountWhenAudited() {
             order.audit();
             Assertions.assertThrows(ServiceException.class, () -> {
                 order.changeAmount(order.getPayAmount().subtract(BigDecimal.ONE));
@@ -185,7 +189,7 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
         @Test
         public void submitOrder() {
             Buyer buyer = Buyer.mockBuyer();
-            Receiver receiver =Receiver.mockReceiver();
+            Receiver receiver = Receiver.mockReceiver();
             Assertions.assertTrue(Objects.nonNull(order.getId()) &&
                     Objects.nonNull(order.getOrderNumber()) &&
                     order.getOrderStatus() == OrderStatus.AUDITING &&
@@ -196,7 +200,7 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
                     order.getPayStatus() == PayStatus.UNPAY &&
                     order.getConsignStatus() == ConsignStatus.UNCONSIGN &&
                     order.getBuyer().equals(buyer) &&
-                    order.getReceiver().equals(receiver)&&
+                    order.getReceiver().equals(receiver) &&
                     Objects.nonNull(order.getTradeNo())
             );
         }
@@ -223,10 +227,6 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
     }
 
 
-
-
-
-
     @Nested
     class SettleOrderTest {
         private List<RegularOrder> orders;
@@ -234,7 +234,7 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
 
         @BeforeEach
         public void beforeEach() {
-            orders = submitOrderDomainService.submitOrder(comfirmOrder);
+            orders = submitOrderDomainService.submitOrder(customer, comfirmOrder);
             order = orders.stream().findFirst().get();
         }
 

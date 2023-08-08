@@ -3,7 +3,6 @@ package com.rc.cloud.app.marketing.domain.service.impl;
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj.DeliveryType;
 import com.rc.cloud.app.marketing.domain.entity.common.Product;
-import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
 import com.rc.cloud.app.marketing.domain.entity.customer.Customer;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddressService;
@@ -13,6 +12,7 @@ import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrderService
 import com.rc.cloud.app.marketing.domain.entity.regularorder.event.OrderCreatedEvent;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Buyer;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Receiver;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.RegularOrderItemProduct;
 import com.rc.cloud.app.marketing.domain.service.SubmitOrderDomainService;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ErrorCode;
@@ -26,7 +26,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName SubmitOrderServiceImpl
@@ -48,12 +47,12 @@ public class SubmitOrderDomainServiceImpl implements SubmitOrderDomainService {
     private DeliveryAddressService deliveryAddressService;
 
     @Override
-    public List<RegularOrder> submitOrder(ComfirmOrder comfirmOrder) {
+    public List<RegularOrder> submitOrder(Customer customer, ComfirmOrder comfirmOrder) {
         List<Product> products = comfirmOrder.getProducts();
         if (CollectionUtils.isEmpty(products)) {
             throw new ServiceException(new ErrorCode(999999, "请选择您需要的商品加入购物车"));
         }
-        List<RegularOrder> orders = createRegularOrders(comfirmOrder);
+        List<RegularOrder> orders = createRegularOrders(customer,comfirmOrder);
         regularOrderService.insertBatch(orders);
         return orders;
     }
@@ -64,11 +63,11 @@ public class SubmitOrderDomainServiceImpl implements SubmitOrderDomainService {
      * @param comfirmOrder
      * @return
      */
-    private List<RegularOrder> createRegularOrders(ComfirmOrder comfirmOrder) {
+    private List<RegularOrder> createRegularOrders(Customer customer,ComfirmOrder comfirmOrder) {
         String tradeNo = idRepository.nextId();
         List<RegularOrder> orders = new ArrayList<>();
         for (Product product : comfirmOrder.getProducts()) {
-            RegularOrder order = createRegularOrder(comfirmOrder, tradeNo, product);
+            RegularOrder order = createRegularOrder(customer,comfirmOrder, tradeNo, product);
             orders.add(order);
             applicationContext.publishEvent(new OrderCreatedEvent(order.getId()));
         }
@@ -83,37 +82,35 @@ public class SubmitOrderDomainServiceImpl implements SubmitOrderDomainService {
      * @param product
      * @return
      */
-    private RegularOrder createRegularOrder(ComfirmOrder comfirmOrder, String tradeNo, Product product) {
-        String orderNo = regularOrderService.generateOrderSn(comfirmOrder.getDeliveryAddress().getMobile());
+    private RegularOrder createRegularOrder(Customer customer,ComfirmOrder comfirmOrder, String tradeNo, Product product) {
+        String orderNo = regularOrderService.generateOrderSn(customer.getMobile());
         RegularOrder order = new RegularOrder(idRepository.nextId(), orderNo);
         order.setBuyer(getBuyer(comfirmOrder));
         order.setReceiver(getReceiver(comfirmOrder));
+        order.setTradeNo(tradeNo);
+        product.getProductItems().forEach(item->{
+            RegularOrderItemProduct regularOrderItemProduct=new RegularOrderItemProduct( product,item);
+            order.addItem(createRegularOrderItems(order,regularOrderItemProduct));
+        });
+
         //计算运费
         order.setFreightAmount(calculateFreightAmount(comfirmOrder));
-        order.setTradeNo(tradeNo);
-        order.addItems(createRegularOrderItems(comfirmOrder, product, order));
         return order;
     }
 
 
-    private List<RegularOrderItem> createRegularOrderItems(ComfirmOrder comfirmOrder, Product product, RegularOrder order) {
-        List<RegularOrderItem> items = new ArrayList<>();
-        comfirmOrder.getItems(product).forEach(item -> {
-            RegularOrderItem orderItem = new RegularOrderItem(idRepository.nextId(), order.getId());
-            orderItem.setProduct(item.getProduct());
-            orderItem.setProductItem(item.getProductItem());
-            items.add(orderItem);
-        });
-        return items;
+    private RegularOrderItem createRegularOrderItems(RegularOrder order,RegularOrderItemProduct regularOrderItemProduct) {
+        RegularOrderItem orderItem = new RegularOrderItem(idRepository.nextId(), order.getId());
+        orderItem.setProduct(regularOrderItemProduct);
+        return orderItem;
     }
 
     private BigDecimal calculateFreightAmount(ComfirmOrder comfirmOrder) {
-        List<ProductItem> productItems = comfirmOrder.getItems().stream().map(p -> p.getProductItem()).collect(Collectors.toList());
-        DeliveryAddress deliveryAddress = deliveryAddressService.findDefault(Customer.mock().getId());
+        DeliveryAddress deliveryAddress = deliveryAddressService.findDefault(Customer.mock());
         if(Objects.isNull(deliveryAddress)){
             throw new ServiceException(99999999,"计算运费失败，失败原因：找不到收货地址");
         }
-        BigDecimal freightAmount = calculateFreightAmount(comfirmOrder.getDeliveryType(), productItems, deliveryAddress);
+        BigDecimal freightAmount = calculateFreightAmount(comfirmOrder.getDeliveryType(), comfirmOrder.getProducts(), deliveryAddress);
         return freightAmount;
     }
 
@@ -121,11 +118,10 @@ public class SubmitOrderDomainServiceImpl implements SubmitOrderDomainService {
      * 计算运费
      *
      * @param deliveryType
-     * @param productItems
      * @param deliveryAddress
      * @return
      */
-    private BigDecimal calculateFreightAmount(DeliveryType deliveryType, List<ProductItem> productItems, DeliveryAddress deliveryAddress) {
+    private BigDecimal calculateFreightAmount(DeliveryType deliveryType, List<Product> products, DeliveryAddress deliveryAddress) {
 
         return BigDecimal.ZERO;
     }
