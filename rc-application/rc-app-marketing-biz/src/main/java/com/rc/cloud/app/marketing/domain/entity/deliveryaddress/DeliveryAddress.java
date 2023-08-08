@@ -1,7 +1,8 @@
 package com.rc.cloud.app.marketing.domain.entity.deliveryaddress;
 
-import com.rc.cloud.app.marketing.domain.entity.common.Area;
 import com.rc.cloud.common.core.util.AssertUtils;
+
+import java.util.Objects;
 
 /**
  * @ClassName DeliveryAddress
@@ -20,9 +21,9 @@ public class DeliveryAddress {
      */
     private String customerId;
     /**
-     * 用户名
+     * 姓名
      */
-    private String userName;
+    private String name;
     /**
      * 手机号
      */
@@ -40,14 +41,17 @@ public class DeliveryAddress {
      */
     private boolean defaulted;
 
-    public DeliveryAddress(String id, String customerId, String username, String mobile, String zipcode, Area area) {
+    public DeliveryAddress(String id, String customerId, String name, String mobile, String zipcode, Area area) {
         this.id = id;
         this.customerId = customerId;
-        this.userName = username;
+        this.name = name;
         this.mobile = mobile;
         this.zipcode = zipcode;
         setArea(area);
     }
+
+
+
 
 
     public String getId() {
@@ -58,8 +62,8 @@ public class DeliveryAddress {
         return customerId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
     public String getMobile() {
@@ -74,16 +78,104 @@ public class DeliveryAddress {
         return area;
     }
 
+
+
+    public void modifyName(String name) {
+        this.name = name;
+    }
+
+    public void modifyMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public void modifyZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+    private void setArea(Area area) {
+        this.area = area;
+    }
+
+
     public boolean isDefaulted() {
         return defaulted;
     }
 
-    private void setArea(Area area) {
+    private void modifyArea(Area area) {
         AssertUtils.assertArgumentNotNull(area, "area must not be empty");
         this.area = area;
     }
-
-    public void setDefault(boolean defaulted){
+    public void setDefaulted(boolean defaulted){
         this.defaulted=defaulted;
     }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        DeliveryAddress that = (DeliveryAddress) o;
+        return isDefaulted() == that.isDefaulted() && getId().equals(that.getId()) && getCustomerId().equals(that.getCustomerId()) && getName().equals(that.getName()) && getMobile().equals(that.getMobile()) && getZipcode().equals(that.getZipcode()) && getArea().equals(that.getArea());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getCustomerId(), getName(), getMobile(), getZipcode(), getArea(), isDefaulted());
+    }
+
+    @Override
+    public String toString() {
+        return "DeliveryAddress{" +
+                "id='" + id + '\'' +
+                ", customerId='" + customerId + '\'' +
+                ", name='" + name + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                ", area=" + area +
+                ", defaulted=" + defaulted +
+                '}';
+    }
+
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
+    }
+
+
+    public void setProvinceCode(String provinceCode) {
+        this.area.setProvinceCode(provinceCode);
+    }
+    public void setProvince(String province) {
+        this.area.setProvince(province);
+    }
+
+    public void setCityCode(String cityCode) {
+        this.area.setCityCode(cityCode);
+    }
+    public void setCity(String City) {
+        this.area.setCity(City);
+    }
+
+    public void setDistrictCode(String districtCode) {
+        this.area.setDistrictCode(districtCode);
+    }
+    public void setDistrict(String district) {
+        this.area.setDistrict(district);
+    }
+    public void setDetail(String detail) {
+        this.area.setDetail(detail);
+    }
+
 }

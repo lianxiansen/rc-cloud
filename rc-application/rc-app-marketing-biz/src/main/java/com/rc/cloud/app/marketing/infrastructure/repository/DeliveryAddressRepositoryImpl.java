@@ -25,7 +25,15 @@ import java.util.Objects;
 public class DeliveryAddressRepositoryImpl implements DeliveryAddressRepository {
     @Resource
     private DeliveryAddressMapper deliveryAddressMapper;
-
+    @Override
+    public void updateBatch(List<DeliveryAddress> deliveryAddresses) {
+        List<DeliveryAddressPO> pos=new ArrayList<>();
+        deliveryAddresses.forEach(item->{
+            DeliveryAddressPO po=DeliveryAddressConvert.toDeliveryAddressPO(item);
+            pos.add(po);
+        });
+        this.deliveryAddressMapper.updateBatch(pos,pos.size());
+    }
     @Override
     public boolean save(DeliveryAddress deliveryAddress) {
         DeliveryAddressPO po=DeliveryAddressConvert.toDeliveryAddressPO(deliveryAddress);
@@ -50,5 +58,9 @@ public class DeliveryAddressRepositoryImpl implements DeliveryAddressRepository 
             deliveryAddresses.add(DeliveryAddressConvert.toDeliveryAddress(po));
         });
         return deliveryAddresses;
+    }
+    @Override
+    public boolean removeById(String id){
+        return this.deliveryAddressMapper.deleteById(id)>0;
     }
 }

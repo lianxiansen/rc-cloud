@@ -3,6 +3,8 @@ package com.rc.cloud.app.marketing.domain.entity.common;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Objects;
+
 /**
  * @ClassName Product
  * @Author liandy
@@ -37,6 +39,22 @@ public class Product {
         this.productArticleNo = productArticleNo;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Product product = (Product) o;
+        return getProductId().equals(product.getProductId()) && getProductName().equals(product.getProductName()) && getProductImage().equals(product.getProductImage()) && getProductArticleNo().equals(product.getProductArticleNo());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getProductId(), getProductName(), getProductImage(), getProductArticleNo());
+    }
 
     public static Product mockProductA() {
         String productId = "7747a149-5a79-4e37-8e42-061e434";

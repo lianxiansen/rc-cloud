@@ -10,6 +10,7 @@ import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddressService;
 import com.rc.cloud.app.marketing.domain.service.impl.ComfirmOrderDomainServiceImpl;
 import com.rc.cloud.common.core.domain.IdRepository;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Service
+@DubboService
 public class OrderApplicationServiceImpl implements OrderApplicationService {
     @Autowired
     private ComfirmOrderDomainServiceImpl comfirmOrderDomainService;
@@ -38,7 +40,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     public ComfirmOrderBO placeOrder(PlaceOrderDTO placeOrderDTO) {
         List<Cart> carts = cartService.findCarts(placeOrderDTO.getCartItemIds());
         ComfirmOrder comfirmOrder = comfirmOrderDomainService.placeOrder(carts);
-        DeliveryAddress deliveryAddress = deliveryAddressDomainService.findDefaultDeliveryAddress("");
+        DeliveryAddress deliveryAddress = deliveryAddressDomainService.findDefault("");
         return new ComfirmOrderBO(comfirmOrder,deliveryAddress);
     }
 }
