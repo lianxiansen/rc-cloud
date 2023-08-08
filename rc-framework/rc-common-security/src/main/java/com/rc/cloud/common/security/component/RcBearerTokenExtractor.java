@@ -1,5 +1,6 @@
 package com.rc.cloud.common.security.component;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -33,12 +34,19 @@ public class RcBearerTokenExtractor implements BearerTokenResolver {
 
     private final PermitAllUrlProperties urlProperties;
 
+    @Value("${spring.security.disabled:false}")
+    private Boolean disabled;
+
     public RcBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
         this.urlProperties = urlProperties;
     }
 
     @Override
     public String resolve(HttpServletRequest request) {
+        if(disabled){
+            return "test";
+        }
+
         boolean match = urlProperties.getUrls()
                 .stream()
                 .anyMatch(url -> pathMatcher.match(url, request.getRequestURI()));
