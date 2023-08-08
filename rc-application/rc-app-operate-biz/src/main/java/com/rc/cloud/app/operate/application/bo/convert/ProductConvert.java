@@ -679,7 +679,7 @@ public class ProductConvert
             SortedSet<Attribute> attributes = productAttribute.getAttributes();
             bo.setAttributes(convertAttributeBOList(attributes));
         }
-
+        bo.setCreateTime(product.getCreateTime().getTime());
         return bo;
 
     }

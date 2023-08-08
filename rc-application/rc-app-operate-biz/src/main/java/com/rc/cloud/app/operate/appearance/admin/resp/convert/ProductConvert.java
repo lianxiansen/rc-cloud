@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.appearance.admin.resp.convert;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductAttributeResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductDetailResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductImageResponse;
@@ -10,6 +11,7 @@ import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.domain.common.ProductDictKeyEnum;
 import com.rc.cloud.common.core.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class ProductConvert {
     public static ProductListResponse convert2ProductList(ProductBO bo) {
         ProductListResponse response=new ProductListResponse();
         response.setId(bo.getId());
+        response.setSpuCode(bo.getSpuCode());
         response.setName(bo.getName());
         response.setListImage(bo.getProductListImage());
         response.setNewFlag(bo.isNewFlag());
@@ -29,7 +32,7 @@ public class ProductConvert {
         response.setRecommendFlag(bo.isRecommendFlag());
         response.setCategoryName(format(bo.getFirstCategory(), bo.getSecondCategory(), bo.getThirdCategory()));
         response.setOnShelfStatus(bo.getOnshelfStatus());
-        response.setCreateTime( DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(bo.getCreateTime()));
+        response.setCreateTime(LocalDateTimeUtil.formatNormal(bo.getCreateTime()));
         return response;
     }
 

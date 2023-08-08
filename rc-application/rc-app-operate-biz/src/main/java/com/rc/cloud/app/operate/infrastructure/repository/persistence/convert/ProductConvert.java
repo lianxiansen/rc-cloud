@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 
+import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.customclassification.identifier.CustomClassificationId;
@@ -93,6 +94,10 @@ public class ProductConvert {
         //PackingLowestBuyFlag
         if(po.getPackingLowestBuyFlag()!=null){
             product.setPackingLowestBuy(new PackingLowestBuy(po.getPackingLowestBuyFlag()));
+        }
+        //CreateTime
+        if(po.getCreateTime()!=null){
+            product.setCreateTime(new CreateTime(po.getCreateTime()));
         }
         return product;
 

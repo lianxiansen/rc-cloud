@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.domain.model.product;
 
 import com.rc.cloud.app.operate.domain.common.ProductOriginEnum;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
+import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.customclassification.identifier.CustomClassificationId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
@@ -408,4 +409,13 @@ public class Product extends AggregateRoot {
         this.recycleFlag = recycleFlag;
     }
 
+    private CreateTime createTime;
+
+    public void setCreateTime(CreateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public CreateTime getCreateTime() {
+        return this.createTime;
+    }
 }
