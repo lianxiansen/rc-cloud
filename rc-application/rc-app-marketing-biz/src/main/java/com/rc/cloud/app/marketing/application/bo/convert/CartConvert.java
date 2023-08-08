@@ -81,8 +81,5 @@ public interface CartConvert {
     @Mapping(source = "productId", target = "cartProductDetail.id.id")
     Cart convert(CartDTO dto);
 
-    @Mapping(source = "productUniqueid", target = "cartProductDetail.skuCode")
-    @Mapping(source = "shopId", target = "shopInfo.shopId.id")
-    @Mapping(source = "productId", target = "cartProductDetail.id.id")
     List<Cart> convert(List<CartDTO> dto);
 }
