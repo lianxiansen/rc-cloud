@@ -7,11 +7,12 @@ import com.rc.cloud.app.operate.domain.model.customclassification.identifier.Cus
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.CustomClassificationMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.CustomClassificationPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Repository
 public class CustomClassificationRepositoryImpl implements CustomClassificationRepository
 {
     private CustomClassificationMapper customClassificationMapper;
