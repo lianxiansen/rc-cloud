@@ -34,8 +34,8 @@ public class RcBearerTokenExtractor implements BearerTokenResolver {
 
     private final PermitAllUrlProperties urlProperties;
 
-    @Value("${spring.security.disabled:false}")
-    private Boolean disabled;
+    @Value("${spring.security.enable:true}")
+    private Boolean enable;
 
     public RcBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
         this.urlProperties = urlProperties;
@@ -43,7 +43,7 @@ public class RcBearerTokenExtractor implements BearerTokenResolver {
 
     @Override
     public String resolve(HttpServletRequest request) {
-        if(disabled){
+        if(!enable){
             return "test";
         }
 
