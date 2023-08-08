@@ -10,6 +10,7 @@ import com.rc.cloud.app.marketing.appearance.api.resp.convert.DeliveryAddressCre
 import com.rc.cloud.app.marketing.application.bo.DeliveryAddressBO;
 import com.rc.cloud.app.marketing.application.service.DeliveryAddressApplicationService;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.web.filter.RepeatSubmit;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,18 +36,22 @@ public class DeliveryAddressController {
     @Autowired
     private DeliveryAddressApplicationService deliveryAddressApplicationService;
 
+    @RepeatSubmit(interval=3000)
     @PostMapping("create")
     @Operation(summary = "新建收货地址")
     public CodeResult<DeliveryAddressResponse> create(@Valid @RequestBody DeliveryAddressCreateRequest deliveryAddressCreateRequest) {
         DeliveryAddressBO bo=deliveryAddressApplicationService.createDeliveryAddress(DeliveryAddressCreateRequestConvert.INSTANCE.convert(deliveryAddressCreateRequest));
         return CodeResult.ok(DeliveryAddressCreateResponseConvert.INSTANCE.convert(bo));
     }
+
+    @RepeatSubmit(interval=3000)
     @PostMapping("update")
     @Operation(summary = "更新收货地址")
     public CodeResult<DeliveryAddressResponse> update(@Valid @RequestBody DeliveryAddressUpdateRequest deliveryAddressUpdateRequest) {
         DeliveryAddressBO bo=deliveryAddressApplicationService.updateDeliveryAddress(DeliveryAddressUpdateRequestConvert.INSTANCE.convert(deliveryAddressUpdateRequest));
         return CodeResult.ok(DeliveryAddressCreateResponseConvert.INSTANCE.convert(bo));
     }
+
 
     @GetMapping("findList")
     @Operation(summary = "获取收货地址列表")

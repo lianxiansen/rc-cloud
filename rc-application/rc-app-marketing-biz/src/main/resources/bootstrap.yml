@@ -1,8 +1,8 @@
 server:
   port: 8085
 spring:
-  security:
-    disabled: true
+  profiles:
+    active: local
   main:
     allow-circular-references: true
   application:
@@ -15,8 +15,7 @@ spring:
         enabled: true
       discovery:
         server-addr: localhost:8848
-  profiles:
-    active: local
+
 dubbo:
   application:
     id: rc-app-marketing-biz
