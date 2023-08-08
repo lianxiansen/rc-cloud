@@ -6,7 +6,6 @@ import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrderItem;
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrderRepository;
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj.DeliveryType;
 import com.rc.cloud.app.marketing.domain.entity.common.Product;
-import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.test.core.ut.BaseRedisUnitTest;
 import org.junit.jupiter.api.Assertions;
@@ -38,10 +37,8 @@ public class ComfirmOrderRepositoryUnitTest extends BaseRedisUnitTest {
     @BeforeEach
     public void beforeEach() {
         comfirmOrder = new ComfirmOrder(idRepository.nextId());
-        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA(), ProductItem.mockProductItemA1()));
-        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA(), ProductItem.mockProductItemA2()));
-        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB(), ProductItem.mockProductItemB1()));
-        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB(), ProductItem.mockProductItemB2()));
+        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA()));
+        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB()));
         comfirmOrder.setPayType(0);
         comfirmOrder.setDeliveryType(DeliveryType.CONSIGN);
         comfirmOrder.setFreightAmount(BigDecimal.ZERO);

@@ -2,7 +2,6 @@ package com.rc.cloud.app.marketing.domain.entity.comfirmorder;
 
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj.DeliveryType;
 import com.rc.cloud.app.marketing.domain.entity.common.Product;
-import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ import java.util.stream.Collectors;
  */
 public class ComfirmOrder {
     private String id;
-    private DeliveryAddress deliveryAddress;
     private List<ComfirmOrderItem> items;
     /**
      * 交易方式 0：扫码支付
@@ -106,7 +104,7 @@ public class ComfirmOrder {
     }
 
     public void addItem(ComfirmOrderItem item) {
-        this.productAmout = this.productAmout.add(item.getProductItem().getProductItemAmount());
+        this.productAmout = this.productAmout.add(item.getProductAmount());
         this.payAmount = this.productAmout.add(this.freightAmount);
         this.items.add(item);
     }
@@ -123,17 +121,7 @@ public class ComfirmOrder {
         return this.items.stream().map(p -> p.getProduct()).collect(Collectors.toList());
     }
 
-    public List<ComfirmOrderItem> getItems(Product product){
-        return this.items.stream().filter(item->item.getProduct().equals(product)).collect(Collectors.toList());
-    }
 
-    public DeliveryAddress getDeliveryAddress() {
-        return deliveryAddress;
-    }
-
-    public void setDeliveryAddress(DeliveryAddress deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
-    }
 
     public void setPayType(int payType) {
         this.payType = payType;

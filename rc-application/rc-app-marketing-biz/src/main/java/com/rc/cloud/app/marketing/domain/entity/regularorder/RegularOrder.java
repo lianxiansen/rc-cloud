@@ -129,7 +129,7 @@ public class RegularOrder {
         });
     }
     public void addItem(RegularOrderItem item) {
-        this.productAmount = this.productAmount.add(item.getProductItem().getProductItemAmount());
+        this.productAmount = this.productAmount.add(item.getProduct().getProductAmount());
         this.items.add(item);
     }
 
@@ -178,7 +178,7 @@ public class RegularOrder {
     }
 
     public int getProductItemQuantity() {
-        return (int) this.items.stream().map(item -> item.getProductItem()).count();
+        return (int) this.items.stream().map(item -> item.getProduct()).count();
     }
 
     public BigDecimal getProductAmount() {

@@ -30,13 +30,13 @@ public class OrderItemConvert {
         po.setProductName(orderItem.getProduct().getProductName());
         po.setProductImage(orderItem.getProduct().getProductImage());
         po.setProductArticleNo(orderItem.getProduct().getProductArticleNo());
-        po.setProductItemId(orderItem.getProductItem().getProductItemId());
-        po.setProductItemName(orderItem.getProductItem().getProductItemName());
-        po.setProductItemImage(orderItem.getProductItem().getProductItemImage());
-        po.setProductItemAttribute(orderItem.getProductItem().getProductItemAttribute());
-        po.setProductItemPrice(orderItem.getProductItem().getProductItemPrice());
-        po.setProductItemQuantity(orderItem.getProductItem().getProductItemQuantity());
-        po.setProductItemAmount(orderItem.getProductItem().getProductItemAmount());
+        po.setProductItemId(orderItem.getProduct().getProductItemId());
+        po.setProductItemName(orderItem.getProduct().getProductItemName());
+        po.setProductItemImage(orderItem.getProduct().getProductItemImage());
+        po.setProductItemAttribute(orderItem.getProduct().getProductItemAttribute());
+        po.setProductItemPrice(orderItem.getProduct().getProductItemPrice());
+        po.setProductItemQuantity(orderItem.getProduct().getProductItemQuantity());
+        po.setProductItemAmount(orderItem.getProduct().getProductItemAmount());
         return po;
     }
 }

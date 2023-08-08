@@ -2,10 +2,10 @@ package com.rc.cloud.app.marketing.infrastructure.repository;
 
 import cn.hutool.core.util.RandomUtil;
 import com.rc.cloud.app.marketing.domain.entity.common.Product;
-import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.*;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Buyer;
 import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Receiver;
+import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.RegularOrderItemProduct;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.test.core.ut.BaseDbAndRedisUnitTest;
 import org.junit.jupiter.api.Assertions;
@@ -45,15 +45,13 @@ public class RegularOrderRepositoryUnitTest extends BaseDbAndRedisUnitTest {
         order.setBuyer(new Buyer(idRepository.nextId(), RandomUtil.randomString(8), RandomUtil.randomString(8), RandomUtil.randomNumbers(8)));
         order.setReceiver(Receiver.mockReceiver());
         //订单项
-        RegularOrderItem orderItem = new RegularOrderItem(idRepository.nextId(), order.getId());
-        orderItem.setProduct(Product.mockProductA());
-        orderItem.setProductItem(ProductItem.mockProductItemA1());
-        order.addItem(orderItem);
+        RegularOrderItem orderItem1 = new RegularOrderItem(idRepository.nextId(), order.getId());
+        orderItem1.setProduct(new RegularOrderItemProduct( Product.mockProductA(),Product.mockProductA().getProductItems().get(0)));
+        order.addItem(orderItem1);
 
-        orderItem = new RegularOrderItem(idRepository.nextId(), order.getId());
-        orderItem.setProduct(Product.mockProductA());
-        orderItem.setProductItem(ProductItem.mockProductItemA1());
-        order.addItem(orderItem);
+        RegularOrderItem orderItem2 = new RegularOrderItem(idRepository.nextId(), order.getId());
+        orderItem1.setProduct(new RegularOrderItemProduct( Product.mockProductA(),Product.mockProductA().getProductItems().get(1)));
+        order.addItem(orderItem2);
         //计算运费
         order.setFreightAmount(new BigDecimal(100));
         boolean saved = regularOrderRepository.save(order);

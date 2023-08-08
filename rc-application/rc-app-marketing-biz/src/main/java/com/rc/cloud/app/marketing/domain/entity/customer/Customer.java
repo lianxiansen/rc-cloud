@@ -1,5 +1,7 @@
 package com.rc.cloud.app.marketing.domain.entity.customer;
 
+import lombok.Data;
+
 /**
  * @ClassName Customer
  * @Author liandy
@@ -7,8 +9,10 @@ package com.rc.cloud.app.marketing.domain.entity.customer;
  * @Description 顾客
  * @Version 1.0
  */
+@Data
 public class Customer {
     private String id;
+    private String mobile;
 
     public Customer(String id) {
         this.id = id;

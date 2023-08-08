@@ -1,9 +1,12 @@
 package com.rc.cloud.app.marketing.domain.service;
 
-import com.rc.cloud.app.marketing.domain.entity.cart.Cart;
 import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
+import com.rc.cloud.app.marketing.domain.entity.common.Product;
+import com.rc.cloud.app.marketing.domain.entity.customer.Customer;
+import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 
 import java.util.List;
+
 /**
  * @ClassName ComfirmOrderService
  * @Author liandy
@@ -14,8 +17,8 @@ import java.util.List;
 public interface ComfirmOrderDomainService {
     /**
      * 购物车下单
-     * @param cartItems
+     * @param customer
      * @return
      */
-    ComfirmOrder placeOrder(List<Cart> cartItems);
+    ComfirmOrder placeOrder(Customer customer, List<Product> products, DeliveryAddress deliveryAddress);
 }

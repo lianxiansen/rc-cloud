@@ -2,7 +2,8 @@ package com.rc.cloud.app.marketing.domain.entity.comfirmorder;
 
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.CartId;
 import com.rc.cloud.app.marketing.domain.entity.common.Product;
-import com.rc.cloud.app.marketing.domain.entity.common.ProductItem;
+
+import java.math.BigDecimal;
 
 /**
  * @ClassName PlaceOrder
@@ -20,46 +21,38 @@ public class ComfirmOrderItem {
 
     private Product product;
 
-    private ProductItem productItem;
 
-
-
-    public ComfirmOrderItem(String id, String comfirmOrderId, CartId cartId, Product product, ProductItem productItem ) {
+    public ComfirmOrderItem(String id, String comfirmOrderId, CartId cartId, Product product) {
         this.id = id;
         this.comfirmOrderId = comfirmOrderId;
         this.cartId = cartId;
         this.product = product;
-        this.productItem = productItem;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getComfirmOrderId() {
-        return comfirmOrderId;
-    }
+
 
     public CartId getCartId() {
         return cartId;
     }
 
 
-
-
-    public ProductItem getProductItem() {
-        return productItem;
-    }
-
-    public void setProductItem(ProductItem productItem) {
-        this.productItem = productItem;
-    }
-
-    public Product getProduct() {
+    Product getProduct() {
         return product;
     }
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public BigDecimal getProductAmount() {
+        BigDecimal[] productAmount = {BigDecimal.ZERO};
+        this.product.getProductItems().forEach(item -> {
+            productAmount[0] = productAmount[0].add(item.getProductItemAmount());
+        });
+        return productAmount[0];
     }
 }
