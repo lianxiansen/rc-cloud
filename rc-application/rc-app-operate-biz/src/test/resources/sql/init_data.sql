@@ -52,3 +52,28 @@ INSERT INTO `product_category` (`id`, `tenant_id`, `name`, `english_name`, `icon
 /*产品推荐*/
 INSERT INTO `product_recommend` VALUES ('870ef1f5-39d2-4f48-8c67-ae45206', '110ef1f5-39d2-4f48-8c67-ae11111', '5c491caf-1df2-4bad-a04b-67976a7', NULL, '0', NULL, '2023-07-17 10:18:08', NULL, '2023-07-17 10:18:37');
 
+/*产品初始化*/
+INSERT INTO `product` VALUES ('eae9d95a-3b69-43bb-9038-3309560', '111', '1', '船型纸巾盒', 'remark', 'tag', 'http://listImage.jpg', '123', 0, NULL, 0, 0, '9ecbc6f8-6957-4462-ae56-cb8d950', '一级分类001', '二级分类001', '一级分类001', 'http://videoUrl.jpg', 'http://videoImg.jpg', b'0', 0, NULL, 0.00, 0.00, b'1', NULL, b'0', b'0', b'0', NULL, NULL, '2023-08-07 14:51:03', '2023-08-07 14:51:03', b'1', b'1', 'http://explosivesImage.jpg', b'1', b'1', 5, '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03', b'0', b'0');
+INSERT INTO `product_attribute` VALUES ('68c5399941cd24968f33eed9a7a2184f', '111', 'eae9d95a-3b69-43bb-9038-3309560', '[{\"attribute\":\"颜色\",\"sort\":1,\"values\":[{\"attributeValue\":\"白色\",\"sort\":1},{\"attributeValue\":\"黄色\",\"sort\":2}]},{\"attribute\":\"尺寸\",\"sort\":3,\"values\":[{\"attributeValue\":\"Y\",\"sort\":3},{\"attributeValue\":\"X\",\"sort\":3}]}]', b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_detail` VALUES ('7323a0d6b586689e88c37a8b51056ceb', '111', 'eae9d95a-3b69-43bb-9038-3309560', '<p><img src=\"http://www.zjffcat.com/ueditor/php/upload/image/20230719/1689751742991233.jpg\" style=\"\"/></p>', 'http://installVideoUrl.jpg', 'http://installVideoImg.jpg', 'http://installDetail.jpg', b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_dict` VALUES ('7b14a8575b6d34a028812337ba1249e5', '111', 'eae9d95a-3b69-43bb-9038-3309560', '材质', 'ABS', 99, b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_dict` VALUES ('96253de38751d1d67306e027fd46f998', '111', 'eae9d95a-3b69-43bb-9038-3309560', '尺寸', 'XXX', 99, b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_dict` VALUES ('b48c73cd94cd649a109b9a2bf76cc6cb', '111', 'eae9d95a-3b69-43bb-9038-3309560', '条码', 'FFF', 99, b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_dict` VALUES ('f68cbe69372d9e435a8d54f672c393d8', '111', 'eae9d95a-3b69-43bb-9038-3309560', '承重', '50KG', 99, b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+
+INSERT INTO `product_sku` VALUES ('03cb5058-1dba-44f1-a0ae-e52a089', '111', 'eae9d95a-3b69-43bb-9038-3309560', '3333333333', 88.00, '77.0', NULL, 0, 66.00, 100, 1, 2, 3, 120, 0, NULL, 0, 0, 99, b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_sku` VALUES ('ccd4d116-72fd-41ab-93bb-7e59456', '111', 'eae9d95a-3b69-43bb-9038-3309560', 'skuCode', 0.00, '77.0', NULL, 0, 66.00, 100, 1, 2, 3, 120, 0, NULL, 0, 0, 99, b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_sku` VALUES ('f27d6b8c-2af8-4098-8c66-368b76f', '111', 'eae9d95a-3b69-43bb-9038-3309560', '11111111', 88.00, '77.0', NULL, 0, 66.00, 100, 1, 2, 3, 120, 0, NULL, 0, 0, 99, b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_sku` VALUES ('f9428052-2cb7-4f78-8ef3-a0f79f0', '111', 'eae9d95a-3b69-43bb-9038-3309560', '44444444444', 88.00, '0.01', NULL, 0, 12.00, 100, 1, 2, 3, 120, 0, NULL, 0, 0, 99, b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+
+INSERT INTO `product_sku_attribute` VALUES ('9c89417aa5822ad94366beb31e815da1', '111', '03cb5058-1dba-44f1-a0ae-e52a089', '[{\"attribute\":\"尺寸\",\"attributeValue\":\"X\",\"sort\":0},{\"attribute\":\"颜色\",\"attributeValue\":\"黄色\",\"sort\":0}]', b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_sku_attribute` VALUES ('bf647ea3c867488a7521035c7d285973', '111', 'ccd4d116-72fd-41ab-93bb-7e59456', '[{\"attribute\":\"尺寸\",\"attributeValue\":\"Y\",\"sort\":0},{\"attribute\":\"颜色\",\"attributeValue\":\"白色\",\"sort\":0}]', b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_sku_attribute` VALUES ('895aee55f2eedcba2b7a4e00452d187a', '111', 'f27d6b8c-2af8-4098-8c66-368b76f', '[{\"attribute\":\"尺寸\",\"attributeValue\":\"X\",\"sort\":0},{\"attribute\":\"颜色\",\"attributeValue\":\"白色\",\"sort\":0}]', b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_sku_attribute` VALUES ('ffa4cf264becfc589557abae1557c04d', '111', 'f9428052-2cb7-4f78-8ef3-a0f79f0', '[{\"attribute\":\"尺寸\",\"attributeValue\":\"Y\",\"sort\":0},{\"attribute\":\"颜色\",\"attributeValue\":\"黄色\",\"sort\":0}]', b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+
+INSERT INTO `product_sku_image` VALUES ('82e1c208405a8ad473a7b8df917fdeda', '111', '03cb5058-1dba-44f1-a0ae-e52a089', 'http://www.zjffcat.com/storage/uploads/20230719/d1f63d480934f72f5eb18eb75fdb36bf.jpg', 0, b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_sku_image` VALUES ('adf03afe02cc247a409183e7e0854f5e', '111', 'ccd4d116-72fd-41ab-93bb-7e59456', '', 0, b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+INSERT INTO `product_sku_image` VALUES ('d9df015cf15fcd9b97c3887a92df244a', '111', 'f9428052-2cb7-4f78-8ef3-a0f79f0', 'http://www.zjffcat.com/storage/uploads/20230719/d1f63d480934f72f5eb18eb75fdb36bf.jpg', 0, b'0', '', '2023-08-07 14:51:03', '', '2023-08-07 14:51:03');
+
+
+
