@@ -16,4 +16,6 @@ public class ProductImageBO {
 
     private ProductImageTypeEnum type;
 
+
+
 }

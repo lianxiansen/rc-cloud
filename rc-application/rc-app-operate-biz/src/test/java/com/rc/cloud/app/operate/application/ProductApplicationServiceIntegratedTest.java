@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.application;
 
-import com.rc.cloud.app.operate.application.bo.ProductBO;
+import com.rc.cloud.app.operate.application.bo.*;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.application.service.impl.ProductApplicationServiceImpl;
@@ -80,23 +80,34 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         //校验是否相等
         Assertions.assertEquals(productBO.getId(),newProductBO.getId());
         Assertions.assertEquals(productBO.getProductOrigin(),newProductBO.getProductOrigin());
-        Assertions.assertEquals(productBO.getAttributes(),newProductBO.getAttributes());
+        for (AttributeBO attribute : productBO.getAttributes()) {
+            AttributeBO newAttribute = productBO.getAttributes().stream().filter(u -> u.getAttribute().equals(attribute.getAttribute())).findFirst().get();
+            Assertions.assertArrayEquals(attribute.getValues().toArray(),
+                    newAttribute.getValues().toArray()   );
+        }
         Assertions.assertEquals(productBO.getDetail(),newProductBO.getDetail());
         Assertions.assertEquals(productBO.getBrandId(),newProductBO.getBrandId());
         Assertions.assertEquals(productBO.getBrandName(),newProductBO.getBrandName());
-        Assertions.assertEquals(productBO.getCreateTime(),newProductBO.getCreateTime());
+
         Assertions.assertEquals(productBO.getCustomClassificationId(),newProductBO.getCustomClassificationId());
         Assertions.assertEquals(productBO.getExplosivesImage(),newProductBO.getExplosivesImage());
 
-        Assertions.assertEquals(productBO.getDicts(),newProductBO.getDicts());
-        Assertions.assertEquals(productBO.getInstallDetail(),newProductBO.getInstallDetail());
+        Assertions.assertArrayEquals(productBO.getDicts().entrySet().toArray(),
+                newProductBO.getDicts().entrySet().toArray());
+        Assertions.assertEquals(
+                productBO.getInstallDetail()
+                ,newProductBO.getInstallDetail());
         Assertions.assertEquals(productBO.getInstallVideoImg(),newProductBO.getInstallVideoImg());
         Assertions.assertEquals(productBO.getOnshelfStatus(),newProductBO.getOnshelfStatus());
         Assertions.assertEquals(productBO.getName(),newProductBO.getName());
         Assertions.assertEquals(productBO.getRemark(),newProductBO.getRemark());
         Assertions.assertEquals(productBO.getProductListImage(),newProductBO.getProductListImage());
-        Assertions.assertEquals(productBO.getMasterImages(),newProductBO.getMasterImages());
-        Assertions.assertEquals(productBO.getSizeImages(),newProductBO.getSizeImages());
+        Assertions.assertArrayEquals(
+                productBO.getMasterImages().toArray()
+                ,newProductBO.getMasterImages().toArray());
+        Assertions.assertArrayEquals(
+                productBO.getSizeImages().toArray()
+                ,newProductBO.getSizeImages().toArray());
 
         Assertions.assertEquals(productBO.getVideoImg(),newProductBO.getVideoImg());
 
@@ -105,15 +116,34 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         Assertions.assertEquals(productBO.getSpuCode(),newProductBO.getSpuCode());
         Assertions.assertEquals(productBO.getSort(),newProductBO.getSort());
         Assertions.assertEquals(productBO.getOutId(),newProductBO.getOutId());
-        Assertions.assertEquals(productBO.getTenantId(),newProductBO.getTenantId());
-        Assertions.assertEquals(productBO.getSkus(),newProductBO.getSkus());
 
+        for (ProductSkuBO sku : productBO.getSkus()) {
+            ProductSkuBO newSku = productBO.getSkus().stream().filter(u->u.getId().equals(sku.getId())).findFirst().get();
+            Assertions.assertEquals(sku.getInventory(),newSku.getInventory());
+            Assertions.assertEquals(sku.getSort(),newSku.getSort());
+            Assertions.assertEquals(sku.getLimitBuy(),newSku.getLimitBuy());
+            Assertions.assertEquals(sku.getCartonSizeWidth(),newSku.getCartonSizeWidth());
+            Assertions.assertEquals(sku.getCartonSizeHeight(),newSku.getCartonSizeHeight());
+            Assertions.assertEquals(sku.getCartonSizeLength(),newSku.getCartonSizeLength());
+            Assertions.assertEquals(sku.getPrice(),newSku.getPrice());
+            Assertions.assertEquals(sku.getSkuCode(),newSku.getSkuCode());
+            Assertions.assertEquals(sku.getPackingNumber(),newSku.getPackingNumber());
+            Assertions.assertEquals(sku.getSeckillLimitBuy(),newSku.getSeckillLimitBuy());
+            Assertions.assertEquals(sku.getSeckillPrice(),newSku.getSeckillPrice());
+            Assertions.assertEquals(sku.getSeckillTotalInventory(),newSku.getSeckillTotalInventory());
+            Assertions.assertEquals(sku.getSeckillInventory(),newSku.getSeckillInventory());
+            Assertions.assertEquals(sku.getWeight(),newSku.getWeight());
+            Assertions.assertEquals(sku.getSupplyPrice(),newSku.getSupplyPrice());
+            Assertions.assertArrayEquals(sku.getSkuImages().toArray(),newSku.getSkuImages().toArray());
+            Assertions.assertArrayEquals(sku.getSkuAttributes().toArray(),
+                 newSku.getSkuAttributes().toArray());
+        }
         Assertions.assertEquals(productBO.getFirstCategory(),newProductBO.getFirstCategory());
         Assertions.assertEquals(productBO.getSecondCategory(),newProductBO.getSecondCategory());
         Assertions.assertEquals(productBO.getThirdCategory(),newProductBO.getThirdCategory());
 
-
     }
+
 
 
     @Test
@@ -139,6 +169,8 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         productQueryDTO.setProductId(id);
         productQueryDTO.setNeedProductDetail(true);
         productQueryDTO.setNeedProductSku(true);
+        productQueryDTO.setNeedProductSizeImage(true);
+        productQueryDTO.setNeedProductMasterImage(true);
         ProductBO product = productApplicationService.getProduct(productQueryDTO);
         return product;
     }

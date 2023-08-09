@@ -18,7 +18,7 @@ public class ProductDetailConvert {
            productDetail.setDetail(new Detail(po.getDetail()));
            productDetail.setInstallVideoUrl(new Url(po.getInstallVideoUrl()));
            productDetail.setInstallVideoImg(new Url(po.getInstallVideoImg()));
-           productDetail.setInstallDetail(new Detail(po.getDetail()));
+           productDetail.setInstallDetail(new Detail(po.getInstallDetail()));
 
            return productDetail;
        }
