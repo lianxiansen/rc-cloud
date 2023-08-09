@@ -3,7 +3,6 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommend;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductRecommendPO;
 
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ public class ProductRecommendConvert {
 
     public static ProductRecommend convert2ProductRecommend(ProductRecommendPO productRecommendPO) {
         ProductRecommendId id = new ProductRecommendId(productRecommendPO.getId());
-        TenantId tenantId = new TenantId(productRecommendPO.getTenantId());
         ProductId productId = new ProductId(productRecommendPO.getProductId());
         ProductId recommendProductId=new ProductId(productRecommendPO.getRecommendProductId());
         ProductRecommend ProductRecommend = new ProductRecommend(id, productId,recommendProductId);

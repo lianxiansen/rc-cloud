@@ -6,6 +6,8 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.Pro
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductCategoryPO;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
+import com.rc.cloud.common.core.util.IpUtils;
+import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import com.rc.cloud.common.test.annotation.RcTest;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +51,7 @@ public class ProductCategoryControllerIntegratedTest {
     public void setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context)
                 .build();
-        TenantContextHolder.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
+        TenantContextHolder.setTenantId(IpUtils.getHostName());
 
         createRequest = RandomUtils.randomPojo(ProductCategoryCreateRequest.class, o -> {
             o.setName("卡通风");
@@ -158,6 +160,7 @@ public class ProductCategoryControllerIntegratedTest {
     @DisplayName(value = "产品分类列表")
     @Test
     public void findAll() throws Exception {
+        productCategoryMapper.delete(new LambdaQueryWrapperX<>());
         int dataSize = 15;
         for (int i = 0; i < dataSize; i++) {
             ProductCategoryPO po = saveChildProductCategoryPO();

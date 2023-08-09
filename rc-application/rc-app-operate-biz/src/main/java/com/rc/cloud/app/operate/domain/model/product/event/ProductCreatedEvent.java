@@ -1,6 +1,5 @@
 package com.rc.cloud.app.operate.domain.model.product.event;
 
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.DomainEvent;
 
 import java.util.Date;
@@ -15,10 +14,8 @@ public class ProductCreatedEvent implements DomainEvent {
     private int eventVersion;
     private String exclusiveOwner;
     private Date occurredOn;
-    private TenantId tenant;
 
     public ProductCreatedEvent(
-            TenantId tenantId,
             String anExclusiveOwner) {
 
         super();
@@ -26,7 +23,6 @@ public class ProductCreatedEvent implements DomainEvent {
         this.eventVersion = 1;
         this.exclusiveOwner = anExclusiveOwner;
         this.occurredOn = new Date();
-        this.tenant = tenantId;
     }
 
     @Override

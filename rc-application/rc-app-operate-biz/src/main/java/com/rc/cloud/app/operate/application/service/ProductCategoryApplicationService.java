@@ -12,13 +12,37 @@ import java.util.List;
  * @Version 1.0
  */
 public interface ProductCategoryApplicationService {
-    ProductCategoryBO create(ProductCategoryCreateDTO productCreateCategoryDTO);
+    /**
+     * 创建产品分类
+     * @param productCreateCategoryDTO 产品分类创建request
+     * @return 产品分类业务对象
+     */
+    ProductCategoryBO createProductCategory(ProductCategoryCreateDTO productCreateCategoryDTO);
 
-    ProductCategoryBO update(ProductCategoryUpdateDTO productCategoryUpdateDTO);
+    /**
+     * 更新产品分类
+     * @param productCategoryUpdateDTO 产品分类更新request
+     * @return 产品分类业务对象
+     */
+    ProductCategoryBO updateProductCategory(ProductCategoryUpdateDTO productCategoryUpdateDTO);
 
-    boolean remove(String id);
+    /**
+     * 删除产品分类
+     * @param id
+     * @return
+     */
+    boolean removeProductCategory(String id);
 
-    List<ProductCategoryBO> findAll();
+    /**
+     * 获取产品分类列表
+     * @return
+     */
+    List<ProductCategoryBO> findProductCategorys();
 
-    ProductCategoryBO findById(String id);
+    /**
+     * 根据唯一标识查找产品分类
+     * @param id
+     * @return
+     */
+    ProductCategoryBO findProductCategoryById(String id);
 }

@@ -1,11 +1,8 @@
 package com.rc.cloud.app.operate.domain.model.productdetail;
 
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productdetail.identifier.ProductDetailId;
 import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Detail;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.common.core.domain.AbstractId;
+import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Url;
 import com.rc.cloud.common.core.domain.Entity;
 
 /**

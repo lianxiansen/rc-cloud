@@ -1,22 +1,18 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
-import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductAttributeConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductConvert;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductImageConvert;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.*;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductAttributeMapper;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductAttributePO;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductImagePO;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductPO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;

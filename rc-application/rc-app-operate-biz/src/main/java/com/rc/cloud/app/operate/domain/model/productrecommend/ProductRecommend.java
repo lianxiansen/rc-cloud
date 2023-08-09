@@ -2,7 +2,6 @@ package com.rc.cloud.app.operate.domain.model.productrecommend;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.AggregateRoot;
 import com.rc.cloud.common.core.util.AssertUtils;
 

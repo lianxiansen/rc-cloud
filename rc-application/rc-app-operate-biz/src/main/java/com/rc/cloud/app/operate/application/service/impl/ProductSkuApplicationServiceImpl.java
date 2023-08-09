@@ -9,8 +9,6 @@ import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
-import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.IdRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +29,6 @@ public class ProductSkuApplicationServiceImpl implements ProductSkuApplicationSe
     @Autowired
     private ProductSkuRepository productSkuRepository;
 
-    @Autowired
-    private TenantService tenantService;
 
     @Resource
     private IdRepository idRepository;

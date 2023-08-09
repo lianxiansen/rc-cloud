@@ -5,7 +5,6 @@ import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.application.service.impl.ProductApplicationServiceImpl;
-import com.rc.cloud.app.operate.application.service.impl.ProductCategoryApplicationServiceImpl;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.product.ProductService;
@@ -17,7 +16,6 @@ import com.rc.cloud.app.operate.domain.model.productimage.ProductImageService;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuService;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.*;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductCategoryConvert;
-import com.rc.cloud.app.operate.infrastructure.repository.remote.TenantServiceImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
@@ -47,7 +45,6 @@ import java.util.Set;
         ProductDictService.class, ProductDetailService.class
         , ProductRepositoryImpl.class
         , ProductSkuRepositoryImpl.class
-        , TenantServiceImpl.class
         , ProductDictRepositoryImpl.class
         , ProductCategoryConvert.class
         , BrandService.class

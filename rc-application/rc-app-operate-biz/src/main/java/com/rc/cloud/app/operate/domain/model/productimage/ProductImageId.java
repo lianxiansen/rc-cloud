@@ -1,7 +1,5 @@
 package com.rc.cloud.app.operate.domain.model.productimage;
 
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.AbstractId;
 
 /**

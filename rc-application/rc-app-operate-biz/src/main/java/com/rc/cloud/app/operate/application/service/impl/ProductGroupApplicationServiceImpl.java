@@ -7,18 +7,19 @@ import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
 import com.rc.cloud.app.operate.application.service.ProductGroupApplicationService;
 import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductService;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
+import com.rc.cloud.app.operate.domain.model.product.ProductService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.productgroup.*;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupItem;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupItemId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductGroupErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.StringUtils;
-import com.rc.cloud.common.core.util.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +55,7 @@ public class ProductGroupApplicationServiceImpl implements ProductGroupApplicati
         if (Objects.isNull(product)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_NOT_EXISTS);
         }
-        ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()), productId);
+        ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), productGroupCreateDTO.getName(), productId);
         productGroupService.create(productGroup);
         return ProductGroupConvert.convert2ProductGroupBO(productGroup);
     }
@@ -64,7 +65,7 @@ public class ProductGroupApplicationServiceImpl implements ProductGroupApplicati
         if (StringUtils.isEmpty(id)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.ID_NOT_EMPTY);
         }
-        ProductGroup productGroup=productGroupService.findById(new ProductGroupId(id));
+        ProductGroup productGroup = productGroupService.findById(new ProductGroupId(id));
         if (Objects.isNull(productGroup)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NOT_EXISTS);
         }
@@ -84,13 +85,13 @@ public class ProductGroupApplicationServiceImpl implements ProductGroupApplicati
         if (Objects.isNull(product)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_IN_GROUP_NOT_EXISTS);
         }
-        ProductGroupId productGroupId=new ProductGroupId(productGroupItemCreateDTO.getProductGroupId());
+        ProductGroupId productGroupId = new ProductGroupId(productGroupItemCreateDTO.getProductGroupId());
         ProductGroup productGroup = productGroupService.findById(productGroupId);
         if (Objects.isNull(productGroup)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NOT_EXISTS);
         }
         ProductGroupItem item = new ProductGroupItem(new ProductGroupItemId(idRepository.nextId()), productGroup.getId(), productId);
-        ProductGroupItem productGroupItem = productGroupService.createItem(productGroup,item);
+        ProductGroupItem productGroupItem = productGroupService.createItem(productGroup, item);
         ProductGroupItemBO bo = ProductGroupConvert.convert2productGroupItemBO(productGroupItem, product);
         return bo;
     }

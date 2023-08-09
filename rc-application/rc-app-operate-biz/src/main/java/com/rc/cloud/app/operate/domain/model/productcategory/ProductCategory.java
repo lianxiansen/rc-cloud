@@ -6,7 +6,6 @@ import com.rc.cloud.app.operate.domain.common.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.specification.ReInheritShouldNotSpecifyMyselfSpecification;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
 import com.rc.cloud.common.core.domain.AggregateRoot;
 import com.rc.cloud.common.core.exception.ServiceException;
@@ -55,7 +54,7 @@ public class ProductCategory extends AggregateRoot {
 
     private CreateTime createTime;
 
-    ProductCategory(ProductCategoryId id, TenantId tenantId, ChName name) {
+    ProductCategory(ProductCategoryId id, ChName name) {
         setId(id);
         setChName(name);
         init();
@@ -173,6 +172,10 @@ public class ProductCategory extends AggregateRoot {
         return this.sort;
     }
 
+    /**
+     * 继承父级商品分类
+     * @param parent
+     */
     void inheritFrom(ProductCategory parent) {
         AssertUtils.assertArgumentNotNull(parent, "parent must not be null");
         Layer layer = parent.getLayer().increment();
@@ -180,6 +183,10 @@ public class ProductCategory extends AggregateRoot {
         this.parentId = parent.getId();
     }
 
+    /**
+     * 重新继承父级商品分类
+     * @param parent
+     */
     void reInheritFrom(ProductCategory parent) {
         AssertUtils.assertArgumentNotNull(parent, "parent must not be null");
         if (!new ReInheritShouldNotSpecifyMyselfSpecification(parent.getId()).isSatisfiedBy(this)) {
@@ -188,6 +195,9 @@ public class ProductCategory extends AggregateRoot {
         inheritFrom(parent);
     }
 
+    /**
+     * 设为根产品分类
+     */
     void root() {
         this.parentId = null;
         this.setLayer(new Layer(Layer.ROOT));

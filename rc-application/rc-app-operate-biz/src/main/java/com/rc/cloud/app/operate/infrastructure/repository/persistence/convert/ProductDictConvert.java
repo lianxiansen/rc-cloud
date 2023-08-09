@@ -2,7 +2,6 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence.convert;
 
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductDictPO;
 
 import java.util.ArrayList;

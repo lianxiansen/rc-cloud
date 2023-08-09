@@ -16,17 +16,21 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @ClassName: SaveProductCategoryDomainServce
+ * @ClassName: ProductCategoryService
  * @Author: liandy
  * @Date: 2023/7/1 13:29
- * @Description: TODO
+ * @Description: 产品分类服务类
  */
 @Service
 public class ProductCategoryService {
     @Resource
     private ProductCategoryRepository productCategoryRepository;
 
-    
+    /**
+     * 保存产品分类领域对象到资源库
+     * @param productCategory
+     * @return
+     */
     public ProductCategory create(ProductCategory productCategory) {
         if (Objects.nonNull(productCategory.getParentId())) {
             ProductCategory parentCategory = productCategoryRepository.findById(productCategory.getParentId());
@@ -40,7 +44,12 @@ public class ProductCategoryService {
         }
         return productCategory;
     }
-    
+
+    /**
+     * 保存产品分类领域对象到资源库
+     * @param productCategory
+     * @return
+     */
     public boolean update(ProductCategory productCategory) {
         List<ProductCategory> allList = productCategoryRepository.findAll();
         if (Objects.nonNull(productCategory.getParentId())) {
@@ -56,16 +65,16 @@ public class ProductCategoryService {
         reInheritCascade(allList, productCategory);
         return productCategoryRepository.save(productCategory);
     }
-    
+
     public List<ProductCategory> findAll() {
         return productCategoryRepository.findAll();
     }
 
-    
+
     public boolean remove(ProductCategory productCategory) {
         AssertUtils.notNull(productCategory, "productCategory must not be null");
         if(Objects.isNull(productCategory)){
-            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
+            throw new ServiceException(ProductCategoryErrorCodeConstants.PRODUCT_CATEGORY_NOT_EXISTS);
         }
         if (!new RemoveShouldNotHasChildSpecification(productCategoryRepository).isSatisfiedBy(productCategory)) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.REMOVE_SHOULD_NOT_HAS_CHILD);
@@ -91,7 +100,7 @@ public class ProductCategoryService {
 
     }
 
-    public List<ProductCategory> findSubList(List<ProductCategory> allList, ProductCategory parent) {
+    private List<ProductCategory> findSubList(List<ProductCategory> allList, ProductCategory parent) {
         AssertUtils.notNull(allList, "allList must not be null");
         AssertUtils.notNull(parent, "parent must not be null");
         List<ProductCategory> list = new ArrayList<>();
@@ -102,19 +111,19 @@ public class ProductCategoryService {
         });
         return list;
     }
-    
+
     public void enable(ProductCategory productCategory) {
         AssertUtils.notNull(productCategory, "productCategory must be not null");
         productCategory.enable();
         productCategoryRepository.save(productCategory);
     }
-    
+
     public void disable(ProductCategory productCategory) {
         AssertUtils.notNull(productCategory, "productCategory must be not null");
         productCategory.enable();
         productCategoryRepository.save(productCategory);
     }
-    
+
     public ProductCategory findById(ProductCategoryId productCategoryId) {
         AssertUtils.notNull(productCategoryId, "productCategoryId must be not null");
         return productCategoryRepository.findById(productCategoryId);

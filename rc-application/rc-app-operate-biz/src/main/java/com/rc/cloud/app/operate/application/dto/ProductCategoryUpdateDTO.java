@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
  * @ClassName: ProductCategoryUpdateRequest
  * @Author: liandy
  * @Date: 2023/7/3 09:26
- * @Description: TODO
+ * @Description: 产品分类更新request
  */
 @Data
 @Accessors(chain = true)

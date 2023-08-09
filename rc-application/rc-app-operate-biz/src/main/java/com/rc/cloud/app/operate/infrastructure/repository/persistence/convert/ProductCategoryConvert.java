@@ -7,7 +7,6 @@ import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRebuildFactory;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductCategoryPO;
 import com.rc.cloud.common.core.annotation.Convert;
 import com.rc.cloud.common.core.util.StringUtils;
@@ -50,10 +49,9 @@ public class ProductCategoryConvert {
             return null;
         }
         ProductCategoryId id = new ProductCategoryId(productCategoryPO.getId());
-        TenantId tenantId = new TenantId(productCategoryPO.getTenantId());
         ChName name = new ChName(productCategoryPO.getName());
         CreateTime createTime = new CreateTime(productCategoryPO.getCreateTime());
-        ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder = productCategoryRebuildFactory.create(id, tenantId, name, createTime);
+        ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder = productCategoryRebuildFactory.create(id, name, createTime);
 
         rebuilder.enName(new EnName(productCategoryPO.getEnglishName()));
         rebuilder.icon(new Icon(productCategoryPO.getIcon()));

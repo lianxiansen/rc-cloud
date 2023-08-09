@@ -11,7 +11,6 @@ import com.rc.cloud.app.operate.domain.model.brand.Brand;
 import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.infrastructure.constants.BrandErrorCodeConstants;
-import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageParam;
@@ -40,6 +39,68 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
         if(StringUtils.isEmpty(createBrandDTO.getName())){
             throw new ServiceException(BrandErrorCodeConstants.NAME_NOT_EMPTY);
         }
+        Brand brand = buildBrand(createBrandDTO);
+        brandService.save(brand);
+        return BrandConvert.convert(brand);
+    }
+
+
+    @Override
+    public BrandBO update(BrandUpdateDTO updateBrandDTO) {
+        if (StringUtils.isEmpty(updateBrandDTO.getId())) {
+            throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
+        }
+        Brand brand = brandService.findById(new BrandId(updateBrandDTO.getId()));
+        if (Objects.isNull(brand)) {
+            throw new ServiceException(BrandErrorCodeConstants.BRAND_NOT_EXISTS);
+        }
+        rebuild(updateBrandDTO, brand);
+        brandService.save(brand);
+        return BrandConvert.convert(brand);
+    }
+
+    @Override
+    public boolean remove(String id) {
+        if (StringUtils.isEmpty(id)) {
+            throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
+        }
+        Brand brand= brandService.findById(new BrandId(id));
+        if(Objects.isNull(brand)){
+            throw new ServiceException(BrandErrorCodeConstants.BRAND_NOT_EXISTS);
+        }
+
+        return brandService.remove(brand);
+    }
+
+    @Override
+    public PageResult<BrandBO> selectPageResult(BrandQueryPageDTO queryBrandDTO) {
+        initialize(queryBrandDTO);
+        PageResult<Brand> brandPageResult = brandService.selectPageResult(queryBrandDTO.getPageNo(), queryBrandDTO.getPageSize(), queryBrandDTO.getName());
+        return BrandConvert.convert2PageResult(brandPageResult);
+    }
+
+
+
+    @Override
+    public BrandBO findById(String id){
+        if (StringUtils.isEmpty(id)) {
+            throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
+        }
+        return BrandConvert.convert(brandService.findById(new BrandId(id)));
+    }
+
+    @Override
+    public List<BrandBO> findList(BrandQueryDTO brandQuery) {
+        List<Brand> brands=brandService.findList(brandQuery.getName());
+        return BrandConvert.convertBatch(brands);
+    }
+
+    /**
+     * 创建品牌
+     * @param createBrandDTO
+     * @return
+     */
+    private Brand buildBrand(BrandCreateDTO createBrandDTO) {
         Brand brand = new Brand(new BrandId(idRepository.nextId()), createBrandDTO.getName());
         if(StringUtils.isNotEmpty(createBrandDTO.getLogo())){
             brand.setLogo(createBrandDTO.getLogo());
@@ -58,20 +119,15 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
         if (StringUtils.isNotEmpty(createBrandDTO.getType())) {
             brand.setType(createBrandDTO.getType());
         }
-        brandService.save(brand);
-        return BrandConvert.convert(brand);
+        return brand;
     }
 
-
-    @Override
-    public BrandBO update(BrandUpdateDTO updateBrandDTO) {
-        if (StringUtils.isEmpty(updateBrandDTO.getId())) {
-            throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
-        }
-        Brand brand = brandService.findById(new BrandId(updateBrandDTO.getId()));
-        if (Objects.isNull(brand)) {
-            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
-        }
+    /**
+     * 重新构建品牌
+     * @param updateBrandDTO
+     * @param brand
+     */
+    private void rebuild(BrandUpdateDTO updateBrandDTO, Brand brand) {
         if (Objects.nonNull(updateBrandDTO.getName())) {
             if(StringUtils.isEmpty(updateBrandDTO.getName())){
                 throw new ServiceException(BrandErrorCodeConstants.NAME_NOT_EMPTY);
@@ -94,52 +150,17 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
         if (Objects.nonNull(updateBrandDTO.getType())) {
             brand.setType(updateBrandDTO.getType());
         }
-        brandService.save(brand);
-        return BrandConvert.convert(brand);
     }
-
-
-    @Override
-    public boolean remove(String id) {
-        if (StringUtils.isEmpty(id)) {
-            throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
-        }
-        BrandId brandId=new BrandId(id);
-        Brand brand= brandService.findById(new BrandId(id));
-        if(Objects.isNull(brand)){
-            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
-        }
-
-        return brandService.remove(brand);
-    }
-
-    @Override
-    public PageResult<BrandBO> selectPageResult(BrandQueryPageDTO queryBrandDTO) {
-        if(null==queryBrandDTO.getPageNo()){
+    private void initialize(BrandQueryPageDTO queryBrandDTO) {
+        if(null== queryBrandDTO.getPageNo()){
             queryBrandDTO.setPageNo(PageParam.PAGE_NO);
         }
-        if(null==queryBrandDTO.getPageSize()){
+        if(null== queryBrandDTO.getPageSize()){
             queryBrandDTO.setPageSize(PageParam.PAGE_SIZE);
         }
         if(queryBrandDTO.getPageSize().intValue()>PageParam.MAX_PAGE_SIZE){
             queryBrandDTO.setPageSize(PageParam.MAX_PAGE_SIZE);
         }
-        PageResult<Brand> brandPageResult = brandService.selectPageResult(queryBrandDTO.getPageNo(), queryBrandDTO.getPageSize(), queryBrandDTO.getName());
-        return BrandConvert.convert2PageResult(brandPageResult);
-    }
-
-    @Override
-    public BrandBO findById(String id){
-        if (StringUtils.isEmpty(id)) {
-            throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
-        }
-        return BrandConvert.convert(brandService.findById(new BrandId(id)));
-    }
-
-    @Override
-    public List<BrandBO> findList(BrandQueryDTO brandQuery) {
-        List<Brand> brands=brandService.findList(brandQuery.getName());
-        return BrandConvert.convertBatch(brands);
     }
 }
 

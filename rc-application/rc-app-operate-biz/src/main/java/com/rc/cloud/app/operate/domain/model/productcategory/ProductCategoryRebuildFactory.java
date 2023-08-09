@@ -5,19 +5,18 @@ import com.rc.cloud.app.operate.domain.common.valobj.Enabled;
 import com.rc.cloud.app.operate.domain.common.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.*;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.annotation.Factory;
 
 /**
  * @ClassName: ProductCategoryRebuildFactory
  * @Author: liandy
  * @Date: 2023/7/12 17:06
- * @Description: TODO
+ * @Description: 产品分类重建工厂
  */
 @Factory
 public class ProductCategoryRebuildFactory {
-    public ProductCategoryRebuilder create(ProductCategoryId id, TenantId tenantId, ChName name, CreateTime createTime) {
-        return new ProductCategoryRebuilder(id, tenantId, name, createTime);
+    public ProductCategoryRebuilder create(ProductCategoryId id, ChName name, CreateTime createTime) {
+        return new ProductCategoryRebuilder(id, name, createTime);
     }
 
     public ProductCategoryRebuilder create(ProductCategory productCategory) {
@@ -31,8 +30,8 @@ public class ProductCategoryRebuildFactory {
             this.productCategory = productCategory;
         }
 
-        public ProductCategoryRebuilder(ProductCategoryId id, TenantId tenantId, ChName name, CreateTime createTime) {
-            productCategory = new ProductCategory(id, tenantId, name);
+        public ProductCategoryRebuilder(ProductCategoryId id, ChName name, CreateTime createTime) {
+            productCategory = new ProductCategory(id, name);
             productCategory.setCreateTime(createTime);
         }
 
