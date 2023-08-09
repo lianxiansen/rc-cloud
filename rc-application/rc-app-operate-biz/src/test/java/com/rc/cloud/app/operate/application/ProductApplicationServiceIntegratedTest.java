@@ -41,7 +41,7 @@ import java.util.List;
         , BrandService.class
         , BrandRepositoryImpl.class
         , ProductDetailRepositoryImpl.class})
-public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
+public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
 
     @Autowired
     ProductApplicationService productApplicationService;
@@ -68,8 +68,26 @@ public class ProductApplicationServiceUnitTest extends BaseDbUnitTest {
         //校验是否相等
         Assertions.assertEquals(productBO,newProductBO);
 
+    }
+
+
+    @Test
+    @DisplayName("修改商品")
+    public void updateProduct() {
+        ProductQueryDTO productQueryDTO=new ProductQueryDTO();
+        productQueryDTO.setProductId("eae9d95a-3b69-43bb-9038-3309560");
+
+        ProductBO productBO = productApplicationService.getProduct(productQueryDTO);
+
+        String id = productBO.getId();
+
+        ProductBO newProductBO = getProduct(id);
+        //校验是否相等
+        Assertions.assertEquals(productBO,newProductBO);
 
     }
+
+
 
     public ProductBO getProduct(String id){
         ProductQueryDTO productQueryDTO=new ProductQueryDTO();
