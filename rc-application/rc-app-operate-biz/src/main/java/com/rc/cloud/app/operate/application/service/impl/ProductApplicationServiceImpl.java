@@ -453,5 +453,13 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         return 1;
     }
 
-
+    @Override
+    public int changeExplosivesStatus(String productId, boolean explosivesFlag,String explosivesImage) {
+        if(explosivesFlag){
+            productService.setExplosives(new ProductId(productId),explosivesImage);
+        }else{
+            productService.cancelExplosives(new ProductId(productId));
+        }
+        return 1;
+    }
 }

@@ -127,6 +127,13 @@ public class ProductController {
     }
 
 
+    @PostMapping("changeExplosivesStatus")
+    @Operation(summary = "修改Explosives字段，以及上传爆品图片")
+    public CodeResult<Long> changeExplosivesStatus(@Valid @RequestBody ProductChangeExplosivesDTO dto){
+        productApplicationService.changeExplosivesStatus(dto.getProductId(),dto.isExplosivesFlag() ,dto.getExplosivesImage());
+        return CodeResult.ok();
+    }
+
 
 
 }

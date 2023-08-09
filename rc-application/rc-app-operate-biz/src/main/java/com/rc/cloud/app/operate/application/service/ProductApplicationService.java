@@ -70,5 +70,8 @@ public interface ProductApplicationService {
 
      int changeRecommendStatus(String productId, boolean recommendFlag);
 
+    int changeExplosivesStatus(String productId, boolean explosivesFlag,String explosivesImage);
+
+
 
 }

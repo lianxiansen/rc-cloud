@@ -149,19 +149,14 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
     @Test
     @DisplayName("修改商品")
     public void updateProduct() {
-        ProductQueryDTO productQueryDTO=new ProductQueryDTO();
-        productQueryDTO.setProductId("eae9d95a-3b69-43bb-9038-3309560");
 
-        ProductBO productBO = productApplicationService.getProduct(productQueryDTO);
+        ProductSaveDTO productSaveDTO=createProductSaveDTO();
+        productSaveDTO.setId("eae9d95a-3b69-43bb-9038-3309560");
+        productApplicationService.updateProduct(productSaveDTO);
 
-        String id = productBO.getId();
-
-        ProductBO newProductBO = getProduct(id);
-        //校验是否相等
 
 
     }
-
 
 
     public ProductBO getProduct(String id){
@@ -178,14 +173,14 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
 
 
     private String attrbute[]= new String[]{
-            "颜色","尺寸"
+            "颜色","规格"
     };
     private String attrbuteValue[][]= new String[][]{
             new String[]{
                     "红","黄","蓝"
             },
             new String[]{
-                    "X","XL","XLL"
+                    "X","XL"
             }
     };
 
