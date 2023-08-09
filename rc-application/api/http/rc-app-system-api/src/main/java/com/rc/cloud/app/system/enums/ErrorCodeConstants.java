@@ -107,7 +107,7 @@ public interface ErrorCodeConstants {
     ErrorCode TENANT_EXPIRE = new ErrorCode(1002015002, "名字为【{}】的租户已过期");
     ErrorCode TENANT_CAN_NOT_UPDATE_SYSTEM = new ErrorCode(1002015003, "系统租户不能进行修改、删除等操作！");
     ErrorCode TENANT_NAME_DUPLICATE = new ErrorCode(1002015004, "名字为【{}】的租户已存在");
-
+    ErrorCode TENANT_ID_INVALID = new ErrorCode(1002015000, "租户唯一标识无效");
     // ========== 租户套餐 1002016000 ==========
     ErrorCode TENANT_PACKAGE_NOT_EXISTS = new ErrorCode(1002016000, "租户套餐不存在");
     ErrorCode TENANT_PACKAGE_USED = new ErrorCode(1002016001, "租户正在使用该套餐，请给租户重新设置套餐后再尝试删除");

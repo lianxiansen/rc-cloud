@@ -23,7 +23,7 @@ public class BrandConvert {
         brandPO.setName(brand.getName());
         brandPO.setType(brand.getType());
         brandPO.setSort(brand.getSort());
-        brandPO.setEnabledFlag(brand.isEnabled());
+        brandPO.setEnabled(brand.isEnabled());
         brandPO.setLogo(brand.getLogo());
         return brandPO;
     }
@@ -32,7 +32,7 @@ public class BrandConvert {
         Brand brand = new Brand(new BrandId(brandPO.getId()), brandPO.getName());
         brand.setType(brandPO.getType());
         brand.setSort(brandPO.getSort());
-        if (brandPO.isEnabledFlag()) {
+        if (brandPO.isEnabled()) {
             brand.enable();
         } else {
             brand.disable();

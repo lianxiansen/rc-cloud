@@ -13,7 +13,7 @@ spring:
     allow-circular-references: true # 允许循环依赖，因为项目是三层架构，无法避免这个情况。
   # 激活环境配置
   profiles:
-    active: dev
+    active: local
   # 文件编码 UTF8
   mandatory-file-encoding: UTF-8
   cloud:

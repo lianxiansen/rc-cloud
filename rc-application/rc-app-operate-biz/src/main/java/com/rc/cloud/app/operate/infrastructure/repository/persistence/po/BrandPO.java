@@ -24,7 +24,7 @@ public class BrandPO extends BaseDO {
     private String type;
 
     @TableField("enabled_flag")
-    private boolean enabledFlag;
+    private boolean enabled;
 
     @TableField("sort")
     private Integer sort;

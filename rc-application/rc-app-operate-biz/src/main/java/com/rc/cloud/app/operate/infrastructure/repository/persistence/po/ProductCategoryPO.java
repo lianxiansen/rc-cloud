@@ -3,7 +3,6 @@ package com.rc.cloud.app.operate.infrastructure.repository.persistence.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import com.rc.cloud.common.mybatis.core.dataobject.TenantBaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -39,7 +38,7 @@ public class ProductCategoryPO extends TenantBaseDO {
     private Integer layer;
 
     @TableField("enabled_flag")
-    private Boolean enabledFlag;
+    private Boolean enabled;
 
     @TableField("sort")
     private Integer sort;

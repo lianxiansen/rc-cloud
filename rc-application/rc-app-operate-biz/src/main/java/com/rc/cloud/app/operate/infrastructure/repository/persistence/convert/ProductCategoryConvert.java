@@ -35,7 +35,7 @@ public class ProductCategoryConvert {
         target.setProductCategoryPageImage(source.getPage().getCategoryImage());
         target.setProductListPageImage(source.getPage().getListImage());
         target.setLayer(source.getLayer().getValue());
-        target.setEnabledFlag(source.getEnabled().value());
+        target.setEnabled(source.getEnabled().value());
         target.setIcon(source.getIcon().getPictureUrl());
         target.setName(source.getChName().value());
         target.setEnglishName(source.getEnName().value());
@@ -57,8 +57,8 @@ public class ProductCategoryConvert {
 
         rebuilder.enName(new EnName(productCategoryPO.getEnglishName()));
         rebuilder.icon(new Icon(productCategoryPO.getIcon()));
-        if (Objects.nonNull(productCategoryPO.getEnabledFlag())) {
-            rebuilder.setEnabled(new Enabled(productCategoryPO.getEnabledFlag()));
+        if (Objects.nonNull(productCategoryPO.getEnabled())) {
+            rebuilder.setEnabled(new Enabled(productCategoryPO.getEnabled()));
         }
         rebuilder.page(new Page(productCategoryPO.getProductCategoryPageImage(), productCategoryPO.getProductListPageImage()));
         rebuilder.sort(new Sort(productCategoryPO.getSort()));

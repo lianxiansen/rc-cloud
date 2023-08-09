@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.rc.cloud.common.tenant.config.TenantProperties;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.StringValue;
 
 import java.util.HashSet;
@@ -32,7 +31,7 @@ public class TenantDatabaseInterceptor implements TenantLineHandler {
 
     @Override
     public Expression getTenantId() {
-        return new LongValue(TenantContextHolder.getRequiredTenantId());
+        return new StringValue(TenantContextHolder.getRequiredTenantId());
     }
 
     @Override

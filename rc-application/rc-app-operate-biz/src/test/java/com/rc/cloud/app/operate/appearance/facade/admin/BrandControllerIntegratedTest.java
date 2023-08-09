@@ -1,34 +1,28 @@
 package com.rc.cloud.app.operate.appearance.facade.admin;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
-import com.rc.cloud.app.operate.appearance.admin.resp.BrandResponse;
-import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
-import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
-import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
+import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandCreateRequest;
+import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandUpdateRequest;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.BrandMapper;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.BrandPO;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.util.TenantContext;
-import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.test.annotation.RcTest;
-import com.rc.cloud.common.test.core.util.AssertUtils;
-import org.junit.jupiter.api.Assertions;
+import com.rc.cloud.common.test.core.util.RandomUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 import java.nio.charset.Charset;
-import java.util.Objects;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RcTest
@@ -39,26 +33,39 @@ public class BrandControllerIntegratedTest {
 
     @Resource
     private IdRepository idRepository;
-    private String brandId;
-    private String name;
-    private String logo;
-    private String type;
-    private Boolean enabled;
-    private Integer sort;
     @Autowired
-    private BrandRepository brandRepository;
+    private BrandMapper brandMapper;
+    private BrandCreateRequest brandCreateRequest;
+    private BrandUpdateRequest brandUpdateRequest;
 
     @BeforeEach
     public void setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context)
                 .build();
         TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
-        brandId = "f7570440-f052-462c-b6a8-984b799";
-        name = RandomUtils.randomString();
-        logo = RandomUtils.randomString();
-        type = RandomUtils.randomString();
-        enabled = true;
-        sort = 1;
+        brandCreateRequest = RandomUtils.randomPojo(BrandCreateRequest.class, o -> {
+            o.setName("振信");
+            o.setLogo("http://zx.zjffcat.com/storage/uploads/20210713/08885d526a7eeb318aae72d710ef5ea0.jpg");
+            o.setEnabled(true);
+            o.setType("自有");
+            o.setSort(99);
+        });
+
+        brandCreateRequest = RandomUtils.randomPojo(BrandCreateRequest.class, o -> {
+            o.setName("振信");
+            o.setLogo("http://zx.zjffcat.com/storage/uploads/20210713/08885d526a7eeb318aae72d710ef5ea0.jpg");
+            o.setEnabled(true);
+            o.setType("自有");
+            o.setSort(99);
+        });
+
+        brandUpdateRequest = RandomUtils.randomPojo(BrandUpdateRequest.class, o -> {
+            o.setName("振国");
+            o.setLogo("http://zx.zjffcat.com/storage/uploads/20210713/08885d526a7eeb318aae72d710ef5ea0123.jpg");
+            o.setEnabled(false);
+            o.setType("公有");
+            o.setSort(1);
+        });
     }
 
 
@@ -66,113 +73,155 @@ public class BrandControllerIntegratedTest {
     @Test
     public void create() throws Exception {
         String requestBody = "{\n" +
-                "  \"id\" : \"" + brandId + "\",\n" +
-                "  \"name\" : \"" + name + "\",\n" +
-                "  \"logo\" : \"" + logo + "\",\n" +
-                "  \"type\" : \"" + type + "\",\n" +
-                "  \"enabled\" : " + enabled + ",\n" +
-                "  \"sort\" : " + sort.toString() + "\n" +
+                "  \"name\" : \"" + brandCreateRequest.getName() + "\",\n" +
+                "  \"logo\" : \"" + brandCreateRequest.getLogo() + "\",\n" +
+                "  \"type\" : \"" + brandCreateRequest.getType() + "\",\n" +
+                "  \"enabled\" : " + brandCreateRequest.getEnabled() + ",\n" +
+                "  \"sort\" : " + brandCreateRequest.getSort().intValue() + "\n" +
                 "}";
-        MvcResult result = mvc.perform(post("/admin/brand/create")
+        mvc.perform(post("/admin/brand/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk()).andReturn();
-        String actural = result.getResponse().getContentAsString(Charset.defaultCharset());
-        CodeResult<BrandResponse> brandResponse = JSON.parseObject(actural, new TypeReference<CodeResult<BrandResponse>>() {
-        });
-        String brandId = brandResponse.getData().getId();
-        Brand brand = brandRepository.findById(new BrandId(brandId));
-        Assertions.assertTrue(name.equals(brand.getName()) &&
-                logo.equals(brand.getLogo()) &&
-                type.equals(brand.getType()) &&
-                enabled.booleanValue() && brand.isEnabled() &&
-                sort.equals(brand.getSort())
-        );
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.id").isNotEmpty())
+                .andExpect(jsonPath("$.data.name").value(brandCreateRequest.getName()))
+                .andExpect(jsonPath("$.data.logo").value(brandCreateRequest.getLogo()))
+                .andExpect(jsonPath("$.data.type").value(brandCreateRequest.getType()))
+                .andExpect(jsonPath("$.data.sort").value(brandCreateRequest.getSort()))
+                .andExpect(jsonPath("$.data.enabled").value(brandCreateRequest.getEnabled()));
     }
 
     @DisplayName(value = "更新品牌")
     @Test
     public void update() throws Exception {
+        BrandPO po = saveBrandPO();
         String requestBody = "{\n" +
-                "  \"id\" : \"" + brandId + "\",\n" +
-                "  \"name\" : \"" + name + "\",\n" +
-                "  \"logo\" : \"" + logo + "\",\n" +
-                "  \"type\" : \"" + type + "\",\n" +
-                "  \"enabled\" : " + enabled + ",\n" +
-                "  \"sort\" : " + sort.toString() + "\n" +
+                "  \"id\" : \"" + po.getId() + "\",\n" +
+                "  \"name\" : \"" + brandUpdateRequest.getName() + "\",\n" +
+                "  \"logo\" : \"" + brandUpdateRequest.getLogo() + "\",\n" +
+                "  \"type\" : \"" + brandUpdateRequest.getType() + "\",\n" +
+                "  \"enabled\" : " + brandUpdateRequest.getEnabled() + ",\n" +
+                "  \"sort\" : " + brandUpdateRequest.getSort().intValue() + "\n" +
                 "}";
-        MvcResult result = mvc.perform(put("/admin/brand/update")
+        mvc.perform(put("/admin/brand/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andReturn();
-        String actural = result.getResponse().getContentAsString(Charset.defaultCharset());
-        CodeResult<BrandResponse> brandResponse = JSON.parseObject(actural, new TypeReference<CodeResult<BrandResponse>>() {
-        });
-        Brand brand = brandRepository.findById(new BrandId(brandId));
-        Assertions.assertTrue(brandId.equals(brand.getId().id()) &&
-                name.equals(brand.getName()) &&
-                logo.equals(brand.getLogo()) &&
-                type.equals(brand.getType()) &&
-                enabled.booleanValue() && brand.isEnabled() &&
-                sort.equals(brand.getSort())
-        );
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.id").value(po.getId()))
+                .andExpect(jsonPath("$.data.name").value(brandUpdateRequest.getName()))
+                .andExpect(jsonPath("$.data.logo").value(brandUpdateRequest.getLogo()))
+                .andExpect(jsonPath("$.data.type").value(brandUpdateRequest.getType()))
+                .andExpect(jsonPath("$.data.sort").value(brandUpdateRequest.getSort()))
+                .andExpect(jsonPath("$.data.enabled").value(brandUpdateRequest.getEnabled()));
     }
 
 
     @DisplayName(value = "删除品牌")
     @Test
     public void remove() throws Exception {
-        mvc.perform(delete("/admin/brand/remove").param("id", brandId))
-                .andDo(print()).andReturn();
-        Brand brand = brandRepository.findById(new BrandId(brandId));
-        Assertions.assertTrue(Objects.isNull(brand));
+        BrandPO po = saveBrandPO();
+        mvc.perform(delete("/admin/brand/remove").param("id", po.getId()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true));
     }
+
 
     @DisplayName(value = "品牌分页查询")
     @Test
     public void selectPageResult() throws Exception {
-        MvcResult mvcResult=mvc.perform(get("/admin/brand/selectPageResult")
+        //数据准备
+        int dataSize = 15;
+        for (int i = 0; i < dataSize; i++) {
+            saveBrandPO();
+        }
+        //执行、验证
+        mvc.perform(get("/admin/brand/selectPageResult")
                         .param("pageNo", "1")
                         .param("pageSize", "10")
-                        .param("name", "振信")
+                        .param("name", brandCreateRequest.getName())
                         .characterEncoding(Charset.defaultCharset())
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andReturn();
-        String actual=mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
-        String expected="{\"success\":true,\"code\":200,\"msg\":\"成功\",\"data\":{\"list\":[{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b722\"},{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b721\"},{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b720\"}],\"total\":3}}";
-        AssertUtils.assertJsonEquals(expected,actual);
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.total").value(dataSize))
+                .andExpect(jsonPath("$.data.list").isArray())
+                .andExpect(jsonPath("$.data.list[0].id").isNotEmpty())
+                .andExpect(jsonPath("$.data.list[0].name").value(brandCreateRequest.getName()))
+                .andExpect(jsonPath("$.data.list[0].logo").value(brandCreateRequest.getLogo()))
+                .andExpect(jsonPath("$.data.list[0].type").value(brandCreateRequest.getType()))
+                .andExpect(jsonPath("$.data.list[0].sort").value(brandCreateRequest.getSort()))
+                .andExpect(jsonPath("$.data.list[0].enabled").value(brandCreateRequest.getEnabled()));
     }
 
     @DisplayName(value = "根据唯一标识查找品牌")
     @Test
     public void findById() throws Exception {
-        MvcResult mvcResult=mvc.perform(get("/admin/brand/findById")
-                        .param("id", brandId)
+        BrandPO po = saveBrandPO();
+        mvc.perform(get("/admin/brand/findById")
+                        .param("id", po.getId())
                         .characterEncoding(Charset.defaultCharset())
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andReturn();
-        String actual=mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
-        String expected="{\"success\":true,\"code\":200,\"msg\":\"成功\",\"data\":{\"name\":\"1bkcfjmq6x\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b799\"}}";
-        AssertUtils.assertJsonEquals(expected,actual);
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.id").value(po.getId()))
+                .andExpect(jsonPath("$.data.name").value(brandCreateRequest.getName()))
+                .andExpect(jsonPath("$.data.logo").value(brandCreateRequest.getLogo()))
+                .andExpect(jsonPath("$.data.type").value(brandCreateRequest.getType()))
+                .andExpect(jsonPath("$.data.sort").value(brandCreateRequest.getSort()))
+                .andExpect(jsonPath("$.data.enabled").value(brandCreateRequest.getEnabled()));
     }
 
     @DisplayName(value = "品牌列表查询")
     @Test
     public void findList() throws Exception {
-        MvcResult mvcResult=mvc.perform(get("/admin/brand/findList")
+        //数据准备
+        int dataSize = 15;
+        for (int i = 0; i < dataSize; i++) {
+            saveBrandPO();
+        }
+        //执行验证
+        mvc.perform(get("/admin/brand/findList")
                         .param("name", "振信")
                         .characterEncoding(Charset.defaultCharset())
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print()).andReturn();
-        String actual=mvcResult.getResponse().getContentAsString(Charset.defaultCharset());
-        String expected="{\"success\":true,\"code\":200,\"msg\":\"成功\",\"data\":[{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b722\"},{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b721\"},{\"name\":\"振信\",\"logo\":\"logo\",\"type\":\"mawb99yi9m\",\"sort\":99,\"enabled\":true,\"createTime\":\"2023-07-18 09:32:13\",\"id\":\"f7570440-f052-462c-b6a8-984b720\"}]}";
-        AssertUtils.assertJsonEquals(expected,actual);
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value(200))
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data").isArray())
+                .andExpect(jsonPath("$.data[0].id").isNotEmpty())
+                .andExpect(jsonPath("$.data[0].name").value(brandCreateRequest.getName()))
+                .andExpect(jsonPath("$.data[0].logo").value(brandCreateRequest.getLogo()))
+                .andExpect(jsonPath("$.data[0].type").value(brandCreateRequest.getType()))
+                .andExpect(jsonPath("$.data[0].sort").value(brandCreateRequest.getSort()))
+                .andExpect(jsonPath("$.data[0].enabled").value(brandCreateRequest.getEnabled()));
     }
 
-
+    private BrandPO saveBrandPO() {
+        BrandPO po = new BrandPO();
+        po.setId(idRepository.nextId());
+        po.setName(brandCreateRequest.getName());
+        po.setLogo(brandCreateRequest.getLogo());
+        po.setSort(brandCreateRequest.getSort());
+        po.setType(brandCreateRequest.getType());
+        po.setEnabled(brandCreateRequest.getEnabled());
+        brandMapper.insert(po);
+        return po;
+    }
 }

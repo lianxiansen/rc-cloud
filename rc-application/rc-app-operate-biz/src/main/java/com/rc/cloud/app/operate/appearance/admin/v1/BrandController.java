@@ -1,6 +1,10 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
-import com.rc.cloud.app.operate.appearance.admin.resp.BrandResponse;
+import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandCreateRequest;
+import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandQueryPageRequest;
+import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandQueryRequest;
+import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandUpdateRequest;
+import com.rc.cloud.app.operate.appearance.admin.v1.res.BrandResponse;
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.app.operate.application.dto.BrandCreateDTO;
 import com.rc.cloud.app.operate.application.dto.BrandQueryDTO;
@@ -9,8 +13,10 @@ import com.rc.cloud.app.operate.application.dto.BrandUpdateDTO;
 import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.web.filter.RepeatSubmit;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,18 +33,22 @@ public class BrandController {
 
     @Autowired
     private BrandApplicationService brandApplicationService;
-
+    @RepeatSubmit
     @PostMapping("create")
     @Operation(summary = "创建品牌")
-    public CodeResult<BrandResponse> create(@Valid @RequestBody BrandCreateDTO brandCreateDTO) {
-        return CodeResult.ok(BrandResponse.from(brandApplicationService.create(brandCreateDTO)));
+    public CodeResult<BrandResponse> create(@Valid @RequestBody BrandCreateRequest request) {
+        BrandCreateDTO dto=new BrandCreateDTO();
+        BeanUtils.copyProperties(request,dto);
+        return CodeResult.ok(BrandResponse.from(brandApplicationService.create(dto)));
     }
 
-
+    @RepeatSubmit
     @PutMapping("update")
     @Operation(summary = "更新品牌")
-    public CodeResult<BrandResponse> update(@Valid @RequestBody BrandUpdateDTO brandUpdateDTO) {
-        return CodeResult.ok(BrandResponse.from(brandApplicationService.update(brandUpdateDTO)));
+    public CodeResult<BrandResponse> update(@Valid @RequestBody BrandUpdateRequest request) {
+        BrandUpdateDTO dto=new BrandUpdateDTO();
+        BeanUtils.copyProperties(request,dto);
+        return CodeResult.ok(BrandResponse.from(brandApplicationService.update(dto)));
     }
 
     @DeleteMapping("remove")
@@ -53,8 +63,10 @@ public class BrandController {
 
     @GetMapping("selectPageResult")
     @Operation(summary = "品牌分页查询")
-    public CodeResult<PageResult<BrandResponse>> selectPageResult(@Valid BrandQueryPageDTO brandQueryPageDTO) {
-        PageResult<BrandBO> boList = brandApplicationService.selectPageResult(brandQueryPageDTO);
+    public CodeResult<PageResult<BrandResponse>> selectPageResult(@Valid BrandQueryPageRequest request) {
+        BrandQueryPageDTO dto=new BrandQueryPageDTO();
+        BeanUtils.copyProperties(request,dto);
+        PageResult<BrandBO> boList = brandApplicationService.selectPageResult(dto);
         return CodeResult.ok(BrandResponse.from(boList));
     }
 
@@ -69,8 +81,10 @@ public class BrandController {
 
     @GetMapping("findList")
     @Operation(summary = "品牌列表查询")
-    public CodeResult<List<BrandResponse>> findList(@Valid BrandQueryDTO brandQuery) {
-        List<BrandBO> boList = brandApplicationService.findList(brandQuery);
+    public CodeResult<List<BrandResponse>> findList(@Valid BrandQueryRequest request) {
+        BrandQueryDTO dto=new BrandQueryDTO();
+        BeanUtils.copyProperties(request,dto);
+        List<BrandBO> boList = brandApplicationService.findList(dto);
         return CodeResult.ok(BrandResponse.from(boList));
     }
 
