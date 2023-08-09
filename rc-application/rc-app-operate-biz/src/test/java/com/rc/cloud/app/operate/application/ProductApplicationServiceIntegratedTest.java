@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.application;
 
 import com.rc.cloud.app.operate.application.bo.*;
 import com.rc.cloud.app.operate.application.dto.*;
+import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
 import com.rc.cloud.app.operate.application.service.impl.ProductApplicationServiceImpl;
 import com.rc.cloud.app.operate.application.service.impl.ProductCategoryApplicationServiceImpl;
@@ -28,7 +29,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @ClassName: ProductApplicationServiceUnitTest
@@ -152,9 +155,85 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
 
         ProductSaveDTO productSaveDTO=createProductSaveDTO();
         productSaveDTO.setId("eae9d95a-3b69-43bb-9038-3309560");
-        productApplicationService.updateProduct(productSaveDTO);
+        ProductBO newProductBO = productApplicationService.updateProduct(productSaveDTO);
+
+        //校验DTO里面的值是否与BO里面的值相等
+        Assertions.assertEquals(productSaveDTO.getId(),newProductBO.getId());
+        Assertions.assertEquals(productSaveDTO.getProductOrigin(),newProductBO.getProductOrigin());
+        Set<String> attribute=new HashSet<>();
+        for (ProductAttributeSaveDTO productSaveDTOAttribute : productSaveDTO.getAttributes()) {
+            attribute.add(productSaveDTOAttribute.getName());
+        }
+        Assertions.assertEquals(attribute.size(),newProductBO.getAttributes().size());
+        for (String s : attribute) {
+            AttributeBO newAttribute = newProductBO.getAttributes().stream().filter(u -> u.getAttribute().equals(s)).findFirst().get();
+            Assertions.assertEquals(s,newAttribute.getAttribute());
+        }
+        Assertions.assertEquals(productSaveDTO.getDetail(),newProductBO.getDetail());
+        Assertions.assertEquals(productSaveDTO.getBrandId(),newProductBO.getBrandId());
+        Assertions.assertEquals(productSaveDTO.getCustomClassificationId(),newProductBO.getCustomClassificationId());
+
+        Assertions.assertEquals(productSaveDTO.getExplosivesImage(),newProductBO.getExplosivesImage());
+
+        Assertions.assertArrayEquals(productSaveDTO.getDicts().toArray(),
+                newProductBO.getDicts().entrySet().toArray());
+
+        Assertions.assertEquals(
+                productSaveDTO.getInstallDetail()
+                ,newProductBO.getInstallDetail());
+
+        Assertions.assertEquals(productSaveDTO.getInstallVideoImg(),newProductBO.getInstallVideoImg());
+        Assertions.assertEquals(productSaveDTO.getOnShelfStatus(),newProductBO.getOnshelfStatus());
+        Assertions.assertEquals(productSaveDTO.getName(),newProductBO.getName());
+        Assertions.assertEquals(productSaveDTO.getRemark(),newProductBO.getRemark());
+        Assertions.assertEquals(productSaveDTO.getListImage(),newProductBO.getProductListImage());
+
+        Assertions.assertArrayEquals(
+                productSaveDTO.getMasterAlbums().toArray()
+                ,newProductBO.getMasterImages().toArray());
+        Assertions.assertArrayEquals(
+                productSaveDTO.getSizeAlbums().toArray()
+                ,newProductBO.getSizeImages().toArray());
+
+        Assertions.assertEquals(productSaveDTO.getVideoImg(),newProductBO.getVideoImg());
+
+        Assertions.assertEquals(productSaveDTO.getTag(),newProductBO.getTag());
+        Assertions.assertEquals(productSaveDTO.getVideoUrl(),newProductBO.getVideoUrl());
+        Assertions.assertEquals(productSaveDTO.getSpuCode(),newProductBO.getSpuCode());
+        Assertions.assertEquals(productSaveDTO.getSort(),newProductBO.getSort());
+        Assertions.assertEquals(productSaveDTO.getOutId(),newProductBO.getOutId());
+        Assertions.assertEquals(productSaveDTO.getSkus().size(),newProductBO.getSkus().size());
+        for (ProductSkuSaveDTO sku : productSaveDTO.getSkus()) {
+
+            ProductSkuBO newSku = newProductBO.getSkus().stream().filter(u->u.getId().equals(sku.getId())).findFirst().get();
+            Assertions.assertEquals(sku.getInventory().intValue(),newSku.getInventory());
+            Assertions.assertEquals(sku.getSort(),newSku.getSort());
+            Assertions.assertEquals(sku.getCartonSizeWidth(),newSku.getCartonSizeWidth());
+            Assertions.assertEquals(sku.getCartonSizeHeight(),newSku.getCartonSizeHeight());
+            Assertions.assertEquals(sku.getCartonSizeLength(),newSku.getCartonSizeLength());
+            Assertions.assertEquals(sku.getPrice(),newSku.getPrice());
+            Assertions.assertEquals(sku.getSkuCode(),newSku.getSkuCode());
+            Assertions.assertEquals(sku.getPackingNumber(),newSku.getPackingNumber());
+            Assertions.assertEquals(sku.getWeight(),newSku.getWeight());
+            Assertions.assertEquals(sku.getSupplyPrice(),newSku.getSupplyPrice());
+            Assertions.assertArrayEquals(sku.getAlbums().toArray(), newSku.getSkuImages().toArray());
 
 
+            Assertions.assertEquals(sku.getAttributes().size(),
+                    newSku.getSkuAttributes().size());
+
+            for (ProductSkuAttributeSaveDTO skuAttribute : sku.getAttributes()) {
+                AttributeValueCombinationBO attributeValueCombinationBO = newSku.getSkuAttributes().stream().filter(u -> u.getAttribute().equals(skuAttribute.getName())).findFirst().get();
+                Assertions.assertEquals(skuAttribute.getName(),
+                        attributeValueCombinationBO.getAttribute());
+                Assertions.assertEquals(skuAttribute.getValue(),
+                        attributeValueCombinationBO.getAttributeValue());
+            }
+
+        }
+        Assertions.assertEquals(productSaveDTO.getFirstCategory(),newProductBO.getFirstCategory());
+        Assertions.assertEquals(productSaveDTO.getSecondCategory(),newProductBO.getSecondCategory());
+        Assertions.assertEquals(productSaveDTO.getThirdCategory(),newProductBO.getThirdCategory());
 
     }
 
