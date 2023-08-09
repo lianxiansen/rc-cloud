@@ -39,7 +39,7 @@ public class TenantContextHolder {
     public static String getRequiredTenantId() {
         String tenantId = getTenantId();
         if (tenantId == null) {
-            throw exception(ErrorCodeConstants.TENANT_NOT_EXISTS);
+            throw exception(ErrorCodeConstants.TENANT_ID_INVALID);
         }
         return tenantId;
     }

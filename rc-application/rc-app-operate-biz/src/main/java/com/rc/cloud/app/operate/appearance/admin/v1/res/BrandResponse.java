@@ -1,12 +1,12 @@
-package com.rc.cloud.app.operate.appearance.admin.resp;
+package com.rc.cloud.app.operate.appearance.admin.v1.res;
 
-import com.rc.cloud.app.operate.appearance.admin.resp.convert.BrandConvert;
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.util.date.LocalDateTimeUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,8 @@ public class BrandResponse {
     }
 
     public static BrandResponse from(BrandBO brand) {
-        BrandResponse response = BrandConvert.INSTANCE.convert2BrandVO(brand);
+        BrandResponse response = new BrandResponse();
+        BeanUtils.copyProperties(brand,response);
         response.setCreateTime(LocalDateTimeUtils.format(brand.getCreateTime()));
         return response;
     }

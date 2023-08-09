@@ -1,14 +1,18 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductCategoryResponse;
+import com.rc.cloud.app.operate.appearance.admin.v1.req.ProductCategoryCreateRequest;
+import com.rc.cloud.app.operate.appearance.admin.v1.req.ProductCategoryUpdateRequest;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
 import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
 import com.rc.cloud.common.core.util.tree.TreeUtil;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.web.filter.RepeatSubmit;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,18 +30,22 @@ public class ProductCategoryController {
 
     @Autowired
     private ProductCategoryApplicationService productCategoryApplicationService;
-
+    @RepeatSubmit
     @PostMapping("create")
     @Operation(summary = "创建产品分类")
-    public CodeResult<ProductCategoryResponse> create(@Valid @RequestBody ProductCategoryCreateDTO productCategoryCreateRequest) {
-        return CodeResult.ok(ProductCategoryResponse.from(productCategoryApplicationService.create(productCategoryCreateRequest)));
+    public CodeResult<ProductCategoryResponse> create(@Valid @RequestBody ProductCategoryCreateRequest request) {
+        ProductCategoryCreateDTO dto=new ProductCategoryCreateDTO();
+        BeanUtils.copyProperties(request,dto);
+        return CodeResult.ok(ProductCategoryResponse.from(productCategoryApplicationService.create(dto)));
     }
 
-
+    @RepeatSubmit
     @PutMapping("update")
     @Operation(summary = "更新产品分类")
-    public CodeResult<ProductCategoryResponse> update(@Valid @RequestBody ProductCategoryUpdateDTO productCategoryUpdateRequest) {
-        return CodeResult.ok(ProductCategoryResponse.from(productCategoryApplicationService.update(productCategoryUpdateRequest)));
+    public CodeResult<ProductCategoryResponse> update(@Valid @RequestBody ProductCategoryUpdateRequest request) {
+        ProductCategoryUpdateDTO dto=new ProductCategoryUpdateDTO();
+        BeanUtils.copyProperties(request,dto);
+        return CodeResult.ok(ProductCategoryResponse.from(productCategoryApplicationService.update(dto)));
     }
 
     @DeleteMapping("remove")

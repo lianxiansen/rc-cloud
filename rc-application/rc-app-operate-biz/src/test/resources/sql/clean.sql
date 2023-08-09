@@ -1,6 +1,5 @@
 delete from `brand`;
 delete from `product_category`;
-delete from `platform_product_category`;
 
 
 delete from `product_group`;

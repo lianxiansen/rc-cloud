@@ -20,8 +20,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -34,6 +37,9 @@ import static org.mockito.Mockito.when;
  * @Date: 2023/7/17 08:46
  * @Description: TODO
  */
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = BaseDbUnitTest.Application.class)
+@ActiveProfiles("unit-test") // 设置使用 application-unit-test 配置文件
+@Sql(scripts = {"/sql/clean.sql","/sql/init_data.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD) // 每个单元测试结束后，清理 DB
 @Import({  LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
 @DisplayName("产品组合资源库单元测试")
 public class ProductGroupRepositoryUnitTest extends BaseDbUnitTest {
