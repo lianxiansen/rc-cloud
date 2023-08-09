@@ -138,7 +138,6 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         ProductQueryDTO productQueryDTO=new ProductQueryDTO();
         productQueryDTO.setProductId(id);
         productQueryDTO.setNeedProductDetail(true);
-        productQueryDTO.setNeedProductDict(true);
         productQueryDTO.setNeedProductSku(true);
         ProductBO product = productApplicationService.getProduct(productQueryDTO);
         return product;
