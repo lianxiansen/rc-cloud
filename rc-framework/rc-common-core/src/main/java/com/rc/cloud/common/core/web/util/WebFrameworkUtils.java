@@ -121,5 +121,4 @@ public class WebFrameworkUtils {
         }
         return new String[]{token.substring(0, delim), token.substring(delim + 1)};
     }
-
 }

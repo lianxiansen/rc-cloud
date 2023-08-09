@@ -1,5 +1,6 @@
 package com.rc.cloud.common.tenant.core.web;
 
+import cn.hutool.core.util.StrUtil;
 import com.rc.cloud.common.core.web.util.WebFrameworkUtils;
 import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,7 +25,7 @@ public class TenantContextWebFilter extends OncePerRequestFilter {
         // 设置
         String tenantId = WebFrameworkUtils.getTenantId(request);
         System.out.println("tenantId = " + tenantId);
-        if (tenantId != null) {
+        if (StrUtil.isNotEmpty(tenantId)) {
             TenantContextHolder.setTenantId(tenantId);
         }
         try {

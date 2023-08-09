@@ -2,7 +2,7 @@ package com.rc.cloud.common.core.constant;
 
 /**
  * 权限相关通用常量
- * 
+ *
  * @author hqf@rc
  */
 public class SecurityConstants
@@ -124,4 +124,6 @@ public class SecurityConstants
     public static final long CODE_TIME = 60;
 
     public static final String ADMIN_CLIENT_NAME = "rc_admin";
+
+    public static final String TENANT_ID="tenant-id";
 }

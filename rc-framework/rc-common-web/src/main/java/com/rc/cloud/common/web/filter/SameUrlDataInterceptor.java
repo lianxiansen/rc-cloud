@@ -6,7 +6,6 @@ import com.rc.cloud.common.redis.util.RedisUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -30,12 +29,15 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     @Override
     public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) {
         String nowParams = "";
-        try {
-            nowParams=new String(HttpHelper.getBodyString(request).getBytes("UTF-8")) ;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
 
+//        if (request instanceof RepeatedlyRequestWrapper) {
+//            RepeatedlyRequestWrapper repeatedlyRequest = (RepeatedlyRequestWrapper) request;
+//            try {
+//                nowParams = repeatedlyRequest.getReader().readLine();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
         // body参数为空，获取Parameter的数据
         if (StringUtils.isEmpty(nowParams)) {
             try {

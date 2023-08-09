@@ -5,6 +5,7 @@ import com.rc.cloud.app.system.api.user.vo.SysUserInfoVO;
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.constant.ServiceNameConstants;
 import com.rc.cloud.common.core.web.CodeResult;
+import com.rc.cloud.common.feign.FeignRequestInterceptor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +17,11 @@ import java.util.Set;
  * @date 2023/07/13
  * @description 通过feign远程调用用户服务
  */
-@FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.SYSTEM_SERVICE)
+@FeignClient(
+        contextId = "remoteUserService",
+        value = ServiceNameConstants.SYSTEM_SERVICE,
+        configuration = FeignRequestInterceptor.class
+)
 public interface RemoteUserService {
 
     /**
