@@ -40,8 +40,6 @@ public class RemoteUserServerImpl {
     @Inner
     @GetMapping("/info/{username}")
     public CodeResult<UserInfo> info(@PathVariable String username) {
-        // 硬编码设置租户ID
-        TenantContextHolder.setTenantId("1");
         SysUserPO user = userService.getUserByUsername(username);
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
@@ -59,8 +57,6 @@ public class RemoteUserServerImpl {
 //    @Inner
     @GetMapping("/info-by-id/{id}")
     public CodeResult<SysUserInfoVO> infoById(@PathVariable String id) {
-        // 硬编码设置租户ID
-        TenantContextHolder.setTenantId("1");
         SysUserPO user = userService.getUser(id);
         if (user == null) {
             throw exception(USER_NOT_EXISTS);
@@ -79,8 +75,6 @@ public class RemoteUserServerImpl {
 //    @Inner
     @PostMapping("/info-by-ids")
     public CodeResult<List<SysUserInfoVO>> infoByIds(@RequestBody List<String> ids) {
-        // 硬编码设置租户ID
-        TenantContextHolder.setTenantId("1");
         List<SysUserPO> users = userService.getUserList(ids);
         List<SysUserInfoVO> sysUserVOS = new ArrayList<>();
         users.forEach(user -> {
