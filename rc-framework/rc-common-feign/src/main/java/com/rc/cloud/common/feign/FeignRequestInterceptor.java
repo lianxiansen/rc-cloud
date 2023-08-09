@@ -2,9 +2,8 @@ package com.rc.cloud.common.feign;
 
 import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.util.IpUtils;
-import com.rc.cloud.common.core.util.json.JsonUtils;
-import com.rc.cloud.common.core.util.servlet.ServletUtils;
 import com.rc.cloud.common.core.util.StringUtils;
+import com.rc.cloud.common.core.util.servlet.ServletUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.stereotype.Component;
@@ -43,7 +42,11 @@ public class FeignRequestInterceptor implements RequestInterceptor
             {
                 requestTemplate.header(SecurityConstants.AUTHORIZATION_HEADER, authentication);
             }
-
+            String tenantId = headers.get(SecurityConstants.TENANT_ID);
+            if (StringUtils.isNotEmpty(tenantId))
+            {
+                requestTemplate.header(SecurityConstants.TENANT_ID, tenantId);
+            }
             // 配置客户端IP
             requestTemplate.header("X-Forwarded-For", IpUtils.getIpAddr(ServletUtils.getRequest()));
         }
