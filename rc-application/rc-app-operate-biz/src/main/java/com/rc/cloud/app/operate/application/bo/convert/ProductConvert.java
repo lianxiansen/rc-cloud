@@ -587,8 +587,14 @@ public class ProductConvert
 
             , List<ProductSku> skuList) {
         ProductBO bo=convertProductBO(product);
-        bo.setSizeImages( ProductImageConvert.convertProductImageBOList(productSizeImages));
-        bo.setMasterImages(ProductImageConvert.convertProductImageBOList(productMasterImages));
+        if(productSizeImages!=null){
+            bo.setSizeImages( ProductImageConvert.convertProductImageBOList(productSizeImages));
+
+        }
+        if(productMasterImages!=null){
+            bo.setMasterImages(ProductImageConvert.convertProductImageBOList(productMasterImages));
+
+        }
         if(productDicts!=null){
             bo.setDicts(ProductDictConvert.convertProductDictMap(productDicts));
         }

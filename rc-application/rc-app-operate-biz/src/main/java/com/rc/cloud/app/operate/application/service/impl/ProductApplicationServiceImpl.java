@@ -270,7 +270,6 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         ProductQueryDTO query=new ProductQueryDTO();
         query.setProductId(productId.id());
         query.setNeedProductDetail(true);
-        query.setNeedProductDict(true);
         query.setNeedProductSku(true);
         query.setNeedProductSizeImage(true);
         query.setNeedProductMasterImage(true);
@@ -345,7 +344,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     public ProductBO getProduct(ProductQueryDTO productQueryDTO) {
         Product product = productService.findProductById(new ProductId(productQueryDTO.getProductId()));
         ProductDetail productDetail=null;
-        Set<ProductDict> productDicts=null;
+        Set<ProductDict>  productDicts = productDictService.getProductDictSetByProductId(new ProductId(productQueryDTO.getProductId())).stream().collect(Collectors.toSet());
         List<ProductSku> productSkuList=null;
         List<ProductImage> productSizeImages=null;
         List<ProductImage> productMasterImages=null;
@@ -357,9 +356,6 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         }
         if(productQueryDTO.isNeedProductDetail()){
             productDetail = productDetailService.findProductDetail(new ProductDetailId(new ProductId(productQueryDTO.getProductId())));
-        }
-        if(productQueryDTO.isNeedProductDict()){
-            productDicts = productDictService.getProductDictSetByProductId(new ProductId(productQueryDTO.getProductId())).stream().collect(Collectors.toSet());
         }
         if(productQueryDTO.isNeedProductSku()){
             productSkuList = productSkuService.getProductSkuListByProductId(new ProductId(productQueryDTO.getProductId()));
