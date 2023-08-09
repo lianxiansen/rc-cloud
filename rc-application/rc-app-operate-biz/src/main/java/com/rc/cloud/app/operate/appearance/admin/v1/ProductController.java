@@ -105,7 +105,7 @@ public class ProductController {
 
 
     @PostMapping("changeOnShelfStatus")
-    @Operation(summary = "修改产品字段")
+    @Operation(summary = "修改上下架字段")
     public CodeResult<Long> changeOnShelfStatus(@Valid @RequestBody ProductChangeOnShelfStatusDTO dto){
         productApplicationService.changeOnShelfStatus(dto.getProductId(), dto.getOnShelfStatus());
         return CodeResult.ok();
@@ -125,6 +125,7 @@ public class ProductController {
         productApplicationService.changeRecommendStatus(dto.getProductId(), dto.isRecommendFlag());
         return CodeResult.ok();
     }
+
 
 
 

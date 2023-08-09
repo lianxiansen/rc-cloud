@@ -95,7 +95,7 @@ public class ProductService {
     public int cancelNews(ProductId productId){
         Product product = productRepository.findById(productId);
         AssertUtils.notNull(product, "product must not be null");
-        product.setPublicFlag(false);
+        product.setNewFlag(false);
         return productRepository.updateProduct(product);
     }
 
