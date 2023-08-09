@@ -58,7 +58,7 @@ public class ProductController {
     @Operation(summary = "移除产品")
     public CodeResult<ProductRemoveResponse> removeProduct(@Valid @RequestBody ProductRemoveRequest request) {
         ProductRemoveDTO productRemoveDTO=new ProductRemoveDTO();
-        productRemoveDTO.setProductIds(request.getProductIds());
+        productRemoveDTO.setProductIds(request.getIds());
         return CodeResult.ok(ProductRemoveResponse.from(productApplicationService.removeProductBatch(productRemoveDTO)));
     }
 
