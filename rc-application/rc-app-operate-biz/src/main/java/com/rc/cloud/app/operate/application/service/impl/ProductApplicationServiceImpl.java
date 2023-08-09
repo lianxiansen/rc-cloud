@@ -111,13 +111,13 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
             throw new ServiceException(ProductErrorCodeConstants.PRODUCT_CATEGORY_NOT_EXIST_ERROR);
         }
         //校验商品品牌id是否存在
-        if(StringUtils.isNotEmpty(product.getBrandId().id())){
+        if(StringUtils.isNotEmpty(productSaveDTO.getBrandId())){
            if(!brandService.existById(product.getBrandId())){
                throw new ServiceException(ProductErrorCodeConstants.PRODUCT_BRAND_NOT_EXIST_ERROR);
            }
         }
         //校验自定义分类id是否存在
-        if(StringUtils.isNotEmpty(product.getCustomClassificationId().getId())){
+        if(StringUtils.isNotEmpty(productSaveDTO.getCustomClassificationId())){
             //TODO
         }
         productService.createProduct(product);
