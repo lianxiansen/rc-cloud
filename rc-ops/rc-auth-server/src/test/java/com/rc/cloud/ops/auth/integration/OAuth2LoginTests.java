@@ -76,7 +76,7 @@ public class OAuth2LoginTests {
                 + "&code=" + code
                 + "&grant_type=password&scope=server";
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Basic cmM6cmM=");
+        headers.set("Authorization", "Basic cmNfYWRtaW46cmNfYWRtaW4xMjM0NTY=");
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
         map.add("username", "admin");

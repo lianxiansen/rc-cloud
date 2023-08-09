@@ -17,8 +17,6 @@ public class ProductQueryDTO {
 
     private boolean needProductDetail;
 
-    private boolean needProductDict;
-
     private boolean needProductSku;
 
 }

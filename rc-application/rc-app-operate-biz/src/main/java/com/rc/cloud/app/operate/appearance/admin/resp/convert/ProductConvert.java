@@ -79,7 +79,9 @@ public class ProductConvert {
         response.setInstallVideoUrl(bo.getInstallVideoUrl());
         response.setInstallDetail(bo.getInstallDetail());
         response.setSpuCode(bo.getSpuCode());
-        response.setSkus(ProductSkuConvert.convert2ProductSkuDetailList(bo.getSkus()));
+        if(bo.getSkus()!=null){
+            response.setSkus(ProductSkuConvert.convert2ProductSkuDetailList(bo.getSkus()));
+        }
         response.setCaiZhi(bo.getDicts().get(ProductDictKeyEnum.CaiZhi.name));
         response.setTiaoMa(bo.getDicts().get(ProductDictKeyEnum.TiaoMa.name));
         response.setChengZhong(bo.getDicts().get(ProductDictKeyEnum.ChengZhong.name));

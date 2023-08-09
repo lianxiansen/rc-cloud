@@ -587,8 +587,14 @@ public class ProductConvert
 
             , List<ProductSku> skuList) {
         ProductBO bo=convertProductBO(product);
-        bo.setSizeImages( ProductImageConvert.convertProductImageBOList(productSizeImages));
-        bo.setMasterImages(ProductImageConvert.convertProductImageBOList(productMasterImages));
+        if(productSizeImages!=null){
+            bo.setSizeImages( ProductImageConvert.convertProductImageBOList(productSizeImages));
+
+        }
+        if(productMasterImages!=null){
+            bo.setMasterImages(ProductImageConvert.convertProductImageBOList(productMasterImages));
+
+        }
         if(productDicts!=null){
             bo.setDicts(ProductDictConvert.convertProductDictMap(productDicts));
         }
@@ -679,7 +685,9 @@ public class ProductConvert
             SortedSet<Attribute> attributes = productAttribute.getAttributes();
             bo.setAttributes(convertAttributeBOList(attributes));
         }
-        bo.setCreateTime(product.getCreateTime().getTime());
+        if(product.getCreateTime()!=null){
+            bo.setCreateTime(product.getCreateTime().getTime());
+        }
         return bo;
 
     }

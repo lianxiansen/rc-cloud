@@ -12,6 +12,7 @@ import java.util.List;
 @Schema(description = "产品移除请求")
 public class ProductRemoveRequest {
 
-    private List<String> productIds;
+    @Schema(description = "产品id集合")
+    private List<String> ids;
 
 }
