@@ -5,7 +5,6 @@ import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdetail.identifier.ProductDetailId;
 import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Detail;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductDetailPO;
 
 public class ProductDetailConvert {
@@ -18,7 +17,7 @@ public class ProductDetailConvert {
            productDetail.setDetail(new Detail(po.getDetail()));
            productDetail.setInstallVideoUrl(new Url(po.getInstallVideoUrl()));
            productDetail.setInstallVideoImg(new Url(po.getInstallVideoImg()));
-           productDetail.setInstallDetail(new Detail(po.getDetail()));
+           productDetail.setInstallDetail(new Detail(po.getInstallDetail()));
 
            return productDetail;
        }

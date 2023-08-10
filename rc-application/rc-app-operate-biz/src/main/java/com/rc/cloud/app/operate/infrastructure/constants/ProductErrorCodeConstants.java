@@ -8,6 +8,8 @@ import com.rc.cloud.common.core.exception.ErrorCode;
 public interface ProductErrorCodeConstants extends ErrorCodeConstants {
 
     ErrorCode PRODUCT_NOT_EXIST_ERROR = new ErrorCode(2001000000, "商品不存在，状态异常");
+
+    ErrorCode PRODUCT_EXIST_ERROR = new ErrorCode(2001000000, "商品已存在，状态异常");
     ErrorCode NAME_NOT_EMPTY = new ErrorCode(2001000002, "Name must not be null");
 
     ErrorCode PRODUCT_ID_NOT_EMPTY = new ErrorCode(2001000003, "ProductId must not be null");
@@ -29,5 +31,7 @@ public interface ProductErrorCodeConstants extends ErrorCodeConstants {
     ErrorCode PRODUCT_CATEGORY_NOT_EXIST_ERROR = new ErrorCode(2001000005, "所选的类别不存在");
     ErrorCode PRODUCT_BRAND_NOT_EXIST_ERROR = new ErrorCode(2001000005, "所选的品牌不存在");
     ErrorCode PRODUCT_CUSTOMCLASSIFICATION_NOT_EXIST_ERROR = new ErrorCode(2001000005, "所选的自定义类别不存在");
+
+    ErrorCode PRODUCT_EXPLOSIVES_IMAGE_NOT_UPLOAD_ERROR = new ErrorCode(2001000005, "商品爆品图片未上传");
 
 }

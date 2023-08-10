@@ -2,7 +2,10 @@ package com.rc.cloud.app.operate.application.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Pair;
-import com.rc.cloud.app.operate.application.bo.*;
+import com.rc.cloud.app.operate.application.bo.ProductAndSkuBO;
+import com.rc.cloud.app.operate.application.bo.ProductBO;
+import com.rc.cloud.app.operate.application.bo.ProductRemoveBO;
+import com.rc.cloud.app.operate.application.bo.ProductValidateBO;
 import com.rc.cloud.app.operate.application.bo.convert.*;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
@@ -13,12 +16,10 @@ import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetail;
 import com.rc.cloud.app.operate.domain.model.productdetail.ProductDetailService;
 import com.rc.cloud.app.operate.domain.model.productdetail.identifier.ProductDetailId;
-import com.rc.cloud.app.operate.domain.model.productdetail.valobj.Detail;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDictService;
 import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
@@ -26,8 +27,6 @@ import com.rc.cloud.app.operate.domain.model.productimage.ProductImageService;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuService;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
-import com.rc.cloud.app.operate.domain.model.tenant.service.TenantService;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
@@ -427,7 +426,8 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     public int changeOnShelfStatus(String productId, int onShelfStatus){
         if(onShelfStatus== ProductShelfStatusEnum.OnShelf.value){
             productService.onShelf(new ProductId(productId));
-        }else  if(onShelfStatus== ProductShelfStatusEnum.OffShelf.value){
+        }else  if(onShelfStatus== ProductShelfStatusEnum.OffShelf.value
+        || onShelfStatus== ProductShelfStatusEnum.InitShelf.value){
             productService.offShelf(new ProductId(productId));
         }
         return 1;
@@ -453,5 +453,13 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         return 1;
     }
 
-
+    @Override
+    public int changeExplosivesStatus(String productId, boolean explosivesFlag,String explosivesImage) {
+        if(explosivesFlag){
+            productService.setExplosives(new ProductId(productId),explosivesImage);
+        }else{
+            productService.cancelExplosives(new ProductId(productId));
+        }
+        return 1;
+    }
 }

@@ -6,7 +6,6 @@ import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productimage.ProductImageId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductImagePO;
 import org.mapstruct.Mapper;
 

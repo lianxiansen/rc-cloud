@@ -4,7 +4,6 @@ import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.pojo.PageResult;
 
 import java.util.List;

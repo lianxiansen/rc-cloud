@@ -1,12 +1,9 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence;
 
-import cn.hutool.core.collection.CollectionUtil;
-import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
 import com.rc.cloud.app.operate.domain.model.productimage.ProductImageId;
 import com.rc.cloud.app.operate.domain.model.productimage.ProductImageRepository;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductImageConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductImageMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductImagePO;
@@ -14,7 +11,6 @@ import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

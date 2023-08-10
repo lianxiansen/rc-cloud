@@ -7,16 +7,15 @@ import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.BrandConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.BrandMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.BrandPO;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductCategoryPO;
 import com.rc.cloud.common.core.pojo.PageParam;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +24,7 @@ import java.util.Objects;
 @Service
 public class BrandRepositoryImpl implements BrandRepository {
 
-    @Autowired
+    @Resource
     private BrandMapper brandMapper;
 
     @Override
@@ -37,7 +36,7 @@ public class BrandRepositoryImpl implements BrandRepository {
 
     @Override
     public Brand findById(BrandId brandId) {
-        BrandPO brandPO = brandMapper.selectById((Serializable) brandId.id());
+        BrandPO brandPO = brandMapper.selectById(brandId.id());
         if (Objects.isNull(brandPO)) {
             return null;
         }

@@ -6,20 +6,19 @@ import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
 import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
 import com.rc.cloud.app.operate.domain.common.valobj.Enabled;
 import com.rc.cloud.app.operate.domain.common.valobj.Sort;
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
-import com.rc.cloud.app.operate.domain.model.productcategory.*;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryBuildFactory;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRebuildFactory;
+import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryService;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.ChName;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.EnName;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Icon;
 import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Page;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.StringUtils;
-import com.rc.cloud.common.core.util.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +32,7 @@ import java.util.Objects;
  * @ClassName ProductCategoryApplicationService
  * @Author liandy
  * @Date 2023/7/24 9:08
- * @Description TODO
+ * @Description 产品分类应用服务实现
  * @Version 1.0
  */
 @Service
@@ -46,16 +45,65 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
     private ProductCategoryBuildFactory productCategoryBuildFactory;
     @Autowired
     private ProductCategoryRebuildFactory productCategoryRebuildFactory;
-    @Resource
-    private ProductRepository productRepository;
     @Override
-    public ProductCategoryBO create(ProductCategoryCreateDTO productCreateCategoryDTO) {
+    public ProductCategoryBO createProductCategory(ProductCategoryCreateDTO productCreateCategoryDTO) {
         if (StringUtils.isEmpty(productCreateCategoryDTO.getName())) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.NAME_NOT_EMPTY);
         }
-        TenantId tenantId = new TenantId(TenantContext.getTenantId());
+        ProductCategory productCategory = buildProductCategory(productCreateCategoryDTO);
+        productCategoryService.create(productCategory);
+        return ProductCategoryBO.convert(productCategory);
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public ProductCategoryBO updateProductCategory(ProductCategoryUpdateDTO productCategoryUpdateDTO) {
+        if (StringUtils.isEmpty(productCategoryUpdateDTO.getId())) {
+            throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
+        }
+        ProductCategory productCategory = productCategoryService.findById(new ProductCategoryId(productCategoryUpdateDTO.getId()));
+        if (Objects.isNull(productCategory)) {
+            throw new ServiceException(ProductCategoryErrorCodeConstants.PRODUCT_CATEGORY_NOT_EXISTS);
+        }
+        productCategory = rebulidProductCategory(productCategoryUpdateDTO, productCategory);
+        productCategoryService.update(productCategory);
+        return ProductCategoryBO.convert(productCategory);
+    }
+
+
+
+
+    @Override
+    public boolean removeProductCategory(String id) {
+        if (StringUtils.isEmpty(id)) {
+            throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
+        }
+        ProductCategoryId productCategoryId = new ProductCategoryId(id);
+        ProductCategory productCategory = productCategoryService.findById(productCategoryId);
+        return productCategoryService.remove(productCategory);
+    }
+
+    @Override
+    public List<ProductCategoryBO> findProductCategorys() {
+        List<ProductCategoryBO> boList = new ArrayList<>();
+        List<ProductCategory> productCategoryList = productCategoryService.findAll();
+        return ProductCategoryBO.convertBatch(productCategoryList);
+    }
+
+    @Override
+    public ProductCategoryBO findProductCategoryById(String id) {
+        return ProductCategoryBO.convert(productCategoryService.findById(new ProductCategoryId(id)));
+    }
+
+    /**
+     * 构建产品分类
+     * @param productCreateCategoryDTO
+     * @return
+     */
+    private ProductCategory buildProductCategory(final ProductCategoryCreateDTO productCreateCategoryDTO) {
         ChName name = new ChName(productCreateCategoryDTO.getName());
-        ProductCategoryBuildFactory.ProductCategoryBuilder builder = productCategoryBuildFactory.create(new ProductCategoryId(idRepository.nextId()), tenantId, name);
+        ProductCategoryBuildFactory.ProductCategoryBuilder builder = productCategoryBuildFactory.create(new ProductCategoryId(idRepository.nextId()), name);
         builder.enName(new EnName(productCreateCategoryDTO.getEnglishName()));
         builder.icon(new Icon(productCreateCategoryDTO.getIcon()));
         if (Objects.nonNull(productCreateCategoryDTO.getEnabled())) {
@@ -70,21 +118,16 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
             builder.parentId(parentId);
         }
         ProductCategory productCategory = builder.build();
-        productCategoryService.create(productCategory);
-        return ProductCategoryBO.convert(productCategory);
+        return productCategory;
     }
 
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public ProductCategoryBO update(ProductCategoryUpdateDTO productCategoryUpdateDTO) {
-        if (StringUtils.isEmpty(productCategoryUpdateDTO.getId())) {
-            throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
-        }
-        ProductCategory productCategory = productCategoryService.findById(new ProductCategoryId(productCategoryUpdateDTO.getId()));
-        if (Objects.isNull(productCategory)) {
-            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
-        }
+    /**
+     * 重构产品分类
+     * @param productCategoryUpdateDTO
+     * @param productCategory
+     * @return
+     */
+    private ProductCategory rebulidProductCategory(final ProductCategoryUpdateDTO productCategoryUpdateDTO, ProductCategory productCategory) {
         ProductCategoryRebuildFactory.ProductCategoryRebuilder rebuilder = productCategoryRebuildFactory.create(productCategory);
         if (Objects.nonNull(productCategoryUpdateDTO.getParentId())) {
             if (StringUtils.isEmpty(productCategoryUpdateDTO.getParentId())) {
@@ -115,30 +158,6 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
             rebuilder.setEnabled(new Enabled(productCategoryUpdateDTO.getEnabled().booleanValue()));
         }
         productCategory = rebuilder.rebuild();
-        productCategoryService.update(productCategory);
-        return ProductCategoryBO.convert(productCategory);
+        return productCategory;
     }
-
-    @Override
-    public boolean remove(String id) {
-        if (StringUtils.isEmpty(id)) {
-            throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
-        }
-        ProductCategoryId productCategoryId = new ProductCategoryId(id);
-        ProductCategory productCategory = productCategoryService.findById(productCategoryId);
-        return productCategoryService.remove(productCategory);
-    }
-
-    @Override
-    public List<ProductCategoryBO> findAll() {
-        List<ProductCategoryBO> boList = new ArrayList<>();
-        List<ProductCategory> productCategoryList = productCategoryService.findAll();
-        return ProductCategoryBO.convertBatch(productCategoryList);
-    }
-
-    @Override
-    public ProductCategoryBO findById(String id) {
-        return ProductCategoryBO.convert(productCategoryService.findById(new ProductCategoryId(id)));
-    }
-
 }

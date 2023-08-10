@@ -46,16 +46,25 @@ public class ProductConvert {
             product.setType(new Type(po.getProductType()));
         }
         //BrandId
-        BrandId brandId = new BrandId(po.getBrandId());
-        product.setBrandId(brandId);
+        if(StringUtils.isNotEmpty(po.getBrandId())){
+            BrandId brandId = new BrandId(po.getBrandId());
+            product.setBrandId(brandId);
+        }else{
+            product.setBrandId(null);
+        }
         //CategoryName
         CategoryName firstCategory = new CategoryName(po.getFirstCategory());
         CategoryName secondCategory = new CategoryName(po.getSecondCategory());
         CategoryName thirdCategory = new CategoryName(po.getThirdCategory());
         product.setCategory(firstCategory,secondCategory,thirdCategory);
         //CustomClassificationId
-        CustomClassificationId customClassificationId = new CustomClassificationId(po.getCustomClassificationId());
-        product.setCustomClassificationId(customClassificationId);
+        if(StringUtils.isNotEmpty(po.getCustomClassificationId())){
+            CustomClassificationId customClassificationId = new CustomClassificationId(po.getCustomClassificationId());
+            product.setCustomClassificationId(customClassificationId);
+        }else{
+            product.setCustomClassificationId(null);
+        }
+
         //Explosives
         Explosives explosives = null;
         if(po.getExplosivesFlag()){

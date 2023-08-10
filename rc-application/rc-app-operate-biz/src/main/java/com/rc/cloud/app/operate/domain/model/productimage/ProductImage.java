@@ -4,8 +4,6 @@ import com.rc.cloud.app.operate.domain.common.ProductImageTypeEnum;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.common.core.domain.AbstractId;
 import com.rc.cloud.common.core.domain.Entity;
 
 import java.util.Objects;
@@ -73,8 +71,12 @@ public class ProductImage extends  Entity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ProductImage that = (ProductImage) o;
         return Objects.equals(getId(), that.getId()) ;
     }

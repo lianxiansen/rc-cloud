@@ -3,7 +3,6 @@ package com.rc.cloud.app.operate.domain.model.productdict;
 
 import com.rc.cloud.app.operate.domain.common.ProductDictKeyEnum;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.common.core.domain.ValueObject;
 import com.rc.cloud.common.core.util.StringUtils;
 

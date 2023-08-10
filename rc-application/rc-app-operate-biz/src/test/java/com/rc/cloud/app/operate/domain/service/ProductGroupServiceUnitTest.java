@@ -8,7 +8,6 @@ import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productgroup.*;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupItemId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductGroupRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
@@ -60,7 +59,7 @@ public class ProductGroupServiceUnitTest extends SpringMockitoUnitTest {
     public void createProductGroupEntityThenProductIsNotExists() {
         when(productRepositoryStub.findById(new ProductId(productGroupCreateDTO.getProductId()))).thenReturn(null);
         Assertions.assertThrows(ServiceException.class, () -> {
-            ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()), new ProductId(productGroupCreateDTO.getProductId()));
+            ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), productGroupCreateDTO.getName(), new ProductId(productGroupCreateDTO.getProductId()));
             productGroupService.create(productGroup);
         });
     }
@@ -69,9 +68,9 @@ public class ProductGroupServiceUnitTest extends SpringMockitoUnitTest {
     @Test
     @DisplayName("创建产品组合领域对象")
     public void create() {
-        ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()), new ProductId(productGroupCreateDTO.getProductId()));
+        ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), productGroupCreateDTO.getName(), new ProductId(productGroupCreateDTO.getProductId()));
         productGroupService.create(productGroup);
-        Assertions.assertTrue(Objects.nonNull(productGroup.getId()) && productGroupCreateDTO.sameValueAs(productGroup) , "创建组合失败");
+        Assertions.assertTrue(Objects.nonNull(productGroup.getId()) && productGroupCreateDTO.sameValueAs(productGroup), "创建组合失败");
     }
 
 
@@ -123,6 +122,6 @@ public class ProductGroupServiceUnitTest extends SpringMockitoUnitTest {
         productGroupCreateDTO.setName(RandomUtils.randomString());
         productGroupCreateDTO.setProductId(productMock.getId().id());
         productGroupId = new ProductGroupId("870ef1f5-39d2-4f48-8c67-ae45206");
-        productGroup = new ProductGroup(productGroupId, productGroupCreateDTO.getName(), new TenantId(TenantContext.getTenantId()), productMock.getId());
+        productGroup = new ProductGroup(productGroupId, productGroupCreateDTO.getName(), productMock.getId());
     }
 }

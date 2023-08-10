@@ -4,7 +4,6 @@ import com.rc.cloud.app.operate.application.bo.ProductDictBO;
 import com.rc.cloud.app.operate.application.dto.ProductDictSaveDTO;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -9,6 +9,8 @@ import com.rc.cloud.app.operate.application.bo.AttributeBO;
 import com.rc.cloud.app.operate.application.bo.AttributeValueBO;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.domain.common.ProductDictKeyEnum;
+import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
+import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
 import com.rc.cloud.common.core.util.StringUtils;
 
 import java.time.LocalDateTime;
@@ -31,7 +33,13 @@ public class ProductConvert {
         response.setPublicFlag(bo.isPublicFlag());
         response.setRecommendFlag(bo.isRecommendFlag());
         response.setCategoryName(format(bo.getFirstCategory(), bo.getSecondCategory(), bo.getThirdCategory()));
-        response.setOnShelfStatus(bo.getOnshelfStatus());
+        if(bo.getOnshelfStatus()== ProductShelfStatusEnum.InitShelf.value
+                || bo.getOnshelfStatus()==ProductShelfStatusEnum.OffShelf.value){
+            response.setOnShelfStatus(ProductShelfStatusEnum.OffShelf.value);
+        }else{
+
+            response.setOnShelfStatus(ProductShelfStatusEnum.OnShelf.value);
+        }
         response.setCreateTime(LocalDateTimeUtil.formatNormal(bo.getCreateTime()));
         return response;
     }
@@ -58,7 +66,13 @@ public class ProductConvert {
         response.setExplosivesImage(bo.getExplosivesImage());
         response.setRecommendFlag(bo.isRecommendFlag());
         response.setPublicFlag(bo.isPublicFlag());
-        response.setOnshelfStatus(bo.getOnshelfStatus());
+        if(bo.getOnshelfStatus()== ProductShelfStatusEnum.InitShelf.value
+                || bo.getOnshelfStatus()==ProductShelfStatusEnum.OffShelf.value){
+            response.setOnshelfStatus(ProductShelfStatusEnum.OffShelf.value);
+        }else{
+
+            response.setOnshelfStatus(ProductShelfStatusEnum.OnShelf.value);
+        }
         response.setVideoImg(bo.getVideoImg());
         response.setVideoUrl(bo.getVideoUrl());
         response.setProductListImage(bo.getProductListImage());

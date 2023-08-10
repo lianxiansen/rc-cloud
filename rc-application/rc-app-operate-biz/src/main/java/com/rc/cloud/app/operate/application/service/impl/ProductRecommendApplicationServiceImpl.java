@@ -5,20 +5,16 @@ import com.rc.cloud.app.operate.application.bo.convert.ProductRecommendConvert;
 import com.rc.cloud.app.operate.application.dto.ProductRecommendCreateDTO;
 import com.rc.cloud.app.operate.application.service.ProductRecommendApplicationService;
 import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductService;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
+import com.rc.cloud.app.operate.domain.model.product.ProductService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommend;
-import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendRepository;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendService;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.constants.ErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductRecommendErrorCodeConstants;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.StringUtils;
-import com.rc.cloud.common.core.util.TenantContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +27,6 @@ import java.util.stream.Collectors;
 public class ProductRecommendApplicationServiceImpl implements ProductRecommendApplicationService {
     @Autowired
     private ProductRecommendService productRecommendService;
-    @Autowired
-    private ProductRecommendRepository productRecommendRepository;
     @Autowired
     private ProductRepository productRepository;
     @Resource
@@ -63,7 +57,7 @@ public class ProductRecommendApplicationServiceImpl implements ProductRecommendA
         }
         ProductRecommend productRecommend = productRecommendService.findById(new ProductRecommendId(id));
         if (Objects.isNull(productRecommend)) {
-            throw new ServiceException(ErrorCodeConstants.OBJECT_NOT_EXISTS);
+            throw new ServiceException(ProductRecommendErrorCodeConstants.PRODUCT_RECOMMEND_NOT_EXISTS);
         }
         return productRecommendService.release(productRecommend);
     }
