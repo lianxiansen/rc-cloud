@@ -30,6 +30,9 @@ public class ProductConvert {
         response.setNewFlag(bo.isNewFlag());
         response.setBrandName(bo.getName());
         response.setExplosivesFlag(bo.isExplosivesFlag());
+        if(bo.isExplosivesFlag()){
+            response.setExplosivesImage(bo.getExplosivesImage());
+        }
         response.setPublicFlag(bo.isPublicFlag());
         response.setRecommendFlag(bo.isRecommendFlag());
         response.setCategoryName(format(bo.getFirstCategory(), bo.getSecondCategory(), bo.getThirdCategory()));

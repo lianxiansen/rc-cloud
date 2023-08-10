@@ -38,6 +38,9 @@ public class ProductListResponse {
     @Schema(description = "是否爆品")
     private boolean explosivesFlag;
 
+    @Schema(description = "爆品图片")
+    private String explosivesImage;
+
     @Schema(description = "是否推荐")
     private boolean recommendFlag;
 
