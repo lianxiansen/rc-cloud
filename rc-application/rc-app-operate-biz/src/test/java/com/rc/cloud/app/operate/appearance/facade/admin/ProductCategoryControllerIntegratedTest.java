@@ -2,22 +2,17 @@ package com.rc.cloud.app.operate.appearance.facade.admin;
 
 import com.rc.cloud.app.operate.appearance.admin.v1.req.ProductCategoryCreateRequest;
 import com.rc.cloud.app.operate.appearance.admin.v1.req.ProductCategoryUpdateRequest;
+import com.rc.cloud.app.operate.core.AbstractWebApplicationTest;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductCategoryMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductCategoryPO;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.util.IpUtils;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
-import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import com.rc.cloud.common.test.annotation.RcTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.Charset;
 
@@ -33,68 +28,46 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @Description: TODO
  */
 @RcTest
-public class ProductCategoryControllerIntegratedTest {
-    @Autowired
-    private WebApplicationContext context;
-
-    private MockMvc mvc;
+public class ProductCategoryControllerIntegratedTest extends AbstractWebApplicationTest {
 
     @Autowired
     private ProductCategoryMapper productCategoryMapper;
+
     @Autowired
     private IdRepository idRepository;
 
     private ProductCategoryCreateRequest createRequest;
+
     private ProductCategoryUpdateRequest updateRequest;
 
-    @BeforeEach
-    public void setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context)
-                .build();
-        TenantContextHolder.setTenantId(IpUtils.getHostName());
+    private ProductCategoryPO rootProductCategoryPO;
 
-        createRequest = RandomUtils.randomPojo(ProductCategoryCreateRequest.class, o -> {
-            o.setName("卡通风");
-            o.setEnglishName("KATONG");
-            o.setProductCategoryPageImage("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e1.jpg");
-            o.setEnabled(true);
-            o.setSort(99);
-            o.setIcon("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e2.jpg");
-            o.setProductListPageImage("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e3.jpg");
-        });
-        ProductCategoryPO po = saveRootProductCategoryPO();
-        createRequest.setParentId(po.getId());
-        updateRequest = RandomUtils.randomPojo(ProductCategoryUpdateRequest.class, o -> {
-            o.setName("极简风");
-            o.setEnglishName("JIJIAN");
-            o.setProductCategoryPageImage("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e4.jpg");
-            o.setEnabled(true);
-            o.setSort(88);
-            o.setIcon("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e5.jpg");
-            o.setProductListPageImage("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e6.jpg");
-            o.setParentId(po.getId());
-        });
-
+    @Override
+    protected void initFixture() {
+        initCreateRequest();
+        initUpdateRequest();
+        saveRootProductCategoryPO();
     }
+
 
     @Test
     @DisplayName(value = "创建产品分类")
     public void create() throws Exception {
-        String requestBody ="{\n" +
-                "  \"name\" : \""+createRequest.getName()+"\",\n" +
-                "  \"englishName\" : \""+createRequest.getEnglishName()+"\",\n" +
-                "  \"icon\" : \""+createRequest.getIcon()+"\",\n" +
-                "  \"productCategoryPageImage\" : \""+createRequest.getProductCategoryPageImage()+"\",\n" +
-                "  \"productListPageImage\" : \""+createRequest.getProductListPageImage()+"\",\n" +
-                "  \"parentId\" : \""+createRequest.getParentId()+"\",\n" +
-                "  \"enabled\" : "+createRequest.getEnabled()+",\n" +
-                "  \"sort\" : "+createRequest.getSort()+"\n" +
+        String requestBody = "{\n" +
+                "  \"name\" : \"" + createRequest.getName() + "\",\n" +
+                "  \"englishName\" : \"" + createRequest.getEnglishName() + "\",\n" +
+                "  \"icon\" : \"" + createRequest.getIcon() + "\",\n" +
+                "  \"productCategoryPageImage\" : \"" + createRequest.getProductCategoryPageImage() + "\",\n" +
+                "  \"productListPageImage\" : \"" + createRequest.getProductListPageImage() + "\",\n" +
+                "  \"parentId\" : \"" + rootProductCategoryPO.getId() + "\",\n" +
+                "  \"enabled\" : " + createRequest.getEnabled() + ",\n" +
+                "  \"sort\" : " + createRequest.getSort() + "\n" +
                 "}";
         mvc.perform(post("/admin/productCategory/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding(Charset.defaultCharset())
-                .content(requestBody)
-                .accept(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
+                        .content(requestBody)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -105,7 +78,7 @@ public class ProductCategoryControllerIntegratedTest {
                 .andExpect(jsonPath("$.data.icon").value(createRequest.getIcon()))
                 .andExpect(jsonPath("$.data.productCategoryPageImage").value(createRequest.getProductCategoryPageImage()))
                 .andExpect(jsonPath("$.data.productListPageImage").value(createRequest.getProductListPageImage()))
-                .andExpect(jsonPath("$.data.parentId").value(createRequest.getParentId()))
+                .andExpect(jsonPath("$.data.parentId").value(rootProductCategoryPO.getId()))
                 .andExpect(jsonPath("$.data.enabled").value(createRequest.getEnabled()))
                 .andExpect(jsonPath("$.data.sort").value(createRequest.getSort()));
     }
@@ -122,7 +95,7 @@ public class ProductCategoryControllerIntegratedTest {
                 "  \"icon\" : \"" + updateRequest.getIcon() + "\",\n" +
                 "  \"productCategoryPageImage\" : \"" + updateRequest.getProductCategoryPageImage() + "\",\n" +
                 "  \"productListPageImage\" : \"" + updateRequest.getProductListPageImage() + "\",\n" +
-                "  \"parentId\" : \"" + updateRequest.getParentId() + "\",\n" +
+                "  \"parentId\" : \"" + rootProductCategoryPO.getId() + "\",\n" +
                 "  \"enabled\" : " + updateRequest.getEnabled() + ",\n" +
                 "  \"sort\" : " + updateRequest.getSort() + "\n" +
                 "}";
@@ -140,7 +113,7 @@ public class ProductCategoryControllerIntegratedTest {
                 .andExpect(jsonPath("$.data.icon").value(updateRequest.getIcon()))
                 .andExpect(jsonPath("$.data.productCategoryPageImage").value(updateRequest.getProductCategoryPageImage()))
                 .andExpect(jsonPath("$.data.productListPageImage").value(updateRequest.getProductListPageImage()))
-                .andExpect(jsonPath("$.data.parentId").value(updateRequest.getParentId()))
+                .andExpect(jsonPath("$.data.parentId").value(rootProductCategoryPO.getId()))
                 .andExpect(jsonPath("$.data.enabled").value(updateRequest.getEnabled()))
                 .andExpect(jsonPath("$.data.sort").value(updateRequest.getSort()));
     }
@@ -163,12 +136,12 @@ public class ProductCategoryControllerIntegratedTest {
         productCategoryMapper.delete(new LambdaQueryWrapperX<>());
         int dataSize = 15;
         for (int i = 0; i < dataSize; i++) {
-            ProductCategoryPO po = saveChildProductCategoryPO();
+            saveChildProductCategoryPO();
         }
         mvc.perform(get("/admin/productCategory/findAll")
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding(Charset.defaultCharset())
-                .accept(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -188,9 +161,9 @@ public class ProductCategoryControllerIntegratedTest {
     @Test
     public void findTreeList() throws Exception {
         mvc.perform(get("/admin/productCategory/findTreeList")
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding(Charset.defaultCharset())
-                .accept(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -203,8 +176,8 @@ public class ProductCategoryControllerIntegratedTest {
     public void findById() throws Exception {
         ProductCategoryPO po = saveChildProductCategoryPO();
         mvc.perform(get("/admin/productCategory/findById").param("id", po.getId())
-                .characterEncoding(Charset.defaultCharset())
-                .accept(MediaType.APPLICATION_JSON))
+                        .characterEncoding(Charset.defaultCharset())
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -215,28 +188,51 @@ public class ProductCategoryControllerIntegratedTest {
                 .andExpect(jsonPath("$.data.icon").value(createRequest.getIcon()))
                 .andExpect(jsonPath("$.data.productCategoryPageImage").value(createRequest.getProductCategoryPageImage()))
                 .andExpect(jsonPath("$.data.productListPageImage").value(createRequest.getProductListPageImage()))
-                .andExpect(jsonPath("$.data.parentId").value(createRequest.getParentId()))
+                .andExpect(jsonPath("$.data.parentId").value(rootProductCategoryPO.getId()))
                 .andExpect(jsonPath("$.data.enabled").value(createRequest.getEnabled()))
                 .andExpect(jsonPath("$.data.sort").value(createRequest.getSort()));
     }
 
-    private ProductCategoryPO saveRootProductCategoryPO() {
-        ProductCategoryPO po=new ProductCategoryPO();
-        po.setId(idRepository.nextId());
-        po.setName(createRequest.getName());
-        po.setEnglishName(createRequest.getEnglishName());
-        po.setIcon(createRequest.getIcon());
-        po.setEnabled(createRequest.getEnabled());
-        po.setProductCategoryPageImage(createRequest.getProductCategoryPageImage());
-        po.setProductListPageImage(createRequest.getProductListPageImage());
-        po.setSort(createRequest.getSort());
-        po.setLayer(1);
-        productCategoryMapper.insert(po);
-        return po;
+    private void initCreateRequest() {
+        createRequest = RandomUtils.randomPojo(ProductCategoryCreateRequest.class, o -> {
+            o.setName("卡通风");
+            o.setEnglishName("KATONG");
+            o.setProductCategoryPageImage("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e1.jpg");
+            o.setEnabled(true);
+            o.setSort(99);
+            o.setIcon("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e2.jpg");
+            o.setProductListPageImage("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e3.jpg");
+        });
+    }
+
+    private void initUpdateRequest() {
+        updateRequest = RandomUtils.randomPojo(ProductCategoryUpdateRequest.class, o -> {
+            o.setName("极简风");
+            o.setEnglishName("JIJIAN");
+            o.setProductCategoryPageImage("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e4.jpg");
+            o.setEnabled(true);
+            o.setSort(88);
+            o.setIcon("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e5.jpg");
+            o.setProductListPageImage("http://www.576zx.com/2b454a34bb5934ea82e5602ef14006e6.jpg");
+        });
+    }
+
+    private void saveRootProductCategoryPO() {
+        rootProductCategoryPO = new ProductCategoryPO();
+        rootProductCategoryPO.setId(idRepository.nextId());
+        rootProductCategoryPO.setName(createRequest.getName());
+        rootProductCategoryPO.setEnglishName(createRequest.getEnglishName());
+        rootProductCategoryPO.setIcon(createRequest.getIcon());
+        rootProductCategoryPO.setEnabled(createRequest.getEnabled());
+        rootProductCategoryPO.setProductCategoryPageImage(createRequest.getProductCategoryPageImage());
+        rootProductCategoryPO.setProductListPageImage(createRequest.getProductListPageImage());
+        rootProductCategoryPO.setSort(createRequest.getSort());
+        rootProductCategoryPO.setLayer(1);
+        productCategoryMapper.insert(rootProductCategoryPO);
     }
 
     private ProductCategoryPO saveChildProductCategoryPO() {
-        ProductCategoryPO po=new ProductCategoryPO();
+        ProductCategoryPO po = new ProductCategoryPO();
         po.setId(idRepository.nextId());
         po.setName(createRequest.getName());
         po.setEnglishName(createRequest.getEnglishName());
@@ -245,7 +241,7 @@ public class ProductCategoryControllerIntegratedTest {
         po.setProductCategoryPageImage(createRequest.getProductCategoryPageImage());
         po.setProductListPageImage(createRequest.getProductListPageImage());
         po.setSort(createRequest.getSort());
-        po.setParentId(createRequest.getParentId());
+        po.setParentId(rootProductCategoryPO.getId());
         po.setLayer(2);
         productCategoryMapper.insert(po);
         return po;

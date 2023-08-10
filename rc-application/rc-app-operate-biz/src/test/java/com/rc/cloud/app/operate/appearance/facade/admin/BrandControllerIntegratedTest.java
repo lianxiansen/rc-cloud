@@ -2,22 +2,16 @@ package com.rc.cloud.app.operate.appearance.facade.admin;
 
 import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandCreateRequest;
 import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandUpdateRequest;
+import com.rc.cloud.app.operate.core.AbstractWebApplicationTest;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.BrandMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.BrandPO;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.util.IpUtils;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
-import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.common.test.core.util.RandomUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 import java.nio.charset.Charset;
@@ -28,47 +22,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RcTest
-public class BrandControllerIntegratedTest {
-    private MockMvc mvc;
-    @Autowired
-    private WebApplicationContext context;
-
+public class BrandControllerIntegratedTest extends AbstractWebApplicationTest {
     @Resource
     private IdRepository idRepository;
-    @Autowired
+    @Resource
     private BrandMapper brandMapper;
     private BrandCreateRequest brandCreateRequest;
     private BrandUpdateRequest brandUpdateRequest;
 
-    @BeforeEach
-    public void setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context)
-                .build();
-        TenantContextHolder.setTenantId(IpUtils.getHostName());
-        brandCreateRequest = RandomUtils.randomPojo(BrandCreateRequest.class, o -> {
-            o.setName("振信");
-            o.setLogo("http://zx.zjffcat.com/storage/uploads/20210713/08885d526a7eeb318aae72d710ef5ea0.jpg");
-            o.setEnabled(true);
-            o.setType("自有");
-            o.setSort(99);
-        });
-
-        brandCreateRequest = RandomUtils.randomPojo(BrandCreateRequest.class, o -> {
-            o.setName("振信");
-            o.setLogo("http://zx.zjffcat.com/storage/uploads/20210713/08885d526a7eeb318aae72d710ef5ea0.jpg");
-            o.setEnabled(true);
-            o.setType("自有");
-            o.setSort(99);
-        });
-
-        brandUpdateRequest = RandomUtils.randomPojo(BrandUpdateRequest.class, o -> {
-            o.setName("振国");
-            o.setLogo("http://zx.zjffcat.com/storage/uploads/20210713/08885d526a7eeb318aae72d710ef5ea0123.jpg");
-            o.setEnabled(false);
-            o.setType("公有");
-            o.setSort(1);
-        });
+    @Override
+    protected void initFixture() {
+        initBrandCreateRequest();
+        initBrandUpdateRequest();
     }
+
 
 
     @DisplayName(value = "创建品牌")
@@ -227,5 +194,25 @@ public class BrandControllerIntegratedTest {
         po.setEnabled(brandCreateRequest.getEnabled());
         brandMapper.insert(po);
         return po;
+    }
+
+    private void initBrandCreateRequest() {
+        brandCreateRequest = RandomUtils.randomPojo(BrandCreateRequest.class, o -> {
+            o.setName("振信");
+            o.setLogo("http://zx.zjffcat.com/storage/uploads/20210713/08885d526a7eeb318aae72d710ef5ea0.jpg");
+            o.setEnabled(true);
+            o.setType("自有");
+            o.setSort(99);
+        });
+    }
+
+    private void initBrandUpdateRequest() {
+        brandUpdateRequest = RandomUtils.randomPojo(BrandUpdateRequest.class, o -> {
+            o.setName("振国");
+            o.setLogo("http://zx.zjffcat.com/storage/uploads/20210713/08885d526a7eeb318aae72d710ef5ea0123.jpg");
+            o.setEnabled(false);
+            o.setType("公有");
+            o.setSort(1);
+        });
     }
 }
