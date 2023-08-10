@@ -2,15 +2,20 @@ package com.rc.cloud.app.operate.domain.model.customclassification;
 
 import com.rc.cloud.app.operate.domain.model.customclassification.identifier.CustomClassificationId;
 
+import java.util.List;
+
 public interface CustomClassificationRepository {
-
-    void insertCustomClassification(CustomClassification customClassification);
-
-    void updateCustomClassification(CustomClassification customClassification);
 
     CustomClassification findById(CustomClassificationId customClassificationId);
 
-    boolean exist(CustomClassificationId customClassificationId);
+    List<CustomClassification> findAll();
 
-    void removeCustomClassification(CustomClassificationId customClassificationId);
+    boolean save(CustomClassification customClassification);
+    boolean remove(CustomClassification customClassification);
+
+    boolean removeById(CustomClassificationId customClassificationId);
+
+    boolean existsByParentId(CustomClassificationId customClassificationId);
+
+    boolean existsByName(String name);
 }

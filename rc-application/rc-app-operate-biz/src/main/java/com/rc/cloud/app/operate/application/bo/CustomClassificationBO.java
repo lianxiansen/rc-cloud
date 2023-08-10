@@ -39,7 +39,15 @@ public class CustomClassificationBO {
     public static CustomClassificationBO convert(CustomClassification customClassification) {
         CustomClassificationBO bo=new CustomClassificationBO();
         bo= new CustomClassificationBO();
-        //TODO
+        bo.setName(customClassification.getName());
+        bo.setCustomClassificationImage(customClassification.getCustomClassificationImage().getValue());
+        bo.setCustomClassificationPoster(customClassification.getCustomClassificationPoster().getValue());
+        bo.setEnabled(customClassification.getEnabledFlag());
+        bo.setProductPoster(customClassification.getProductPoster().getValue());
+        bo.setSort(customClassification.getSort().getValue());
+        if(customClassification.getCreateTime()!=null){
+            bo.setCreateTime(customClassification.getCreateTime().getTime());
+        }
         if(Objects.nonNull(customClassification.getParentId())){
             bo.setParentId(customClassification.getParentId().id());
         }

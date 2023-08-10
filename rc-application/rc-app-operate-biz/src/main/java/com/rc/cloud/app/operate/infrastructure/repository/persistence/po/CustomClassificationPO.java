@@ -38,6 +38,12 @@ public class CustomClassificationPO extends TenantBaseDO {
     private Boolean enabledFlag;
 
 
+    @TableField("parent_id")
+    private String parentId;
+
+    @TableField("layer")
+    private Integer layer;
+
     @TableField("sort")
     private Integer sort;
 

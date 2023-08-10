@@ -1,13 +1,12 @@
 package com.rc.cloud.app.operate.domain.model.customclassification;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.common.valobj.Enabled;
+import com.rc.cloud.app.operate.domain.common.valobj.Sort;
 import com.rc.cloud.app.operate.domain.model.customclassification.identifier.CustomClassificationId;
+import com.rc.cloud.app.operate.domain.model.customclassification.valobj.Layer;
 import com.rc.cloud.app.operate.domain.model.customclassification.valobj.Url;
-import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategory;
-import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
-import com.rc.cloud.app.operate.domain.model.productcategory.specification.ReInheritShouldNotSpecifyMyselfSpecification;
-import com.rc.cloud.app.operate.domain.model.productcategory.valobj.Layer;
 import com.rc.cloud.app.operate.infrastructure.constants.CustomClassificationErrorCodeConstants;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductCategoryErrorCodeConstants;
 import com.rc.cloud.common.core.domain.AbstractId;
@@ -32,6 +31,8 @@ public class CustomClassification extends AggregateRoot {
      * 层级
      */
     private Layer layer;
+
+    private Sort sort;
     /**
      * 父级产品分类唯一标识
      */
@@ -113,20 +114,15 @@ public class CustomClassification extends AggregateRoot {
         enabledFlag=true;
     }
 
-    void inheritFrom(CustomClassification parent) {
-        AssertUtils.assertArgumentNotNull(parent, "parent must not be null");
-        Layer layer = parent.getLayer().increment();
-        setLayer(layer);
-        this.parentId = parent.getId();
-    }
 
-    void reInheritFrom(CustomClassification parent) {
+    void setParent(CustomClassification parent) {
         AssertUtils.assertArgumentNotNull(parent, "parent must not be null");
         if(parent.getId().equals(this.getId())){
             throw new ServiceException(CustomClassificationErrorCodeConstants.RE_INHERIT_SHOULD_NOT_SPECIFY_MYSELF);
-
         }
-        inheritFrom(parent);
+        Layer layer = parent.getLayer().increment();
+        setLayer(layer);
+        this.parentId = parent.getId();
     }
 
     void root() {
@@ -137,5 +133,27 @@ public class CustomClassification extends AggregateRoot {
     @Override
     public CustomClassificationId getId() {
         return this.id;
+    }
+
+    public Sort getSort() {
+        return sort;
+    }
+
+    public void setSort(Sort sort) {
+        this.sort = sort;
+    }
+
+    public void setEnabledFlag(Boolean enabledFlag) {
+        this.enabledFlag = enabledFlag;
+    }
+
+    private CreateTime createTime;
+
+    public CreateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(CreateTime createTime) {
+        this.createTime = createTime;
     }
 }
