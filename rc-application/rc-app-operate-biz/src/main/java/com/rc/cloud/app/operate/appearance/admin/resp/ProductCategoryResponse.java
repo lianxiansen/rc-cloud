@@ -21,7 +21,6 @@ import java.util.List;
 public class ProductCategoryResponse extends TreeNode {
     @Schema(description = "产品分类唯一标识")
     private String Id;
-    private String tenantId;
     @Schema(description = "产品分类名称")
     private String name;
     @Schema(description = "产品分类英文名称")

@@ -13,11 +13,6 @@ import javax.validation.constraints.NotNull;
 @Data
 public class ApplicationPageConfigCreateReqVO {
     /**
-     * ID
-     */
-    @TableId
-    private String id;
-    /**
      * 页面标题
      */
     private String title;

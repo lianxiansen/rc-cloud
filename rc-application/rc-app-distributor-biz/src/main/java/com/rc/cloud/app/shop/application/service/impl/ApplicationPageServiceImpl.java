@@ -44,6 +44,7 @@ public class ApplicationPageServiceImpl implements ApplicationPageService {
     @Override
     public void createPageConfig(ApplicationPageConfigCreateDTO createDTO) {
         ApplicationPageConfigPO po = ApplicationPageConfigDTOConvert.INSTANCE.convert(createDTO);
+        po.setDefaulted(0);
         configMapper.insert(po);
     }
 

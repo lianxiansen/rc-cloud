@@ -2,6 +2,7 @@ package com.rc.cloud.common.security.component;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.rc.cloud.common.core.constant.SecurityConstants;
+import com.rc.cloud.common.core.util.RequestUtils;
 import com.rc.cloud.common.security.service.RcUser;
 import com.rc.cloud.common.security.service.RcUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,9 @@ public class RcCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector 
             RcUser user = new RcUser("1","1","admin","asd","1385765277",true,true,true,true,new ArrayList<>());
             Objects.requireNonNull(user)
                     .getAttributes();
+            //请求头写入用户名，为了使mybatis插入数据时能够获取到
+            RequestUtils.getRequest().setAttribute(SecurityConstants.LOGIN_USERNAME,
+                    "admin");
             return user;
         }
 

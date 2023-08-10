@@ -7,7 +7,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-//@DubboComponentScan(basePackages = "com.rc.cloud.app.dubbo")
 @EnableDubbo(scanBasePackages = "com.rc.cloud.app.dubbo")
 public class RcAppDubboBizApplication {
 
