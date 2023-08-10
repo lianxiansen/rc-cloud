@@ -5,7 +5,9 @@ import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandUpdateRequest;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.BrandMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.BrandPO;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.util.TenantContext;
+import com.rc.cloud.common.core.util.IpUtils;
+import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
+import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import com.rc.cloud.common.test.annotation.RcTest;
 import com.rc.cloud.common.test.core.util.RandomUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +44,7 @@ public class BrandControllerIntegratedTest {
     public void setup() {
         mvc = MockMvcBuilders.webAppContextSetup(context)
                 .build();
-        TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
+        TenantContextHolder.setTenantId(IpUtils.getHostName());
         brandCreateRequest = RandomUtils.randomPojo(BrandCreateRequest.class, o -> {
             o.setName("振信");
             o.setLogo("http://zx.zjffcat.com/storage/uploads/20210713/08885d526a7eeb318aae72d710ef5ea0.jpg");
@@ -142,6 +144,7 @@ public class BrandControllerIntegratedTest {
     @Test
     public void selectPageResult() throws Exception {
         //数据准备
+        brandMapper.delete(new LambdaQueryWrapperX<BrandPO>());
         int dataSize = 15;
         for (int i = 0; i < dataSize; i++) {
             saveBrandPO();
@@ -191,6 +194,7 @@ public class BrandControllerIntegratedTest {
     @Test
     public void findList() throws Exception {
         //数据准备
+        brandMapper.delete(new LambdaQueryWrapperX<BrandPO>());
         int dataSize = 15;
         for (int i = 0; i < dataSize; i++) {
             saveBrandPO();

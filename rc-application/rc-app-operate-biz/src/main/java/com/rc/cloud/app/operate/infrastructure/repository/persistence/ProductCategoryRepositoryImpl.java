@@ -6,7 +6,6 @@ import com.rc.cloud.app.operate.domain.model.productcategory.ProductCategoryRepo
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductCategoryMapper;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductCategoryPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,6 @@ import java.util.Objects;
 public class ProductCategoryRepositoryImpl implements ProductCategoryRepository {
     @Resource
     private ProductCategoryMapper productCategoryMapper;
-    @Resource
-    private ProductMapper productMapper;
 
     @Autowired
     private ProductCategoryConvert productCategoryConvert;
@@ -63,7 +60,7 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
 
     @Override
     public boolean removeById(ProductCategoryId productCategoryId) {
-        if(this.productCategoryMapper.deleteById((Serializable) productCategoryId.id())>0){
+        if(this.productCategoryMapper.deleteById(productCategoryId.id())>0){
             return true;
         }
         return false;

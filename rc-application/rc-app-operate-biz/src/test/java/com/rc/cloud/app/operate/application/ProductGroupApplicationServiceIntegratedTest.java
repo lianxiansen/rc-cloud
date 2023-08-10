@@ -14,7 +14,6 @@ import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductGroupRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductGroupMapper;

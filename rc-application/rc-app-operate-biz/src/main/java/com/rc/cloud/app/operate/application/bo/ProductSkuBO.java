@@ -1,16 +1,10 @@
 package com.rc.cloud.app.operate.application.bo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
-import com.rc.cloud.app.operate.domain.model.productsku.valobj.*;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.SortedSet;
 
 @Data
 @Accessors(chain = true)

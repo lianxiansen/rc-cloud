@@ -10,7 +10,6 @@ import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupItem;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupItemId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.util.TenantContext;
@@ -39,8 +38,9 @@ import static org.mockito.Mockito.when;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = BaseDbUnitTest.Application.class)
 @ActiveProfiles("unit-test") // 设置使用 application-unit-test 配置文件
-@Sql(scripts = {"/sql/clean.sql","/sql/init_data.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD) // 每个单元测试结束后，清理 DB
-@Import({  LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
+@Sql(scripts = {"/sql/clean.sql", "/sql/init_data.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+// 每个单元测试结束后，清理 DB
+@Import({LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
 @DisplayName("产品组合资源库单元测试")
 public class ProductGroupRepositoryUnitTest extends BaseDbUnitTest {
     @Autowired
@@ -57,6 +57,7 @@ public class ProductGroupRepositoryUnitTest extends BaseDbUnitTest {
 
     private ProductGroupId productGroupId;
     private ProductId productId;
+
     @BeforeEach
     public void beforeEach() {
         initFixture();
@@ -65,9 +66,8 @@ public class ProductGroupRepositoryUnitTest extends BaseDbUnitTest {
 
     @Test
     public void save() {
-        ProductGroup productGroup = new ProductGroup(productGroupId, productGroupCreateDTO.getName(),
-                new TenantId(TenantContext.getTenantId()), new ProductId(productGroupCreateDTO.getProductId()));
-        for(int i=0;i<10;i++){
+        ProductGroup productGroup = new ProductGroup(productGroupId, productGroupCreateDTO.getName(), new ProductId(productGroupCreateDTO.getProductId()));
+        for (int i = 0; i < 10; i++) {
             ProductGroupItem item = new ProductGroupItem(new ProductGroupItemId(idRepository.nextId()), productGroup.getId(), productMock.getId());
             productGroup.createItem(item);
         }
@@ -77,14 +77,15 @@ public class ProductGroupRepositoryUnitTest extends BaseDbUnitTest {
 
     @Test
     @DisplayName("根据唯一标识查询产品组合领域对象")
-    public void findById(){
-        ProductGroup productGroup=  productGroupRepository.findById(new ProductGroupId("870ef1f5-39d2-4f48-8c67-ae45206"));
+    public void findById() {
+        ProductGroup productGroup = productGroupRepository.findById(new ProductGroupId("870ef1f5-39d2-4f48-8c67-ae45206"));
         Assertions.assertNotNull(productGroup);
     }
+
     @Test
     @DisplayName("获取产品组合列表")
-    public void selectList(){
-        List<ProductGroup> productGroup=  productGroupRepository.findAll(productId);
+    public void selectList() {
+        List<ProductGroup> productGroup = productGroupRepository.findAll(productId);
         Assertions.assertNotNull(productGroup);
     }
 
@@ -94,8 +95,8 @@ public class ProductGroupRepositoryUnitTest extends BaseDbUnitTest {
      */
     private void initFixture() {
         TenantContext.setTenantId("test");
-        productGroupId=new ProductGroupId("870ef1f5-39d2-4f48-8c67-ae45206");
-        productId=new ProductId("5c491caf-1df2-4bad-a04b-67976a7");
+        productGroupId = new ProductGroupId("870ef1f5-39d2-4f48-8c67-ae45206");
+        productId = new ProductId("5c491caf-1df2-4bad-a04b-67976a7");
         productMock = new Product(productId, new Name(RandomUtils.randomString()));
         when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
         productGroupCreateDTO = new ProductGroupCreateDTO();

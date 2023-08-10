@@ -12,7 +12,6 @@ import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommend;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendService;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendRepository;
 import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductRecommendRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductRecommendMapper;

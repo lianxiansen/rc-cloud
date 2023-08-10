@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @ClassName: ProductCategoryUpdateRequest
+ * @ClassName: ProductCategoryBO
  * @Author: liandy
  * @Date: 2023/7/3 09:26
- * @Description: TODO
+ * @Description: 产品分类业务对象
  */
 @Data
 @Accessors(chain = true)

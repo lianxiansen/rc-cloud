@@ -4,7 +4,6 @@ import com.rc.cloud.app.operate.domain.common.valobj.CreateTime;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.domain.model.productgroup.specification.AppendProductGroupItemLimitSpecification;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductGroupErrorCodeConstants;
 import com.rc.cloud.common.core.domain.AggregateRoot;
 import com.rc.cloud.common.core.exception.ServiceException;
@@ -34,7 +33,7 @@ public class ProductGroup extends AggregateRoot {
     }
 
 
-    public ProductGroup(ProductGroupId id, String name,TenantId tenantId,ProductId productId){
+    public ProductGroup(ProductGroupId id, String name,ProductId productId){
         setId(id);
         setName(name);
         setProductId(productId);

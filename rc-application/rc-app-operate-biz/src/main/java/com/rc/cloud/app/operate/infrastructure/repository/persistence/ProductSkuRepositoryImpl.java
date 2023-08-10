@@ -1,30 +1,26 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.rc.cloud.app.operate.domain.model.product.Product;
-import com.rc.cloud.app.operate.domain.model.product.ProductAttribute;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.productdict.ProductDict;
-import com.rc.cloud.app.operate.domain.model.productimage.ProductImage;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuAttribute;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuImage;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSkuRepository;
 import com.rc.cloud.app.operate.domain.model.productsku.identifier.ProductSkuId;
-import com.rc.cloud.app.operate.domain.model.tenant.valobj.TenantId;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductAttributeConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductSkuAttributeConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductSkuConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductSkuImageConvert;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductSkuAttributeMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductSkuImageMapper;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductSkuMapper;
-import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.*;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductSkuAttributePO;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductSkuImagePO;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductSkuPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
