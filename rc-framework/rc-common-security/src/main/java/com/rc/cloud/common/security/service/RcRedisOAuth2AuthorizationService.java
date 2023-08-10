@@ -121,6 +121,7 @@ public class RcRedisOAuth2AuthorizationService implements OAuth2AuthorizationSer
         OAuth2Authorization oAuth2Authorization = (OAuth2Authorization) redisTemplate.opsForValue()
                 .get(buildKey(tokenType.getValue(), token));
         if (oAuth2Authorization != null) {
+            //请求头写入用户名，为了使mybatis插入数据时能够获取到
             RequestUtils.getRequest().setAttribute(SecurityConstants.LOGIN_USERNAME,
                     oAuth2Authorization.getPrincipalName());
         }
