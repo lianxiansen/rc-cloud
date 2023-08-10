@@ -1,5 +1,6 @@
 package com.rc.cloud.app.shop.infrastructure.persistence.po;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
@@ -19,7 +20,7 @@ public class ApplicationPageConfigPO extends BaseDO {
     /**
      * ID
      */
-    @TableId
+    @TableId(type = IdType.ASSIGN_ID)
     private String id;
     /**
      * 页面标题
