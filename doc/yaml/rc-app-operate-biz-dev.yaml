@@ -40,27 +40,9 @@ spring:
         test-on-return: false
       primary: operate
       datasource:
-#        master:
-#          name: rc-cloud-system
-#          url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.dynamic.datasource.master.name}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          username: root
-#          password: root
-#        slave: # 模拟从库，可根据自己需要修改 # 模拟从库，可根据自己需要修改
-#          name: rc-cloud-system
-#          url: jdbc:mysql://127.0.0.1:3306/${spring.datasource.dynamic.datasource.slave.name}?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          username: root
-#          password: root
         operate:
           name: rc-cloud-operate
           url: jdbc:mysql://chenjianxiang:3306/rc-cloud-product?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          username: root
-          password: 123456
-        order:
-          name: rc-cloud-operate
-          url: jdbc:mysql://chenjianxiang:3306/rc-cloud-order?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&characterEncoding=UTF-8
           driver-class-name: com.mysql.cj.jdbc.Driver
           username: root
           password: 123456
@@ -71,8 +53,4 @@ spring:
     database: 0 # 数据库索引
     password: rc123456 # 密码，建议生产环境开启
 
-rc:
-  captcha:
-    enable: false # 是否开启验证码
-  tenant: # 多租户相关配置项
-    enable: true
+
