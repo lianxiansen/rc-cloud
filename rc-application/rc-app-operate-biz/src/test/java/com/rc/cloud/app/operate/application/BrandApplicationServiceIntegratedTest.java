@@ -8,27 +8,22 @@ import com.rc.cloud.app.operate.application.service.BrandApplicationService;
 import com.rc.cloud.app.operate.application.service.impl.BrandApplicationServiceImpl;
 import com.rc.cloud.app.operate.core.AbstractUnitTest;
 import com.rc.cloud.app.operate.domain.model.brand.Brand;
-import com.rc.cloud.app.operate.domain.model.brand.BrandRepository;
 import com.rc.cloud.app.operate.domain.model.brand.BrandService;
 import com.rc.cloud.app.operate.domain.model.brand.identifier.BrandId;
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.BrandRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.BrandMapper;
 import com.rc.cloud.app.operate.infrastructure.util.ConditionUtil;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
-import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
-import javax.annotation.Resource;
 import java.util.Objects;
 
 /**
@@ -45,7 +40,8 @@ import java.util.Objects;
  * |-6.1分页检索品牌，每页大小为10，记录数26，指定页码3，返回记录数6
  * 7.根据唯一标识获取品牌
  */
-@Import({BrandApplicationServiceImpl.class, LocalIdRepositoryImpl.class, BrandService.class, BrandRepositoryImpl.class, ProductRepositoryImpl.class})
+@Import({BrandApplicationServiceImpl.class, LocalIdRepositoryImpl.class, BrandService.class, BrandRepositoryImpl.class,
+        ProductRepositoryImpl.class})
 @DisplayName("品牌集成测试")
 public class BrandApplicationServiceIntegratedTest extends AbstractUnitTest {
     @Autowired
@@ -53,14 +49,9 @@ public class BrandApplicationServiceIntegratedTest extends AbstractUnitTest {
 
     @Autowired
     private BrandService brandService;
-    @Resource
-    private IdRepository idRepository;
-    @Autowired
-    private BrandRepository brandRepository;
+
     @Autowired
     private BrandMapper brandMapper;
-    @MockBean
-    private ProductRepository productRepositoryStub;
 
     private BrandCreateDTO createBrandDTO;
 
@@ -68,24 +59,13 @@ public class BrandApplicationServiceIntegratedTest extends AbstractUnitTest {
 
     private Brand brandMock;
 
-
+    @Override
     public void initFixture() {
-        String imgUrl = "http://127.0.0.1:9000/test/2023/07/20/56a3d87acd3b4105950be3647abc5383.jpg";
-        createBrandDTO = new BrandCreateDTO();
-        createBrandDTO.setName(RandomUtils.randomString())
-                .setSort(RandomUtils.randomInteger())
-                .setEnabled(new Boolean(true))
-                .setType(RandomUtils.randomString())
-                .setLogo(imgUrl);
-        updateBrandDTO = new BrandUpdateDTO();
-        updateBrandDTO.setName(RandomUtils.randomString())
-                .setSort(RandomUtils.randomInteger())
-                .setEnabled(new Boolean(true))
-                .setType(RandomUtils.randomString())
-                .setLogo(imgUrl);
-        BrandBO brandBO = brandApplicationService.create(createBrandDTO);
-        brandMock = brandService.findById(new BrandId(brandBO.getId()));
+        initCreateBrandDTO();
+        initUpdateBrandDTO();
+        brandMock = mockBrand();
     }
+
 
     @Test
     @DisplayName("创建品牌")
@@ -112,9 +92,6 @@ public class BrandApplicationServiceIntegratedTest extends AbstractUnitTest {
     public void removeBrand() {
         Assertions.assertTrue(brandApplicationService.remove(brandMock.getId().id()), "删除品牌失败");
     }
-
-
-
 
 
     @Test
@@ -162,15 +139,6 @@ public class BrandApplicationServiceIntegratedTest extends AbstractUnitTest {
     }
 
 
-
-
-
-    private void initStub() {
-
-    }
-
-
-
     private void assertEquals(BrandCreateDTO expected, BrandBO actual, boolean... condition) {
         Assertions.assertTrue(Objects.nonNull(actual.getId()) &&
                 expected.getName().equals(actual.getName()) &&
@@ -200,6 +168,30 @@ public class BrandApplicationServiceIntegratedTest extends AbstractUnitTest {
                 expected.isEnabled()== actual.isEnabled() &&
                 Objects.nonNull(actual.getCreateTime())&&
                 ConditionUtil.booleanValue(condition), "创建品牌失败");
+    }
+
+    private void initCreateBrandDTO() {
+        String imgUrl = "http://127.0.0.1:9000/test/2023/07/20/56a3d87acd3b4105950be3647abc5383.jpg";
+        createBrandDTO = new BrandCreateDTO();
+        createBrandDTO.setName(RandomUtils.randomString())
+                .setSort(RandomUtils.randomInteger())
+                .setEnabled(new Boolean(true))
+                .setType(RandomUtils.randomString())
+                .setLogo(imgUrl);
+    }
+    private void initUpdateBrandDTO() {
+        String imgUrl = "http://127.0.0.1:9000/test/2023/07/20/56a3d87acd3b4105950be3647abc5383.jpg";
+        updateBrandDTO = new BrandUpdateDTO();
+        updateBrandDTO.setName(RandomUtils.randomString())
+                .setSort(RandomUtils.randomInteger())
+                .setEnabled(new Boolean(true))
+                .setType(RandomUtils.randomString())
+                .setLogo(imgUrl);
+    }
+
+    private Brand mockBrand() {
+        BrandBO brandBO = brandApplicationService.create(createBrandDTO);
+        return brandService.findById(new BrandId(brandBO.getId()));
     }
 
 }

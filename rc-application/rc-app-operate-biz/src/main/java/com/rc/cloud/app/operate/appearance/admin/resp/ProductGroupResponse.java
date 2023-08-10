@@ -20,6 +20,8 @@ import java.util.List;
 public class ProductGroupResponse {
     @Schema(description = "产品组合唯一标识")
     private String Id;
+    @Schema(description = "商品唯一标识")
+    private String productId;
     @Schema(description = "产品组合名称")
     private String name;
     @Schema(description = "创建时间")
@@ -33,6 +35,7 @@ public class ProductGroupResponse {
     public static ProductGroupResponse from(ProductGroupBO bo) {
         ProductGroupResponse response = ProductGroupConvert.INSTANCE.convert2ProductGroupVO(bo);
         response.setCreateTime(LocalDateTimeUtils.format(bo.getCreateTime()));
+        response.setDescription("共"+response.getItemList().size()+"款产品");
         return response;
     }
 

@@ -29,5 +29,5 @@ public interface ProductGroupApplicationService {
      */
     ProductGroupItemBO createItem(ProductGroupItemCreateDTO productGroupItemCreateDTO);
 
-    List<ProductGroupBO> findListByProductId(String productId);
+    List<ProductGroupBO> findList(String productId);
 }

@@ -50,10 +50,7 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
         if (StringUtils.isEmpty(updateBrandDTO.getId())) {
             throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
         }
-        Brand brand = brandService.findById(new BrandId(updateBrandDTO.getId()));
-        if (Objects.isNull(brand)) {
-            throw new ServiceException(BrandErrorCodeConstants.BRAND_NOT_EXISTS);
-        }
+        Brand brand = findBrand(new BrandId(updateBrandDTO.getId()));
         rebuild(updateBrandDTO, brand);
         brandService.save(brand);
         return BrandConvert.convert(brand);
@@ -64,11 +61,7 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
         if (StringUtils.isEmpty(id)) {
             throw new ServiceException(BrandErrorCodeConstants.ID_NOT_EMPTY);
         }
-        Brand brand= brandService.findById(new BrandId(id));
-        if(Objects.isNull(brand)){
-            throw new ServiceException(BrandErrorCodeConstants.BRAND_NOT_EXISTS);
-        }
-
+        Brand brand = findBrand(new BrandId(id));
         return brandService.remove(brand);
     }
 
@@ -161,6 +154,14 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
         if(queryBrandDTO.getPageSize().intValue()>PageParam.MAX_PAGE_SIZE){
             queryBrandDTO.setPageSize(PageParam.MAX_PAGE_SIZE);
         }
+    }
+
+    private Brand findBrand(BrandId brandId) {
+        Brand brand = brandService.findById(brandId);
+        if (Objects.isNull(brand)) {
+            throw new ServiceException(BrandErrorCodeConstants.BRAND_NOT_EXISTS);
+        }
+        return brand;
     }
 }
 

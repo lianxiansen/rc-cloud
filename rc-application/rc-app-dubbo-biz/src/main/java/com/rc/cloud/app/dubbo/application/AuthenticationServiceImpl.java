@@ -1,6 +1,6 @@
 package com.rc.cloud.app.dubbo.application;
 
-import com.rc.cloud.app.dubbo.application.service.AuthenticationService;
+import com.rc.cloud.api.product.service.AuthenticationService;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Component;
 

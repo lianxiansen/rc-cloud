@@ -6,13 +6,15 @@ import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
 import com.rc.cloud.app.operate.application.service.ProductGroupApplicationService;
 import com.rc.cloud.app.operate.application.service.impl.ProductGroupApplicationServiceImpl;
+import com.rc.cloud.app.operate.core.AbstractUnitTest;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
+import com.rc.cloud.app.operate.domain.model.product.ProductService;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
-import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
 import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupRepository;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroupService;
 import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductGroupRepositoryImpl;
@@ -20,11 +22,8 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.Pro
 import com.rc.cloud.app.operate.infrastructure.util.ConditionUtil;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
-import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,10 +39,11 @@ import java.util.Objects;
 import static org.mockito.Mockito.when;
 
 
-@Import({ProductGroupApplicationServiceImpl.class, ProductGroupService.class, LocalIdRepositoryImpl.class, ProductGroupRepositoryImpl.class})
+@Import({ProductGroupApplicationServiceImpl.class, ProductGroupService.class, LocalIdRepositoryImpl.class,
+        ProductGroupRepositoryImpl.class, ProductService.class})
 @ExtendWith({SpringExtension.class})
 @DisplayName("产品组合集成测试")
-public class ProductGroupApplicationServiceIntegratedTest extends BaseDbUnitTest {
+public class ProductGroupApplicationServiceIntegratedTest extends AbstractUnitTest {
     @Autowired
     private ProductGroupApplicationService productGroupApplicationService;
     @MockBean
@@ -64,24 +64,30 @@ public class ProductGroupApplicationServiceIntegratedTest extends BaseDbUnitTest
 
     private ProductGroup productGroupMock;
 
-    @BeforeEach
-    public void beforeEach() {
-        initStub();
-        initFixture();
+    /**
+     * 初始化夹具
+     */
+    @Override
+    public void initFixture() {
+        productMock = mockProduct();
+        productGroupCreateDTO = createProductGroupCreateDTO(productMock);
+        productGroupMock = mockProductGroup(productGroupCreateDTO);
     }
+
 
 
     @Test
     @DisplayName("创建产品组合")
     public void createProductGroup() {
         ProductGroupBO productGroupBO = productGroupApplicationService.create(productGroupCreateDTO);
-        assertEquals(productGroupCreateDTO,productGroupBO);
+        assertEquals(productGroupCreateDTO, productGroupBO);
     }
+
     private void assertEquals(ProductGroupCreateDTO expected, ProductGroupBO actual, boolean... condition) {
         Assertions.assertTrue(Objects.nonNull(actual.getId()) &&
                 expected.getName().equals(actual.getName()) &&
                 expected.getProductId().equals(actual.getProductId()) &&
-                Objects.nonNull(actual.getCreateTime())&&
+                Objects.nonNull(actual.getCreateTime()) &&
                 ConditionUtil.booleanValue(condition), "创建品牌失败");
     }
 
@@ -97,54 +103,50 @@ public class ProductGroupApplicationServiceIntegratedTest extends BaseDbUnitTest
     @Test
     @DisplayName("添加组合产品")
     public void appendGroupItem() {
-        ProductGroupId productGroupId=productGroupMock.getId();
+        ProductGroupId productGroupId = productGroupMock.getId();
         ProductGroupItemCreateDTO productGroupItemCreateDTO = new ProductGroupItemCreateDTO()
                 .setProductGroupId(productGroupId.id())
                 .setProductId(productMock.getId().id());
-        ProductGroupItemBO itemBO=productGroupApplicationService.createItem(productGroupItemCreateDTO);
-        Assertions.assertTrue(productGroupItemCreateDTO.getProductId().equals(itemBO.getProductId())&&
-                productGroupItemCreateDTO.getProductGroupId().equals(itemBO.getProductGroupId()),"添加组合产品失败");
+        ProductGroupItemBO itemBO = productGroupApplicationService.createItem(productGroupItemCreateDTO);
+        Assertions.assertTrue(productGroupItemCreateDTO.getProductId().equals(itemBO.getProductId()) &&
+                productGroupItemCreateDTO.getProductGroupId().equals(itemBO.getProductGroupId()), "添加组合产品失败");
     }
+
     @Test
     @DisplayName("获取产品组合列表")
-    public void findListByProductId(){
+    public void findListByProductId() {
         productGroupMapper.delete(new LambdaQueryWrapperX<>());
-        int totalCount=20;
-        int itemNum=8;
+        int totalCount = 20;
+        int itemNum = 8;
         for (int i = 0; i < totalCount; i++) {
-            ProductGroupBO groupBO=productGroupApplicationService.create(productGroupCreateDTO);
+            ProductGroupBO groupBO = productGroupApplicationService.create(productGroupCreateDTO);
             ProductGroupItemCreateDTO productGroupItemCreateDTO = new ProductGroupItemCreateDTO()
                     .setProductGroupId(groupBO.getId())
                     .setProductId(productMock.getId().id());
-            for(int j = 0; j < itemNum; j++){
+            for (int j = 0; j < itemNum; j++) {
                 productGroupApplicationService.createItem(productGroupItemCreateDTO);
             }
         }
-        List<ProductGroupBO> bos= productGroupApplicationService.findListByProductId(productMock.getId().id());
-        Assertions.assertEquals(bos.size(),totalCount);
+        List<ProductGroupBO> bos = productGroupApplicationService.findList(productMock.getId().id());
+        Assertions.assertEquals(bos.size(), totalCount);
+    }
+    private ProductGroup mockProductGroup(ProductGroupCreateDTO productGroupCreateDTO) {
+        ProductGroupBO productGroupBO = productGroupApplicationService.create(productGroupCreateDTO);
+        ProductGroup productGroupMock = productGroupService.findById(new ProductGroupId(productGroupBO.getId()));
+        return productGroupMock;
     }
 
-
-
-
-    /**
-     * 初始化桩
-     */
-    private void initStub() {
-
-    }
-
-    /**
-     * 初始化夹具
-     */
-    private void initFixture() {
-        TenantContext.setTenantId("test");
-        productMock = new Product(new ProductId(idRepository.nextId()),new Name(RandomUtils.randomString()));
-        when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
-        productGroupCreateDTO = new ProductGroupCreateDTO();
+    private ProductGroupCreateDTO createProductGroupCreateDTO(Product productMock) {
+        ProductGroupCreateDTO productGroupCreateDTO = new ProductGroupCreateDTO();
         productGroupCreateDTO.setName(RandomUtils.randomString());
         productGroupCreateDTO.setProductId(productMock.getId().id());
-        ProductGroupBO productGroupBO = productGroupApplicationService.create(productGroupCreateDTO);
-        productGroupMock=productGroupService.findById(new ProductGroupId(productGroupBO.getId()));
+        return productGroupCreateDTO;
     }
+
+    private Product mockProduct() {
+        Product product = new Product(new ProductId(idRepository.nextId()), new Name(RandomUtils.randomString()));
+        when(productRepositoryStub.findById(product.getId())).thenReturn(product);
+        return product;
+    }
+
 }

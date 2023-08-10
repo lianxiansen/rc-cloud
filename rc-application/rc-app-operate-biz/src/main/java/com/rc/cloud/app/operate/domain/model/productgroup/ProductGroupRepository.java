@@ -19,6 +19,8 @@ public interface ProductGroupRepository {
 
     ProductGroup findById(ProductGroupId productGroupId);
 
+    boolean remove(ProductGroup productGroup);
+
     boolean removeById(ProductGroupId productGroupId);
 
     boolean itemExist(ProductGroupId productGroupId, ProductId productId);

@@ -17,14 +17,14 @@ public class ProductGroupService {
     @Resource
     private IdRepository idRepository;
 
-    
+
     public ProductGroup create(ProductGroup productGroup) {
         AssertUtils.notNull(productGroup, "productGroup must be not null");
         productGroupRepository.save(productGroup);
         return productGroup;
     }
 
-    
+
     public ProductGroupItem createItem(ProductGroup productGroup,ProductGroupItem item) {
         productGroup.createItem(item);
         productGroupRepository.save(productGroup);
@@ -32,14 +32,14 @@ public class ProductGroupService {
     }
 
 
-    
+
     public ProductGroup findById(ProductGroupId productGroupId) {
         return productGroupRepository.findById(productGroupId);
     }
 
-    
+
     public boolean release(ProductGroup productGroup) {
-        return productGroupRepository.removeById(productGroup.getId());
+        return productGroupRepository.remove(productGroup);
     }
 
 

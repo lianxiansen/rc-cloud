@@ -13,12 +13,10 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.Product
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -36,10 +34,6 @@ public class ProductGroupRepositoryImpl implements ProductGroupRepository {
         ProductGroupPO po = ProductGroupConvert.convert2ProductGroupPO(productGroup);
         saveProductGroupPO(po);
         List<ProductGroupItemPO> items = ProductGroupConvert.convert2ProductGroupItemPOBatch(productGroup.getProductGroupItems());
-//        LambdaQueryWrapperX<ProductGroupItemPO> wrapper = new LambdaQueryWrapperX<>();
-//        wrapper.eq(ProductGroupItemPO::getProductGroupId, productGroup.getId().id());
-//        productGroupItemMapper.delete(wrapper);
-//        productGroupItemMapper.insertBatch(items);
         items.forEach(item->{
             saveProductGroupItemPO(item);
         });
@@ -92,10 +86,19 @@ public class ProductGroupRepositoryImpl implements ProductGroupRepository {
         return itemPOs;
     }
 
-
+    @Override
+    public boolean remove(ProductGroup productGroup) {
+         productGroupMapper.deleteById(productGroup.getId().id());
+        Collection<String> idList=productGroup.getProductGroupItems().stream().map(e->e.getId().id()).collect(Collectors.toList());
+        if(!CollectionUtils.isEmpty(idList)){
+            productGroupItemMapper.deleteBatchIds(idList);
+        }
+        return true;
+    }
     @Override
     public boolean removeById(ProductGroupId productGroupId) {
-        return productGroupMapper.deleteById(productGroupId.id().toString()) > 0;
+        ProductGroup productGroup= findById(productGroupId);
+        return remove(productGroup);
     }
 
     @Override

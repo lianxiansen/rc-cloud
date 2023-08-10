@@ -1,26 +1,24 @@
 package com.rc.cloud.app.operate.appearance.facade.admin;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
-import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
+import com.rc.cloud.app.operate.core.AbstractWebApplicationTest;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
-import com.rc.cloud.app.operate.domain.model.productgroup.identifier.ProductGroupId;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
+import com.rc.cloud.app.operate.domain.model.productgroup.ProductGroup;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductGroupConvert;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductGroupMapper;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductGroupPO;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.test.annotation.RcTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
 
@@ -39,39 +37,37 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * 3.添加组合项
  */
 @RcTest
-public class ProductGroupControllerIntegratedTest {
-    private MockMvc mvc;
-    @Autowired
-    private WebApplicationContext context;
+public class ProductGroupControllerIntegratedTest extends AbstractWebApplicationTest {
 
     @MockBean
     private ProductRepository productRepositoryStub;
     @Resource
     private IdRepository idRepository;
+    @Autowired
+    private ProductGroupMapper productGroupMapper;
     private Product productMock;
-    private ProductGroupId productGroupId;
-    private ProductId productId;
-    @BeforeEach
-    public void setup() {
-        mvc = MockMvcBuilders.webAppContextSetup(context)
-//                .apply(springSecurity())
-                .build();
-        TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
-        productMock = new Product(new ProductId(idRepository.nextId()), new Name(RandomUtils.randomString()));
-        when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
-        productGroupId=new ProductGroupId("870ef1f5-39d2-4f48-8c67-ae45206");
-        productId=new ProductId("5c491caf-1df2-4bad-a04b-67976a7");
+
+    private ProductGroup productGroupMock;
+
+
+    private ProductGroupCreateDTO productGroupCreateDTO;
+
+    @Override
+    protected void initFixture() {
+        productMock = mockProduct();
+        productGroupCreateDTO = createProductGroupCreateDTO();
+        productGroupMock = mockProductGroup();
     }
+
+
 
     @DisplayName(value = "创建产品组合")
     @Test
     public void create() throws Exception {
-        ProductGroupCreateDTO productGroupCreateDTO = new ProductGroupCreateDTO();
-        productGroupCreateDTO.setName(RandomUtils.randomString());
-        productGroupCreateDTO.setProductId(productMock.getId().id());
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(productGroupCreateDTO);
+        String requestBody = "{\n" +
+                "  \"productId\": \"" + productGroupCreateDTO.getProductId() + "\",\n" +
+                "  \"name\": \"" + productGroupCreateDTO.getName() + "\"\n" +
+                "}";
         mvc.perform(post("/admin/productGroup/create")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
@@ -80,12 +76,17 @@ public class ProductGroupControllerIntegratedTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isNotEmpty());
+                .andExpect(jsonPath("$.data.id").isNotEmpty())
+                .andExpect(jsonPath("$.data.productId").value(productGroupCreateDTO.getProductId()))
+                .andExpect(jsonPath("$.data.name").value(productGroupCreateDTO.getName()))
+                .andExpect(jsonPath("$.data.description").value("共0款产品"));
     }
+
+
     @DisplayName(value = "解除产品组合")
     @Test
     public void release() throws Exception {
-        mvc.perform(delete("/admin/productGroup/release").param("id", productGroupId.id()))
+        mvc.perform(delete("/admin/productGroup/release").param("id", productGroupMock.getId().id()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -96,11 +97,10 @@ public class ProductGroupControllerIntegratedTest {
     @DisplayName(value = "添加组合项")
     @Test
     public void createItem() throws Exception {
-        ProductGroupItemCreateDTO productGroupItemCreateDTO = new ProductGroupItemCreateDTO().setProductGroupId(productGroupId.id())
-                .setProductId(productMock.getId().id());
-        ObjectMapper mapper = new ObjectMapper();
-        String requestBody = mapper.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(productGroupItemCreateDTO);
+        String requestBody = "{\n" +
+                "  \"productGroupId\": \""+ productGroupMock.getId().id()+"\",\n" +
+                "  \"productId\": \""+productMock.getId().id()+"\"\n" +
+                "}";
         mvc.perform(post("/admin/productGroup/createItem")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody)
@@ -109,13 +109,17 @@ public class ProductGroupControllerIntegratedTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data").isNotEmpty());
+                .andExpect(jsonPath("$.data.id").isNotEmpty())
+                .andExpect(jsonPath("$.data.productGroupId").value(productGroupMock.getId().id()))
+                .andExpect(jsonPath("$.data.productId").value(productGroupCreateDTO.getProductId()))
+                .andExpect(jsonPath("$.data.productName").value(productMock.getName().getValue()))
+                .andExpect(jsonPath("$.data.productImage").value(productMock.getProductListImage().getValue()));
     }
 
     @DisplayName(value = "获取产品组合列表")
     @Test
     public void selectList() throws Exception {
-        mvc.perform(get("/admin/productGroup/findAll").param("productId", productId.id()))
+        mvc.perform(get("/admin/productGroup/findList").param("productId", productMock.getId().id()))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -123,4 +127,27 @@ public class ProductGroupControllerIntegratedTest {
                 .andExpect(jsonPath("$.data").isNotEmpty());
     }
 
+    private Product mockProduct() {
+        Product productMock = new Product(new ProductId(idRepository.nextId()), new Name(RandomUtils.randomString()));
+        productMock.setName(new Name("卡通粘钩"));
+        productMock.setProductListImage(new Url("http://www.576zx.com/storage/uploads/20220422/ddcf0171bb0edd9087cc4d6bc2788330.jpg"));
+        when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
+        return productMock;
+    }
+
+    private ProductGroupCreateDTO createProductGroupCreateDTO() {
+        ProductGroupCreateDTO productGroupCreateDTO = new ProductGroupCreateDTO();
+        productGroupCreateDTO.setName(RandomUtils.randomString());
+        productGroupCreateDTO.setProductId(productMock.getId().id());
+        return productGroupCreateDTO;
+    }
+
+    private ProductGroup mockProductGroup() {
+        ProductGroupPO po = new ProductGroupPO();
+        po.setId(idRepository.nextId());
+        po.setName(productGroupCreateDTO.getName());
+        po.setProductId(productGroupCreateDTO.getProductId());
+        productGroupMapper.insert(po);
+        return ProductGroupConvert.convert2ProductGroup(po);
+    }
 }

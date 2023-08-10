@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.application.dto.ProductCategoryUpdateDTO;
 import com.rc.cloud.app.operate.application.event.ProductCategoryRefreshListener;
 import com.rc.cloud.app.operate.application.service.ProductCategoryApplicationService;
 import com.rc.cloud.app.operate.application.service.impl.ProductCategoryApplicationServiceImpl;
+import com.rc.cloud.app.operate.core.AbstractUnitTest;
 import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.productcategory.*;
 import com.rc.cloud.app.operate.domain.model.productcategory.identifier.ProductCategoryId;
@@ -15,13 +16,9 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductRep
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.infrastructure.util.ConditionUtil;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
-import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.StringUtils;
-import com.rc.cloud.common.core.util.TenantContext;
-import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +27,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,8 +45,7 @@ import static org.mockito.Mockito.when;
  * 4.获取产品分类列表
  * 5.删除产品分类
  * |-5.1删除的产品分类
- * |-5.2删除的产品分类有产品关联该分类，阻止删除
- * |-5.3删除的产品分类有子分类，阻止删除
+ * |-5.2删除的产品分类有子分类，阻止删除
  * 6.获取产品分类
  */
 @ExtendWith({SpringExtension.class})
@@ -58,37 +53,27 @@ import static org.mockito.Mockito.when;
         ProductCategoryRefreshListener.class, ProductCategoryApplicationServiceImpl.class, LocalIdRepositoryImpl.class,
         ProductRepositoryImpl.class,ProductCategoryRebuildFactory.class, ProductCategoryBuildFactory.class, ProductCategoryConvert.class})
 @DisplayName("产品分类应用服务集成测试")
-public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitTest {
+public class ProductCategoryApplicationServiceIntegratedTest extends AbstractUnitTest {
     @MockBean
     private ProductRepository productRepositoryStub;
     @Autowired
-    private ProductCategoryRepository productCategoryRepository;
-    @Autowired
     private ProductCategoryService productCategoryService;
-
     @Autowired
     private ProductCategoryApplicationService productCategoryApplicationService;
-    @Resource
-    private IdRepository idRepository;
     @Autowired
     private ProductCategoryRebuildFactory productCategoryRebuildFactory;
 
-    @Autowired
-    private ProductCategoryBuildFactory productCategoryBuildFactory;
-    /**
-     * 夹具，测试上下文，包含属性及方法
-     */
     private ProductCategoryCreateDTO productCategoryCreateDTO;
 
     private ProductCategoryUpdateDTO productCategoryUpdateDTO;
 
     private ProductCategory root;
 
-    @BeforeEach
-    public void beforeEach() {
-        initStub();
-        initFixture();
-
+    @Override
+    public void initFixture() {
+        initCreateDTO();
+        initUpdateDTO();
+        mockRootProductCategory();
     }
 
 
@@ -96,7 +81,7 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
     @DisplayName("创建根级产品分类")
     public void createRootProductCategoryTest() {
         productCategoryCreateDTO.setParentId("");
-        ProductCategoryBO productCategoryBO = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+        ProductCategoryBO productCategoryBO = productCategoryApplicationService.create(productCategoryCreateDTO);
         assertEquals(productCategoryCreateDTO,productCategoryBO );
     }
 
@@ -104,7 +89,7 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
     @DisplayName("创建产品分类指定父产品分类")
     public void createSubProductCategoryWhenParentValid() {
         productCategoryCreateDTO.setParentId(root.getId().id());
-        ProductCategoryBO productCategoryBO = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+        ProductCategoryBO productCategoryBO = productCategoryApplicationService.create(productCategoryCreateDTO);
         assertEquals(productCategoryCreateDTO,productCategoryBO);
 
 
@@ -117,7 +102,7 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
         productCategoryService.remove(root);
         productCategoryCreateDTO.setParentId(root.getId().id());
         Assertions.assertThrows(ServiceException.class, () -> {
-            productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+            productCategoryApplicationService.create(productCategoryCreateDTO);
         });
     }
 
@@ -129,7 +114,7 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
         rebuilder.parentId(null);
         ProductCategory root = rebuilder.rebuild();
         productCategoryUpdateDTO.setId(root.getId().id());
-        ProductCategoryBO bo=productCategoryApplicationService.updateProductCategory(productCategoryUpdateDTO);
+        ProductCategoryBO bo=productCategoryApplicationService.update(productCategoryUpdateDTO);
         assertEquals(productCategoryUpdateDTO,bo);
     }
 
@@ -137,15 +122,15 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
     @DisplayName("修改产品分类的上级，指定其上级分类")
     public void updateProductCategoryWhenParentIdIsNotNull() {
         //测试数据准备
-        ProductCategoryBO sonFutureBO = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+        ProductCategoryBO sonFutureBO = productCategoryApplicationService.create(productCategoryCreateDTO);
         ProductCategory sonFuture = productCategoryService.findById(new ProductCategoryId(sonFutureBO.getId()));
         productCategoryCreateDTO.setParentId(sonFutureBO.getId());
-        ProductCategoryBO grandsonFutureBO = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+        ProductCategoryBO grandsonFutureBO = productCategoryApplicationService.create(productCategoryCreateDTO);
         ProductCategory grandsonFuture = productCategoryService.findById(new ProductCategoryId(grandsonFutureBO.getId()));
         productCategoryUpdateDTO.setId(sonFutureBO.getId());
         productCategoryUpdateDTO.setParentId(root.getId().id());
         //测试执行
-        productCategoryApplicationService.updateProductCategory(productCategoryUpdateDTO);
+        productCategoryApplicationService.update(productCategoryUpdateDTO);
         sonFuture = productCategoryService.findById(new ProductCategoryId(sonFutureBO.getId()));
         grandsonFuture = productCategoryService.findById(new ProductCategoryId(grandsonFutureBO.getId()));
 
@@ -160,7 +145,7 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
         productCategoryUpdateDTO.setId(root.getId().id());
         productCategoryUpdateDTO.setParentId(root.getId().id());
         Assertions.assertThrows(ServiceException.class, () -> {
-            productCategoryApplicationService.updateProductCategory(productCategoryUpdateDTO);
+            productCategoryApplicationService.update(productCategoryUpdateDTO);
         });
     }
 
@@ -169,42 +154,33 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
     @DisplayName("删除产品分类")
     public void removeProductCategory() {
         when(productRepositoryStub.existsByProductCategoryId(root.getId())).thenReturn(false);
-        Assertions.assertTrue(productCategoryApplicationService.removeProductCategory(root.getId().id()), "删除产品分类失败");
+        Assertions.assertTrue(productCategoryApplicationService.remove(root.getId().id()), "删除产品分类失败");
     }
 
-    @Test
-    @DisplayName("删除关联产品的产品分类")
-    public void removeProductCategoryWhenAssociatedProductExists() {
-        when(productRepositoryStub.existsByProductCategoryId(root.getId())).thenReturn(true);
-        Assertions.assertThrows(ServiceException.class, () -> {
-            productCategoryApplicationService.removeProductCategory(root.getId().id());
-        });
-
-    }
 
     @Test
     @DisplayName("删除含有子分类的产品分类")
     public void removeProductCategoryWhenSubProductCategoryExists() {
         productCategoryCreateDTO.setParentId(root.getId().id());
-        productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
+        productCategoryApplicationService.create(productCategoryCreateDTO);
         when(productRepositoryStub.existsByProductCategoryId(root.getId())).thenReturn(false);
 
         Assertions.assertThrows(ServiceException.class, () -> {
-            productCategoryApplicationService.removeProductCategory(root.getId().id());
+            productCategoryApplicationService.remove(root.getId().id());
         });
     }
 
     @Test
     @DisplayName("获取产品分类列表")
     public void findAll() {
-        List<ProductCategoryBO> bos = productCategoryApplicationService.findProductCategorys();
+        List<ProductCategoryBO> bos = productCategoryApplicationService.findAll();
         Assertions.assertTrue(bos.size() > 0);
     }
 
     @Test
     @DisplayName("获取产品分类")
     public void findById() {
-        ProductCategoryBO bo = productCategoryApplicationService.findProductCategoryById(root.getId().id());
+        ProductCategoryBO bo = productCategoryApplicationService.findById(root.getId().id());
         assertEquals(root,bo);
     }
 
@@ -250,19 +226,25 @@ public class ProductCategoryApplicationServiceIntegratedTest extends BaseDbUnitT
                 "对象不相等");
     }
 
-    private void initStub() {
 
-    }
-
-    private void initFixture() {
-        String imgUrl = "http://127.0.0.1:9000/test/2023/07/20/56a3d87acd3b4105950be3647abc5383.jpg";
-        TenantContext.setTenantId("test");
+    private void initCreateDTO() {
+        String imgUrl = "http://127.0.0.1:9000/test/2023/07/20/56a3d87acd3b4105950be3647abc5381.jpg";
         productCategoryCreateDTO = new ProductCategoryCreateDTO();
         productCategoryCreateDTO.setProductCategoryPageImage(imgUrl).setEnglishName(RandomUtils.randomString()).setName(RandomUtils.randomString()).setIcon(imgUrl).setSort(9).setEnabled(true).setProductListPageImage(imgUrl);
+        return ;
+    }
+    private void initUpdateDTO() {
+        String imgUrl = "http://127.0.0.1:9000/test/2023/07/20/56a3d87acd3b4105950be3647abc5382.jpg";
         productCategoryUpdateDTO = new ProductCategoryUpdateDTO();
-        productCategoryUpdateDTO.setProductCategoryPageImage(imgUrl).setEnglishName(RandomUtils.randomString()).setName(RandomUtils.randomString()).setIcon(imgUrl).setSort(9).setEnabled(true).setProductListPageImage(imgUrl);
-        ProductCategoryBO productCategoryBO = productCategoryApplicationService.createProductCategory(productCategoryCreateDTO);
-        root = productCategoryService.findById(new ProductCategoryId(productCategoryBO.getId()));
+        productCategoryUpdateDTO.setProductCategoryPageImage(imgUrl).setEnglishName(RandomUtils.randomString())
+                .setName(RandomUtils.randomString()).setIcon(imgUrl).setSort(9).setEnabled(true).setProductListPageImage(imgUrl);
     }
 
+    /**
+     * 模拟根产品分类
+     */
+    private void mockRootProductCategory() {
+        ProductCategoryBO productCategoryBO = productCategoryApplicationService.create(productCategoryCreateDTO);
+        root = productCategoryService.findById(new ProductCategoryId(productCategoryBO.getId()));
+    }
 }

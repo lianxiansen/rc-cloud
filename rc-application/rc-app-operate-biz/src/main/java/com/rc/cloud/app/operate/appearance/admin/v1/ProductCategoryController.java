@@ -36,7 +36,7 @@ public class ProductCategoryController {
     public CodeResult<ProductCategoryResponse> create(@Valid @RequestBody ProductCategoryCreateRequest request) {
         ProductCategoryCreateDTO dto=new ProductCategoryCreateDTO();
         BeanUtils.copyProperties(request,dto);
-        return CodeResult.ok(ProductCategoryResponse.from(productCategoryApplicationService.createProductCategory(dto)));
+        return CodeResult.ok(ProductCategoryResponse.from(productCategoryApplicationService.create(dto)));
     }
 
     @RepeatSubmit
@@ -45,13 +45,13 @@ public class ProductCategoryController {
     public CodeResult<ProductCategoryResponse> update(@Valid @RequestBody ProductCategoryUpdateRequest request) {
         ProductCategoryUpdateDTO dto=new ProductCategoryUpdateDTO();
         BeanUtils.copyProperties(request,dto);
-        return CodeResult.ok(ProductCategoryResponse.from(productCategoryApplicationService.updateProductCategory(dto)));
+        return CodeResult.ok(ProductCategoryResponse.from(productCategoryApplicationService.update(dto)));
     }
 
     @DeleteMapping("remove")
     @Operation(summary = "删除产品分类")
     public CodeResult<Long> remove(@RequestParam(name = "id",required = true) String id) {
-        if(productCategoryApplicationService.removeProductCategory(id)){
+        if(productCategoryApplicationService.remove(id)){
             return CodeResult.ok();
         }
         return CodeResult.fail();
@@ -60,7 +60,7 @@ public class ProductCategoryController {
     @GetMapping("findAll")
     @Operation(summary = "产品分类列表")
     public CodeResult<List<ProductCategoryResponse>> findAll() {
-        List<ProductCategoryBO> bos =productCategoryApplicationService.findProductCategorys();
+        List<ProductCategoryBO> bos =productCategoryApplicationService.findAll();
         List<ProductCategoryResponse> responses=ProductCategoryResponse.from(bos);
         return CodeResult.ok(responses);
     }
@@ -68,14 +68,14 @@ public class ProductCategoryController {
     @GetMapping("findById")
     @Operation(summary = "根据唯一标识查找产品分类")
     public CodeResult<ProductCategoryResponse> findById(@RequestParam(name = "id",required = true) String id) {
-        ProductCategoryBO bo = productCategoryApplicationService.findProductCategoryById(id);
+        ProductCategoryBO bo = productCategoryApplicationService.findById(id);
         return CodeResult.ok(ProductCategoryResponse.from(bo));
     }
 
     @GetMapping("findTreeList")
     @Operation(summary = "产品分类树形列表")
     public CodeResult<List<ProductCategoryResponse>> findTreeList() {
-        List<ProductCategoryBO> bos =productCategoryApplicationService.findProductCategorys();
+        List<ProductCategoryBO> bos =productCategoryApplicationService.findAll();
         List<ProductCategoryResponse> responses=ProductCategoryResponse.from(bos);
         responses.sort(Comparator.comparing(ProductCategoryResponse::getSort));
         return CodeResult.ok(TreeUtil.build(responses));

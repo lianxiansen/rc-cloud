@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,7 +45,7 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
     @Autowired
     private ProductCategoryRebuildFactory productCategoryRebuildFactory;
     @Override
-    public ProductCategoryBO createProductCategory(ProductCategoryCreateDTO productCreateCategoryDTO) {
+    public ProductCategoryBO create(ProductCategoryCreateDTO productCreateCategoryDTO) {
         if (StringUtils.isEmpty(productCreateCategoryDTO.getName())) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.NAME_NOT_EMPTY);
         }
@@ -58,14 +57,11 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public ProductCategoryBO updateProductCategory(ProductCategoryUpdateDTO productCategoryUpdateDTO) {
+    public ProductCategoryBO update(ProductCategoryUpdateDTO productCategoryUpdateDTO) {
         if (StringUtils.isEmpty(productCategoryUpdateDTO.getId())) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
         }
-        ProductCategory productCategory = productCategoryService.findById(new ProductCategoryId(productCategoryUpdateDTO.getId()));
-        if (Objects.isNull(productCategory)) {
-            throw new ServiceException(ProductCategoryErrorCodeConstants.PRODUCT_CATEGORY_NOT_EXISTS);
-        }
+        ProductCategory productCategory = findProductCategory(new ProductCategoryId(productCategoryUpdateDTO.getId()));
         productCategory = rebulidProductCategory(productCategoryUpdateDTO, productCategory);
         productCategoryService.update(productCategory);
         return ProductCategoryBO.convert(productCategory);
@@ -73,26 +69,23 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
 
 
 
-
     @Override
-    public boolean removeProductCategory(String id) {
+    public boolean remove(String id) {
         if (StringUtils.isEmpty(id)) {
             throw new ServiceException(ProductCategoryErrorCodeConstants.ID_NOT_EMPTY);
         }
-        ProductCategoryId productCategoryId = new ProductCategoryId(id);
-        ProductCategory productCategory = productCategoryService.findById(productCategoryId);
+        ProductCategory productCategory = findProductCategory(new ProductCategoryId(id));
         return productCategoryService.remove(productCategory);
     }
 
     @Override
-    public List<ProductCategoryBO> findProductCategorys() {
-        List<ProductCategoryBO> boList = new ArrayList<>();
+    public List<ProductCategoryBO> findAll() {
         List<ProductCategory> productCategoryList = productCategoryService.findAll();
         return ProductCategoryBO.convertBatch(productCategoryList);
     }
 
     @Override
-    public ProductCategoryBO findProductCategoryById(String id) {
+    public ProductCategoryBO findById(String id) {
         return ProductCategoryBO.convert(productCategoryService.findById(new ProductCategoryId(id)));
     }
 
@@ -160,4 +153,13 @@ public class ProductCategoryApplicationServiceImpl implements ProductCategoryApp
         productCategory = rebuilder.rebuild();
         return productCategory;
     }
+
+    private ProductCategory findProductCategory(ProductCategoryId productCategoryId) {
+        ProductCategory productCategory = productCategoryService.findById(productCategoryId);
+        if (Objects.isNull(productCategory)) {
+            throw new ServiceException(ProductCategoryErrorCodeConstants.ID_INVALID);
+        }
+        return productCategory;
+    }
+
 }

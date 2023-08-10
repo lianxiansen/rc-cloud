@@ -17,32 +17,32 @@ public interface ProductCategoryApplicationService {
      * @param productCreateCategoryDTO 产品分类创建request
      * @return 产品分类业务对象
      */
-    ProductCategoryBO createProductCategory(ProductCategoryCreateDTO productCreateCategoryDTO);
+    ProductCategoryBO create(ProductCategoryCreateDTO productCreateCategoryDTO);
 
     /**
      * 更新产品分类
      * @param productCategoryUpdateDTO 产品分类更新request
      * @return 产品分类业务对象
      */
-    ProductCategoryBO updateProductCategory(ProductCategoryUpdateDTO productCategoryUpdateDTO);
+    ProductCategoryBO update(ProductCategoryUpdateDTO productCategoryUpdateDTO);
 
     /**
      * 删除产品分类
      * @param id
      * @return
      */
-    boolean removeProductCategory(String id);
+    boolean remove(String id);
 
     /**
      * 获取产品分类列表
      * @return
      */
-    List<ProductCategoryBO> findProductCategorys();
+    List<ProductCategoryBO> findAll();
 
     /**
      * 根据唯一标识查找产品分类
      * @param id
      * @return
      */
-    ProductCategoryBO findProductCategoryById(String id);
+    ProductCategoryBO findById(String id);
 }

@@ -10,7 +10,9 @@ import lombok.experimental.Accessors;
 @Schema(description = "产品组合项response")
 public class ProductGroupItemResponse {
     @Schema(description = "产品组合项唯一标识")
-    private String Id;
+    private String id;
+    @Schema(description = "产品组合引用标识")
+    private String productGroupId;
     @Schema(description = "产品唯一标识")
     private String productId;
     @Schema(description = "产品名称")

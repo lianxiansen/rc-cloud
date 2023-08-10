@@ -20,8 +20,8 @@ import com.rc.cloud.app.operate.infrastructure.constants.ProductGroupErrorCodeCo
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -31,66 +31,44 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductGroupApplicationServiceImpl implements ProductGroupApplicationService {
-    @Autowired
+    @Resource
     private ProductGroupService productGroupService;
-    @Autowired
+    @Resource
     private ProductGroupRepository productGroupRepository;
-    @Autowired
+    @Resource
     private ProductRepository productRepository;
     @Resource
     private IdRepository idRepository;
-    @Autowired
+    @Resource
     private ProductService productService;
 
     @Override
     public ProductGroupBO create(ProductGroupCreateDTO productGroupCreateDTO) {
-        if (StringUtils.isEmpty(productGroupCreateDTO.getProductId())) {
-            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
-        }
-        if (StringUtils.isEmpty(productGroupCreateDTO.getName())) {
-            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NAME_NOT_EMPTY);
-        }
-        ProductId productId = new ProductId(productGroupCreateDTO.getProductId());
-        Product product = productRepository.findById(productId);
-        if (Objects.isNull(product)) {
-            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_NOT_EXISTS);
-        }
-        ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), productGroupCreateDTO.getName(), productId);
+        validateProductGroupCreateDTO(productGroupCreateDTO);
+        productExists(new ProductId(productGroupCreateDTO.getProductId()));
+        ProductGroup productGroup = new ProductGroup(new ProductGroupId(idRepository.nextId()), productGroupCreateDTO.getName(), new ProductId(productGroupCreateDTO.getProductId()));
         productGroupService.create(productGroup);
         return ProductGroupConvert.convert2ProductGroupBO(productGroup);
     }
 
+
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean release(String id) {
         if (StringUtils.isEmpty(id)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.ID_NOT_EMPTY);
         }
-        ProductGroup productGroup = productGroupService.findById(new ProductGroupId(id));
-        if (Objects.isNull(productGroup)) {
-            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NOT_EXISTS);
-        }
+        ProductGroup productGroup = findProductGroup(new ProductGroupId(id));
         return productGroupService.release(productGroup);
     }
 
+
     @Override
     public ProductGroupItemBO createItem(ProductGroupItemCreateDTO productGroupItemCreateDTO) {
-        if (StringUtils.isEmpty(productGroupItemCreateDTO.getProductGroupId())) {
-            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NOT_EXISTS);
-        }
-        if (StringUtils.isEmpty(productGroupItemCreateDTO.getProductId())) {
-            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_IN_GROUP_NOT_EMPTY);
-        }
-        ProductId productId = new ProductId(productGroupItemCreateDTO.getProductId());
-        Product product = productService.findProductById(productId);
-        if (Objects.isNull(product)) {
-            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_IN_GROUP_NOT_EXISTS);
-        }
-        ProductGroupId productGroupId = new ProductGroupId(productGroupItemCreateDTO.getProductGroupId());
-        ProductGroup productGroup = productGroupService.findById(productGroupId);
-        if (Objects.isNull(productGroup)) {
-            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NOT_EXISTS);
-        }
-        ProductGroupItem item = new ProductGroupItem(new ProductGroupItemId(idRepository.nextId()), productGroup.getId(), productId);
+        validateProductGroupItemCreateDTO(productGroupItemCreateDTO);
+        Product product = findProduct(new ProductId(productGroupItemCreateDTO.getProductId()));
+        ProductGroup productGroup = findProductGroup(new ProductGroupId(productGroupItemCreateDTO.getProductGroupId()));
+        ProductGroupItem item = new ProductGroupItem(new ProductGroupItemId(idRepository.nextId()), productGroup.getId(), new ProductId(productGroupItemCreateDTO.getProductId()));
         ProductGroupItem productGroupItem = productGroupService.createItem(productGroup, item);
         ProductGroupItemBO bo = ProductGroupConvert.convert2productGroupItemBO(productGroupItem, product);
         return bo;
@@ -98,7 +76,7 @@ public class ProductGroupApplicationServiceImpl implements ProductGroupApplicati
 
 
     @Override
-    public List<ProductGroupBO> findListByProductId(String productId) {
+    public List<ProductGroupBO> findList(String productId) {
         if (StringUtils.isEmpty(productId)) {
             throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
         }
@@ -116,7 +94,46 @@ public class ProductGroupApplicationServiceImpl implements ProductGroupApplicati
         return productIds.stream().distinct().collect(Collectors.toList());
     }
 
+    private void productExists(ProductId productId) {
+        Product product = productRepository.findById(productId);
+        if (Objects.isNull(product)) {
+            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_NOT_EXISTS);
+        }
+    }
 
+    private void validateProductGroupCreateDTO(ProductGroupCreateDTO productGroupCreateDTO) {
+        if (StringUtils.isEmpty(productGroupCreateDTO.getProductId())) {
+            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_NOT_EMPTY);
+        }
+        if (StringUtils.isEmpty(productGroupCreateDTO.getName())) {
+            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NAME_NOT_EMPTY);
+        }
+    }
+
+    private ProductGroup findProductGroup(ProductGroupId productGroupId) {
+        ProductGroup productGroup = productGroupService.findById(productGroupId);
+        if (Objects.isNull(productGroup)) {
+            throw new ServiceException(ProductGroupErrorCodeConstants.ID_INVALID);
+        }
+        return productGroup;
+    }
+
+    private Product findProduct(ProductId productId) {
+        Product product = productService.findProductById(productId);
+        if (Objects.isNull(product)) {
+            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_IN_GROUP_NOT_EXISTS);
+        }
+        return product;
+    }
+
+    private void validateProductGroupItemCreateDTO(ProductGroupItemCreateDTO productGroupItemCreateDTO) {
+        if (StringUtils.isEmpty(productGroupItemCreateDTO.getProductGroupId())) {
+            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_GROUP_NOT_EXISTS);
+        }
+        if (StringUtils.isEmpty(productGroupItemCreateDTO.getProductId())) {
+            throw new ServiceException(ProductGroupErrorCodeConstants.PRODUCT_ID_IN_GROUP_NOT_EMPTY);
+        }
+    }
 }
 
 

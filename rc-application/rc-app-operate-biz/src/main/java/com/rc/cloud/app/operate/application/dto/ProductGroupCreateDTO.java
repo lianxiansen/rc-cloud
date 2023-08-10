@@ -31,14 +31,4 @@ public class ProductGroupCreateDTO {
         return sameValue;
     }
 
-    public boolean sameValueAs(ProductGroupBO productGroup) {
-        boolean sameValue=true;
-        if (StringUtils.isNotEmpty(productId)) {
-            sameValue=sameValue&&productId.equals(productGroup.getProductId());
-        }
-        if (StringUtils.isNotEmpty(name)) {
-            sameValue=sameValue&&name.equals(productGroup.getName());
-        }
-        return sameValue;
-    }
 }
