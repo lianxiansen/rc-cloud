@@ -426,7 +426,8 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     public int changeOnShelfStatus(String productId, int onShelfStatus){
         if(onShelfStatus== ProductShelfStatusEnum.OnShelf.value){
             productService.onShelf(new ProductId(productId));
-        }else  if(onShelfStatus== ProductShelfStatusEnum.OffShelf.value){
+        }else  if(onShelfStatus== ProductShelfStatusEnum.OffShelf.value
+        || onShelfStatus== ProductShelfStatusEnum.InitShelf.value){
             productService.offShelf(new ProductId(productId));
         }
         return 1;
