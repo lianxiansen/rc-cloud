@@ -35,7 +35,7 @@ public class ProductSkuConvert {
                             new ProductSkuImageResponse(item.getUrl(), item.getSort()))
                     .collect(Collectors.toList());
 
-            response.setSkuImages(images);
+            response.setAlbums(images);
         }
         response.setPrice(bo.getPrice().toString());
         response.setWeight(bo.getWeight().toString());

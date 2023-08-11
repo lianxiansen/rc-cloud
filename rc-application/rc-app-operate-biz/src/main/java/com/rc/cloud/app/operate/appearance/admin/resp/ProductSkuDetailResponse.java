@@ -19,7 +19,7 @@ public class ProductSkuDetailResponse {
     private List<ProductSkuAttributeResponse> attributes;
 
     @Schema(description = "图片")
-    private List<ProductSkuImageResponse> skuImages;
+    private List<ProductSkuImageResponse> albums;
 
     @Schema(description = "价格")
     private String price;
