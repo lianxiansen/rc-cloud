@@ -48,7 +48,7 @@ public class ProductListResponse {
     private boolean publicFlag;
 
     @Schema(description = "状态")
-    private int onShelfStatus;
+    private int onshelfStatus;
 
     @Schema(description = "创建时间")
     private String createTime;

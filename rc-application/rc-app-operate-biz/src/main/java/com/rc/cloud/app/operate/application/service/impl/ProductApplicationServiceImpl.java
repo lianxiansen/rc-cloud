@@ -424,10 +424,10 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
 
     @Override
     public int changeOnShelfStatus(String productId, int onShelfStatus){
-        if(onShelfStatus== ProductShelfStatusEnum.OnShelf.value){
+        if(onShelfStatus== ProductShelfStatusEnum.Onshelf.value){
             productService.onShelf(new ProductId(productId));
-        }else  if(onShelfStatus== ProductShelfStatusEnum.OffShelf.value
-        || onShelfStatus== ProductShelfStatusEnum.InitShelf.value){
+        }else  if(onShelfStatus== ProductShelfStatusEnum.Offshelf.value
+        || onShelfStatus== ProductShelfStatusEnum.Initshelf.value){
             productService.offShelf(new ProductId(productId));
         }
         return 1;

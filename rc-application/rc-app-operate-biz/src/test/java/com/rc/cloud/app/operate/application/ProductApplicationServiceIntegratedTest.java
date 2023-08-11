@@ -406,7 +406,7 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         productSaveDTO.setInstallVideoImg("https://"+RandomUtils.randomString());
         productSaveDTO.setInstallVideoUrl("https://"+RandomUtils.randomString());
         productSaveDTO.setInstallDetail(RandomUtils.randomString());
-        productSaveDTO.setOnShelfStatus(ProductShelfStatusEnum.OnShelf.value);
+        productSaveDTO.setOnShelfStatus(ProductShelfStatusEnum.Onshelf.value);
         productSaveDTO.setSort(99);
         productSaveDTO.setPublicFlag(true);
         productSaveDTO.setRecommendFlag(true);

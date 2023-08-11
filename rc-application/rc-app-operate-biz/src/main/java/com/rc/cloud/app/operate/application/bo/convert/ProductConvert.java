@@ -480,7 +480,7 @@ public class ProductConvert
             if(onshelfStatus!=null){
                 product.setOnshelfStatus(new OnshelfStatus(onshelfStatus));
             }else{
-                product.setOnshelfStatus(new OnshelfStatus(ProductShelfStatusEnum.InitShelf.value));
+                product.setOnshelfStatus(new OnshelfStatus(ProductShelfStatusEnum.Initshelf.value));
             }
         }else{
             if (onshelfStatus != null) {

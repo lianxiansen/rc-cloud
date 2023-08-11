@@ -106,7 +106,7 @@ public class ProductSaveRequest {
 
     @Schema(description = "上线状态，可以马上上线")
 
-    private Integer onShelfStatus;
+    private Integer onshelfStatus;
 
     @Schema(description = "视频地址")
 

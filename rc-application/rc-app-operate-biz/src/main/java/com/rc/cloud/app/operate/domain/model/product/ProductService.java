@@ -50,7 +50,7 @@ public class ProductService {
         if(product==null){
             throw new ServiceException(ProductErrorCodeConstants.PRODUCT_NOT_EXIST_ERROR);
         }
-        product.setOnshelfStatus(new OnshelfStatus(ProductShelfStatusEnum.OnShelf.value));
+        product.setOnshelfStatus(new OnshelfStatus(ProductShelfStatusEnum.Onshelf.value));
         return productRepository.updateProduct(product);
     }
 
@@ -59,7 +59,7 @@ public class ProductService {
         if(product==null){
             throw new ServiceException(ProductErrorCodeConstants.PRODUCT_NOT_EXIST_ERROR);
         }
-        product.setOnshelfStatus(new OnshelfStatus(ProductShelfStatusEnum.OffShelf.value));
+        product.setOnshelfStatus(new OnshelfStatus(ProductShelfStatusEnum.Offshelf.value));
         return productRepository.updateProduct(product);
     }
 

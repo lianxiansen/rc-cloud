@@ -34,7 +34,7 @@ public class Product extends AggregateRoot {
      */
     public boolean isEnabled(){
         boolean flag=true;
-        if(this.onshelfStatus.getValue()!=ProductShelfStatusEnum.OnShelf.value){
+        if(this.onshelfStatus.getValue()!=ProductShelfStatusEnum.Onshelf.value){
             return false;
         }
         if(this.recycleFlag.getValue()){
@@ -55,7 +55,7 @@ public class Product extends AggregateRoot {
         this.tag =new Tag("");
         this.newFlag=false;
         this.publicFlag=false;
-        this.onshelfStatus= new OnshelfStatus(ProductShelfStatusEnum.InitShelf.value);
+        this.onshelfStatus= new OnshelfStatus(ProductShelfStatusEnum.Initshelf.value);
         this.video=new Video(null);
         this.spuCode=new SpuCode(null);
         this.origin =new Origin(ProductOriginEnum.Self.value);
