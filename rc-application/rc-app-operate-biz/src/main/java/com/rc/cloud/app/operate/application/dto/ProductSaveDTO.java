@@ -121,7 +121,7 @@ public class ProductSaveDTO {
 
     private List<ProductSkuSaveDTO> skus;
 
-    private Integer onShelfStatus;
+    private Integer onshelfStatus;
 
 
     private String videoUrl;

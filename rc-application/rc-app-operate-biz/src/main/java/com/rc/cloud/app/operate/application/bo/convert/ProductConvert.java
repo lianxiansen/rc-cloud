@@ -77,7 +77,7 @@ public class ProductConvert
         //设置公开
         product = setPublic(productSaveDTO.getPublicFlag(),isCreate,product);
         //设置OnShelfStatus
-        product = setOnShelfStatus(productSaveDTO.getOnShelfStatus(),isCreate,product);
+        product = setOnShelfStatus(productSaveDTO.getOnshelfStatus(),isCreate,product);
         //设置Recommend
         product = setRecommend(productSaveDTO.getRecommendFlag(),isCreate,product);
         //设置Recycle

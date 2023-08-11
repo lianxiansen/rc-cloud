@@ -180,7 +180,7 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
                 ,newProductBO.getInstallDetail());
 
         Assertions.assertEquals(productSaveDTO.getInstallVideoImg(),newProductBO.getInstallVideoImg());
-        Assertions.assertEquals(productSaveDTO.getOnShelfStatus(),newProductBO.getOnshelfStatus());
+        Assertions.assertEquals(productSaveDTO.getOnshelfStatus(),newProductBO.getOnshelfStatus());
         Assertions.assertEquals(productSaveDTO.getName(),newProductBO.getName());
         Assertions.assertEquals(productSaveDTO.getRemark(),newProductBO.getRemark());
         Assertions.assertEquals(productSaveDTO.getListImage(),newProductBO.getProductListImage());
@@ -406,7 +406,7 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         productSaveDTO.setInstallVideoImg("https://"+RandomUtils.randomString());
         productSaveDTO.setInstallVideoUrl("https://"+RandomUtils.randomString());
         productSaveDTO.setInstallDetail(RandomUtils.randomString());
-        productSaveDTO.setOnShelfStatus(ProductShelfStatusEnum.Onshelf.value);
+        productSaveDTO.setOnshelfStatus(ProductShelfStatusEnum.Onshelf.value);
         productSaveDTO.setSort(99);
         productSaveDTO.setPublicFlag(true);
         productSaveDTO.setRecommendFlag(true);
