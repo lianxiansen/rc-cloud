@@ -47,13 +47,15 @@ public class CustomClassificationRepositoryImpl implements CustomClassificationR
     }
 
     @Override
-    public boolean save(CustomClassification customClassification) {
+    public void insert(CustomClassification customClassification) {
         CustomClassificationPO po = customClassificationConvert.convertPO(customClassification);
-        String idVal = customClassification.getId().id();
-        return !StringUtils.checkValNull(idVal)
-                && !Objects.isNull(customClassificationMapper.selectById(idVal))
-                ? customClassificationMapper.updateById(po) > 0
-                : customClassificationMapper.insert(po) > 0;
+        customClassificationMapper.insert(po);
+    }
+
+    @Override
+    public void update(CustomClassification customClassification) {
+        CustomClassificationPO po = customClassificationConvert.convertPO(customClassification);
+        customClassificationMapper.updateById(po);
     }
 
     @Override

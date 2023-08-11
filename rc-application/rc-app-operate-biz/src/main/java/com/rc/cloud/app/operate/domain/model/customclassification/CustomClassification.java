@@ -112,6 +112,7 @@ public class CustomClassification extends AggregateRoot {
         productPoster =new Url("");
         customClassificationPoster =new Url("");
         enabledFlag=true;
+        root();
     }
 
 

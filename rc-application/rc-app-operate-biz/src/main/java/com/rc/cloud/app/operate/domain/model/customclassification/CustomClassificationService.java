@@ -31,9 +31,7 @@ public class CustomClassificationService {
             }
             customClassification.setParent(parentCategory);
         }
-        if (!customClassificationRepository.save(customClassification)) {
-            throw new ServiceException(ErrorCodeConstants.SYSTEM_EXCEPTION);
-        }
+        customClassificationRepository.insert(customClassification);
         return customClassification;
     }
 
@@ -43,12 +41,12 @@ public class CustomClassificationService {
      * @param customClassification
      * @return
      */
-    public boolean update(CustomClassification customClassification) {
+    public void update(CustomClassification customClassification) {
         CustomClassification oldModel = customClassificationRepository.findById(customClassification.getId());
         if(oldModel.getParentId()!=customClassification.getParentId()){
-            return updateWithParent(customClassification);
+            updateWithParent(customClassification);
         }else{
-            return customClassificationRepository.save(customClassification);
+            customClassificationRepository.update(customClassification);
         }
     }
 
@@ -57,7 +55,7 @@ public class CustomClassificationService {
      * @param customClassification
      * @return
      */
-    public boolean updateWithParent(CustomClassification customClassification){
+    public void updateWithParent(CustomClassification customClassification){
         List<CustomClassification> allList = customClassificationRepository.findAll();
         if (Objects.nonNull(customClassification.getParentId())) {
             CustomClassification parent = customClassificationRepository.findById(customClassification.getParentId());
@@ -70,7 +68,8 @@ public class CustomClassificationService {
             customClassification.root();
         }
         updateChildrenLayer(allList, customClassification);
-        return customClassificationRepository.save(customClassification);
+        customClassificationRepository.update(customClassification);
+
     }
 
 
@@ -101,7 +100,7 @@ public class CustomClassificationService {
         }
         subList.forEach(item -> {
             item.setParent(parent);
-            customClassificationRepository.save(item);
+            customClassificationRepository.update(item);
             updateChildrenLayer(allList, item);
         });
 
@@ -124,7 +123,7 @@ public class CustomClassificationService {
             throw new ServiceException(CustomClassificationErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
         customClassification.enable();
-        customClassificationRepository.save(customClassification);
+        customClassificationRepository.update(customClassification);
     }
 
     public void disable(CustomClassification customClassification) {
@@ -132,7 +131,7 @@ public class CustomClassificationService {
             throw new ServiceException(CustomClassificationErrorCodeConstants.OBJECT_NOT_EXISTS);
         }
         customClassification.enable();
-        customClassificationRepository.save(customClassification);
+        customClassificationRepository.update(customClassification);
     }
 
     public CustomClassification findById(CustomClassificationId customClassificationId) {

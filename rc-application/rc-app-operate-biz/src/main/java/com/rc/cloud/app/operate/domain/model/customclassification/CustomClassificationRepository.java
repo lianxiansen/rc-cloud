@@ -9,8 +9,8 @@ public interface CustomClassificationRepository {
     CustomClassification findById(CustomClassificationId customClassificationId);
 
     List<CustomClassification> findAll();
-
-    boolean save(CustomClassification customClassification);
+    void insert(CustomClassification customClassification);
+    void update(CustomClassification customClassification);
     boolean remove(CustomClassification customClassification);
 
     boolean removeById(CustomClassificationId customClassificationId);
