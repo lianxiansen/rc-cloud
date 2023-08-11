@@ -8,10 +8,10 @@ import com.rc.cloud.app.operate.application.service.impl.ProductRecommendApplica
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
 @Validated
 public class ProductRecommendController {
 
-    @Autowired
+    @Resource
     private ProductRecommendApplicationServiceImpl ProductRecommendApplicationService;
 
     @PostMapping("create")
@@ -34,17 +34,21 @@ public class ProductRecommendController {
 
     @DeleteMapping("release")
     @Operation(summary = "解除产品推荐")
-    public CodeResult<Boolean> release(@RequestParam(name = "id", required = true) String id) {
-        return CodeResult.ok(ProductRecommendApplicationService.release(id));
+    public CodeResult release(@RequestParam(name = "id", required = true) String id) {
+        boolean released = ProductRecommendApplicationService.release(id);
+        if(released){
+            return CodeResult.ok();
+        }
+        return CodeResult.fail();
     }
 
 
 
 
-    @GetMapping("findListByProductId")
+    @GetMapping("findList")
     @Operation(summary = "获取产品推荐列表")
-    public CodeResult<List<ProductRecommendResponse>> findAll(@RequestParam(name = "productId", required = true) String productId) {
-        List<ProductRecommendBO> boList = ProductRecommendApplicationService.findListByProductId(productId);
+    public CodeResult<List<ProductRecommendResponse>> findList(@RequestParam(name = "productId", required = true) String productId) {
+        List<ProductRecommendBO> boList = ProductRecommendApplicationService.findList(productId);
         return CodeResult.ok(ProductRecommendResponse.from(boList));
     }
 

@@ -15,5 +15,5 @@ public interface ProductRecommendApplicationService {
      */
     boolean release(String id);
 
-    List<ProductRecommendBO> findListByProductId(String productId);
+    List<ProductRecommendBO> findList(String productId);
 }

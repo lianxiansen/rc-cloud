@@ -18,9 +18,11 @@ import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: chenjianxiang
@@ -116,14 +118,13 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Product findById(ProductId productId) {
         LambdaQueryWrapperX<ProductPO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductPO::getId, productId.id());
-        Product product = ProductConvert.convertDomain(this.productMapper.selectOne(wrapper));
-        if(product!=null){
-            ProductAttribute productAttribute = getProductAttributeByProductId(productId);
-            product.setProductAttribute(productAttribute);
-            return product;
-        }
+        ProductPO po = this.productMapper.selectOne(wrapper);
+        Product product = convertPO2Product(po);
+        if (product != null) return product;
         return null;
     }
+
+
 
     @Override
     public boolean exist(ProductId productId) {
@@ -142,11 +143,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         PageResult<Product> productPageResult = new PageResult<>();
         PageResult<ProductPO> productDOPageResult = productMapper.selectPage(query);
         productPageResult.setTotal(productDOPageResult.getTotal());
-        List<Product> productList = ProductConvert.convertDomainList(productDOPageResult.getList());
-        for (Product product : productList) {
-            ProductAttribute productAttribute = getProductAttributeByProductId(product.getId());
-            product.setProductAttribute(productAttribute);
-        }
+        List<Product> productList = convertPO2ProductBatch(productDOPageResult.getList());
         productPageResult.setList(productList);
         return productPageResult;
     }
@@ -185,14 +182,52 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
 
+
     private void deleteProductAttributeByProductId(ProductId productId) {
         LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductAttributePO::getProductId, productId.id());
         this.productAttributeMapper.delete(wrapper);
     }
 
+    @Override
+    public List<Product> findByIdBatch(List<ProductId> productIds) {
+       List<String> ids= productIds.stream().map(item->item.id()).collect(Collectors.toList());
+        if(!CollectionUtils.isEmpty(productIds)){
+            List<ProductPO> pos=this.productMapper.selectBatchIds(ids);
+            List<Product> productList = convertPO2ProductBatch(pos);
+            return productList;
+        }
+        return null;
+    }
 
+    /**
+     * 批量将产品持久对象转为领域对象
+     * @param pos
+     * @return
+     */
+    private List<Product> convertPO2ProductBatch(List<ProductPO> pos) {
+        List<Product> productList = ProductConvert.convertDomainList(pos);
+        for (Product product : productList) {
+            ProductAttribute productAttribute = getProductAttributeByProductId(product.getId());
+            product.setProductAttribute(productAttribute);
+        }
+        return productList;
+    }
 
+    /**
+     * 将产品持久对象转为领域对象
+     * @param po
+     * @return
+     */
+    private Product convertPO2Product(ProductPO po) {
+        Product product = ProductConvert.convertDomain(po);
+        if(product!=null){
+            ProductAttribute productAttribute = getProductAttributeByProductId(new ProductId(po.getId()));
+            product.setProductAttribute(productAttribute);
+            return product;
+        }
+        return null;
+    }
 
 }
 

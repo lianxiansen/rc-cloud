@@ -159,7 +159,7 @@ public class BrandApplicationServiceImpl implements BrandApplicationService {
     private Brand findBrand(BrandId brandId) {
         Brand brand = brandService.findById(brandId);
         if (Objects.isNull(brand)) {
-            throw new ServiceException(BrandErrorCodeConstants.BRAND_NOT_EXISTS);
+            throw new ServiceException(BrandErrorCodeConstants.ID_INVALID);
         }
         return brand;
     }

@@ -15,7 +15,7 @@ import java.util.List;
 @Schema(description = "产品推荐response")
 public class ProductRecommendResponse {
     @Schema(description = "产品推荐唯一标识")
-    private String Id;
+    private String id;
     @Schema(description = "产品唯一标识")
     private String productId;
     @Schema(description = "推荐产品唯一标识")

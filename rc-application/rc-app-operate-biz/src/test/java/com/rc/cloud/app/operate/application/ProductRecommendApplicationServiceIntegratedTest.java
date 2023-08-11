@@ -3,26 +3,22 @@ package com.rc.cloud.app.operate.application;
 import com.rc.cloud.app.operate.application.bo.ProductRecommendBO;
 import com.rc.cloud.app.operate.application.dto.ProductRecommendCreateDTO;
 import com.rc.cloud.app.operate.application.service.impl.ProductRecommendApplicationServiceImpl;
+import com.rc.cloud.app.operate.core.AbstractUnitTest;
 import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.product.ProductService;
-import com.rc.cloud.app.operate.domain.model.product.ProductRepository;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
 import com.rc.cloud.app.operate.domain.model.product.valobj.Name;
-import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommend;
+import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendService;
-import com.rc.cloud.app.operate.domain.model.productrecommend.ProductRecommendRepository;
-import com.rc.cloud.app.operate.domain.model.productrecommend.identifier.ProductRecommendId;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.LocalIdRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.ProductRecommendRepositoryImpl;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper.ProductRecommendMapper;
+import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductRecommendPO;
 import com.rc.cloud.app.operate.infrastructure.util.ConditionUtil;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
-import com.rc.cloud.common.core.util.TenantContext;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
-import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,8 +28,10 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.when;
 
@@ -41,31 +39,26 @@ import static org.mockito.Mockito.when;
 @Import({ProductRecommendApplicationServiceImpl.class, ProductRecommendService.class, LocalIdRepositoryImpl.class, ProductRecommendRepositoryImpl.class, ProductService.class})
 @ExtendWith({SpringExtension.class})
 @DisplayName("产品推荐应用服务集成测试")
-public class ProductRecommendApplicationServiceIntegratedTest extends BaseDbUnitTest {
+public class ProductRecommendApplicationServiceIntegratedTest extends AbstractUnitTest {
     @Autowired
     private ProductRecommendApplicationServiceImpl productRecommendApplicationService;
-    @MockBean
-    private ProductRepository productRepositoryStub;
-    @Autowired
-    private ProductRecommendService productRecommendDomainService;
-    @Autowired
-    private ProductRecommendRepository productRecommendRepository;
     @Resource
     private IdRepository idRepository;
 
     @Autowired
     private ProductRecommendMapper ProductRecommendMapper;
-
+    @Resource
+    private ProductRecommendMapper productRecommendMapper;
     private ProductRecommendCreateDTO productRecommendCreateDTO;
 
     private Product productMock;
-
-    private ProductRecommend productRecommendMock;
-
-    @BeforeEach
-    public void beforeEach() {
-        initStub();
-        initFixture();
+    @MockBean
+    private ProductService productService;
+    @Override
+    public void initFixture() {
+        productMock =  mockProduct();
+        when(productService.findProductById(productMock.getId())).thenReturn(productMock);
+        productRecommendCreateDTO= createProductRecommendCreateDTO();
     }
 
 
@@ -87,7 +80,8 @@ public class ProductRecommendApplicationServiceIntegratedTest extends BaseDbUnit
     @Test
     @DisplayName("解除组合")
     public void releaseProductRecommend() {
-        boolean released = productRecommendApplicationService.release(productRecommendMock.getId().id());
+        ProductRecommendPO po=saveProductRecommendPO();
+        boolean released = productRecommendApplicationService.release(po.getId());
         Assertions.assertTrue(released, "解除组合失败");
     }
 
@@ -99,33 +93,35 @@ public class ProductRecommendApplicationServiceIntegratedTest extends BaseDbUnit
     public void findListByProductId() {
         ProductRecommendMapper.delete(new LambdaQueryWrapperX<>());
         int totalCount = 20;
-        int itemNum = 8;
+        List<Product> products =new ArrayList<>();
         for (int i = 0; i < totalCount; i++) {
-            ProductRecommendBO groupBO = productRecommendApplicationService.create(productRecommendCreateDTO);
+            saveProductRecommendPO();
+            products.add(productMock);
         }
-        List<ProductRecommendBO> bos = productRecommendApplicationService.findListByProductId(productMock.getId().id());
+        when(productService.findByIdBatch(products.stream().map(p->p.getId()).distinct().collect(Collectors.toList()))).thenReturn(products);
+        List<ProductRecommendBO> bos = productRecommendApplicationService.findList(productMock.getId().id());
         Assertions.assertEquals(bos.size(), totalCount);
     }
 
-
-    /**
-     * 初始化桩
-     */
-    private void initStub() {
-
-    }
-
-    /**
-     * 初始化夹具
-     */
-    private void initFixture() {
-        TenantContext.setTenantId("110ef1f5-39d2-4f48-8c67-ae11111");
-        productMock = new Product(new ProductId(idRepository.nextId()),new Name(RandomUtils.randomString()));
-        when(productRepositoryStub.findById(productMock.getId())).thenReturn(productMock);
-        productRecommendCreateDTO = new ProductRecommendCreateDTO();
+    private ProductRecommendCreateDTO createProductRecommendCreateDTO() {
+        ProductRecommendCreateDTO   productRecommendCreateDTO = new ProductRecommendCreateDTO();
         productRecommendCreateDTO.setProductId(productMock.getId().id());
         productRecommendCreateDTO.setRecommendProductId(productMock.getId().id());
-        ProductRecommendBO ProductRecommendBO = productRecommendApplicationService.create(productRecommendCreateDTO);
-        productRecommendMock = productRecommendDomainService.findById(new ProductRecommendId(ProductRecommendBO.getId()));
+        return productRecommendCreateDTO;
     }
+    private Product mockProduct() {
+        Product  productMock = new Product(new ProductId(idRepository.nextId()), new Name(RandomUtils.randomString()));
+        productMock.setName(new Name("齿轮大象粘钩"));
+        productMock.setProductListImage(new Url("http://www.576zx.com/storage/uploads/20210809/b2c1196140eda25fb21fa9d40fcbf0f8.jpg"));
+        return productMock;
+    }
+    private ProductRecommendPO saveProductRecommendPO() {
+        ProductRecommendPO po = new ProductRecommendPO();
+        po.setRecommendProductId(productMock.getId().id());
+        po.setProductId(productMock.getId().id());
+        po.setId(idRepository.nextId());
+        productRecommendMapper.insert(po);
+        return po;
+    }
+
 }

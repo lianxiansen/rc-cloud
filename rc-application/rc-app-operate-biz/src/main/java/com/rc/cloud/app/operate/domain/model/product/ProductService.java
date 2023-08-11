@@ -10,10 +10,11 @@ import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductErrorCodeConstants;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageResult;
-import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -148,6 +149,9 @@ public class ProductService {
     public PageResult<Product> getProductPageList(ProductListQueryDTO productListQueryDTO) {
         return productRepository.getProductPageList(productListQueryDTO);
     }
-
+    public List<Product> findByIdBatch(List<ProductId> productIds) {
+        List<Product> products = productRepository.findByIdBatch(productIds);
+        return products;
+    }
 
 }

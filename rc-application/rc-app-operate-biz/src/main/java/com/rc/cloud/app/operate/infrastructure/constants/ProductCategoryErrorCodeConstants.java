@@ -12,7 +12,6 @@ public interface ProductCategoryErrorCodeConstants extends ErrorCodeConstants{
     ErrorCode NAME_NOT_EMPTY = new ErrorCode(2002000004, "产品分类名称不为空");
     ErrorCode PARENT_NOT_EXISTS = new ErrorCode(2002000005, "上级分类对象不存在");
     ErrorCode RE_INHERIT_SHOULD_NOT_SPECIFY_MYSELF = new ErrorCode(2002000006, "上级分类错误");
-    ErrorCode CREATE_FAIL = new ErrorCode(2002000007, "创建失败");
 
 
 }

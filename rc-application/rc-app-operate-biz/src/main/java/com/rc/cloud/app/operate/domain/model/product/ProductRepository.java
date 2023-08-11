@@ -39,5 +39,5 @@ public interface ProductRepository {
     void deleteProduct(ProductId productId);
 
 
-
+    List<Product> findByIdBatch(List<ProductId> productIds);
 }

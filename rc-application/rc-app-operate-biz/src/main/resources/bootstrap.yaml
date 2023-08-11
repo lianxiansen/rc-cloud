@@ -1,11 +1,5 @@
 server:
   port: 8084
-
-liteflow:
-  ruleSource: liteflow/*.el.xml
-  when-max-wait-time: 15
-  when-max-wait-time-unit: MILLISECONDS
-
 spring:
   application:
     name: rc-app-operate-biz
@@ -82,3 +76,8 @@ rc:
     ignore-tables:
       - brand
 
+
+liteflow:
+  ruleSource: liteflow/*.el.xml
+  when-max-wait-time: 15
+  when-max-wait-time-unit: MILLISECONDS
