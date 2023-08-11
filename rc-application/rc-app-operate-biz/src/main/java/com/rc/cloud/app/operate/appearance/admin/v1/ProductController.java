@@ -10,7 +10,6 @@ import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductValidateBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
-import com.rc.cloud.app.operate.domain.common.ProductRemoveTypeEnum;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -106,8 +105,8 @@ public class ProductController {
 
     @PostMapping("changeOnShelfStatus")
     @Operation(summary = "修改上下架字段")
-    public CodeResult<Long> changeOnShelfStatus(@Valid @RequestBody ProductChangeOnShelfStatusDTO dto){
-        productApplicationService.changeOnShelfStatus(dto.getProductId(), dto.getOnShelfStatus());
+    public CodeResult<Long> changeOnShelfStatus(@Valid @RequestBody ProductChangeOnshelfStatusDTO dto){
+        productApplicationService.changeOnshelfStatus(dto.getProductId(), dto.getOnshelfStatus());
         return CodeResult.ok();
     }
 

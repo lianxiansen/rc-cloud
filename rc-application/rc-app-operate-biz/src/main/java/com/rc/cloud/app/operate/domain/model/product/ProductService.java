@@ -45,7 +45,7 @@ public class ProductService {
         return 1;
     }
 
-    public int onShelf(ProductId productId){
+    public int onshelf(ProductId productId){
         Product product = productRepository.findById(productId);
         if(product==null){
             throw new ServiceException(ProductErrorCodeConstants.PRODUCT_NOT_EXIST_ERROR);
@@ -54,7 +54,7 @@ public class ProductService {
         return productRepository.updateProduct(product);
     }
 
-    public int offShelf(ProductId productId){
+    public int offshelf(ProductId productId){
         Product product = productRepository.findById(productId);
         if(product==null){
             throw new ServiceException(ProductErrorCodeConstants.PRODUCT_NOT_EXIST_ERROR);

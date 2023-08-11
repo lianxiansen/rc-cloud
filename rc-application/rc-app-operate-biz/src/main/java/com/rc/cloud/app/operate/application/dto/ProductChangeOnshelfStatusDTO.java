@@ -8,7 +8,7 @@ import javax.validation.constraints.Min;
 
 @Data
 @Schema(description = "修改商品上架状态请求数据")
-public class ProductChangeOnShelfStatusDTO {
+public class ProductChangeOnshelfStatusDTO {
 
     public String productId;
 
@@ -16,7 +16,7 @@ public class ProductChangeOnShelfStatusDTO {
     @Min(value = 0, message = "上架状态值为0,1,2")
     @Max(value = 2, message = "上架状态值为0,1,2")
     @Schema(description = "上架状态")
-    public int onShelfStatus;
+    public int onshelfStatus;
 
 
 }

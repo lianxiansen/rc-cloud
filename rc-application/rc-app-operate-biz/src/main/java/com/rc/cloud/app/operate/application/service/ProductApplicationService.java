@@ -64,7 +64,7 @@ public interface ProductApplicationService {
      int changeNewStatus(String productId, boolean newFlag);
 
 
-     int changeOnShelfStatus(String productId, int onShelfStatus);
+     int changeOnshelfStatus(String productId, int onshelfStatus);
 
      int changePublicStatus(String productId, boolean publicFlag);
 
