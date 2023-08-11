@@ -48,6 +48,8 @@ public class ProductCategoryController {
         return CodeResult.ok(ProductCategoryResponse.from(productCategoryApplicationService.update(dto)));
     }
 
+
+
     @DeleteMapping("remove")
     @Operation(summary = "删除产品分类")
     public CodeResult<Long> remove(@RequestParam(name = "id",required = true) String id) {

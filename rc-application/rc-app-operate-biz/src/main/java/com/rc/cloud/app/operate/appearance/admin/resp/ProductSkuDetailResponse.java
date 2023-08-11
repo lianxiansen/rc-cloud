@@ -19,7 +19,7 @@ public class ProductSkuDetailResponse {
     private List<ProductSkuAttributeResponse> attributes;
 
     @Schema(description = "图片")
-    private String skuImage;
+    private List<ProductSkuImageResponse> skuImages;
 
     @Schema(description = "价格")
     private String price;
@@ -38,5 +38,8 @@ public class ProductSkuDetailResponse {
 
     @Schema(description = "箱规-高")
     private int cartonSizeHeight;
+
+    @Schema(description = "库存")
+    private long inventory;
 
 }

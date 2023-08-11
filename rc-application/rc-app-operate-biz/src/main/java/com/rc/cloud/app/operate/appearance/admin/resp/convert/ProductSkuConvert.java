@@ -1,12 +1,15 @@
 package com.rc.cloud.app.operate.appearance.admin.resp.convert;
 
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductImageResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductSkuAttributeResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductSkuDetailResponse;
+import com.rc.cloud.app.operate.appearance.admin.resp.ProductSkuImageResponse;
 import com.rc.cloud.app.operate.application.bo.AttributeValueCombinationBO;
 import com.rc.cloud.app.operate.application.bo.ProductSkuBO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductSkuConvert {
 
@@ -28,7 +31,11 @@ public class ProductSkuConvert {
         }
         response.setAttributes(productSkuAttributeResponses);
         if(bo.getSkuImages()!=null && bo.getSkuImages().size()>0){
-            response.setSkuImage(bo.getSkuImages().get(0).getUrl());
+            List<ProductSkuImageResponse> images = bo.getSkuImages().stream().map(item ->
+                            new ProductSkuImageResponse(item.getUrl(), item.getSort()))
+                    .collect(Collectors.toList());
+
+            response.setSkuImages(images);
         }
         response.setPrice(bo.getPrice().toString());
         response.setWeight(bo.getWeight().toString());
@@ -36,7 +43,7 @@ public class ProductSkuConvert {
         response.setCartonSizeWidth(bo.getCartonSizeWidth());
         response.setCartonSizeHeight(bo.getCartonSizeHeight());
         response.setPackingNumber(bo.getPackingNumber());
-
+        response.setInventory(bo.getInventory());
 
         return response;
 

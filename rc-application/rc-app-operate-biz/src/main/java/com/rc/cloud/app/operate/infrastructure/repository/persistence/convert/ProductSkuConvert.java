@@ -72,10 +72,18 @@ public class ProductSkuConvert {
             po.setWeight(productSku.getWeight().getValue());
         }
         if(productSku.getSeckillSku()!=null){
-            po.setSeckillInventory(productSku.getSeckillSku().getSeckillInventory().getValue());
-            po.setSeckillPrice(productSku.getSeckillSku().getSeckillPrice().getValue());
-            po.setSeckillLimitBuy(productSku.getSeckillSku().getSeckillLimitBuy().getValue());
-            po.setSeckillTotalInventory(productSku.getSeckillSku().getSeckillTotalInventory().getValue());
+            if(productSku.getSeckillSku().getSeckillInventory()!=null){
+                po.setSeckillInventory(productSku.getSeckillSku().getSeckillInventory().getValue());
+            }
+            if(productSku.getSeckillSku().getSeckillPrice()!=null){
+                po.setSeckillPrice(productSku.getSeckillSku().getSeckillPrice().getValue());
+            }
+            if(productSku.getSeckillSku().getSeckillLimitBuy()!=null){
+                po.setSeckillLimitBuy(productSku.getSeckillSku().getSeckillLimitBuy().getValue());
+            }
+            if(productSku.getSeckillSku().getSeckillTotalInventory()!=null){
+                po.setSeckillTotalInventory(productSku.getSeckillSku().getSeckillTotalInventory().getValue());
+            }
         }
         if(productSku.getPackingNumber()!=null){
             po.setPackingNumber(productSku.getPackingNumber().getValue());
