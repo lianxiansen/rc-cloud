@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
-import com.rc.cloud.app.dubbo.application.service.AuthenticationService;
+import com.rc.cloud.api.product.service.AuthenticationService;
 import com.rc.cloud.common.core.web.CodeResult;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.GetMapping;

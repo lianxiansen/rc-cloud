@@ -93,11 +93,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.rc.cloud</groupId>
-            <artifactId>rc-app-dubbo-api</artifactId>
-            <version>1.0.0</version>
-        </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
