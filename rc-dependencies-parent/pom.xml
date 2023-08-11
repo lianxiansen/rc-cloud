@@ -67,14 +67,6 @@
         <org.apache.dubbo.versoin>2.7.15</org.apache.dubbo.versoin>
     </properties>
 
-    <dependencies>
-        <!-- bootstrap 启动器 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
-        </dependency>
-    </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <!-- SpringCloud 微服务 -->
