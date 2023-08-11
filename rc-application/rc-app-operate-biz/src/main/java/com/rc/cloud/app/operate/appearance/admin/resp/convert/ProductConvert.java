@@ -76,17 +76,17 @@ public class ProductConvert {
         response.setVideoImg(bo.getVideoImg());
         response.setVideoUrl(bo.getVideoUrl());
         response.setProductListImage(bo.getProductListImage());
-        if(bo.getMasterImages()!=null){
-            List<ProductImageResponse> masterImages = bo.getMasterImages().stream().map(item ->
+        if(bo.getMasterAlbums()!=null){
+            List<ProductImageResponse> masterImages = bo.getMasterAlbums().stream().map(item ->
                             new ProductImageResponse(item.getId(), item.getUrl(), item.getSort()))
                     .collect(Collectors.toList());
-            response.setImageList(masterImages);
+            response.setMasterAlbums(masterImages);
         }
-        if(bo.getSizeImages()!=null){
-            List<ProductImageResponse> sizeImages = bo.getSizeImages().stream().map(item ->
+        if(bo.getSizeAlbums()!=null){
+            List<ProductImageResponse> sizeImages = bo.getSizeAlbums().stream().map(item ->
                             new ProductImageResponse(item.getId(),item.getUrl(), item.getSort()))
                     .collect(Collectors.toList());
-            response.setSizeImageList(sizeImages);
+            response.setSizeAlbums(sizeImages);
         }
         response.setDetail(bo.getDetail());
         response.setInstallVideoImg(bo.getInstallVideoImg());

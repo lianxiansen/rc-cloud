@@ -588,11 +588,11 @@ public class ProductConvert
             , List<ProductSku> skuList) {
         ProductBO bo=convertProductBO(product);
         if(productSizeImages!=null){
-            bo.setSizeImages( ProductImageConvert.convertProductImageBOList(productSizeImages));
+            bo.setSizeAlbums( ProductImageConvert.convertProductImageBOList(productSizeImages));
 
         }
         if(productMasterImages!=null){
-            bo.setMasterImages(ProductImageConvert.convertProductImageBOList(productMasterImages));
+            bo.setMasterAlbums(ProductImageConvert.convertProductImageBOList(productMasterImages));
 
         }
         if(productDicts!=null){

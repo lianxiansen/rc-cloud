@@ -73,7 +73,7 @@ public class ProductDetailResponse {
     private String productListImage;
 
     @Schema(description = "图片列表")
-    private List<ProductImageResponse> imageList;
+    private List<ProductImageResponse> masterAlbums;
 
     @Schema(description = "材质")
     private String caiZhi;
@@ -88,7 +88,7 @@ public class ProductDetailResponse {
     private String tiaoMa;
 
     @Schema(description = "size图片列表")
-    private List<ProductImageResponse> sizeImageList;
+    private List<ProductImageResponse> sizeAlbums;
 
     @Schema(description = "视频")
     private String videoUrl;

@@ -77,9 +77,9 @@ public class ProductBO {
 
     private List<ProductSkuBO> skus;
 
-    private List<ProductImageBO> masterImages;
+    private List<ProductImageBO> masterAlbums;
 
-    private List<ProductImageBO> sizeImages;
+    private List<ProductImageBO> sizeAlbums;
 
     private Map<String,String> dicts;
 

@@ -103,11 +103,11 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         Assertions.assertEquals(productBO.getRemark(),newProductBO.getRemark());
         Assertions.assertEquals(productBO.getProductListImage(),newProductBO.getProductListImage());
         Assertions.assertArrayEquals(
-                productBO.getMasterImages().toArray()
-                ,newProductBO.getMasterImages().toArray());
+                productBO.getMasterAlbums().toArray()
+                ,newProductBO.getMasterAlbums().toArray());
         Assertions.assertArrayEquals(
-                productBO.getSizeImages().toArray()
-                ,newProductBO.getSizeImages().toArray());
+                productBO.getSizeAlbums().toArray()
+                ,newProductBO.getSizeAlbums().toArray());
 
         Assertions.assertEquals(productBO.getVideoImg(),newProductBO.getVideoImg());
 
@@ -187,10 +187,10 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
 
         Assertions.assertArrayEquals(
                 productSaveDTO.getMasterAlbums().toArray()
-                ,newProductBO.getMasterImages().toArray());
+                ,newProductBO.getMasterAlbums().toArray());
         Assertions.assertArrayEquals(
                 productSaveDTO.getSizeAlbums().toArray()
-                ,newProductBO.getSizeImages().toArray());
+                ,newProductBO.getSizeAlbums().toArray());
 
         Assertions.assertEquals(productSaveDTO.getVideoImg(),newProductBO.getVideoImg());
 
