@@ -6,7 +6,6 @@ import com.rc.cloud.app.system.model.user.SysUserPO;
 import com.rc.cloud.app.system.service.user.AdminUserService;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.security.annotation.Inner;
-import com.rc.cloud.common.tenant.core.context.TenantContextHolder;
 import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

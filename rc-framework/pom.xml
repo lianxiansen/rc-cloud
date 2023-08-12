@@ -20,13 +20,10 @@
         <module>rc-common-mybatis</module>
         <module>rc-common-redis</module>
         <module>rc-common-log</module>
-        <module>rc-common-tenant</module>
         <module>rc-common-feign</module>
         <module>rc-common-oss</module>
         <module>rc-common-excel</module>
-        <module>rc-common-dict</module>
         <module>rc-common-test</module>
-        <module>rc-common-security</module>
         <module>rc-common-web</module>
     </modules>
 </project>

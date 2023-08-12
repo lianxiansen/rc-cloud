@@ -1,19 +1,12 @@
 package com.rc.cloud.app.marketing.infrastructure.repository;
 
-import com.rc.cloud.api.product.bo.ProductBO;
-import com.rc.cloud.api.product.bo.ProductSkuBO;
 import com.rc.cloud.api.product.service.ProductApplicationService;
 import com.rc.cloud.app.marketing.domain.entity.cart.CartProductInfo;
 import com.rc.cloud.app.marketing.domain.entity.cart.CartProductRepository;
-import com.rc.cloud.app.marketing.infrastructure.util.ListUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author WJF
