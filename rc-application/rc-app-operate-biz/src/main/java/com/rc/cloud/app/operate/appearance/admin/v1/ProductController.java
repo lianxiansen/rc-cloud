@@ -19,6 +19,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: chenjianxiang
@@ -72,16 +74,12 @@ public class ProductController {
 
     @PostMapping("validate")
     @Operation(summary = "校验产品是否可以购买")
-    public CodeResult<ProductValidateResponse> validateProduct(@Valid @RequestBody ProductSkuRequest query) {
-        ProductValidateDTO validateDTO=new ProductValidateDTO();
-        BeanUtil.copyProperties(query,validateDTO);
-        ProductValidateBO productValidateBO = productApplicationService.validateProduct(validateDTO);
-        ProductValidateResponse response=new ProductValidateResponse();
-        response.setCanBuy(productValidateBO.isEnabled());
-        ProductValidateSkuDetailResponse skuDetailResponse=new ProductValidateSkuDetailResponse();
-        BeanUtil.copyProperties(productValidateBO.getProductSkuBO(),skuDetailResponse);
-        response.setSkuDetail(skuDetailResponse);
-        return CodeResult.ok(response);
+    public CodeResult<List<ProductValidateResponse>> validateProduct(@Valid @RequestBody List<ProductSkuRequest> query) {
+        List<ProductValidateDTO> dtoList=new ArrayList<>();
+        dtoList =BeanUtil.copyToList(query,ProductValidateDTO.class);
+        List<ProductValidateBO> list = productApplicationService.validateProductList(dtoList);
+        List<ProductValidateResponse> responseList=BeanUtil.copyToList(list,ProductValidateResponse.class);
+        return CodeResult.ok(responseList);
     }
 
 

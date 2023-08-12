@@ -7,6 +7,6 @@ public class ProductValidateBO {
 
     private boolean enabled;
 
-    private  ProductAndSkuBO productSkuBO;
+    private  ProductAndSkuBO productSku;
 
 }

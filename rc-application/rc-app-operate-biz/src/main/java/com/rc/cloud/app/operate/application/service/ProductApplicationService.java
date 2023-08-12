@@ -6,6 +6,8 @@ import com.rc.cloud.app.operate.application.bo.ProductValidateBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.common.core.pojo.PageResult;
 
+import java.util.List;
+
 /**
  * @ClassName: ProductService
  * @Author: liandy
@@ -52,7 +54,7 @@ public interface ProductApplicationService {
      * @param productValidateDTO
      * @return
      */
-    ProductValidateBO validateProduct(ProductValidateDTO productValidateDTO);
+    List<ProductValidateBO> validateProductList(List<ProductValidateDTO> productValidateDTOs);
 
     /**
      * 获取商品列表

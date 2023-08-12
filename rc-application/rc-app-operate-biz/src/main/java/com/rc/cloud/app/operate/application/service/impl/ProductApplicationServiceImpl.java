@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.application.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Pair;
+import cn.hutool.core.thread.ThreadUtil;
 import com.rc.cloud.app.operate.application.bo.ProductAndSkuBO;
 import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductRemoveBO;
@@ -40,6 +41,10 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 /**
@@ -365,8 +370,40 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         return ProductConvert.convertProductBO(product,productMasterImages ,productSizeImages,productDicts,productDetail,productSkuList);
     }
 
+    /**
+     * 批量验证商品
+     * @param productValidateDTOs
+     * @return
+     */
+    public List<ProductValidateBO> validateProductList(List<ProductValidateDTO> productValidateDTOs){
 
-    public ProductValidateBO validateProduct(ProductValidateDTO productValidateDTO){
+        List<Future> futureList=new ArrayList<>();
+        for(ProductValidateDTO productValidateDTO:productValidateDTOs){
+            Future<ProductValidateBO> future= ThreadUtil.execAsync(new Callable<ProductValidateBO>() {
+                @Override
+                public ProductValidateBO call() throws Exception {
+                    ProductValidateBO productValidateBO = validateProduct(productValidateDTO);
+                    return productValidateBO;
+                }
+            });
+            futureList.add(future);
+        }
+        List<ProductValidateBO> resultList=new ArrayList<>();
+        for(Future<ProductValidateBO> future:futureList){
+            ProductValidateBO bo= null;
+            try {
+                bo = future.get();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+            resultList.add(bo);
+        }
+        return resultList;
+    }
+
+    private ProductValidateBO validateProduct(ProductValidateDTO productValidateDTO){
         Product product = productService.findProductById(new ProductId(productValidateDTO.getProductId()));
         ProductValidateBO validateBO=new ProductValidateBO();
         ProductSku productSku =null;
@@ -379,10 +416,12 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         }else{
             validateBO.setEnabled(true);
             ProductAndSkuBO productSkuBO = ProductAndSkuConvert.convertProductAndSkuBO(product,productSku);
-            validateBO.setProductSkuBO(productSkuBO);
+            validateBO.setProductSku(productSkuBO);
         }
         return validateBO;
     }
+
+
 
     /**
      * 获取商品列表

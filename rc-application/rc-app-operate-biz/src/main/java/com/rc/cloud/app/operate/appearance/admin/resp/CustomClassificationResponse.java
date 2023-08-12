@@ -20,7 +20,7 @@ public class CustomClassificationResponse extends TreeNode {
     @Schema(description = "自定义分类图片")
     private String customClassificationImage;
 
-    @Schema(description = "自定义商品海报")
+    @Schema(description = "商品海报")
     private String productPoster;
 
     @Schema(description = "自定义分类海报")
