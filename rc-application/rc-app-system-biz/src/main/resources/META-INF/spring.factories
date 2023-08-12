@@ -1,5 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  RcDataPermissionAutoConfiguration ,\
-  RcDeptDataPermissionAutoConfiguration, \
    com.rc.cloud.app.system.common.job.config.RcQuartzAutoConfiguration, \
   com.rc.cloud.app.system.common.job.config.RcAsyncAutoConfiguration
