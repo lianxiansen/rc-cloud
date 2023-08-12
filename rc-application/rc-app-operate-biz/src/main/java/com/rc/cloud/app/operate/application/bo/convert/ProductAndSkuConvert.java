@@ -6,6 +6,7 @@ import com.rc.cloud.app.operate.domain.model.product.Product;
 import com.rc.cloud.app.operate.domain.model.productsku.ProductSku;
 import com.rc.cloud.app.operate.domain.model.productsku.valobj.AttributeValueCombination;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.stream.Collectors;
@@ -28,19 +29,19 @@ public class ProductAndSkuConvert {
         }
         if( productSku.getProductSkuAttribute()!=null &&
                 productSku.getProductSkuAttribute().getSkuAttributes()!=null){
-            List<AttributeValueCombination> skuAttributes
-                    = productSku.getProductSkuAttribute().getSkuAttributes().stream().collect(Collectors.toList());
-            if(skuAttributes!=null){
-                bo.setAttribute1(skuAttributes.get(0).getAttribute());
-                bo.setAttribute1(skuAttributes.get(0).getAttributeValue());
+
+            //{颜色,尺寸}          {黄色，Y}
+             List<String> attributes=new ArrayList<>();
+
+            //{颜色,尺寸}          {黄色，Y}
+            List<String> attributeValues=new ArrayList<>();
+
+            for (AttributeValueCombination skuAttribute : productSku.getProductSkuAttribute().getSkuAttributes()) {
+                attributes.add(skuAttribute.getAttribute());
+                attributeValues.add(skuAttribute.getAttributeValue());
             }
-            if(skuAttributes!=null
-                    && skuAttributes.size()==2){
-                bo.setAttribute1(skuAttributes.get(0).getAttribute());
-                bo.setAttributeValue1(skuAttributes.get(0).getAttributeValue());
-                bo.setAttribute2(skuAttributes.get(1).getAttribute());
-                bo.setAttributeValue2(skuAttributes.get(1).getAttributeValue());
-            }
+            bo.setAttributes(attributes);
+            bo.setAttributeValues(attributeValues);
         }
 
         return bo;
