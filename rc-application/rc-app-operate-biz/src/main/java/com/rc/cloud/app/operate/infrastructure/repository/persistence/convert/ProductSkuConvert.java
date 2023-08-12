@@ -41,6 +41,8 @@ public class ProductSkuConvert {
             productSku.setPackingNumber(new PackingNumber(po.getPackingNumber()));
             productSku.setCartonSize(new CartonSize(po.getCartonSizeLength(),po.getCartonSizeWidth()
                     ,po.getCartonSizeHeight()));
+            productSku.setSort(new Sort(po.getSort()));
+            productSku.setSkuCode(po.getSkuCode());
             return productSku;
         }
         return null;
@@ -50,6 +52,9 @@ public class ProductSkuConvert {
         ProductSkuPO po=new ProductSkuPO();
         po.setId(productSku.getId().id());
         po.setProductId(productSku.getProductId().id());
+        if(productSku.getSort()!=null){
+            po.setSort(productSku.getSort().getValue());
+        }
         if(productSku.getSkuCode()!=null){
             po.setSkuCode(productSku.getSkuCode());
         }

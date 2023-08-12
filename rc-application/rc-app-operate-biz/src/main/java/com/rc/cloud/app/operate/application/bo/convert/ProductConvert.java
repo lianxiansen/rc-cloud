@@ -566,6 +566,7 @@ public class ProductConvert
                     productAttribute.addAttribute(attribute.getName(), attribute.getValue(), attribute.getSort());
                 }
             }
+            product.setProductAttribute(productAttribute);
         }
         return product;
     }

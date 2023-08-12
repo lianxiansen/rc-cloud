@@ -229,7 +229,7 @@ public class ProductSkuConvert {
         if(productSku.getCartonSize()!=null){
             bo.setCartonSizeHeight(productSku.getCartonSize().getHeight());
             bo.setCartonSizeWidth(productSku.getCartonSize().getWidth());
-            bo.setCartonSizeLength(productSku.getCartonSize().getHeight());
+            bo.setCartonSizeLength(productSku.getCartonSize().getLength());
         }
         if(productSku.getSeckillSku()!=null){
             SeckillSku seckillSku = productSku.getSeckillSku();

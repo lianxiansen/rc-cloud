@@ -366,7 +366,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         if(productQueryDTO.isNeedProductSku()){
             productSkuList = productSkuService.getProductSkuListByProductId(new ProductId(productQueryDTO.getProductId()));
         }
-        return ProductConvert.convertProductBO(product,productMasterImages ,productSizeImages,productDicts,productDetail,productSkuList);
+        return ProductConvert.convertProductBO(product ,productSizeImages,productMasterImages,productDicts,productDetail,productSkuList);
     }
 
     /**
