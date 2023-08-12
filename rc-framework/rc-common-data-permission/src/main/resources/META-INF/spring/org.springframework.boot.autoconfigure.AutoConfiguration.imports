@@ -1,0 +1,2 @@
+com.rc.cloud.common.datapermission.config.RcDataPermissionAutoConfiguration
+com.rc.cloud.common.datapermission.config.RcDeptDataPermissionAutoConfiguration

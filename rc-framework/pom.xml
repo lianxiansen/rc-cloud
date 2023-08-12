@@ -16,6 +16,7 @@
 
     <modules>
         <module>rc-common-core</module>
+        <module>rc-common-data-permission</module>
         <module>rc-common-mybatis</module>
         <module>rc-common-redis</module>
         <module>rc-common-log</module>

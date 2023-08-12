@@ -1,6 +1,7 @@
 package com.rc.cloud.app.system.api.permission.dto;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.Set;
  * @description 部门的数据权限 Response DTO
  */
 @Data
+@Accessors(chain = true)
 public class DeptDataPermissionRespDTO {
 
     /**

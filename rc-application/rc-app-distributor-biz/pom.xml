@@ -64,7 +64,11 @@
             <artifactId>rc-common-tenant</artifactId>
             <version>1.0.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-data-permission</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>

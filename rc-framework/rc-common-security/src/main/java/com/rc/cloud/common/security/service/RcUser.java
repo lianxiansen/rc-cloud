@@ -1,8 +1,12 @@
 package com.rc.cloud.common.security.service;
 
+import cn.hutool.core.map.MapUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +20,7 @@ import java.util.Map;
  * @author oliveoil
  * @date 2023-06-16 扩展用户信息
  */
+@Accessors(chain = true)
 public class RcUser extends User implements OAuth2AuthenticatedPrincipal {
 
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
@@ -27,8 +32,9 @@ public class RcUser extends User implements OAuth2AuthenticatedPrincipal {
      */
     @Getter
     @JsonSerialize(using = ToStringSerializer.class)
-    private final String id;
-
+    @Setter
+    //private final String id;
+    private String id;
     /**
      * 部门ID
      */
@@ -67,4 +73,23 @@ public class RcUser extends User implements OAuth2AuthenticatedPrincipal {
         return this.getUsername();
     }
 
+    // ========== 上下文 ==========
+    /**
+     * 上下文字段，不进行持久化
+     *
+     * 1. 用于基于 LoginUser 维度的临时缓存
+     */
+    @JsonIgnore
+    private Map<String, Object> context;
+
+    public void setContext(String key, Object value) {
+        if (context == null) {
+            context = new HashMap<>();
+        }
+        context.put(key, value);
+    }
+
+    public <T> T getContext(String key, Class<T> type) {
+        return MapUtil.get(context, key, type);
+    }
 }

@@ -41,7 +41,7 @@ public class WebFrameworkUtils {
      */
     public static String getTenantId(HttpServletRequest request) {
         String tenantId = request.getHeader(HEADER_TENANT_ID);
-        return Objects.equals(tenantId, "") ? null : tenantId;
+        return Objects.equals(tenantId, "") ? "wjf-10086" : tenantId;
     }
 
     /**
@@ -68,7 +68,7 @@ public class WebFrameworkUtils {
      * @param request 请求
      * @return 用户编号
      */
-    public static String getLoginUserId(HttpServletRequest request) {
+    public static String getRcUserId(HttpServletRequest request) {
         if (request == null) {
             return null;
         }
