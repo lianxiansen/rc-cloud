@@ -41,11 +41,10 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
+
+import static org.codehaus.groovy.runtime.DefaultGroovyMethods.collect;
 
 /**
  * @Author: chenjianxiang
@@ -376,31 +375,34 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
      * @return
      */
     public List<ProductValidateBO> validateProductList(List<ProductValidateDTO> productValidateDTOs){
+        if(productValidateDTOs==null){
+            return new ArrayList<>();
+        }
+        ExecutorService executorService = Executors.newFixedThreadPool(productValidateDTOs.size());
+        List<CompletableFuture<ProductValidateBO>> futureList = productValidateDTOs.stream()
+                .map(productValidateDTO ->
+                        asynchronousValidateProduct(productValidateDTO,executorService)
+                ).collect(Collectors.toList());
+        CompletableFuture<Void> allFuture
+                = CompletableFuture.allOf(futureList.toArray(new CompletableFuture[futureList.size()]));
+        CompletableFuture<List<ProductValidateBO>> resultFuture
+                = allFuture.thenApply(v -> futureList.stream()
+                .map(future -> future.join()).collect(Collectors.toList()));
 
-        List<Future> futureList=new ArrayList<>();
-        for(ProductValidateDTO productValidateDTO:productValidateDTOs){
-            Future<ProductValidateBO> future= ThreadUtil.execAsync(new Callable<ProductValidateBO>() {
-                @Override
-                public ProductValidateBO call() throws Exception {
-                    ProductValidateBO productValidateBO = validateProduct(productValidateDTO);
-                    return productValidateBO;
-                }
-            });
-            futureList.add(future);
+
+        try {
+            return resultFuture.get();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
         }
-        List<ProductValidateBO> resultList=new ArrayList<>();
-        for(Future<ProductValidateBO> future:futureList){
-            ProductValidateBO bo= null;
-            try {
-                bo = future.get();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } catch (ExecutionException e) {
-                throw new RuntimeException(e);
-            }
-            resultList.add(bo);
-        }
-        return resultList;
+    }
+
+    public  CompletableFuture<ProductValidateBO> asynchronousValidateProduct(ProductValidateDTO productValidateDTO, ExecutorService executorService) {
+        return CompletableFuture.supplyAsync(() -> {
+            return validateProduct(productValidateDTO);
+        }, executorService);
     }
 
     private ProductValidateBO validateProduct(ProductValidateDTO productValidateDTO){
