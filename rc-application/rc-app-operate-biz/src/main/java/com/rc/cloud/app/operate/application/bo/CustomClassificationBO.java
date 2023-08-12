@@ -38,7 +38,7 @@ public class CustomClassificationBO {
     }
     public static CustomClassificationBO convert(CustomClassification customClassification) {
         CustomClassificationBO bo=new CustomClassificationBO();
-        bo= new CustomClassificationBO();
+        bo.setId(customClassification.getId().id());
         bo.setName(customClassification.getName());
         bo.setCustomClassificationImage(customClassification.getCustomClassificationImage().getValue());
         bo.setCustomClassificationPoster(customClassification.getCustomClassificationPoster().getValue());

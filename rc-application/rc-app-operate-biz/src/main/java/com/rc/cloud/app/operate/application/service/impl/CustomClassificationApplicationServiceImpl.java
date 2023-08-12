@@ -39,11 +39,11 @@ public class CustomClassificationApplicationServiceImpl implements CustomClassif
     @Autowired
     private CustomClassificationRebuildFactory customClassificationRebuildFactory;
     @Override
-    public CustomClassificationBO createCustomClassification(CustomClassificationCreateDTO productCreateCategoryDTO) {
-        if (StringUtils.isEmpty(productCreateCategoryDTO.getName())) {
+    public CustomClassificationBO createCustomClassification(CustomClassificationCreateDTO customClassificationCreateDTO) {
+        if (StringUtils.isEmpty(customClassificationCreateDTO.getName())) {
             throw new ServiceException(CustomClassificationErrorCodeConstants.NAME_NOT_EMPTY);
         }
-        CustomClassification customClassification = buildCustomClassification(productCreateCategoryDTO);
+        CustomClassification customClassification = buildCustomClassification(customClassificationCreateDTO);
         customClassificationService.create(customClassification);
         return CustomClassificationBO.convert(customClassification);
     }

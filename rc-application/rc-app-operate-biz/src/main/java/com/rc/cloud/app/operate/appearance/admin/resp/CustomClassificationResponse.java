@@ -14,16 +14,13 @@ import java.util.List;
 public class CustomClassificationResponse extends TreeNode {
 
 
-    @Schema(description = "产品分类唯一标识")
-    private String Id;
-
-    @Schema(description = "产品分类名称")
+    @Schema(description = "产品自定义分类名称")
     private String name;
 
     @Schema(description = "自定义分类图片")
     private String customClassificationImage;
 
-    @Schema(description = "商品海报")
+    @Schema(description = "自定义商品海报")
     private String productPoster;
 
     @Schema(description = "自定义分类海报")
@@ -40,14 +37,13 @@ public class CustomClassificationResponse extends TreeNode {
 
     public static CustomClassificationResponse from(CustomClassificationBO customClassificationBO){
         CustomClassificationResponse response= CustomClassificationConvert.convertToCustomClassificationResponse(customClassificationBO);
-        response.setCreateTime(LocalDateTimeUtils.format(customClassificationBO.getCreateTime()));
         return response;
     }
 
 
-    public static List<CustomClassificationResponse> from(List<CustomClassificationBO> CustomClassificationList){
+    public static List<CustomClassificationResponse> from(List<CustomClassificationBO> classificationBOList){
         List<CustomClassificationResponse> list=new ArrayList<CustomClassificationResponse>();
-        CustomClassificationList.forEach(item->{
+        classificationBOList.forEach(item->{
             list.add(from(item));
         });
         return list;
