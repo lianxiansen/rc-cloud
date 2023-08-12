@@ -80,9 +80,12 @@ public class ProductGroupRepositoryImpl implements ProductGroupRepository {
     }
 
     private List<ProductGroupItemPO> getProductGroupItemPOs(List<String> productGroupIds) {
-        LambdaQueryWrapperX<ProductGroupItemPO> wrapper2 = new LambdaQueryWrapperX<>();
-        wrapper2.in(ProductGroupItemPO::getProductGroupId, productGroupIds);
-        List<ProductGroupItemPO> itemPOs = productGroupItemMapper.selectList(wrapper2);
+        List<ProductGroupItemPO> itemPOs=new ArrayList<>();
+        if(!CollectionUtils.isEmpty(productGroupIds)){
+            LambdaQueryWrapperX<ProductGroupItemPO> wrapper2 = new LambdaQueryWrapperX<>();
+            wrapper2.in(ProductGroupItemPO::getProductGroupId, productGroupIds);
+            itemPOs = productGroupItemMapper.selectList(wrapper2);
+        }
         return itemPOs;
     }
 
