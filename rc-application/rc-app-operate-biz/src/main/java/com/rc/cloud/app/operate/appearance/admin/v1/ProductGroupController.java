@@ -6,6 +6,8 @@ import com.rc.cloud.app.operate.appearance.admin.resp.convert.ProductGroupItemCo
 import com.rc.cloud.app.operate.application.bo.ProductGroupBO;
 import com.rc.cloud.app.operate.application.bo.ProductGroupItemBO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupCreateDTO;
+import com.rc.cloud.app.operate.application.dto.ProductGroupFindDTO;
+import com.rc.cloud.app.operate.application.dto.ProductGroupGetDTO;
 import com.rc.cloud.app.operate.application.dto.ProductGroupItemCreateDTO;
 import com.rc.cloud.app.operate.application.service.ProductGroupApplicationService;
 import com.rc.cloud.common.core.web.CodeResult;
@@ -35,10 +37,10 @@ public class ProductGroupController {
         return CodeResult.ok(ProductGroupResponse.from(bo));
     }
 
-    @DeleteMapping("release")
+    @PostMapping("release")
     @Operation(summary = "解除产品组合")
-    public CodeResult<Boolean> release(@RequestParam(name = "id", required = true) String id) {
-        return CodeResult.ok(productGroupApplicationService.release(id));
+    public CodeResult<Boolean> release(@Valid @RequestBody ProductGroupGetDTO request) {
+        return CodeResult.ok(productGroupApplicationService.release(request.getId()));
     }
 
 
@@ -49,10 +51,10 @@ public class ProductGroupController {
         return CodeResult.ok(ProductGroupItemConvert.INSTANCE.convert2ProductGroupItemVO(itemBO));
     }
 
-    @GetMapping("findList")
+    @PostMapping("findList")
     @Operation(summary = "获取产品组合列表")
-    public CodeResult<List<ProductGroupResponse>> findList(@RequestParam(name = "productId", required = true) String productId) {
-        List<ProductGroupBO> boList = productGroupApplicationService.findList(productId);
+    public CodeResult<List<ProductGroupResponse>> findList(@Valid @RequestBody ProductGroupFindDTO request) {
+        List<ProductGroupBO> boList = productGroupApplicationService.findList(request.getProductId());
         return CodeResult.ok(ProductGroupResponse.from(boList));
     }
 

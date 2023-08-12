@@ -4,6 +4,8 @@ import com.rc.cloud.app.operate.appearance.admin.resp.ProductRecommendResponse;
 import com.rc.cloud.app.operate.appearance.admin.resp.convert.ProductRecommendConvert;
 import com.rc.cloud.app.operate.application.bo.ProductRecommendBO;
 import com.rc.cloud.app.operate.application.dto.ProductRecommendCreateDTO;
+import com.rc.cloud.app.operate.application.dto.ProductRecommendFindDTO;
+import com.rc.cloud.app.operate.application.dto.ProductRecommendGetDTO;
 import com.rc.cloud.app.operate.application.service.impl.ProductRecommendApplicationServiceImpl;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,10 +34,10 @@ public class ProductRecommendController {
         return CodeResult.ok(ProductRecommendConvert.INSTANCE.convert2ProductRecommendResponse(bo));
     }
 
-    @DeleteMapping("release")
+    @PostMapping("release")
     @Operation(summary = "解除产品推荐")
-    public CodeResult release(@RequestParam(name = "id", required = true) String id) {
-        boolean released = ProductRecommendApplicationService.release(id);
+    public CodeResult release(@Valid @RequestBody ProductRecommendGetDTO request) {
+        boolean released = ProductRecommendApplicationService.release(request.getId());
         if(released){
             return CodeResult.ok();
         }
@@ -45,10 +47,10 @@ public class ProductRecommendController {
 
 
 
-    @GetMapping("findList")
+    @PostMapping("findList")
     @Operation(summary = "获取产品推荐列表")
-    public CodeResult<List<ProductRecommendResponse>> findList(@RequestParam(name = "productId", required = true) String productId) {
-        List<ProductRecommendBO> boList = ProductRecommendApplicationService.findList(productId);
+    public CodeResult<List<ProductRecommendResponse>> findList(@Valid @RequestBody ProductRecommendFindDTO request) {
+        List<ProductRecommendBO> boList = ProductRecommendApplicationService.findList(request.getProductId());
         return CodeResult.ok(ProductRecommendResponse.from(boList));
     }
 

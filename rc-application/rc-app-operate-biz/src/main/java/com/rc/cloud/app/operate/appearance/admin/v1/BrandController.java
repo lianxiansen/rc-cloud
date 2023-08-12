@@ -1,9 +1,6 @@
 package com.rc.cloud.app.operate.appearance.admin.v1;
 
-import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandCreateRequest;
-import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandQueryPageRequest;
-import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandQueryRequest;
-import com.rc.cloud.app.operate.appearance.admin.v1.req.BrandUpdateRequest;
+import com.rc.cloud.app.operate.appearance.admin.v1.req.*;
 import com.rc.cloud.app.operate.appearance.admin.v1.res.BrandResponse;
 import com.rc.cloud.app.operate.application.bo.BrandBO;
 import com.rc.cloud.app.operate.application.dto.BrandCreateDTO;
@@ -43,7 +40,7 @@ public class BrandController {
     }
 
     @RepeatSubmit
-    @PutMapping("update")
+    @PostMapping("update")
     @Operation(summary = "更新品牌")
     public CodeResult<BrandResponse> update(@Valid @RequestBody BrandUpdateRequest request) {
         BrandUpdateDTO dto=new BrandUpdateDTO();
@@ -51,19 +48,19 @@ public class BrandController {
         return CodeResult.ok(BrandResponse.from(brandApplicationService.update(dto)));
     }
 
-    @DeleteMapping("remove")
+    @PostMapping("remove")
     @Operation(summary = "删除品牌")
-    public CodeResult remove(@RequestParam(name = "id",required = true) String id) {
-        if (brandApplicationService.remove(id)) {
+    public CodeResult remove(@Valid @RequestBody BrandGetRequest request) {
+        if (brandApplicationService.remove(request.getId())) {
             return CodeResult.ok();
         }
         return CodeResult.fail();
     }
 
 
-    @GetMapping("selectPageResult")
+    @PostMapping("selectPageResult")
     @Operation(summary = "品牌分页查询")
-    public CodeResult<PageResult<BrandResponse>> selectPageResult(@Valid BrandQueryPageRequest request) {
+    public CodeResult<PageResult<BrandResponse>> selectPageResult(@Valid @RequestBody BrandQueryPageRequest request) {
         BrandQueryPageDTO dto=new BrandQueryPageDTO();
         BeanUtils.copyProperties(request,dto);
         PageResult<BrandBO> boList = brandApplicationService.selectPageResult(dto);
@@ -71,15 +68,15 @@ public class BrandController {
     }
 
 
-    @GetMapping("findById")
+    @PostMapping("findById")
     @Operation(summary = "根据唯一标识查找品牌")
-    public CodeResult<BrandResponse> findById(@RequestParam(name = "id",required = true) String id) {
-        BrandBO bo = brandApplicationService.findById(id);
+    public CodeResult<BrandResponse> findById(@Valid @RequestBody BrandGetRequest request) {
+        BrandBO bo = brandApplicationService.findById(request.getId());
         return CodeResult.ok(BrandResponse.from(bo));
     }
 
 
-    @GetMapping("findList")
+    @PostMapping("findList")
     @Operation(summary = "品牌列表查询")
     public CodeResult<List<BrandResponse>> findList(@Valid BrandQueryRequest request) {
         BrandQueryDTO dto=new BrandQueryDTO();
