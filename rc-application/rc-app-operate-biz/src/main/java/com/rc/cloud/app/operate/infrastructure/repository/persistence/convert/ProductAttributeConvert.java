@@ -23,6 +23,8 @@ public class ProductAttributeConvert {
        return null;
     }
 
+
+
     public static ProductAttributePO convertProductAttributePO(ProductAttribute productAttribute){
         ProductAttributePO productAttributePO =new ProductAttributePO();
         String attr = JSON.toJSONString(productAttribute.getAttributes());

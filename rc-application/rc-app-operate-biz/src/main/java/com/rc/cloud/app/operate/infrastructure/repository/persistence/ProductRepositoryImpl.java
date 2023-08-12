@@ -57,7 +57,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     private ProductAttribute getProductAttributeByProductId(ProductId productId) {
 
-        LambdaQueryWrapperX wrapperX = new LambdaQueryWrapperX<ProductAttributePO>();
         LambdaQueryWrapperX<ProductAttributePO> wrapper = new LambdaQueryWrapperX<>();
         wrapper.eq(ProductAttributePO::getProductId, productId.id());
         return ProductAttributeConvert.convertDomain(this.productAttributeMapper.selectOne(wrapper));
