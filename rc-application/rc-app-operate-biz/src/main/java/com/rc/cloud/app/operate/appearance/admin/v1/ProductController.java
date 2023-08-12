@@ -10,6 +10,8 @@ import com.rc.cloud.app.operate.application.bo.ProductBO;
 import com.rc.cloud.app.operate.application.bo.ProductValidateBO;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.application.service.ProductApplicationService;
+import com.rc.cloud.app.operate.infrastructure.constants.ProductErrorCodeConstants;
+import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.core.web.CodeResult;
 import io.swagger.v3.oas.annotations.Operation;
@@ -69,7 +71,12 @@ public class ProductController {
     @Operation(summary = "获得产品")
     public CodeResult<ProductDetailResponse> getProduct(@Valid @RequestBody ProductQueryDTO query) {
         ProductBO product = productApplicationService.getProduct(query);
-        return CodeResult.ok(ProductDetailResponse.from(product));
+        if(product!=null){
+            return CodeResult.ok(ProductDetailResponse.from(product));
+        }else{
+            throw new ServiceException(ProductErrorCodeConstants.PRODUCT_NOT_EXIST_ERROR);
+        }
+
     }
 
     @PostMapping("validate")

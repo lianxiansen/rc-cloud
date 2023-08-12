@@ -252,6 +252,34 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
     }
 
 
+
+    @Test
+    @DisplayName("删除商品")
+    public void removeProduct(){
+        ProductSaveDTO productSaveDTO = createProductSaveDTO();
+        int k=RandomUtils.randomInteger()%5;
+
+        ProductRemoveDTO removeDTO=new ProductRemoveDTO();
+        List<String> productIds=new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
+            productIds.add(productBO.getId());
+        }
+        removeDTO.setProductIds(productIds);
+        Assertions.assertEquals(k,productIds.size());
+        ProductRemoveBO productRemoveBO = productApplicationService.removeProductBatch(removeDTO);
+        for (String productId : productIds) {
+            ProductBO product = getProduct(productId);
+            Assertions.assertEquals(product,null);
+        }
+    }
+
+
+
+
+
+
+
     public ProductBO getProduct(String id){
         ProductQueryDTO productQueryDTO=new ProductQueryDTO();
         productQueryDTO.setProductId(id);

@@ -347,7 +347,8 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     public ProductBO getProduct(ProductQueryDTO productQueryDTO) {
         Product product = productService.findProductById(new ProductId(productQueryDTO.getProductId()));
         if(product==null){
-            throw new ServiceException(ProductErrorCodeConstants.PRODUCT_NOT_EXIST_ERROR);
+            return null;
+            //throw new ServiceException(ProductErrorCodeConstants.PRODUCT_NOT_EXIST_ERROR);
         }
         ProductDetail productDetail=null;
         Set<ProductDict>  productDicts = productDictService.getProductDictSetByProductId(new ProductId(productQueryDTO.getProductId())).stream().collect(Collectors.toSet());

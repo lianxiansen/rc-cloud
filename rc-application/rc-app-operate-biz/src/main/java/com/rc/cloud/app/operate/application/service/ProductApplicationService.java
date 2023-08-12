@@ -51,7 +51,7 @@ public interface ProductApplicationService {
 
     /**
      * 校验商品是否存在
-     * @param productValidateDTO
+     * @param productValidateDTOs
      * @return
      */
     List<ProductValidateBO> validateProductList(List<ProductValidateDTO> productValidateDTOs);
