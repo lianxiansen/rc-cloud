@@ -86,7 +86,15 @@ public class ProductGroupControllerIntegratedTest extends AbstractWebApplication
     @DisplayName(value = "解除产品组合")
     @Test
     public void release() throws Exception {
-        mvc.perform(delete("/admin/productGroup/release").param("id", productGroupMock.getId().id()))
+
+        String requestBody = "{\n" +
+                "  \"id\": \"" + productGroupMock.getId().id() + "\"" +
+                "}";
+
+        mvc.perform(post("/admin/productGroup/release")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -119,7 +127,15 @@ public class ProductGroupControllerIntegratedTest extends AbstractWebApplication
     @DisplayName(value = "获取产品组合列表")
     @Test
     public void selectList() throws Exception {
-        mvc.perform(get("/admin/productGroup/findList").param("productId", productMock.getId().id()))
+
+        String requestBody = "{\n" +
+                "  \"productId\": \"" + productMock.getId().id() + "\"" +
+                "}";
+
+        mvc.perform(post("/admin/productGroup/findList")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody)
+                .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))

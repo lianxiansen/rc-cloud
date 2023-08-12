@@ -99,7 +99,7 @@ public class ProductCategoryControllerIntegratedTest extends AbstractWebApplicat
                 "  \"enabled\" : " + updateRequest.getEnabled() + ",\n" +
                 "  \"sort\" : " + updateRequest.getSort() + "\n" +
                 "}";
-        mvc.perform(put("/admin/productCategory/update")
+        mvc.perform(post("/admin/productCategory/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody).accept(MediaType.APPLICATION_JSON))
@@ -123,7 +123,15 @@ public class ProductCategoryControllerIntegratedTest extends AbstractWebApplicat
     @Test
     public void remove() throws Exception {
         ProductCategoryPO po = saveChildProductCategoryPO();
-        mvc.perform(delete("/admin/productCategory/remove").param("id", po.getId()))
+
+        String requestBody = "{\n" +
+                "  \"id\" : \"" + po.getId() + "\"" +
+                "}";
+
+        mvc.perform(post("/admin/productCategory/remove")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
+                        .content(requestBody).accept(MediaType.APPLICATION_JSON))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true));
@@ -138,7 +146,7 @@ public class ProductCategoryControllerIntegratedTest extends AbstractWebApplicat
         for (int i = 0; i < dataSize; i++) {
             saveChildProductCategoryPO();
         }
-        mvc.perform(get("/admin/productCategory/findAll")
+        mvc.perform(post("/admin/productCategory/findAll")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .accept(MediaType.APPLICATION_JSON))
@@ -160,7 +168,7 @@ public class ProductCategoryControllerIntegratedTest extends AbstractWebApplicat
     @DisplayName(value = "产品分类树形列表")
     @Test
     public void findTreeList() throws Exception {
-        mvc.perform(get("/admin/productCategory/findTreeList")
+        mvc.perform(post("/admin/productCategory/findTreeList")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .accept(MediaType.APPLICATION_JSON))
@@ -175,10 +183,16 @@ public class ProductCategoryControllerIntegratedTest extends AbstractWebApplicat
     @Test
     public void findById() throws Exception {
         ProductCategoryPO po = saveChildProductCategoryPO();
-        mvc.perform(get("/admin/productCategory/findById").param("id", po.getId())
-                        .characterEncoding(Charset.defaultCharset())
+        String requestBody = "{\n" +
+                "  \"id\": \"" + po.getId() + "\"" +
+                "}";
+
+        mvc.perform(post("/admin/productCategory/findById")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
+
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true))

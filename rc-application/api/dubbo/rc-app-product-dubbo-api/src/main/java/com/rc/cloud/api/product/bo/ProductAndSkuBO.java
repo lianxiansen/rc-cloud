@@ -3,6 +3,7 @@ package com.rc.cloud.api.product.bo;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class ProductAndSkuBO {
@@ -15,14 +16,11 @@ public class ProductAndSkuBO {
 
     private String productImage;
 
+    //{颜色,尺寸}          {黄色，Y}
+    private List<String> attributes;
 
-    private String attribute1;
-
-    private String attributeValue1;
-
-    private String attribute2;
-
-    private String attributeValue2;
+    //{颜色,尺寸}          {黄色，Y}
+    private List<String> attributeValues;
 
     private BigDecimal price;
 

@@ -8,6 +8,8 @@ import com.rc.cloud.api.product.service.ProductApplicationService;
 import com.rc.cloud.common.core.pojo.PageResult;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @ClassName ProductApplicationServiceImpl
  * @Author liandy
@@ -38,7 +40,7 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     }
 
     @Override
-    public ProductValidateBO validateProduct(ProductValidateDTO productValidateDTO) {
+    public List<ProductValidateBO> validateProductList(List<ProductValidateDTO> productValidateDTOs) {
         return null;
     }
 

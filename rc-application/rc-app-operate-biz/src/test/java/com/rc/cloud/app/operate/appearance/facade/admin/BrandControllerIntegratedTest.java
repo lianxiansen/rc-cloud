@@ -77,7 +77,7 @@ public class BrandControllerIntegratedTest extends AbstractWebApplicationTest {
                 "  \"enabled\" : " + brandUpdateRequest.getEnabled() + ",\n" +
                 "  \"sort\" : " + brandUpdateRequest.getSort().intValue() + "\n" +
                 "}";
-        mvc.perform(put("/admin/brand/update")
+        mvc.perform(post("/admin/brand/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
                         .content(requestBody)
@@ -99,13 +99,19 @@ public class BrandControllerIntegratedTest extends AbstractWebApplicationTest {
     @Test
     public void remove() throws Exception {
         BrandPO po = saveBrandPO();
-        mvc.perform(delete("/admin/brand/remove").param("id", po.getId()))
+        String requestBody = "{\n" +
+                "  \"id\" : \"" + po.getId() + "\"" +
+                "}";
+        mvc.perform(post("/admin/brand/remove")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(Charset.defaultCharset())
+                        .content(requestBody)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
                 .andExpect(jsonPath("$.success").value(true));
     }
-
 
     @DisplayName(value = "品牌分页查询")
     @Test
@@ -116,12 +122,17 @@ public class BrandControllerIntegratedTest extends AbstractWebApplicationTest {
         for (int i = 0; i < dataSize; i++) {
             saveBrandPO();
         }
+        String requestBody = "{\n" +
+                "  \"pageNo\" : \"" + "1" + "\",\n" +
+                "  \"pageSize\" : \"" + "10" + "\",\n" +
+                "  \"name\" : \"" + brandCreateRequest.getName() + "\"" +
+                "}";
+
         //执行、验证
-        mvc.perform(get("/admin/brand/selectPageResult")
-                        .param("pageNo", "1")
-                        .param("pageSize", "10")
-                        .param("name", brandCreateRequest.getName())
+        mvc.perform(post("/admin/brand/selectPageResult")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
+                        .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -137,13 +148,18 @@ public class BrandControllerIntegratedTest extends AbstractWebApplicationTest {
                 .andExpect(jsonPath("$.data.list[0].enabled").value(brandCreateRequest.getEnabled()));
     }
 
+
     @DisplayName(value = "根据唯一标识查找品牌")
     @Test
     public void findById() throws Exception {
         BrandPO po = saveBrandPO();
-        mvc.perform(get("/admin/brand/findById")
-                        .param("id", po.getId())
+        String requestBody = "{\n" +
+                "  \"id\" : \"" + po.getId() + "\"" +
+                "}";
+        mvc.perform(post("/admin/brand/findById")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
+                        .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -166,10 +182,14 @@ public class BrandControllerIntegratedTest extends AbstractWebApplicationTest {
         for (int i = 0; i < dataSize; i++) {
             saveBrandPO();
         }
+        String requestBody = "{\n" +
+                "  \"name\" : \"" + "振信" + "\"" +
+                "}";
         //执行验证
-        mvc.perform(get("/admin/brand/findList")
-                        .param("name", "振信")
+        mvc.perform(post("/admin/brand/findList")
+                        .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding(Charset.defaultCharset())
+                        .content(requestBody)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

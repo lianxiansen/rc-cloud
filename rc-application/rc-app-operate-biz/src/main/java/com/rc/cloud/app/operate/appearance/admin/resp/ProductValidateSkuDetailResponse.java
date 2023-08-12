@@ -29,17 +29,13 @@ public class ProductValidateSkuDetailResponse {
     @Schema(description = "sku图片")
     private String productImage;
 
-    @Schema(description = "属性1")
-    private String attribute1;
+    //{颜色,尺寸}          {黄色，Y}
+    @Schema(description = "属性")
+    private List<String> attributes;
 
-    @Schema(description = "属性值1")
-    private String attributeValue1;
-
-    @Schema(description = "属性2")
-    private String attribute2;
-
-    @Schema(description = "属性值2")
-    private String attributeValue2;
+    //{颜色,尺寸}          {黄色，Y}
+    @Schema(description = "属性值")
+    private List<String> attributeValues;
 
 
 }

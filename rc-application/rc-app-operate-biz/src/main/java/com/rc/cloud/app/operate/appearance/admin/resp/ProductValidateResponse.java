@@ -10,10 +10,10 @@ import lombok.experimental.Accessors;
 public class ProductValidateResponse {
 
     @Schema(description = "是否可以购买")
-    private boolean canBuy;
+    private boolean enabled;
 
     @Schema(description = "SKU详情")
-    private ProductValidateSkuDetailResponse skuDetail;
+    private ProductValidateSkuDetailResponse productSku;
 
 
 

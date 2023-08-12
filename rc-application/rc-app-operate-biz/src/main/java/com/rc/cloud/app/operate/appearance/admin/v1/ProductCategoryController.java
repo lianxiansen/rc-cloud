@@ -2,6 +2,7 @@ package com.rc.cloud.app.operate.appearance.admin.v1;
 
 import com.rc.cloud.app.operate.appearance.admin.resp.ProductCategoryResponse;
 import com.rc.cloud.app.operate.appearance.admin.v1.req.ProductCategoryCreateRequest;
+import com.rc.cloud.app.operate.appearance.admin.v1.req.ProductCategoryGetRequest;
 import com.rc.cloud.app.operate.appearance.admin.v1.req.ProductCategoryUpdateRequest;
 import com.rc.cloud.app.operate.application.bo.ProductCategoryBO;
 import com.rc.cloud.app.operate.application.dto.ProductCategoryCreateDTO;
@@ -40,7 +41,7 @@ public class ProductCategoryController {
     }
 
     @RepeatSubmit
-    @PutMapping("update")
+    @PostMapping("update")
     @Operation(summary = "更新产品分类")
     public CodeResult<ProductCategoryResponse> update(@Valid @RequestBody ProductCategoryUpdateRequest request) {
         ProductCategoryUpdateDTO dto=new ProductCategoryUpdateDTO();
@@ -50,16 +51,16 @@ public class ProductCategoryController {
 
 
 
-    @DeleteMapping("remove")
+    @PostMapping("remove")
     @Operation(summary = "删除产品分类")
-    public CodeResult<Long> remove(@RequestParam(name = "id",required = true) String id) {
-        if(productCategoryApplicationService.remove(id)){
+    public CodeResult<Long> remove(@Valid @RequestBody ProductCategoryGetRequest request) {
+        if(productCategoryApplicationService.remove(request.getId())){
             return CodeResult.ok();
         }
         return CodeResult.fail();
     }
 
-    @GetMapping("findAll")
+    @PostMapping("findAll")
     @Operation(summary = "产品分类列表")
     public CodeResult<List<ProductCategoryResponse>> findAll() {
         List<ProductCategoryBO> bos =productCategoryApplicationService.findAll();
@@ -67,14 +68,14 @@ public class ProductCategoryController {
         return CodeResult.ok(responses);
     }
 
-    @GetMapping("findById")
+    @PostMapping("findById")
     @Operation(summary = "根据唯一标识查找产品分类")
-    public CodeResult<ProductCategoryResponse> findById(@RequestParam(name = "id",required = true) String id) {
-        ProductCategoryBO bo = productCategoryApplicationService.findById(id);
+    public CodeResult<ProductCategoryResponse> findById(@Valid @RequestBody ProductCategoryGetRequest request) {
+        ProductCategoryBO bo = productCategoryApplicationService.findById(request.getId());
         return CodeResult.ok(ProductCategoryResponse.from(bo));
     }
 
-    @GetMapping("findTreeList")
+    @PostMapping("findTreeList")
     @Operation(summary = "产品分类树形列表")
     public CodeResult<List<ProductCategoryResponse>> findTreeList() {
         List<ProductCategoryBO> bos =productCategoryApplicationService.findAll();

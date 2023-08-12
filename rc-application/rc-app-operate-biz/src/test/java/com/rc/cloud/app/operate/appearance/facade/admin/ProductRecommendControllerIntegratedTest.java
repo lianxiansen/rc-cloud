@@ -81,7 +81,15 @@ public class ProductRecommendControllerIntegratedTest extends AbstractWebApplica
     @Test
     public void release() throws Exception {
         ProductRecommendPO po = saveProductRecommendPO();
-        mvc.perform(delete("/admin/productRecommend/release").param("id", po.getId()))
+
+        String requestBody = "{\n" +
+                "  \"id\": \"" + po.getId() + "\"" +
+                "}";
+
+        mvc.perform(post("/admin/productRecommend/release")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
@@ -101,8 +109,16 @@ public class ProductRecommendControllerIntegratedTest extends AbstractWebApplica
             saveProductRecommendPO();
             products.add(productMock);
         }
+
+        String requestBody = "{\n" +
+                "  \"productId\": \"" + productMock.getId().id() + "\"" +
+                "}";
+
         when(productService.findByIdBatch(products.stream().map(p->p.getId()).distinct().collect(Collectors.toList()))).thenReturn(products);
-        mvc.perform(get("/admin/productRecommend/findList").param("productId", productMock.getId().id()))
+        mvc.perform(post("/admin/productRecommend/findList")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value(200))
