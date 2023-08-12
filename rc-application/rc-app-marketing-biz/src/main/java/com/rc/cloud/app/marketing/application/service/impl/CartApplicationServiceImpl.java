@@ -1,10 +1,7 @@
 package com.rc.cloud.app.marketing.application.service.impl;
 
-import com.rc.cloud.api.product.bo.ProductBO;
 import com.rc.cloud.api.product.bo.ProductSkuBO;
 import com.rc.cloud.api.product.bo.ProductSkuImageBO;
-import com.rc.cloud.api.product.dto.ProductListQueryDTO;
-import com.rc.cloud.api.product.service.ProductApplicationService;
 import com.rc.cloud.app.marketing.application.bo.*;
 import com.rc.cloud.app.marketing.application.service.CartApplicationService;
 import com.rc.cloud.app.marketing.domain.entity.cart.*;

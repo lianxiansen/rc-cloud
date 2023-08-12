@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.rc.cloud</groupId>
+        <artifactId>rc-support</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>rc-common-tenant</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- DB 相关 -->
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-mybatis</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-common-redis</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- 工具类相关 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.rc.cloud</groupId>-->
+<!--            <artifactId>rc-common-job</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-app-system-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+</project>

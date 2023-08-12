@@ -3,6 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.rc.cloud</groupId>
+        <artifactId>rc-cloud</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <artifactId>rc-application</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <packaging>pom</packaging>
     <dependencies>
         <dependency>
             <groupId>com.rc.cloud</groupId>
@@ -22,37 +36,48 @@
             <version>3.5.3.1</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId> <!-- use mapstruct-jdk8 for Java 8 or higher -->
         </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-jdk8</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>0.2.0</version>
+        </dependency>
+        <!--api-->
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-app-system-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-app-distributor-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-app-product-dubbo-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
     </dependencies>
-    <parent>
-        <groupId>com.rc.cloud</groupId>
-        <artifactId>rc-cloud</artifactId>
-        <version>1.0.0</version>
-    </parent>
 
-    <artifactId>rc-application</artifactId>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <packaging>pom</packaging>
 
     <modules>
-        <module>api/http/rc-app-distributor-api</module>
-        <module>api/http/rc-app-system-api</module>
         <module>rc-app-system-biz</module>
         <module>rc-app-operate-biz</module>
         <module>rc-app-marketing-biz</module>
         <module>rc-app-distributor-biz</module>
-        <module>rc-app-dubbo-biz</module>
-        <module>api/dubbo/rc-app-product-dubbo-api</module>
     </modules>
-
 </project>

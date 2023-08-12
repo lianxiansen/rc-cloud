@@ -1,21 +1,15 @@
 package com.rc.cloud.app.marketing.domain;
 
-import com.rc.cloud.api.product.bo.AttributeValueCombinationBO;
-import com.rc.cloud.api.product.bo.ProductBO;
-import com.rc.cloud.api.product.bo.ProductSkuBO;
-import com.rc.cloud.api.product.dto.ProductListQueryDTO;
 import com.rc.cloud.api.product.service.ProductApplicationService;
 import com.rc.cloud.app.marketing.application.bo.CartBO;
 import com.rc.cloud.app.marketing.application.dto.CartDTO;
 import com.rc.cloud.app.marketing.application.service.impl.CartApplicationServiceImpl;
 import com.rc.cloud.app.marketing.domain.entity.cart.*;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ProductId;
-import com.rc.cloud.app.marketing.domain.entity.cart.identifier.UserId;
 import com.rc.cloud.app.marketing.domain.entity.price.PriceService;
 import com.rc.cloud.app.marketing.infrastructure.repository.CartRepositoryImpl;
 import com.rc.cloud.app.marketing.infrastructure.repository.mapper.CartMapper;
 import com.rc.cloud.app.marketing.infrastructure.repository.po.CartPO;
-import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.BeforeEach;
