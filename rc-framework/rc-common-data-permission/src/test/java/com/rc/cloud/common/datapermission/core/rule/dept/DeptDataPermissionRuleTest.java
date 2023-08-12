@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.rc.cloud.app.system.api.permission.PermissionApi;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
-import com.rc.cloud.common.core.enums.UserTypeEnum;
 import com.rc.cloud.common.core.util.collection.SetUtils;
 import com.rc.cloud.common.security.service.RcUser;
 import com.rc.cloud.common.security.utils.SecurityUtils;
