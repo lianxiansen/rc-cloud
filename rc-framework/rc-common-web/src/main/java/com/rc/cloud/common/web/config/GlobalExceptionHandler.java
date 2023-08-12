@@ -194,7 +194,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = AccessDeniedException.class)
     public CodeResult<?> accessDeniedExceptionHandler(HttpServletRequest req, AccessDeniedException ex) {
-        log.warn("[accessDeniedExceptionHandler][userId({}) 无法访问 url({})]", WebFrameworkUtils.getLoginUserId(req),
+        log.warn("[accessDeniedExceptionHandler][userId({}) 无法访问 url({})]", WebFrameworkUtils.getRcUserId(req),
                 req.getRequestURL(), ex);
         return CodeResult.fail(FORBIDDEN);
     }
@@ -238,8 +238,8 @@ public class GlobalExceptionHandler {
 
 //    private void initExceptionLog(ApiErrorLog errorLog, HttpServletRequest request, Throwable e) {
 //        // 处理用户信息
-//        errorLog.setUserId(WebFrameworkUtils.getLoginUserId(request));
-//        errorLog.setUserType(WebFrameworkUtils.getLoginUserType(request));
+//        errorLog.setUserId(WebFrameworkUtils.getRcUserId(request));
+//        errorLog.setUserType(WebFrameworkUtils.getRcUserType(request));
 //        // 设置异常字段
 //        errorLog.setExceptionName(e.getClass().getName());
 //        errorLog.setExceptionMessage(ExceptionUtil.getMessage(e));
