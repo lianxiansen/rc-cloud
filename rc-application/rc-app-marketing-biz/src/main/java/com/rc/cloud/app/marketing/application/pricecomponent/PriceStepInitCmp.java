@@ -24,7 +24,7 @@ public class PriceStepInitCmp extends NodeComponent {
         List<ProductPack> packList = context.getProductPackList();
         BigDecimal totalOriginalPrice = new BigDecimal(0);
         for (ProductPack packItem : packList) {
-            totalOriginalPrice = totalOriginalPrice.add(packItem.getSalePrice().multiply(new BigDecimal(packItem.getCount())));
+            totalOriginalPrice = totalOriginalPrice.add(packItem.getSalePrice().multiply(new BigDecimal(packItem.getCount())).multiply(new BigDecimal(packItem.getPackingNumber())));
         }
         context.addPriceStep(new PriceStep(PriceTypeEnum.ORIGINAL,
                 null,

@@ -43,7 +43,7 @@ public class PriceServiceImpl implements PriceService {
         ProductPack productPack = new ProductPack();
         productPack.setProductId(5001L);
         productPack.setProductCode("PD5001XC");
-        productPack.setSkuId(67001441L);
+        productPack.setSkuId("67001441");
         productPack.setSkuCode("SKU5001XC001");
         productPack.setSkuName("夏季运动女式短裙M");
         productPack.setSkuSource(SkuSourceEnum.RAW);
@@ -58,7 +58,7 @@ public class PriceServiceImpl implements PriceService {
         productPack = new ProductPack();
         productPack.setProductId(6001L);
         productPack.setProductCode("PD6001XC");
-        productPack.setSkuId(67002334L);
+        productPack.setSkuId("67002334");
         productPack.setSkuCode("SKU6001XC001");
         productPack.setSkuName("男士迷彩短袜均码");
         productPack.setSkuSource(SkuSourceEnum.RAW);
@@ -72,7 +72,7 @@ public class PriceServiceImpl implements PriceService {
         productPack = new ProductPack();
         productPack.setProductId(8001L);
         productPack.setProductCode("PD8001XC");
-        productPack.setSkuId(87002001L);
+        productPack.setSkuId("87002001");
         productPack.setSkuCode("SKU8001XC001");
         productPack.setSkuName("纯棉毛巾");
         productPack.setSkuSource(SkuSourceEnum.RAW);
@@ -86,7 +86,7 @@ public class PriceServiceImpl implements PriceService {
         productPack = new ProductPack();
         productPack.setProductId(9001L);
         productPack.setProductCode("PD9001XC");
-        productPack.setSkuId(97552001L);
+        productPack.setSkuId("97552001");
         productPack.setSkuCode("SKU9001XC001");
         productPack.setSkuName("杀菌护手凝胶");
         productPack.setSkuSource(SkuSourceEnum.RAW);

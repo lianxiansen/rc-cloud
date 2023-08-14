@@ -24,6 +24,8 @@ public class CartProductVO {
 
     private String outid;
 
+    private String spuCode;
+
     private List<CartBO> detailList;
 
     public CartProductVO() {
@@ -34,6 +36,7 @@ public class CartProductVO {
         this.productId = bo.getProductId();
         this.productName = bo.getProductName();
         this.productImage = bo.getProductImage();
+        this.spuCode = bo.getSpuCode();
         this.setOutid(bo.getOutid());
         this.detailList = bo.getDetailList();
     }

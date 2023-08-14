@@ -36,7 +36,7 @@ public class ServiceNameConstants
     /**
      * 商品模块的serviceid
      */
-    public static final String PRODUCT_SERVICE="rc-product-server";
+    public static final String PRODUCT_SERVICE="rc-app-operate-biz";
 
     /**
      * 仓库模块的serviceid

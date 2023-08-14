@@ -51,7 +51,11 @@
             <artifactId>rc-common-feign</artifactId>
             <version>1.0.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-app-product-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <dependency>
             <groupId>com.rc.cloud</groupId>
             <artifactId>rc-app-product-dubbo-api</artifactId>

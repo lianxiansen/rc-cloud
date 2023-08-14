@@ -12,7 +12,7 @@ spring:
       config:
         server-addr: localhost:8848
         file-extension: yaml
-        enabled: true
+        enabled: false
       discovery:
         server-addr: localhost:8848
   profiles:

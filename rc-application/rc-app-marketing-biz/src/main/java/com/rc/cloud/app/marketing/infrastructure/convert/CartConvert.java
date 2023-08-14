@@ -57,6 +57,7 @@ public interface CartConvert {
             po.setPrice(cart.getCartProductSkuDetail().getPrice());
             po.setProductId(cart.getCartProductDetail().getId().id());
             po.setProductName(cart.getCartProductDetail().getName());
+            po.setProductImage(cart.getCartProductDetail().getMasterImage());
         }
         return po;
     }
@@ -92,6 +93,7 @@ public interface CartConvert {
         productDetail.setName(po.getProductName());
         productDetail.setMasterImage(po.getProductImage());
         productDetail.setOutId(po.getOutId());
+        productDetail.setSpuCode(po.getSpuCode());
         cart.setCartProductDetail(productDetail);
 
         CartProductSkuDetail cartProductSkuDetail = new CartProductSkuDetail();
