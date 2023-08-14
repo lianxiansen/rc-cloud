@@ -26,6 +26,11 @@ public class PageParam implements Serializable {
     @Max(value = 100, message = "每页条数最大值为 100")
     private Integer pageSize = PAGE_SIZE;
 
+    /**
+     * 传入的排序字段必须是数据库的字段的骆驼峰形式
+     * StrUtil.toUnderlineCase
+     * 方法进行转换
+     */
     @Schema(description = "按哪个字段排序", requiredMode = Schema.RequiredMode.REQUIRED,example = "id")
     private String order;
 

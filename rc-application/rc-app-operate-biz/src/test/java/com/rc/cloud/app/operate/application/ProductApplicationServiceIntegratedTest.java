@@ -18,6 +18,7 @@ import com.rc.cloud.app.operate.infrastructure.repository.persistence.*;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.convert.ProductCategoryConvert;
 import com.rc.cloud.app.operate.infrastructure.util.RandomUtils;
 import com.rc.cloud.common.core.domain.IdRepository;
+import com.rc.cloud.common.core.pojo.PageResult;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -275,10 +276,115 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
     }
 
 
+    @Test
+    @DisplayName("验证商品")
+    public void validateProductList(){
+        ProductSaveDTO productSaveDTO = createProductSaveDTO();
+        int k=RandomUtils.randomInteger()%5;
+
+        ProductRemoveDTO removeDTO=new ProductRemoveDTO();
+        List<String> productIds=new ArrayList<>();
+        List<String> removeProductIds=new ArrayList<>();
+        List<ProductBO> boList =new ArrayList<>();
+
+        List<ProductValidateDTO> productValidateDTOs =new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
+
+            ProductValidateDTO productValidateDTO=new ProductValidateDTO();
+            productValidateDTO.setProductId(productBO.getId());
+            productValidateDTO.setProductSkuId(productBO.getSkus().get(0).getId());
+            productValidateDTOs.add(productValidateDTO);
+
+            productIds.add(productBO.getId());
+            if(i==0){
+                removeProductIds.add(productBO.getId());
+            }else{
+                boList.add(productBO);
+            }
+        }
+        removeDTO.setProductIds(removeProductIds);
+        ProductRemoveBO productRemoveBO = productApplicationService.removeProductBatch(removeDTO);
 
 
+        List<ProductValidateBO> productValidateBOList = productApplicationService.validateProductList(productValidateDTOs);
+        for (ProductValidateBO productValidateBO : productValidateBOList) {
+            if(productValidateBO.isEnabled()==false){
+                Assertions.assertEquals(productValidateBO.getProductId(),removeProductIds.get(0));
+            }else{
+                ProductBO productBO = boList.stream().filter(u -> u.getId().equals(productValidateBO.getProductId())).findFirst().get();
+                Assertions.assertNotNull(productBO);
+                Assertions.assertEquals(productValidateBO.getProductSku().getProductName(),productBO.getName());
+                Assertions.assertEquals(productValidateBO.getProductSku().getProductImage(),productBO.getName());
+
+            }
+        }
 
 
+    }
+
+    @Test
+    @DisplayName("获取商品列表")
+    public void getProductList(){
+        //移除初始化数据
+        ProductRemoveDTO removeDTO=new ProductRemoveDTO();
+        List<String> productIds=new ArrayList<>();
+        productIds.add("eae9d95a-3b69-43bb-9038-3309560");
+        removeDTO.setProductIds(productIds);
+        ProductRemoveBO productRemoveBO = productApplicationService.removeProductBatch(removeDTO);
+        //模拟数据
+        ProductSaveDTO productSaveDTO = createProductSaveDTO();
+        int k=RandomUtils.randomInteger()%1000;
+        List<ProductBO> boList =new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            productSaveDTO.setSort(i+1);
+            ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
+            boList.add(productBO);
+        }
+        ProductListQueryDTO query =new ProductListQueryDTO();
+        query.setPageNo(2);
+        query.setPageSize(10);
+        query.setOrder("sort");
+        query.setAsc(true);
+        PageResult<ProductBO> productList = productApplicationService.getProductList(query);
+        Assertions.assertEquals(productList.getTotal(),k);
+        int pos=11;
+        for (ProductBO productBO : productList.getList()) {
+            Assertions.assertEquals(productBO.getSort(),pos);
+            pos++;
+        }
+
+    }
+
+    @Test
+    @DisplayName("获取商品列表")
+    public void changeNewStatus(){
+
+    }
+
+    @Test
+    @DisplayName("获取商品列表")
+    public void changeOnshelfStatus(){
+
+    }
+
+    @Test
+    @DisplayName("获取商品列表")
+    public void changePublicStatus(){
+
+    }
+
+    @Test
+    @DisplayName("获取商品列表")
+    public void changeRecommendStatus(){
+
+    }
+
+    @Test
+    @DisplayName("获取商品列表")
+    public void changeExplosivesStatus(){
+
+    }
 
     public ProductBO getProduct(String id){
         ProductQueryDTO productQueryDTO=new ProductQueryDTO();

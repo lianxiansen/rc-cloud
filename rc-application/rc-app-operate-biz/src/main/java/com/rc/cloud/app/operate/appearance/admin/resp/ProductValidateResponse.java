@@ -9,6 +9,13 @@ import lombok.experimental.Accessors;
 @Schema(description = "产品SKU详情")
 public class ProductValidateResponse {
 
+    @Schema(description = "商品id")
+    private String productId;
+
+    @Schema(description = "skuid")
+    private String skuId;
+
+
     @Schema(description = "是否可以购买")
     private boolean enabled;
 

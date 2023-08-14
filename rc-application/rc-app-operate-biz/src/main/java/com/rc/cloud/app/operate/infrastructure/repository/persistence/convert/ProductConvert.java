@@ -108,6 +108,7 @@ public class ProductConvert {
         if(po.getCreateTime()!=null){
             product.setCreateTime(new CreateTime(po.getCreateTime()));
         }
+        product.setSort(new Sort(po.getSort()));
         return product;
 
     }

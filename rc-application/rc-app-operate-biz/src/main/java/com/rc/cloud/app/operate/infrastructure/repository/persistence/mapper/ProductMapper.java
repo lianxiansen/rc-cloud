@@ -1,8 +1,12 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence.mapper;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.rc.cloud.app.operate.application.dto.*;
 import com.rc.cloud.app.operate.infrastructure.repository.persistence.po.ProductPO;
 import com.rc.cloud.common.core.pojo.PageResult;
+import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.mybatis.core.mapper.BaseMapperX;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,47 +22,18 @@ import java.util.List;
 public interface ProductMapper extends BaseMapperX<ProductPO> {
 
     default PageResult<ProductPO> selectPage(ProductListQueryDTO queryDTO) {
-        return selectPage(queryDTO,getWrapper(queryDTO));
+        if (StringUtils.isEmpty(queryDTO.getOrder())) {
+            queryDTO.setOrder("create_time");
+            queryDTO.setAsc(false);
+        }
+        QueryWrapper<ProductPO> wrapper = new QueryWrapper<>();
+        wrapper.lambda()
+                .like(StringUtils.isNotEmpty(queryDTO.getName()),ProductPO::getName, queryDTO.getName());
+
+
+        wrapper.orderBy(true, queryDTO.getAsc(), StrUtil.toUnderlineCase(queryDTO.getOrder()));
+        return selectPage(queryDTO, wrapper);
     }
 
-    default List<ProductPO> selectList(ProductListQueryDTO queryDTO) {
-        return selectList(getWrapper(queryDTO));
-    }
-
-    default  LambdaQueryWrapperX<ProductPO> getWrapper(ProductListQueryDTO queryDTO){
-        LambdaQueryWrapperX<ProductPO> wrapper=  new LambdaQueryWrapperX<ProductPO>()
-                .likeIfPresent(ProductPO::getName, queryDTO.getName())
-                .eqIfPresent(ProductPO::getSpuCode,queryDTO.getSpuCode())
-                .eqIfPresent(ProductPO::getFirstCategory, queryDTO.getFirstCategory())
-                .eqIfPresent(ProductPO::getSecondCategory, queryDTO.getSecondCategory())
-                .eqIfPresent(ProductPO::getThirdCategory, queryDTO.getThirdCategory())
-                .eqIfPresent(ProductPO::getOnshelfStatus,queryDTO.getOnshelfStatus())
-                .betweenIfPresent(ProductPO::getCreateTime,queryDTO.getStartTime(),
-                        queryDTO.getEndTime()
-                ).orderByDesc(ProductPO::getCreateTime)
-                ;
-        //通过商品id查询
-        if(queryDTO.getProductIds()!=null){
-            String[] ids = queryDTO.getProductIds().split(",");
-            wrapper.in(ProductPO::getId,ids);
-        }
-        //排序
-        if(ProductListQueryDTO.CREATE_TIME.equals(queryDTO.getOrderByCondition())
-                && ProductListQueryDTO.DESC.equals(queryDTO.getOrderByType())){
-            wrapper.orderByDesc(ProductPO::getCreateTime);
-
-        }else if(ProductListQueryDTO.SORT_ID.equals(queryDTO.getOrderByCondition())
-                && ProductListQueryDTO.DESC.equals(queryDTO.getOrderByType())){
-            wrapper.orderByDesc(ProductPO::getSort);
-        }
-        else if(ProductListQueryDTO.CREATE_TIME.equals(queryDTO.getOrderByCondition())
-                && ProductListQueryDTO.ASC.equals(queryDTO.getOrderByType())){
-            wrapper.orderByAsc(ProductPO::getCreateTime);
-        }else if(ProductListQueryDTO.SORT_ID.equals(queryDTO.getOrderByCondition())
-                && ProductListQueryDTO.ASC.equals(queryDTO.getOrderByType())){
-            wrapper.orderByAsc(ProductPO::getSort);
-        }
-        return wrapper;
-    }
 
 }
