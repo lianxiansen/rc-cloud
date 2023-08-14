@@ -3,8 +3,9 @@ package com.rc.cloud.common.datapermission.core.rule.dept;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
-import com.rc.cloud.app.system.api.permission.PermissionApi;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
+import com.rc.cloud.app.system.api.permission.feign.RemotePermissionService;
+import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.datapermission.core.rule.DataPermissionRule;
 import com.rc.cloud.common.core.exception.OrExpressionX;
 import com.rc.cloud.common.core.util.collection.CollectionUtils;
@@ -19,6 +20,7 @@ import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.relational.EqualsTo;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.InExpression;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -56,7 +58,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 
     static final Expression EXPRESSION_NULL = new NullValue();
 
-    private final PermissionApi permissionApi;
+    private final RemotePermissionService permissionService;
 
     /**
      * 基于部门的表字段配置
@@ -103,8 +105,9 @@ public class DeptDataPermissionRule implements DataPermissionRule {
         DeptDataPermissionRespDTO deptDataPermission = loginUser.getContext(CONTEXT_KEY, DeptDataPermissionRespDTO.class);
         // 从上下文中拿不到，则调用逻辑进行获取
         if (deptDataPermission == null) {
-            deptDataPermission = permissionApi.getDeptDataPermission(loginUser.getId());
-            if (deptDataPermission == null) {
+            CodeResult<DeptDataPermissionRespDTO> result = permissionService.getDeptDataPermission(loginUser.getId());
+            deptDataPermission = result.getData();
+            if (!result.isSuccess() || deptDataPermission == null) {
                 log.error("[getExpression][LoginUser({}) 获取数据权限为 null]", JsonUtils.toJsonString(loginUser));
                 throw new NullPointerException(String.format("LoginUser(%s) Table(%s/%s) 未返回数据权限",
                         loginUser.getId(), tableName, tableAlias.getName()));
@@ -120,12 +123,12 @@ public class DeptDataPermissionRule implements DataPermissionRule {
 
         // 情况二，即不能查看部门，又不能查看自己，则说明 100% 无权限
         if (CollUtil.isEmpty(deptDataPermission.getDeptIds())
-            && Boolean.FALSE.equals(deptDataPermission.getSelf())) {
+                && Boolean.FALSE.equals(deptDataPermission.getSelf())) {
             return new EqualsTo(null, null); // WHERE null = null，可以保证返回的数据为空
         }
 
         // 情况三，拼接 Dept 和 User 的条件，最后组合
-        Expression deptExpression = buildDeptExpression(tableName,tableAlias, deptDataPermission.getDeptIds());
+        Expression deptExpression = buildDeptExpression(tableName, tableAlias, deptDataPermission.getDeptIds());
         Expression userExpression = buildUserExpression(tableName, tableAlias, deptDataPermission.getSelf(), loginUser.getId());
         if (deptExpression == null && userExpression == null) {
             // TODO 芋艿：获得不到条件的时候，暂时不抛出异常，而是不返回数据
