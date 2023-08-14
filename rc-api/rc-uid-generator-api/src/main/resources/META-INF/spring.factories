@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.bowen.idgenerator.factory.RemoteIdGeneratorFallbackFactory
+  com.rc.cloud.uid.generator.factory.RemoteIdGeneratorFallbackFactory
