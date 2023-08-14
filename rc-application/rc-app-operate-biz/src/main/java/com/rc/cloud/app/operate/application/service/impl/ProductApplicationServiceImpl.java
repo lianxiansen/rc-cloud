@@ -409,6 +409,8 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
     private ProductValidateBO validateProduct(ProductValidateDTO productValidateDTO){
         Product product = productService.findProductById(new ProductId(productValidateDTO.getProductId()));
         ProductValidateBO validateBO=new ProductValidateBO();
+        validateBO.setProductId(productValidateDTO.getProductId());
+        validateBO.setSkuId(productValidateDTO.getProductSkuId());
         ProductSku productSku =null;
         if(product!=null){
              productSku = productSkuService.findProductSkuById(new ProductSkuId(productValidateDTO.getProductSkuId()));

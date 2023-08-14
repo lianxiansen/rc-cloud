@@ -15,11 +15,6 @@ public class ProductListQueryDTO extends PageParam {
 
 
 
-    public static final String ASC  = "ASC";
-    public static final String DESC = "DESC";
-    public static final String CREATE_TIME = "CREATE_TIME";
-    public static final String SORT_ID = "SORT_ID";
-
     private String name;
 
     private String spuCode;
@@ -38,12 +33,7 @@ public class ProductListQueryDTO extends PageParam {
 
     private Integer onshelfStatus;
 
-    /**
-     * 排序条件：CREATE_TIME,SORT_ID
-     */
-    private String orderByCondition;
 
-    private String orderByType;
 
     private boolean needBrandName;
 

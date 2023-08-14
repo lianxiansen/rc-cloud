@@ -138,8 +138,7 @@ public class ProductRepositoryImpl implements ProductRepository {
      * @return
      */
     @Override
-    public PageResult<Product> getProductPageList(ProductListQueryDTO query) {
-        PageResult<Product> productPageResult = new PageResult<>();
+    public PageResult<Product> getProductPageList(ProductListQueryDTO query) {PageResult<Product> productPageResult = new PageResult<>();
         PageResult<ProductPO> productDOPageResult = productMapper.selectPage(query);
         productPageResult.setTotal(productDOPageResult.getTotal());
         List<Product> productList = convertPO2ProductBatch(productDOPageResult.getList());
