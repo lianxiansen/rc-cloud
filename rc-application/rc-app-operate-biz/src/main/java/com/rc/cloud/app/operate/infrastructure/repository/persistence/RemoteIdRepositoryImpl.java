@@ -1,6 +1,6 @@
 package com.rc.cloud.app.operate.infrastructure.repository.persistence;
 
-import com.bowen.idgenerator.service.RemoteIdGeneratorService;
+import com.rc.cloud.uid.generator.service.RemoteIdGeneratorService;
 import com.rc.cloud.common.core.domain.IdRepository;
 import org.springframework.stereotype.Component;
 
