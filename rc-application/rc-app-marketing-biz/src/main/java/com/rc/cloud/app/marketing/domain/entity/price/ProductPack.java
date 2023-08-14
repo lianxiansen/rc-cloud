@@ -25,7 +25,7 @@ public class ProductPack {
     /**
      * SKU ID
      */
-    private Long skuId;
+    private String skuId;
 
     /**
      * SKU CODE
@@ -41,6 +41,19 @@ public class ProductPack {
      * 商品来源
      */
     private SkuSourceEnum skuSource;
+
+    public int getPackingNumber() {
+        return packingNumber;
+    }
+
+    public void setPackingNumber(int packingNumber) {
+        this.packingNumber = packingNumber;
+    }
+
+    /**
+     * 装箱数
+     */
+    private int packingNumber;
 
     /**
      * 类目
@@ -78,11 +91,11 @@ public class ProductPack {
         this.productCode = productCode;
     }
 
-    public Long getSkuId() {
+    public String getSkuId() {
         return skuId;
     }
 
-    public void setSkuId(Long skuId) {
+    public void setSkuId(String skuId) {
         this.skuId = skuId;
     }
 

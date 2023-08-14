@@ -20,7 +20,7 @@ import java.util.Set;
  * @description 通过feign远程调用权限服务
  */
 @FeignClient(
-        contextId = "remoteUserService",
+        contextId = "remotePermissionService",
         value = ServiceNameConstants.SYSTEM_SERVICE,
         configuration = FeignRequestInterceptor.class
 )

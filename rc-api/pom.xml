@@ -18,6 +18,7 @@
         <module>rc-app-product-dubbo-api</module>
         <module>rc-app-system-api</module>
         <module>rc-uid-generator-api</module>
+        <module>rc-app-product-api</module>
     </modules>
     <dependencies>
         <!-- Swagger 依赖配置 -->

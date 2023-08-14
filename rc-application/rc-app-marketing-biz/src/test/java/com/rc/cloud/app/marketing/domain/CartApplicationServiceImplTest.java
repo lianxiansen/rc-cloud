@@ -123,7 +123,7 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         //模拟服务返回
         mockProductService();
         //调用保存
-        cartApplicationServiceImpl.saveCart(user,cartDTOList);
+        cartApplicationServiceImpl.saveCart(user, cartDTOList);
 
         CartPO cartPO = cartMapper.selectOne(new LambdaQueryWrapperX<CartPO>()
                 .eq(CartPO::getProductId, "1")
@@ -149,7 +149,7 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         });
         cartDTOList.add(dto);
         //调用保存
-        cartApplicationServiceImpl.saveCart(user,cartDTOList);
+        cartApplicationServiceImpl.saveCart(user, cartDTOList);
 
         cartPO = cartMapper.selectOne(new LambdaQueryWrapperX<CartPO>()
                 .eq(CartPO::getProductId, "2")
@@ -165,30 +165,28 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
     }
 
     void mockProductService() {
-        List<CartProductInfo> list=new ArrayList<>();
-        CartProductInfo cartProductInfo=new CartProductInfo();
-        List<CartProductSkuDetail> skuDetailList=new ArrayList<>();
-        CartProductSkuDetail skuDetail = randomPojo(CartProductSkuDetail.class, o -> {
-            o.setSkuCode("100");
-            o.setSkuAttributes(Arrays.asList("40H","白色"));
-        });
-        skuDetailList.add(skuDetail);
-        skuDetail = randomPojo(CartProductSkuDetail.class, o -> {
-            o.setSkuCode("200");
-            o.setSkuAttributes(Arrays.asList("40H","绿色"));
-        });
-        skuDetailList.add(skuDetail);
-        CartProductDetail productDetail = randomPojo(CartProductDetail.class, o -> {
-            o.setId(new ProductId("2"));
-            o.setName("皮带");
-        });
-        cartProductInfo.setProductId("2");
-        cartProductInfo.setProductDetail(productDetail);
-        cartProductInfo.setProductSkuDetail(skuDetailList);
-        list.add(cartProductInfo);
-        //模拟调用
-        when(cartProductRepository.getProductList()).thenReturn(list);
+        List<CartProductSkuInfo> list = new ArrayList<>();
+        CartProductSkuInfo cartProductInfo = new CartProductSkuInfo();
 
-        when(cartProductRepository.getProduct()).thenReturn(cartProductInfo);
+        cartProductInfo = randomPojo(cartProductInfo.getClass(), o -> {
+            o.setProductName("皮带");
+            o.setProductId("2");
+            o.setSkuId("100");
+            o.setAttributes(Arrays.asList("40H", "白色"));
+        });
+
+        list.add(cartProductInfo);
+        cartProductInfo = randomPojo(cartProductInfo.getClass(), o -> {
+            o.setProductName("皮带");
+            o.setProductId("2");
+            o.setSkuId("100");
+            o.setAttributes(Arrays.asList("40H", "白色"));
+        });
+
+        list.add(cartProductInfo);
+
+        //模拟调用
+        when(cartProductRepository.getProductList(new ArrayList<>())).thenReturn(list);
+
     }
 }

@@ -150,7 +150,7 @@ public class CartController {
                             .setProductName(x.getCartProductDetailBO().getName())
                             .setProductId(x.getCartProductDetailBO().getId())
                             .setProductImage(x.getCartProductDetailBO().getMasterImage())
-                            .setOutid(x.getCartProductDetailBO().getOutId());
+                            .setSpuCode(x.getCartProductDetailBO().getSpuCode());
                 }
         ));
         for (CartProductVO key : map.keySet()) {

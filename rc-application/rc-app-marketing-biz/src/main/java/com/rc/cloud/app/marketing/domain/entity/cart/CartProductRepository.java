@@ -1,6 +1,9 @@
 package com.rc.cloud.app.marketing.domain.entity.cart;
 
+import com.rc.cloud.api.product.dto.ProductSkuRequest;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author WJF
@@ -10,7 +13,7 @@ import java.util.List;
 
 public interface CartProductRepository {
 
-    List<CartProductInfo> getProductList();
+    List<CartProductSkuInfo> getProductList(List<Cart> dto);
 
-    CartProductInfo getProduct();
+    Map<String, Object> getProduct(String productId, String productSkuId);
 }

@@ -2,6 +2,7 @@ package com.rc.cloud.common.core.web.util;
 
 import cn.hutool.core.codec.Base64;
 import com.rc.cloud.common.core.exception.CheckedException;
+import com.rc.cloud.common.core.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
@@ -41,7 +42,7 @@ public class WebFrameworkUtils {
      */
     public static String getTenantId(HttpServletRequest request) {
         String tenantId = request.getHeader(HEADER_TENANT_ID);
-        return Objects.equals(tenantId, "") ? "wjf-10086" : tenantId;
+        return StringUtils.isEmpty(tenantId) ? "wjf-10086" : tenantId;
     }
 
     /**

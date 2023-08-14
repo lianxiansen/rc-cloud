@@ -26,6 +26,11 @@ public class CartPO {
     private String userId;
 
     /**
+     * 货号
+     */
+    private String spuCode;
+
+    /**
      * 类型 1.产品 2.拼单 3.秒杀 4.砍价
      */
     private Integer type;
@@ -72,7 +77,7 @@ public class CartPO {
     private BigDecimal price;
 
     /**
-     * 货号
+     * 外部id
      */
     private String outId;
 

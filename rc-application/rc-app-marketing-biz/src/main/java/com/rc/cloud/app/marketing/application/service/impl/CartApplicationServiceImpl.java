@@ -99,7 +99,7 @@ public class CartApplicationServiceImpl implements CartApplicationService {
             ShopInfo shopInfo = new ShopInfo();
             shopInfo.setShopId(new ShopId(shopId));
 
-            Cart cart = cartFactory.getCart(userId, cartDTO.getNum(), productid, skuCode, shopInfo);
+            Cart cart = cartFactory.newCart(userId, cartDTO.getNum(), productid, skuCode, shopInfo);
             cartList.add(cart);
         });
         List<Cart> saveList = cartList.stream().filter(cart -> cart.getCartProductDetail() != null && cart.getCartProductSkuDetail() != null).collect(Collectors.toList());
