@@ -333,14 +333,31 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         removeDTO.setProductIds(productIds);
         ProductRemoveBO productRemoveBO = productApplicationService.removeProductBatch(removeDTO);
         //模拟数据
+        String category[]= new String[]{
+                "上衣","下衣","裤子"
+        };
+        int category1=0,category2=0,category3=0;
         ProductSaveDTO productSaveDTO = createProductSaveDTO();
         int k=RandomUtils.randomInteger()%1000;
         List<ProductBO> boList =new ArrayList<>();
         for (int i = 0; i < k; i++) {
             productSaveDTO.setSort(i+1);
+
+            int j= RandomUtils.randomInteger()%3;
+            if(j==0){
+                productSaveDTO.setFirstCategory(category[j]);
+                category1++;
+            }else if(j==1){
+                productSaveDTO.setFirstCategory(category[j]);
+                category2++;
+            }else if(j==2){
+                productSaveDTO.setFirstCategory(category[j]);
+                category3++;
+            }
             ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
             boList.add(productBO);
         }
+        //测试sort
         ProductListQueryDTO query =new ProductListQueryDTO();
         query.setPageNo(2);
         query.setPageSize(10);
@@ -353,37 +370,82 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
             Assertions.assertEquals(productBO.getSort(),pos);
             pos++;
         }
+        //测试类目搜索
+        ProductListQueryDTO query2 =new ProductListQueryDTO();
+        query2.setFirstCategory("上衣");
+        PageResult<ProductBO> productList2 = productApplicationService.getProductList(query2);
+        Assertions.assertEquals(productList2.getTotal(),category1);
+
+
 
     }
 
     @Test
-    @DisplayName("获取商品列表")
+    @DisplayName("修改商品状态changeNew")
     public void changeNewStatus(){
+        List<String> productIds=new ArrayList<>();
+        productIds.add("eae9d95a-3b69-43bb-9038-3309560");
+        productApplicationService.changeNewStatus(productIds.get(0), true);
+        ProductBO newProductBO = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO.isNewFlag(),true);
+        productApplicationService.changeNewStatus(productIds.get(0), false);
+        ProductBO newProductBO1 = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO1.isNewFlag(),false);
 
     }
 
     @Test
-    @DisplayName("获取商品列表")
+    @DisplayName("修改商品状态changeOnshelf")
     public void changeOnshelfStatus(){
-
+        List<String> productIds=new ArrayList<>();
+        productIds.add("eae9d95a-3b69-43bb-9038-3309560");
+        productApplicationService.changeOnshelfStatus(productIds.get(0), 2);
+        ProductBO newProductBO = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO.getOnshelfStatus(),2);
+        productApplicationService.changeOnshelfStatus(productIds.get(0), 1);
+        ProductBO newProductBO1 = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO1.getOnshelfStatus(),1);
     }
 
     @Test
-    @DisplayName("获取商品列表")
+    @DisplayName("修改商品状态changePublic")
     public void changePublicStatus(){
-
+        List<String> productIds=new ArrayList<>();
+        productIds.add("eae9d95a-3b69-43bb-9038-3309560");
+        productApplicationService.changePublicStatus(productIds.get(0), true);
+        ProductBO newProductBO = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO.isPublicFlag(),true);
+        productApplicationService.changePublicStatus(productIds.get(0), false);
+        ProductBO newProductBO1 = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO1.isPublicFlag(),false);
     }
 
     @Test
-    @DisplayName("获取商品列表")
+    @DisplayName("修改商品状态changeRecommend")
     public void changeRecommendStatus(){
-
+        List<String> productIds=new ArrayList<>();
+        productIds.add("eae9d95a-3b69-43bb-9038-3309560");
+        productApplicationService.changeRecommendStatus(productIds.get(0), true);
+        ProductBO newProductBO = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO.isRecommendFlag(),true);
+        productApplicationService.changeRecommendStatus(productIds.get(0), false);
+        ProductBO newProductBO1 = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO1.isRecommendFlag(),false);
     }
 
     @Test
-    @DisplayName("获取商品列表")
+    @DisplayName("修改商品状态changeExplosives")
     public void changeExplosivesStatus(){
+        List<String> productIds=new ArrayList<>();
+        productIds.add("eae9d95a-3b69-43bb-9038-3309560");
+        productApplicationService.changeExplosivesStatus(productIds.get(0), true,"https://aa.jpg");
+        ProductBO newProductBO = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO.isExplosivesFlag(),true);
+        Assertions.assertEquals(newProductBO.getExplosivesImage(),"https://aa.jpg");
 
+        productApplicationService.changeExplosivesStatus(productIds.get(0), false,"");
+        ProductBO newProductBO1 = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO1.isExplosivesFlag(),false);
     }
 
     public ProductBO getProduct(String id){
