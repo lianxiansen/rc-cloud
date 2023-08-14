@@ -201,9 +201,9 @@ POM配置文件如下
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
     <!-- UID generator -->
-    <bean id="disposableWorkerIdAssigner" class="com.baidu.fsg.uid.worker.DisposableWorkerIdAssigner" />
+    <bean id="disposableWorkerIdAssigner" class="DisposableWorkerIdAssigner" />
 
-    <bean id="cachedUidGenerator" class="com.baidu.fsg.uid.impl.CachedUidGenerator">
+    <bean id="cachedUidGenerator" class="CachedUidGenerator">
         <property name="workerIdAssigner" ref="disposableWorkerIdAssigner" />
         <property name="epochStr" value="2020-03-17"/>
         <!-- 以下为可选配置, 如未指定将采用默认值 -->
@@ -275,7 +275,7 @@ public class UidConfig {
 ```java
 package com.bowen.service;
 
-import com.baidu.fsg.uid.UidGenerator;
+import UidGenerator;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 

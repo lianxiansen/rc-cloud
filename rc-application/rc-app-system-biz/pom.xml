@@ -147,12 +147,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.bowen.idgenerator</groupId>
-            <artifactId>uid-generator-interface</artifactId>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-uid-generator-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
-
         <!-- Job 定时任务相关 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

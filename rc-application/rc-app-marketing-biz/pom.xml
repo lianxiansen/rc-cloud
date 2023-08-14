@@ -204,11 +204,10 @@
 
         <!--其它-->
         <dependency>
-            <groupId>com.bowen.idgenerator</groupId>
-            <artifactId>uid-generator-interface</artifactId>
+            <groupId>com.rc.cloud</groupId>
+            <artifactId>rc-uid-generator-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
         <!--        规则引擎-->
         <dependency>
             <groupId>com.yomahub</groupId>

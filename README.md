@@ -5,7 +5,7 @@ rc-framework：技术框架 只包含技术相关的公共基础模块
 rc-support：支撑组件，支撑rc-application、rc-server功能的公共支撑模块
 rc-server：基础服务，为rc-application提供基础服务和运维服务
 rc-application：应用服务，包含各个业务模块
-rc-api：服务api，由基础服务、应用服务暴露出来的接口，贯穿rc-common、rc-server、和rc-application模块
+rc-api：服务api，由基础服务、应用服务暴露出来的接口，贯穿rc-support、rc-server、和rc-application模块
 ```
 
 # 项目结构
