@@ -178,6 +178,10 @@ public class ProductPO extends TenantBaseDO {
     @TableField("explosives_image")
     private String explosivesImage;
 
+    //推广图
+    @TableField("promotion_image")
+    private String promotionImage;
+
     @TableField("public_flag")
     private Boolean publicFlag;
 

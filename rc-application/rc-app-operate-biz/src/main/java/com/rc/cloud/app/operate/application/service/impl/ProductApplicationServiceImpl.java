@@ -506,4 +506,9 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         }
         return 1;
     }
+
+    @Override
+    public void uploadPromotionImage(String productId, String promotionImage) {
+        productService.uploadPromotionImage(new ProductId(productId),promotionImage);
+    }
 }

@@ -75,5 +75,5 @@ public interface ProductApplicationService {
     int changeExplosivesStatus(String productId, boolean explosivesFlag,String explosivesImage);
 
 
-
+    void uploadPromotionImage(String productId, String promotionImage);
 }

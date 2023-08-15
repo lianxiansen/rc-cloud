@@ -160,6 +160,7 @@ CREATE TABLE `product`
     `update_time`                datetime       DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `deleted`                    bit            DEFAULT '0' COMMENT '删除标识 0未删除，1已删除',
     `recycle_flag`               bit            DEFAULT '0' COMMENT '是否回收 0否，1是',
+    `promotion_image`            varchar(128)   DEFAULT NULL COMMENT '推广图URL',
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  COMMENT='商品SPU表 ';
 

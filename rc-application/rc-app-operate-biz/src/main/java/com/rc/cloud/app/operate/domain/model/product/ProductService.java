@@ -154,4 +154,17 @@ public class ProductService {
         return products;
     }
 
+    /**
+     * 上传推广图
+     * @param productId
+     * @param promotionImage
+     */
+    public void uploadPromotionImage(ProductId productId, String promotionImage) {
+        Product product = productRepository.findById(productId);
+        if(product==null){
+            throw new ServiceException(ProductErrorCodeConstants.PRODUCT_NOT_EXIST_ERROR);
+        }
+        product.setPromotionImage(new Url(promotionImage));
+        productRepository.updateProduct(product);
+    }
 }
