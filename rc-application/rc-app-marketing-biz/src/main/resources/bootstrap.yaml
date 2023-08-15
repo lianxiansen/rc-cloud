@@ -15,21 +15,10 @@ spring:
         enabled: false
       discovery:
         server-addr: localhost:8848
+        enabled: false
   profiles:
     active: local
-dubbo:
-  application:
-    id: rc-app-marketing-biz
-    name: rc-app-marketing-biz
-    qosEnable: false
-  registry:
-    address: nacos://localhost:8848
-    check: false
-  protocol:
-    name: dubbo
-    port: -1
-  consumer:
-    check: false
+
 
 
 liteflow:
@@ -37,17 +26,6 @@ liteflow:
   when-max-wait-time: 15
   when-max-wait-time-unit: MILLISECONDS
 
-management:
-  health:
-    redis:
-      enabled: false
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      exposure:
-        include: "*"
 --- #################### rc相关配置 ####################
 rc:
   info:
