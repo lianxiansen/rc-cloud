@@ -9,7 +9,9 @@ import com.rc.cloud.app.marketing.application.service.OrderApplicationService;
 import com.rc.cloud.app.marketing.domain.entity.cart.Cart;
 import com.rc.cloud.app.marketing.domain.entity.cart.CartService;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.CartId;
+import com.rc.cloud.app.marketing.domain.entity.cart.identifier.UserId;
 import com.rc.cloud.app.marketing.domain.entity.customer.Customer;
+import com.rc.cloud.app.marketing.domain.entity.customer.CustomerRepository;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddressService;
 import com.rc.cloud.app.marketing.domain.entity.order.comfirmorder.ComfirmOrder;
@@ -55,11 +57,12 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
     private ComfirmOrderRepository comfirmOrderRepository;
     @Resource
     private SubmitOrderDomainService submitOrderDomainService;
-
+    @Resource
+    private CustomerRepository customerRepository;
     @Override
     public ComfirmOrderBO placeOrderWithCart(PlaceOrderWithCartDTO placeOrderDTO) {
-        Customer customer = Customer.mock();
-        List<Cart> carts = cartService.findCarts(customer, placeOrderDTO.getCartItemIds());
+        Customer customer = customerRepository.getCustomer();
+        List<Cart> carts = cartService.findCarts(new UserId(customer.getId()),placeOrderDTO.getCartIds());
         if (CollectionUtils.isEmpty(carts)) {
             throw new ServiceException(OrderErrorCodeConstant.PLACE_ORDER_WHEN_CART_EMPTY);
         }
@@ -71,7 +74,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
 
     @Override
     public ComfirmOrderBO placeOrderWithProduct(PlaceOrderWithPrductDTO placeOrderDTO) {
-        Customer customer = Customer.mock();
+        Customer customer = customerRepository.getCustomer();
         DeliveryAddress deliveryAddress = deliveryAddressDomainService.findDefault(customer);
         Product product = new Product(placeOrderDTO.getProductId(), placeOrderDTO.getProductName(), placeOrderDTO.getProductImage(), placeOrderDTO.getProductArticleNo(), placeOrderDTO.getProductAttribute(), placeOrderDTO.getProductPrice());
         ProductQuality quality = new ProductQuality(placeOrderDTO.getQuantity());
@@ -81,7 +84,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
 
     @Override
     public List<RegularOrderBO> submitComfirmOrder(ComfirmOrderSubmitDTO dto) {
-        Customer customer = Customer.mock();
+        Customer customer = customerRepository.getCustomer();
         validateComfirmOrderSubmitDTO(dto);
         ComfirmOrder comfirmOrder = findComfirmOrderAndCheckNotNull(dto.getComfirmOrderId());
         checkDeliveryAddressNotNull(dto);
@@ -107,7 +110,7 @@ public class OrderApplicationServiceImpl implements OrderApplicationService {
             ProductQuality quality = new ProductQuality(cart.getNum());
             products.put(product, quality);
         });
-        return null;
+        return products;
     }
 
 

@@ -1,18 +1,16 @@
 package com.rc.cloud.app.marketing.domain.entity.cart;
 
-import com.rc.cloud.api.product.dto.ProductSkuRequest;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.CartId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ProductUniqueId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ShopId;
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.UserId;
-import com.rc.cloud.app.marketing.domain.entity.customer.Customer;
 import com.rc.cloud.app.marketing.infrastructure.util.ListUtil;
+import com.rc.cloud.common.core.domain.IdUtil;
 import com.rc.cloud.common.core.exception.ServiceException2;
 import com.rc.cloud.common.core.util.AssertUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -120,7 +118,7 @@ public class CartService {
         }
     }
 
-    public List<Cart> findCarts(Customer customer, List<String> cartIds) {
-        return null;
+    public List<Cart> findCarts(UserId userId,List<String> cartIds) {
+        return cartRepository.findList(userId, IdUtil.toList(cartIds,CartId.class));
     }
 }
