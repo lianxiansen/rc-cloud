@@ -49,7 +49,7 @@ public class ProductBO {
             return "无";
         }else{
             String category=this.firstCategory+"-"+this.secondCategory+"-"+this.thirdCategory;
-            return StringUtils.trim("-");
+            return StringUtils.trim(category,'-');
         }
     }
 
