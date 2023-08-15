@@ -29,6 +29,7 @@ public interface ProductMapper extends BaseMapperX<ProductPO> {
         QueryWrapper<ProductPO> wrapper = new QueryWrapper<>();
         wrapper.lambda()
                 .like(StringUtils.isNotEmpty(queryDTO.getName()),ProductPO::getName, queryDTO.getName())
+                .eq(StringUtils.isNotEmpty(queryDTO.getSpuCode()), ProductPO::getSpuCode, queryDTO.getSpuCode())
                 .eq(StringUtils.isNotEmpty(queryDTO.getFirstCategory()), ProductPO::getFirstCategory, queryDTO.getFirstCategory())
                 .eq(StringUtils.isNotEmpty(queryDTO.getSecondCategory()), ProductPO::getSecondCategory, queryDTO.getSecondCategory())
                 .eq(StringUtils.isNotEmpty(queryDTO.getThirdCategory()), ProductPO::getThirdCategory, queryDTO.getThirdCategory());

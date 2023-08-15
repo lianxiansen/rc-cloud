@@ -354,6 +354,8 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
                 productSaveDTO.setFirstCategory(category[j]);
                 category3++;
             }
+            productSaveDTO.setName(RandomUtils.randomString());
+            productSaveDTO.setSpuCode(String.valueOf(i));
             ProductBO productBO = productApplicationService.createProduct(productSaveDTO);
             boList.add(productBO);
         }
@@ -375,7 +377,17 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         query2.setFirstCategory("上衣");
         PageResult<ProductBO> productList2 = productApplicationService.getProductList(query2);
         Assertions.assertEquals(productList2.getTotal(),category1);
-
+        //测试名字
+        long a = boList.stream().filter(u -> u.getName().contains("a")).count();
+        ProductListQueryDTO query3 =new ProductListQueryDTO();
+        query3.setName("a");
+        PageResult<ProductBO> productList3 = productApplicationService.getProductList(query3);
+        Assertions.assertEquals(productList3.getTotal(),a);
+        //测试货号查询
+        ProductListQueryDTO query4 =new ProductListQueryDTO();
+        query4.setSpuCode("2");
+        PageResult<ProductBO> productList4 = productApplicationService.getProductList(query4);
+        Assertions.assertEquals(productList4.getTotal(),1);
 
 
     }
