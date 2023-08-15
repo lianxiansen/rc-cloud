@@ -1,11 +1,13 @@
 package com.rc.cloud.app.marketing.infrastructure.repository;
 
-import cn.hutool.core.util.RandomUtil;
-import com.rc.cloud.app.marketing.domain.entity.common.Product;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.*;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Buyer;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Receiver;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.RegularOrderItemProduct;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.Product;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrder;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrderLine;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrderRepository;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrderService;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.Buyer;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.ProductQuality;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.Receiver;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.test.core.ut.BaseDbAndRedisUnitTest;
 import org.junit.jupiter.api.Assertions;
@@ -15,7 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName OrderRepositoryUnitTest
@@ -31,30 +34,35 @@ public class RegularOrderRepositoryUnitTest extends BaseDbAndRedisUnitTest {
     private RegularOrderRepository regularOrderRepository;
     @Resource
     private IdRepository idRepository;
+
     @Resource
     private RegularOrderService regularOrderService;
 
+    private   RegularOrder regularOrder;
     @BeforeEach
     public void beforeEach() {
+        String orderNo = regularOrderService.generateOrderSn();
+        String regularId = idRepository.nextId();
+        regularOrder=new RegularOrder(regularId,orderNo);
+        regularOrder.setBuyer(Buyer.mockBuyer());
+        regularOrder.setReceiver(Receiver.mockReceiver());
+        regularOrder.setTradeNo(idRepository.nextId());
+        List<RegularOrderLine> lines=new ArrayList<>();
+        RegularOrderLine line1 = new RegularOrderLine(idRepository.nextId(),regularId, Product.mockProductA1(),new ProductQuality(1));
+        RegularOrderLine line2 = new RegularOrderLine(idRepository.nextId(),regularId, Product.mockProductA2(),new ProductQuality(1));
+        lines.add(line1);
+        lines.add(line2);
+        regularOrderRepository.save(regularOrder);
     }
 
     @Test
     public void save() {
-        //订单
-        RegularOrder order = new RegularOrder(idRepository.nextId(), regularOrderService.generateOrderSn("13857652343"));
-        order.setBuyer(new Buyer(idRepository.nextId(), RandomUtil.randomString(8), RandomUtil.randomString(8), RandomUtil.randomNumbers(8)));
-        order.setReceiver(Receiver.mockReceiver());
-        //订单项
-        RegularOrderItem orderItem1 = new RegularOrderItem(idRepository.nextId(), order.getId());
-        orderItem1.setProduct(new RegularOrderItemProduct( Product.mockProductA(),Product.mockProductA().getProductItems().get(0)));
-        order.addItem(orderItem1);
-
-        RegularOrderItem orderItem2 = new RegularOrderItem(idRepository.nextId(), order.getId());
-        orderItem1.setProduct(new RegularOrderItemProduct( Product.mockProductA(),Product.mockProductA().getProductItems().get(1)));
-        order.addItem(orderItem2);
-        //计算运费
-        order.setFreightAmount(new BigDecimal(100));
-        boolean saved = regularOrderRepository.save(order);
+        boolean saved=regularOrderRepository.save(regularOrder);
         Assertions.assertTrue(saved);
+    }
+    @Test
+    public void findById(){
+        RegularOrder regularOrderActual=regularOrderRepository.findById(regularOrder.getId());
+        Assertions.assertTrue(regularOrder.equals(regularOrderActual));
     }
 }

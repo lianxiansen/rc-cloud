@@ -1,6 +1,6 @@
 package com.rc.cloud.app.marketing.application.listener;
 
-import com.rc.cloud.app.marketing.domain.entity.regularorder.event.OrderCreatedEvent;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.event.OrderCreatedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 

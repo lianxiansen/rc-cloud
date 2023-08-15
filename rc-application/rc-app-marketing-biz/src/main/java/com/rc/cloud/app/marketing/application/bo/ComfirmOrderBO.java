@@ -1,7 +1,9 @@
 package com.rc.cloud.app.marketing.application.bo;
 
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
+import com.rc.cloud.app.marketing.domain.entity.order.comfirmorder.ComfirmOrder;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.DeliveryType;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.TradeType;
 import lombok.Data;
 
 /**
@@ -13,9 +15,15 @@ import lombok.Data;
  */
 @Data
 public class ComfirmOrderBO {
-    private ComfirmOrder comfirmOrder;
     private DeliveryAddress deliveryAddress;
+    private ComfirmOrder comfirmOrder;
+    private TradeType[] tradeTypes;
+    private DeliveryType[] deliveryTypes;
 
-    public ComfirmOrderBO(ComfirmOrder comfirmOrder, DeliveryAddress deliveryAddress) {
+    public ComfirmOrderBO(DeliveryAddress deliveryAddress, ComfirmOrder comfirmOrder, TradeType[] tradeTypes, DeliveryType[] deliveryTypes) {
+        this.deliveryAddress = deliveryAddress;
+        this.comfirmOrder = comfirmOrder;
+        this.tradeTypes = tradeTypes;
+        this.deliveryTypes = deliveryTypes;
     }
 }

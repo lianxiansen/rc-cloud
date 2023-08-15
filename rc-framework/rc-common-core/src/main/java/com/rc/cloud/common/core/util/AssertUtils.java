@@ -191,6 +191,17 @@ public class AssertUtils {
         }
     }
 
+    public static void assertArgumentMinimum(int aValue, int aMinimum,String aMessage) {
+        if (aValue < aMinimum) {
+            throw new IllegalArgumentException(aMessage);
+        }
+    }
+    public static void assertArgumentMaximum(int aValue, int aMaximum,String aMessage) {
+        if (aValue > aMaximum) {
+            throw new IllegalArgumentException(aMessage);
+        }
+    }
+
     public static void assertArgumentRange(long aValue, long aMinimum, long aMaximum, String aMessage) {
         if (aValue < aMinimum || aValue > aMaximum) {
             throw new IllegalArgumentException(aMessage);

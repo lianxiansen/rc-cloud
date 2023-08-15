@@ -1,18 +1,18 @@
 package com.rc.cloud.app.marketing.domain.service.impl;
 
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj.DeliveryType;
-import com.rc.cloud.app.marketing.domain.entity.common.Product;
+import com.rc.cloud.app.marketing.domain.entity.order.comfirmorder.ComfirmOrder;
+import com.rc.cloud.app.marketing.domain.entity.order.comfirmorder.ComfirmOrderLine;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.DeliveryType;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.Product;
 import com.rc.cloud.app.marketing.domain.entity.customer.Customer;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddressService;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrder;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrderItem;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrderService;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.event.OrderCreatedEvent;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Buyer;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Receiver;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.RegularOrderItemProduct;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrder;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrderLine;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrderService;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.event.OrderCreatedEvent;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.Buyer;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.Receiver;
 import com.rc.cloud.app.marketing.domain.service.SubmitOrderDomainService;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ErrorCode;
@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName SubmitOrderServiceImpl
@@ -52,25 +53,26 @@ public class SubmitOrderDomainServiceImpl implements SubmitOrderDomainService {
         if (CollectionUtils.isEmpty(products)) {
             throw new ServiceException(new ErrorCode(999999, "请选择您需要的商品加入购物车"));
         }
-        List<RegularOrder> orders = createRegularOrders(customer,comfirmOrder);
+        List<RegularOrder> orders = createRegularOrdersGroupProduct(customer, comfirmOrder);
         regularOrderService.insertBatch(orders);
         return orders;
     }
 
     /**
-     * 创建常规订单
+     * 按商品分组创建常规订单
      *
      * @param comfirmOrder
      * @return
      */
-    private List<RegularOrder> createRegularOrders(Customer customer,ComfirmOrder comfirmOrder) {
+    private List<RegularOrder> createRegularOrdersGroupProduct(Customer customer, ComfirmOrder comfirmOrder) {
         String tradeNo = idRepository.nextId();
         List<RegularOrder> orders = new ArrayList<>();
-        for (Product product : comfirmOrder.getProducts()) {
-            RegularOrder order = createRegularOrder(customer,comfirmOrder, tradeNo, product);
+        List<String> productIds=comfirmOrder.getProducts().stream().map(p->p.getProductId()).distinct().collect(Collectors.toList());
+        productIds.forEach(productId->{
+            RegularOrder order = createRegularOrder(customer, comfirmOrder, tradeNo, productId);
             orders.add(order);
             applicationContext.publishEvent(new OrderCreatedEvent(order.getId()));
-        }
+        });
         return orders;
     }
 
@@ -79,36 +81,35 @@ public class SubmitOrderDomainServiceImpl implements SubmitOrderDomainService {
      *
      * @param comfirmOrder
      * @param tradeNo
-     * @param product
+     * @param productId
      * @return
      */
-    private RegularOrder createRegularOrder(Customer customer,ComfirmOrder comfirmOrder, String tradeNo, Product product) {
-        String orderNo = regularOrderService.generateOrderSn(customer.getMobile());
-        RegularOrder order = new RegularOrder(idRepository.nextId(), orderNo);
-        order.setBuyer(getBuyer(comfirmOrder));
-        order.setReceiver(getReceiver(comfirmOrder));
-        order.setTradeNo(tradeNo);
-        product.getProductItems().forEach(item->{
-            RegularOrderItemProduct regularOrderItemProduct=new RegularOrderItemProduct( product,item);
-            order.addItem(createRegularOrderItems(order,regularOrderItemProduct));
+    private RegularOrder createRegularOrder(Customer customer, ComfirmOrder comfirmOrder, String tradeNo, String productId) {
+        String orderNo = regularOrderService.generateOrderSn();
+        RegularOrder regularOrder = new RegularOrder(idRepository.nextId(), orderNo);
+        regularOrder.setBuyer(getBuyer(comfirmOrder));
+        regularOrder.setReceiver(getReceiver(comfirmOrder));
+        regularOrder.setTradeNo(tradeNo);
+        List<ComfirmOrderLine> comfirmOrderLines= comfirmOrder.getLines().stream().filter(item->item.getProduct().getProductId().equals(productId)).collect(Collectors.toList());
+        comfirmOrderLines.forEach(comfirmOrderLine -> {
+            regularOrder.addLine(createRegularOrderLines(regularOrder,comfirmOrderLine));
         });
 
         //计算运费
-        order.setFreightAmount(calculateFreightAmount(comfirmOrder));
-        return order;
+        regularOrder.setFreightAmount(calculateFreightAmount(comfirmOrder));
+        return regularOrder;
     }
 
 
-    private RegularOrderItem createRegularOrderItems(RegularOrder order,RegularOrderItemProduct regularOrderItemProduct) {
-        RegularOrderItem orderItem = new RegularOrderItem(idRepository.nextId(), order.getId());
-        orderItem.setProduct(regularOrderItemProduct);
+    private RegularOrderLine createRegularOrderLines(RegularOrder regularOrder, ComfirmOrderLine  comfirmOrderLine) {
+        RegularOrderLine orderItem = new RegularOrderLine(idRepository.nextId(), regularOrder.getId(),comfirmOrderLine.getProduct(),comfirmOrderLine.getProductQuality());
         return orderItem;
     }
 
     private BigDecimal calculateFreightAmount(ComfirmOrder comfirmOrder) {
         DeliveryAddress deliveryAddress = deliveryAddressService.findDefault(Customer.mock());
-        if(Objects.isNull(deliveryAddress)){
-            throw new ServiceException(99999999,"计算运费失败，失败原因：找不到收货地址");
+        if (Objects.isNull(deliveryAddress)) {
+            throw new ServiceException(99999999, "计算运费失败，失败原因：找不到收货地址");
         }
         BigDecimal freightAmount = calculateFreightAmount(comfirmOrder.getDeliveryType(), comfirmOrder.getProducts(), deliveryAddress);
         return freightAmount;
