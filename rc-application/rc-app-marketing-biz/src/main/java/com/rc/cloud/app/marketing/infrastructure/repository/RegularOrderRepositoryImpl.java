@@ -1,19 +1,18 @@
 package com.rc.cloud.app.marketing.infrastructure.repository;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrder;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrderRepository;
-import com.rc.cloud.app.marketing.infrastructure.repository.convert.OrderConvert;
-import com.rc.cloud.app.marketing.infrastructure.repository.convert.OrderItemConvert;
-import com.rc.cloud.app.marketing.infrastructure.repository.mapper.OrderItemMapper;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrder;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrderRepository;
+import com.rc.cloud.app.marketing.infrastructure.repository.convert.RegularOrderConvert;
+import com.rc.cloud.app.marketing.infrastructure.repository.convert.RegularOrderLineConvert;
+import com.rc.cloud.app.marketing.infrastructure.repository.mapper.RegularOrderLineMapper;
 import com.rc.cloud.app.marketing.infrastructure.repository.mapper.RegularOrderMapper;
-import com.rc.cloud.app.marketing.infrastructure.repository.po.OrderItemPO;
+import com.rc.cloud.app.marketing.infrastructure.repository.po.RegularOrderLinePO;
 import com.rc.cloud.app.marketing.infrastructure.repository.po.RegularOrderPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,20 +28,13 @@ public class RegularOrderRepositoryImpl implements RegularOrderRepository {
     @Autowired
     private RegularOrderMapper orderMapper;
     @Autowired
-    private OrderItemMapper orderItemMapper;
+    private RegularOrderLineMapper orderItemMapper;
 
     @Override
-    public boolean insertBatch(List<RegularOrder> orders) {
-        List<RegularOrderPO> pos=new ArrayList<>();
-        List<OrderItemPO> poItems=new ArrayList<>();
+    public boolean saveBatch(List<RegularOrder> orders) {
         orders.forEach(order->{
-            RegularOrderPO orderPO = OrderConvert.convertToPO(order);
-            pos.add(orderPO);
-            List<OrderItemPO> orderItemPOs = OrderItemConvert.convertToPO(order.getItems());
-            poItems.addAll(orderItemPOs);
+            save(order);
         });
-        orderMapper.insertBatch(pos);
-        orderItemMapper.insertBatch(poItems);
         return true;
     }
 
@@ -50,8 +42,8 @@ public class RegularOrderRepositoryImpl implements RegularOrderRepository {
 
     @Override
     public boolean save(RegularOrder order) {
-        RegularOrderPO orderPO = OrderConvert.convertToPO(order);
-        List<OrderItemPO> orderItemPOs = OrderItemConvert.convertToPO(order.getItems());
+        RegularOrderPO orderPO = RegularOrderConvert.convertToPO(order);
+        List<RegularOrderLinePO> orderItemPOs = RegularOrderLineConvert.convertToPO(order.getLines());
         String idVal = orderPO.getId();
         if (!StringUtils.checkValNull(idVal) && !Objects.isNull(orderMapper.selectById((Serializable) idVal))) {
             orderMapper.updateById(orderPO);
@@ -60,7 +52,7 @@ public class RegularOrderRepositoryImpl implements RegularOrderRepository {
         return true;
     }
 
-    private void saveOrderItem(List<OrderItemPO> itemPOs) {
+    private void saveOrderItem(List<RegularOrderLinePO> itemPOs) {
         itemPOs.forEach(po->{
             String idVal = po.getId();
             if (!StringUtils.checkValNull(idVal) && !Objects.isNull(orderItemMapper.selectById((Serializable) idVal))) {

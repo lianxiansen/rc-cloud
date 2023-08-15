@@ -1,7 +1,8 @@
 package com.rc.cloud.app.marketing.domain.entity.cart;
 
-import com.rc.cloud.app.marketing.domain.entity.cart.identifier.ProductId;
+import com.rc.cloud.common.core.util.StringUtils;
 import lombok.Data;
+import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,6 +14,8 @@ import java.util.List;
  */
 @Data
 public class CartProductSkuDetail {
+    private String id;
+
     private String skuCode;
 
     private BigDecimal supplyPrice;
@@ -50,4 +53,11 @@ public class CartProductSkuDetail {
     private int cartonSizeWidth;
 
     private int cartonSizeHeight;
+    public String stkAttributesToString(){
+        String string = "";
+        if(!CollectionUtils.isEmpty(skuAttributes)){
+            string= StringUtils.join(skuAttributes, ",");
+        }
+        return string;
+    }
 }

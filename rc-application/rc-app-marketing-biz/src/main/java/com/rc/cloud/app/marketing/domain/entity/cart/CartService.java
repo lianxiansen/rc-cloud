@@ -32,6 +32,12 @@ public class CartService {
     @Resource
     private CartProductRepository productRepository;
 
+    public void deleteBatch(List<CartId> cartIds) {
+        cartIds.forEach(cartId -> {
+            delete(cartId);
+        });
+    }
+
     public void delete(CartId cartId) {
         AssertUtils.notNull(cartId, "cartId must be not null");
         //删除购物车业务规则校验
@@ -99,7 +105,7 @@ public class CartService {
      */
     public void create(List<Cart> cartList) {
         cartList.forEach(cart -> {
-            Cart findOne = cartRepository.findByProductUniqueId(cart.getUserId(), new ProductUniqueId(cart.getCartProductSkuDetail().getSkuCode()));
+            Cart findOne = cartRepository.findByProductUniqueId(cart.getUserId(), new ProductUniqueId(cart.getCartProductSkuDetail().getId()));
             if (findOne != null) {
                 cart.setId(findOne.getId());
             }

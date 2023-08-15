@@ -12,15 +12,15 @@ import com.rc.cloud.app.marketing.infrastructure.repository.mapper.CartMapper;
 import com.rc.cloud.app.marketing.infrastructure.repository.po.CartPO;
 import com.rc.cloud.common.mybatis.core.query.LambdaQueryWrapperX;
 import com.rc.cloud.common.test.core.ut.BaseDbUnitTest;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
 import static com.rc.cloud.common.test.core.util.RandomUtils.randomPojo;
 import static org.junit.jupiter.api.Assertions.*;
@@ -56,7 +56,7 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
     @Resource
     private CartMapper cartMapper;
 
-    @BeforeEach
+    @Before
     void insert() {
     }
 
@@ -121,7 +121,9 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         cartDTOList.add(dto);
 
         //模拟服务返回
-        mockProductService();
+        Map<String, Object> map = mockGetProductService();
+        CartProductDetail item =(CartProductDetail)map.get(CartAttributeKey.PRODUCT_DETAIL);
+        CartProductSkuDetail item2 =(CartProductSkuDetail)map.get(CartAttributeKey.PRODUCT_SKU_DETAIL);
         //调用保存
         cartApplicationServiceImpl.saveCart(user, cartDTOList);
 
@@ -138,7 +140,20 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         );
         assertNotNull(cartPO);
         assertEquals(cartPO.getNum(), 10);
-
+        assertEquals(cartPO.getWeight().doubleValue(),item2.getWeight().doubleValue());
+        assertEquals(cartPO.getPrice().doubleValue(),item2.getPrice().doubleValue());
+        assertEquals(cartPO.getCartonSizeHeight(),item2.getCartonSizeHeight());
+        assertEquals(cartPO.getCartonSizeLength(),item2.getCartonSizeLength());
+        assertEquals(cartPO.getCartonSizeWidth(),item2.getCartonSizeWidth());
+        assertEquals(cartPO.getNewState(),0);
+        assertEquals(cartPO.getProductId(),item.getId().id());
+        assertEquals(cartPO.getPackingNumber(),item2.getPackingNumber());
+        assertEquals(cartPO.getProductImage(),item.getMasterImage());
+        assertEquals(cartPO.getProductUniqueid(),item2.getId());
+        assertEquals(cartPO.getSpuCode(),item.getSpuCode());
+        assertEquals(cartPO.getSkuCode(),item2.getSkuCode());
+        assertEquals(cartPO.getType(),1);
+        assertEquals(cartPO.getSkuAttributes(),"绿色,big");
 
         cartDTOList = new ArrayList<>();
         dto = randomPojo(CartDTO.class, o -> {
@@ -164,7 +179,7 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
     void deleteCartByProductuniqueid() {
     }
 
-    void mockProductService() {
+    List<CartProductSkuInfo> mockProductService() {
         List<CartProductSkuInfo> list = new ArrayList<>();
         CartProductSkuInfo cartProductInfo = new CartProductSkuInfo();
 
@@ -179,14 +194,32 @@ class CartApplicationServiceImplTest extends BaseDbUnitTest {
         cartProductInfo = randomPojo(cartProductInfo.getClass(), o -> {
             o.setProductName("皮带");
             o.setProductId("2");
-            o.setSkuId("100");
-            o.setAttributes(Arrays.asList("40H", "白色"));
+            o.setSkuId("200");
+            o.setAttributes(Arrays.asList("40H", "绿色"));
         });
 
         list.add(cartProductInfo);
 
         //模拟调用
         when(cartProductRepository.getProductList(new ArrayList<>())).thenReturn(list);
+        return list;
+    }
 
+    Map<String, Object> mockGetProductService() {
+        Map<String, Object> map = new HashMap<>();
+        CartProductDetail detail=randomPojo(CartProductDetail.class,o->{
+            o.setId(new ProductId("2"));
+            o.setName("皮带");
+        });
+        CartProductSkuDetail skuDetail=randomPojo(CartProductSkuDetail.class,o->{
+            o.setId("200");
+            o.setWeight(BigDecimal.valueOf(540));
+            o.setSkuAttributes(Arrays.asList("绿色","big"));
+        });
+        map.put(CartAttributeKey.PRODUCT_DETAIL, detail);
+        map.put(CartAttributeKey.PRODUCT_SKU_DETAIL, skuDetail);
+        //模拟调用
+        when(cartProductRepository.getProduct("2","200")).thenReturn(map);
+        return map;
     }
 }

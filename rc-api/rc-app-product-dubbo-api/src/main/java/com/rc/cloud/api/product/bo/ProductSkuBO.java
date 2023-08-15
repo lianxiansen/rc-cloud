@@ -10,7 +10,6 @@ import java.util.List;
 @Accessors(chain = true)
 public class ProductSkuBO {
 
-
     private String id;
 
     private String skuCode;

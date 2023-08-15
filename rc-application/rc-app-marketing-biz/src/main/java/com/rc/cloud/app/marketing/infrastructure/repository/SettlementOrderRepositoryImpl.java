@@ -1,7 +1,7 @@
 package com.rc.cloud.app.marketing.infrastructure.repository;
 
-import com.rc.cloud.app.marketing.domain.entity.settlementorder.SettlementOrder;
-import com.rc.cloud.app.marketing.domain.entity.settlementorder.SettlementOrderRepository;
+import com.rc.cloud.app.marketing.domain.entity.order.settlementorder.SettlementOrder;
+import com.rc.cloud.app.marketing.domain.entity.order.settlementorder.SettlementOrderRepository;
 import com.rc.cloud.app.marketing.infrastructure.repository.mapper.SettlementOrderMapper;
 
 import javax.annotation.Resource;

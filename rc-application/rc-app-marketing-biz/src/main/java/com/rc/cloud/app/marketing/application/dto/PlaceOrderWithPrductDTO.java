@@ -32,32 +32,18 @@ public class PlaceOrderWithPrductDTO {
 
 
 
-
-    /**
-     * 商品项id
-     */
-    private String productItemId;
-
-    /**
-     * 商品项名称
-     */
-    private String productItemName;
-    /**
-     * 商品项图片地址
-     */
-    private String productItemImage;
     /**
      * 商品项属性名称
      */
-    private String productItemAttribute;
+    private String productAttribute;
     /**
      * 商品项单价
      */
-    private BigDecimal productItemPrice;
+    private BigDecimal productPrice;
     /**
      * 商品项数量
      */
-    private int productItemQuantity;
+    private int quantity;
 
 
 }

@@ -1,11 +1,13 @@
 package com.rc.cloud.app.marketing.infrastructure.repository;
 
 import com.rc.cloud.app.marketing.domain.entity.cart.identifier.CartId;
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrderItem;
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrderRepository;
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj.DeliveryType;
-import com.rc.cloud.app.marketing.domain.entity.common.Product;
+import com.rc.cloud.app.marketing.domain.entity.order.comfirmorder.ComfirmOrder;
+import com.rc.cloud.app.marketing.domain.entity.order.comfirmorder.ComfirmOrderLine;
+import com.rc.cloud.app.marketing.domain.entity.order.comfirmorder.ComfirmOrderRepository;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.DeliveryType;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.Product;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.ProductQuality;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.TradeType;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.test.core.ut.BaseRedisUnitTest;
 import org.junit.jupiter.api.Assertions;
@@ -37,10 +39,12 @@ public class ComfirmOrderRepositoryUnitTest extends BaseRedisUnitTest {
     @BeforeEach
     public void beforeEach() {
         comfirmOrder = new ComfirmOrder(idRepository.nextId());
-        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA()));
-        comfirmOrder.addItem(new ComfirmOrderItem(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB()));
-        comfirmOrder.setPayType(0);
-        comfirmOrder.setDeliveryType(DeliveryType.CONSIGN);
+        comfirmOrder.addLine(new ComfirmOrderLine(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA1(),new ProductQuality(1)));
+        comfirmOrder.addLine(new ComfirmOrderLine(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductA2(),new ProductQuality(1)));
+        comfirmOrder.addLine(new ComfirmOrderLine(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB1(),new ProductQuality(1)));
+        comfirmOrder.addLine(new ComfirmOrderLine(idRepository.nextId(), comfirmOrder.getId(), new CartId(idRepository.nextId()), Product.mockProductB1(),new ProductQuality(1)));
+        comfirmOrder.changeTradeType(TradeType.OFFLINE);
+        comfirmOrder.changeDeliveryType(DeliveryType.CONSIGN);
         comfirmOrder.setFreightAmount(BigDecimal.ZERO);
         comfirmOrderRepository.save(comfirmOrder);
     }

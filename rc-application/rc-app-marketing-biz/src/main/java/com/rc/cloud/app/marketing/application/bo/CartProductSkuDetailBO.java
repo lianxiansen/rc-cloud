@@ -12,6 +12,7 @@ import java.util.List;
  */
 @Data
 public class CartProductSkuDetailBO {
+    private String id;
 
     private String skuCode;
 

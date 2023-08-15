@@ -35,19 +35,19 @@ public interface CartConvert {
         po.setType(cart.getType());
         po.setNum(cart.getNum());
         po.setNewState(cart.getNewState());
-        if(cart.getBargainId() != null){
+        if (cart.getBargainId() != null) {
             po.setBargainId(cart.getBargainId().id());
         }
-        if(cart.getBargainId() != null){
+        if (cart.getBargainId() != null) {
             po.setSeckillId(cart.getSeckillId().id());
         }
-        if(cart.getSeckillId() != null){
+        if (cart.getSeckillId() != null) {
             po.setCombinationId(cart.getCombinationId().id());
         }
 
         if (cart.getCartProductDetail() != null) {
             //设置购物车产品详细信息
-            po.setProductUniqueid(cart.getCartProductSkuDetail().getSkuCode());
+            po.setProductUniqueid(cart.getCartProductSkuDetail().getId());
             po.setPackingNumber(cart.getCartProductSkuDetail().getPackingNumber());
             po.setSkuAttributes(StringUtils.join(cart.getCartProductSkuDetail().getSkuAttributes(), ","));
             po.setWeight(cart.getCartProductSkuDetail().getWeight());
@@ -58,6 +58,8 @@ public interface CartConvert {
             po.setProductId(cart.getCartProductDetail().getId().id());
             po.setProductName(cart.getCartProductDetail().getName());
             po.setProductImage(cart.getCartProductDetail().getMasterImage());
+            po.setSpuCode(cart.getCartProductDetail().getSpuCode());
+            po.setSkuCode(cart.getCartProductSkuDetail().getSkuCode());
         }
         return po;
     }

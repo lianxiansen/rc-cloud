@@ -2,8 +2,8 @@ package com.rc.cloud.app.marketing.infrastructure.repository;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrderRepository;
+import com.rc.cloud.app.marketing.domain.entity.order.comfirmorder.ComfirmOrder;
+import com.rc.cloud.app.marketing.domain.entity.order.comfirmorder.ComfirmOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;

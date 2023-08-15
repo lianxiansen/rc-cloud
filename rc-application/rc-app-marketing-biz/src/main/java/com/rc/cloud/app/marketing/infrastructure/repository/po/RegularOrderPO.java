@@ -3,7 +3,8 @@ package com.rc.cloud.app.marketing.infrastructure.repository.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.OrderStatus;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.PayStatus;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.valobj.OrderStatus;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -39,19 +40,11 @@ public class RegularOrderPO extends BaseDO {
     @TableField("order_status")
     private int orderStatus;
 
-
     /**
      * 商品数量合计
      */
     @TableField("product_quantity")
     private int productQuantity;
-
-    /**
-     * 商品项数量合计
-     */
-    @TableField("product_item_quantity")
-    private int productItemQuantity;
-
     /**
      * 商品金额
      */
@@ -78,12 +71,12 @@ public class RegularOrderPO extends BaseDO {
     /**
      * 支付方式【0：扫码支付】
      */
-    @TableField("pay_type")
-    private int payType;
+    @TableField("trade_type")
+    private int tradeType;
     /**
      * 付款状态 0:未付款 1：已付款
      *
-     * @see com.rc.cloud.app.marketing.domain.entity.common.PayStatus
+     * @see PayStatus
      */
     @TableField("pay_status")
     private int payStatus;
@@ -93,18 +86,18 @@ public class RegularOrderPO extends BaseDO {
     @TableField("pay_time")
     private LocalDateTime payTime;
 
-
-    /**
-     * 发货时间
-     */
-    @TableField("consign_time")
-    private LocalDateTime consignTime;
     /**
      * 发货状态,0:未发货，1：已发货，2：已收货
      * @com.rc.cloud.app.marketing.domain.entity.order.ConsignStatus
      */
     @TableField("consign_status")
     private int consignStatus;
+    /**
+     * 发货时间
+     */
+    @TableField("consign_time")
+    private LocalDateTime consignTime;
+
     /**
      * 完成时间
      */

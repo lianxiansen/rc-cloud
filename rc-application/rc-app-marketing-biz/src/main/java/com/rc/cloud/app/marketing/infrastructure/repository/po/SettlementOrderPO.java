@@ -2,8 +2,8 @@ package com.rc.cloud.app.marketing.infrastructure.repository.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.rc.cloud.app.marketing.domain.entity.common.PayStatus;
-import com.rc.cloud.app.marketing.domain.entity.common.SettledEnum;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.PayStatus;
+import com.rc.cloud.app.marketing.domain.entity.order.settlementorder.SettledEnum;
 import com.rc.cloud.common.mybatis.core.dataobject.BaseDO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,10 +41,11 @@ public class SettlementOrderPO extends BaseDO {
     private String outTradeNo;
 
     /**
-     * 支付方式 0 手动代付 1 微信支付 2 支付宝
+     * 交易方式
+     * @see com.rc.cloud.app.marketing.domain.entity.order.valobj.TradeType
      */
     @TableField("pay_type")
-    private int payType;
+    private int tradeType;
 
     /**
      * 应付金额

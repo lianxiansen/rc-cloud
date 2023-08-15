@@ -2,23 +2,21 @@ package com.rc.cloud.app.marketing.domain;
 
 
 import cn.hutool.core.util.RandomUtil;
-import com.rc.cloud.app.marketing.domain.entity.cart.Cart;
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.ComfirmOrder;
-import com.rc.cloud.app.marketing.domain.entity.comfirmorder.valobj.DeliveryType;
-import com.rc.cloud.app.marketing.domain.entity.common.PayStatus;
-import com.rc.cloud.app.marketing.domain.entity.common.Product;
-import com.rc.cloud.app.marketing.domain.entity.common.SettledEnum;
+import com.rc.cloud.app.marketing.domain.entity.order.comfirmorder.ComfirmOrder;
+import com.rc.cloud.app.marketing.domain.entity.order.comfirmorder.ComfirmOrderRepository;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.DeliveryType;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.valobj.AuditAction;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.valobj.OrderStatus;
+import com.rc.cloud.app.marketing.domain.entity.order.valobj.*;
+import com.rc.cloud.app.marketing.domain.entity.order.settlementorder.SettledEnum;
 import com.rc.cloud.app.marketing.domain.entity.customer.Customer;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddress;
 import com.rc.cloud.app.marketing.domain.entity.deliveryaddress.DeliveryAddressService;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrder;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.RegularOrderService;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Buyer;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.ConsignStatus;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.OrderStatus;
-import com.rc.cloud.app.marketing.domain.entity.regularorder.valobj.Receiver;
-import com.rc.cloud.app.marketing.domain.entity.settlementorder.SettlementOrder;
-import com.rc.cloud.app.marketing.domain.entity.settlementorder.SettlementOrderService;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrder;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrderRepository;
+import com.rc.cloud.app.marketing.domain.entity.order.regularorder.RegularOrderService;
+import com.rc.cloud.app.marketing.domain.entity.order.settlementorder.SettlementOrder;
+import com.rc.cloud.app.marketing.domain.entity.order.settlementorder.SettlementOrderService;
 import com.rc.cloud.app.marketing.domain.service.ComfirmOrderDomainService;
 import com.rc.cloud.app.marketing.domain.service.SubmitOrderDomainService;
 import com.rc.cloud.app.marketing.domain.service.impl.ComfirmOrderDomainServiceImpl;
@@ -29,18 +27,19 @@ import com.rc.cloud.app.marketing.infrastructure.repository.LocalIdRepositoryImp
 import com.rc.cloud.app.marketing.infrastructure.repository.RegularOrderRepositoryImpl;
 import com.rc.cloud.common.core.domain.IdRepository;
 import com.rc.cloud.common.core.exception.ServiceException;
-import com.rc.cloud.common.core.util.AssertUtils;
 import com.rc.cloud.common.core.util.StringUtils;
 import com.rc.cloud.common.test.core.ut.BaseDbAndRedisUnitTest;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -82,7 +81,10 @@ import java.util.Objects;
 @DisplayName("订单")
 public class OrderUnitTest extends BaseDbAndRedisUnitTest {
     private ComfirmOrder comfirmOrder;
-    private List<Cart> carts;
+    @MockBean
+    private ComfirmOrderRepository comfirmOrderRepository;
+    @MockBean
+    private RegularOrderRepository regularOrderRepository;
     @Autowired
     private ComfirmOrderDomainService comfirmOrderDomainService;
     @Autowired
@@ -93,21 +95,23 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
     private RegularOrderService regularOrderService;
     @Autowired
     private SettlementOrderService settlementOrderService;
+
     /**
      * 分类标识
      */
-    private String customerId = "5b6b70eafeaa9938cff8e430245090c7";
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
     private Customer customer;
     private DeliveryAddress deliveryAddress;
-    private List<Product> products;
+    private Map<Product, ProductQuality> products;
+
     @BeforeEach
     public void beforeEach() {
         customer = Customer.mock();
-
         deliveryAddress = null;
-
+        products=new HashMap<>();
+        products.put(Product.mockProductA1(), new ProductQuality(1));
+        products.put(Product.mockProductA2(), new ProductQuality(1));
+        products.put(Product.mockProductB1(), new ProductQuality(1));
+        products.put(Product.mockProductB2(), new ProductQuality(1));
         comfirmOrder = comfirmOrderDomainService.placeOrder(Customer.mock(), products, deliveryAddress);
     }
 
@@ -115,40 +119,40 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
     public class comfirmOrder {
 
 
-        @DisplayName("确认订单")
+        @DisplayName("下单")
         @Test
-        public void comfirmOrder() {
-            assertionsComfirmOrder(comfirmOrder);
+        public void placeOrder() {
+            assertComfirmOrder(comfirmOrder);
         }
 
-        private void assertionsComfirmOrder(ComfirmOrder comfirmOrder) {
+        private void assertComfirmOrder(ComfirmOrder comfirmOrder) {
             Assertions.assertTrue(
-                    comfirmOrder.getPayType() == 0 &&
-                            comfirmOrder.getDeliveryType().getKey() == DeliveryType.CONSIGN.getKey() &&
+                    comfirmOrder.getTradeType() == TradeType.ONLINE &&
+                            comfirmOrder.getDeliveryType().getCode() == DeliveryType.CONSIGN.getCode() &&
                             StringUtils.isEmpty(comfirmOrder.getNote()) &&
-                            new BigDecimal(800).equals(comfirmOrder.getProductAmout()) &&
+                            new BigDecimal(400).equals(comfirmOrder.getProductAmout()) &&
                             comfirmOrder.getFreightAmount().equals(BigDecimal.ZERO) &&
-                            comfirmOrder.getPayAmount().equals(new BigDecimal(800).add(BigDecimal.ZERO)) &&
-                            comfirmOrder.getItems().size() == 4
+                            comfirmOrder.getPayAmount().equals(new BigDecimal(400).add(BigDecimal.ZERO)) &&
+                            comfirmOrder.getLines().size() == 4
             );
         }
 
         @Test
-        public void changePayType() {
+        public void changeTradeType() {
         }
 
         @Test
         public void changeDeliveryType2Express() {
             DeliveryType deliveryType = DeliveryType.EXPRESS;
             comfirmOrder.changeDeliveryType(deliveryType);
-            Assertions.assertEquals(comfirmOrder.getDeliveryType().getKey(), deliveryType.getKey());
+            Assertions.assertEquals(comfirmOrder.getDeliveryType().getCode(), deliveryType.getCode());
         }
 
         @Test
         public void changeDeliveryTypeWhenDeliveryTypeEqualsHome() {
             DeliveryType deliveryType = DeliveryType.HOME;
             comfirmOrder.changeDeliveryType(deliveryType);
-            Assertions.assertEquals(comfirmOrder.getDeliveryType().getKey(), deliveryType.getKey());
+            Assertions.assertEquals(comfirmOrder.getDeliveryType().getCode(), deliveryType.getCode());
         }
 
         @Test
@@ -165,6 +169,7 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
         private List<RegularOrder> orders;
         private RegularOrder order;
 
+
         @BeforeEach
         public void beforeEach() {
             orders = submitOrderDomainService.submitOrder(customer, comfirmOrder);
@@ -180,7 +185,7 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
 
         @Test
         public void changeAmountWhenAudited() {
-            order.audit();
+            order.doActoin(new AuditAction());
             Assertions.assertThrows(ServiceException.class, () -> {
                 order.changeAmount(order.getPayAmount().subtract(BigDecimal.ONE));
             });
@@ -193,10 +198,10 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
             Assertions.assertTrue(Objects.nonNull(order.getId()) &&
                     Objects.nonNull(order.getOrderNumber()) &&
                     order.getOrderStatus() == OrderStatus.AUDITING &&
-                    order.getProductAmount().equals(new BigDecimal(400)) &&
+                    order.getProductAmount().equals(new BigDecimal(200)) &&
                     order.getFreightAmount().equals(BigDecimal.ZERO) &&
                     Objects.isNull(order.getChangeAmount()) &&
-                    order.getPayType() == 0 &&
+                    order.getTradeType() ==TradeType.ONLINE &&
                     order.getPayStatus() == PayStatus.UNPAY &&
                     order.getConsignStatus() == ConsignStatus.UNCONSIGN &&
                     order.getBuyer().equals(buyer) &&
@@ -247,15 +252,15 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
             orderSettlement.setCreateTime(createTime);
             orderSettlement.setPayAmount(order.getPayAmount());
             orderSettlement.setPayStatus(PayStatus.UNPAY);
-            orderSettlement.setPayType(order.getPayType());
+            orderSettlement.setTradeType(order.getTradeType());
             orderSettlement.setTradeNo(idRepository.nextId());
-            Assertions.assertTrue(orderSettlement.getPayType() == order.getPayType() &&
+            Assertions.assertTrue(orderSettlement.getTradeType() == order.getTradeType() &&
                     orderSettlement.getPayAmount().equals(order.getPayAmount()) &&
                     orderSettlement.getBuyerId().equals(order.getBuyer().getBuyerId()) &&
                     orderSettlement.getSettled() == SettledEnum.NO &&
                     orderSettlement.getPayAmount().equals(order.getPayAmount()) &&
                     orderSettlement.getPayStatus() == PayStatus.UNPAY &&
-                    orderSettlement.getPayType() == order.getPayType() &&
+                    orderSettlement.getTradeType() == order.getTradeType() &&
                     StringUtils.isNotEmpty(orderSettlement.getTradeNo())
             );
         }
@@ -266,7 +271,6 @@ public class OrderUnitTest extends BaseDbAndRedisUnitTest {
             String outTradeNo = "1217752501201407033233368018";
             List<RegularOrder> orders = regularOrderService.findOrdersByTradeNo(tradeNo);
             SettlementOrder settlementOrder = settlementOrderService.findBy(tradeNo);
-            AssertUtils.notNull(settlementOrder, "结算订单不存在");
             // 修改订单信息
             for (RegularOrder order : orders) {
 
