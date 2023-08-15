@@ -3,10 +3,7 @@ package com.rc.cloud.app.operate.domain.model.product;
 import com.rc.cloud.app.operate.application.dto.ProductListQueryDTO;
 import com.rc.cloud.app.operate.domain.common.ProductShelfStatusEnum;
 import com.rc.cloud.app.operate.domain.model.product.identifier.ProductId;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Explosives;
-import com.rc.cloud.app.operate.domain.model.product.valobj.OnshelfStatus;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Recommend;
-import com.rc.cloud.app.operate.domain.model.product.valobj.Url;
+import com.rc.cloud.app.operate.domain.model.product.valobj.*;
 import com.rc.cloud.app.operate.infrastructure.constants.ProductErrorCodeConstants;
 import com.rc.cloud.common.core.exception.ServiceException;
 import com.rc.cloud.common.core.pojo.PageResult;
@@ -167,4 +164,33 @@ public class ProductService {
         product.setPromotionImage(new Url(promotionImage));
         productRepository.updateProduct(product);
     }
+
+    /**
+     * 回收
+     * @param productId
+     * @return
+     */
+    public int recycling(ProductId productId){
+        Product product = productRepository.findById(productId);
+        if(product==null){
+            throw new ServiceException(ProductErrorCodeConstants.PRODUCT_NOT_EXIST_ERROR);
+        }
+        product.setRecycleFlag(new Recycle(true));
+        return productRepository.updateProduct(product);
+    }
+
+    /**
+     * 还原
+     * @param productId
+     * @return
+     */
+    public int restoration(ProductId productId){
+        Product product = productRepository.findById(productId);
+        if(product==null){
+            throw new ServiceException(ProductErrorCodeConstants.PRODUCT_NOT_EXIST_ERROR);
+        }
+        product.setRecycleFlag(new Recycle(false));
+        return productRepository.updateProduct(product);
+    }
+
 }

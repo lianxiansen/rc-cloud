@@ -487,6 +487,19 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
     }
 
 
+    @Test
+    @DisplayName("修改商品状态changeRecycle")
+    public void changeRecycleStatus(){
+        List<String> productIds=new ArrayList<>();
+        productIds.add("eae9d95a-3b69-43bb-9038-3309560");
+        productApplicationService.changeRecycleStatus(productIds.get(0), true);
+        ProductBO newProductBO = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO.isRecycleFlag(),true);
+        productApplicationService.changeRecycleStatus(productIds.get(0), false);
+        ProductBO newProductBO1 = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO1.isRecycleFlag(),false);
+    }
+
 
 
     public ProductBO getProduct(String id){

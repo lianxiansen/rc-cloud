@@ -76,4 +76,8 @@ public interface ProductApplicationService {
 
 
     void uploadPromotionImage(String productId, String promotionImage);
+
+    int changeRecycleStatus(String productId, boolean recycleFlag);
+
+
 }

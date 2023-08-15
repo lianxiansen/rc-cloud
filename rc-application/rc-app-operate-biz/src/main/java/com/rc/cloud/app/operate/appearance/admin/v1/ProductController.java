@@ -138,11 +138,23 @@ public class ProductController {
         return CodeResult.ok();
     }
 
+
+
+
     @PostMapping("uploadPromotionImage")
     @Operation(summary = "上传推广图")
     public CodeResult<Long> uploadPromotionImage(@Valid @RequestBody ProductUploadPromotionImageDTO dto){
         productApplicationService.uploadPromotionImage(dto.getProductId(), dto.getPromotionImage());
         return CodeResult.ok();
     }
+
+
+    @PostMapping("changeRecycleStatus")
+    @Operation(summary = "修改Recycle字段")
+    public CodeResult<Long> changeRecycleStatus(@Valid @RequestBody ProductChangeRecycleStatusDTO dto){
+        productApplicationService.changeRecycleStatus(dto.getProductId(), dto.isRecycleFlag());
+        return CodeResult.ok();
+    }
+
 
 }
