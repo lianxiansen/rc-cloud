@@ -3,6 +3,7 @@ package com.rc.cloud.app.system.api.permission.feign;
 import com.rc.cloud.app.system.api.permission.dto.DeptDataPermissionRespDTO;
 import com.rc.cloud.app.system.api.permission.dto.PermissionGetReqDTO;
 import com.rc.cloud.app.system.api.permission.dto.RoleGetReqDTO;
+import com.rc.cloud.common.core.constant.SecurityConstants;
 import com.rc.cloud.common.core.constant.ServiceNameConstants;
 import com.rc.cloud.common.core.web.CodeResult;
 import com.rc.cloud.common.feign.FeignRequestInterceptor;
@@ -31,7 +32,7 @@ public interface RemotePermissionService {
      * @param roleIds 角色编号集合
      * @return 用户编号集合
      */
-    @PostMapping("/sys/permission/getUserRoleIdListByRoleIds")
+    @PostMapping(value = "/sys/permission/getUserRoleIdListByRoleIds", headers = SecurityConstants.HEADER_FROM_IN)
     CodeResult<Set<String>> getUserRoleIdListByRoleIds(@RequestBody List<String> roleIds);
 
     /**
@@ -39,7 +40,7 @@ public interface RemotePermissionService {
      *
      * @return 是否
      */
-    @PostMapping("/sys/permission/hasAnyPermissions")
+    @PostMapping(value = "/sys/permission/hasAnyPermissions", headers = SecurityConstants.HEADER_FROM_IN)
     CodeResult<Boolean> hasAnyPermissions(@RequestBody PermissionGetReqDTO dto);
 
     /**
@@ -47,7 +48,7 @@ public interface RemotePermissionService {
      *
      * @return 是否
      */
-    @PostMapping("/sys/permission/hasAnyRoles")
+    @PostMapping(value = "/sys/permission/hasAnyRoles", headers = SecurityConstants.HEADER_FROM_IN)
     CodeResult<Boolean> hasAnyRoles(@RequestBody RoleGetReqDTO dto);
 
     /**
@@ -56,7 +57,7 @@ public interface RemotePermissionService {
      * @param userId 用户编号
      * @return 部门数据权限
      */
-    @PostMapping("/sys/permission/getDeptDataPermission")
+    @PostMapping(value = "/sys/permission/getDeptDataPermission", headers = SecurityConstants.HEADER_FROM_IN)
     CodeResult<DeptDataPermissionRespDTO> getDeptDataPermission(@RequestBody String userId);
 
 }
