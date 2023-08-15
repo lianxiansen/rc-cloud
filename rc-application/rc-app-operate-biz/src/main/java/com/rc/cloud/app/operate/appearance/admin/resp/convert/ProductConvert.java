@@ -32,7 +32,7 @@ public class ProductConvert {
         }
         response.setPublicFlag(bo.isPublicFlag());
         response.setRecommendFlag(bo.isRecommendFlag());
-        response.setCategoryName(format(bo.getFirstCategory(), bo.getSecondCategory(), bo.getThirdCategory()));
+        response.setCategoryName(bo.getCategory());
         if(bo.getOnshelfStatus()== ProductShelfStatusEnum.Initshelf.value
                 || bo.getOnshelfStatus()==ProductShelfStatusEnum.Offshelf.value){
             response.setOnshelfStatus(ProductShelfStatusEnum.Offshelf.value);

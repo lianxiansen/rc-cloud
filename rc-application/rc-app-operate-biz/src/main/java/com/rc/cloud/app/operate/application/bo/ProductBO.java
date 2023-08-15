@@ -1,5 +1,6 @@
 package com.rc.cloud.app.operate.application.bo;
 
+import com.rc.cloud.common.core.util.StringUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -42,6 +43,15 @@ public class ProductBO {
     private String secondCategory;
 
     private String thirdCategory;
+
+    public String getCategory(){
+        if(StringUtils.isEmpty(this.firstCategory)){
+            return "无";
+        }else{
+            String category=this.firstCategory+"-"+this.secondCategory+"-"+this.thirdCategory;
+            return StringUtils.trim(category,'-');
+        }
+    }
 
     private String videoUrl;
 
