@@ -12,17 +12,21 @@ import lombok.Data;
 @Data
 public class Customer {
     private String id;
+    private String name;
     private String mobile;
 
-    public Customer(String id) {
-        this.id = id;
-    }
 
     public String getId() {
         return id;
     }
 
+    public Customer(String id, String name, String mobile) {
+        this.id = id;
+        this.name = name;
+        this.mobile = mobile;
+    }
+
     public static Customer mock(){
-        return new Customer("5b6b70eafeaa9938cff8e430245090c7");
+        return new Customer("5b6b70eafeaa9938cff8e430245090c7","李丽丽","13857685225");
     }
 }

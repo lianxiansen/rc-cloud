@@ -109,6 +109,8 @@ public class ProductSaveDTO {
 
     private String explosivesImage;
 
+    private String promotionImage;
+
     private Boolean  publicFlag;
 
     private Boolean  recommendFlag;

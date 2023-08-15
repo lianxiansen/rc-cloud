@@ -57,6 +57,8 @@ public class ProductConvert
         product = setSpuCode(productSaveDTO.getSpuCode(),isCreate,product);
         //商品图片
         product = setProductListImage(productSaveDTO.getListImage(),isCreate,product);
+        //商品图片
+        product = setPromotionImage(productSaveDTO.getPromotionImage(),isCreate,product);
         //商品标签
         product = setRemark(productSaveDTO.getRemark(),isCreate,product);
         //商品tag
@@ -540,6 +542,25 @@ public class ProductConvert
         return product;
     }
 
+    /**
+     * 设置推广图
+     * @param promotionImage
+     * @param isCreate
+     * @param product
+     * @return
+     */
+    private static Product setPromotionImage(String promotionImage, boolean isCreate, Product product){
+        Url url=new Url(promotionImage);
+        if(isCreate){
+            product.setPromotionImage(url);
+        }else{
+            if (promotionImage != null) {
+                product.setPromotionImage(url);
+            }
+        }
+        return product;
+    }
+
 
 
     /**
@@ -628,6 +649,7 @@ public class ProductConvert
         bo.setOutId(product.getOutid().getValue());
         bo.setName(product.getName().getValue());
         bo.setProductListImage(product.getProductListImage().getValue());
+        bo.setPromotionImage(product.getPromotionImage().getValue());
         bo.setRemark(product.getRemark().getValue());
         bo.setTag(product.getTag().getValue());
         bo.setSort(product.getSort().getValue());

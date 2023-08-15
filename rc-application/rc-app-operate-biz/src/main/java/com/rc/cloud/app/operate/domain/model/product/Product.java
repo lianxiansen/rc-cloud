@@ -51,6 +51,7 @@ public class Product extends AggregateRoot {
         this.secondCategory=new CategoryName("");
         this.thirdCategory=new CategoryName("");
         this.productListImage=new Url("");
+        this.promotionImage=new Url("");
         this.remark=new Remark("");
         this.tag =new Tag("");
         this.newFlag=false;
@@ -69,6 +70,17 @@ public class Product extends AggregateRoot {
     private CategoryName secondCategory;
     private CategoryName thirdCategory;
     private Url productListImage;
+
+    private Url promotionImage;
+
+    public Url getPromotionImage() {
+        return promotionImage;
+    }
+
+    public void setPromotionImage(Url promotionImage) {
+        AssertUtils.assertArgumentNotNull(promotionImage, "promotionImage must not be null");
+        this.promotionImage = promotionImage;
+    }
 
     public Url getProductListImage() {
         return productListImage;

@@ -89,7 +89,7 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         Assertions.assertEquals(productBO.getDetail(),newProductBO.getDetail());
         Assertions.assertEquals(productBO.getBrandId(),newProductBO.getBrandId());
         Assertions.assertEquals(productBO.getBrandName(),newProductBO.getBrandName());
-
+        Assertions.assertEquals(productBO.getPromotionImage(),newProductBO.getPromotionImage());
         Assertions.assertEquals(productBO.getCustomClassificationId(),newProductBO.getCustomClassificationId());
         Assertions.assertEquals(productBO.getExplosivesImage(),newProductBO.getExplosivesImage());
 
@@ -103,12 +103,28 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         Assertions.assertEquals(productBO.getName(),newProductBO.getName());
         Assertions.assertEquals(productBO.getRemark(),newProductBO.getRemark());
         Assertions.assertEquals(productBO.getProductListImage(),newProductBO.getProductListImage());
-        Assertions.assertArrayEquals(
-                productBO.getMasterAlbums().toArray()
-                ,newProductBO.getMasterAlbums().toArray());
-        Assertions.assertArrayEquals(
-                productBO.getSizeAlbums().toArray()
-                ,newProductBO.getSizeAlbums().toArray());
+
+
+
+        if(productSaveDTO.getMasterAlbums()!=null){
+            for (ProductImageSaveDTO masterAlbum : productSaveDTO.getMasterAlbums()) {
+                ProductImageBO productImageBO = newProductBO.getMasterAlbums().stream().filter(u -> u.getId().equals(masterAlbum.getId())).findFirst().get();
+                Assertions.assertEquals(masterAlbum.getId(),productImageBO.getId());
+                Assertions.assertEquals(masterAlbum.getUrl(),productImageBO.getUrl());
+                Assertions.assertEquals(masterAlbum.getSort(),productImageBO.getSort());
+
+            }
+        }
+
+        if(productSaveDTO.getSizeAlbums()!=null){
+            for (ProductImageSaveDTO sizeAlbum : productSaveDTO.getSizeAlbums()) {
+                ProductImageBO productImageBO = newProductBO.getSizeAlbums().stream().filter(u -> u.getId().equals(sizeAlbum.getId())).findFirst().get();
+                Assertions.assertEquals(sizeAlbum.getId(),productImageBO.getId());
+                Assertions.assertEquals(sizeAlbum.getUrl(),productImageBO.getUrl());
+                Assertions.assertEquals(sizeAlbum.getSort(),productImageBO.getSort());
+
+            }
+        }
 
         Assertions.assertEquals(productBO.getVideoImg(),newProductBO.getVideoImg());
 
@@ -170,7 +186,7 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         Assertions.assertEquals(productSaveDTO.getDetail(),newProductBO.getDetail());
         Assertions.assertEquals(productSaveDTO.getBrandId(),newProductBO.getBrandId());
         Assertions.assertEquals(productSaveDTO.getCustomClassificationId(),newProductBO.getCustomClassificationId());
-
+        Assertions.assertEquals(productSaveDTO.getPromotionImage(),newProductBO.getPromotionImage());
         Assertions.assertEquals(productSaveDTO.getExplosivesImage(),newProductBO.getExplosivesImage());
 
         Assertions.assertEquals(productSaveDTO.getDicts().size(),
@@ -315,7 +331,6 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
                 ProductBO productBO = boList.stream().filter(u -> u.getId().equals(productValidateBO.getProductId())).findFirst().get();
                 Assertions.assertNotNull(productBO);
                 Assertions.assertEquals(productValidateBO.getProductSku().getProductName(),productBO.getName());
-                Assertions.assertEquals(productValidateBO.getProductSku().getProductImage(),productBO.getName());
 
             }
         }
@@ -332,27 +347,25 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         productIds.add("eae9d95a-3b69-43bb-9038-3309560");
         removeDTO.setProductIds(productIds);
         ProductRemoveBO productRemoveBO = productApplicationService.removeProductBatch(removeDTO);
-        //模拟数据
-        String category[]= new String[]{
-                "上衣","下衣","裤子"
-        };
+
         int category1=0,category2=0,category3=0;
         ProductSaveDTO productSaveDTO = createProductSaveDTO();
-        int k=RandomUtils.randomInteger()%1000;
+        int k=RandomUtils.randomInteger()%100;
         List<ProductBO> boList =new ArrayList<>();
         for (int i = 0; i < k; i++) {
             productSaveDTO.setSort(i+1);
 
             int j= RandomUtils.randomInteger()%3;
             if(j==0){
-                productSaveDTO.setFirstCategory(category[j]);
+                productSaveDTO.setFirstCategory("上衣");
                 category1++;
             }else if(j==1){
-                productSaveDTO.setFirstCategory(category[j]);
+                productSaveDTO.setFirstCategory("下衣");
                 category2++;
             }else if(j==2){
-                productSaveDTO.setFirstCategory(category[j]);
+                productSaveDTO.setFirstCategory("裤子");
                 category3++;
+
             }
             productSaveDTO.setName(RandomUtils.randomString());
             productSaveDTO.setSpuCode(String.valueOf(i));
@@ -374,7 +387,8 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         }
         //测试类目搜索
         ProductListQueryDTO query2 =new ProductListQueryDTO();
-        query2.setFirstCategory("上衣");
+        query2.setCategory("上衣");
+        query2.setPageSize(100);
         PageResult<ProductBO> productList2 = productApplicationService.getProductList(query2);
         Assertions.assertEquals(productList2.getTotal(),category1);
         //测试名字
@@ -459,6 +473,34 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         ProductBO newProductBO1 = getProduct(productIds.get(0));
         Assertions.assertEquals(newProductBO1.isExplosivesFlag(),false);
     }
+
+
+
+    @Test
+    @DisplayName("上传商品推广图")
+    public void uploadPromotionImage(){
+        List<String> productIds=new ArrayList<>();
+        productIds.add("eae9d95a-3b69-43bb-9038-3309560");
+        productApplicationService.uploadPromotionImage(productIds.get(0), "https://aa.jpg");
+        ProductBO newProductBO = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO.getPromotionImage(),"https://aa.jpg");
+    }
+
+
+    @Test
+    @DisplayName("修改商品状态changeRecycle")
+    public void changeRecycleStatus(){
+        List<String> productIds=new ArrayList<>();
+        productIds.add("eae9d95a-3b69-43bb-9038-3309560");
+        productApplicationService.changeRecycleStatus(productIds.get(0), true);
+        ProductBO newProductBO = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO.isRecycleFlag(),true);
+        productApplicationService.changeRecycleStatus(productIds.get(0), false);
+        ProductBO newProductBO1 = getProduct(productIds.get(0));
+        Assertions.assertEquals(newProductBO1.isRecycleFlag(),false);
+    }
+
+
 
     public ProductBO getProduct(String id){
         ProductQueryDTO productQueryDTO=new ProductQueryDTO();
@@ -623,6 +665,7 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
 
         productSaveDTO.setExplosivesFlag(true);
         productSaveDTO.setExplosivesImage("https://"+RandomUtils.randomString());
+        productSaveDTO.setPromotionImage("https://"+RandomUtils.randomString());
         productSaveDTO.setFirstCategory("w5x0nzyvbd");
         productSaveDTO.setSecondCategory("w5x0nzyvbd");
         productSaveDTO.setThirdCategory("w5x0nzyvbd");

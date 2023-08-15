@@ -190,6 +190,7 @@ CREATE TABLE `product`
     `new_flag`                   bit COLLATE utf8mb4_bin            DEFAULT false COMMENT '是否新品 0否，1是',
     `explosives_flag`            bit COLLATE utf8mb4_bin            DEFAULT false COMMENT '是否是超级单品 0否，1是',
     `explosives_image`           varchar(256) COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '超级单品海报URL，分类海报显示在产品分类页，尺寸500*280',
+    `promotion_image`            varchar(256) COLLATE utf8mb4_bin   DEFAULT NULL COMMENT '推广图URL',
     `public_flag`                bit COLLATE utf8mb4_bin            DEFAULT false COMMENT '是否公开 0否，1是',
     `recommend_flag`             bit COLLATE utf8mb4_bin            DEFAULT false COMMENT '是否推荐 0否，1是',
     `recycle_flag`               bit COLLATE utf8mb4_bin            DEFAULT false COMMENT '是否回收 0否，1是',

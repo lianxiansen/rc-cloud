@@ -13,6 +13,5 @@ import java.util.List;
  */
 @Data
 public class PlaceOrderWithCartDTO {
-    private String cartId;
-    private List<String> cartItemIds;
+    private List<String> cartIds;
 }

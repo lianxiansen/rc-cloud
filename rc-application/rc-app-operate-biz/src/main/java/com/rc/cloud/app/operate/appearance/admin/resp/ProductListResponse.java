@@ -41,6 +41,9 @@ public class ProductListResponse {
     @Schema(description = "爆品图片")
     private String explosivesImage;
 
+    @Schema(description = "推广图片")
+    private String promotionImage;
+
     @Schema(description = "是否推荐")
     private boolean recommendFlag;
 

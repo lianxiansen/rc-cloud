@@ -71,6 +71,10 @@ public class ProductConvert {
             explosives= new Explosives(po.getExplosivesFlag(), new Url(po.getExplosivesImage()));
         }
         product.setExplosives(explosives);
+        //PromotionImage
+        if(po.getPromotionImage()!=null){
+            product.setPromotionImage(new Url(po.getPromotionImage()));
+        }
         //Recommend
         if(po.getRecommendFlag()!=null){
             Recommend recommend = new Recommend(po.getRecommendFlag());
@@ -175,6 +179,9 @@ public class ProductConvert {
         if(product.getExplosives()!=null){
             po.setExplosivesFlag(product.getExplosives().isFlag());
             po.setExplosivesImage(product.getExplosives().getImage().getValue());
+        }
+        if(product.getPromotionImage()!=null){
+            po.setPromotionImage(product.getPromotionImage().getValue());
         }
         if(product.getPublicFlag()!=null){
             po.setPublicFlag(product.getPublicFlag());

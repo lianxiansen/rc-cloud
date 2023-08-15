@@ -54,6 +54,8 @@ public class ProductBO {
 
     private String explosivesImage;
 
+    private String promotionImage;
+
     private boolean publicFlag;
 
     private boolean recommendFlag;

@@ -60,6 +60,9 @@ public class ProductDetailResponse {
     @Schema(description = "自定义分类id")
     private String explosivesImage;
 
+    @Schema(description = "推广图片")
+    private String promotionImage;
+
     @Schema(description = "是否公开")
     private boolean publicFlag;
 

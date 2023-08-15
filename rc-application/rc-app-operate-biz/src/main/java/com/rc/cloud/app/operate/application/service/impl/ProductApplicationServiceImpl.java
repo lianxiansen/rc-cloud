@@ -506,4 +506,25 @@ public class ProductApplicationServiceImpl implements ProductApplicationService 
         }
         return 1;
     }
+
+    @Override
+    public void uploadPromotionImage(String productId, String promotionImage) {
+        productService.uploadPromotionImage(new ProductId(productId),promotionImage);
+    }
+
+    /**
+     * 回收或还原商品
+     * @param productId
+     * @param recycleFlag true 放入回收站 ， false 还原商品
+     * @return
+     */
+    @Override
+    public int changeRecycleStatus(String productId, boolean recycleFlag) {
+        if(recycleFlag){
+            productService.recycling(new ProductId(productId));
+        }else{
+            productService.restoration(new ProductId(productId));
+        }
+        return 1;
+    }
 }
