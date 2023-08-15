@@ -34,15 +34,15 @@ rc:
 
 
 
-management:
-  health:
-    redis:
-      enabled: false
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+#management:
+#  health:
+#    redis:
+#      enabled: false
+#  endpoint:
+#    health:
+#      show-details: always
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
 
