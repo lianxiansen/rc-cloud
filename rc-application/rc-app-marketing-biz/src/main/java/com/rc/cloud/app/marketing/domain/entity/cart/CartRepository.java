@@ -66,4 +66,12 @@ public interface CartRepository {
      * @return List<Cart>
      */
     List<Cart> getList(UserId userId, List<ProductUniqueId> productUniqueIdList);
+
+    /**
+     * 获取购物车列表
+     * @param userId
+     * @param cartIds
+     * @return
+     */
+    List<Cart> findList(UserId userId, List<CartId> cartIds);
 }

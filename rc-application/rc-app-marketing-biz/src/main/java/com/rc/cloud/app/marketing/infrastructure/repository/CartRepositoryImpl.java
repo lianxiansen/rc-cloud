@@ -101,6 +101,8 @@ public class CartRepositoryImpl implements CartRepository {
         return CartConvert.INSTANCE.convertList(cartPOList);
     }
 
+
+
     private void validCartExist(CartId cartId) {
         LambdaQueryWrapperX<CartPO> queryWrapperX = new LambdaQueryWrapperX<CartPO>()
                 .eq(CartPO::getId, cartId.id())
@@ -109,5 +111,15 @@ public class CartRepositoryImpl implements CartRepository {
         if (cartPO == null) {
             throw new ServiceException2("购物车已失效");
         }
+    }
+
+
+    @Override
+    public List<Cart> findList(UserId userId,List<CartId> cartIds) {
+        LambdaQueryWrapperX<CartPO> queryWrapperX = new LambdaQueryWrapperX<CartPO>()
+                .eq(CartPO::getUserId, userId.id())
+                .in(CartPO::getId, IdUtil.toList(cartIds));
+        List<CartPO> cartPOS = cartMapper.selectList(queryWrapperX);
+        return CartConvert.INSTANCE.convertList(cartPOS);
     }
 }
