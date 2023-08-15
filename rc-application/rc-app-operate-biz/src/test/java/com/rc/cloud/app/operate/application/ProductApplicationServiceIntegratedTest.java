@@ -332,27 +332,25 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         productIds.add("eae9d95a-3b69-43bb-9038-3309560");
         removeDTO.setProductIds(productIds);
         ProductRemoveBO productRemoveBO = productApplicationService.removeProductBatch(removeDTO);
-        //模拟数据
-        String category[]= new String[]{
-                "上衣","下衣","裤子"
-        };
+
         int category1=0,category2=0,category3=0;
         ProductSaveDTO productSaveDTO = createProductSaveDTO();
-        int k=RandomUtils.randomInteger()%1000;
+        int k=RandomUtils.randomInteger()%100;
         List<ProductBO> boList =new ArrayList<>();
         for (int i = 0; i < k; i++) {
             productSaveDTO.setSort(i+1);
 
             int j= RandomUtils.randomInteger()%3;
             if(j==0){
-                productSaveDTO.setFirstCategory(category[j]);
+                productSaveDTO.setFirstCategory("上衣");
                 category1++;
             }else if(j==1){
-                productSaveDTO.setFirstCategory(category[j]);
+                productSaveDTO.setFirstCategory("下衣");
                 category2++;
             }else if(j==2){
-                productSaveDTO.setFirstCategory(category[j]);
+                productSaveDTO.setFirstCategory("裤子");
                 category3++;
+
             }
             productSaveDTO.setName(RandomUtils.randomString());
             productSaveDTO.setSpuCode(String.valueOf(i));
@@ -374,7 +372,8 @@ public class ProductApplicationServiceIntegratedTest extends BaseDbUnitTest {
         }
         //测试类目搜索
         ProductListQueryDTO query2 =new ProductListQueryDTO();
-        query2.setFirstCategory("上衣");
+        query2.setCategory("上衣");
+        query2.setPageSize(100);
         PageResult<ProductBO> productList2 = productApplicationService.getProductList(query2);
         Assertions.assertEquals(productList2.getTotal(),category1);
         //测试名字

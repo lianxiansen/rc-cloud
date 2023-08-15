@@ -19,11 +19,7 @@ public class ProductListQueryDTO extends PageParam {
 
     private String spuCode;
 
-    private String firstCategory;
-
-    private String secondCategory;
-
-    private String thirdCategory;
+    private String category;
 
     private LocalDateTime startTime;
 

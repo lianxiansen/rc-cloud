@@ -17,13 +17,9 @@ public class ProductListQueryRequest extends PageParam {
     @Schema(description = "搜索关键字：商品货号")
     private String spuCode;
 
-    @Schema(description = "搜索关键字：商品分类1")
-    private String firstCategory;
+    @Schema(description = "搜索关键字：商品分类")
+    private String category;
 
-    @Schema(description = "搜索关键字：商品分类2")
-    private String secondCategory;
 
-    @Schema(description = "搜索关键字：商品分类3")
-    private String thirdCategory;
 
 }

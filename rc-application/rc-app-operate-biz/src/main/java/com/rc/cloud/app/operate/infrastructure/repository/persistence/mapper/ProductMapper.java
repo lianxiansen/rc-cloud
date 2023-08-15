@@ -30,9 +30,11 @@ public interface ProductMapper extends BaseMapperX<ProductPO> {
         wrapper.lambda()
                 .like(StringUtils.isNotEmpty(queryDTO.getName()),ProductPO::getName, queryDTO.getName())
                 .eq(StringUtils.isNotEmpty(queryDTO.getSpuCode()), ProductPO::getSpuCode, queryDTO.getSpuCode())
-                .eq(StringUtils.isNotEmpty(queryDTO.getFirstCategory()), ProductPO::getFirstCategory, queryDTO.getFirstCategory())
-                .eq(StringUtils.isNotEmpty(queryDTO.getSecondCategory()), ProductPO::getSecondCategory, queryDTO.getSecondCategory())
-                .eq(StringUtils.isNotEmpty(queryDTO.getThirdCategory()), ProductPO::getThirdCategory, queryDTO.getThirdCategory());
+                .eq(StringUtils.isNotEmpty(queryDTO.getCategory()), ProductPO::getFirstCategory, queryDTO.getCategory())
+                .or()
+                .eq(StringUtils.isNotEmpty(queryDTO.getCategory()), ProductPO::getSecondCategory, queryDTO.getCategory())
+                .or()
+                .eq(StringUtils.isNotEmpty(queryDTO.getCategory()), ProductPO::getThirdCategory, queryDTO.getCategory());
 
         wrapper.orderBy(true, queryDTO.getAsc(), StrUtil.toUnderlineCase(queryDTO.getOrder()));
         return selectPage(queryDTO, wrapper);
