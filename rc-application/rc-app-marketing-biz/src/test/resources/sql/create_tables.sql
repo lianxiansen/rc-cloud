@@ -9,6 +9,7 @@ CREATE TABLE `order_cart`
     `product_image`      varchar(2000) NULL DEFAULT NULL COMMENT '产品图片',
     `product_name`       varchar(255) NULL DEFAULT NULL COMMENT '产品名称',
     `spu_code`           varchar(255) NULL DEFAULT NULL COMMENT '货号',
+    `sku_code`           varchar(255) NULL DEFAULT NULL COMMENT 'sku编号',
     `out_id`             varchar(255) NULL DEFAULT NULL COMMENT '外部id',
     `num`                int NULL DEFAULT NULL COMMENT '数量',
     `create_time`        datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

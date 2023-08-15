@@ -13,6 +13,8 @@ import java.util.List;
  */
 @Data
 public class CartProductSkuDetail {
+    private String id;
+
     private String skuCode;
 
     private BigDecimal supplyPrice;

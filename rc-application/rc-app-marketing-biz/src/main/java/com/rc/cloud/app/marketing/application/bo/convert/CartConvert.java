@@ -53,6 +53,7 @@ public interface CartConvert {
     default CartProductSkuDetail convert(ProductSkuBO productSkuBO) {
         CartProductSkuDetail detail = new CartProductSkuDetail();
         //设置产品sku属性
+        detail.setId(productSkuBO.getId());
         detail.setOutId(productSkuBO.getOutId());
         detail.setSkuCode(productSkuBO.getSkuCode());
         detail.setCartonSizeWidth(productSkuBO.getCartonSizeWidth());

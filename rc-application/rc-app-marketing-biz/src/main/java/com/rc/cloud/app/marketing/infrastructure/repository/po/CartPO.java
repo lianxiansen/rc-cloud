@@ -46,6 +46,11 @@ public class CartPO {
     private String productUniqueid;
 
     /**
+     * 产品skuCode
+     */
+    private String skuCode;
+
+    /**
      * 产品名称
      */
     private String productName;

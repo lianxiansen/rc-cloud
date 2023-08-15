@@ -13,6 +13,9 @@ import java.util.List;
 @Data
 public class CartProductSkuInfo {
 
+    @Schema(description = "id")
+    private String id;
+
     @Schema(description = "skuId")
     private String skuId;
 

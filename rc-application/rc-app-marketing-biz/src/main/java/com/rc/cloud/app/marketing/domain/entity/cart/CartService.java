@@ -99,7 +99,7 @@ public class CartService {
      */
     public void create(List<Cart> cartList) {
         cartList.forEach(cart -> {
-            Cart findOne = cartRepository.findByProductUniqueId(cart.getUserId(), new ProductUniqueId(cart.getCartProductSkuDetail().getSkuCode()));
+            Cart findOne = cartRepository.findByProductUniqueId(cart.getUserId(), new ProductUniqueId(cart.getCartProductSkuDetail().getId()));
             if (findOne != null) {
                 cart.setId(findOne.getId());
             }

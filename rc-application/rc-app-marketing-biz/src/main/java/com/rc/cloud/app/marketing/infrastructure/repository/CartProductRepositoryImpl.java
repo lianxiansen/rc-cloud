@@ -83,7 +83,7 @@ public class CartProductRepositoryImpl implements CartProductRepository {
         CartProductSkuDetail skuDetail = new CartProductSkuDetail();
         ProductSkuDetailResponse productSkuDetailResponse = product.getSkus().stream().filter(sku -> sku.getId().equals(productSkuId)).findAny().get();
         BeanUtils.copyProperties(productSkuDetailResponse, skuDetail);
-        skuDetail.setSkuCode(productSkuId);
+//        skuDetail.setSkuCode(productSkuDetailResponse.getId());
         skuDetail.setSkuAttributes(productSkuDetailResponse.getAttributes().stream().map(x -> x.getValue()).collect(Collectors.toList()));
         skuDetail.setPrice(new BigDecimal(productSkuDetailResponse.getPrice()));
         skuDetail.setWeight(new BigDecimal(productSkuDetailResponse.getWeight()));
